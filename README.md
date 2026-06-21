@@ -43,15 +43,43 @@ Project foundation for the Edda Go application.
    task build
    ```
 
-## Production rollback manifest
+## Production app deploy
 
-Production deploy/rollback uses the repo-owned env contract from `.env.production.example`.
-Copy it to `.env`, replace placeholders, and keep `EDDA_RELEASE_TAG` set to the image tag you are deploying.
-If the host cannot use the default app container names (`edda-api` / `edda-web`), set `EDDA_API_CONTAINER_NAME` / `EDDA_WEB_CONTAINER_NAME` in the same env file and use the same values for deploy + rollback. Those overrides must point only at the dedicated Edda `api` / `web` compose containers on the shared `projects` network. `EDDA_RELEASE_TAG` must stay within normal Docker tag characters (`[A-Za-z0-9_.-]`).
+`docker-compose.yml` is the single Compose file for both local Postgres and the deployed app containers.
 
-`bash scripts/deploy_prod.sh .env` writes rollback state to `.sisyphus/evidence/rollback-manifest.env` and the matching DB backup to `.sisyphus/evidence/pre-deploy.dump`.
+Production app deploy/rollback uses the repo-owned env contract from `.env.production.example`.
+Copy it to a chmod `600` env file, replace placeholders, and keep `EDDA_API_CONTAINER_NAME` / `EDDA_WEB_CONTAINER_NAME` pointed at the dedicated Edda `api` / `web` compose containers on the shared `projects` network.
+On the NUC deployment these are `gm-api` and `gm-web`, with host ports `3036` and `3037`.
 
-If you need to capture the prior image refs without running the full deploy flow, write the same rollback manifest artifact directly:
+Deploy the app containers without touching the external Caddy/edge host:
+
+```bash
+make deploy ENV_FILE=.env RELEASE_TAG=$(git rev-parse --short HEAD)
+```
+
+Useful deployment commands:
+
+```bash
+make compose-config              # validate the canonical Compose config
+make app-build                   # build edda-api/edda-web images
+make app-up                      # recreate api/web from already-built images
+make app-status                  # show current api/web image, health, and ports
+make app-logs                    # follow api/web logs
+make migrate-prod                # run production migrations only
+make db-backup                   # create a timestamped DB backup
+make smoke                       # run public production smoke checks
+make rollback-sim                # simulate rollback from latest make deploy artifacts
+```
+
+`make deploy` writes rollback state, a pre-deploy DB backup, migration status, and post-cutover inspect output under `.sisyphus/evidence/nuc-deploy-<timestamp>/`.
+
+The older all-in-one script still exists for hosts where Caddy is local to Docker:
+
+```bash
+bash scripts/deploy_prod.sh .env
+```
+
+If you need to capture the prior image refs without running deploy, write the same rollback manifest artifact directly:
 
 If your host uses non-default app container names, export the same `EDDA_API_CONTAINER_NAME` / `EDDA_WEB_CONTAINER_NAME` values from your production env first.
 
@@ -77,6 +105,6 @@ Configuration is loaded by koanf in this order (later overrides earlier):
 The env contract is fully documented in two files:
 
 - [`.env.example`](.env.example) — every supported `GM_*` knob with comments. Copy to `.env` for local dev.
-- [`.env.production.example`](.env.production.example) — production overlay; documents only what differs from `.env.example` (release tag, container names, Caddy, Cloudflare, locked LLM endpoints).
+- [`.env.production.example`](.env.production.example) — production overlay; documents only what differs from `.env.example` (release tag, container names, app ports, bind address, locked LLM endpoints).
 
 Naming rule: `GM_<UPPER_SECTION>_<UPPER_KEY>` maps to `<section>.<key>` in the koanf tree. For example, `GM_LLM_OLLAMA_APIKEY` → `llm.ollama.apikey`.
