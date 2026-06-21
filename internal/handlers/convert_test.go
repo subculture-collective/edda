@@ -112,6 +112,34 @@ func TestEngineStateChangesToAPIMergesObjectNewValueIntoDetails(t *testing.T) {
 	}
 }
 
+func TestEngineTurnResultToAPIIncludesSkillCheckResolutionEvents(t *testing.T) {
+	t.Parallel()
+
+	playerID := uuid.MustParse("77777777-7777-7777-7777-777777777777")
+	got := engineTurnResultToAPI(&engine.TurnResult{
+		Narrative: "The carved stone yields nothing certain.",
+		AppliedToolCalls: []engine.AppliedToolCall{{
+			Tool:      "skill_check",
+			Arguments: mustJSON(t, map[string]any{"character_id": playerID.String(), "skill": "Investigation", "difficulty": 15}),
+			Result:    mustJSON(t, map[string]any{"roll": 4, "modifier": 0, "total": 4, "dc": 15, "success": false, "margin": -11}),
+		}},
+	})
+
+	if got.StateChanges == nil || len(got.StateChanges) != 0 {
+		t.Fatalf("StateChanges = %#v, want empty non-nil slice", got.StateChanges)
+	}
+	if len(got.ResolutionEvents) != 1 {
+		t.Fatalf("ResolutionEvents = %d, want 1", len(got.ResolutionEvents))
+	}
+	event := got.ResolutionEvents[0]
+	if event.Type != "skill_check" || event.Label != "Investigation check" || event.Outcome != "failure" {
+		t.Fatalf("event identity = %#v", event)
+	}
+	if event.Details["skill"] != "Investigation" || event.Details["difficulty"].(float64) != 15 || event.Details["total"].(float64) != 4 || event.Details["success"] != false || event.Details["dice_sides"].(float64) != 20 {
+		t.Fatalf("event details = %#v", event.Details)
+	}
+}
+
 func TestEngineTurnResultToAPIPreservesStateChanges(t *testing.T) {
 	t.Parallel()
 
@@ -179,6 +207,23 @@ func TestOpeningChoicesFromToolCalls(t *testing.T) {
 
 	if got := openingChoicesFromToolCalls(nil); got != nil {
 		t.Fatalf("openingChoicesFromToolCalls(nil) = %v, want nil", got)
+	}
+}
+
+func TestSessionLogToEntryCleansDanglingChoicesMarker(t *testing.T) {
+	t.Parallel()
+
+	entry := sessionLogToEntry(statedb.SessionLog{
+		TurnNumber:  4,
+		PlayerInput: "Ask about the seal.",
+		InputType:   "dialogue",
+		LlmResponse: "Veyra names Varyndor's Brand.\n\n**Choices:**",
+		ToolCalls:   []byte("[]"),
+		CreatedAt:   pgtype.Timestamptz{Time: time.Date(2026, 6, 21, 12, 0, 0, 0, time.UTC), Valid: true},
+	})
+
+	if entry.LLMResponse != "Veyra names Varyndor's Brand." {
+		t.Fatalf("LLMResponse = %q, want choices marker stripped", entry.LLMResponse)
 	}
 }
 

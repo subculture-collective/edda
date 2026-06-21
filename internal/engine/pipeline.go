@@ -30,6 +30,7 @@ type TurnContext struct {
 	Narrative     string
 	Applied       []AppliedToolCall
 	Choices       []Choice
+	StateChanges  []StateChange
 	CombatActive  bool
 	TurnNumber    int
 	ToolCallsJSON json.RawMessage

@@ -23,6 +23,7 @@ import { RulesModeStep, type RulesMode } from '../components/start/RulesModeStep
 import { AppShell } from '../components/layout/AppShell';
 import {
   buildCharacterProfileFromGuidedAttributes,
+  buildCharacterSpawnPackage,
   summarizeCampaignProfile,
   type StartupPlaySeed,
 } from '../lib/startupWorkflow';
@@ -395,6 +396,7 @@ export function CampaignCreatePage() {
         profile: campaignProfile,
         character_profile: characterProfile,
         rules_mode: rulesMode ?? undefined,
+        spawn_package: buildCharacterSpawnPackage(characterProfile, campaignProfile, campaignSummary),
       });
 
       const startupSeed: StartupPlaySeed = {

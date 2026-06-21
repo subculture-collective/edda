@@ -636,6 +636,13 @@ func TestTurnProcessor_DurableClaimRepairAppliesMissingTool(t *testing.T) {
 			resp: &llm.Response{Content: "A new quest is added to your journal: Find the Core.", ToolCalls: []llm.ToolCall{{ID: "repair-1", Name: "create_quest", Arguments: map[string]any{"title": "Find the Core"}}}},
 			err:  nil,
 		},
+		struct {
+			resp *llm.Response
+			err  error
+		}{
+			resp: &llm.Response{Content: "", ToolCalls: nil},
+			err:  nil,
+		},
 	)
 
 	tp := NewTurnProcessor(provider, reg, validator, nil)
@@ -655,8 +662,8 @@ func TestTurnProcessor_DurableClaimRepairAppliesMissingTool(t *testing.T) {
 	if calls != 1 {
 		t.Fatalf("calls = %d, want 1", calls)
 	}
-	if provider.callCount != 2 {
-		t.Fatalf("provider.callCount = %d, want 2", provider.callCount)
+	if provider.callCount != 3 {
+		t.Fatalf("provider.callCount = %d, want 3 (initial + repair + extraction)", provider.callCount)
 	}
 }
 

@@ -142,12 +142,13 @@ type ItemResponse struct {
 
 // SessionLogEntry describes a single turn in the campaign history.
 type SessionLogEntry struct {
-	TurnNumber  int       `json:"turn_number"`
-	PlayerInput string    `json:"player_input"`
-	InputType   string    `json:"input_type"`
-	LLMResponse string    `json:"llm_response"`
-	Choices     []string  `json:"choices,omitempty"`
-	CreatedAt   time.Time `json:"created_at"`
+	TurnNumber       int               `json:"turn_number"`
+	PlayerInput      string            `json:"player_input"`
+	InputType        string            `json:"input_type"`
+	LLMResponse      string            `json:"llm_response"`
+	Choices          []string          `json:"choices,omitempty"`
+	ResolutionEvents []ResolutionEvent `json:"resolution_events,omitempty"`
+	CreatedAt        time.Time         `json:"created_at"`
 }
 
 // SessionHistoryResponse returns the turn history for a campaign.
@@ -168,11 +169,22 @@ type StateChange struct {
 	Details    map[string]any `json:"details"`
 }
 
+// ResolutionEvent describes a non-durable mechanical resolution that occurred
+// during a turn, such as a skill check. These events are user-visible feedback
+// but do not imply persistent world-state mutation.
+type ResolutionEvent struct {
+	Type    string         `json:"type"`
+	Label   string         `json:"label"`
+	Outcome string         `json:"outcome"`
+	Details map[string]any `json:"details"`
+}
+
 // TurnResult describes the narrative and state changes produced by a turn.
 type TurnResult struct {
-	Narrative    string        `json:"narrative"`
-	StateChanges []StateChange `json:"state_changes"`
-	CombatActive bool          `json:"combat_active"`
+	Narrative        string            `json:"narrative"`
+	StateChanges     []StateChange     `json:"state_changes"`
+	ResolutionEvents []ResolutionEvent `json:"resolution_events"`
+	CombatActive     bool              `json:"combat_active"`
 }
 
 // TurnResponse is an alias for TurnResult maintained for naming clarity.

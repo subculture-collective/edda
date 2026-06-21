@@ -1,4 +1,4 @@
-import type { StateChange } from '../api/types';
+import type { ResolutionEvent, StateChange } from '../api/types';
 import type { NarrativeChoice, TurnResponseWithChoices } from './useWebSocket';
 
 export type NarrativeEntryKind = 'player' | 'gm' | 'system';
@@ -10,6 +10,7 @@ export interface NarrativeEntry {
   timestamp: string;
   speaker?: string;
   stateChanges?: StateChange[];
+  resolutionEvents?: ResolutionEvent[];
   choices?: NarrativeChoice[];
   isStreaming?: boolean;
 }
@@ -102,6 +103,7 @@ export function narrativeReducer(state: NarrativeState, action: NarrativeAction)
           timestamp: action.timestamp,
           speaker: 'Game Master',
           stateChanges: action.payload.state_changes,
+          resolutionEvents: action.payload.resolution_events,
           choices,
         }],
         streamingChunks: [],

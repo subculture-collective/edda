@@ -239,6 +239,7 @@
         }
       }
     ],
+    "resolution_events": [],
     "combat_active": false
   }
 }

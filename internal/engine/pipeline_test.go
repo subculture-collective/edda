@@ -298,7 +298,7 @@ func TestEngineProcessTurn_EmptyLLMResponseFailsWithoutSavingSessionLog(t *testi
 	}
 }
 
-func TestEngineProcessTurn_UnparseableChoicesFailsWithoutSavingSessionLog(t *testing.T) {
+func TestEngineProcessTurn_DanglingChoicesMarkerDoesNotFailTurn(t *testing.T) {
 	campaignID := uuid.New()
 	provider := newScriptedProvider(t, scriptedResponse{resp: &llm.Response{Content: "The well opens its black eye.\n\n**Choices:**"}})
 	state := &fakeStateManager{state: makePipelineState(campaignID)}
@@ -306,14 +306,253 @@ func TestEngineProcessTurn_UnparseableChoicesFailsWithoutSavingSessionLog(t *tes
 
 	result, err := engine.ProcessTurn(context.Background(), campaignID, "Wait for options.")
 
-	if result != nil {
-		t.Fatalf("result = %+v, want nil", result)
+	if err != nil {
+		t.Fatalf("ProcessTurn() error = %v", err)
 	}
-	if !errors.Is(err, ErrUnparseableChoices) {
-		t.Fatalf("expected ErrUnparseableChoices, got %v", err)
+	if result == nil {
+		t.Fatal("result = nil, want successful turn result")
 	}
-	if len(state.savedLogs) != 0 {
-		t.Fatalf("saved logs = %d, want 0", len(state.savedLogs))
+	if result.Narrative != "The well opens its black eye." {
+		t.Fatalf("narrative = %q, want dangling choices marker stripped", result.Narrative)
+	}
+	if len(result.Choices) != 0 {
+		t.Fatalf("choices = %+v, want none", result.Choices)
+	}
+	if len(state.savedLogs) != 1 {
+		t.Fatalf("saved logs = %d, want 1", len(state.savedLogs))
+	}
+	if state.savedLogs[0].LLMResponse != "The well opens its black eye." {
+		t.Fatalf("saved narrative = %q, want dangling choices marker stripped", state.savedLogs[0].LLMResponse)
+	}
+}
+
+func TestEngineProcessTurn_ExtractsDurableLoreFactFromNarrative(t *testing.T) {
+	campaignID := uuid.New()
+	reg := tools.NewRegistry()
+	var established []map[string]any
+	if err := reg.Register(llm.Tool{
+		Name:        "establish_fact",
+		Description: "test fact tool",
+		Parameters: map[string]any{
+			"type": "object",
+			"properties": map[string]any{
+				"fact":     map[string]any{"type": "string"},
+				"category": map[string]any{"type": "string"},
+			},
+			"required":             []any{"fact", "category"},
+			"additionalProperties": false,
+		},
+	}, func(_ context.Context, args map[string]any) (*tools.ToolResult, error) {
+		established = append(established, args)
+		return &tools.ToolResult{Success: true, Data: map[string]any{
+			"id":           uuid.NewString(),
+			"campaign_id":  campaignID.String(),
+			"fact":         args["fact"],
+			"category":     args["category"],
+			"source":       "established",
+			"player_known": true,
+		}}, nil
+	}); err != nil {
+		t.Fatalf("register establish_fact: %v", err)
+	}
+
+	narrative := "Veyra whispers that the Circle called it Varyndor's Brand, an obsidian-and-silver relic forged in the Crucible of the First Flame. It was not merely a seal; it was a prison.\n\n**Choices:**"
+	provider := newScriptedProvider(t,
+		scriptedResponse{resp: &llm.Response{Content: narrative}},
+		scriptedResponse{resp: &llm.Response{ToolCalls: []llm.ToolCall{{
+			ID:   "fact-1",
+			Name: "establish_fact",
+			Arguments: map[string]any{
+				"fact":     "The Circle called the missing seal Varyndor's Brand, an obsidian-and-silver relic forged in the Crucible of the First Flame and used as a prison.",
+				"category": "relic",
+			},
+		}}}},
+	)
+	state := &fakeStateManager{state: makePipelineState(campaignID)}
+	engine := newPipelineTestEngine(state, provider, reg)
+
+	result, err := engine.ProcessTurn(context.Background(), campaignID, "Ask Veyra what object fit in the depression.")
+	if err != nil {
+		t.Fatalf("ProcessTurn() error = %v", err)
+	}
+
+	if len(provider.calls) != 2 {
+		t.Fatalf("provider calls = %d, want initial + unified extraction", len(provider.calls))
+	}
+	if len(established) != 1 {
+		t.Fatalf("established facts = %d, want 1", len(established))
+	}
+	if established[0]["category"] != "relic" || !strings.Contains(established[0]["fact"].(string), "Varyndor's Brand") {
+		t.Fatalf("established fact args = %+v", established[0])
+	}
+	if len(result.AppliedToolCalls) != 1 || result.AppliedToolCalls[0].Tool != "establish_fact" {
+		t.Fatalf("applied tool calls = %+v, want establish_fact", result.AppliedToolCalls)
+	}
+	if strings.Contains(result.Narrative, "**Choices:**") {
+		t.Fatalf("result narrative still contains choices marker: %q", result.Narrative)
+	}
+	if len(state.savedLogs) != 1 {
+		t.Fatalf("saved logs = %d, want 1", len(state.savedLogs))
+	}
+	if strings.Contains(state.savedLogs[0].LLMResponse, "**Choices:**") {
+		t.Fatalf("saved narrative still contains choices marker: %q", state.savedLogs[0].LLMResponse)
+	}
+	var savedCalls []AppliedToolCall
+	if err := json.Unmarshal(state.savedLogs[0].ToolCalls, &savedCalls); err != nil {
+		t.Fatalf("unmarshal saved tool calls: %v", err)
+	}
+	if len(savedCalls) != 1 || savedCalls[0].Tool != "establish_fact" {
+		t.Fatalf("saved tool calls = %+v, want establish_fact", savedCalls)
+	}
+}
+
+func TestEngineProcessTurn_RetriesObviousLoreExtractionMiss(t *testing.T) {
+	campaignID := uuid.New()
+	reg := tools.NewRegistry()
+	var established []map[string]any
+	if err := reg.Register(llm.Tool{
+		Name:        "establish_fact",
+		Description: "test fact tool",
+		Parameters: map[string]any{
+			"type": "object",
+			"properties": map[string]any{
+				"fact":     map[string]any{"type": "string"},
+				"category": map[string]any{"type": "string"},
+			},
+			"required":             []any{"fact", "category"},
+			"additionalProperties": false,
+		},
+	}, func(_ context.Context, args map[string]any) (*tools.ToolResult, error) {
+		established = append(established, args)
+		return &tools.ToolResult{Success: true, Data: map[string]any{
+			"id":           uuid.NewString(),
+			"campaign_id":  campaignID.String(),
+			"fact":         args["fact"],
+			"category":     args["category"],
+			"source":       "established",
+			"player_known": true,
+		}}, nil
+	}); err != nil {
+		t.Fatalf("register establish_fact: %v", err)
+	}
+
+	narrative := "Veyra says the fragment's pulse shows the seal's strength: steady means holding, faltering means the buried thing is trying to wake."
+	provider := newScriptedProvider(t,
+		scriptedResponse{resp: &llm.Response{Content: narrative}},
+		scriptedResponse{resp: &llm.Response{ToolCalls: []llm.ToolCall{{
+			ID:   "fact-1",
+			Name: "establish_fact",
+			Arguments: map[string]any{
+				"fact":     "A seal fragment's pulse indicates seal strength: steady means holding, while faltering means the buried thing is trying to wake.",
+				"category": "mechanism",
+			},
+		}}}},
+	)
+	state := &fakeStateManager{state: makePipelineState(campaignID)}
+	engine := newPipelineTestEngine(state, provider, reg)
+
+	result, err := engine.ProcessTurn(context.Background(), campaignID, "Study the fragment's pulse.")
+	if err != nil {
+		t.Fatalf("ProcessTurn() error = %v", err)
+	}
+
+	if len(provider.calls) != 2 {
+		t.Fatalf("provider calls = %d, want initial + unified extraction", len(provider.calls))
+	}
+	if len(established) != 1 || established[0]["category"] != "mechanism" {
+		t.Fatalf("established facts = %+v, want one mechanism fact", established)
+	}
+	if len(result.AppliedToolCalls) != 1 || result.AppliedToolCalls[0].Tool != "establish_fact" {
+		t.Fatalf("applied tool calls = %+v, want establish_fact", result.AppliedToolCalls)
+	}
+}
+
+func TestEngineProcessTurn_ExtractsQuestGoalFromNarrative(t *testing.T) {
+	campaignID := uuid.New()
+	questID := uuid.New()
+	reg := tools.NewRegistry()
+	var created []map[string]any
+	if err := reg.Register(llm.Tool{
+		Name:        "create_quest",
+		Description: "test quest tool",
+		Parameters: map[string]any{
+			"type": "object",
+			"properties": map[string]any{
+				"title":       map[string]any{"type": "string"},
+				"description": map[string]any{"type": "string"},
+				"quest_type":  map[string]any{"type": "string"},
+				"objectives":  map[string]any{"type": "array"},
+			},
+			"required":             []any{"title", "description", "quest_type", "objectives"},
+			"additionalProperties": false,
+		},
+	}, func(_ context.Context, args map[string]any) (*tools.ToolResult, error) {
+		created = append(created, args)
+		return &tools.ToolResult{Success: true, Data: map[string]any{
+			"id":               questID.String(),
+			"campaign_id":      campaignID.String(),
+			"title":            args["title"],
+			"description":      args["description"],
+			"quest_type":       args["quest_type"],
+			"status":           "active",
+			"objectives":       args["objectives"],
+			"related_entities": []any{},
+			"summary":          "Quest created.",
+		}}, nil
+	}); err != nil {
+		t.Fatalf("register create_quest: %v", err)
+	}
+
+	narrative := "Veyra points to the broken-chain anchors. Finding all fragments may let Mira reinforce the Veiled Woods seal before the buried god wakes."
+	provider := newScriptedProvider(t,
+		scriptedResponse{resp: &llm.Response{Content: narrative}},
+		scriptedResponse{resp: &llm.Response{ToolCalls: []llm.ToolCall{{
+			ID:   "quest-1",
+			Name: "create_quest",
+			Arguments: map[string]any{
+				"title":       "Reinforce the Veiled Woods Seal",
+				"description": "Find the remaining broken-chain anchor fragments and learn how to stabilize the seal.",
+				"quest_type":  "short_term",
+				"objectives": []any{
+					map[string]any{"description": "Find the remaining anchor fragments.", "order_index": float64(1)},
+					map[string]any{"description": "Determine how the pulse pattern stabilizes the seal.", "order_index": float64(2)},
+				},
+			},
+		}}}},
+	)
+	state := &fakeStateManager{state: makePipelineState(campaignID)}
+	engine := newPipelineTestEngine(state, provider, reg)
+
+	result, err := engine.ProcessTurn(context.Background(), campaignID, "Ask what to do next.")
+	if err != nil {
+		t.Fatalf("ProcessTurn() error = %v", err)
+	}
+
+	if len(created) != 1 {
+		t.Fatalf("created quests = %d, want 1", len(created))
+	}
+	if created[0]["title"] != "Reinforce the Veiled Woods Seal" {
+		t.Fatalf("created quest args = %+v", created[0])
+	}
+	if len(result.AppliedToolCalls) != 1 || result.AppliedToolCalls[0].Tool != "create_quest" {
+		t.Fatalf("applied tool calls = %+v, want create_quest", result.AppliedToolCalls)
+	}
+	if len(result.StateChanges) != 1 || result.StateChanges[0].Entity != "quest" || result.StateChanges[0].Field != "created" {
+		t.Fatalf("state changes = %+v, want quest created", result.StateChanges)
+	}
+}
+
+func TestDurableStateExtractionToolsIncludeQuestUpdates(t *testing.T) {
+	got := durableStateExtractionTools([]llm.Tool{{Name: "create_quest"}, {Name: "update_quest"}, {Name: "establish_fact"}})
+	if len(got) != 3 {
+		t.Fatalf("extraction tools = %+v, want create_quest, update_quest, and establish_fact", got)
+	}
+	names := make([]string, len(got))
+	for i, t := range got {
+		names[i] = t.Name
+	}
+	if names[0] != "create_quest" || names[1] != "update_quest" || names[2] != "establish_fact" {
+		t.Fatalf("extraction tool names = %+v, want [create_quest update_quest establish_fact]", names)
 	}
 }
 

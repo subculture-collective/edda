@@ -1,9 +1,6 @@
 package engine
 
-import (
-	"errors"
-	"testing"
-)
+import "testing"
 
 func TestExtractChoicesParsesNumberedOptions(t *testing.T) {
 	narrative := `The torchlight flickers across the chamber.
@@ -40,16 +37,16 @@ func TestExtractChoicesLeavesNarrativeUntouchedWithoutOptions(t *testing.T) {
 	}
 }
 
-func TestExtractChoicesStrictFailsChoiceMarkerWithoutOptions(t *testing.T) {
+func TestExtractChoicesStrictAllowsChoiceMarkerWithoutOptions(t *testing.T) {
 	narrative := "The well whispers from below.\n\n**Choices:**"
 
 	cleaned, choices, err := extractChoicesStrict(narrative)
 
-	if !errors.Is(err, ErrUnparseableChoices) {
-		t.Fatalf("expected ErrUnparseableChoices, got %v", err)
+	if err != nil {
+		t.Fatalf("extractChoicesStrict() error = %v", err)
 	}
-	if cleaned != "" {
-		t.Fatalf("cleaned narrative = %q, want empty on failure", cleaned)
+	if cleaned != "The well whispers from below." {
+		t.Fatalf("cleaned narrative = %q, want dangling choices marker stripped", cleaned)
 	}
 	if choices != nil {
 		t.Fatalf("choices = %+v, want nil", choices)

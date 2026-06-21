@@ -3,52 +3,20 @@ package engine
 import (
 	"context"
 	"encoding/json"
-	"fmt"
 	"time"
 
 	"github.com/google/uuid"
-
-	"git.subcult.tv/subculture-collective/edda/internal/domain"
 )
 
-// persistStage saves the session log, snapshots quests, triggers auto-save,
-// and triggers auto-summarization.
-func (e *Engine) persistStage() Stage {
+// completeStage finalizes a processed turn: choice cleanup, state projections,
+// session-log persistence, quest snapshots, auto-save, and auto-summary.
+func (e *Engine) completeStage() Stage {
 	return func(ctx context.Context, tc *TurnContext) error {
-		toolCallsJSON, err := marshalAppliedToolCalls(tc.Applied)
-		if err != nil {
-			tc.Logger.Error("process turn failed during tool-call marshal",
-				"campaign_id", tc.CampaignID,
-				"duration_ms", time.Since(tc.Started).Milliseconds(),
-				"error", err,
-			)
-			return fmt.Errorf("marshal applied tool calls: %w", err)
+		started := time.Now()
+		if err := NewTurnCompleter(e).CompleteAndPersist(ctx, tc); err != nil {
+			return err
 		}
-		tc.ToolCallsJSON = toolCallsJSON
-
-		tc.TurnNumber = nextTurnNumber(tc.RecentLogs)
-		log := domain.SessionLog{
-			CampaignID:  tc.CampaignID,
-			TurnNumber:  tc.TurnNumber,
-			PlayerInput: tc.PlayerInput,
-			InputType:   domain.Classify(tc.PlayerInput),
-			LLMResponse: tc.Narrative,
-			ToolCalls:   toolCallsJSON,
-			LocationID:  finalLocationIDFromApplied(tc.State.Player.CurrentLocationID, tc.Applied),
-		}
-		if err := e.state.SaveSessionLog(ctx, log); err != nil {
-			tc.Logger.Error("process turn failed during session-log save",
-				"campaign_id", tc.CampaignID,
-				"duration_ms", time.Since(tc.Started).Milliseconds(),
-				"error", err,
-			)
-			return fmt.Errorf("save session log: %w", err)
-		}
-
-		e.snapshotQuestsIfNeeded(ctx, tc.CampaignID, tc.Applied)
-		e.autoSaveIfNeeded(ctx, tc.CampaignID, tc.TurnNumber)
-		e.autoSummarizeIfNeeded(ctx, tc.CampaignID, tc.TurnNumber)
-
+		tc.Logger.Debug("turn completion finished", "campaign_id", tc.CampaignID, "duration_ms", time.Since(started).Milliseconds())
 		return nil
 	}
 }
