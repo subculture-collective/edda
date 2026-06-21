@@ -30,6 +30,7 @@ type OrchestratorInput struct {
 	Summary          string // campaign description/summary
 	Profile          *CampaignProfile
 	CharacterProfile *CharacterProfile
+	SpawnPackage     *CharacterSpawnPackage
 	RulesMode        string
 	Pool             db.DBTX
 	UserID           uuid.UUID
@@ -130,6 +131,10 @@ func (o *Orchestrator) Run(ctx context.Context, input OrchestratorInput, progres
 		return nil, fmt.Errorf("orchestrator: persist character: %w", err)
 	}
 	logger().Info("orchestrator character persisted", "campaign_id", campaignUUID, "character_id", dbCharacterID(characterRow), "character", characterRow.Name)
+	if err := ApplySpawnPackage(ctx, o.queries, campaignUUID, dbCharacterID(characterRow), input.SpawnPackage); err != nil {
+		logger().Error("orchestrator spawn package application failed", "campaign_id", campaignUUID, "character_id", dbCharacterID(characterRow), "error", err)
+		return nil, fmt.Errorf("orchestrator: apply spawn package: %w", err)
+	}
 
 	report("Setting the scene…")
 	sceneGen := NewSceneGenerator(o.llm, store)

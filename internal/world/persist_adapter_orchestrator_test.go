@@ -25,6 +25,9 @@ type stubQuerier struct {
 	createLocationFn          func(context.Context, statedb.CreateLocationParams) (statedb.Location, error)
 	createNPCFn               func(context.Context, statedb.CreateNPCParams) (statedb.Npc, error)
 	createFactFn              func(context.Context, statedb.CreateFactParams) (statedb.WorldFact, error)
+	createItemFn              func(context.Context, statedb.CreateItemParams) (statedb.Item, error)
+	createRelationshipFn      func(context.Context, statedb.CreateRelationshipParams) (statedb.EntityRelationship, error)
+	setRelationshipAwareFn    func(context.Context, pgtype.UUID) error
 	createSessionLogFn        func(context.Context, statedb.CreateSessionLogParams) (statedb.SessionLog, error)
 	listLocationsByCampaignFn func(context.Context, pgtype.UUID) ([]statedb.Location, error)
 
@@ -34,6 +37,9 @@ type stubQuerier struct {
 	createLocationCalls        int
 	createNPCCalls             int
 	createFactCalls            int
+	createItemCalls            int
+	createRelationshipCalls    int
+	setRelationshipAwareCalls  int
 	createSessionLogCalls      int
 	listLocationsCalls         int
 
@@ -43,6 +49,9 @@ type stubQuerier struct {
 	lastCreateLocationParams        statedb.CreateLocationParams
 	lastCreateNPCParams             statedb.CreateNPCParams
 	lastCreateFactParams            statedb.CreateFactParams
+	lastCreateItemParams            statedb.CreateItemParams
+	lastCreateRelationshipParams    statedb.CreateRelationshipParams
+	lastSetRelationshipAwareID      pgtype.UUID
 	lastCreateSessionLogParams      statedb.CreateSessionLogParams
 	lastListLocationsCampaignID     pgtype.UUID
 }
@@ -99,6 +108,33 @@ func (s *stubQuerier) CreateFact(ctx context.Context, arg statedb.CreateFactPara
 		return s.createFactFn(ctx, arg)
 	}
 	return statedb.WorldFact{}, nil
+}
+
+func (s *stubQuerier) CreateItem(ctx context.Context, arg statedb.CreateItemParams) (statedb.Item, error) {
+	s.createItemCalls++
+	s.lastCreateItemParams = arg
+	if s.createItemFn != nil {
+		return s.createItemFn(ctx, arg)
+	}
+	return statedb.Item{}, nil
+}
+
+func (s *stubQuerier) CreateRelationship(ctx context.Context, arg statedb.CreateRelationshipParams) (statedb.EntityRelationship, error) {
+	s.createRelationshipCalls++
+	s.lastCreateRelationshipParams = arg
+	if s.createRelationshipFn != nil {
+		return s.createRelationshipFn(ctx, arg)
+	}
+	return statedb.EntityRelationship{}, nil
+}
+
+func (s *stubQuerier) SetRelationshipPlayerAware(ctx context.Context, id pgtype.UUID) error {
+	s.setRelationshipAwareCalls++
+	s.lastSetRelationshipAwareID = id
+	if s.setRelationshipAwareFn != nil {
+		return s.setRelationshipAwareFn(ctx, id)
+	}
+	return nil
 }
 
 func (s *stubQuerier) CreateSessionLog(ctx context.Context, arg statedb.CreateSessionLogParams) (statedb.SessionLog, error) {
@@ -260,6 +296,102 @@ func TestPersistCharacterProfile_NilStartingLocationLeavesInvalidCurrentLocation
 	}
 	if got := q.lastCreatePlayerCharacterParams.CurrentLocationID; got.Valid || got != (pgtype.UUID{}) {
 		t.Errorf("current location: got %#v, want invalid zero pgtype.UUID", got)
+	}
+}
+
+func TestApplySpawnPackage_CreatesInventoryKnownFactsAndRelationships(t *testing.T) {
+	campaignID := uuid.New()
+	playerID := uuid.New()
+	targetNPCID := uuid.New()
+	relationshipID := uuid.New()
+	strength := int32(30)
+	q := &stubQuerier{createItemFn: func(_ context.Context, arg statedb.CreateItemParams) (statedb.Item, error) {
+		return statedb.Item{ID: pgUUID(uuid.New()), Name: arg.Name}, nil
+	}, createFactFn: func(_ context.Context, arg statedb.CreateFactParams) (statedb.WorldFact, error) {
+		return statedb.WorldFact{ID: pgUUID(uuid.New()), Fact: arg.Fact}, nil
+	}, createRelationshipFn: func(_ context.Context, arg statedb.CreateRelationshipParams) (statedb.EntityRelationship, error) {
+		return statedb.EntityRelationship{ID: pgUUID(relationshipID), RelationshipType: arg.RelationshipType}, nil
+	}}
+	err := ApplySpawnPackage(context.Background(), q, campaignID, playerID, &CharacterSpawnPackage{Items: []StarterItem{{Name: "Rusty Lantern", Description: "Still burns.", ItemType: "tool", Rarity: "common", Quantity: 2, Equipped: true, Properties: map[string]any{"light": true}}}, KnownFacts: []StarterKnownFact{{Fact: "Ash storms swallow the roads at dusk.", Category: "environment"}}, Relationships: []StarterRelationship{{TargetEntityType: "npc", TargetEntityID: targetNPCID, RelationshipType: "owes_debt", Description: "Marshal Vey once saved Kael.", Strength: &strength}}})
+	if err != nil {
+		t.Fatalf("ApplySpawnPackage returned error: %v", err)
+	}
+	if q.createItemCalls != 1 {
+		t.Fatalf("CreateItem calls = %d, want 1", q.createItemCalls)
+	}
+	if got := q.lastCreateItemParams.CampaignID; got != pgUUID(campaignID) {
+		t.Errorf("item campaign id = %#v, want %#v", got, pgUUID(campaignID))
+	}
+	if got := q.lastCreateItemParams.PlayerCharacterID; got != pgUUID(playerID) {
+		t.Errorf("item player id = %#v, want %#v", got, pgUUID(playerID))
+	}
+	if got := q.lastCreateItemParams.Name; got != "Rusty Lantern" {
+		t.Errorf("item name = %q, want Rusty Lantern", got)
+	}
+	if got := q.lastCreateItemParams.Description; !got.Valid || got.String != "Still burns." {
+		t.Errorf("item description = %#v, want valid Still burns.", got)
+	}
+	if got := q.lastCreateItemParams.ItemType; got != "misc" {
+		t.Errorf("item type = %q, want misc", got)
+	}
+	if got := q.lastCreateItemParams.Rarity; got != "common" {
+		t.Errorf("item rarity = %q, want common", got)
+	}
+	if !q.lastCreateItemParams.Equipped {
+		t.Error("item equipped = false, want true")
+	}
+	if got := q.lastCreateItemParams.Quantity; got != 2 {
+		t.Errorf("item quantity = %d, want 2", got)
+	}
+	var properties map[string]bool
+	if err := json.Unmarshal(q.lastCreateItemParams.Properties, &properties); err != nil {
+		t.Fatalf("unmarshal item properties: %v", err)
+	}
+	if !properties["light"] {
+		t.Errorf("item properties = %v, want light=true", properties)
+	}
+	if q.createFactCalls != 1 {
+		t.Fatalf("CreateFact calls = %d, want 1", q.createFactCalls)
+	}
+	if got := q.lastCreateFactParams.Fact; got != "Ash storms swallow the roads at dusk." {
+		t.Errorf("fact = %q, want ash storm fact", got)
+	}
+	if got := q.lastCreateFactParams.Category; got != "environment" {
+		t.Errorf("fact category = %q, want environment", got)
+	}
+	if got := q.lastCreateFactParams.Source; got != "character_spawn" {
+		t.Errorf("fact source = %q, want character_spawn", got)
+	}
+	if !q.lastCreateFactParams.PlayerKnown {
+		t.Error("fact player_known = false, want true")
+	}
+	if q.createRelationshipCalls != 1 {
+		t.Fatalf("CreateRelationship calls = %d, want 1", q.createRelationshipCalls)
+	}
+	rel := q.lastCreateRelationshipParams
+	if rel.SourceEntityType != "player_character" {
+		t.Errorf("relationship source type = %q, want player_character", rel.SourceEntityType)
+	}
+	if rel.SourceEntityID != pgUUID(playerID) {
+		t.Errorf("relationship source id = %#v, want %#v", rel.SourceEntityID, pgUUID(playerID))
+	}
+	if rel.TargetEntityType != "npc" || rel.TargetEntityID != pgUUID(targetNPCID) {
+		t.Errorf("relationship target = %s/%#v, want npc/%#v", rel.TargetEntityType, rel.TargetEntityID, pgUUID(targetNPCID))
+	}
+	if rel.RelationshipType != "owes_debt" {
+		t.Errorf("relationship type = %q, want owes_debt", rel.RelationshipType)
+	}
+	if !rel.Description.Valid || rel.Description.String != "Marshal Vey once saved Kael." {
+		t.Errorf("relationship description = %#v, want valid description", rel.Description)
+	}
+	if !rel.Strength.Valid || rel.Strength.Int32 != 30 {
+		t.Errorf("relationship strength = %#v, want 30", rel.Strength)
+	}
+	if q.setRelationshipAwareCalls != 1 {
+		t.Fatalf("SetRelationshipPlayerAware calls = %d, want 1", q.setRelationshipAwareCalls)
+	}
+	if got := q.lastSetRelationshipAwareID; got != pgUUID(relationshipID) {
+		t.Errorf("revealed relationship id = %#v, want %#v", got, pgUUID(relationshipID))
 	}
 }
 

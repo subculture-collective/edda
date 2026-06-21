@@ -261,11 +261,45 @@ type OpeningSceneResponse struct {
 
 // WorldBuildRequest finalizes startup choices and creates the campaign world.
 type WorldBuildRequest struct {
-	Name             string            `json:"name"`
-	Summary          string            `json:"summary"`
-	Profile          *CampaignProfile  `json:"profile"`
-	CharacterProfile *CharacterProfile `json:"character_profile"`
-	RulesMode        string            `json:"rules_mode,omitempty"`
+	Name             string                 `json:"name"`
+	Summary          string                 `json:"summary"`
+	Profile          *CampaignProfile       `json:"profile"`
+	CharacterProfile *CharacterProfile      `json:"character_profile"`
+	RulesMode        string                 `json:"rules_mode,omitempty"`
+	SpawnPackage     *CharacterSpawnPackage `json:"spawn_package,omitempty"`
+}
+
+// CharacterSpawnPackage describes starting state granted to a new character.
+type CharacterSpawnPackage struct {
+	Items         []StarterItem         `json:"items,omitempty"`
+	KnownFacts    []StarterKnownFact    `json:"known_facts,omitempty"`
+	Relationships []StarterRelationship `json:"relationships,omitempty"`
+}
+
+// StarterItem describes a starting inventory item.
+type StarterItem struct {
+	Name        string         `json:"name"`
+	Description string         `json:"description,omitempty"`
+	ItemType    string         `json:"item_type,omitempty"`
+	Rarity      string         `json:"rarity,omitempty"`
+	Properties  map[string]any `json:"properties,omitempty"`
+	Equipped    bool           `json:"equipped,omitempty"`
+	Quantity    int32          `json:"quantity,omitempty"`
+}
+
+// StarterKnownFact describes a player-known fact granted at spawn.
+type StarterKnownFact struct {
+	Fact     string `json:"fact"`
+	Category string `json:"category,omitempty"`
+}
+
+// StarterRelationship describes a player-aware relationship granted at spawn.
+type StarterRelationship struct {
+	TargetEntityType string `json:"target_entity_type"`
+	TargetEntityID   string `json:"target_entity_id"`
+	RelationshipType string `json:"relationship_type"`
+	Description      string `json:"description,omitempty"`
+	Strength         *int32 `json:"strength,omitempty"`
 }
 
 // FeatResponse describes a feat granted to a character.
