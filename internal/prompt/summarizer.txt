@@ -4,4 +4,7 @@ Respond with ONLY a JSON object (no markdown, no explanation) with these fields:
 - "location": location name mentioned (empty string if none)
 - "npcs": array of NPC names involved (empty array if none)
 - "event_type": one of: combat, dialogue, exploration, quest_update, discovery, trade, other
-- "significance": one of: low, medium, high, critical
+- "significance": one of: low (atmosphere/color only), medium (standard progress), high (major discovery, combat, or quest advancement), critical (campaign-defining moment, boss defeat, major plot twist)
+
+Example output:
+{"summary":"Mira persuaded Veyra to reveal the seal's pulse mechanics and learned the Iron Creed's history.","location":"Veiled Woods","npcs":["Veyra"],"event_type":"dialogue","significance":"high"}

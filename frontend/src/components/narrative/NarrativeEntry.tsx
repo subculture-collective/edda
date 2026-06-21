@@ -1,4 +1,4 @@
-import type { StateChange } from '../../api/types';
+import type { ResolutionEvent, StateChange } from '../../api/types';
 import { cn } from '../../lib/cn';
 import { LoadingIndicator } from './LoadingIndicator';
 
@@ -16,6 +16,7 @@ export interface NarrativeEntryItem {
   readonly timestamp: string;
   readonly speaker?: string;
   readonly stateChanges?: StateChange[];
+  readonly resolutionEvents?: ResolutionEvent[];
   readonly choices?: NarrativeChoiceOption[];
   readonly isStreaming?: boolean;
 }
@@ -49,7 +50,8 @@ const ENTRY_STYLES: Record<NarrativeEntryKind, { shell: string; badge: string; a
 export function NarrativeEntry({ entry, className }: NarrativeEntryProps) {
   const styles = ENTRY_STYLES[entry.kind];
   const speaker = entry.speaker?.trim() || styles.defaultSpeaker;
-  const hasText = entry.text.trim().length > 0;
+  const displayText = stripDanglingChoicesMarker(entry.text);
+  const hasText = displayText.trim().length > 0;
   const showStreamingState = entry.isStreaming && !hasText;
   const timestampLabel = formatTimestamp(entry.timestamp);
 
@@ -77,7 +79,7 @@ export function NarrativeEntry({ entry, className }: NarrativeEntryProps) {
 
         {hasText ? (
           <p className="whitespace-pre-wrap wrap-break-word text-md leading-6 text-inherit">
-            {entry.text}
+            {displayText}
             {entry.isStreaming ? <span className="ml-2 inline-block h-4 w-2 animate-pulse bg-gold/80 align-middle" /> : null}
           </p>
         ) : null}
@@ -94,9 +96,90 @@ export function NarrativeEntry({ entry, className }: NarrativeEntryProps) {
             ))}
           </div>
         ) : null}
+
+        {entry.resolutionEvents && entry.resolutionEvents.length > 0 ? (
+          <div className="space-y-2 border-t border-white/10 pt-3">
+            {entry.resolutionEvents.map((event, index) => (
+              <ResolutionEventBadge key={`${event.type}-${event.label}-${index}`} event={event} />
+            ))}
+          </div>
+        ) : null}
       </div>
     </article>
   );
+}
+
+function ResolutionEventBadge({ event }: { readonly event: ResolutionEvent }) {
+  if (event.type === 'skill_check') {
+    return <SkillCheckBadge event={event} />;
+  }
+
+  return null;
+}
+
+function SkillCheckBadge({ event }: { readonly event: ResolutionEvent }) {
+  const success = event.outcome === 'success';
+  const skill = stringDetail(event.details.skill) ?? event.label.replace(/ check$/i, '');
+  const total = numberDetail(event.details.total);
+  const dc = numberDetail(event.details.dc) ?? numberDetail(event.details.difficulty);
+  const roll = numberDetail(event.details.roll);
+  const modifier = numberDetail(event.details.modifier);
+  const margin = numberDetail(event.details.margin);
+
+  return (
+    <div className={cn(
+      'flex flex-col gap-1 rounded-sm border px-3 py-2 text-xs sm:flex-row sm:items-center sm:justify-between',
+      success ? 'border-jade/25 bg-jade/10 text-jade' : 'border-ruby/25 bg-ruby/10 text-ruby',
+    )}>
+      <span className="font-semibold uppercase tracking-[0.16em]">
+        {skill} check: {success ? 'success' : 'failure'}
+      </span>
+      <span className="font-mono text-[11px] uppercase tracking-[0.12em] text-champagne/75">
+        {formatCheckMath({ roll, modifier, total, dc, margin })}
+      </span>
+    </div>
+  );
+}
+
+function formatCheckMath(values: { roll?: number; modifier?: number; total?: number; dc?: number; margin?: number }): string {
+  const parts: string[] = [];
+  if (values.roll !== undefined) {
+    const modifier = values.modifier ?? 0;
+    const sign = modifier >= 0 ? '+' : '';
+    parts.push(`roll ${values.roll}${sign}${modifier}`);
+  }
+  if (values.total !== undefined) {
+    parts.push(`total ${values.total}`);
+  }
+  if (values.dc !== undefined) {
+    parts.push(`DC ${values.dc}`);
+  }
+  if (values.margin !== undefined) {
+    const sign = values.margin >= 0 ? '+' : '';
+    parts.push(`${sign}${values.margin}`);
+  }
+  return parts.join(' · ');
+}
+
+function stringDetail(value: unknown): string | undefined {
+  return typeof value === 'string' && value.trim().length > 0 ? value : undefined;
+}
+
+function numberDetail(value: unknown): number | undefined {
+  return typeof value === 'number' && Number.isFinite(value) ? value : undefined;
+}
+
+function stripDanglingChoicesMarker(text: string): string {
+  const lines = text.split('\n');
+  while (lines.length > 0) {
+    const trimmed = lines[lines.length - 1].trim().toLowerCase().replace(/[’]/g, "'");
+    if (trimmed === '' || trimmed === '**choices:**' || trimmed === 'choices:' || trimmed === 'options:') {
+      lines.pop();
+      continue;
+    }
+    break;
+  }
+  return lines.join('\n').trim();
 }
 
 function formatTimestamp(timestamp: string): string {

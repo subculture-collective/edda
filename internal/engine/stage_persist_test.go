@@ -13,7 +13,7 @@ import (
 	"git.subcult.tv/subculture-collective/edda/internal/game"
 )
 
-func TestPersistStageUsesPostTurnLocation(t *testing.T) {
+func TestCompleteStageUsesPostTurnLocation(t *testing.T) {
 	defaultLocationID := uuid.New()
 	newLocationID := uuid.New()
 	state := &game.GameState{Player: domain.PlayerCharacter{CurrentLocationID: &defaultLocationID}}
@@ -31,8 +31,8 @@ func TestPersistStageUsesPostTurnLocation(t *testing.T) {
 		Logger: testLogger(),
 	}
 
-	if err := e.persistStage()(context.Background(), tc); err != nil {
-		t.Fatalf("persistStage() error = %v", err)
+	if err := e.completeStage()(context.Background(), tc); err != nil {
+		t.Fatalf("completeStage() error = %v", err)
 	}
 	if len(fake.savedLogs) != 1 {
 		t.Fatalf("saved log count = %d, want 1", len(fake.savedLogs))

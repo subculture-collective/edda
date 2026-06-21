@@ -127,7 +127,7 @@ func (e *Engine) ProcessTurn(ctx context.Context, campaignID uuid.UUID, playerIn
 		e.memoryStage(),
 		e.assembleStage(),
 		e.processStage(),
-		e.persistStage(),
+		e.completeStage(),
 	)
 
 	if err := pipeline.Execute(ctx, tc); err != nil {
@@ -137,7 +137,7 @@ func (e *Engine) ProcessTurn(ctx context.Context, campaignID uuid.UUID, playerIn
 	result := &TurnResult{
 		Narrative:        tc.Narrative,
 		AppliedToolCalls: tc.Applied,
-		StateChanges:     StateChangesFromAppliedToolCalls(tc.Applied),
+		StateChanges:     tc.StateChanges,
 		Choices:          tc.Choices,
 		CombatActive:     tc.CombatActive,
 	}
@@ -258,33 +258,19 @@ func (e *Engine) ProcessTurnStream(ctx context.Context, campaignID uuid.UUID, pl
 		}
 		emitPhase("thinking", "Response generated.", thinkingStarted)
 
-		cleaned, choices, err := extractChoicesStrict(narrative)
-		if err != nil {
-			ch <- StreamEvent{Type: "error", Err: err}
-			return
-		}
-		tc.Narrative, tc.Choices = cleaned, choices
+		tc.Narrative = narrative
 		tc.Applied = applied
-		tc.CombatActive = tc.State.CombatActive
-		for _, atc := range applied {
-			switch atc.Tool {
-			case "initiate_combat":
-				tc.CombatActive = true
-			case "resolve_combat":
-				tc.CombatActive = false
-			}
-		}
 
 		persistStarted := time.Now()
 		emitStatus("finalizing", "Finalizing and persisting turn...")
-		if err := e.persistStage()(tc.Ctx, tc); err != nil {
+		if err := e.completeStage()(tc.Ctx, tc); err != nil {
 			ch <- StreamEvent{Type: "error", Err: err}
 			return
 		}
 		emitPhase("finalizing", "Turn persisted.", persistStarted)
 
 		// Emit combat lifecycle status events based on applied tool calls.
-		result := &TurnResult{Narrative: tc.Narrative, AppliedToolCalls: tc.Applied, StateChanges: StateChangesFromAppliedToolCalls(tc.Applied), Choices: tc.Choices, CombatActive: tc.CombatActive}
+		result := &TurnResult{Narrative: tc.Narrative, AppliedToolCalls: tc.Applied, StateChanges: tc.StateChanges, Choices: tc.Choices, CombatActive: tc.CombatActive}
 		for _, atc := range result.AppliedToolCalls {
 			switch atc.Tool {
 			case "initiate_combat":

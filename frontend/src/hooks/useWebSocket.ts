@@ -58,12 +58,11 @@ export function useWebSocket(campaignId: string | null | undefined): UseWebSocke
       return undefined;
     }
 
-    const socket = new WebSocket(buildCampaignWebSocketURL(activeCampaignId));
-    socketRef.current = socket;
     setConnectionStatus('connecting');
 
     let allowReconnect = true;
-    const isCurrentSocket = () => socketRef.current === socket;
+    let socket: WebSocket | null = null;
+    const isCurrentSocket = () => socket !== null && socketRef.current === socket;
 
     const scheduleReconnect = (nextStatus: ConnectionStatus, nextError: string | null) => {
       if (!isCurrentSocket()) {
@@ -165,17 +164,31 @@ export function useWebSocket(campaignId: string | null | undefined): UseWebSocke
       setIsAwaitingResponse(false);
     };
 
-    socket.addEventListener('open', handleOpen);
-    socket.addEventListener('close', handleClose);
-    socket.addEventListener('error', handleSocketError);
-    socket.addEventListener('message', handleMessage);
+    const connectionTimer = setTimeout(() => {
+      if (!allowReconnect) {
+        return;
+      }
+
+      socket = new WebSocket(buildCampaignWebSocketURL(activeCampaignId));
+      socketRef.current = socket;
+
+      socket.addEventListener('open', handleOpen);
+      socket.addEventListener('close', handleClose);
+      socket.addEventListener('error', handleSocketError);
+      socket.addEventListener('message', handleMessage);
+    }, 0);
 
     return () => {
       allowReconnect = false;
+      clearTimeout(connectionTimer);
 
       if (reconnectTimerRef.current) {
         clearTimeout(reconnectTimerRef.current);
         reconnectTimerRef.current = null;
+      }
+
+      if (socket === null) {
+        return;
       }
 
       socket.removeEventListener('open', handleOpen);

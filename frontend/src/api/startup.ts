@@ -1,10 +1,10 @@
 import { apiFetch } from './client';
 import type {
+  BuildWorldRequest,
   BuildWorldResponse,
   CampaignInterviewResponse,
   CampaignProfile,
   CharacterInterviewResponse,
-  CharacterProfile,
   GenerateCampaignNameResponse,
   GenerateCampaignProposalsRequest,
   GenerateCampaignProposalsResponse,
@@ -59,13 +59,7 @@ export function stepCharacterInterview(sessionId: string, input: string): Promis
   });
 }
 
-export function buildCampaignWorld(request: {
-  name: string;
-  summary: string;
-  profile: CampaignProfile;
-  character_profile: CharacterProfile;
-  rules_mode?: string;
-}): Promise<BuildWorldResponse> {
+export function buildCampaignWorld(request: BuildWorldRequest): Promise<BuildWorldResponse> {
   return apiFetch<BuildWorldResponse>(buildStartupPath('world'), {
     method: 'POST',
     body: request,
