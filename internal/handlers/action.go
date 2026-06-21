@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"net/http"
 
+	"git.subcult.tv/subculture-collective/edda/internal/engine"
 	"git.subcult.tv/subculture-collective/edda/pkg/api"
 )
 
@@ -33,6 +34,10 @@ func (h *ActionHandlers) ProcessAction(w http.ResponseWriter, r *http.Request) {
 	result, err := h.Engine.ProcessTurn(turnCtx, campaignID, req.Input)
 	if err != nil {
 		h.Logger.Errorf("process turn for campaign %s: %v", campaignID, err)
+		if engine.IsLLMOutputError(err) {
+			writeError(w, http.StatusBadGateway, err.Error())
+			return
+		}
 		writeError(w, http.StatusInternalServerError, "failed to process turn")
 		return
 	}

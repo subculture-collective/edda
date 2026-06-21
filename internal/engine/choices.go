@@ -9,6 +9,31 @@ const rightSingleQuote = "\u2019"
 
 var numberedChoicePattern = regexp.MustCompile(`^\s*(\d+)[.)]\s+(.*\S)\s*$`)
 
+func hasChoicesMarker(narrative string) bool {
+	lower := strings.ToLower(strings.ReplaceAll(narrative, rightSingleQuote, "'"))
+	markers := []string{
+		"**choices:**",
+		"choices:",
+		"options:",
+		"what do you do?",
+		"what will you do?",
+	}
+	for _, marker := range markers {
+		if strings.Contains(lower, marker) {
+			return true
+		}
+	}
+	return false
+}
+
+func extractChoicesStrict(narrative string) (string, []Choice, error) {
+	cleaned, choices := extractChoices(narrative)
+	if len(choices) == 0 && hasChoicesMarker(narrative) {
+		return "", nil, ErrUnparseableChoices
+	}
+	return cleaned, choices, nil
+}
+
 func extractChoices(narrative string) (string, []Choice) {
 	lines := strings.Split(narrative, "\n")
 	if len(lines) == 0 {

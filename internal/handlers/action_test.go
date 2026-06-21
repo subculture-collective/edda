@@ -153,6 +153,30 @@ func TestProcessAction_EngineError(t *testing.T) {
 	}
 }
 
+func TestProcessAction_LLMOutputErrorReturnsBadGateway(t *testing.T) {
+	eng := &stubEngine{turnErr: engine.ErrEmptyTurnResponse}
+	h := &ActionHandlers{Engine: eng, Logger: log.Default()}
+	router := newActionRouter(h)
+
+	campaignID := uuid.New().String()
+	body, _ := json.Marshal(api.ActionRequest{Input: "listen"})
+	req := httptest.NewRequest(http.MethodPost, "/campaigns/"+campaignID+"/action", bytes.NewReader(body))
+	req.Header.Set("Content-Type", "application/json")
+	rec := httptest.NewRecorder()
+	router.ServeHTTP(rec, req)
+
+	if rec.Code != http.StatusBadGateway {
+		t.Fatalf("expected status 502, got %d; body: %s", rec.Code, rec.Body.String())
+	}
+	var resp map[string]string
+	if err := json.NewDecoder(rec.Body).Decode(&resp); err != nil {
+		t.Fatalf("decode response: %v", err)
+	}
+	if resp["error"] != engine.ErrEmptyTurnResponse.Error() {
+		t.Fatalf("error = %q, want %q", resp["error"], engine.ErrEmptyTurnResponse.Error())
+	}
+}
+
 func TestProcessAction_UsesServerTurnContextWhenClientContextCanceled(t *testing.T) {
 	eng := &stubEngine{turnResult: &engine.TurnResult{Narrative: "You wait."}}
 	h := &ActionHandlers{Engine: eng, Logger: log.Default(), TurnTimeout: time.Minute}

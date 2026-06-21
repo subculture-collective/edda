@@ -193,7 +193,7 @@ type contextAwareProvider struct{}
 func (p *contextAwareProvider) Complete(_ context.Context, _ []llm.Message, tools []llm.Tool) (*llm.Response, error) {
 	for _, tool := range tools {
 		if tool.Name == "update_player_hp" {
-			return &llm.Response{Content: "", ToolCalls: []llm.ToolCall{{ID: "1", Name: "update_player_hp", Arguments: map[string]any{"hp": 7}}}}, nil
+			return &llm.Response{Content: "You rest and recover.", ToolCalls: []llm.ToolCall{{ID: "1", Name: "update_player_hp", Arguments: map[string]any{"hp": 7}}}}, nil
 		}
 	}
 	return &llm.Response{Content: "done"}, nil

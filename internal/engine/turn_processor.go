@@ -14,6 +14,25 @@ import (
 	"git.subcult.tv/subculture-collective/edda/pkg/api"
 )
 
+var (
+	// ErrEmptyTurnResponse means the model produced no usable player-facing
+	// narrative and no tool-backed state changes for a turn. Callers should treat
+	// this as a provider/output failure, not as a successful empty turn.
+	ErrEmptyTurnResponse = errors.New("llm returned empty turn response")
+	// ErrUnparseableChoices means the model signaled that choices should follow,
+	// but did not provide any choices in a supported structured format.
+	ErrUnparseableChoices = errors.New("llm response contained choices marker but no parseable choices")
+	// ErrUnresolvedDurableClaims means the model made durable world-state claims
+	// that could not be backed by successful tool calls after one repair attempt.
+	ErrUnresolvedDurableClaims = errors.New("llm response contained unresolved durable state claims")
+)
+
+// IsLLMOutputError reports whether err represents malformed or unusable model
+// output rather than an application/server failure.
+func IsLLMOutputError(err error) bool {
+	return errors.Is(err, ErrEmptyTurnResponse) || errors.Is(err, ErrUnparseableChoices) || errors.Is(err, ErrUnresolvedDurableClaims)
+}
+
 // TurnProcessor handles the tool-call portion of the turn pipeline with
 // built-in error recovery. When a tool call fails validation or execution
 // it sends the error back to the LLM and retries once. If the retry also
@@ -113,8 +132,15 @@ func (tp *TurnProcessor) ProcessWithRecoveryWithOptions(
 		allowed[t.Name] = struct{}{}
 	}
 	if len(resp.ToolCalls) == 0 {
+		if strings.TrimSpace(narrative) == "" {
+			tp.logger.Error("turn processor received empty response without tool calls", "duration_ms", time.Since(started).Milliseconds(), "finish_reason", resp.FinishReason)
+			return "", nil, ErrEmptyTurnResponse
+		}
 		if issues := AuditDurableClaims(narrative, nil, advertisedToolNames(availableTools)); len(issues) > 0 {
-			narrative, applied = tp.repairDurableClaims(ctx, messages, availableTools, narrative, applied, issues, nil)
+			narrative, applied, err = tp.repairDurableClaims(ctx, messages, availableTools, narrative, applied, issues, nil)
+			if err != nil {
+				return "", nil, err
+			}
 		}
 		tp.logger.Warn("turn processor completed without tool calls", "duration_ms", time.Since(started).Milliseconds(), "advertised_tools", len(availableTools), "advertised_tool_names", advertisedToolNames(availableTools))
 		return narrative, applied, nil
@@ -205,7 +231,14 @@ func (tp *TurnProcessor) ProcessWithRecoveryWithOptions(
 	}
 
 	if issues := appendDurableIssues(AuditDurableClaims(narrative, applied, advertisedToolNames(availableTools)), unresolvedDurableIssues...); len(issues) > 0 {
-		narrative, applied = tp.repairDurableClaims(ctx, messages, availableTools, narrative, applied, issues, unresolvedDurableRequirements)
+		narrative, applied, err = tp.repairDurableClaims(ctx, messages, availableTools, narrative, applied, issues, unresolvedDurableRequirements)
+		if err != nil {
+			return "", nil, err
+		}
+	}
+	if strings.TrimSpace(narrative) == "" {
+		tp.logger.Error("turn processor completed with empty narrative", "duration_ms", time.Since(started).Milliseconds(), "applied_tool_calls", len(applied), "applied_tool_names", appliedToolNames(applied))
+		return "", nil, ErrEmptyTurnResponse
 	}
 
 	tp.logger.Info("turn processor completed", "duration_ms", time.Since(started).Milliseconds(), "applied_tool_calls", len(applied), "applied_tool_names", appliedToolNames(applied), "narrative_len", len(narrative))
@@ -387,10 +420,10 @@ func appliedToolSatisfiesDurableIssue(call AppliedToolCall, kind DurableClaimKin
 	}
 }
 
-func (tp *TurnProcessor) repairDurableClaims(ctx context.Context, messages []llm.Message, availableTools []llm.Tool, narrative string, applied []AppliedToolCall, issues []DurableClaimIssue, requirements []durableRequirement) (string, []AppliedToolCall) {
+func (tp *TurnProcessor) repairDurableClaims(ctx context.Context, messages []llm.Message, availableTools []llm.Tool, narrative string, applied []AppliedToolCall, issues []DurableClaimIssue, requirements []durableRequirement) (string, []AppliedToolCall, error) {
 	repairTools := durableRepairTools(availableTools, issues)
 	if len(repairTools) == 0 {
-		return safeProvisionalNarrative(narrative), applied
+		return "", nil, fmt.Errorf("%w: no repair tools available for issues %v", ErrUnresolvedDurableClaims, issues)
 	}
 
 	repairMessages := make([]llm.Message, len(messages), len(messages)+2)
@@ -401,7 +434,7 @@ func (tp *TurnProcessor) repairDurableClaims(ctx context.Context, messages []llm
 	resp, err := tp.provider.Complete(ctx, repairMessages, repairTools)
 	if err != nil {
 		tp.logger.Error("durable-claim repair call failed", "error", err)
-		return safeProvisionalNarrative(narrative), applied
+		return "", nil, fmt.Errorf("%w: repair call failed: %v", ErrUnresolvedDurableClaims, err)
 	}
 
 	allowed := toolNameSet(repairTools)
@@ -427,15 +460,15 @@ func (tp *TurnProcessor) repairDurableClaims(ctx context.Context, messages []llm
 		}
 	}
 	if repairedNarrative == "" {
-		repairedNarrative = safeProvisionalNarrative(narrative)
+		return "", nil, fmt.Errorf("%w: repair produced empty narrative", ErrUnresolvedDurableClaims)
 	}
 	if !durableRequirementsSatisfied(applied, requirements) {
-		return safeProvisionalNarrative(repairedNarrative), applied
+		return "", nil, fmt.Errorf("%w: repair did not satisfy required durable tool calls", ErrUnresolvedDurableClaims)
 	}
 	if len(AuditDurableClaims(repairedNarrative, applied, advertisedToolNames(repairTools))) > 0 {
-		return safeProvisionalNarrative(repairedNarrative), applied
+		return "", nil, fmt.Errorf("%w: repair narrative still contains unbacked claims", ErrUnresolvedDurableClaims)
 	}
-	return repairedNarrative, applied
+	return repairedNarrative, applied, nil
 }
 
 func durableRequirementsSatisfied(applied []AppliedToolCall, requirements []durableRequirement) bool {
@@ -448,7 +481,7 @@ func durableRequirementsSatisfied(applied []AppliedToolCall, requirements []dura
 }
 
 func durableRepairPrompt(narrative string, applied []AppliedToolCall, issues []DurableClaimIssue) string {
-	return fmt.Sprintf("Durable state audit found unbacked claims in the previous narrative. Issues: %v. Already applied tools: %v. Either call only the missing durable state tools now, or rewrite the narrative as provisional so it does not claim those durable changes. Previous narrative: %s", issues, appliedToolNames(applied), narrative)
+	return fmt.Sprintf("Durable state audit found unbacked claims in the previous narrative. Issues: %v. Already applied tools: %v. Call only the missing durable state tools now, then provide a corrected narrative. Do not invent a fallback, provisional, or pretend resolution. Previous narrative: %s", issues, appliedToolNames(applied), narrative)
 }
 
 func durableRepairTools(availableTools []llm.Tool, issues []DurableClaimIssue) []llm.Tool {
@@ -494,13 +527,6 @@ func toolNameSet(tools []llm.Tool) map[string]struct{} {
 		allowed[t.Name] = struct{}{}
 	}
 	return allowed
-}
-
-func safeProvisionalNarrative(narrative string) string {
-	if narrative == "" {
-		return "The scene remains provisional."
-	}
-	return "What follows is provisional: the scene remains unsettled until the world-state tools confirm it."
 }
 
 func advertisedToolNames(tools []llm.Tool) []string {

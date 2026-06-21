@@ -258,7 +258,12 @@ func (e *Engine) ProcessTurnStream(ctx context.Context, campaignID uuid.UUID, pl
 		}
 		emitPhase("thinking", "Response generated.", thinkingStarted)
 
-		tc.Narrative, tc.Choices = extractChoices(narrative)
+		cleaned, choices, err := extractChoicesStrict(narrative)
+		if err != nil {
+			ch <- StreamEvent{Type: "error", Err: err}
+			return
+		}
+		tc.Narrative, tc.Choices = cleaned, choices
 		tc.Applied = applied
 		tc.CombatActive = tc.State.CombatActive
 		for _, atc := range applied {

@@ -1,6 +1,9 @@
 package engine
 
-import "testing"
+import (
+	"errors"
+	"testing"
+)
 
 func TestExtractChoicesParsesNumberedOptions(t *testing.T) {
 	narrative := `The torchlight flickers across the chamber.
@@ -34,5 +37,37 @@ func TestExtractChoicesLeavesNarrativeUntouchedWithoutOptions(t *testing.T) {
 	}
 	if choices != nil {
 		t.Fatalf("expected no parsed choices, got %+v", choices)
+	}
+}
+
+func TestExtractChoicesStrictFailsChoiceMarkerWithoutOptions(t *testing.T) {
+	narrative := "The well whispers from below.\n\n**Choices:**"
+
+	cleaned, choices, err := extractChoicesStrict(narrative)
+
+	if !errors.Is(err, ErrUnparseableChoices) {
+		t.Fatalf("expected ErrUnparseableChoices, got %v", err)
+	}
+	if cleaned != "" {
+		t.Fatalf("cleaned narrative = %q, want empty on failure", cleaned)
+	}
+	if choices != nil {
+		t.Fatalf("choices = %+v, want nil", choices)
+	}
+}
+
+func TestExtractChoicesStrictAllowsPlainNarrativeWithoutMarker(t *testing.T) {
+	narrative := "The well whispers from below."
+
+	cleaned, choices, err := extractChoicesStrict(narrative)
+
+	if err != nil {
+		t.Fatalf("extractChoicesStrict() error = %v", err)
+	}
+	if cleaned != narrative {
+		t.Fatalf("cleaned narrative = %q, want %q", cleaned, narrative)
+	}
+	if choices != nil {
+		t.Fatalf("choices = %+v, want nil", choices)
 	}
 }

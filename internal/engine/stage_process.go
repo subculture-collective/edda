@@ -20,7 +20,16 @@ func (e *Engine) processStage() Stage {
 			return fmt.Errorf("process turn: %w", err)
 		}
 
-		tc.Narrative, tc.Choices = extractChoices(narrative)
+		cleaned, choices, err := extractChoicesStrict(narrative)
+		if err != nil {
+			tc.Logger.Error("process turn failed during choice extraction",
+				"campaign_id", tc.CampaignID,
+				"duration_ms", time.Since(tc.Started).Milliseconds(),
+				"error", err,
+			)
+			return fmt.Errorf("process turn: %w", err)
+		}
+		tc.Narrative, tc.Choices = cleaned, choices
 		tc.Applied = applied
 
 		// Derive combat state from pre-turn state and applied tool calls.
