@@ -5,7 +5,6 @@ import (
 	"errors"
 	"fmt"
 	"log/slog"
-	"strings"
 	"testing"
 
 	"git.subcult.tv/subculture-collective/edda/internal/llm"
@@ -203,6 +202,30 @@ func TestTurnProcessor_PreservesReceiverStatusCallback(t *testing.T) {
 	}
 	if len(seen) == 0 || seen[0] != "thinking" {
 		t.Fatalf("expected receiver status callback to be preserved, got %v", seen)
+	}
+}
+
+func TestTurnProcessor_EmptyInitialResponseWithoutToolCallsFails(t *testing.T) {
+	reg := tools.NewRegistry()
+	provider := newMockProvider(t, struct {
+		resp *llm.Response
+		err  error
+	}{resp: &llm.Response{Content: "   "}})
+	tp := NewTurnProcessor(provider, reg, tools.NewValidator(reg), nil)
+
+	narrative, applied, err := tp.ProcessWithRecovery(context.Background(), []llm.Message{{Role: llm.RoleUser, Content: "Look around."}}, reg.List())
+
+	if !errors.Is(err, ErrEmptyTurnResponse) {
+		t.Fatalf("expected ErrEmptyTurnResponse, got %v", err)
+	}
+	if narrative != "" {
+		t.Fatalf("narrative = %q, want empty", narrative)
+	}
+	if applied != nil {
+		t.Fatalf("applied = %+v, want nil", applied)
+	}
+	if provider.callCount != 1 {
+		t.Fatalf("provider.callCount = %d, want 1", provider.callCount)
 	}
 }
 
@@ -538,7 +561,7 @@ func TestTurnProcessor_NoToolCalls(t *testing.T) {
 	}
 }
 
-func TestTurnProcessor_DurableClaimRepairRewritesProvisionalNarrative(t *testing.T) {
+func TestTurnProcessor_DurableClaimWithoutRepairToolsFails(t *testing.T) {
 	reg, _ := buildProcessorTestRegistry(t, 0)
 	validator := tools.NewValidator(reg)
 
@@ -564,23 +587,17 @@ func TestTurnProcessor_DurableClaimRepairRewritesProvisionalNarrative(t *testing
 
 	narrative, applied, err := tp.ProcessWithRecovery(context.Background(), messages, reg.List())
 
-	if err != nil {
-		t.Fatalf("ProcessWithRecovery: unexpected error: %v", err)
+	if !errors.Is(err, ErrUnresolvedDurableClaims) {
+		t.Fatalf("expected ErrUnresolvedDurableClaims, got %v", err)
 	}
-	if len(applied) != 0 {
-		t.Fatalf("len(applied) = %d, want 0", len(applied))
+	if narrative != "" {
+		t.Fatalf("narrative = %q, want empty on failure", narrative)
 	}
-	if strings.Contains(strings.ToLower(narrative), "you arrive") {
-		t.Fatalf("narrative still contains durable movement claim: %q", narrative)
-	}
-	if !strings.Contains(narrative, "provisional") {
-		t.Fatalf("narrative = %q, want provisional fallback", narrative)
+	if applied != nil {
+		t.Fatalf("applied = %+v, want nil", applied)
 	}
 	if provider.callCount != 1 {
 		t.Fatalf("provider.callCount = %d, want 1", provider.callCount)
-	}
-	if narrative == "" {
-		t.Fatal("expected repaired narrative to be returned")
 	}
 }
 
@@ -680,7 +697,7 @@ func TestDurableRepairToolsWhitelistsNarrowInventoryAndCombat(t *testing.T) {
 	}
 }
 
-func TestTurnProcessor_FailedMovementToolProvisionalizesNarrativeEvenWithoutPhraseMatch(t *testing.T) {
+func TestTurnProcessor_FailedMovementToolFailsWhenRepairDoesNotApplyMovement(t *testing.T) {
 	reg := tools.NewRegistry()
 	var calls int
 	if err := reg.Register(llm.Tool{
@@ -733,17 +750,14 @@ func TestTurnProcessor_FailedMovementToolProvisionalizesNarrativeEvenWithoutPhra
 	tp := NewTurnProcessor(provider, reg, validator, nil)
 	narrative, applied, err := tp.ProcessWithRecovery(context.Background(), []llm.Message{{Role: llm.RoleUser, Content: "Go there"}}, reg.List())
 
-	if err != nil {
-		t.Fatalf("ProcessWithRecovery: unexpected error: %v", err)
+	if !errors.Is(err, ErrUnresolvedDurableClaims) {
+		t.Fatalf("expected ErrUnresolvedDurableClaims, got %v", err)
 	}
-	if len(applied) != 0 {
-		t.Fatalf("len(applied) = %d, want 0", len(applied))
+	if narrative != "" {
+		t.Fatalf("narrative = %q, want empty on failure", narrative)
 	}
-	if !strings.Contains(strings.ToLower(narrative), "provisional") {
-		t.Fatalf("narrative = %q, want provisional narrative", narrative)
-	}
-	if strings.Contains(strings.ToLower(narrative), "cross the threshold") {
-		t.Fatalf("narrative still contains unconfirmed movement claim: %q", narrative)
+	if applied != nil {
+		t.Fatalf("applied = %+v, want nil", applied)
 	}
 	if calls != 1 {
 		t.Fatalf("calls = %d, want 1", calls)
@@ -804,17 +818,14 @@ func TestTurnProcessor_FailedMovementToolRejectsUnsupportedRepairNarrative(t *te
 	tp := NewTurnProcessor(provider, reg, validator, nil)
 	narrative, applied, err := tp.ProcessWithRecovery(context.Background(), []llm.Message{{Role: llm.RoleUser, Content: "Go there"}}, reg.List())
 
-	if err != nil {
-		t.Fatalf("ProcessWithRecovery: unexpected error: %v", err)
+	if !errors.Is(err, ErrUnresolvedDurableClaims) {
+		t.Fatalf("expected ErrUnresolvedDurableClaims, got %v", err)
 	}
-	if len(applied) != 0 {
-		t.Fatalf("len(applied) = %d, want 0", len(applied))
+	if narrative != "" {
+		t.Fatalf("narrative = %q, want empty on failure", narrative)
 	}
-	if strings.Contains(strings.ToLower(narrative), "cross the threshold") {
-		t.Fatalf("narrative still contains unconfirmed movement claim: %q", narrative)
-	}
-	if !strings.Contains(strings.ToLower(narrative), "provisional") {
-		t.Fatalf("narrative = %q, want forced provisional fallback", narrative)
+	if applied != nil {
+		t.Fatalf("applied = %+v, want nil", applied)
 	}
 	if provider.callCount != 3 {
 		t.Fatalf("provider.callCount = %d, want 3", provider.callCount)
@@ -879,17 +890,14 @@ func TestTurnProcessor_LaterFailedMovementRequiresNewRepairMovement(t *testing.T
 	tp := NewTurnProcessor(provider, reg, validator, nil)
 	narrative, applied, err := tp.ProcessWithRecovery(context.Background(), []llm.Message{{Role: llm.RoleUser, Content: "Go there"}}, reg.List())
 
-	if err != nil {
-		t.Fatalf("ProcessWithRecovery: unexpected error: %v", err)
+	if !errors.Is(err, ErrUnresolvedDurableClaims) {
+		t.Fatalf("expected ErrUnresolvedDurableClaims, got %v", err)
 	}
-	if len(applied) != 1 || applied[0].Tool != "move_player" {
-		t.Fatalf("applied = %#v, want only initial move_player", applied)
+	if narrative != "" {
+		t.Fatalf("narrative = %q, want empty on failure", narrative)
 	}
-	if strings.Contains(strings.ToLower(narrative), "cross the threshold") {
-		t.Fatalf("narrative still contains later unconfirmed movement claim: %q", narrative)
-	}
-	if !strings.Contains(strings.ToLower(narrative), "provisional") {
-		t.Fatalf("narrative = %q, want forced provisional fallback", narrative)
+	if applied != nil {
+		t.Fatalf("applied = %+v, want nil", applied)
 	}
 }
 
@@ -952,17 +960,14 @@ func TestTurnProcessor_TwoFailedMovementObligationsRequireTwoRepairMovements(t *
 	tp := NewTurnProcessor(provider, reg, validator, nil)
 	narrative, applied, err := tp.ProcessWithRecovery(context.Background(), []llm.Message{{Role: llm.RoleUser, Content: "Go twice"}}, reg.List())
 
-	if err != nil {
-		t.Fatalf("ProcessWithRecovery: unexpected error: %v", err)
+	if !errors.Is(err, ErrUnresolvedDurableClaims) {
+		t.Fatalf("expected ErrUnresolvedDurableClaims, got %v", err)
 	}
-	if len(applied) != 1 {
-		t.Fatalf("len(applied) = %d, want one repair movement", len(applied))
+	if narrative != "" {
+		t.Fatalf("narrative = %q, want empty on failure", narrative)
 	}
-	if strings.Contains(strings.ToLower(narrative), "cross into") {
-		t.Fatalf("narrative still accepts one repair movement for two failed obligations: %q", narrative)
-	}
-	if !strings.Contains(strings.ToLower(narrative), "provisional") {
-		t.Fatalf("narrative = %q, want forced provisional fallback", narrative)
+	if applied != nil {
+		t.Fatalf("applied = %+v, want nil", applied)
 	}
 }
 

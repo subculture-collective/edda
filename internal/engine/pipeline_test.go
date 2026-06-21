@@ -3,6 +3,7 @@ package engine
 import (
 	"context"
 	"encoding/json"
+	"errors"
 	"strings"
 	"testing"
 	"time"
@@ -275,6 +276,44 @@ Or describe what you'd like to do—you're never limited to the options above.`}
 	}
 	if state.savedLogs[0].LLMResponse != "The signal pulses faster as night falls." {
 		t.Fatalf("saved log narrative = %q", state.savedLogs[0].LLMResponse)
+	}
+}
+
+func TestEngineProcessTurn_EmptyLLMResponseFailsWithoutSavingSessionLog(t *testing.T) {
+	campaignID := uuid.New()
+	provider := newScriptedProvider(t, scriptedResponse{resp: &llm.Response{Content: ""}})
+	state := &fakeStateManager{state: makePipelineState(campaignID)}
+	engine := newPipelineTestEngine(state, provider, tools.NewRegistry())
+
+	result, err := engine.ProcessTurn(context.Background(), campaignID, "Study the silent well.")
+
+	if result != nil {
+		t.Fatalf("result = %+v, want nil", result)
+	}
+	if !errors.Is(err, ErrEmptyTurnResponse) {
+		t.Fatalf("expected ErrEmptyTurnResponse, got %v", err)
+	}
+	if len(state.savedLogs) != 0 {
+		t.Fatalf("saved logs = %d, want 0", len(state.savedLogs))
+	}
+}
+
+func TestEngineProcessTurn_UnparseableChoicesFailsWithoutSavingSessionLog(t *testing.T) {
+	campaignID := uuid.New()
+	provider := newScriptedProvider(t, scriptedResponse{resp: &llm.Response{Content: "The well opens its black eye.\n\n**Choices:**"}})
+	state := &fakeStateManager{state: makePipelineState(campaignID)}
+	engine := newPipelineTestEngine(state, provider, tools.NewRegistry())
+
+	result, err := engine.ProcessTurn(context.Background(), campaignID, "Wait for options.")
+
+	if result != nil {
+		t.Fatalf("result = %+v, want nil", result)
+	}
+	if !errors.Is(err, ErrUnparseableChoices) {
+		t.Fatalf("expected ErrUnparseableChoices, got %v", err)
+	}
+	if len(state.savedLogs) != 0 {
+		t.Fatalf("saved logs = %d, want 0", len(state.savedLogs))
 	}
 }
 
