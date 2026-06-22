@@ -23,6 +23,20 @@ func TestAuditDurableClaimsFlagsThresholdMovement(t *testing.T) {
 	}
 }
 
+func TestAuditDurableClaimsFlagsStepBackMovement(t *testing.T) {
+	issues := AuditDurableClaims("You step back through the doorway into the Entry Chamber.", nil, []string{"move_player"})
+	if len(issues) != 1 || issues[0].Kind != DurableClaimMovement {
+		t.Fatalf("expected movement issue, got %#v", issues)
+	}
+}
+
+func TestAuditDurableClaimsFlagsRetraceMovement(t *testing.T) {
+	issues := AuditDurableClaims("You retrace your steps to the Entry Chamber.", nil, []string{"move_player"})
+	if len(issues) != 1 || issues[0].Kind != DurableClaimMovement {
+		t.Fatalf("expected movement issue, got %#v", issues)
+	}
+}
+
 func TestAuditDurableClaimsRejectsReturnViewAgainAsMovement(t *testing.T) {
 	issues := AuditDurableClaims("The drone comes into view again.", nil, []string{"move_player"})
 	if len(issues) != 0 {
