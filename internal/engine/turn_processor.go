@@ -137,6 +137,17 @@ func (tp *TurnProcessor) ProcessWithRecoveryWithOptions(
 
 	narrative = resp.Content
 	tp.logger.Info("turn processor initial llm response", "tool_calls", len(resp.ToolCalls), "tool_call_names", toolCallNames(resp.ToolCalls), "narrative_len", len(narrative), "finish_reason", resp.FinishReason)
+	if len(resp.ToolCalls) == 0 && strings.TrimSpace(narrative) == "" {
+		tp.logger.Warn("turn processor received empty initial response; requesting regeneration", "duration_ms", time.Since(started).Milliseconds(), "finish_reason", resp.FinishReason)
+		regenResp, regenErr := tp.regenerateEmptyInitialResponse(ctx, messages, availableTools)
+		if regenErr != nil {
+			tp.logger.Error("turn processor empty-response regeneration failed", "duration_ms", time.Since(started).Milliseconds(), "error", regenErr)
+			return "", nil, ErrEmptyTurnResponse
+		}
+		resp = regenResp
+		narrative = resp.Content
+		tp.logger.Info("turn processor regenerated initial llm response", "tool_calls", len(resp.ToolCalls), "tool_call_names", toolCallNames(resp.ToolCalls), "narrative_len", len(narrative), "finish_reason", resp.FinishReason)
+	}
 
 	allowed := make(map[string]struct{}, len(availableTools))
 	for _, t := range availableTools {
@@ -250,6 +261,23 @@ func (tp *TurnProcessor) ProcessWithRecoveryWithOptions(
 
 	tp.logger.Info("turn processor completed", "duration_ms", time.Since(started).Milliseconds(), "applied_tool_calls", len(applied), "applied_tool_names", appliedToolNames(applied), "narrative_len", len(narrative))
 	return narrative, applied, nil
+}
+
+func (tp *TurnProcessor) regenerateEmptyInitialResponse(ctx context.Context, messages []llm.Message, availableTools []llm.Tool) (*llm.Response, error) {
+	regenMessages := make([]llm.Message, len(messages), len(messages)+1)
+	copy(regenMessages, messages)
+	regenMessages = append(regenMessages, llm.Message{
+		Role:    llm.RoleUser,
+		Content: "Your previous response was empty. Regenerate the turn response now. Resolve the player's action with either player-facing narrative text, valid tool calls, or both. Do not return an empty response.",
+	})
+	resp, err := tp.provider.Complete(ctx, regenMessages, availableTools)
+	if err != nil {
+		return nil, fmt.Errorf("empty-response regeneration LLM call: %w", err)
+	}
+	if resp == nil || (strings.TrimSpace(resp.Content) == "" && len(resp.ToolCalls) == 0) {
+		return nil, ErrEmptyTurnResponse
+	}
+	return resp, nil
 }
 
 func (tp *TurnProcessor) completeInitialWithRetry(ctx context.Context, messages []llm.Message, availableTools []llm.Tool) (*llm.Response, error) {

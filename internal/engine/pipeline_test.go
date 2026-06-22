@@ -281,7 +281,7 @@ Or describe what you'd like to do—you're never limited to the options above.`}
 
 func TestEngineProcessTurn_EmptyLLMResponseFailsWithoutSavingSessionLog(t *testing.T) {
 	campaignID := uuid.New()
-	provider := newScriptedProvider(t, scriptedResponse{resp: &llm.Response{Content: ""}})
+	provider := newScriptedProvider(t, scriptedResponse{resp: &llm.Response{Content: ""}}, scriptedResponse{resp: &llm.Response{Content: ""}})
 	state := &fakeStateManager{state: makePipelineState(campaignID)}
 	engine := newPipelineTestEngine(state, provider, tools.NewRegistry())
 

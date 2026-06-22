@@ -178,6 +178,58 @@ func TestTurnProcessor_RetrySucceeds(t *testing.T) {
 	}
 }
 
+func TestTurnProcessor_RegeneratesEmptyInitialResponse(t *testing.T) {
+	reg, _ := buildProcessorTestRegistry(t, 0)
+	provider := newMockProvider(t,
+		struct {
+			resp *llm.Response
+			err  error
+		}{resp: &llm.Response{Content: "", ToolCalls: nil}},
+		struct {
+			resp *llm.Response
+			err  error
+		}{resp: &llm.Response{Content: "You steady yourself and move forward."}},
+	)
+	tp := NewTurnProcessor(provider, reg, tools.NewValidator(reg), nil)
+
+	narrative, applied, err := tp.ProcessWithRecovery(context.Background(), []llm.Message{{Role: llm.RoleUser, Content: "Continue."}}, nil)
+	if err != nil {
+		t.Fatalf("ProcessWithRecovery() error = %v", err)
+	}
+	if narrative != "You steady yourself and move forward." {
+		t.Fatalf("narrative = %q", narrative)
+	}
+	if len(applied) != 0 {
+		t.Fatalf("applied tool calls = %d, want 0", len(applied))
+	}
+	if provider.callCount != 2 {
+		t.Fatalf("provider calls = %d, want 2", provider.callCount)
+	}
+}
+
+func TestTurnProcessor_RegenerationEmptyStillFails(t *testing.T) {
+	reg, _ := buildProcessorTestRegistry(t, 0)
+	provider := newMockProvider(t,
+		struct {
+			resp *llm.Response
+			err  error
+		}{resp: &llm.Response{Content: "", ToolCalls: nil}},
+		struct {
+			resp *llm.Response
+			err  error
+		}{resp: &llm.Response{Content: "", ToolCalls: nil}},
+	)
+	tp := NewTurnProcessor(provider, reg, tools.NewValidator(reg), nil)
+
+	_, _, err := tp.ProcessWithRecovery(context.Background(), []llm.Message{{Role: llm.RoleUser, Content: "Continue."}}, nil)
+	if !errors.Is(err, ErrEmptyTurnResponse) {
+		t.Fatalf("error = %v, want ErrEmptyTurnResponse", err)
+	}
+	if provider.callCount != 2 {
+		t.Fatalf("provider calls = %d, want 2", provider.callCount)
+	}
+}
+
 func TestTurnProcessor_PreservesReceiverStatusCallback(t *testing.T) {
 	reg := tools.NewRegistry()
 	if err := reg.Register(llm.Tool{Name: "mock_tool", Description: "test", Parameters: map[string]any{"type": "object", "properties": map[string]any{}, "additionalProperties": false}}, func(context.Context, map[string]any) (*tools.ToolResult, error) {
@@ -207,10 +259,16 @@ func TestTurnProcessor_PreservesReceiverStatusCallback(t *testing.T) {
 
 func TestTurnProcessor_EmptyInitialResponseWithoutToolCallsFails(t *testing.T) {
 	reg := tools.NewRegistry()
-	provider := newMockProvider(t, struct {
-		resp *llm.Response
-		err  error
-	}{resp: &llm.Response{Content: "   "}})
+	provider := newMockProvider(t,
+		struct {
+			resp *llm.Response
+			err  error
+		}{resp: &llm.Response{Content: "   "}},
+		struct {
+			resp *llm.Response
+			err  error
+		}{resp: &llm.Response{Content: ""}},
+	)
 	tp := NewTurnProcessor(provider, reg, tools.NewValidator(reg), nil)
 
 	narrative, applied, err := tp.ProcessWithRecovery(context.Background(), []llm.Message{{Role: llm.RoleUser, Content: "Look around."}}, reg.List())
@@ -224,8 +282,8 @@ func TestTurnProcessor_EmptyInitialResponseWithoutToolCallsFails(t *testing.T) {
 	if applied != nil {
 		t.Fatalf("applied = %+v, want nil", applied)
 	}
-	if provider.callCount != 1 {
-		t.Fatalf("provider.callCount = %d, want 1", provider.callCount)
+	if provider.callCount != 2 {
+		t.Fatalf("provider.callCount = %d, want 2", provider.callCount)
 	}
 }
 
