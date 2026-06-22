@@ -358,6 +358,7 @@ func serializeState(state *game.GameState) string {
 	if len(state.ActiveCombatState) > 0 {
 		sb.WriteString("### Combat State\n")
 		sb.WriteString("Use this exact combat_state object for combat_round or resolve_combat; do not invent combat_state IDs or combatant IDs.\n")
+		sb.WriteString("If the player asks to resolve, end, flee, surrender, or conclude combat, prefer resolve_combat. Use combat_round only for another exchange inside an ongoing fight.\n")
 		var compact bytes.Buffer
 		if json.Compact(&compact, state.ActiveCombatState) == nil {
 			sb.WriteString(compact.String())

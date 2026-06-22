@@ -452,6 +452,8 @@ func TestSerializeState_ActiveCombatState(t *testing.T) {
 	for _, want := range []string{
 		"### Combat State",
 		"Use this exact combat_state object",
+		"prefer resolve_combat",
+		"Use combat_round only for another exchange",
 		`"id":"11111111-1111-1111-1111-111111111111"`,
 		`"status":"active"`,
 		`"round_number":2`,
