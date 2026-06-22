@@ -55,6 +55,10 @@ type environmentJSON struct {
 }
 
 func parseCombatStateArg(args map[string]any, key string) (*combat.CombatState, error) {
+	return parseCombatStateArgWithCampaignFallback(args, key, uuid.Nil)
+}
+
+func parseCombatStateArgWithCampaignFallback(args map[string]any, key string, fallbackCampaignID uuid.UUID) (*combat.CombatState, error) {
 	raw, ok := args[key]
 	if !ok {
 		return nil, fmt.Errorf("%s is required", key)
@@ -80,7 +84,11 @@ func parseCombatStateArg(args map[string]any, key string) (*combat.CombatState, 
 	}
 	campaignID, err := uuid.Parse(csj.CampaignID)
 	if err != nil {
-		return nil, fmt.Errorf("%s.campaign_id must be a valid UUID", key)
+		if csj.CampaignID == "" && fallbackCampaignID != uuid.Nil {
+			campaignID = fallbackCampaignID
+		} else {
+			return nil, fmt.Errorf("%s.campaign_id must be a valid UUID", key)
+		}
 	}
 
 	combatants := make([]combat.Combatant, 0, len(csj.Combatants))

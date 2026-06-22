@@ -60,7 +60,7 @@ func NewApplyDamageHandler() *ApplyDamageHandler {
 }
 
 // Handle executes the apply_damage tool.
-func (h *ApplyDamageHandler) Handle(_ context.Context, args map[string]any) (*ToolResult, error) {
+func (h *ApplyDamageHandler) Handle(ctx context.Context, args map[string]any) (*ToolResult, error) {
 	if h == nil {
 		return nil, errors.New("apply_damage handler is nil")
 	}
@@ -84,7 +84,8 @@ func (h *ApplyDamageHandler) Handle(_ context.Context, args map[string]any) (*To
 	if err != nil {
 		return nil, err
 	}
-	state, err := parseCombatStateArg(args, "combat_state")
+	fallbackCampaignID, _ := CurrentCampaignIDFromContext(ctx)
+	state, err := parseCombatStateArgWithCampaignFallback(args, "combat_state", fallbackCampaignID)
 	if err != nil {
 		return nil, err
 	}

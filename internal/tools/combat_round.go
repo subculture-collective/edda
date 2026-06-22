@@ -184,7 +184,8 @@ func (h *CombatRoundHandler) Handle(ctx context.Context, args map[string]any) (*
 	}
 
 	// Parse and advance combat state.
-	state, err := parseCombatStateArg(args, "combat_state")
+	fallbackCampaignID, _ := CurrentCampaignIDFromContext(ctx)
+	state, err := parseCombatStateArgWithCampaignFallback(args, "combat_state", fallbackCampaignID)
 	if err != nil {
 		return nil, err
 	}
