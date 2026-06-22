@@ -2,6 +2,7 @@ package game
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 
 	"github.com/google/uuid"
@@ -89,6 +90,9 @@ func (l *StateLoader) Load(ctx context.Context, campaignID uuid.UUID) (*GameStat
 
 	// Derive combat flag from player status.
 	state.CombatActive = state.Player.Status == "in_combat"
+	if state.CombatActive {
+		state.ActiveCombatState = l.loadActiveCombatState(ctx, pgID)
+	}
 
 	// Campaign time — raw SQL since campaign_time is not in sqlc yet.
 	if l.db != nil {
@@ -100,6 +104,77 @@ func (l *StateLoader) Load(ctx context.Context, campaignID uuid.UUID) (*GameStat
 	}
 
 	return state, nil
+}
+
+func (l *StateLoader) loadActiveCombatState(ctx context.Context, pgID pgtype.UUID) json.RawMessage {
+	logs, err := l.queries.ListRecentSessionLogs(ctx, statedb.ListRecentSessionLogsParams{
+		CampaignID: pgID,
+		LimitCount: 25,
+	})
+	if err != nil {
+		return nil
+	}
+	return activeCombatStateFromSessionLogs(sessionLogsToDomain(logs))
+}
+
+type appliedToolLog struct {
+	Tool   string          `json:"Tool"`
+	Result json.RawMessage `json:"Result"`
+}
+
+func activeCombatStateFromSessionLogs(logs []domain.SessionLog) json.RawMessage {
+	var active json.RawMessage
+	for _, log := range logs {
+		if len(log.ToolCalls) == 0 {
+			continue
+		}
+		var applied []appliedToolLog
+		if err := json.Unmarshal(log.ToolCalls, &applied); err != nil {
+			continue
+		}
+		for _, call := range applied {
+			state := combatStateJSONFromResult(call.Result)
+			if len(state) == 0 {
+				continue
+			}
+			if combatStateStatus(state) == "active" {
+				active = append(json.RawMessage(nil), state...)
+				continue
+			}
+			if call.Tool == "resolve_combat" {
+				active = nil
+			}
+		}
+	}
+	return active
+}
+
+func combatStateJSONFromResult(result json.RawMessage) json.RawMessage {
+	if len(result) == 0 {
+		return nil
+	}
+	var data map[string]json.RawMessage
+	if err := json.Unmarshal(result, &data); err != nil {
+		return nil
+	}
+	state := data["combat_state"]
+	if len(state) == 0 {
+		return nil
+	}
+	return state
+}
+
+func combatStateStatus(state json.RawMessage) string {
+	var data struct {
+		Status string `json:"status"`
+	}
+	if err := json.Unmarshal(state, &data); err != nil {
+		return ""
+	}
+	if data.Status == "" {
+		return "active"
+	}
+	return data.Status
 }
 
 func (l *StateLoader) loadCampaign(ctx context.Context, pgID pgtype.UUID, state *GameState) error {
