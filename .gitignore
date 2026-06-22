@@ -18,6 +18,8 @@ dist/
 
 .pi-lens/
 .logs/
+
+# Generated local run artifacts, including Edda gauntlet and prompt benchmarks.
 /logs
 frontend/node_modules/
 frontend/dist/
