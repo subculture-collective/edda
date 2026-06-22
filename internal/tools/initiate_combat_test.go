@@ -169,6 +169,20 @@ func TestInitiateCombatHandleSingleEnemyCreatesNPCAndEntersCombatMode(t *testing
 	if len(order) != 2 {
 		t.Fatalf("initiative order len = %d, want 2", len(order))
 	}
+	combatState, ok := result.Data["combat_state"].(map[string]any)
+	if !ok {
+		t.Fatalf("combat_state type = %T, want map[string]any", result.Data["combat_state"])
+	}
+	if combatState["id"] != result.Data["combat_state_id"] {
+		t.Fatalf("combat_state.id = %v, want combat_state_id %v", combatState["id"], result.Data["combat_state_id"])
+	}
+	combatants, ok := combatState["combatants"].([]map[string]any)
+	if !ok {
+		t.Fatalf("combat_state.combatants type = %T, want []map[string]any", combatState["combatants"])
+	}
+	if len(combatants) != 2 {
+		t.Fatalf("combat_state combatants len = %d, want 2", len(combatants))
+	}
 }
 
 func TestInitiateCombatHandleMultipleEnemiesReusesExistingNPCs(t *testing.T) {
