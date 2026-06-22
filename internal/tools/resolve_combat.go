@@ -144,7 +144,8 @@ func (h *ResolveCombatHandler) Handle(ctx context.Context, args map[string]any) 
 		return nil, errors.New("resolve_combat requires current player character id in context")
 	}
 
-	state, err := parseCombatStateArg(args, "combat_state")
+	fallbackCampaignID, _ := CurrentCampaignIDFromContext(ctx)
+	state, err := parseCombatStateArgWithCampaignFallback(args, "combat_state", fallbackCampaignID)
 	if err != nil {
 		return nil, err
 	}
