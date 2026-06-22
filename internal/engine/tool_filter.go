@@ -136,12 +136,7 @@ func (f *PhaseToolFilter) Filter(state *game.GameState, allTools []llm.Tool) []l
 		}
 	}
 
-	// Handle tools with dual category membership: initiate_combat is in both
-	// combat and exploration categories, and update_player_status is in both
-	// combat and progression categories in the original design.
-	if phase == PhaseCombat {
-		allowed["initiate_combat"] = struct{}{}
-	}
+	// update_player_status is useful both in combat and progression contexts.
 	allowed["update_player_status"] = struct{}{}
 	if nearLevelThreshold(state) {
 		allowed["update_player_stats"] = struct{}{}
