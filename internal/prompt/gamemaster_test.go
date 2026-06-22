@@ -18,7 +18,6 @@ func TestGameMasterPromptSections(t *testing.T) {
 	}{
 		{"narrative voice", "NARRATIVE VOICE AND TONE"},
 		{"tool usage", "TOOL USAGE GUIDELINES"},
-		{"choice presentation", "CHOICE PRESENTATION"},
 		{"combat guidelines", "COMBAT GUIDELINES"},
 		{"pacing guidelines", "PACING GUIDELINES"},
 		{"consistency rules", "CONSISTENCY RULES"},
@@ -126,12 +125,17 @@ func TestGameMasterPromptNarrativeVoice(t *testing.T) {
 	}
 }
 
-func TestGameMasterPromptChoiceGuidelines(t *testing.T) {
-	if !strings.Contains(GameMaster, "3 and 5") {
-		t.Fatal("GameMaster prompt must specify offering 3 to 5 choices")
+func TestGameMasterPromptDoesNotOwnChoiceGeneration(t *testing.T) {
+	forbidden := []string{
+		"CHOICE PRESENTATION",
+		"Always offer between 3 and 5",
+		"never limited to the options above",
+		"present choices",
 	}
-	if !strings.Contains(GameMaster, "never limited to the options above") {
-		t.Fatal("GameMaster prompt must signal that free input is welcome")
+	for _, phrase := range forbidden {
+		if strings.Contains(GameMaster, phrase) {
+			t.Fatalf("GameMaster prompt should leave choice generation to the post-turn choice pass; found %q", phrase)
+		}
 	}
 }
 

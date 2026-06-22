@@ -13,7 +13,7 @@ import (
 func (e *Engine) completeStage() Stage {
 	return func(ctx context.Context, tc *TurnContext) error {
 		started := time.Now()
-		if err := NewTurnCompleter(e).CompleteAndPersist(ctx, tc); err != nil {
+		if err := NewTurnCompleter(e, e.choiceProvider).CompleteAndPersist(ctx, tc); err != nil {
 			return err
 		}
 		tc.Logger.Debug("turn completion finished", "campaign_id", tc.CampaignID, "duration_ms", time.Since(started).Milliseconds())

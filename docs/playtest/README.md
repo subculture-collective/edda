@@ -10,6 +10,41 @@
 
 Use `scripts/edda_mechanics_gauntlet.py` to smoke-test durable mechanics on a disposable campaign.
 
+To rotate a set of models through the full live gauntlet, let the script manage a local dev server for each model. Stop any already-running local Edda API first; the script refuses to manage the server if `--base-url` is already healthy.
+
+```bash
+python3 scripts/edda_mechanics_gauntlet.py \
+  --manage-server \
+  --model qwen/qwen3-235b-a22b-2507 \
+  --model openai/gpt-5-nano
+```
+
+Model rotation uses `.env` plus per-model overrides such as `EDDA_LLM_PROVIDER=openrouter` and `EDDA_LLM_OPENROUTER_MODEL=<model>`. Each model gets a fresh disposable campaign and its own artifact subdirectory under `logs/edda/gauntlet-models-*`.
+
+For manual model/rules playtesting, use [`dummy-turn-prompts.md`](./dummy-turn-prompts.md). It contains disposable player-input prompts for exploration, D&D-style checks, narrative resolution, quest creation/progress, inventory, NPCs, combat, rest, time pressure, fact revision, save/resume continuity, and failure-with-progress.
+
+For model-prompt testing, use [`assembled-prompt-fixtures.md`](./assembled-prompt-fixtures.md). It contains full hypothetical LLM message arrays: system prompt shape, serialized state, history/memory messages, current user input, filtered tool names, and expected tool/state behavior.
+
+To benchmark those assembled prompt fixtures across OpenRouter models without mutating any Edda campaign state, use `scripts/benchmark_prompt_fixtures.py`:
+
+```bash
+export OPENROUTER_API_KEY=<key>
+python3 scripts/benchmark_prompt_fixtures.py \
+  --model qwen/qwen3-235b-a22b-2507 \
+  --model openai/gpt-5-nano
+```
+
+Useful safe checks:
+
+```bash
+python3 scripts/benchmark_prompt_fixtures.py --dry-run
+python3 scripts/benchmark_prompt_fixtures.py --dry-run --fixture combat --model openai/gpt-5-nano
+```
+
+The benchmark expands `{{GAMEMASTER_PROMPT}}` from `internal/prompt/gamemaster.txt`, sends representative tool stubs from each fixture's filtered tool list, and records the model's first response: narrative text, requested tool calls, latency, and token usage. It writes JSONL/CSV/Markdown artifacts under `logs/edda/prompt-benchmark-*`.
+
+This is useful for evaluating prompt adherence and first-pass tool-call intent across models. It does **not** execute real Edda tool handlers or mutate campaign/database state. Use `scripts/edda_mechanics_gauntlet.py` for live full-turn API evaluation with real DB-backed tools.
+
 ```bash
 python3 scripts/edda_mechanics_gauntlet.py
 ```

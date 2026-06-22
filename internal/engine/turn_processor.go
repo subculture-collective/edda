@@ -42,11 +42,25 @@ type StatusCallback func(api.StatusPayload)
 // TurnProcessor handles the tool-call portion of the turn pipeline with
 // built-in error recovery and optional status callbacks.
 type TurnProcessor struct {
-	logger         *slog.Logger
-	provider       llm.Provider
-	registry       *tools.Registry
-	validator      *tools.Validator
-	StatusCallback StatusCallback
+	logger           *slog.Logger
+	provider         llm.Provider
+	postTurnProvider llm.Provider
+	registry         *tools.Registry
+	validator        *tools.Validator
+	StatusCallback   StatusCallback
+}
+
+// SetPostTurnProvider routes durable repair and post-turn extraction calls to a
+// separate provider. Passing nil restores fallback to the main turn provider.
+func (tp *TurnProcessor) SetPostTurnProvider(provider llm.Provider) {
+	tp.postTurnProvider = provider
+}
+
+func (tp *TurnProcessor) postTurnLLM() llm.Provider {
+	if tp.postTurnProvider != nil {
+		return tp.postTurnProvider
+	}
+	return tp.provider
 }
 
 // TurnProcessorOptions configures per-call processor behavior.
@@ -424,7 +438,7 @@ func (tp *TurnProcessor) repairDurableClaims(ctx context.Context, messages []llm
 	repairMessages = append(repairMessages, llm.Message{Role: llm.RoleAssistant, Content: narrative})
 	repairMessages = append(repairMessages, llm.Message{Role: llm.RoleUser, Content: durableRepairPrompt(narrative, applied, issues)})
 
-	resp, err := tp.provider.Complete(ctx, repairMessages, repairTools)
+	resp, err := tp.postTurnLLM().Complete(ctx, repairMessages, repairTools)
 	if err != nil {
 		tp.logger.Error("durable-claim repair call failed", "error", err)
 		return "", nil, fmt.Errorf("%w: repair call failed: %v", ErrUnresolvedDurableClaims, err)
@@ -545,43 +559,58 @@ func (tp *TurnProcessor) finalizeResponseState(ctx context.Context, messages []l
 	return narrative, applied, nil
 }
 
-// extractDurableState runs a single post-turn extraction pass that handles both
-// durable lore facts and quest goals in one LLM call, replacing the previous
-// separate lore-extraction and quest-extraction passes.
+// extractDurableState runs two sequential post-turn extraction passes:
+//  1. Lore extraction (establish_fact only) — single-purpose prompt.
+//  2. Quest extraction (create_quest / update_quest only) — separate prompt.
+//
+// Splitting them avoids the model ignoring the second task, which happened
+// with weaker models when both were combined in one prompt.
 func (tp *TurnProcessor) extractDurableState(ctx context.Context, messages []llm.Message, availableTools []llm.Tool, narrative string, applied []AppliedToolCall) []AppliedToolCall {
-	extractionTools := durableStateExtractionTools(availableTools)
-	if len(extractionTools) == 0 || strings.TrimSpace(narrative) == "" {
+	if strings.TrimSpace(narrative) == "" {
 		return applied
 	}
 
 	hasFact := countAppliedSatisfyingDurableKind(applied, DurableClaimFact) > 0
 	hasQuest := countAppliedSatisfyingDurableKind(applied, DurableClaimQuest) > 0
-	if hasFact && hasQuest {
-		return applied
+
+	// Pass 1: lore facts (single-purpose — establish_fact only).
+	if !hasFact {
+		factTools := durableLoreExtractionTools(availableTools)
+		if len(factTools) > 0 {
+			extractionMessages := make([]llm.Message, len(messages), len(messages)+2)
+			copy(extractionMessages, messages)
+			extractionMessages = append(extractionMessages, llm.Message{Role: llm.RoleAssistant, Content: narrative})
+			extractionMessages = append(extractionMessages, llm.Message{Role: llm.RoleUser, Content: durableLoreExtractionPromptV2(narrative)})
+
+			applied = tp.runPostTurnExtractionTools(ctx, extractionMessages, factTools, applied, "lore extraction", func(name string) bool {
+				return name == "establish_fact"
+			})
+		}
 	}
 
-	extractionMessages := make([]llm.Message, len(messages), len(messages)+2)
-	copy(extractionMessages, messages)
-	extractionMessages = append(extractionMessages, llm.Message{Role: llm.RoleAssistant, Content: narrative})
-	extractionMessages = append(extractionMessages, llm.Message{Role: llm.RoleUser, Content: durableStateExtractionPrompt(narrative, hasFact, hasQuest)})
+	// Pass 2: quest goals (single-purpose — create_quest / update_quest only).
+	if !hasQuest {
+		questTools := questOnlyExtractionTools(availableTools)
+		if len(questTools) > 0 {
+			extractionMessages := make([]llm.Message, len(messages), len(messages)+2)
+			copy(extractionMessages, messages)
+			extractionMessages = append(extractionMessages, llm.Message{Role: llm.RoleAssistant, Content: narrative})
+			extractionMessages = append(extractionMessages, llm.Message{Role: llm.RoleUser, Content: questOnlyExtractionPrompt(narrative)})
 
-	applied = tp.runPostTurnExtractionTools(ctx, extractionMessages, extractionTools, applied, "durable state extraction", func(name string) bool {
-		switch name {
-		case "establish_fact":
-			return !hasFact
-		case "create_quest", "update_quest":
-			return !hasQuest
+			applied = tp.runPostTurnExtractionTools(ctx, extractionMessages, questTools, applied, "quest extraction", func(name string) bool {
+				return name == "create_quest" || name == "update_quest"
+			})
 		}
-		return false
-	})
+	}
+
 	return applied
 }
 
-func durableStateExtractionTools(availableTools []llm.Tool) []llm.Tool {
+func questOnlyExtractionTools(availableTools []llm.Tool) []llm.Tool {
 	wanted := map[string]struct{}{}
 	for _, tool := range availableTools {
 		switch tool.Name {
-		case "establish_fact", "create_quest", "update_quest":
+		case "create_quest", "update_quest":
 			wanted[tool.Name] = struct{}{}
 		}
 	}
@@ -594,29 +623,16 @@ func durableStateExtractionTools(availableTools []llm.Tool) []llm.Tool {
 	return filtered
 }
 
-func durableStateExtractionPrompt(narrative string, hasFact, hasQuest bool) string {
-	var sections []string
+func durableLoreExtractionPromptV2(narrative string) string {
+	return fmt.Sprintf("Extract durable canonical facts from the narrative below. Call establish_fact for each NEW fact the player learned (max 3). Use categories: lore, history, hazard, faction, location, relic, mechanism, or magic. Skip facts already listed in the system message's World Facts section. Skip vague atmosphere, restatements, or one-off descriptions. If no new durable lore, call no tools and return no prose.\n\nNarrative: %s", narrative)
+}
 
-	if !hasFact {
-		sections = append(sections, fmt.Sprintf(
-			"LORE: Review the narrative for durable canonical facts the player learned: named relics, factions, places, hazards, history, world conditions, NPC-revealed facts, mechanism rules, or conditional lore (e.g. \"if X happens, Y occurs\"). If any such durable lore was asserted as true, call establish_fact for each concise fact (max 3 per turn). Use categories: lore, history, hazard, faction, location, relic, mechanism, or magic. Skip vague atmosphere, restatements of already-known information, or one-off descriptions. If no durable lore was established, do not call establish_fact."))
-	}
-
-	if !hasQuest {
-		sections = append(sections, fmt.Sprintf(
-			"QUESTS: Review the narrative for clear actionable campaign goals. Create or update a quest only when the narrative establishes a concrete next goal, obligation, investigation thread, or multi-step task (e.g. find all fragments, reinforce the seal, locate a sanctuary, track a named antagonist, recover a named relic). If an active quest already exists in the system message's Active Quests section and the narrative advances it, use update_quest with that quest's ID to add objectives or update its description. Otherwise use create_quest for a new goal with 1-3 ordered objectives. Do not create quests for vague atmosphere, one-off actions already resolved, or mere lore."))
-	}
-
-	if len(sections) == 0 {
-		return "No extraction needed."
-	}
-
-	prompt := strings.Join(sections, "\n\n")
-	return fmt.Sprintf("%s\n\nIf nothing needs persisting, call no tools and return no prose whatsoever.\n\nPrevious narrative: %s", prompt, narrative)
+func questOnlyExtractionPrompt(narrative string) string {
+	return fmt.Sprintf("Extract quest goals from the narrative below. If the narrative establishes a concrete multi-step goal the player should track (e.g. find fragments, reinforce a seal, locate a sanctuary, track an antagonist, recover a relic, perform a ritual), call create_quest with a short title, 1-sentence description, quest_type \"short_term\", and 1-3 ordered objectives. If an active quest already exists in the system message's Active Quests section and the narrative advances it, use update_quest with that quest's ID. Do NOT create quests for vague atmosphere, one-off actions, or mere lore. If no quest-shaped goal, call no tools and return no prose.\n\nNarrative: %s", narrative)
 }
 
 func (tp *TurnProcessor) runPostTurnExtractionTools(ctx context.Context, messages []llm.Message, extractionTools []llm.Tool, applied []AppliedToolCall, label string, acceptTool func(string) bool) []AppliedToolCall {
-	resp, err := tp.provider.Complete(ctx, messages, extractionTools)
+	resp, err := tp.postTurnLLM().Complete(ctx, messages, extractionTools)
 	if err != nil {
 		tp.logger.Warn(label+" failed", "error", err)
 		return applied

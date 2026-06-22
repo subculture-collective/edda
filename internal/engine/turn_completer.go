@@ -3,19 +3,22 @@ package engine
 import (
 	"context"
 	"fmt"
+	"strings"
 	"time"
 
 	"git.subcult.tv/subculture-collective/edda/internal/domain"
+	"git.subcult.tv/subculture-collective/edda/internal/llm"
 )
 
 // TurnCompleter owns the deterministic post-LLM turn completion work: turning
 // raw narrative plus applied tool calls into one persisted, player-facing turn.
 type TurnCompleter struct {
-	engine *Engine
+	engine   *Engine
+	provider llm.Provider
 }
 
-func NewTurnCompleter(engine *Engine) *TurnCompleter {
-	return &TurnCompleter{engine: engine}
+func NewTurnCompleter(engine *Engine, provider llm.Provider) *TurnCompleter {
+	return &TurnCompleter{engine: engine, provider: provider}
 }
 
 func (c *TurnCompleter) CompleteAndPersist(ctx context.Context, tc *TurnContext) error {
@@ -32,6 +35,15 @@ func (c *TurnCompleter) CompleteAndPersist(ctx context.Context, tc *TurnContext)
 		)
 		return fmt.Errorf("complete turn: %w", err)
 	}
+
+	// If no choices were parsed from the narrative, ask the model to generate some.
+	if len(choices) == 0 && c.provider != nil {
+		generated, genErr := c.generateChoices(ctx, tc.Narrative)
+		if genErr == nil && len(generated) > 0 {
+			choices = generated
+		}
+	}
+
 	tc.Narrative, tc.Choices = cleaned, choices
 	tc.CombatActive = combatActiveAfterApplied(tc.State.CombatActive, tc.Applied)
 	tc.StateChanges = StateChangesFromAppliedToolCalls(tc.Applied)
@@ -71,6 +83,44 @@ func (c *TurnCompleter) CompleteAndPersist(ctx context.Context, tc *TurnContext)
 	c.engine.autoSummarizeIfNeeded(ctx, tc.CampaignID, tc.TurnNumber)
 
 	return nil
+}
+
+// generateChoices asks the model to produce 3-5 choices based on the narrative.
+func (c *TurnCompleter) generateChoices(ctx context.Context, narrative string) ([]Choice, error) {
+	messages := []llm.Message{
+		{Role: llm.RoleSystem, Content: "You are a choice generator for a tabletop RPG. Given a narrative scene, produce 3-5 distinct, concrete player choices. Each choice should be a single imperative sentence. Number them 1. 2. 3. etc. Return ONLY the numbered list, no other text."},
+		{Role: llm.RoleUser, Content: fmt.Sprintf("Generate 3-5 player choices for this scene:\n\n%s", narrative)},
+	}
+
+	resp, err := c.provider.Complete(ctx, messages, nil)
+	if err != nil {
+		return nil, fmt.Errorf("generate choices: %w", err)
+	}
+
+	return parseGeneratedChoices(resp.Content), nil
+}
+
+// parseGeneratedChoices extracts numbered choices from model output.
+func parseGeneratedChoices(text string) []Choice {
+	var choices []Choice
+	lines := strings.Split(text, "\n")
+	for i, line := range lines {
+		line = strings.TrimSpace(line)
+		if line == "" {
+			continue
+		}
+		// Match "1. text" or "1) text" patterns.
+		for _, prefix := range []string{fmt.Sprintf("%d.", i+1), fmt.Sprintf("%d)", i+1)} {
+			if after, ok := strings.CutPrefix(line, prefix); ok {
+				text := strings.TrimSpace(after)
+				if text != "" {
+					choices = append(choices, Choice{ID: fmt.Sprintf("%d", i+1), Text: text})
+				}
+				break
+			}
+		}
+	}
+	return choices
 }
 
 func combatActiveAfterApplied(initial bool, applied []AppliedToolCall) bool {
