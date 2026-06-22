@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"log/slog"
+	"strings"
 	"testing"
 
 	"git.subcult.tv/subculture-collective/edda/internal/llm"
@@ -224,6 +225,35 @@ func TestTurnProcessor_RegenerationEmptyStillFails(t *testing.T) {
 	_, _, err := tp.ProcessWithRecovery(context.Background(), []llm.Message{{Role: llm.RoleUser, Content: "Continue."}}, nil)
 	if !errors.Is(err, ErrEmptyTurnResponse) {
 		t.Fatalf("error = %v, want ErrEmptyTurnResponse", err)
+	}
+	if provider.callCount != 2 {
+		t.Fatalf("provider calls = %d, want 2", provider.callCount)
+	}
+}
+
+func TestTurnProcessor_RewritesUnsupportedDurableClaimAsProvisional(t *testing.T) {
+	reg := tools.NewRegistry()
+	provider := newMockProvider(t,
+		struct {
+			resp *llm.Response
+			err  error
+		}{resp: &llm.Response{Content: "You enter the sealed vault and the door closes behind you."}},
+		struct {
+			resp *llm.Response
+			err  error
+		}{resp: &llm.Response{Content: "The sealed vault door resists your push; for now, you remain outside, listening to the mechanism grind within."}},
+	)
+	tp := NewTurnProcessor(provider, reg, tools.NewValidator(reg), nil)
+
+	narrative, applied, err := tp.ProcessWithRecovery(context.Background(), []llm.Message{{Role: llm.RoleUser, Content: "Enter the vault."}}, reg.List())
+	if err != nil {
+		t.Fatalf("ProcessWithRecovery() error = %v", err)
+	}
+	if strings.Contains(strings.ToLower(narrative), "you enter") {
+		t.Fatalf("narrative still claims movement: %q", narrative)
+	}
+	if len(applied) != 0 {
+		t.Fatalf("applied tool calls = %d, want 0", len(applied))
 	}
 	if provider.callCount != 2 {
 		t.Fatalf("provider calls = %d, want 2", provider.callCount)
@@ -619,7 +649,7 @@ func TestTurnProcessor_NoToolCalls(t *testing.T) {
 	}
 }
 
-func TestTurnProcessor_DurableClaimWithoutRepairToolsFails(t *testing.T) {
+func TestTurnProcessor_DurableClaimWithoutRepairToolsFallsBackToProvisionalNarrative(t *testing.T) {
 	reg, _ := buildProcessorTestRegistry(t, 0)
 	validator := tools.NewValidator(reg)
 
@@ -645,17 +675,17 @@ func TestTurnProcessor_DurableClaimWithoutRepairToolsFails(t *testing.T) {
 
 	narrative, applied, err := tp.ProcessWithRecovery(context.Background(), messages, reg.List())
 
-	if !errors.Is(err, ErrUnresolvedDurableClaims) {
-		t.Fatalf("expected ErrUnresolvedDurableClaims, got %v", err)
+	if err != nil {
+		t.Fatalf("ProcessWithRecovery() error = %v", err)
 	}
-	if narrative != "" {
-		t.Fatalf("narrative = %q, want empty on failure", narrative)
+	if narrative != "What follows is provisional: the scene remains unsettled until the world-state tools confirm it." {
+		t.Fatalf("narrative = %q", narrative)
 	}
-	if applied != nil {
-		t.Fatalf("applied = %+v, want nil", applied)
+	if len(applied) != 0 {
+		t.Fatalf("applied = %+v, want empty", applied)
 	}
-	if provider.callCount != 1 {
-		t.Fatalf("provider.callCount = %d, want 1", provider.callCount)
+	if provider.callCount != 2 {
+		t.Fatalf("provider.callCount = %d, want 2", provider.callCount)
 	}
 }
 
@@ -755,7 +785,7 @@ func TestDurableRepairToolsWhitelistsNarrowInventoryAndCombat(t *testing.T) {
 	}
 }
 
-func TestTurnProcessor_FailedMovementToolFailsWhenRepairDoesNotApplyMovement(t *testing.T) {
+func TestTurnProcessor_FailedMovementToolFallsBackToProvisionalNarrative(t *testing.T) {
 	reg := tools.NewRegistry()
 	var calls int
 	if err := reg.Register(llm.Tool{
@@ -803,25 +833,32 @@ func TestTurnProcessor_FailedMovementToolFailsWhenRepairDoesNotApplyMovement(t *
 			resp: &llm.Response{Content: "What follows is provisional: the threshold remains unresolved until movement is confirmed.", ToolCalls: nil},
 			err:  nil,
 		},
+		struct {
+			resp *llm.Response
+			err  error
+		}{
+			resp: &llm.Response{Content: "What follows is provisional: the threshold remains unresolved until movement is confirmed.", ToolCalls: nil},
+			err:  nil,
+		},
 	)
 
 	tp := NewTurnProcessor(provider, reg, validator, nil)
 	narrative, applied, err := tp.ProcessWithRecovery(context.Background(), []llm.Message{{Role: llm.RoleUser, Content: "Go there"}}, reg.List())
 
-	if !errors.Is(err, ErrUnresolvedDurableClaims) {
-		t.Fatalf("expected ErrUnresolvedDurableClaims, got %v", err)
+	if err != nil {
+		t.Fatalf("ProcessWithRecovery() error = %v", err)
 	}
-	if narrative != "" {
-		t.Fatalf("narrative = %q, want empty on failure", narrative)
+	if narrative != "What follows is provisional: the threshold remains unresolved until movement is confirmed." {
+		t.Fatalf("narrative = %q", narrative)
 	}
-	if applied != nil {
-		t.Fatalf("applied = %+v, want nil", applied)
+	if len(applied) != 0 {
+		t.Fatalf("applied = %+v, want empty", applied)
 	}
 	if calls != 1 {
 		t.Fatalf("calls = %d, want 1", calls)
 	}
-	if provider.callCount != 3 {
-		t.Fatalf("provider.callCount = %d, want 3", provider.callCount)
+	if provider.callCount != 4 {
+		t.Fatalf("provider.callCount = %d, want 4", provider.callCount)
 	}
 }
 
@@ -868,7 +905,14 @@ func TestTurnProcessor_FailedMovementToolRejectsUnsupportedRepairNarrative(t *te
 			resp *llm.Response
 			err  error
 		}{
-			resp: &llm.Response{Content: "You cross the threshold into the Needle Room.", ToolCalls: nil},
+			resp: &llm.Response{Content: "You enter the Needle Room.", ToolCalls: nil},
+			err:  nil,
+		},
+		struct {
+			resp *llm.Response
+			err  error
+		}{
+			resp: &llm.Response{Content: "You enter the Needle Room.", ToolCalls: nil},
 			err:  nil,
 		},
 	)
@@ -885,8 +929,8 @@ func TestTurnProcessor_FailedMovementToolRejectsUnsupportedRepairNarrative(t *te
 	if applied != nil {
 		t.Fatalf("applied = %+v, want nil", applied)
 	}
-	if provider.callCount != 3 {
-		t.Fatalf("provider.callCount = %d, want 3", provider.callCount)
+	if provider.callCount != 4 {
+		t.Fatalf("provider.callCount = %d, want 4", provider.callCount)
 	}
 }
 
@@ -940,7 +984,14 @@ func TestTurnProcessor_LaterFailedMovementRequiresNewRepairMovement(t *testing.T
 			resp *llm.Response
 			err  error
 		}{
-			resp: &llm.Response{Content: "You cross the threshold into the Needle Room.", ToolCalls: nil},
+			resp: &llm.Response{Content: "You enter the Needle Room.", ToolCalls: nil},
+			err:  nil,
+		},
+		struct {
+			resp *llm.Response
+			err  error
+		}{
+			resp: &llm.Response{Content: "You enter the Needle Room.", ToolCalls: nil},
 			err:  nil,
 		},
 	)
@@ -956,6 +1007,9 @@ func TestTurnProcessor_LaterFailedMovementRequiresNewRepairMovement(t *testing.T
 	}
 	if applied != nil {
 		t.Fatalf("applied = %+v, want nil", applied)
+	}
+	if provider.callCount != 4 {
+		t.Fatalf("provider.callCount = %d, want 4", provider.callCount)
 	}
 }
 
@@ -1008,10 +1062,17 @@ func TestTurnProcessor_TwoFailedMovementObligationsRequireTwoRepairMovements(t *
 			err  error
 		}{
 			resp: &llm.Response{
-				Content:   "You cross into the Salt Lift.",
+				Content:   "You enter the Salt Lift.",
 				ToolCalls: []llm.ToolCall{{ID: "repair-one", Name: "create_location", Arguments: map[string]any{"move_player_here": true}}},
 			},
 			err: nil,
+		},
+		struct {
+			resp *llm.Response
+			err  error
+		}{
+			resp: &llm.Response{Content: "You enter the Salt Lift.", ToolCalls: nil},
+			err:  nil,
 		},
 	)
 
