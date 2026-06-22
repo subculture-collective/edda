@@ -561,7 +561,7 @@ func (tp *TurnProcessor) finalizeResponseState(ctx context.Context, messages []l
 
 // extractDurableState runs two sequential post-turn extraction passes:
 //  1. Lore extraction (establish_fact only) — single-purpose prompt.
-//  2. Quest extraction (create_quest / update_quest only) — separate prompt.
+//  2. Quest extraction (create_quest / update_quest / complete_objective only) — separate prompt.
 //
 // Splitting them avoids the model ignoring the second task, which happened
 // with weaker models when both were combined in one prompt.
@@ -588,7 +588,7 @@ func (tp *TurnProcessor) extractDurableState(ctx context.Context, messages []llm
 		}
 	}
 
-	// Pass 2: quest goals (single-purpose — create_quest / update_quest only).
+	// Pass 2: quest goals (single-purpose — create_quest / update_quest / complete_objective only).
 	if !hasQuest {
 		questTools := questOnlyExtractionTools(availableTools)
 		if len(questTools) > 0 {
@@ -598,7 +598,7 @@ func (tp *TurnProcessor) extractDurableState(ctx context.Context, messages []llm
 			extractionMessages = append(extractionMessages, llm.Message{Role: llm.RoleUser, Content: questOnlyExtractionPrompt(narrative)})
 
 			applied = tp.runPostTurnExtractionTools(ctx, extractionMessages, questTools, applied, "quest extraction", func(name string) bool {
-				return name == "create_quest" || name == "update_quest"
+				return name == "create_quest" || name == "update_quest" || name == "complete_objective"
 			})
 		}
 	}
@@ -610,7 +610,7 @@ func questOnlyExtractionTools(availableTools []llm.Tool) []llm.Tool {
 	wanted := map[string]struct{}{}
 	for _, tool := range availableTools {
 		switch tool.Name {
-		case "create_quest", "update_quest":
+		case "create_quest", "update_quest", "complete_objective":
 			wanted[tool.Name] = struct{}{}
 		}
 	}
@@ -628,7 +628,7 @@ func durableLoreExtractionPromptV2(narrative string) string {
 }
 
 func questOnlyExtractionPrompt(narrative string) string {
-	return fmt.Sprintf("Extract quest goals from the narrative below. If the narrative establishes a concrete multi-step goal the player should track (e.g. find fragments, reinforce a seal, locate a sanctuary, track an antagonist, recover a relic, perform a ritual), call create_quest with a short title, 1-sentence description, quest_type \"short_term\", and 1-3 ordered objectives. If an active quest already exists in the system message's Active Quests section and the narrative advances it, use update_quest with that quest's ID. Do NOT create quests for vague atmosphere, one-off actions, or mere lore. If no quest-shaped goal, call no tools and return no prose.\n\nNarrative: %s", narrative)
+	return fmt.Sprintf("Extract quest progress from the narrative below. Use ONLY quest_id and objective_id values explicitly listed in the system message's Active Quests section. Never invent IDs. If the narrative completes a listed objective, call complete_objective with that exact quest_id and objective_id. If the narrative advances a listed active quest without completing an objective, call update_quest with that exact quest_id. If the narrative establishes a concrete new multi-step goal that is NOT covered by any active quest, call create_quest with a short title, 1-sentence description, quest_type \"short_term\", and 1-3 ordered objectives. Do NOT create quests for vague atmosphere, one-off actions, or mere lore. If no listed quest/objective matches and no clearly new quest-shaped goal exists, call no tools and return no prose.\n\nNarrative: %s", narrative)
 }
 
 func (tp *TurnProcessor) runPostTurnExtractionTools(ctx context.Context, messages []llm.Message, extractionTools []llm.Tool, applied []AppliedToolCall, label string, acceptTool func(string) bool) []AppliedToolCall {

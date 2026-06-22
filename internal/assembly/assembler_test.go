@@ -24,6 +24,11 @@ const repeatCountForBudgetTest = 40
 func makeState() *game.GameState {
 	campaignID := uuid.New()
 	questID := uuid.New()
+	objectiveDoneID := uuid.New()
+	objectiveOpenID := uuid.New()
+	currentLocationID := uuid.New()
+	exitConnectionID := uuid.New()
+	exitLocationID := uuid.New()
 	return &game.GameState{
 		Campaign: domain.Campaign{
 			ID:     campaignID,
@@ -39,13 +44,14 @@ func makeState() *game.GameState {
 			MaxHP: 40,
 		},
 		CurrentLocation: domain.Location{
+			ID:           currentLocationID,
 			Name:         "Thornwood Village",
 			Region:       "Northern Reaches",
 			LocationType: "settlement",
 			Description:  "A small village shrouded in mist.",
 		},
 		CurrentLocationConnections: []domain.LocationConnection{
-			{Description: "Forest path leading east", TravelTime: "1 hour"},
+			{ID: exitConnectionID, FromLocationID: currentLocationID, ToLocationID: exitLocationID, Description: "Forest path leading east", TravelTime: "1 hour"},
 		},
 		NearbyNPCs: []domain.NPC{
 			{Name: "Old Merchant", Description: "A weathered trader.", Alive: true},
@@ -61,8 +67,8 @@ func makeState() *game.GameState {
 		},
 		ActiveQuestObjectives: map[uuid.UUID][]domain.QuestObjective{
 			questID: {
-				{Description: "Reach the ruins", Completed: true},
-				{Description: "Defeat the guardian", Completed: false},
+				{ID: objectiveDoneID, QuestID: questID, Description: "Reach the ruins", Completed: true},
+				{ID: objectiveOpenID, QuestID: questID, Description: "Defeat the guardian", Completed: false},
 			},
 		},
 		PlayerInventory: []domain.Item{
@@ -440,6 +446,8 @@ func TestSerializeState_LocationFields(t *testing.T) {
 		"shrouded in mist",
 		"Forest path leading east",
 		"1 hour",
+		"connection_id:",
+		"to_location_id:",
 	} {
 		if !strings.Contains(got, want) {
 			t.Errorf("state text missing %q", want)
@@ -468,9 +476,11 @@ func TestSerializeState_ActiveQuestsAndObjectives(t *testing.T) {
 
 	for _, want := range []string{
 		"Find the Lost Amulet",
+		"quest_id:",
 		"Recover the amulet",
 		"[x] Reach the ruins",
 		"[ ] Defeat the guardian",
+		"objective_id:",
 	} {
 		if !strings.Contains(got, want) {
 			t.Errorf("state text missing %q", want)
