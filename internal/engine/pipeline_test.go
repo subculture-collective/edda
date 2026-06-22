@@ -543,16 +543,25 @@ func TestEngineProcessTurn_ExtractsQuestGoalFromNarrative(t *testing.T) {
 }
 
 func TestQuestOnlyExtractionTools(t *testing.T) {
-	got := questOnlyExtractionTools([]llm.Tool{{Name: "create_quest"}, {Name: "update_quest"}, {Name: "establish_fact"}})
-	if len(got) != 2 {
-		t.Fatalf("quest extraction tools = %+v, want create_quest and update_quest", got)
+	got := questOnlyExtractionTools([]llm.Tool{{Name: "create_quest"}, {Name: "update_quest"}, {Name: "complete_objective"}, {Name: "establish_fact"}})
+	if len(got) != 3 {
+		t.Fatalf("quest extraction tools = %+v, want create_quest, update_quest, and complete_objective", got)
 	}
 	names := make([]string, len(got))
 	for i, t := range got {
 		names[i] = t.Name
 	}
-	if names[0] != "create_quest" || names[1] != "update_quest" {
-		t.Fatalf("quest extraction tool names = %+v, want [create_quest update_quest]", names)
+	if names[0] != "create_quest" || names[1] != "update_quest" || names[2] != "complete_objective" {
+		t.Fatalf("quest extraction tool names = %+v, want [create_quest update_quest complete_objective]", names)
+	}
+}
+
+func TestQuestOnlyExtractionPromptRequiresKnownIDs(t *testing.T) {
+	prompt := questOnlyExtractionPrompt("The player finds the final ward and restores the seal.")
+	for _, want := range []string{"Use ONLY quest_id and objective_id", "Never invent IDs", "complete_objective", "call no tools"} {
+		if !strings.Contains(prompt, want) {
+			t.Fatalf("quest extraction prompt missing %q:\n%s", want, prompt)
+		}
 	}
 }
 
