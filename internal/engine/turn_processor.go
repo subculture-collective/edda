@@ -255,12 +255,83 @@ func (tp *TurnProcessor) ProcessWithRecoveryWithOptions(
 		return "", nil, err
 	}
 	if strings.TrimSpace(narrative) == "" {
-		tp.logger.Error("turn processor completed with empty narrative", "duration_ms", time.Since(started).Milliseconds(), "applied_tool_calls", len(applied), "applied_tool_names", appliedToolNames(applied))
-		return "", nil, ErrEmptyTurnResponse
+		if fallback := fallbackNarrativeForAppliedTools(applied); fallback != "" {
+			tp.logger.Warn("using fallback narrative for applied tool calls", "applied_tool_calls", len(applied), "applied_tool_names", appliedToolNames(applied))
+			narrative = fallback
+		} else {
+			tp.logger.Error("turn processor completed with empty narrative", "duration_ms", time.Since(started).Milliseconds(), "applied_tool_calls", len(applied), "applied_tool_names", appliedToolNames(applied))
+			return "", nil, ErrEmptyTurnResponse
+		}
 	}
 
 	tp.logger.Info("turn processor completed", "duration_ms", time.Since(started).Milliseconds(), "applied_tool_calls", len(applied), "applied_tool_names", appliedToolNames(applied), "narrative_len", len(narrative))
 	return narrative, applied, nil
+}
+
+func fallbackNarrativeForAppliedTools(applied []AppliedToolCall) string {
+	if len(applied) == 0 {
+		return ""
+	}
+	last := applied[len(applied)-1]
+	switch last.Tool {
+	case "move_player":
+		if name := stringFieldFromJSON(last.Result, "name"); name != "" {
+			return fmt.Sprintf("You move to %s.", name)
+		}
+		return "You move to the connected location."
+	case "create_location":
+		if boolFieldFromJSON(last.Result, "move_player_here") {
+			if name := stringFieldFromJSON(last.Result, "name"); name != "" {
+				return fmt.Sprintf("You enter %s.", name)
+			}
+			return "You enter the newly revealed location."
+		}
+		return "A new location is revealed."
+	case "update_player_hp":
+		return "Your health changes."
+	case "update_player_status":
+		if status := stringFieldFromJSON(last.Result, "status"); status != "" {
+			return fmt.Sprintf("Your status is now %s.", status)
+		}
+		return "Your status changes."
+	case "add_item", "create_item":
+		if name := stringFieldFromJSON(last.Result, "name"); name != "" {
+			return fmt.Sprintf("You gain %s.", name)
+		}
+		return "Your inventory is updated."
+	case "remove_item", "modify_item", "update_item":
+		return "Your inventory is updated."
+	case "create_quest", "update_quest", "complete_objective":
+		return "Your quest journal is updated."
+	case "establish_fact", "revise_fact":
+		return "You record the new information."
+	case "initiate_combat":
+		return "Combat begins."
+	case "combat_round", "apply_damage", "apply_condition":
+		return "The combat state changes."
+	case "resolve_combat":
+		return "Combat is resolved."
+	default:
+		return "The action takes effect."
+	}
+}
+
+func stringFieldFromJSON(data json.RawMessage, key string) string {
+	var obj map[string]any
+	if err := json.Unmarshal(data, &obj); err != nil {
+		return ""
+	}
+	value, _ := obj[key].(string)
+	return value
+}
+
+func boolFieldFromJSON(data json.RawMessage, key string) bool {
+	var obj map[string]any
+	if err := json.Unmarshal(data, &obj); err != nil {
+		return false
+	}
+	value, _ := obj[key].(bool)
+	return value
 }
 
 func (tp *TurnProcessor) regenerateEmptyInitialResponse(ctx context.Context, messages []llm.Message, availableTools []llm.Tool) (*llm.Response, error) {
