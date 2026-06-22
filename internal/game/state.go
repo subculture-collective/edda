@@ -2,6 +2,7 @@ package game
 
 import (
 	"context"
+	"encoding/json"
 
 	"github.com/google/uuid"
 
@@ -29,6 +30,7 @@ type GameState struct {
 	Time                       *CampaignTime
 	RulesMode                  string
 	CombatActive               bool
+	ActiveCombatState          json.RawMessage
 }
 
 // CreateCampaignParams holds parameters for creating a new campaign.

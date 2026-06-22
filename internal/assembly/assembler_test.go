@@ -435,6 +435,43 @@ func TestSerializeState_PlayerFields(t *testing.T) {
 	}
 }
 
+func TestSerializeState_ActiveCombatState(t *testing.T) {
+	s := makeState()
+	s.CombatActive = true
+	s.ActiveCombatState = []byte(`{
+		"id":"11111111-1111-1111-1111-111111111111",
+		"campaign_id":"22222222-2222-2222-2222-222222222222",
+		"status":"active",
+		"round_number":2,
+		"combatants":[{"entity_id":"33333333-3333-3333-3333-333333333333","name":"Elara","hp":32,"max_hp":40}],
+		"initiative_order":["33333333-3333-3333-3333-333333333333"],
+		"environment":{"description":"Mist-choked road"}
+	}`)
+
+	got := serializeState(s)
+	for _, want := range []string{
+		"### Combat State",
+		"Use this exact combat_state object",
+		`"id":"11111111-1111-1111-1111-111111111111"`,
+		`"status":"active"`,
+		`"round_number":2`,
+	} {
+		if !strings.Contains(got, want) {
+			t.Errorf("state text missing %q\n%s", want, got)
+		}
+	}
+}
+
+func TestSerializeState_CombatActiveWithoutStateWarnsAgainstInventing(t *testing.T) {
+	s := makeState()
+	s.CombatActive = true
+
+	got := serializeState(s)
+	if !strings.Contains(got, "Combat is active") || !strings.Contains(got, "Do not invent a combat_state") {
+		t.Fatalf("expected combat warning, got:\n%s", got)
+	}
+}
+
 func TestSerializeState_LocationFields(t *testing.T) {
 	s := makeState()
 	got := serializeState(s)

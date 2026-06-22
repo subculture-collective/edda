@@ -3,6 +3,8 @@
 package assembly
 
 import (
+	"bytes"
+	"encoding/json"
 	"fmt"
 	"strings"
 
@@ -352,6 +354,21 @@ func serializeState(state *game.GameState) string {
 		fmt.Fprintf(&sb, "- Status: %s\n", state.Player.Status)
 	}
 	sb.WriteString("\n")
+
+	if len(state.ActiveCombatState) > 0 {
+		sb.WriteString("### Combat State\n")
+		sb.WriteString("Use this exact combat_state object for combat_round or resolve_combat; do not invent combat_state IDs or combatant IDs.\n")
+		var compact bytes.Buffer
+		if json.Compact(&compact, state.ActiveCombatState) == nil {
+			sb.WriteString(compact.String())
+		} else {
+			sb.Write(state.ActiveCombatState)
+		}
+		sb.WriteString("\n\n")
+	} else if state.CombatActive {
+		sb.WriteString("### Combat State\n")
+		sb.WriteString("- Combat is active, but no structured combat_state is available. Do not invent a combat_state; use non-durable narration or start from a valid combat tool result.\n\n")
+	}
 
 	// Current location
 	sb.WriteString("### Current Location\n")
