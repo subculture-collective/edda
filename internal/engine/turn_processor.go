@@ -580,11 +580,46 @@ func (tp *TurnProcessor) finalizeResponseState(ctx context.Context, messages []l
 		var err error
 		narrative, applied, err = tp.repairDurableClaims(ctx, messages, availableTools, narrative, applied, issues, unresolvedRequirements)
 		if err != nil {
-			return "", nil, err
+			fallback, fallbackErr := tp.rewriteUnsafeDurableClaimsAsProvisional(ctx, messages, narrative, applied, issues, err)
+			if fallbackErr != nil {
+				return "", nil, err
+			}
+			return fallback, applied, nil
 		}
 	}
 	applied = tp.extractDurableState(ctx, messages, availableTools, narrative, applied)
 	return narrative, applied, nil
+}
+
+func (tp *TurnProcessor) rewriteUnsafeDurableClaimsAsProvisional(ctx context.Context, messages []llm.Message, narrative string, applied []AppliedToolCall, issues []DurableClaimIssue, repairErr error) (string, error) {
+	rewriteMessages := make([]llm.Message, len(messages), len(messages)+2)
+	copy(rewriteMessages, messages)
+	rewriteMessages = append(rewriteMessages, llm.Message{Role: llm.RoleAssistant, Content: narrative})
+	rewriteMessages = append(rewriteMessages, llm.Message{Role: llm.RoleUser, Content: provisionalDurableRewritePrompt(narrative, applied, issues, repairErr)})
+
+	resp, err := tp.postTurnLLM().Complete(ctx, rewriteMessages, nil)
+	if err != nil {
+		tp.logger.Warn("durable-claim provisional rewrite failed", "error", err)
+		return "", err
+	}
+	rewritten := strings.TrimSpace(resp.Content)
+	if rewritten == "" {
+		return "", ErrEmptyTurnResponse
+	}
+	if remaining := AuditDurableClaims(rewritten, applied, nil); len(remaining) > 0 {
+		tp.logger.Warn("durable-claim provisional rewrite still has unbacked claims", "issues", remaining)
+		return "", ErrUnresolvedDurableClaims
+	}
+	tp.logger.Info("durable-claim repair fell back to provisional narrative", "issues", len(issues), "repair_error", repairErr)
+	return rewritten, nil
+}
+
+func provisionalDurableRewritePrompt(narrative string, applied []AppliedToolCall, issues []DurableClaimIssue, repairErr error) string {
+	var issueLines strings.Builder
+	for _, issue := range issues {
+		fmt.Fprintf(&issueLines, "- %s: %s\n", issue.Kind, issue.Message)
+	}
+	return fmt.Sprintf("The previous narrative made durable state claims that could not be saved by tools. Rewrite it as player-facing narrative that preserves the moment but makes those state changes provisional, blocked, attempted, noticed, or inconclusive. Do NOT claim movement, quest updates, facts learned, inventory changes, HP/status changes, or combat resolution unless already backed by applied tools. Return ONLY the corrected narrative; do not call tools and do not explain the correction.\n\nUnbacked durable claims:\n%s\nAlready applied tools: %v\nRepair error: %v\n\nPrevious narrative: %s", issueLines.String(), appliedToolNames(applied), repairErr, narrative)
 }
 
 // extractDurableState runs two sequential post-turn extraction passes:
