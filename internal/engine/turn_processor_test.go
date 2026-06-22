@@ -231,6 +231,38 @@ func TestTurnProcessor_RegenerationEmptyStillFails(t *testing.T) {
 	}
 }
 
+func TestTurnProcessor_UsesFallbackNarrativeWhenContinuationIsEmptyAfterAppliedTool(t *testing.T) {
+	reg, callCount := buildProcessorTestRegistry(t, 0)
+	provider := newMockProvider(t,
+		struct {
+			resp *llm.Response
+			err  error
+		}{resp: &llm.Response{ToolCalls: []llm.ToolCall{{ID: "tool-1", Name: "mock_tool", Arguments: map[string]any{"name": "Ari"}}}}},
+		struct {
+			resp *llm.Response
+			err  error
+		}{resp: &llm.Response{}},
+	)
+	tp := NewTurnProcessor(provider, reg, tools.NewValidator(reg), nil)
+
+	narrative, applied, err := tp.ProcessWithRecovery(context.Background(), []llm.Message{{Role: llm.RoleUser, Content: "do it"}}, reg.List())
+	if err != nil {
+		t.Fatalf("ProcessWithRecovery() error = %v", err)
+	}
+	if narrative != "The action takes effect." {
+		t.Fatalf("narrative = %q, want fallback narrative", narrative)
+	}
+	if len(applied) != 1 || applied[0].Tool != "mock_tool" {
+		t.Fatalf("applied = %+v, want mock_tool", applied)
+	}
+	if *callCount != 1 {
+		t.Fatalf("tool calls = %d, want 1", *callCount)
+	}
+	if provider.callCount != 2 {
+		t.Fatalf("provider calls = %d, want initial + continuation", provider.callCount)
+	}
+}
+
 func TestTurnProcessor_RewritesUnsupportedDurableClaimAsProvisional(t *testing.T) {
 	reg := tools.NewRegistry()
 	provider := newMockProvider(t,
