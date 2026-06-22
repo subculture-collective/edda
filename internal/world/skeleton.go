@@ -118,7 +118,7 @@ func (g *SkeletonGenerator) Generate(ctx context.Context, campaignID uuid.UUID, 
 		return nil, err
 	}
 
-	content = llmutil.StripMarkdownFences(content)
+	content = extractLikelyJSON(strings.TrimSpace(llmutil.StripMarkdownFences(content)))
 
 	var parsed skeletonLLMResponse
 	if err := json.Unmarshal([]byte(content), &parsed); err != nil {

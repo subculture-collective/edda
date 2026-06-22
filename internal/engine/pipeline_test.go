@@ -542,17 +542,17 @@ func TestEngineProcessTurn_ExtractsQuestGoalFromNarrative(t *testing.T) {
 	}
 }
 
-func TestDurableStateExtractionToolsIncludeQuestUpdates(t *testing.T) {
-	got := durableStateExtractionTools([]llm.Tool{{Name: "create_quest"}, {Name: "update_quest"}, {Name: "establish_fact"}})
-	if len(got) != 3 {
-		t.Fatalf("extraction tools = %+v, want create_quest, update_quest, and establish_fact", got)
+func TestQuestOnlyExtractionTools(t *testing.T) {
+	got := questOnlyExtractionTools([]llm.Tool{{Name: "create_quest"}, {Name: "update_quest"}, {Name: "establish_fact"}})
+	if len(got) != 2 {
+		t.Fatalf("quest extraction tools = %+v, want create_quest and update_quest", got)
 	}
 	names := make([]string, len(got))
 	for i, t := range got {
 		names[i] = t.Name
 	}
-	if names[0] != "create_quest" || names[1] != "update_quest" || names[2] != "establish_fact" {
-		t.Fatalf("extraction tool names = %+v, want [create_quest update_quest establish_fact]", names)
+	if names[0] != "create_quest" || names[1] != "update_quest" {
+		t.Fatalf("quest extraction tool names = %+v, want [create_quest update_quest]", names)
 	}
 }
 

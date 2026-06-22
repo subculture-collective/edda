@@ -19,6 +19,8 @@ import argparse
 import datetime as dt
 import json
 import os
+import shlex
+import signal
 import subprocess
 import time
 import urllib.error
@@ -70,6 +72,56 @@ def redacted(value: Any) -> Any:
     return value
 
 
+def slugify(value: str) -> str:
+    safe = "".join(ch if ch.isalnum() else "-" for ch in value.lower())
+    while "--" in safe:
+        safe = safe.replace("--", "-")
+    return safe.strip("-") or "model"
+
+
+def parse_model_args(values: list[str] | None, models_file: str) -> list[str]:
+    models: list[str] = []
+    for value in values or []:
+        models.extend(part.strip() for part in value.split(",") if part.strip())
+    if models_file:
+        for line in Path(models_file).read_text(encoding="utf-8").splitlines():
+            line = line.strip()
+            if line and not line.startswith("#"):
+                models.append(line)
+    deduped: list[str] = []
+    seen: set[str] = set()
+    for model in models:
+        if model not in seen:
+            seen.add(model)
+            deduped.append(model)
+    return deduped
+
+
+def read_env_file(path: Path) -> dict[str, str]:
+    if not path.exists():
+        return {}
+    result: dict[str, str] = {}
+    for raw in path.read_text(encoding="utf-8").splitlines():
+        line = raw.strip()
+        if not line or line.startswith("#") or "=" not in line:
+            continue
+        key, value = line.split("=", 1)
+        key = key.strip()
+        value = value.strip()
+        if key.startswith("export "):
+            key = key[len("export ") :].strip()
+        if (value.startswith('"') and value.endswith('"')) or (value.startswith("'") and value.endswith("'")):
+            value = value[1:-1]
+        if key:
+            result[key] = value
+    return result
+
+
+def port_from_base_url(base_url: str) -> int | None:
+    parsed = urllib.parse.urlparse(base_url)
+    return parsed.port
+
+
 class Client:
     def __init__(self, base_url: str, token: str | None, timeout: int = DEFAULT_TIMEOUT):
         self.base_url = base_url.rstrip("/")
@@ -97,6 +149,84 @@ class Client:
             return exc.code, payload
         except urllib.error.URLError as exc:
             return 0, {"error": str(exc.reason)}
+
+
+def health_ok(base_url: str) -> bool:
+    client = Client(base_url, None, timeout=5)
+    status, payload = client.request("GET", "/api/healthz")
+    return 200 <= status < 300 and isinstance(payload, dict) and payload.get("status") == "ok"
+
+
+def wait_for_health(base_url: str, timeout_seconds: int) -> None:
+    deadline = time.time() + timeout_seconds
+    while time.time() < deadline:
+        if health_ok(base_url):
+            return
+        time.sleep(1)
+    raise RuntimeError(f"server did not become healthy within {timeout_seconds}s")
+
+
+class ManagedServer:
+    def __init__(self, args: argparse.Namespace, model: str, artifact_dir: Path):
+        self.args = args
+        self.model = model
+        self.artifact_dir = artifact_dir
+        self.process: subprocess.Popen[bytes] | None = None
+        self.log_file = None
+
+    def __enter__(self) -> "ManagedServer":
+        if health_ok(self.args.base_url):
+            raise SystemExit(
+                f"Refusing to manage server for model rotation because {self.args.base_url} is already healthy. "
+                "Stop the existing dev server first, or run the gauntlet without --model rotation."
+            )
+
+        env = os.environ.copy()
+        env.update(read_env_file(Path(self.args.env_file)))
+        env["EDDA_LLM_PROVIDER"] = self.args.model_provider
+        if self.args.model_provider == "openrouter":
+            env["EDDA_LLM_OPENROUTER_MODEL"] = self.model
+        elif self.args.model_provider == "ollama":
+            env["EDDA_LLM_OLLAMA_MODEL"] = self.model
+        elif self.args.model_provider == "claude":
+            env["EDDA_LLM_CLAUDE_MODEL"] = self.model
+        else:
+            raise SystemExit(f"Unsupported --model-provider {self.args.model_provider!r}")
+        if port := port_from_base_url(self.args.base_url):
+            env["EDDA_SERVER_PORT"] = str(port)
+
+        self.artifact_dir.mkdir(parents=True, exist_ok=True)
+        self.log_file = (self.artifact_dir / "server.log").open("ab")
+        self.process = subprocess.Popen(
+            shlex.split(self.args.server_command),
+            stdout=self.log_file,
+            stderr=subprocess.STDOUT,
+            stdin=subprocess.DEVNULL,
+            env=env,
+            start_new_session=True,
+        )
+        try:
+            wait_for_health(self.args.base_url, self.args.server_start_timeout)
+        except Exception:
+            self.stop()
+            raise
+        return self
+
+    def __exit__(self, exc_type: Any, exc: Any, tb: Any) -> None:
+        self.stop()
+
+    def stop(self) -> None:
+        if self.process and self.process.poll() is None:
+            try:
+                os.killpg(os.getpgid(self.process.pid), signal.SIGTERM)
+                self.process.wait(timeout=20)
+            except Exception:
+                try:
+                    os.killpg(os.getpgid(self.process.pid), signal.SIGKILL)
+                except Exception:
+                    pass
+        if self.log_file:
+            self.log_file.close()
 
 
 def append_jsonl(path: Path, record: dict[str, Any]) -> None:
@@ -221,7 +351,7 @@ def summarize_snapshot(snapshots: dict[str, Any]) -> dict[str, Any]:
     }
 
 
-def run_gauntlet(client: Client, campaign_id: str, artifact_dir: Path, include_db_counts: bool) -> list[dict[str, Any]]:
+def run_gauntlet(client: Client, campaign_id: str, artifact_dir: Path, include_db_counts: bool, model: str = "") -> list[dict[str, Any]]:
     results: list[dict[str, Any]] = []
     for index, (label, action, expected_any) in enumerate(GAUNTLET_ACTIONS, 1):
         started = time.time()
@@ -236,6 +366,7 @@ def run_gauntlet(client: Client, campaign_id: str, artifact_dir: Path, include_d
         record = {
             "step": index,
             "label": label,
+            "model": model,
             "action": action,
             "http_status": status,
             "ok": ok,
@@ -255,12 +386,13 @@ def run_gauntlet(client: Client, campaign_id: str, artifact_dir: Path, include_d
     return results
 
 
-def write_report(artifact_dir: Path, campaign_id: str, results: list[dict[str, Any]], disposable_mode: bool, local_base: bool) -> None:
+def write_report(artifact_dir: Path, campaign_id: str, results: list[dict[str, Any]], disposable_mode: bool, local_base: bool, model: str = "") -> None:
     failed = [r for r in results if not r["ok"]]
     report = {
         "campaign_id": campaign_id,
         "disposable_mode": disposable_mode,
         "local_base": local_base,
+        "model": model,
         "passed": len(results) - len(failed),
         "failed": len(failed),
         "artifact_dir": str(artifact_dir),
@@ -270,6 +402,7 @@ def write_report(artifact_dir: Path, campaign_id: str, results: list[dict[str, A
         "# Edda mechanics gauntlet",
         "",
         f"- Campaign: `{campaign_id}`",
+        f"- Model: `{model or 'current server config'}`",
         f"- Mode: `{'local disposable' if disposable_mode else 'mutating existing campaign'}`",
         f"- Disposable mode: `{disposable_mode}`",
         f"- Local base: `{local_base}`",
@@ -302,11 +435,17 @@ def parser() -> argparse.ArgumentParser:
     p.add_argument("--db-counts", action="store_true", help="Include diagnostic local DB counts (Docker/Postgres only)")
     p.add_argument("--timeout", type=int, default=DEFAULT_TIMEOUT, help="HTTP timeout in seconds (default: 900)")
     p.add_argument("--artifact-dir", default="", help="Override artifact directory (default logs/edda/gauntlet-*)")
+    p.add_argument("--model", action="append", help="Model id to test. May be repeated or comma-separated. Requires --manage-server.")
+    p.add_argument("--models-file", default="", help="File containing one model id per line. Requires --manage-server.")
+    p.add_argument("--manage-server", action="store_true", help="Start and stop a local dev server for each --model with model env overrides.")
+    p.add_argument("--model-provider", default="openrouter", choices=["openrouter", "ollama", "claude"], help="Provider env namespace to override when --manage-server is used.")
+    p.add_argument("--env-file", default=".env", help="Environment file loaded for managed server runs (default: .env).")
+    p.add_argument("--server-command", default="go run ./cmd/server", help="Command used to start a managed local server.")
+    p.add_argument("--server-start-timeout", type=int, default=180, help="Seconds to wait for managed server health.")
     return p
 
 
-def main() -> int:
-    args = parser().parse_args()
+def run_once(args: argparse.Namespace, artifact_dir: Path, model: str = "") -> list[dict[str, Any]]:
     disposable_mode = not args.campaign_id
     local_base = is_local_base_url(args.base_url)
     if args.campaign_id and not args.i_understand_this_mutates_campaign:
@@ -316,7 +455,6 @@ def main() -> int:
     if args.db_counts and not local_base:
         raise SystemExit("--db-counts requires a local base URL (localhost/127.0.0.1/::1).")
 
-    artifact_dir = Path(args.artifact_dir or DEFAULT_ARTIFACT_ROOT / f"gauntlet-{utc_slug()}")
     artifact_dir.mkdir(parents=True, exist_ok=True)
 
     client = Client(args.base_url, args.token or None, timeout=args.timeout)
@@ -331,9 +469,64 @@ def main() -> int:
 
     if args.db_counts:
         print("DB counts enabled: querying Docker/Postgres for diagnostics.", flush=True)
-    results = run_gauntlet(client, campaign_id, artifact_dir, args.db_counts)
-    write_report(artifact_dir, campaign_id, results, disposable_mode, local_base)
-    return 1 if any(not r["ok"] for r in results) else 0
+    results = run_gauntlet(client, campaign_id, artifact_dir, args.db_counts, model=model)
+    write_report(artifact_dir, campaign_id, results, disposable_mode, local_base, model=model)
+    return results
+
+
+def write_rotation_summary(root_dir: Path, rotation_results: list[dict[str, Any]]) -> None:
+    failed = [r for r in rotation_results if r["failed"] > 0]
+    summary = {
+        "models": rotation_results,
+        "passed_models": len(rotation_results) - len(failed),
+        "failed_models": len(failed),
+        "artifact_dir": str(root_dir),
+    }
+    (root_dir / "models-summary.json").write_text(json.dumps(redacted(summary), indent=2, sort_keys=True), encoding="utf-8")
+    lines = ["# Edda model rotation gauntlet", ""]
+    lines.append("| Model | Passed | Failed | Artifact dir |")
+    lines.append("|---|---:|---:|---|")
+    for item in rotation_results:
+        lines.append(f"| `{item['model']}` | {item['passed']} | {item['failed']} | `{item['artifact_dir']}` |")
+    lines.append("")
+    (root_dir / "models-report.md").write_text("\n".join(lines), encoding="utf-8")
+    print(json.dumps(redacted(summary), indent=2, sort_keys=True))
+
+
+def main() -> int:
+    args = parser().parse_args()
+    models = parse_model_args(args.model, args.models_file)
+    if models and not args.manage_server:
+        raise SystemExit("--model/--models-file requires --manage-server because Edda's model is server configuration, not a per-request API field.")
+    if args.manage_server and not models:
+        raise SystemExit("--manage-server requires at least one --model or --models-file entry.")
+    if args.manage_server and not is_local_base_url(args.base_url):
+        raise SystemExit("--manage-server requires a local base URL.")
+
+    if not models:
+        artifact_dir = Path(args.artifact_dir or DEFAULT_ARTIFACT_ROOT / f"gauntlet-{utc_slug()}")
+        results = run_once(args, artifact_dir)
+        return 1 if any(not r["ok"] for r in results) else 0
+
+    root_dir = Path(args.artifact_dir or DEFAULT_ARTIFACT_ROOT / f"gauntlet-models-{utc_slug()}")
+    root_dir.mkdir(parents=True, exist_ok=True)
+    rotation_results: list[dict[str, Any]] = []
+    any_failed = False
+    for model in models:
+        model_dir = root_dir / slugify(model)
+        print(f"=== Running gauntlet for model: {model} ===", flush=True)
+        with ManagedServer(args, model, model_dir):
+            results = run_once(args, model_dir, model=model)
+        failed_count = sum(1 for r in results if not r["ok"])
+        any_failed = any_failed or failed_count > 0
+        rotation_results.append({
+            "model": model,
+            "passed": len(results) - failed_count,
+            "failed": failed_count,
+            "artifact_dir": str(model_dir),
+        })
+    write_rotation_summary(root_dir, rotation_results)
+    return 1 if any_failed else 0
 
 
 if __name__ == "__main__":

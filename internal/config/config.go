@@ -50,11 +50,40 @@ type ClaudeConfig struct {
 	ContextTokenBudget int    `koanf:"contexttokenbudget"`
 }
 
+// OpenRouterConfig holds OpenRouter-specific LLM settings.
+type OpenRouterConfig struct {
+	APIKey             string `koanf:"apikey"`
+	Model              string `koanf:"model"`
+	ContextTokenBudget int    `koanf:"contexttokenbudget"`
+}
+
+// LLMProfileConfig names a model/provider profile that can be routed to a
+// specific game flow. Empty provider/model/budget fields inherit from the
+// top-level active provider configuration.
+type LLMProfileConfig struct {
+	Provider           string `koanf:"provider"`
+	Model              string `koanf:"model"`
+	ContextTokenBudget int    `koanf:"contexttokenbudget"`
+	ToolSupport        bool   `koanf:"toolsupport"`
+}
+
+// LLMRoutesConfig maps high-level game flows to named LLM profiles.
+type LLMRoutesConfig struct {
+	GMTurn         string `koanf:"gmturn"`
+	PostTurnState  string `koanf:"postturnstate"`
+	ChoiceFallback string `koanf:"choicefallback"`
+	Summary        string `koanf:"summary"`
+	Worldgen       string `koanf:"worldgen"`
+}
+
 // LLMConfig holds provider selection and per-provider settings.
 type LLMConfig struct {
-	Provider string       `koanf:"provider"`
-	Ollama   OllamaConfig `koanf:"ollama"`
-	Claude   ClaudeConfig `koanf:"claude"`
+	Provider   string                      `koanf:"provider"`
+	Ollama     OllamaConfig                `koanf:"ollama"`
+	Claude     ClaudeConfig                `koanf:"claude"`
+	OpenRouter OpenRouterConfig            `koanf:"openrouter"`
+	Profiles   map[string]LLMProfileConfig `koanf:"profiles"`
+	Routes     LLMRoutesConfig             `koanf:"routes"`
 }
 
 // ContextTokenBudget returns the configured context token budget for the active provider.
@@ -62,9 +91,32 @@ func (c LLMConfig) ContextTokenBudget() int {
 	switch c.Provider {
 	case "claude":
 		return c.Claude.ContextTokenBudget
+	case "openrouter":
+		return c.OpenRouter.ContextTokenBudget
 	default:
 		return c.Ollama.ContextTokenBudget
 	}
+}
+
+// RoutedProfileNames returns the non-empty profile names referenced by routes.
+func (c LLMConfig) RoutedProfileNames() map[string]string {
+	routes := map[string]string{}
+	if c.Routes.GMTurn != "" {
+		routes["gmturn"] = c.Routes.GMTurn
+	}
+	if c.Routes.PostTurnState != "" {
+		routes["postturnstate"] = c.Routes.PostTurnState
+	}
+	if c.Routes.ChoiceFallback != "" {
+		routes["choicefallback"] = c.Routes.ChoiceFallback
+	}
+	if c.Routes.Summary != "" {
+		routes["summary"] = c.Routes.Summary
+	}
+	if c.Routes.Worldgen != "" {
+		routes["worldgen"] = c.Routes.Worldgen
+	}
+	return routes
 }
 
 // ServerConfig holds HTTP server settings.
@@ -83,15 +135,34 @@ type Config struct {
 // Validate checks that the configuration is internally consistent.
 func (c *Config) Validate() error {
 	switch c.LLM.Provider {
-	case "ollama", "claude":
+	case "ollama", "claude", "openrouter":
 	default:
 		return fmt.Errorf("unknown llm provider: %q", c.LLM.Provider)
 	}
 	if c.LLM.Provider == "claude" && c.LLM.Claude.APIKey == "" {
 		return errors.New("claude provider requires api key (set llm.claude.apikey, EDDA_LLM_CLAUDE_APIKEY, or ANTHROPIC_API_KEY)")
 	}
+	if c.LLM.Provider == "openrouter" && c.LLM.OpenRouter.APIKey == "" {
+		return errors.New("openrouter provider requires api key (set llm.openrouter.apikey or EDDA_LLM_OPENROUTER_APIKEY)")
+	}
 	if c.LLM.Provider == "ollama" && c.LLM.Ollama.EmbeddingDimension <= 0 {
 		return errors.New("ollama embedding dimension must be positive")
+	}
+	for name, profile := range c.LLM.Profiles {
+		provider := profile.Provider
+		if provider == "" {
+			provider = c.LLM.Provider
+		}
+		switch provider {
+		case "ollama", "claude", "openrouter":
+		default:
+			return fmt.Errorf("llm profile %q has unknown provider: %q", name, provider)
+		}
+	}
+	for route, profileName := range c.LLM.RoutedProfileNames() {
+		if _, ok := c.LLM.Profiles[profileName]; !ok {
+			return fmt.Errorf("llm route %q references unknown profile %q", route, profileName)
+		}
 	}
 	return nil
 }
@@ -100,20 +171,22 @@ func Load(path string) (Config, error) {
 	k := koanf.New(".")
 
 	defaults := map[string]any{
-		"db.url":                        "postgres://edda:edda@localhost:5432/edda?sslmode=disable",
-		"llm.provider":                  "ollama",
-		"llm.ollama.endpoint":           "http://localhost:11434",
-		"llm.ollama.model":              "qwen3:14b",
-		"llm.ollama.embeddingendpoint":  "",
-		"llm.ollama.embeddingmodel":     "nomic-embed-text",
-		"llm.ollama.embeddingdimension": 768,
-		"llm.ollama.apikey":             "",
-		"llm.ollama.contexttokenbudget": 8000,
-		"llm.ollama.timeoutseconds":     600,
-		"llm.claude.model":              "claude-sonnet-4-6",
-		"llm.claude.contexttokenbudget": 8000,
-		"server.port":                   8080,
-		"server.jwtsecret":              "",
+		"db.url":                            "postgres://edda:edda@localhost:5432/edda?sslmode=disable",
+		"llm.provider":                      "ollama",
+		"llm.ollama.endpoint":               "http://localhost:11434",
+		"llm.ollama.model":                  "qwen3:14b",
+		"llm.ollama.embeddingendpoint":      "",
+		"llm.ollama.embeddingmodel":         "nomic-embed-text",
+		"llm.ollama.embeddingdimension":     768,
+		"llm.ollama.apikey":                 "",
+		"llm.ollama.contexttokenbudget":     8000,
+		"llm.ollama.timeoutseconds":         600,
+		"llm.claude.model":                  "claude-sonnet-4-6",
+		"llm.claude.contexttokenbudget":     8000,
+		"llm.openrouter.model":              "openai/gpt-4o-mini",
+		"llm.openrouter.contexttokenbudget": 8000,
+		"server.port":                       8080,
+		"server.jwtsecret":                  "",
 	}
 
 	if err := k.Load(confmap.Provider(defaults, "."), nil); err != nil {
@@ -134,6 +207,13 @@ func Load(path string) (Config, error) {
 	// Note: this is loaded after the config file, so it takes precedence over file-based config.
 	if apiKey := os.Getenv("ANTHROPIC_API_KEY"); apiKey != "" {
 		if err := k.Load(confmap.Provider(map[string]any{"llm.claude.apikey": apiKey}, "."), nil); err != nil {
+			return Config{}, err
+		}
+	}
+
+	// Support OPENROUTER_API_KEY as the lowest-priority env var for the OpenRouter API key.
+	if apiKey := os.Getenv("OPENROUTER_API_KEY"); apiKey != "" {
+		if err := k.Load(confmap.Provider(map[string]any{"llm.openrouter.apikey": apiKey}, "."), nil); err != nil {
 			return Config{}, err
 		}
 	}

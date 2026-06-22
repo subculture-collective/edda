@@ -73,17 +73,24 @@ func run(args []string) int {
 	}
 	defaultUserID := bootResult.User.ID.Bytes
 
-	provider, err := llm.NewLLMProvider(cfg)
+	roster, err := llm.NewRoster(cfg)
 	if err != nil {
-		logger.Errorf("create llm provider: %v", err)
+		logger.Errorf("create llm roster: %v", err)
 		return 1
 	}
+	provider := roster.Provider(llm.FlowDefault)
+	gmProvider := roster.Provider(llm.FlowGMTurn)
 
 	saveStore := saves.NewStore(pool)
 
 	engineOpts := []engine.Option{
 		engine.WithLogger(slog.Default().WithGroup("engine")),
 		engine.WithSaveStore(saveStore),
+		engine.WithLLMProviders(engine.EngineLLMProviders{
+			PostTurnState:      roster.Provider(llm.FlowPostTurnState),
+			ChoiceFallback:     roster.Provider(llm.FlowChoiceFallback),
+			ContextTokenBudget: roster.Info(llm.FlowGMTurn).ContextTokenBudget,
+		}),
 	}
 	if cfg.LLM.Provider == "ollama" {
 		if err := memory.ValidateMemoryEmbeddingDimension(ctx, pool, cfg.LLM.Ollama.EmbeddingDimension); err != nil {
@@ -109,7 +116,7 @@ func run(args []string) int {
 		)
 	}
 
-	gameEngine, err := engine.New(pool, provider, cfg.LLM, engineOpts...)
+	gameEngine, err := engine.New(pool, gmProvider, cfg.LLM, engineOpts...)
 	if err != nil {
 		logger.Errorf("create engine: %v", err)
 		return 1
