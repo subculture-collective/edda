@@ -366,6 +366,13 @@ func TestEngineProcessTurn_ExtractsDurableLoreFactFromNarrative(t *testing.T) {
 				"fact":     "The Circle called the missing seal Varyndor's Brand, an obsidian-and-silver relic forged in the Crucible of the First Flame and used as a prison.",
 				"category": "relic",
 			},
+		}, {
+			ID:   "fact-2",
+			Name: "establish_fact",
+			Arguments: map[string]any{
+				"fact":     "The Crucible of the First Flame is tied to ancient seal forging.",
+				"category": "history",
+			},
 		}}}},
 	)
 	state := &fakeStateManager{state: makePipelineState(campaignID)}
@@ -403,6 +410,33 @@ func TestEngineProcessTurn_ExtractsDurableLoreFactFromNarrative(t *testing.T) {
 	}
 	if len(savedCalls) != 1 || savedCalls[0].Tool != "establish_fact" {
 		t.Fatalf("saved tool calls = %+v, want establish_fact", savedCalls)
+	}
+}
+
+func TestEngineProcessTurn_SkipsLoreExtractionForAtmosphereOnlyNarrative(t *testing.T) {
+	campaignID := uuid.New()
+	reg := tools.NewRegistry()
+	if err := reg.Register(llm.Tool{Name: "establish_fact", Description: "test fact tool"}, func(_ context.Context, _ map[string]any) (*tools.ToolResult, error) {
+		t.Fatal("establish_fact should not be called for atmosphere-only narration")
+		return nil, nil
+	}); err != nil {
+		t.Fatalf("register establish_fact: %v", err)
+	}
+
+	narrative := "Mist curls over the stones. The air tastes of cold iron, and the lantern light trembles in the trees."
+	provider := newScriptedProvider(t, scriptedResponse{resp: &llm.Response{Content: narrative}})
+	state := &fakeStateManager{state: makePipelineState(campaignID)}
+	engine := newPipelineTestEngine(state, provider, reg)
+
+	result, err := engine.ProcessTurn(context.Background(), campaignID, "Look around cautiously.")
+	if err != nil {
+		t.Fatalf("ProcessTurn() error = %v", err)
+	}
+	if len(provider.calls) != 1 {
+		t.Fatalf("provider calls = %d, want only initial turn call", len(provider.calls))
+	}
+	if len(result.AppliedToolCalls) != 0 {
+		t.Fatalf("applied tool calls = %+v, want none", result.AppliedToolCalls)
 	}
 }
 

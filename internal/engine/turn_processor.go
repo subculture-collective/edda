@@ -637,7 +637,7 @@ func (tp *TurnProcessor) extractDurableState(ctx context.Context, messages []llm
 	hasQuest := countAppliedSatisfyingDurableKind(applied, DurableClaimQuest) > 0
 
 	// Pass 1: lore facts (single-purpose — establish_fact only).
-	if !hasFact {
+	if !hasFact && shouldRunLoreExtraction(narrative) {
 		factTools := durableLoreExtractionTools(availableTools)
 		if len(factTools) > 0 {
 			extractionMessages := make([]llm.Message, len(messages), len(messages)+2)
@@ -645,7 +645,7 @@ func (tp *TurnProcessor) extractDurableState(ctx context.Context, messages []llm
 			extractionMessages = append(extractionMessages, llm.Message{Role: llm.RoleAssistant, Content: narrative})
 			extractionMessages = append(extractionMessages, llm.Message{Role: llm.RoleUser, Content: durableLoreExtractionPromptV2(narrative)})
 
-			applied = tp.runPostTurnExtractionTools(ctx, extractionMessages, factTools, applied, "lore extraction", func(name string) bool {
+			applied = tp.runPostTurnExtractionTools(ctx, extractionMessages, factTools, applied, "lore extraction", 1, func(name string) bool {
 				return name == "establish_fact"
 			})
 		}
@@ -660,7 +660,7 @@ func (tp *TurnProcessor) extractDurableState(ctx context.Context, messages []llm
 			extractionMessages = append(extractionMessages, llm.Message{Role: llm.RoleAssistant, Content: narrative})
 			extractionMessages = append(extractionMessages, llm.Message{Role: llm.RoleUser, Content: questOnlyExtractionPrompt(narrative)})
 
-			applied = tp.runPostTurnExtractionTools(ctx, extractionMessages, questTools, applied, "quest extraction", func(name string) bool {
+			applied = tp.runPostTurnExtractionTools(ctx, extractionMessages, questTools, applied, "quest extraction", 0, func(name string) bool {
 				return name == "create_quest" || name == "update_quest" || name == "complete_objective"
 			})
 		}
@@ -687,14 +687,28 @@ func questOnlyExtractionTools(availableTools []llm.Tool) []llm.Tool {
 }
 
 func durableLoreExtractionPromptV2(narrative string) string {
-	return fmt.Sprintf("Extract durable canonical facts from the narrative below. Call establish_fact for each NEW fact the player learned (max 3). Use categories: lore, history, hazard, faction, location, relic, mechanism, or magic. Skip facts already listed in the system message's World Facts section. Skip vague atmosphere, restatements, or one-off descriptions. If no new durable lore, call no tools and return no prose.\n\nNarrative: %s", narrative)
+	return fmt.Sprintf("Extract durable canonical facts from the narrative below. Call establish_fact for at most ONE important NEW fact the player explicitly learned, discovered, confirmed, was told, or had revealed. Use categories: lore, history, hazard, faction, location, relic, mechanism, or magic. Skip facts already listed in the system message's World Facts section. Skip vague atmosphere, restatements, sensory detail, mood, symbolism, and one-off descriptions. If no important new durable lore was explicitly revealed, call no tools and return no prose.\n\nNarrative: %s", narrative)
+}
+
+func shouldRunLoreExtraction(narrative string) bool {
+	lower := strings.ToLower(narrative)
+	for _, cue := range []string{
+		"you learn", "you now know", "you confirm", "you discover", "you find out",
+		"reveals", "revealed", "tells you", "says", "explains", "confirms",
+		"is called", "called it", "known as", "symbolizes", "signifies", "means that",
+	} {
+		if strings.Contains(lower, cue) {
+			return true
+		}
+	}
+	return false
 }
 
 func questOnlyExtractionPrompt(narrative string) string {
 	return fmt.Sprintf("Extract quest progress from the narrative below. Use ONLY quest_id and objective_id values explicitly listed in the system message's Active Quests section. Never invent IDs. If the narrative completes a listed objective, call complete_objective with that exact quest_id and objective_id. If the narrative advances a listed active quest without completing an objective, call update_quest with that exact quest_id. If the narrative establishes a concrete new multi-step goal that is NOT covered by any active quest, call create_quest with a short title, 1-sentence description, quest_type \"short_term\", and 1-3 ordered objectives. Do NOT create quests for vague atmosphere, one-off actions, or mere lore. If no listed quest/objective matches and no clearly new quest-shaped goal exists, call no tools and return no prose.\n\nNarrative: %s", narrative)
 }
 
-func (tp *TurnProcessor) runPostTurnExtractionTools(ctx context.Context, messages []llm.Message, extractionTools []llm.Tool, applied []AppliedToolCall, label string, acceptTool func(string) bool) []AppliedToolCall {
+func (tp *TurnProcessor) runPostTurnExtractionTools(ctx context.Context, messages []llm.Message, extractionTools []llm.Tool, applied []AppliedToolCall, label string, maxAccepted int, acceptTool func(string) bool) []AppliedToolCall {
 	resp, err := tp.postTurnLLM().Complete(ctx, messages, extractionTools)
 	if err != nil {
 		tp.logger.Warn(label+" failed", "error", err)
@@ -705,7 +719,11 @@ func (tp *TurnProcessor) runPostTurnExtractionTools(ctx context.Context, message
 	}
 
 	allowed := toolNameSet(extractionTools)
+	accepted := 0
 	for _, tc := range resp.ToolCalls {
+		if maxAccepted > 0 && accepted >= maxAccepted {
+			break
+		}
 		if !acceptTool(tc.Name) {
 			continue
 		}
@@ -720,6 +738,7 @@ func (tp *TurnProcessor) runPostTurnExtractionTools(ctx context.Context, message
 			continue
 		}
 		applied = append(applied, atc)
+		accepted++
 	}
 	return applied
 }
