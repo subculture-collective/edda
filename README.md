@@ -108,3 +108,7 @@ The env contract is fully documented in two files:
 - [`.env.production.example`](.env.production.example) — production overlay; documents only what differs from `.env.example` (release tag, container names, app ports, bind address, locked LLM endpoints).
 
 Naming rule: `GM_<UPPER_SECTION>_<UPPER_KEY>` maps to `<section>.<key>` in the koanf tree. For example, `GM_LLM_OLLAMA_APIKEY` → `llm.ollama.apikey`.
+
+## License
+
+Licensed under `GPL-3.0-or-later`. See [LICENSE](LICENSE).
