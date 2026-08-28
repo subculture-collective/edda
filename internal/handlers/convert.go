@@ -162,24 +162,90 @@ func engineStateChangesToAPI(changes []engine.StateChange) []api.StateChange {
 	return out
 }
 
+func engineResolutionEventsToAPI(applied []engine.AppliedToolCall) []api.ResolutionEvent {
+	out := make([]api.ResolutionEvent, 0)
+	for _, call := range applied {
+		switch call.Tool {
+		case "skill_check":
+			if event, ok := skillCheckResolutionEvent(call); ok {
+				out = append(out, event)
+			}
+		}
+	}
+	return out
+}
+
+func skillCheckResolutionEvent(call engine.AppliedToolCall) (api.ResolutionEvent, bool) {
+	var args map[string]any
+	if err := json.Unmarshal(call.Arguments, &args); err != nil {
+		return api.ResolutionEvent{}, false
+	}
+	var result map[string]any
+	if err := json.Unmarshal(call.Result, &result); err != nil {
+		return api.ResolutionEvent{}, false
+	}
+
+	skill, _ := args["skill"].(string)
+	if skill == "" {
+		skill = "Skill"
+	}
+	success, _ := result["success"].(bool)
+	outcome := "failure"
+	if success {
+		outcome = "success"
+	}
+
+	details := make(map[string]any, len(result)+len(args))
+	for key, value := range result {
+		details[key] = value
+	}
+	for _, key := range []string{"character_id", "skill", "difficulty", "advantage", "disadvantage"} {
+		if value, ok := args[key]; ok {
+			details[key] = value
+		}
+	}
+	details["dice_sides"] = float64(20)
+
+	return api.ResolutionEvent{
+		Type:    "skill_check",
+		Label:   skill + " check",
+		Outcome: outcome,
+		Details: details,
+	}, true
+}
+
 func engineTurnResultToAPI(tr *engine.TurnResult) api.TurnResponse {
 	return api.TurnResponse{
-		Narrative:    tr.Narrative,
-		StateChanges: engineStateChangesToAPI(tr.StateChanges),
-		CombatActive: tr.CombatActive,
+		Narrative:        engine.CleanNarrativeText(tr.Narrative),
+		StateChanges:     engineStateChangesToAPI(tr.StateChanges),
+		ResolutionEvents: engineResolutionEventsToAPI(tr.AppliedToolCalls),
+		CombatActive:     tr.CombatActive,
 	}
 }
 
 func sessionLogToEntry(sl statedb.SessionLog) api.SessionLogEntry {
 	choices := openingChoicesFromToolCalls(sl.ToolCalls)
+	resolutionEvents := engineResolutionEventsToAPI(appliedToolCallsFromSessionLog(sl.ToolCalls))
 	return api.SessionLogEntry{
-		TurnNumber:  int(sl.TurnNumber),
-		PlayerInput: sl.PlayerInput,
-		InputType:   sl.InputType,
-		LLMResponse: sl.LlmResponse,
-		Choices:     choices,
-		CreatedAt:   sl.CreatedAt.Time,
+		TurnNumber:       int(sl.TurnNumber),
+		PlayerInput:      sl.PlayerInput,
+		InputType:        sl.InputType,
+		LLMResponse:      engine.CleanNarrativeText(sl.LlmResponse),
+		Choices:          choices,
+		ResolutionEvents: resolutionEvents,
+		CreatedAt:        sl.CreatedAt.Time,
 	}
+}
+
+func appliedToolCallsFromSessionLog(toolCalls []byte) []engine.AppliedToolCall {
+	if len(toolCalls) == 0 {
+		return []engine.AppliedToolCall{}
+	}
+	var calls []engine.AppliedToolCall
+	if err := json.Unmarshal(toolCalls, &calls); err != nil {
+		return []engine.AppliedToolCall{}
+	}
+	return calls
 }
 
 func openingChoicesFromToolCalls(toolCalls []byte) []string {

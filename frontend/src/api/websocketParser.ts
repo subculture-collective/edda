@@ -1,5 +1,6 @@
 import type {
   StateChange,
+  ResolutionEvent,
   TurnResponse,
   WebSocketChunkPayload,
   WebSocketErrorPayload,
@@ -142,9 +143,15 @@ function normalizeTurnResponse(value: unknown): TurnResponseWithChoices | null {
     return null;
   }
 
+  const resolutionEvents = Array.isArray(value.resolution_events) ? value.resolution_events : [];
+  if (!resolutionEvents.every(isResolutionEvent)) {
+    return null;
+  }
+
   return {
     narrative: value.narrative,
     state_changes: stateChanges,
+    resolution_events: resolutionEvents,
     combat_active: typeof value.combat_active === 'boolean' ? value.combat_active : false,
     choices: normalizeChoices(value.choices),
   };
@@ -168,6 +175,16 @@ function isStateChange(value: unknown): value is StateChange {
     typeof value.entity_type === 'string' &&
     typeof value.entity_id === 'string' &&
     typeof value.change_type === 'string' &&
+    isRecord(value.details)
+  );
+}
+
+function isResolutionEvent(value: unknown): value is ResolutionEvent {
+  return (
+    isRecord(value) &&
+    typeof value.type === 'string' &&
+    typeof value.label === 'string' &&
+    typeof value.outcome === 'string' &&
     isRecord(value.details)
   );
 }

@@ -136,6 +136,7 @@ export interface SessionLogEntry {
   input_type: string;
   llm_response: string;
   choices?: string[];
+  resolution_events?: ResolutionEvent[];
   created_at: string;
 }
 
@@ -154,9 +155,17 @@ export interface StateChange {
   details: Record<string, unknown>;
 }
 
+export interface ResolutionEvent {
+  type: string;
+  label: string;
+  outcome: string;
+  details: Record<string, unknown>;
+}
+
 export interface TurnResult {
   narrative: string;
   state_changes: StateChange[];
+  resolution_events: ResolutionEvent[];
   combat_active: boolean;
 }
 
@@ -283,11 +292,42 @@ export interface OpeningSceneResponse {
   choices: string[];
 }
 
+export interface StarterItem {
+  name: string;
+  description?: string;
+  item_type?: string;
+  rarity?: string;
+  properties?: Record<string, unknown>;
+  equipped?: boolean;
+  quantity?: number;
+}
+
+export interface StarterKnownFact {
+  fact: string;
+  category?: string;
+}
+
+export interface StarterRelationship {
+  target_entity_type: string;
+  target_entity_id: string;
+  relationship_type: string;
+  description?: string;
+  strength?: number;
+}
+
+export interface CharacterSpawnPackage {
+  items?: StarterItem[];
+  known_facts?: StarterKnownFact[];
+  relationships?: StarterRelationship[];
+}
+
 export interface BuildWorldRequest {
   name: string;
   summary: string;
-  campaign_profile: CampaignProfile;
+  profile: CampaignProfile;
   character_profile: CharacterProfile;
+  rules_mode?: string;
+  spawn_package?: CharacterSpawnPackage;
 }
 
 export interface BuildWorldResponse {

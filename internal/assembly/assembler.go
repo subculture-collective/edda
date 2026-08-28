@@ -3,8 +3,12 @@
 package assembly
 
 import (
+	"bytes"
+	"encoding/json"
 	"fmt"
 	"strings"
+
+	"github.com/google/uuid"
 
 	"git.subcult.tv/subculture-collective/edda/internal/domain"
 	"git.subcult.tv/subculture-collective/edda/internal/game"
@@ -351,6 +355,22 @@ func serializeState(state *game.GameState) string {
 	}
 	sb.WriteString("\n")
 
+	if len(state.ActiveCombatState) > 0 {
+		sb.WriteString("### Combat State\n")
+		sb.WriteString("Use this exact combat_state object for combat_round or resolve_combat; do not invent combat_state IDs or combatant IDs.\n")
+		sb.WriteString("If the player asks to resolve, end, flee, surrender, or conclude combat, prefer resolve_combat. Use combat_round only for another exchange inside an ongoing fight.\n")
+		var compact bytes.Buffer
+		if json.Compact(&compact, state.ActiveCombatState) == nil {
+			sb.WriteString(compact.String())
+		} else {
+			sb.Write(state.ActiveCombatState)
+		}
+		sb.WriteString("\n\n")
+	} else if state.CombatActive {
+		sb.WriteString("### Combat State\n")
+		sb.WriteString("- Combat is active, but no structured combat_state is available. Do not invent a combat_state; use non-durable narration or start from a valid combat tool result.\n\n")
+	}
+
 	// Current location
 	sb.WriteString("### Current Location\n")
 	fmt.Fprintf(&sb, "- ID: %s\n", state.CurrentLocation.ID)
@@ -366,18 +386,32 @@ func serializeState(state *game.GameState) string {
 	}
 	wroteExitsHeader := false
 	for _, conn := range state.CurrentLocationConnections {
-		if conn.Description == "" {
+		if conn.Description == "" && conn.ToLocationID == uuid.Nil {
 			continue
 		}
 		if !wroteExitsHeader {
 			sb.WriteString("- Exits:\n")
 			wroteExitsHeader = true
 		}
-		if conn.TravelTime != "" {
-			fmt.Fprintf(&sb, "  - %s (travel time: %s)\n", conn.Description, conn.TravelTime)
-		} else {
-			fmt.Fprintf(&sb, "  - %s\n", conn.Description)
+		parts := []string{}
+		if conn.ID != uuid.Nil {
+			parts = append(parts, fmt.Sprintf("connection_id: %s", conn.ID))
 		}
+		if conn.ToLocationID != uuid.Nil {
+			parts = append(parts, fmt.Sprintf("to_location_id: %s", conn.ToLocationID))
+		}
+		if conn.TravelTime != "" {
+			parts = append(parts, fmt.Sprintf("travel time: %s", conn.TravelTime))
+		}
+		details := ""
+		if len(parts) > 0 {
+			details = fmt.Sprintf(" (%s)", strings.Join(parts, "; "))
+		}
+		description := conn.Description
+		if description == "" {
+			description = "connected location"
+		}
+		fmt.Fprintf(&sb, "  - %s%s\n", description, details)
 	}
 	sb.WriteString("\n")
 
@@ -401,11 +435,14 @@ func serializeState(state *game.GameState) string {
 	if len(state.ActiveQuests) > 0 {
 		sb.WriteString("### Active Quests\n")
 		for _, quest := range state.ActiveQuests {
-			fmt.Fprintf(&sb, "- %s", quest.Title)
+			fmt.Fprintf(&sb, "- %s (quest_id: %s", quest.Title, quest.ID)
 			if quest.QuestType != "" {
-				fmt.Fprintf(&sb, " (%s)", quest.QuestType)
+				fmt.Fprintf(&sb, "; type: %s", quest.QuestType)
 			}
-			sb.WriteString("\n")
+			if quest.Status != "" {
+				fmt.Fprintf(&sb, "; status: %s", quest.Status)
+			}
+			sb.WriteString(")\n")
 			if quest.Description != "" {
 				fmt.Fprintf(&sb, "  %s\n", quest.Description)
 			}
@@ -415,7 +452,7 @@ func serializeState(state *game.GameState) string {
 					if obj.Completed {
 						check = "[x]"
 					}
-					fmt.Fprintf(&sb, "  %s %s\n", check, obj.Description)
+					fmt.Fprintf(&sb, "  %s %s (objective_id: %s; quest_id: %s)\n", check, obj.Description, obj.ID, obj.QuestID)
 				}
 			}
 		}

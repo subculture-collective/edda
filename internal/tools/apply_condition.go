@@ -60,7 +60,7 @@ func NewApplyConditionHandler() *ApplyConditionHandler {
 }
 
 // Handle executes the apply_condition tool.
-func (h *ApplyConditionHandler) Handle(_ context.Context, args map[string]any) (*ToolResult, error) {
+func (h *ApplyConditionHandler) Handle(ctx context.Context, args map[string]any) (*ToolResult, error) {
 	if h == nil {
 		return nil, errors.New("apply_condition handler is nil")
 	}
@@ -84,7 +84,8 @@ func (h *ApplyConditionHandler) Handle(_ context.Context, args map[string]any) (
 	if err != nil {
 		return nil, err
 	}
-	state, err := parseCombatStateArg(args, "combat_state")
+	fallbackCampaignID, _ := CurrentCampaignIDFromContext(ctx)
+	state, err := parseCombatStateArgWithCampaignFallback(args, "combat_state", fallbackCampaignID)
 	if err != nil {
 		return nil, err
 	}

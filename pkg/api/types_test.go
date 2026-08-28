@@ -139,11 +139,17 @@ func TestActionTurnAndEnvelopeTypesJSONShape(t *testing.T) {
 			ChangeType: "location_updated",
 			Details:    map[string]any{"location_id": "loc-1"},
 		}},
+		ResolutionEvents: []ResolutionEvent{{
+			Type:    "skill_check",
+			Label:   "Investigation check",
+			Outcome: "success",
+			Details: map[string]any{"total": 17},
+		}},
 	}
-	assertJSONKeys(t, result, "narrative", "state_changes", "combat_active")
+	assertJSONKeys(t, result, "narrative", "state_changes", "resolution_events", "combat_active")
 
 	alias := TurnResponse(result)
-	assertJSONKeys(t, alias, "narrative", "state_changes", "combat_active")
+	assertJSONKeys(t, alias, "narrative", "state_changes", "resolution_events", "combat_active")
 
 	envelope := WebSocketMessageEnvelope{
 		Type:      "turn_result",
@@ -328,7 +334,8 @@ func TestAPIResponseGoldenShapes(t *testing.T) {
 				ChangeType: "location_updated",
 				Details:    map[string]any{"location_id": "loc-1"},
 			}},
-			CombatActive: false,
+			ResolutionEvents: []ResolutionEvent{},
+			CombatActive:     false,
 		},
 	}
 

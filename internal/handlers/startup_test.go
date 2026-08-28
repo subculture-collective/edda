@@ -61,9 +61,19 @@ type startupStubQuerier struct {
 	createLocationFn          func(context.Context, statedb.CreateLocationParams) (statedb.Location, error)
 	createNPCFn               func(context.Context, statedb.CreateNPCParams) (statedb.Npc, error)
 	createFactFn              func(context.Context, statedb.CreateFactParams) (statedb.WorldFact, error)
+	createItemFn              func(context.Context, statedb.CreateItemParams) (statedb.Item, error)
+	createRelationshipFn      func(context.Context, statedb.CreateRelationshipParams) (statedb.EntityRelationship, error)
+	setRelationshipAwareFn    func(context.Context, pgtype.UUID) error
 	createPlayerCharacterFn   func(context.Context, statedb.CreatePlayerCharacterParams) (statedb.PlayerCharacter, error)
 	createSessionLogFn        func(context.Context, statedb.CreateSessionLogParams) (statedb.SessionLog, error)
 	listLocationsByCampaignFn func(context.Context, pgtype.UUID) ([]statedb.Location, error)
+
+	createItemCalls              int
+	createRelationshipCalls      int
+	setRelationshipAwareCalls    int
+	lastCreateItemParams         statedb.CreateItemParams
+	lastCreateRelationshipParams statedb.CreateRelationshipParams
+	lastSetRelationshipAwareID   pgtype.UUID
 }
 
 func (s *startupStubQuerier) CreateCampaign(ctx context.Context, arg statedb.CreateCampaignParams) (statedb.Campaign, error) {
@@ -99,6 +109,33 @@ func (s *startupStubQuerier) CreateFact(ctx context.Context, arg statedb.CreateF
 		return s.createFactFn(ctx, arg)
 	}
 	return statedb.WorldFact{}, nil
+}
+
+func (s *startupStubQuerier) CreateItem(ctx context.Context, arg statedb.CreateItemParams) (statedb.Item, error) {
+	s.createItemCalls++
+	s.lastCreateItemParams = arg
+	if s.createItemFn != nil {
+		return s.createItemFn(ctx, arg)
+	}
+	return statedb.Item{}, nil
+}
+
+func (s *startupStubQuerier) CreateRelationship(ctx context.Context, arg statedb.CreateRelationshipParams) (statedb.EntityRelationship, error) {
+	s.createRelationshipCalls++
+	s.lastCreateRelationshipParams = arg
+	if s.createRelationshipFn != nil {
+		return s.createRelationshipFn(ctx, arg)
+	}
+	return statedb.EntityRelationship{}, nil
+}
+
+func (s *startupStubQuerier) SetRelationshipPlayerAware(ctx context.Context, id pgtype.UUID) error {
+	s.setRelationshipAwareCalls++
+	s.lastSetRelationshipAwareID = id
+	if s.setRelationshipAwareFn != nil {
+		return s.setRelationshipAwareFn(ctx, id)
+	}
+	return nil
 }
 
 func (s *startupStubQuerier) CreatePlayerCharacter(ctx context.Context, arg statedb.CreatePlayerCharacterParams) (statedb.PlayerCharacter, error) {
@@ -313,6 +350,9 @@ func TestBuildWorld_Success(t *testing.T) {
 	)
 	campaignID := uuid.New()
 	locationID := uuid.New()
+	playerID := uuid.New()
+	npcID := uuid.New()
+	relationshipID := uuid.New()
 	queries := &startupStubQuerier{
 		createCampaignFn: func(_ context.Context, arg statedb.CreateCampaignParams) (statedb.Campaign, error) {
 			now := time.Now()
@@ -346,7 +386,13 @@ func TestBuildWorld_Success(t *testing.T) {
 			return statedb.WorldFact{ID: dbutil.ToPgtype(uuid.New())}, nil
 		},
 		createPlayerCharacterFn: func(_ context.Context, _ statedb.CreatePlayerCharacterParams) (statedb.PlayerCharacter, error) {
-			return statedb.PlayerCharacter{ID: dbutil.ToPgtype(uuid.New())}, nil
+			return statedb.PlayerCharacter{ID: dbutil.ToPgtype(playerID)}, nil
+		},
+		createItemFn: func(_ context.Context, arg statedb.CreateItemParams) (statedb.Item, error) {
+			return statedb.Item{ID: dbutil.ToPgtype(uuid.New()), Name: arg.Name}, nil
+		},
+		createRelationshipFn: func(_ context.Context, arg statedb.CreateRelationshipParams) (statedb.EntityRelationship, error) {
+			return statedb.EntityRelationship{ID: dbutil.ToPgtype(relationshipID), RelationshipType: arg.RelationshipType}, nil
 		},
 		createSessionLogFn: func(_ context.Context, _ statedb.CreateSessionLogParams) (statedb.SessionLog, error) {
 			return statedb.SessionLog{ID: dbutil.ToPgtype(uuid.New())}, nil
@@ -378,6 +424,7 @@ func TestBuildWorld_Success(t *testing.T) {
 			Strengths:   []string{"Tracking"},
 			Weaknesses:  []string{"Impulsive loyalty"},
 		},
+		SpawnPackage: &api.CharacterSpawnPackage{Items: []api.StarterItem{{Name: "Rusty Lantern", Description: "Still burns.", ItemType: "tool", Quantity: 1}}, KnownFacts: []api.StarterKnownFact{{Fact: "Kael knows the ash roads.", Category: "background"}}, Relationships: []api.StarterRelationship{{TargetEntityType: "npc", TargetEntityID: npcID.String(), RelationshipType: "knows", Description: "Old patrol contact"}}},
 	})
 	req := httptest.NewRequest(http.MethodPost, "/api/v1/campaigns/start/world", bytes.NewReader(body))
 	req.Header.Set("Content-Type", "application/json")
@@ -396,6 +443,41 @@ func TestBuildWorld_Success(t *testing.T) {
 	}
 	if len(resp.OpeningScene.Choices) != 2 {
 		t.Fatalf("choices count = %d", len(resp.OpeningScene.Choices))
+	}
+	if queries.createItemCalls != 1 {
+		t.Fatalf("CreateItem calls = %d, want 1", queries.createItemCalls)
+	}
+	if got := queries.lastCreateItemParams.PlayerCharacterID; got != dbutil.ToPgtype(playerID) {
+		t.Errorf("starter item player id = %#v, want %#v", got, dbutil.ToPgtype(playerID))
+	}
+	if got := queries.lastCreateItemParams.Name; got != "Rusty Lantern" {
+		t.Errorf("starter item name = %q, want Rusty Lantern", got)
+	}
+	if queries.createRelationshipCalls != 1 {
+		t.Fatalf("CreateRelationship calls = %d, want 1", queries.createRelationshipCalls)
+	}
+	if got := queries.lastCreateRelationshipParams.TargetEntityID; got != dbutil.ToPgtype(npcID) {
+		t.Errorf("starter relationship target id = %#v, want %#v", got, dbutil.ToPgtype(npcID))
+	}
+	if queries.setRelationshipAwareCalls != 1 {
+		t.Fatalf("SetRelationshipPlayerAware calls = %d, want 1", queries.setRelationshipAwareCalls)
+	}
+	if got := queries.lastSetRelationshipAwareID; got != dbutil.ToPgtype(relationshipID) {
+		t.Errorf("revealed relationship id = %#v, want %#v", got, dbutil.ToPgtype(relationshipID))
+	}
+}
+
+func TestBuildWorld_InvalidSpawnRelationshipTargetReturnsBadRequest(t *testing.T) {
+	provider := newStartupScriptedProvider(t)
+	h := NewStartupHandlers(provider, &startupStubQuerier{}, log.Default(), nil)
+	router := newStartupRouter(h, true)
+	body := mustStartupJSON(t, api.WorldBuildRequest{Name: "Ashfall", Summary: "A fortress city resists a cursed frontier.", Profile: &api.CampaignProfile{Genre: "dark fantasy", Tone: "grim", Themes: []string{"survival"}, WorldType: "frontier", DangerLevel: "high", PoliticalComplexity: "moderate"}, CharacterProfile: &api.CharacterProfile{Name: "Kael", Concept: "elven ranger", Background: "Frontier scout", Personality: "quiet and vigilant", Motivations: []string{"Protect Ironhold"}, Strengths: []string{"Tracking"}, Weaknesses: []string{"Impulsive loyalty"}}, SpawnPackage: &api.CharacterSpawnPackage{Relationships: []api.StarterRelationship{{TargetEntityType: "npc", TargetEntityID: "not-a-uuid", RelationshipType: "knows"}}}})
+	req := httptest.NewRequest(http.MethodPost, "/api/v1/campaigns/start/world", bytes.NewReader(body))
+	req.Header.Set("Content-Type", "application/json")
+	rec := httptest.NewRecorder()
+	router.ServeHTTP(rec, req)
+	if rec.Code != http.StatusBadRequest {
+		t.Fatalf("status = %d, body = %s", rec.Code, rec.Body.String())
 	}
 }
 

@@ -14,6 +14,22 @@ import (
 	"git.subcult.tv/subculture-collective/edda/pkg/api"
 )
 
+var (
+	// ErrEmptyTurnResponse means the model produced no usable player-facing
+	// narrative and no tool-backed state changes for a turn. Callers should treat
+	// this as a provider/output failure, not as a successful empty turn.
+	ErrEmptyTurnResponse = errors.New("llm returned empty turn response")
+	// ErrUnresolvedDurableClaims means the model made durable world-state claims
+	// that could not be backed by successful tool calls after one repair attempt.
+	ErrUnresolvedDurableClaims = errors.New("llm response contained unresolved durable state claims")
+)
+
+// IsLLMOutputError reports whether err represents malformed or unusable model
+// output rather than an application/server failure.
+func IsLLMOutputError(err error) bool {
+	return errors.Is(err, ErrEmptyTurnResponse) || errors.Is(err, ErrUnresolvedDurableClaims)
+}
+
 // TurnProcessor handles the tool-call portion of the turn pipeline with
 // built-in error recovery. When a tool call fails validation or execution
 // it sends the error back to the LLM and retries once. If the retry also
@@ -26,11 +42,25 @@ type StatusCallback func(api.StatusPayload)
 // TurnProcessor handles the tool-call portion of the turn pipeline with
 // built-in error recovery and optional status callbacks.
 type TurnProcessor struct {
-	logger         *slog.Logger
-	provider       llm.Provider
-	registry       *tools.Registry
-	validator      *tools.Validator
-	StatusCallback StatusCallback
+	logger           *slog.Logger
+	provider         llm.Provider
+	postTurnProvider llm.Provider
+	registry         *tools.Registry
+	validator        *tools.Validator
+	StatusCallback   StatusCallback
+}
+
+// SetPostTurnProvider routes durable repair and post-turn extraction calls to a
+// separate provider. Passing nil restores fallback to the main turn provider.
+func (tp *TurnProcessor) SetPostTurnProvider(provider llm.Provider) {
+	tp.postTurnProvider = provider
+}
+
+func (tp *TurnProcessor) postTurnLLM() llm.Provider {
+	if tp.postTurnProvider != nil {
+		return tp.postTurnProvider
+	}
+	return tp.provider
 }
 
 // TurnProcessorOptions configures per-call processor behavior.
@@ -107,14 +137,30 @@ func (tp *TurnProcessor) ProcessWithRecoveryWithOptions(
 
 	narrative = resp.Content
 	tp.logger.Info("turn processor initial llm response", "tool_calls", len(resp.ToolCalls), "tool_call_names", toolCallNames(resp.ToolCalls), "narrative_len", len(narrative), "finish_reason", resp.FinishReason)
+	if len(resp.ToolCalls) == 0 && strings.TrimSpace(narrative) == "" {
+		tp.logger.Warn("turn processor received empty initial response; requesting regeneration", "duration_ms", time.Since(started).Milliseconds(), "finish_reason", resp.FinishReason)
+		regenResp, regenErr := tp.regenerateEmptyInitialResponse(ctx, messages, availableTools)
+		if regenErr != nil {
+			tp.logger.Error("turn processor empty-response regeneration failed", "duration_ms", time.Since(started).Milliseconds(), "error", regenErr)
+			return "", nil, ErrEmptyTurnResponse
+		}
+		resp = regenResp
+		narrative = resp.Content
+		tp.logger.Info("turn processor regenerated initial llm response", "tool_calls", len(resp.ToolCalls), "tool_call_names", toolCallNames(resp.ToolCalls), "narrative_len", len(narrative), "finish_reason", resp.FinishReason)
+	}
 
 	allowed := make(map[string]struct{}, len(availableTools))
 	for _, t := range availableTools {
 		allowed[t.Name] = struct{}{}
 	}
 	if len(resp.ToolCalls) == 0 {
-		if issues := AuditDurableClaims(narrative, nil, advertisedToolNames(availableTools)); len(issues) > 0 {
-			narrative, applied = tp.repairDurableClaims(ctx, messages, availableTools, narrative, applied, issues, nil)
+		if strings.TrimSpace(narrative) == "" {
+			tp.logger.Error("turn processor received empty response without tool calls", "duration_ms", time.Since(started).Milliseconds(), "finish_reason", resp.FinishReason)
+			return "", nil, ErrEmptyTurnResponse
+		}
+		narrative, applied, err = tp.finalizeResponseState(ctx, messages, availableTools, narrative, applied, nil, nil)
+		if err != nil {
+			return "", nil, err
 		}
 		tp.logger.Warn("turn processor completed without tool calls", "duration_ms", time.Since(started).Milliseconds(), "advertised_tools", len(availableTools), "advertised_tool_names", advertisedToolNames(availableTools))
 		return narrative, applied, nil
@@ -204,12 +250,105 @@ func (tp *TurnProcessor) ProcessWithRecoveryWithOptions(
 		}
 	}
 
-	if issues := appendDurableIssues(AuditDurableClaims(narrative, applied, advertisedToolNames(availableTools)), unresolvedDurableIssues...); len(issues) > 0 {
-		narrative, applied = tp.repairDurableClaims(ctx, messages, availableTools, narrative, applied, issues, unresolvedDurableRequirements)
+	narrative, applied, err = tp.finalizeResponseState(ctx, messages, availableTools, narrative, applied, unresolvedDurableIssues, unresolvedDurableRequirements)
+	if err != nil {
+		return "", nil, err
+	}
+	if strings.TrimSpace(narrative) == "" {
+		if fallback := fallbackNarrativeForAppliedTools(applied); fallback != "" {
+			tp.logger.Warn("using fallback narrative for applied tool calls", "applied_tool_calls", len(applied), "applied_tool_names", appliedToolNames(applied))
+			narrative = fallback
+		} else {
+			tp.logger.Error("turn processor completed with empty narrative", "duration_ms", time.Since(started).Milliseconds(), "applied_tool_calls", len(applied), "applied_tool_names", appliedToolNames(applied))
+			return "", nil, ErrEmptyTurnResponse
+		}
 	}
 
 	tp.logger.Info("turn processor completed", "duration_ms", time.Since(started).Milliseconds(), "applied_tool_calls", len(applied), "applied_tool_names", appliedToolNames(applied), "narrative_len", len(narrative))
 	return narrative, applied, nil
+}
+
+func fallbackNarrativeForAppliedTools(applied []AppliedToolCall) string {
+	if len(applied) == 0 {
+		return ""
+	}
+	last := applied[len(applied)-1]
+	switch last.Tool {
+	case "move_player":
+		if name := stringFieldFromJSON(last.Result, "name"); name != "" {
+			return fmt.Sprintf("You move to %s.", name)
+		}
+		return "You move to the connected location."
+	case "create_location":
+		if boolFieldFromJSON(last.Result, "move_player_here") {
+			if name := stringFieldFromJSON(last.Result, "name"); name != "" {
+				return fmt.Sprintf("You enter %s.", name)
+			}
+			return "You enter the newly revealed location."
+		}
+		return "A new location is revealed."
+	case "update_player_hp":
+		return "Your health changes."
+	case "update_player_status":
+		if status := stringFieldFromJSON(last.Result, "status"); status != "" {
+			return fmt.Sprintf("Your status is now %s.", status)
+		}
+		return "Your status changes."
+	case "add_item", "create_item":
+		if name := stringFieldFromJSON(last.Result, "name"); name != "" {
+			return fmt.Sprintf("You gain %s.", name)
+		}
+		return "Your inventory is updated."
+	case "remove_item", "modify_item", "update_item":
+		return "Your inventory is updated."
+	case "create_quest", "update_quest", "complete_objective":
+		return "Your quest journal is updated."
+	case "establish_fact", "revise_fact":
+		return "You record the new information."
+	case "initiate_combat":
+		return "Combat begins."
+	case "combat_round", "apply_damage", "apply_condition":
+		return "The combat state changes."
+	case "resolve_combat":
+		return "Combat is resolved."
+	default:
+		return "The action takes effect."
+	}
+}
+
+func stringFieldFromJSON(data json.RawMessage, key string) string {
+	var obj map[string]any
+	if err := json.Unmarshal(data, &obj); err != nil {
+		return ""
+	}
+	value, _ := obj[key].(string)
+	return value
+}
+
+func boolFieldFromJSON(data json.RawMessage, key string) bool {
+	var obj map[string]any
+	if err := json.Unmarshal(data, &obj); err != nil {
+		return false
+	}
+	value, _ := obj[key].(bool)
+	return value
+}
+
+func (tp *TurnProcessor) regenerateEmptyInitialResponse(ctx context.Context, messages []llm.Message, availableTools []llm.Tool) (*llm.Response, error) {
+	regenMessages := make([]llm.Message, len(messages), len(messages)+1)
+	copy(regenMessages, messages)
+	regenMessages = append(regenMessages, llm.Message{
+		Role:    llm.RoleUser,
+		Content: "Your previous response was empty. Regenerate the turn response now. Resolve the player's action with either player-facing narrative text, valid tool calls, or both. Do not return an empty response.",
+	})
+	resp, err := tp.provider.Complete(ctx, regenMessages, availableTools)
+	if err != nil {
+		return nil, fmt.Errorf("empty-response regeneration LLM call: %w", err)
+	}
+	if resp == nil || (strings.TrimSpace(resp.Content) == "" && len(resp.ToolCalls) == 0) {
+		return nil, ErrEmptyTurnResponse
+	}
+	return resp, nil
 }
 
 func (tp *TurnProcessor) completeInitialWithRetry(ctx context.Context, messages []llm.Message, availableTools []llm.Tool) (*llm.Response, error) {
@@ -387,10 +526,10 @@ func appliedToolSatisfiesDurableIssue(call AppliedToolCall, kind DurableClaimKin
 	}
 }
 
-func (tp *TurnProcessor) repairDurableClaims(ctx context.Context, messages []llm.Message, availableTools []llm.Tool, narrative string, applied []AppliedToolCall, issues []DurableClaimIssue, requirements []durableRequirement) (string, []AppliedToolCall) {
+func (tp *TurnProcessor) repairDurableClaims(ctx context.Context, messages []llm.Message, availableTools []llm.Tool, narrative string, applied []AppliedToolCall, issues []DurableClaimIssue, requirements []durableRequirement) (string, []AppliedToolCall, error) {
 	repairTools := durableRepairTools(availableTools, issues)
 	if len(repairTools) == 0 {
-		return safeProvisionalNarrative(narrative), applied
+		return "", nil, fmt.Errorf("%w: no repair tools available for issues %v", ErrUnresolvedDurableClaims, issues)
 	}
 
 	repairMessages := make([]llm.Message, len(messages), len(messages)+2)
@@ -398,10 +537,10 @@ func (tp *TurnProcessor) repairDurableClaims(ctx context.Context, messages []llm
 	repairMessages = append(repairMessages, llm.Message{Role: llm.RoleAssistant, Content: narrative})
 	repairMessages = append(repairMessages, llm.Message{Role: llm.RoleUser, Content: durableRepairPrompt(narrative, applied, issues)})
 
-	resp, err := tp.provider.Complete(ctx, repairMessages, repairTools)
+	resp, err := tp.postTurnLLM().Complete(ctx, repairMessages, repairTools)
 	if err != nil {
 		tp.logger.Error("durable-claim repair call failed", "error", err)
-		return safeProvisionalNarrative(narrative), applied
+		return "", nil, fmt.Errorf("%w: repair call failed: %v", ErrUnresolvedDurableClaims, err)
 	}
 
 	allowed := toolNameSet(repairTools)
@@ -427,15 +566,15 @@ func (tp *TurnProcessor) repairDurableClaims(ctx context.Context, messages []llm
 		}
 	}
 	if repairedNarrative == "" {
-		repairedNarrative = safeProvisionalNarrative(narrative)
+		return "", nil, fmt.Errorf("%w: repair produced empty narrative", ErrUnresolvedDurableClaims)
 	}
 	if !durableRequirementsSatisfied(applied, requirements) {
-		return safeProvisionalNarrative(repairedNarrative), applied
+		return "", nil, fmt.Errorf("%w: repair did not satisfy required durable tool calls", ErrUnresolvedDurableClaims)
 	}
 	if len(AuditDurableClaims(repairedNarrative, applied, advertisedToolNames(repairTools))) > 0 {
-		return safeProvisionalNarrative(repairedNarrative), applied
+		return "", nil, fmt.Errorf("%w: repair narrative still contains unbacked claims", ErrUnresolvedDurableClaims)
 	}
-	return repairedNarrative, applied
+	return repairedNarrative, applied, nil
 }
 
 func durableRequirementsSatisfied(applied []AppliedToolCall, requirements []durableRequirement) bool {
@@ -448,7 +587,11 @@ func durableRequirementsSatisfied(applied []AppliedToolCall, requirements []dura
 }
 
 func durableRepairPrompt(narrative string, applied []AppliedToolCall, issues []DurableClaimIssue) string {
-	return fmt.Sprintf("Durable state audit found unbacked claims in the previous narrative. Issues: %v. Already applied tools: %v. Either call only the missing durable state tools now, or rewrite the narrative as provisional so it does not claim those durable changes. Previous narrative: %s", issues, appliedToolNames(applied), narrative)
+	var issueLines strings.Builder
+	for _, issue := range issues {
+		fmt.Fprintf(&issueLines, "- %s: %s\n", issue.Kind, issue.Message)
+	}
+	return fmt.Sprintf("Durable state audit found unbacked claims in the previous narrative:\n%s\nAlready applied tools: %v\n\nCall only the missing durable state tools now, then provide a corrected narrative. Do not invent a fallback, provisional, or pretend resolution.\n\nPrevious narrative: %s", issueLines.String(), appliedToolNames(applied), narrative)
 }
 
 func durableRepairTools(availableTools []llm.Tool, issues []DurableClaimIssue) []llm.Tool {
@@ -488,19 +631,195 @@ func durableRepairTools(availableTools []llm.Tool, issues []DurableClaimIssue) [
 	return filtered
 }
 
+func (tp *TurnProcessor) extractDurableLoreFacts(ctx context.Context, messages []llm.Message, availableTools []llm.Tool, narrative string, applied []AppliedToolCall) []AppliedToolCall {
+	// Kept for backward compatibility with existing callers; delegates to the
+	// unified extractDurableState.
+	return tp.extractDurableState(ctx, messages, availableTools, narrative, applied)
+}
+
+func durableLoreExtractionTools(availableTools []llm.Tool) []llm.Tool {
+	for _, tool := range availableTools {
+		if tool.Name == "establish_fact" {
+			return []llm.Tool{tool}
+		}
+	}
+	return nil
+}
+
+func (tp *TurnProcessor) finalizeResponseState(ctx context.Context, messages []llm.Message, availableTools []llm.Tool, narrative string, applied []AppliedToolCall, unresolvedIssues []DurableClaimIssue, unresolvedRequirements []durableRequirement) (string, []AppliedToolCall, error) {
+	if issues := appendDurableIssues(AuditDurableClaims(narrative, applied, advertisedToolNames(availableTools)), unresolvedIssues...); len(issues) > 0 {
+		var err error
+		narrative, applied, err = tp.repairDurableClaims(ctx, messages, availableTools, narrative, applied, issues, unresolvedRequirements)
+		if err != nil {
+			fallback, fallbackErr := tp.rewriteUnsafeDurableClaimsAsProvisional(ctx, messages, narrative, applied, issues, err)
+			if fallbackErr != nil {
+				return "", nil, err
+			}
+			return fallback, applied, nil
+		}
+	}
+	applied = tp.extractDurableState(ctx, messages, availableTools, narrative, applied)
+	return narrative, applied, nil
+}
+
+func (tp *TurnProcessor) rewriteUnsafeDurableClaimsAsProvisional(ctx context.Context, messages []llm.Message, narrative string, applied []AppliedToolCall, issues []DurableClaimIssue, repairErr error) (string, error) {
+	rewriteMessages := make([]llm.Message, len(messages), len(messages)+2)
+	copy(rewriteMessages, messages)
+	rewriteMessages = append(rewriteMessages, llm.Message{Role: llm.RoleAssistant, Content: narrative})
+	rewriteMessages = append(rewriteMessages, llm.Message{Role: llm.RoleUser, Content: provisionalDurableRewritePrompt(narrative, applied, issues, repairErr)})
+
+	resp, err := tp.postTurnLLM().Complete(ctx, rewriteMessages, nil)
+	if err != nil {
+		tp.logger.Warn("durable-claim provisional rewrite failed", "error", err)
+		return "", err
+	}
+	rewritten := strings.TrimSpace(resp.Content)
+	if rewritten == "" {
+		return "", ErrEmptyTurnResponse
+	}
+	if remaining := AuditDurableClaims(rewritten, applied, nil); len(remaining) > 0 {
+		tp.logger.Warn("durable-claim provisional rewrite still has unbacked claims", "issues", remaining)
+		return "", ErrUnresolvedDurableClaims
+	}
+	tp.logger.Info("durable-claim repair fell back to provisional narrative", "issues", len(issues), "repair_error", repairErr)
+	return rewritten, nil
+}
+
+func provisionalDurableRewritePrompt(narrative string, applied []AppliedToolCall, issues []DurableClaimIssue, repairErr error) string {
+	var issueLines strings.Builder
+	for _, issue := range issues {
+		fmt.Fprintf(&issueLines, "- %s: %s\n", issue.Kind, issue.Message)
+	}
+	return fmt.Sprintf("The previous narrative made durable state claims that could not be saved by tools. Rewrite it as player-facing narrative that preserves the moment but makes those state changes provisional, blocked, attempted, noticed, or inconclusive. Do NOT claim movement, quest updates, facts learned, inventory changes, HP/status changes, or combat resolution unless already backed by applied tools. Return ONLY the corrected narrative; do not call tools and do not explain the correction.\n\nUnbacked durable claims:\n%s\nAlready applied tools: %v\nRepair error: %v\n\nPrevious narrative: %s", issueLines.String(), appliedToolNames(applied), repairErr, narrative)
+}
+
+// extractDurableState runs two sequential post-turn extraction passes:
+//  1. Lore extraction (establish_fact only) — single-purpose prompt.
+//  2. Quest extraction (create_quest / update_quest / complete_objective only) — separate prompt.
+//
+// Splitting them avoids the model ignoring the second task, which happened
+// with weaker models when both were combined in one prompt.
+func (tp *TurnProcessor) extractDurableState(ctx context.Context, messages []llm.Message, availableTools []llm.Tool, narrative string, applied []AppliedToolCall) []AppliedToolCall {
+	if strings.TrimSpace(narrative) == "" {
+		return applied
+	}
+
+	hasFact := countAppliedSatisfyingDurableKind(applied, DurableClaimFact) > 0
+	hasQuest := countAppliedSatisfyingDurableKind(applied, DurableClaimQuest) > 0
+
+	// Pass 1: lore facts (single-purpose — establish_fact only).
+	if !hasFact && shouldRunLoreExtraction(narrative) {
+		factTools := durableLoreExtractionTools(availableTools)
+		if len(factTools) > 0 {
+			extractionMessages := make([]llm.Message, len(messages), len(messages)+2)
+			copy(extractionMessages, messages)
+			extractionMessages = append(extractionMessages, llm.Message{Role: llm.RoleAssistant, Content: narrative})
+			extractionMessages = append(extractionMessages, llm.Message{Role: llm.RoleUser, Content: durableLoreExtractionPromptV2(narrative)})
+
+			applied = tp.runPostTurnExtractionTools(ctx, extractionMessages, factTools, applied, "lore extraction", 1, func(name string) bool {
+				return name == "establish_fact"
+			})
+		}
+	}
+
+	// Pass 2: quest goals (single-purpose — create_quest / update_quest / complete_objective only).
+	if !hasQuest {
+		questTools := questOnlyExtractionTools(availableTools)
+		if len(questTools) > 0 {
+			extractionMessages := make([]llm.Message, len(messages), len(messages)+2)
+			copy(extractionMessages, messages)
+			extractionMessages = append(extractionMessages, llm.Message{Role: llm.RoleAssistant, Content: narrative})
+			extractionMessages = append(extractionMessages, llm.Message{Role: llm.RoleUser, Content: questOnlyExtractionPrompt(narrative)})
+
+			applied = tp.runPostTurnExtractionTools(ctx, extractionMessages, questTools, applied, "quest extraction", 0, func(name string) bool {
+				return name == "create_quest" || name == "update_quest" || name == "complete_objective"
+			})
+		}
+	}
+
+	return applied
+}
+
+func questOnlyExtractionTools(availableTools []llm.Tool) []llm.Tool {
+	wanted := map[string]struct{}{}
+	for _, tool := range availableTools {
+		switch tool.Name {
+		case "create_quest", "update_quest", "complete_objective":
+			wanted[tool.Name] = struct{}{}
+		}
+	}
+	filtered := make([]llm.Tool, 0, len(wanted))
+	for _, tool := range availableTools {
+		if _, ok := wanted[tool.Name]; ok {
+			filtered = append(filtered, tool)
+		}
+	}
+	return filtered
+}
+
+func durableLoreExtractionPromptV2(narrative string) string {
+	return fmt.Sprintf("Extract durable canonical facts from the narrative below. Call establish_fact for at most ONE important NEW fact the player explicitly learned, discovered, confirmed, was told, or had revealed. Use categories: lore, history, hazard, faction, location, relic, mechanism, or magic. Skip facts already listed in the system message's World Facts section. Skip vague atmosphere, restatements, sensory detail, mood, symbolism, and one-off descriptions. If no important new durable lore was explicitly revealed, call no tools and return no prose.\n\nNarrative: %s", narrative)
+}
+
+func shouldRunLoreExtraction(narrative string) bool {
+	lower := strings.ToLower(narrative)
+	for _, cue := range []string{
+		"you learn", "you now know", "you confirm", "you discover", "you find out",
+		"reveals", "revealed", "tells you", "says", "explains", "confirms",
+		"is called", "called it", "known as", "symbolizes", "signifies", "means that",
+	} {
+		if strings.Contains(lower, cue) {
+			return true
+		}
+	}
+	return false
+}
+
+func questOnlyExtractionPrompt(narrative string) string {
+	return fmt.Sprintf("Extract quest progress from the narrative below. Use ONLY quest_id and objective_id values explicitly listed in the system message's Active Quests section. Never invent IDs. If the narrative completes a listed objective, call complete_objective with that exact quest_id and objective_id. If the narrative advances a listed active quest without completing an objective, call update_quest with that exact quest_id. If the narrative establishes a concrete new multi-step goal that is NOT covered by any active quest, call create_quest with a short title, 1-sentence description, quest_type \"short_term\", and 1-3 ordered objectives. Do NOT create quests for vague atmosphere, one-off actions, or mere lore. If no listed quest/objective matches and no clearly new quest-shaped goal exists, call no tools and return no prose.\n\nNarrative: %s", narrative)
+}
+
+func (tp *TurnProcessor) runPostTurnExtractionTools(ctx context.Context, messages []llm.Message, extractionTools []llm.Tool, applied []AppliedToolCall, label string, maxAccepted int, acceptTool func(string) bool) []AppliedToolCall {
+	resp, err := tp.postTurnLLM().Complete(ctx, messages, extractionTools)
+	if err != nil {
+		tp.logger.Warn(label+" failed", "error", err)
+		return applied
+	}
+	if len(resp.ToolCalls) == 0 {
+		return applied
+	}
+
+	allowed := toolNameSet(extractionTools)
+	accepted := 0
+	for _, tc := range resp.ToolCalls {
+		if maxAccepted > 0 && accepted >= maxAccepted {
+			break
+		}
+		if !acceptTool(tc.Name) {
+			continue
+		}
+		result, execErr := tp.attemptToolCall(ctx, tc, allowed)
+		if execErr != nil {
+			tp.logger.Warn(label+" tool failed", "tool", tc.Name, "error", execErr)
+			continue
+		}
+		atc, encErr := buildAppliedToolCall(tc, result)
+		if encErr != nil {
+			tp.logger.Warn(label+" encode failed", "tool", tc.Name, "error", encErr)
+			continue
+		}
+		applied = append(applied, atc)
+		accepted++
+	}
+	return applied
+}
+
 func toolNameSet(tools []llm.Tool) map[string]struct{} {
 	allowed := make(map[string]struct{}, len(tools))
 	for _, t := range tools {
 		allowed[t.Name] = struct{}{}
 	}
 	return allowed
-}
-
-func safeProvisionalNarrative(narrative string) string {
-	if narrative == "" {
-		return "The scene remains provisional."
-	}
-	return "What follows is provisional: the scene remains unsettled until the world-state tools confirm it."
 }
 
 func advertisedToolNames(tools []llm.Tool) []string {

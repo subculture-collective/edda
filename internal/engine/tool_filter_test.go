@@ -222,7 +222,7 @@ func TestFilter_CombatPhase_NoExplorationTools(t *testing.T) {
 	}
 	got := f.Filter(state, allTestTools())
 
-	hasNone(t, got, "create_npc", "create_location", "create_faction", "create_language")
+	hasNone(t, got, "initiate_combat", "create_npc", "create_location", "create_faction", "create_language")
 }
 
 // --- FilterTools: exploration phase ---

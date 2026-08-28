@@ -142,12 +142,13 @@ type ItemResponse struct {
 
 // SessionLogEntry describes a single turn in the campaign history.
 type SessionLogEntry struct {
-	TurnNumber  int       `json:"turn_number"`
-	PlayerInput string    `json:"player_input"`
-	InputType   string    `json:"input_type"`
-	LLMResponse string    `json:"llm_response"`
-	Choices     []string  `json:"choices,omitempty"`
-	CreatedAt   time.Time `json:"created_at"`
+	TurnNumber       int               `json:"turn_number"`
+	PlayerInput      string            `json:"player_input"`
+	InputType        string            `json:"input_type"`
+	LLMResponse      string            `json:"llm_response"`
+	Choices          []string          `json:"choices,omitempty"`
+	ResolutionEvents []ResolutionEvent `json:"resolution_events,omitempty"`
+	CreatedAt        time.Time         `json:"created_at"`
 }
 
 // SessionHistoryResponse returns the turn history for a campaign.
@@ -168,11 +169,22 @@ type StateChange struct {
 	Details    map[string]any `json:"details"`
 }
 
+// ResolutionEvent describes a non-durable mechanical resolution that occurred
+// during a turn, such as a skill check. These events are user-visible feedback
+// but do not imply persistent world-state mutation.
+type ResolutionEvent struct {
+	Type    string         `json:"type"`
+	Label   string         `json:"label"`
+	Outcome string         `json:"outcome"`
+	Details map[string]any `json:"details"`
+}
+
 // TurnResult describes the narrative and state changes produced by a turn.
 type TurnResult struct {
-	Narrative    string        `json:"narrative"`
-	StateChanges []StateChange `json:"state_changes"`
-	CombatActive bool          `json:"combat_active"`
+	Narrative        string            `json:"narrative"`
+	StateChanges     []StateChange     `json:"state_changes"`
+	ResolutionEvents []ResolutionEvent `json:"resolution_events"`
+	CombatActive     bool              `json:"combat_active"`
 }
 
 // TurnResponse is an alias for TurnResult maintained for naming clarity.
@@ -261,11 +273,45 @@ type OpeningSceneResponse struct {
 
 // WorldBuildRequest finalizes startup choices and creates the campaign world.
 type WorldBuildRequest struct {
-	Name             string            `json:"name"`
-	Summary          string            `json:"summary"`
-	Profile          *CampaignProfile  `json:"profile"`
-	CharacterProfile *CharacterProfile `json:"character_profile"`
-	RulesMode        string            `json:"rules_mode,omitempty"`
+	Name             string                 `json:"name"`
+	Summary          string                 `json:"summary"`
+	Profile          *CampaignProfile       `json:"profile"`
+	CharacterProfile *CharacterProfile      `json:"character_profile"`
+	RulesMode        string                 `json:"rules_mode,omitempty"`
+	SpawnPackage     *CharacterSpawnPackage `json:"spawn_package,omitempty"`
+}
+
+// CharacterSpawnPackage describes starting state granted to a new character.
+type CharacterSpawnPackage struct {
+	Items         []StarterItem         `json:"items,omitempty"`
+	KnownFacts    []StarterKnownFact    `json:"known_facts,omitempty"`
+	Relationships []StarterRelationship `json:"relationships,omitempty"`
+}
+
+// StarterItem describes a starting inventory item.
+type StarterItem struct {
+	Name        string         `json:"name"`
+	Description string         `json:"description,omitempty"`
+	ItemType    string         `json:"item_type,omitempty"`
+	Rarity      string         `json:"rarity,omitempty"`
+	Properties  map[string]any `json:"properties,omitempty"`
+	Equipped    bool           `json:"equipped,omitempty"`
+	Quantity    int32          `json:"quantity,omitempty"`
+}
+
+// StarterKnownFact describes a player-known fact granted at spawn.
+type StarterKnownFact struct {
+	Fact     string `json:"fact"`
+	Category string `json:"category,omitempty"`
+}
+
+// StarterRelationship describes a player-aware relationship granted at spawn.
+type StarterRelationship struct {
+	TargetEntityType string `json:"target_entity_type"`
+	TargetEntityID   string `json:"target_entity_id"`
+	RelationshipType string `json:"relationship_type"`
+	Description      string `json:"description,omitempty"`
+	Strength         *int32 `json:"strength,omitempty"`
 }
 
 // FeatResponse describes a feat granted to a character.

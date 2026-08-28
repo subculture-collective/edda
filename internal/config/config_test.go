@@ -306,7 +306,7 @@ func TestClaudeAPIKeyPrecedenceFileVsEnv(t *testing.T) {
 }
 
 func TestValidateAcceptsValidProviders(t *testing.T) {
-	for _, provider := range []string{"ollama", "claude"} {
+	for _, provider := range []string{"ollama", "claude", "openrouter"} {
 		t.Run(provider, func(t *testing.T) {
 			cfg := Config{LLM: LLMConfig{Provider: provider}}
 			if provider == "ollama" {
@@ -315,9 +315,79 @@ func TestValidateAcceptsValidProviders(t *testing.T) {
 			if provider == "claude" {
 				cfg.LLM.Claude.APIKey = "sk-ant-test"
 			}
+			if provider == "openrouter" {
+				cfg.LLM.OpenRouter.APIKey = "sk-or-test"
+			}
 			if err := cfg.Validate(); err != nil {
 				t.Fatalf("valid provider %q rejected: %v", provider, err)
 			}
 		})
+	}
+}
+
+func TestLoadLLMProfilesAndRoutes(t *testing.T) {
+	configDir := t.TempDir()
+	configPath := filepath.Join(configDir, "config.yaml")
+
+	const fileConfig = `llm:
+  provider: openrouter
+  openrouter:
+    apikey: sk-or-test
+    model: default-model
+  profiles:
+    qwen-fast:
+      provider: openrouter
+      model: qwen/qwen3-235b-a22b-2507
+      contexttokenbudget: 12000
+      toolsupport: true
+  routes:
+    gmturn: qwen-fast
+    postturnstate: qwen-fast
+    choicefallback: qwen-fast
+`
+	if err := os.WriteFile(configPath, []byte(fileConfig), 0o644); err != nil {
+		t.Fatalf("WriteFile() error = %v", err)
+	}
+
+	cfg, err := Load(configPath)
+	if err != nil {
+		t.Fatalf("Load() error = %v", err)
+	}
+	profile := cfg.LLM.Profiles["qwen-fast"]
+	if profile.Model != "qwen/qwen3-235b-a22b-2507" {
+		t.Fatalf("unexpected profile model: %q", profile.Model)
+	}
+	if profile.ContextTokenBudget != 12000 {
+		t.Fatalf("unexpected profile context token budget: %d", profile.ContextTokenBudget)
+	}
+	if !profile.ToolSupport {
+		t.Fatal("expected profile tool support")
+	}
+	if cfg.LLM.Routes.PostTurnState != "qwen-fast" || cfg.LLM.Routes.ChoiceFallback != "qwen-fast" {
+		t.Fatalf("unexpected routes: %+v", cfg.LLM.Routes)
+	}
+}
+
+func TestLoadRejectsUnknownLLMRouteProfile(t *testing.T) {
+	configDir := t.TempDir()
+	configPath := filepath.Join(configDir, "config.yaml")
+
+	const fileConfig = `llm:
+  provider: openrouter
+  openrouter:
+    apikey: sk-or-test
+  routes:
+    postturnstate: missing-profile
+`
+	if err := os.WriteFile(configPath, []byte(fileConfig), 0o644); err != nil {
+		t.Fatalf("WriteFile() error = %v", err)
+	}
+
+	_, err := Load(configPath)
+	if err == nil {
+		t.Fatal("expected unknown route profile error, got nil")
+	}
+	if !strings.Contains(err.Error(), "unknown profile") {
+		t.Fatalf("expected unknown profile error, got: %v", err)
 	}
 }

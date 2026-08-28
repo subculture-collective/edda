@@ -36,8 +36,13 @@ func NewLLMProvider(cfg config.Config) (LLMProvider, error) {
 			return nil, errors.New("claude provider unavailable: missing api key (set llm.claude.apikey, EDDA_LLM_CLAUDE_APIKEY, or ANTHROPIC_API_KEY)")
 		}
 		return NewClaudeClient("", cfg.LLM.Claude.APIKey, cfg.LLM.Claude.Model), nil
+	case "openrouter":
+		if strings.TrimSpace(cfg.LLM.OpenRouter.APIKey) == "" {
+			return nil, errors.New("openrouter provider unavailable: missing api key (set llm.openrouter.apikey or EDDA_LLM_OPENROUTER_APIKEY)")
+		}
+		return NewOpenRouterClient(cfg.LLM.OpenRouter.APIKey, cfg.LLM.OpenRouter.Model), nil
 	default:
-		return nil, fmt.Errorf("unsupported llm provider %q (supported: ollama, claude)", cfg.LLM.Provider)
+		return nil, fmt.Errorf("unsupported llm provider %q (supported: ollama, claude, openrouter)", cfg.LLM.Provider)
 	}
 }
 

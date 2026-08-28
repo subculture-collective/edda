@@ -25,17 +25,21 @@ import (
 
 // Engine is the concrete GameEngine implementation used by the TUI.
 type Engine struct {
-	logger     *slog.Logger
-	state      game.StateManager
-	queries    statedb.Querier
-	assembler  *assembly.ContextAssembler
-	processor  *TurnProcessor
-	tier3      *assembly.Tier3Retriever
-	toolFilter ToolFilter
-	embedder   tools.Embedder
-	searcher   tools.SearchMemorySearcher
-	saveStore  *saves.Store
-	summarizer *journal.Summarizer
+	logger             *slog.Logger
+	state              game.StateManager
+	queries            statedb.Querier
+	assembler          *assembly.ContextAssembler
+	processor          *TurnProcessor
+	provider           llm.Provider
+	postTurnProvider   llm.Provider
+	choiceProvider     llm.Provider
+	contextTokenBudget int
+	tier3              *assembly.Tier3Retriever
+	toolFilter         ToolFilter
+	embedder           tools.Embedder
+	searcher           tools.SearchMemorySearcher
+	saveStore          *saves.Store
+	summarizer         *journal.Summarizer
 }
 
 const recentTurnLimit = 10
@@ -77,6 +81,24 @@ func WithLogger(l *slog.Logger) Option {
 	return func(e *Engine) { e.logger = l }
 }
 
+// EngineLLMProviders contains optional routed providers for specific engine
+// flows. Nil fields fall back to the main turn provider.
+type EngineLLMProviders struct {
+	PostTurnState      llm.Provider
+	ChoiceFallback     llm.Provider
+	ContextTokenBudget int
+}
+
+// WithLLMProviders attaches routed providers for low-risk subflows while the
+// main GM turn remains on the provider passed to New.
+func WithLLMProviders(providers EngineLLMProviders) Option {
+	return func(e *Engine) {
+		e.postTurnProvider = providers.PostTurnState
+		e.choiceProvider = providers.ChoiceFallback
+		e.contextTokenBudget = providers.ContextTokenBudget
+	}
+}
+
 // New creates a concrete GameEngine backed by the shared game and llm packages.
 func New(db statedb.DBTX, provider llm.Provider, llmCfg config.LLMConfig, opts ...Option) (*Engine, error) {
 	queries := statedb.New(db)
@@ -101,8 +123,17 @@ func New(db statedb.DBTX, provider llm.Provider, llmCfg config.LLMConfig, opts .
 		e.toolFilter = NewPhaseToolFilter(registry)
 	}
 
-	e.assembler = assembly.NewContextAssembler(registry, assembly.WithTokenBudget(llmCfg.ContextTokenBudget()))
+	contextTokenBudget := llmCfg.ContextTokenBudget()
+	if e.contextTokenBudget > 0 {
+		contextTokenBudget = e.contextTokenBudget
+	}
+	e.assembler = assembly.NewContextAssembler(registry, assembly.WithTokenBudget(contextTokenBudget))
 	e.processor = NewTurnProcessor(provider, registry, tools.NewValidator(registry), e.logger.WithGroup("turns"))
+	e.processor.SetPostTurnProvider(e.postTurnProvider)
+	e.provider = provider
+	if e.choiceProvider == nil {
+		e.choiceProvider = provider
+	}
 	return e, nil
 }
 
@@ -127,7 +158,7 @@ func (e *Engine) ProcessTurn(ctx context.Context, campaignID uuid.UUID, playerIn
 		e.memoryStage(),
 		e.assembleStage(),
 		e.processStage(),
-		e.persistStage(),
+		e.completeStage(),
 	)
 
 	if err := pipeline.Execute(ctx, tc); err != nil {
@@ -137,7 +168,7 @@ func (e *Engine) ProcessTurn(ctx context.Context, campaignID uuid.UUID, playerIn
 	result := &TurnResult{
 		Narrative:        tc.Narrative,
 		AppliedToolCalls: tc.Applied,
-		StateChanges:     StateChangesFromAppliedToolCalls(tc.Applied),
+		StateChanges:     tc.StateChanges,
 		Choices:          tc.Choices,
 		CombatActive:     tc.CombatActive,
 	}
@@ -258,28 +289,19 @@ func (e *Engine) ProcessTurnStream(ctx context.Context, campaignID uuid.UUID, pl
 		}
 		emitPhase("thinking", "Response generated.", thinkingStarted)
 
-		tc.Narrative, tc.Choices = extractChoices(narrative)
+		tc.Narrative = narrative
 		tc.Applied = applied
-		tc.CombatActive = tc.State.CombatActive
-		for _, atc := range applied {
-			switch atc.Tool {
-			case "initiate_combat":
-				tc.CombatActive = true
-			case "resolve_combat":
-				tc.CombatActive = false
-			}
-		}
 
 		persistStarted := time.Now()
 		emitStatus("finalizing", "Finalizing and persisting turn...")
-		if err := e.persistStage()(tc.Ctx, tc); err != nil {
+		if err := e.completeStage()(tc.Ctx, tc); err != nil {
 			ch <- StreamEvent{Type: "error", Err: err}
 			return
 		}
 		emitPhase("finalizing", "Turn persisted.", persistStarted)
 
 		// Emit combat lifecycle status events based on applied tool calls.
-		result := &TurnResult{Narrative: tc.Narrative, AppliedToolCalls: tc.Applied, StateChanges: StateChangesFromAppliedToolCalls(tc.Applied), Choices: tc.Choices, CombatActive: tc.CombatActive}
+		result := &TurnResult{Narrative: tc.Narrative, AppliedToolCalls: tc.Applied, StateChanges: tc.StateChanges, Choices: tc.Choices, CombatActive: tc.CombatActive}
 		for _, atc := range result.AppliedToolCalls {
 			switch atc.Tool {
 			case "initiate_combat":

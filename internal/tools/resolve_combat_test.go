@@ -256,6 +256,30 @@ func TestResolveCombatVictoryDistributesXPCreatesLootAndMarksNPCsDead(t *testing
 	}
 }
 
+func TestResolveCombatUsesCurrentCampaignIDWhenCombatStateOmittedIt(t *testing.T) {
+	playerID := uuid.New()
+	enemyID := uuid.New()
+	campaignID := uuid.New()
+	store := &stubResolveCombatStore{player: defaultPlayer(playerID)}
+	h := NewResolveCombatHandler(store)
+	ctx := WithCurrentCampaignID(WithCurrentPlayerCharacterID(context.Background(), playerID), campaignID)
+	combatState := baseCombatStateArgsForResolve(playerID, enemyID)
+	delete(combatState, "campaign_id")
+
+	result, err := h.Handle(ctx, map[string]any{
+		"combat_state": combatState,
+		"outcome_type": "victory",
+	})
+	if err != nil {
+		t.Fatalf("Handle: %v", err)
+	}
+
+	resultCombatState, _ := result.Data["combat_state"].(map[string]any)
+	if got, _ := resultCombatState["campaign_id"].(string); got != campaignID.String() {
+		t.Fatalf("combat_state.campaign_id = %q, want current campaign %s", got, campaignID)
+	}
+}
+
 func TestResolveCombatVictoryWithNoXPOrLoot(t *testing.T) {
 	playerID := uuid.New()
 	enemyID := uuid.New()

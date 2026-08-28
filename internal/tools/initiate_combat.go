@@ -242,6 +242,7 @@ func (h *InitiateCombatHandler) Handle(ctx context.Context, args map[string]any)
 
 	data := map[string]any{
 		"combat_state_id":     state.ID.String(),
+		"combat_state":        combatStateToMap(state),
 		"initiative_order":    initiativeOrder,
 		"environment":         environmentDescription,
 		"surprise":            surpriseSide,

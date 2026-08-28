@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
 	"strings"
 	"sync"
@@ -292,12 +293,18 @@ func (h *StartupHandlers) BuildWorld(w http.ResponseWriter, r *http.Request) {
 		writeError(w, http.StatusBadRequest, "character_profile is required")
 		return
 	}
+	spawnPackage, err := startupSpawnPackageToWorld(req.SpawnPackage)
+	if err != nil {
+		writeError(w, http.StatusBadRequest, err.Error())
+		return
+	}
 
 	result, err := world.NewOrchestrator(provider, h.Queries).Run(r.Context(), world.OrchestratorInput{
 		Name:             strings.TrimSpace(req.Name),
 		Summary:          strings.TrimSpace(req.Summary),
 		Profile:          req.Profile,
 		CharacterProfile: req.CharacterProfile,
+		SpawnPackage:     spawnPackage,
 		RulesMode:        strings.TrimSpace(req.RulesMode),
 		Pool:             h.Pool,
 		UserID:           userID,
@@ -320,6 +327,33 @@ func (h *StartupHandlers) BuildWorld(w http.ResponseWriter, r *http.Request) {
 			Choices:   append([]string(nil), result.Scene.Choices...),
 		},
 	})
+}
+
+func startupSpawnPackageToWorld(pkg *api.CharacterSpawnPackage) (*world.CharacterSpawnPackage, error) {
+	if pkg == nil {
+		return nil, nil
+	}
+	out := &world.CharacterSpawnPackage{
+		Items:      make([]world.StarterItem, 0, len(pkg.Items)),
+		KnownFacts: make([]world.StarterKnownFact, 0, len(pkg.KnownFacts)),
+	}
+	for _, item := range pkg.Items {
+		out.Items = append(out.Items, world.StarterItem{Name: item.Name, Description: item.Description, ItemType: item.ItemType, Rarity: item.Rarity, Properties: item.Properties, Equipped: item.Equipped, Quantity: item.Quantity})
+	}
+	for _, fact := range pkg.KnownFacts {
+		out.KnownFacts = append(out.KnownFacts, world.StarterKnownFact{Fact: fact.Fact, Category: fact.Category})
+	}
+	for _, rel := range pkg.Relationships {
+		if !world.ValidSpawnRelationshipEntityType(rel.TargetEntityType) {
+			return nil, fmt.Errorf("invalid spawn relationship target_entity_type %q", rel.TargetEntityType)
+		}
+		targetID, err := uuid.Parse(strings.TrimSpace(rel.TargetEntityID))
+		if err != nil {
+			return nil, fmt.Errorf("invalid spawn relationship target_entity_id %q", rel.TargetEntityID)
+		}
+		out.Relationships = append(out.Relationships, world.StarterRelationship{TargetEntityType: rel.TargetEntityType, TargetEntityID: targetID, RelationshipType: rel.RelationshipType, Description: rel.Description, Strength: rel.Strength})
+	}
+	return out, nil
 }
 
 func (h *StartupHandlers) requireProvider(w http.ResponseWriter) (llm.Provider, bool) {

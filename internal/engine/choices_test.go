@@ -36,3 +36,35 @@ func TestExtractChoicesLeavesNarrativeUntouchedWithoutOptions(t *testing.T) {
 		t.Fatalf("expected no parsed choices, got %+v", choices)
 	}
 }
+
+func TestExtractChoicesStrictAllowsChoiceMarkerWithoutOptions(t *testing.T) {
+	narrative := "The well whispers from below.\n\n**Choices:**"
+
+	cleaned, choices, err := extractChoicesStrict(narrative)
+
+	if err != nil {
+		t.Fatalf("extractChoicesStrict() error = %v", err)
+	}
+	if cleaned != "The well whispers from below." {
+		t.Fatalf("cleaned narrative = %q, want dangling choices marker stripped", cleaned)
+	}
+	if choices != nil {
+		t.Fatalf("choices = %+v, want nil", choices)
+	}
+}
+
+func TestExtractChoicesStrictAllowsPlainNarrativeWithoutMarker(t *testing.T) {
+	narrative := "The well whispers from below."
+
+	cleaned, choices, err := extractChoicesStrict(narrative)
+
+	if err != nil {
+		t.Fatalf("extractChoicesStrict() error = %v", err)
+	}
+	if cleaned != narrative {
+		t.Fatalf("cleaned narrative = %q, want %q", cleaned, narrative)
+	}
+	if choices != nil {
+		t.Fatalf("choices = %+v, want nil", choices)
+	}
+}

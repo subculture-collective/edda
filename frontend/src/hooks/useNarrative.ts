@@ -58,6 +58,7 @@ export function useNarrative(): UseNarrativeResult {
               text: entry.llm_response,
               timestamp: entry.created_at,
               speaker: 'Game Master',
+              resolutionEvents: entry.resolution_events ?? [],
               choices: entry.choices?.map((choice, index) => ({ id: `history-choice-${entry.turn_number}-${index + 1}`, text: choice })),
             });
           }
