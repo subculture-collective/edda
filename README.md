@@ -45,9 +45,24 @@ Node.js with pnpm for the web app. You also need access to a model: a local
 Ollama server, or a Claude or OpenRouter API key.
 
 ```bash
-cp .env.example .env     # then set a provider, model and EDDA_SERVER_JWTSECRET
-task db:up               # start PostgreSQL (pgvector) on localhost:5434 and migrate
-task dev:web             # API server plus the Vite dev server
+cp .env.example .env
+pnpm --dir frontend install
+```
+
+Edit `.env` before the first run:
+
+- set `EDDA_DB_URL=postgres://edda:edda@localhost:5434/edda?sslmode=disable`,
+  the database `task db:up` starts;
+- set `EDDA_SERVER_PORT=18080`, the port the Vite dev server proxies `/api` to
+  (or keep `8080` and set `VITE_PROXY_TARGET=http://localhost:8080` in
+  `frontend/.env`);
+- choose a model provider and model, and set `EDDA_SERVER_JWTSECRET`.
+
+Then:
+
+```bash
+task db:up     # start PostgreSQL (pgvector) on localhost:5434 and migrate
+task dev:web   # API server plus the Vite dev server on http://localhost:5173
 ```
 
 Or play in the terminal:
