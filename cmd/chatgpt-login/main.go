@@ -114,10 +114,14 @@ func run() error {
 			return
 		}
 		v := r.URL.Query()
+		if v.Get("state") != state {
+			// A callback from an older attempt; keep waiting for this one.
+			fmt.Fprintln(os.Stderr, "Ignored a callback from a different sign-in attempt; still waiting.")
+			http.Error(w, "this callback belongs to a different sign-in attempt; use the latest link", http.StatusBadRequest)
+			return
+		}
 		var cb callback
 		switch {
-		case v.Get("state") != state:
-			cb.err = errors.New("callback state does not match this sign-in attempt")
 		case v.Get("error") != "":
 			cb.err = fmt.Errorf("sign-in failed: %s %s", v.Get("error"), v.Get("error_description"))
 		case v.Get("code") == "":
