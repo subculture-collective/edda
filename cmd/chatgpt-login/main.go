@@ -55,6 +55,7 @@ func run() error {
 	port := flag.Int("port", 1455, "loopback callback port")
 	hostID := flag.String("host-id", "", "ext_agent_host_id for this host (default: reuse the one in -out, or create one)")
 	noBrowser := flag.Bool("no-browser", false, "print the sign-in link instead of opening a browser")
+	wait := flag.Duration("timeout", 10*time.Minute, "how long to wait for the browser callback")
 	flag.Parse()
 
 	existing, err := llm.ReadChatGPTCredentials(*out)
@@ -147,7 +148,7 @@ func run() error {
 	var cb callback
 	select {
 	case cb = <-done:
-	case <-time.After(10 * time.Minute):
+	case <-time.After(*wait):
 		return errors.New("timed out waiting for the browser callback")
 	}
 	if cb.err != nil {
