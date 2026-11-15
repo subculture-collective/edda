@@ -1,7 +1,7 @@
 // Reader preferences contain identities and relative offsets, never story prose.
 const fallback = new Map<string, string>();
 function read(key: string): string | null {
-  try { return localStorage.getItem(key) ?? fallback.get(key) ?? null; }
+  try { return fallback.get(key) ?? localStorage.getItem(key) ?? null; }
   catch { return fallback.get(key) ?? null; }
 }
 function write(key: string, value: string) {
