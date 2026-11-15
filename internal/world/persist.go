@@ -92,6 +92,20 @@ func PersistSupportedMartialCharacter(ctx context.Context, queries statedb.Queri
 	if err != nil {
 		return statedb.PlayerCharacter{}, fmt.Errorf("persist supported martial character: %w", err)
 	}
+	// Keep the player's descriptive choices alongside the versioned mechanics.
+	var envelope map[string]any
+	if err := json.Unmarshal(stats, &envelope); err != nil {
+		return statedb.PlayerCharacter{}, fmt.Errorf("parse martial stats: %w", err)
+	}
+	envelope["concept"] = profile.Concept
+	envelope["personality"] = profile.Personality
+	envelope["motivations"] = profile.Motivations
+	envelope["strengths"] = profile.Strengths
+	envelope["weaknesses"] = profile.Weaknesses
+	stats, err = json.Marshal(envelope)
+	if err != nil {
+		return statedb.PlayerCharacter{}, fmt.Errorf("encode martial profile: %w", err)
+	}
 	var locationID pgtype.UUID
 	if startingLocationID != nil {
 		locationID = dbutil.ToPgtype(*startingLocationID)
@@ -100,7 +114,7 @@ func PersistSupportedMartialCharacter(ctx context.Context, queries statedb.Queri
 	if err != nil {
 		return statedb.PlayerCharacter{}, fmt.Errorf("marshal supported martial abilities: %w", err)
 	}
-	pc, err := queries.CreatePlayerCharacter(ctx, statedb.CreatePlayerCharacterParams{CampaignID: dbutil.ToPgtype(campaignID), UserID: dbutil.ToPgtype(userID), Name: profile.Name, Description: pgtype.Text{String: "Human Soldier Fighter.", Valid: true}, Stats: stats, Hp: 12, MaxHp: 12, Level: 1, Status: "active", Abilities: abilities, CurrentLocationID: locationID})
+	pc, err := queries.CreatePlayerCharacter(ctx, statedb.CreatePlayerCharacterParams{CampaignID: dbutil.ToPgtype(campaignID), UserID: dbutil.ToPgtype(userID), Name: profile.Name, Description: pgtype.Text{String: fmt.Sprintf("%s. %s", profile.Concept, profile.Background), Valid: true}, Stats: stats, Hp: 12, MaxHp: 12, Level: 1, Status: "active", Abilities: abilities, CurrentLocationID: locationID})
 	if err != nil {
 		return statedb.PlayerCharacter{}, fmt.Errorf("create supported martial character: %w", err)
 	}

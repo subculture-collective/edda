@@ -217,7 +217,7 @@ func TestIntegrationSRDMartialCreationPersistsOnlySupportedBuild(t *testing.T) {
 	userID := dbutil.FromPgtype(user.ID)
 	input := creationInput(userID)
 	input.Name = "SRD creation " + uuid.NewString()
-	input.CharacterProfile = &world.CharacterProfile{Name: "Mira", Concept: "human fighter", Background: "Soldier"}
+	input.CharacterProfile = &world.CharacterProfile{Name: "Mira", Concept: "human fighter", Background: "Soldier", Personality: "Lawful Good"}
 	input.RulesVersion = domain.RulesVersionSRD521
 	input.SpawnPackage = &world.CharacterSpawnPackage{Items: []world.StarterItem{{Name: "Unearned magic sword", ItemType: "weapon", Quantity: 10}}}
 
@@ -261,6 +261,9 @@ func TestIntegrationSRDMartialCreationPersistsOnlySupportedBuild(t *testing.T) {
 	}
 	if pc[0].Status != "active" || pc[0].Hp != 12 || pc[0].MaxHp != 12 {
 		t.Fatalf("character state = %+v", pc[0])
+	}
+	if !strings.Contains(string(pc[0].Stats), "Lawful Good") {
+		t.Fatal("descriptive guided choices were lost")
 	}
 	sheet, err := srd521.Project(pc[0].Stats, int(pc[0].Level), int(pc[0].Hp), int(pc[0].MaxHp), int(pc[0].Experience))
 	if err != nil || sheet.Defenses["armor-class"].Value != 19 || sheet.Skills["intimidation"].Value != 3 {
