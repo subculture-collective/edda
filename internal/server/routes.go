@@ -24,6 +24,10 @@ import (
 )
 
 func NewRouterWithProvider(logger *log.Logger, gameEngine engine.GameEngine, queries statedb.Querier, provider llm.Provider, pool *pgxpool.Pool, defaultUserID uuid.UUID, cfg config.Config, saveStore *saves.Store) http.Handler {
+	return NewRouterWithProviders(logger, gameEngine, queries, provider, provider, provider, pool, defaultUserID, cfg, saveStore)
+}
+
+func NewRouterWithProviders(logger *log.Logger, gameEngine engine.GameEngine, queries statedb.Querier, provider, worldgenProvider, summaryProvider llm.Provider, pool *pgxpool.Pool, defaultUserID uuid.UUID, cfg config.Config, saveStore *saves.Store) http.Handler {
 	r := chi.NewRouter()
 	r.Use(middleware.RequestID)
 	r.Use(loggingMiddleware(logger))
@@ -47,7 +51,8 @@ func NewRouterWithProvider(logger *log.Logger, gameEngine engine.GameEngine, que
 	worldH := &handlers.WorldHandlers{Queries: queries, Logger: logger}
 	actionH := &handlers.ActionHandlers{Engine: gameEngine, Queries: queries, Provider: provider, Logger: logger, TurnTimeout: cfg.LLM.Ollama.RequestTimeout()}
 	startupH := handlers.NewStartupHandlers(provider, queries, logger, pool)
-	registerAPIRoutes(logger, r, campaignH, charH, worldH, actionH, startupH, pool, defaultUserID, cfg, saveStore, provider)
+	startupH.WorldgenProvider = worldgenProvider
+	registerAPIRoutes(logger, r, campaignH, charH, worldH, actionH, startupH, pool, defaultUserID, cfg, saveStore, summaryProvider)
 	return r
 }
 
