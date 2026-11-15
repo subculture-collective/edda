@@ -27,7 +27,15 @@ func NewRouterWithProvider(logger *log.Logger, gameEngine engine.GameEngine, que
 	return NewRouterWithProviders(logger, gameEngine, queries, provider, provider, provider, pool, defaultUserID, cfg, saveStore)
 }
 
+// NewRouterWithProviders routes world creation and journal summaries independently
+// of other startup requests. A missing workflow provider uses the default.
 func NewRouterWithProviders(logger *log.Logger, gameEngine engine.GameEngine, queries statedb.Querier, provider, worldgenProvider, summaryProvider llm.Provider, pool *pgxpool.Pool, defaultUserID uuid.UUID, cfg config.Config, saveStore *saves.Store) http.Handler {
+	if worldgenProvider == nil {
+		worldgenProvider = provider
+	}
+	if summaryProvider == nil {
+		summaryProvider = provider
+	}
 	r := chi.NewRouter()
 	r.Use(middleware.RequestID)
 	r.Use(loggingMiddleware(logger))
