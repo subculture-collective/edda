@@ -23,7 +23,7 @@ import (
 	tcpostgres "github.com/testcontainers/testcontainers-go/modules/postgres"
 
 	"git.subcult.tv/subculture-collective/edda/internal/config"
-	"git.subcult.tv/subculture-collective/edda/internal/dbutil"
+	"git.subcult.tv/subculture-collective/edda/internal/db"
 	"git.subcult.tv/subculture-collective/edda/internal/llm"
 	statedb "git.subcult.tv/subculture-collective/edda/internal/state/sqlc"
 )
@@ -115,7 +115,7 @@ func TestIntegrationWorkflowRoutes(t *testing.T) {
 			if err != nil {
 				t.Fatal(err)
 			}
-			cid := dbutil.FromPgtype(campaign.ID)
+			cid := db.FromPgUUID(campaign.ID)
 			if _, err := pool.Exec(ctx, "INSERT INTO session_logs(campaign_id,turn_number,player_input,input_type,llm_response) VALUES($1,1,'Inspect the gate','game_action','The gate is closed')", cid); err != nil {
 				t.Fatal(err)
 			}
