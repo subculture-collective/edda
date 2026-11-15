@@ -299,10 +299,16 @@ func (c *OpenRouterClient) parseSSEStream(ctx context.Context, body io.Reader, c
 			continue
 		}
 
+		if len(ev.Error) > 0 && string(ev.Error) != "null" {
+			return
+		}
 		if len(ev.Choices) == 0 {
 			continue
 		}
 		choice := ev.Choices[0]
+		if choice.FinishReason == "error" {
+			return
+		}
 
 		if choice.Delta.Content != "" {
 			select {
@@ -472,6 +478,7 @@ type openRouterRespMessage struct {
 }
 
 type openRouterStreamChunk struct {
+	Error   json.RawMessage          `json:"error"`
 	Choices []openRouterStreamChoice `json:"choices"`
 }
 

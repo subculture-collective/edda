@@ -81,6 +81,9 @@ type Response struct {
 // over the channel; the loop ends when the channel closes. The Done flag on the last
 // chunk lets callers distinguish a clean finish from an unexpected close.
 type StreamChunk struct {
+	// Reset discards provisional text and tool calls from an abandoned provider
+	// attempt before fallback. It carries no committed effects.
+	Reset bool
 	// ContentDelta is the new text fragment in this chunk.
 	ContentDelta string
 	// ToolCallDelta contains one fully assembled tool call, if any.

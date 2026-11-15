@@ -38,7 +38,17 @@ fragmentation or extra inference is used to simulate streaming.
 
 Provider streams must assemble complete tool calls, including arguments, and
 send `Done` only on successful completion. An early close is a failed response;
-its partial calls are never dispatched. Initial generation can use its existing
+its partial calls are never dispatched. OpenRouter top-level errors and
+`finish_reason: error`, and Claude refusal stop reasons, cannot complete a turn.
+Claude retains signed thinking/redacted blocks in its private replay cache for
+tool-result follow-ups; those blocks are never emitted to the player.
+
+A configured fallback applies to failures after a stream opens as well as opening
+errors. The provider's internal `Reset` chunk discards abandoned text and tool
+calls before the secondary starts; the engine translates it into the existing
+`narrative_reset` status. Only a successful provider attempt can supply calls for
+dispatch. Cancellation never starts a fallback. These internal chunks add no new
+WebSocket event kind. Initial generation can use its existing
 bounded transient retry, while post-mechanical recovery retains its existing
 durable budget. OpenRouter now assembles split/interleaved arguments, Ollama
 forwards every call in a frame, and ChatGPT no longer marks a failed stream done.

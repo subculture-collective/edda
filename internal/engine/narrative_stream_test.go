@@ -271,3 +271,50 @@ func (p *silentFragmentProvider) Stream(context.Context, []llm.Message, []llm.To
 	close(p.opened)
 	return make(chan llm.StreamChunk), nil
 }
+
+func TestCompleteNarrative_FallbackDiscardsFailedPrimaryCalls(t *testing.T) {
+	for _, terminal := range []string{"error", "refusal"} {
+		t.Run(terminal, func(t *testing.T) {
+			var ending string
+			if terminal == "error" {
+				ending = "event: error\ndata: {\"error\":{\"type\":\"overloaded_error\"}}\n\n"
+			} else {
+				ending = "event: message_delta\ndata: {\"delta\":{\"stop_reason\":\"refusal\"}}\n\nevent: message_stop\ndata: {}\n\n"
+			}
+			wire := strings.Join([]string{
+				`event: content_block_start`, `data: {"index":0,"content_block":{"type":"text","text":""}}`, ``,
+				`event: content_block_delta`, `data: {"index":0,"delta":{"type":"text_delta","text":"Abandoned text"}}`, ``,
+				`event: content_block_stop`, `data: {"index":0}`, ``,
+				`event: content_block_start`, `data: {"index":1,"content_block":{"type":"tool_use","id":"old","name":"update_player_hp","input":{}}}`, ``,
+				`event: content_block_delta`, `data: {"index":1,"delta":{"type":"input_json_delta","partial_json":"{\"hp\":1}"}}`, ``,
+				`event: content_block_stop`, `data: {"index":1}`, ``,
+			}, "\n") + "\n" + ending
+			server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+				w.Header().Set("Content-Type", "text/event-stream")
+				_, _ = w.Write([]byte(wire))
+			}))
+			defer server.Close()
+			secondary := &fragmentProvider{mockProvider: mockProvider{t: t}, streams: [][]llm.StreamChunk{{{ContentDelta: "Recovered "}, {ContentDelta: "narration."}, {Done: true}}}}
+			provider := &llm.FallbackProvider{Primary: llm.NewClaudeClient(server.URL, "fixture", "fixture"), Secondary: secondary}
+			preview := ""
+			var discarded []string
+			result, err := completeNarrative(context.Background(), provider, nil, nil, func(text string) {
+				if text == "" {
+					discarded = append(discarded, preview)
+					preview = ""
+				} else {
+					preview += text
+				}
+			})
+			if err != nil {
+				t.Fatal(err)
+			}
+			if secondary.streamCalls != 1 || preview != "Recovered narration." || result.Content != preview || len(result.ToolCalls) != 0 {
+				t.Fatalf("fallback result %+v preview %q calls %d", result, preview, secondary.streamCalls)
+			}
+			if !strings.Contains(strings.Join(discarded, "|"), "Abandoned text") {
+				t.Fatal("primary preview was not cleared")
+			}
+		})
+	}
+}

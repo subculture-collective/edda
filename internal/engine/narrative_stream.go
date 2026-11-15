@@ -37,6 +37,11 @@ func completeNarrative(ctx context.Context, provider llm.Provider, messages []ll
 			if !ok {
 				return nil, &llm.ErrTransient{Err: io.ErrUnexpectedEOF}
 			}
+			if chunk.Reset {
+				text.Reset()
+				calls = nil
+				emit("")
+			}
 			if chunk.ContentDelta != "" {
 				text.WriteString(chunk.ContentDelta)
 				emit(chunk.ContentDelta)
