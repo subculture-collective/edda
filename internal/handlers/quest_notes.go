@@ -21,6 +21,9 @@ func (h *WorldHandlers) ListQuestNotes(w http.ResponseWriter, r *http.Request) {
 		writeError(w, http.StatusBadRequest, fmt.Sprintf("invalid quest id: %v", err))
 		return
 	}
+	if !h.requireQuestCampaign(w, r, questID) {
+		return
+	}
 	notes, err := h.Queries.ListQuestNotes(r.Context(), dbutil.ToPgtype(questID))
 	if err != nil {
 		writeError(w, http.StatusInternalServerError, "failed to list quest notes")
@@ -44,6 +47,10 @@ func (h *WorldHandlers) CreateQuestNote(w http.ResponseWriter, r *http.Request) 
 	questID, err := uuid.Parse(chi.URLParam(r, "qid"))
 	if err != nil {
 		writeError(w, http.StatusBadRequest, fmt.Sprintf("invalid quest id: %v", err))
+		return
+	}
+
+	if !h.requireQuestCampaign(w, r, questID) {
 		return
 	}
 
@@ -80,6 +87,10 @@ func (h *WorldHandlers) DeleteQuestNote(w http.ResponseWriter, r *http.Request) 
 		writeError(w, http.StatusBadRequest, fmt.Sprintf("invalid quest id: %v", err))
 		return
 	}
+	if !h.requireQuestCampaign(w, r, questID) {
+		return
+	}
+
 	noteID, err := uuid.Parse(chi.URLParam(r, "noteID"))
 	if err != nil {
 		writeError(w, http.StatusBadRequest, fmt.Sprintf("invalid note id: %v", err))
@@ -104,6 +115,9 @@ func (h *WorldHandlers) ListQuestHistory(w http.ResponseWriter, r *http.Request)
 		writeError(w, http.StatusBadRequest, fmt.Sprintf("invalid quest id: %v", err))
 		return
 	}
+	if !h.requireQuestCampaign(w, r, questID) {
+		return
+	}
 	entries, err := h.Queries.ListQuestHistory(r.Context(), dbutil.ToPgtype(questID))
 	if err != nil {
 		writeError(w, http.StatusInternalServerError, "failed to list quest history")
@@ -119,4 +133,21 @@ func (h *WorldHandlers) ListQuestHistory(w http.ResponseWriter, r *http.Request)
 		})
 	}
 	writeJSON(w, http.StatusOK, resp)
+}
+
+// requireQuestCampaign checks the parent before querying or changing quest children.
+func (h *WorldHandlers) requireQuestCampaign(w http.ResponseWriter, r *http.Request, questID uuid.UUID) bool {
+	campaignID, err := campaignIDFromURL(r)
+	if err != nil {
+		writeError(w, http.StatusBadRequest, "invalid campaign id")
+		return false
+	}
+	_, err = h.Queries.GetQuestByID(r.Context(), statedb.GetQuestByIDParams{
+		ID: dbutil.ToPgtype(questID), CampaignID: dbutil.ToPgtype(campaignID),
+	})
+	if err != nil {
+		writeError(w, http.StatusNotFound, "quest not found")
+		return false
+	}
+	return true
 }
