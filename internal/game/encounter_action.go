@@ -54,11 +54,13 @@ func PrepareStoredAction(ctx context.Context, database statedb.DBTX, campaign do
 	}
 	result.Encounter = encounter
 	p.Encounter = encounter
-	encoded, err := json.Marshal([]any{p.ExpectedRevision, encounter})
-	if err != nil {
-		return nil, err
+	if encounter != nil {
+		encoded, err := json.Marshal([]any{p.ExpectedRevision, encounter})
+		if err != nil {
+			return nil, err
+		}
+		p.ExpectedRevision = fmt.Sprintf("encounter-v1:%x", sha256.Sum256(encoded))
 	}
-	p.ExpectedRevision = fmt.Sprintf("encounter-v1:%x", sha256.Sum256(encoded))
 	unavailable := func(reason string) (*StoredAction, error) { p.Available = false; p.Reason = reason; return result, nil }
 	if !p.Available {
 		return result, nil
