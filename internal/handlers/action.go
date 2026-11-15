@@ -3,6 +3,7 @@ package handlers
 import (
 	"context"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"net/http"
 
@@ -34,6 +35,10 @@ func (h *ActionHandlers) ProcessAction(w http.ResponseWriter, r *http.Request) {
 	result, err := h.Engine.ProcessTurn(turnCtx, campaignID, req.Input)
 	if err != nil {
 		h.Logger.Errorf("process turn for campaign %s: %v", campaignID, err)
+		if errors.Is(err, engine.ErrTurnInProgress) {
+			writeError(w, http.StatusConflict, err.Error())
+			return
+		}
 		if engine.IsLLMOutputError(err) {
 			writeError(w, http.StatusBadGateway, err.Error())
 			return
@@ -48,7 +53,7 @@ func (h *ActionHandlers) ProcessAction(w http.ResponseWriter, r *http.Request) {
 func (h *ActionHandlers) turnContext(parent context.Context) (context.Context, context.CancelFunc) {
 	base := context.WithoutCancel(parent)
 	if h.TurnTimeout <= 0 {
-		return base, func() {}
+		return context.WithCancel(base)
 	}
 	return context.WithTimeout(base, h.TurnTimeout)
 }
