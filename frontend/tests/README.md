@@ -6,12 +6,12 @@ Run from the repository root with Node 24 and the package-pinned pnpm:
 cd frontend
 corepack enable
 pnpm install --frozen-lockfile
+pnpm exec playwright install --with-deps chromium
+pnpm test
+pnpm test:browser
+pnpm build
+pnpm lint
 cd ..
-pnpm --dir frontend exec playwright install --with-deps chromium
-pnpm --dir frontend test
-pnpm --dir frontend test:browser
-pnpm --dir frontend build
-pnpm --dir frontend lint
 ```
 
 `test` type-checks the harness and runs Vitest interaction, narrative and socket tests in jsdom. `test:browser` starts and stops its own local Vite process on 127.0.0.1:4175 and drives Chromium. That port must be free. Each browser test has fresh storage, query state, HTTP fixtures and sockets. No backend, database, credentials or provider keys are used. API requests are fulfilled locally; unknown resources fail the test. External requests are blocked and sockets never connect to a server. Narrative mode fixtures have no dice or model calls.
