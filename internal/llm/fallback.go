@@ -41,7 +41,11 @@ func (f *FallbackProvider) Stream(ctx context.Context, messages []Message, tools
 		if !f.shouldFallBack(ctx, err) {
 			return nil, err
 		}
-		return f.Secondary.Stream(ctx, messages, tools)
+		secondary, secondaryErr := f.Secondary.Stream(ctx, messages, tools)
+		if secondaryErr != nil {
+			return nil, errors.Join(err, secondaryErr)
+		}
+		return secondary, nil
 	}
 	out := make(chan StreamChunk)
 	go func() {
