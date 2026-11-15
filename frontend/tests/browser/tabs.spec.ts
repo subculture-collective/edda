@@ -15,8 +15,9 @@ test('all campaign tabs expose stable panels and support automatic keyboard sele
     await expect(panel).toBeVisible();
     expect(await panel.getAttribute('id')).toBe(await selected.getAttribute('aria-controls'));
     expect(await panel.getAttribute('aria-labelledby')).toBe(await selected.getAttribute('id'));
-    await expect(page.getByRole('tabpanel')).toHaveCount(name === 'Play' ? 1 : 2);
+    await expect(page.getByRole('tabpanel')).toHaveCount(1);
     await expect(tabs.locator('[tabindex="0"]')).toHaveCount(1);
+    if (name !== 'Play') { await expect(page.getByRole('region', { name: 'Story', exact: true })).toBeVisible(); }
     await selected.press('ArrowRight');
   }
   await expect(first).toBeFocused();

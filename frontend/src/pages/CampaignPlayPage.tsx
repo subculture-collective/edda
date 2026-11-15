@@ -282,11 +282,12 @@ function CampaignPlayContent({
             {playTabs.map((tab) => (
               <div
                 key={tab.key}
-                role="tabpanel"
+                role={tab.key === 'narrative' && activeTab !== 'narrative' && companionVisible ? 'region' : 'tabpanel'}
                 id={`${tabIdPrefix}-panel-${tab.key}`}
-                aria-labelledby={`${tabIdPrefix}-tab-${tab.key}`}
+                aria-label={tab.key === 'narrative' && activeTab !== 'narrative' && companionVisible ? 'Story' : undefined}
+                aria-labelledby={tab.key === 'narrative' && activeTab !== 'narrative' && companionVisible ? undefined : `${tabIdPrefix}-tab-${tab.key}`}
                 hidden={activeTab !== tab.key && !(tab.key === 'narrative' && companionVisible)}
-                tabIndex={0}
+                tabIndex={tab.key === 'narrative' && activeTab !== 'narrative' && companionVisible ? undefined : 0}
                 ref={tab.key === 'narrative' ? storyRef : undefined}
                 className={`h-full min-h-0 overflow-hidden ${tab.key === 'narrative' ? 'game-story-panel' : 'game-detail-panel'}`}
                 onKeyDown={(event) => { if (event.key === 'Escape' && tab.key !== 'narrative') { event.preventDefault(); closeDetails(); } }}

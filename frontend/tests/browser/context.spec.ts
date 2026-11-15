@@ -13,7 +13,7 @@ for (const width of [390, 1366]) {
   await log.evaluate(el => { el.scrollTo({ top: 100, behavior: 'instant' }); el.dispatchEvent(new Event('scroll')); });
   const input = page.getByLabel('Your move'); await input.fill('My retained action'); await input.focus();
   await page.getByRole('tab', { name: 'Character', exact: true }).click();
-  if (width >= 1280) await expect(story).toBeVisible(); else await expect(story).toBeHidden();
+  if (width >= 1280) await expect(page.getByRole('region', { name: 'Story', exact: true })).toBeVisible(); else await expect(story).toBeHidden();
   await expect(page.getByRole('region', { name: 'Inventory', exact: true })).toBeVisible();
   await page.getByRole('button', { name: 'Close details' }).click();
   await expect(input).toHaveValue('My retained action'); await expect(input).toBeFocused();
