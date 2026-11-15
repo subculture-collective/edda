@@ -166,6 +166,9 @@ func TestIntegrationWorldCreationRollbackAndRetry(t *testing.T) {
 					t.Fatalf("%s count=%d want=%d", table, count, want)
 				}
 			}
+			if result.Campaign.RulesVersion != "legacy" {
+				t.Fatalf("omitted rules version = %q", result.Campaign.RulesVersion)
+			}
 			if result.Campaign.Status != "active" {
 				t.Fatalf("status=%s", result.Campaign.Status)
 			}
@@ -230,6 +233,12 @@ func TestIntegrationSRDMartialCreationPersistsOnlySupportedBuild(t *testing.T) {
 		t.Fatalf("incomplete creation result=%+v error=%v calls=%d", result, err, provider.calls)
 	}
 	assertNoCreationRows(t, userID)
+	invalidVersion := input
+	invalidVersion.RulesVersion = "unreleased"
+	provider = &creationProvider{t: t}
+	if result, err := world.NewOrchestrator(provider, q).Run(ctx, invalidVersion, nil); err == nil || result != nil || provider.calls != 0 {
+		t.Fatalf("unknown rules version admitted: result=%+v error=%v calls=%d", result, err, provider.calls)
+	}
 	if result, err := world.NewOrchestrator(&creationProvider{t: t, failAt: 2}, q).Run(ctx, input, nil); err == nil || result != nil {
 		t.Fatalf("generation failure result=%+v error=%v", result, err)
 	}

@@ -59,6 +59,11 @@ func NewOrchestrator(provider llm.Provider, queries statedb.Querier) *Orchestrat
 // before each stage with a human-readable description; it may be nil.
 func (o *Orchestrator) Run(ctx context.Context, input OrchestratorInput, progress func(stage string)) (*OrchestratorResult, error) {
 	started := time.Now()
+	version, err := domain.NormalizeRulesVersion(input.RulesVersion)
+	if err != nil {
+		return nil, err
+	}
+	input.RulesVersion = version
 	if input.Profile == nil {
 		err := fmt.Errorf("orchestrator: campaign profile is nil")
 		logger().Error("orchestrator failed", "duration_ms", time.Since(started).Milliseconds(), "error", err)
