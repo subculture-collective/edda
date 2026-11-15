@@ -1,14 +1,14 @@
 # Gameplay concept decision for #55
 
-Status: awaiting the owner's selection. This investigation prepares a reviewable choice; it does not change the production UI. The selection requested in #55 cannot be inferred from the instruction to implement wave 1.
+Status: selected by the owner on 2026-11-15 UTC: **A's layout with B's serif story text**. This investigation does not change the production UI. The interactive prototype opens with the selected combination.
 
 Open [the interactive concepts](gameplay-concepts.html). Choose A or B, switch between desktop and phone arrangements, open Character/World/Journal, copy a suggestion into the editable draft, and try the reduced-height sketch. The menu demonstrates the proposed location of Saves, Export and campaign navigation.
 
 ## Recommendation and alternative
 
-Recommend **A: story with a context rail**, retaining Marcellus headings and Josefin Sans for controls and story copy. Desktop keeps a 220-pixel context rail; phones replace it with a bounded detail view above the persistent composer. The transcript and details own their scrolling. This retains the current game's simultaneous character context without carrying all of its telemetry onto a phone.
+The selected combination uses **A: story with a context rail**, Marcellus headings, Josefin Sans controls, and Georgia serif story copy from B. Desktop keeps a 220-pixel context rail; phones replace it with a bounded detail view above the persistent composer. The transcript and details own their scrolling. This retains the current game's simultaneous character context without carrying all of its telemetry onto a phone.
 
-**B: full reading column** removes the persistent desktop rail. A player opens details explicitly, temporarily replacing the transcript area. It uses Georgia for story copy, retaining Marcellus headings and Josefin Sans controls. The wider reading area gives long passages more space, but character state takes another action to inspect. The owner can also choose A's arrangement with B's reading face.
+**B: full reading column** removes the persistent desktop rail. A player opens details explicitly, temporarily replacing the transcript area. It uses Georgia for story copy, retaining Marcellus headings and Josefin Sans controls. The wider reading area gives long passages more space, but character state takes another action to inspect. The owner selected A's arrangement with this reading face.
 
 Both show the same isolated fixture: Adventure alpha; Mira, level 1, HP 10/10; an open gate, the waiting keeper, one played action, and the silver-key narrative result. No unplayed events or hidden lore are used. Draft copy and navigation are demonstrations; Send makes no API request. The prototype adds no claim of implemented SRD mechanics.
 
@@ -31,7 +31,7 @@ The dark theme and square Art Deco detailing retain the established application 
 - #78 owns automated viewport, control reachability, zoom/reflow and real-device qualification. The reduced-height sketch here is not keyboard evidence.
 - #90 owns transcript reading and retained position. Keep player actions distinct from GM prose with more than color.
 
-No new follow-up issue is needed: these existing roadmap issues bound the implementation. Keep the investigation open until the owner records the arrangement and typography decision. Human review of real phone/software-keyboard behavior remains in #46/#78.
+No new follow-up issue is needed: these existing roadmap issues bound the implementation. The owner has recorded the arrangement and typography decision; implement that combination in wave 2. Human review of real phone/software-keyboard behavior remains in #46/#78.
 
 ## Validation and limits
 
