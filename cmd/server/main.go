@@ -15,13 +15,11 @@ import (
 	"github.com/charmbracelet/log"
 	"github.com/jackc/pgx/v5/pgxpool"
 
-	"git.subcult.tv/subculture-collective/edda/internal/assembly"
 	"git.subcult.tv/subculture-collective/edda/internal/bootstrap"
 	"git.subcult.tv/subculture-collective/edda/internal/config"
 	"git.subcult.tv/subculture-collective/edda/internal/engine"
 	"git.subcult.tv/subculture-collective/edda/internal/llm"
 	"git.subcult.tv/subculture-collective/edda/internal/logging"
-	"git.subcult.tv/subculture-collective/edda/internal/memory"
 	"git.subcult.tv/subculture-collective/edda/internal/saves"
 	serverroutes "git.subcult.tv/subculture-collective/edda/internal/server"
 	statedb "git.subcult.tv/subculture-collective/edda/internal/state/sqlc"
@@ -92,38 +90,12 @@ func run(args []string) int {
 			ContextTokenBudget: roster.Info(llm.FlowGMTurn).ContextTokenBudget,
 		}),
 	}
-	embedding := cfg.LLM.MemoryEmbedding
-	if !embedding.Enabled && cfg.LLM.Provider == "ollama" && cfg.LLM.Ollama.EmbeddingModel != "" {
-		embedding = config.MemoryEmbeddingConfig{Enabled: true, Endpoint: cfg.LLM.Ollama.EmbeddingEndpoint, Model: cfg.LLM.Ollama.EmbeddingModel, Dimension: cfg.LLM.Ollama.EmbeddingDimension, APIKey: cfg.LLM.Ollama.APIKey}
+	memoryOpts, err := engine.SemanticMemoryOptions(ctx, cfg.LLM, pool, queries, slog.Default().WithGroup("memory"))
+	if err != nil {
+		logger.Errorf("configure semantic campaign memory: %v", err)
+		return 1
 	}
-	if embedding.Enabled {
-		if embedding.Dimension <= 0 {
-			embedding.Dimension = memory.DefaultVectorDimension
-		}
-		if err := memory.ValidateMemoryEmbeddingDimension(ctx, pool, embedding.Dimension); err != nil {
-			logger.Errorf("validate memory embedding dimension: %v", err)
-			return 1
-		}
-		embedEndpoint := embedding.Endpoint
-		if embedEndpoint == "" {
-			embedEndpoint = cfg.LLM.Ollama.Endpoint
-		}
-		embedder := memory.NewOllamaEmbedder(
-			embedEndpoint, embedding.Model,
-			memory.WithOllamaEmbedderDimension(embedding.Dimension),
-			memory.WithOllamaEmbedderTimeout(cfg.LLM.Ollama.RequestTimeout()),
-			memory.WithOllamaEmbedderAPIKey(embedding.APIKey),
-		)
-		searcher := memory.NewSearcher(embedder, queries)
-		tier3 := assembly.NewTier3Retriever(searcher, 5, slog.Default().WithGroup("tier3"))
-		engineOpts = append(engineOpts,
-			engine.WithTier3Retriever(tier3),
-			engine.WithEmbedder(embedder),
-			engine.WithSearcher(searcher),
-		)
-	} else {
-		logger.Warn("semantic campaign memory unavailable: llm.memoryembedding.enabled is false")
-	}
+	engineOpts = append(engineOpts, memoryOpts...)
 
 	gameEngine, err := engine.New(pool, gmProvider, cfg.LLM, engineOpts...)
 	if err != nil {
