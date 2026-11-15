@@ -9,6 +9,7 @@ import (
 	"github.com/go-chi/chi/v5"
 	"github.com/google/uuid"
 
+	"git.subcult.tv/subculture-collective/edda/internal/db"
 	"git.subcult.tv/subculture-collective/edda/internal/dbutil"
 	statedb "git.subcult.tv/subculture-collective/edda/internal/state/sqlc"
 	"git.subcult.tv/subculture-collective/edda/pkg/api"
@@ -143,7 +144,7 @@ func (h *WorldHandlers) requireQuestCampaign(w http.ResponseWriter, r *http.Requ
 		return false
 	}
 	_, err = h.Queries.GetQuestByID(r.Context(), statedb.GetQuestByIDParams{
-		ID: dbutil.ToPgtype(questID), CampaignID: dbutil.ToPgtype(campaignID),
+		ID: db.ToPgUUID(questID), CampaignID: db.ToPgUUID(campaignID),
 	})
 	if err != nil {
 		writeError(w, http.StatusNotFound, "quest not found")
