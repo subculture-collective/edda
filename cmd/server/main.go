@@ -92,20 +92,27 @@ func run(args []string) int {
 			ContextTokenBudget: roster.Info(llm.FlowGMTurn).ContextTokenBudget,
 		}),
 	}
-	if cfg.LLM.Provider == "ollama" {
-		if err := memory.ValidateMemoryEmbeddingDimension(ctx, pool, cfg.LLM.Ollama.EmbeddingDimension); err != nil {
+	embedding := cfg.LLM.MemoryEmbedding
+	if !embedding.Enabled && cfg.LLM.Provider == "ollama" && cfg.LLM.Ollama.EmbeddingModel != "" {
+		embedding = config.MemoryEmbeddingConfig{Enabled: true, Endpoint: cfg.LLM.Ollama.EmbeddingEndpoint, Model: cfg.LLM.Ollama.EmbeddingModel, Dimension: cfg.LLM.Ollama.EmbeddingDimension, APIKey: cfg.LLM.Ollama.APIKey}
+	}
+	if embedding.Enabled {
+		if embedding.Dimension <= 0 {
+			embedding.Dimension = memory.DefaultVectorDimension
+		}
+		if err := memory.ValidateMemoryEmbeddingDimension(ctx, pool, embedding.Dimension); err != nil {
 			logger.Errorf("validate memory embedding dimension: %v", err)
 			return 1
 		}
-		embedEndpoint := cfg.LLM.Ollama.EmbeddingEndpoint
+		embedEndpoint := embedding.Endpoint
 		if embedEndpoint == "" {
 			embedEndpoint = cfg.LLM.Ollama.Endpoint
 		}
 		embedder := memory.NewOllamaEmbedder(
-			embedEndpoint, cfg.LLM.Ollama.EmbeddingModel,
-			memory.WithOllamaEmbedderDimension(cfg.LLM.Ollama.EmbeddingDimension),
+			embedEndpoint, embedding.Model,
+			memory.WithOllamaEmbedderDimension(embedding.Dimension),
 			memory.WithOllamaEmbedderTimeout(cfg.LLM.Ollama.RequestTimeout()),
-			memory.WithOllamaEmbedderAPIKey(cfg.LLM.Ollama.APIKey),
+			memory.WithOllamaEmbedderAPIKey(embedding.APIKey),
 		)
 		searcher := memory.NewSearcher(embedder, queries)
 		tier3 := assembly.NewTier3Retriever(searcher, 5, slog.Default().WithGroup("tier3"))
@@ -114,6 +121,8 @@ func run(args []string) int {
 			engine.WithEmbedder(embedder),
 			engine.WithSearcher(searcher),
 		)
+	} else {
+		logger.Warn("semantic campaign memory unavailable: llm.memoryembedding.enabled is false")
 	}
 
 	gameEngine, err := engine.New(pool, gmProvider, cfg.LLM, engineOpts...)

@@ -114,17 +114,27 @@ type LLMRoutesConfig struct {
 // FallbackProvider is set, a request that fails on Provider is sent again to
 // FallbackProvider.
 type LLMConfig struct {
-	Provider         string           `koanf:"provider"`
-	FallbackProvider string           `koanf:"fallbackprovider"`
-	Ollama           OllamaConfig     `koanf:"ollama"`
-	Claude           ClaudeConfig     `koanf:"claude"`
-	OpenRouter       OpenRouterConfig `koanf:"openrouter"`
-	ChatGPT          ChatGPTConfig    `koanf:"chatgpt"`
-	ClaudeCode       ClaudeCodeConfig `koanf:"claudecode"`
+	Provider         string                `koanf:"provider"`
+	FallbackProvider string                `koanf:"fallbackprovider"`
+	Ollama           OllamaConfig          `koanf:"ollama"`
+	MemoryEmbedding  MemoryEmbeddingConfig `koanf:"memoryembedding"`
+	Claude           ClaudeConfig          `koanf:"claude"`
+	OpenRouter       OpenRouterConfig      `koanf:"openrouter"`
+	ChatGPT          ChatGPTConfig         `koanf:"chatgpt"`
+	ClaudeCode       ClaudeCodeConfig      `koanf:"claudecode"`
 	// SkillsDir holds the skills that profiles with skills can load.
 	SkillsDir string                      `koanf:"skillsdir"`
 	Profiles  map[string]LLMProfileConfig `koanf:"profiles"`
 	Routes    LLMRoutesConfig             `koanf:"routes"`
+}
+
+// MemoryEmbeddingConfig configures the Ollama-compatible semantic memory embedder independently of the GM provider.
+type MemoryEmbeddingConfig struct {
+	Enabled   bool   `koanf:"enabled"`
+	Endpoint  string `koanf:"endpoint"`
+	Model     string `koanf:"model"`
+	Dimension int    `koanf:"dimension"`
+	APIKey    string `koanf:"apikey"`
 }
 
 // ContextTokenBudget returns the configured context token budget for the active provider.
