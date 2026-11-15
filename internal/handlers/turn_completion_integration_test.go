@@ -165,7 +165,7 @@ func TestIntegrationDurableTurnCompletion(t *testing.T) {
 			}
 			callsAfter := p.calls
 			again, err := e.ProcessTurn(engine.WithActionID(ctx, actionID), id, "Wait here")
-			if err != nil || !reflect.DeepEqual(again, result) || p.calls != callsAfter {
+			if err != nil || !sameTurnResult(again, result) || p.calls != callsAfter {
 				t.Fatalf("completed retry = %+v %v calls %d", again, err, p.calls)
 			}
 			if _, err := e.ProcessTurn(engine.WithActionID(ctx, actionID), id, "Different input"); err == nil {
@@ -190,7 +190,7 @@ func TestIntegrationDurableTurnCompletion(t *testing.T) {
 				t.Fatal("new repeated input was incorrectly deduplicated")
 			}
 			replay, err := e.ProcessTurn(engine.WithActionID(ctx, actionID), id, "Wait here")
-			if err != nil || !reflect.DeepEqual(replay, result) {
+			if err != nil || !sameTurnResult(replay, result) {
 				t.Fatalf("historical replay changed outcome: %+v %v", replay, err)
 			}
 			other, _ := create("Other owner boundary")
@@ -199,4 +199,19 @@ func TestIntegrationDurableTurnCompletion(t *testing.T) {
 			}
 		})
 	}
+}
+
+// PostgreSQL JSONB normalizes RawMessage whitespace/key order. Compare the
+// decoded response values, retaining every field and mechanical receipt.
+func sameTurnResult(a, b *engine.TurnResult) bool {
+	left, leftErr := json.Marshal(a)
+	right, rightErr := json.Marshal(b)
+	if leftErr != nil || rightErr != nil {
+		return false
+	}
+	var leftValue, rightValue any
+	if json.Unmarshal(left, &leftValue) != nil || json.Unmarshal(right, &rightValue) != nil {
+		return false
+	}
+	return reflect.DeepEqual(leftValue, rightValue)
 }
