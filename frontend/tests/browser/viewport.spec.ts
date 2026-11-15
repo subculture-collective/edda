@@ -95,5 +95,10 @@ test('visual viewport resize budgets the credit and removes its override on navi
   await page.locator('.game-app-header').getByRole('button').last().click();
   await page.getByRole('link', { name: 'Back to campaigns' }).click();
   await expect(page).toHaveURL('/');
+  // The URL changes before React necessarily commits the route and cleans up
+  // its effect. Check the completed transition, including listener removal.
+  await expect(page.getByRole('heading', { name: 'Campaigns', exact: true })).toBeVisible();
+  await expect.poll(() => page.evaluate(() => document.documentElement.style.getPropertyValue('--game-viewport-height'))).toBe('');
+  await page.evaluate(() => visualViewport!.dispatchEvent(new Event('resize')));
   expect(await page.evaluate(() => document.documentElement.style.getPropertyValue('--game-viewport-height'))).toBe('');
 });

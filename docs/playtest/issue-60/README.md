@@ -94,6 +94,14 @@ required PostgreSQL integration gate):
   sqlc suites. No application or production DSN was supplied.
 - `git diff --check`: passed. Hosted CI remains a separate parent-owned check.
 
+The first hosted run passed 14 browser checks and failed the SPA cleanup check:
+the URL had changed before React committed the route and cleaned up its effect.
+The original immediate assertion also failed in 2 of 10 local repetitions. The
+test now waits for the Campaigns page and the cleanup, then dispatches another
+resize to prove the old listener cannot restore the override. All 10 focused
+repetitions, all 15 browser checks, 10 unit tests, the frontend build and scoped
+ESLint passed after this test correction. No production lifecycle code changed.
+
 ## Inspected renders
 
 These images come from the isolated long-history fixture, after internally
