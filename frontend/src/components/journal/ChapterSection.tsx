@@ -1,11 +1,9 @@
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { generateChapter, listChapters, type GenerateChapterRequest } from '../../api/journal';
 
 export function ChapterSection({ campaignId }: { readonly campaignId: string }) {
   const client = useQueryClient();
-  // A transport failure must retain the original key, even if more turns commit.
-  const pendingRequests = useRef(new Map<string, GenerateChapterRequest>());
   const [message, setMessage] = useState('');
   const queryKey = ['campaign', campaignId, 'journal', 'chapters'];
   const chapters = useQuery({
@@ -18,9 +16,8 @@ export function ChapterSection({ campaignId }: { readonly campaignId: string }) 
     onSuccess: (result, request) => {
       // A server response makes the request durable; failed/in-progress
       // revisions expose their key through the list, including after reload.
-      for (const [key, pending] of pendingRequests.current) {
-        if (pending.request_id === request.request_id) pendingRequests.current.delete(key);
-      }
+      const key = requestKey(campaignId, request.chapter_id);
+      if (pendingRequest(key) === request.request_id) rememberRequest(key);
       setMessage('message' in result ? 'No completed turns available for a new chapter.' : result.status === 'generating' ? 'Chapter generation is in progress.' : result.status === 'failed' ? 'Generation failed. You can retry; play remains available.' : 'Chapter saved.');
       void client.invalidateQueries({ queryKey: ['campaign', campaignId, 'journal', 'chapters'] });
     },
@@ -30,9 +27,9 @@ export function ChapterSection({ campaignId }: { readonly campaignId: string }) 
     },
   });
   function generate(chapterId?: string, requestId?: string) {
-    const key = `${campaignId}:${chapterId ?? 'next'}`;
-    const request = requestId ? { request_id: requestId, chapter_id: chapterId } : pendingRequests.current.get(key) ?? { request_id: crypto.randomUUID(), chapter_id: chapterId };
-    pendingRequests.current.set(key, request);
+    const key = requestKey(campaignId, chapterId);
+    const request: GenerateChapterRequest = { request_id: requestId ?? pendingRequest(key) ?? crypto.randomUUID(), chapter_id: chapterId };
+    rememberRequest(key, request.request_id);
     setMessage('');
     mutation.mutate(request);
   }
@@ -63,4 +60,20 @@ export function ChapterSection({ campaignId }: { readonly campaignId: string }) 
       ))}
     </section>
   );
+}
+
+// Uncertain delivery must survive panel unmounts and reloads in this tab. Keep
+// only request identities, never chapter prose. Blocked storage uses a process
+// fallback so navigating between Play, Notes and Chronicle still retains keys.
+const storageFallback = new Map<string, string>();
+function requestKey(campaignId: string, chapterId?: string): string {
+  return `edda:chapter-request:${campaignId}:${chapterId ?? 'next'}`;
+}
+function pendingRequest(key: string): string | undefined {
+  try { return sessionStorage.getItem(key) ?? storageFallback.get(key); }
+  catch { return storageFallback.get(key); }
+}
+function rememberRequest(key: string, id?: string) {
+  try { if (id) sessionStorage.setItem(key, id); else sessionStorage.removeItem(key); storageFallback.delete(key); }
+  catch { if (id) storageFallback.set(key, id); else storageFallback.delete(key); }
 }

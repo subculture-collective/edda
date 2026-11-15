@@ -231,15 +231,40 @@ func chapterSource(turns []api.ChapterTurn, version, mode string) ([]byte, strin
 }
 
 func (s *Store) finishChapter(ctx context.Context, r api.ChapterRevisionResponse, token uuid.UUID, content, failure string) (api.ChapterRevisionResponse, error) {
+	// Source reservation holds this same campaign lock. Finalization must join
+	// that order so a next-range request cannot select an unfinished source and
+	// then allocate a new revision after its worker concurrently completes it.
+	beginner, ok := s.db.(interface {
+		Begin(context.Context) (pgx.Tx, error)
+	})
+	if !ok {
+		return api.ChapterRevisionResponse{}, errors.New("chapter transactions unavailable")
+	}
+	tx, err := beginner.Begin(ctx)
+	if err != nil {
+		return api.ChapterRevisionResponse{}, err
+	}
+	defer func() {
+		cleanup, cancel := chapterCleanupContext()
+		defer cancel()
+		_ = tx.Rollback(cleanup)
+	}()
+	var campaignID uuid.UUID
+	if err := tx.QueryRow(ctx, `SELECT c.id FROM campaigns c JOIN chapter_revisions r ON r.campaign_id=c.id WHERE r.id=$1 FOR UPDATE OF c`, r.ID).Scan(&campaignID); err != nil {
+		return api.ChapterRevisionResponse{}, err
+	}
 	status := "completed"
 	if failure != "" {
 		status = "failed"
 	}
-	result, err := scanRevision(s.db.QueryRow(ctx, `UPDATE chapter_revisions SET status=$3,content=$4,error=$5 WHERE id=$1 AND lease_token=$2 AND status='generating' AND lease_until>now() RETURNING `+revisionColumns, r.ID, token, status, content, failure))
+	result, err := scanRevision(tx.QueryRow(ctx, `UPDATE chapter_revisions SET status=$3,content=$4,error=$5 WHERE id=$1 AND lease_token=$2 AND status='generating' AND lease_until>now() RETURNING `+revisionColumns, r.ID, token, status, content, failure))
 	if errors.Is(err, pgx.ErrNoRows) {
 		return result, ErrChapterBusy
 	}
-	return result, err
+	if err != nil {
+		return result, err
+	}
+	return result, tx.Commit(ctx)
 }
 
 // Bounded cleanup persists cancellation/failure after the request context is gone.

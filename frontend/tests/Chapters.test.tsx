@@ -9,10 +9,10 @@ import type { ChapterResponse, ChapterRevisionResponse } from '../src/api/types'
 vi.mock('../src/api/journal', () => ({ generateChapter: vi.fn(), listChapters: vi.fn() }));
 const revision: ChapterRevisionResponse = { id: 'revision', chapter_id: 'chapter', request_id: 'key', revision: 1, status: 'completed', content: 'The gate stayed shut.', error: '', prompt_version: 'faithful-chapter-v1', created_at: '2026-01-01T00:00:00Z' };
 const chapter: ChapterResponse = { id: 'chapter', campaign_id: 'alpha', from_turn: 1, to_turn: 2, source_hash: 'hash', source_turns: [], knowledge_boundary: 'player-visible-transcript-through-to-turn-v1', rules_version: 'srd-5.2.1', rules_mode: 'strict', created_at: revision.created_at, revisions: [revision] };
-beforeEach(() => { vi.resetAllMocks(); vi.mocked(listChapters).mockResolvedValue([]); });
+beforeEach(() => { sessionStorage.clear(); vi.resetAllMocks(); vi.mocked(listChapters).mockResolvedValue([]); });
 function mount() {
   const client = new QueryClient({ defaultOptions: { queries: { retry: false }, mutations: { retry: false } } });
-  render(<QueryClientProvider client={client}><ChapterSection campaignId="alpha" /></QueryClientProvider>);
+  return render(<QueryClientProvider client={client}><ChapterSection campaignId="alpha" /></QueryClientProvider>);
 }
 it('retains the next request key after a lost response and shows the persisted chapter', async () => {
   vi.mocked(generateChapter).mockRejectedValueOnce(new Error('connection lost')).mockImplementationOnce(async () => {
@@ -47,4 +47,36 @@ it('announces an empty range and disables duplicate clicks during generation', a
   resolve({ message: 'no completed turns available' });
   expect(await screen.findByText('No completed turns available for a new chapter.')).toBeVisible();
   await waitFor(() => expect(generateChapter).toHaveBeenCalledTimes(1));
+});
+
+it.each(['next', 'regenerate'])('retains an uncertain %s request across Journal unmounts', async operation => {
+  vi.mocked(listChapters).mockResolvedValue(operation === 'regenerate' ? [chapter] : []);
+  vi.mocked(generateChapter).mockRejectedValueOnce(new Error('response lost')).mockResolvedValueOnce(revision);
+  const button = operation === 'next' ? 'Generate next chapter' : 'Regenerate chapter';
+  const view = mount();
+  await userEvent.click(await screen.findByRole('button', { name: button }));
+  await screen.findByText(/Could not finish the request/);
+  const original = vi.mocked(generateChapter).mock.calls[0][1];
+  view.unmount();
+  // The first request completed on the server despite the lost response.
+  // A newly mounted Journal must replay it, even with completed revisions visible.
+  vi.mocked(listChapters).mockResolvedValue([chapter]);
+  mount();
+  await userEvent.click(await screen.findByRole('button', { name: button }));
+  await screen.findByText('Chapter saved.');
+  expect(vi.mocked(generateChapter).mock.calls[1][1]).toEqual(original);
+});
+
+it('retains retry identity when browser storage rejects writes', async () => {
+  vi.spyOn(Storage.prototype, 'setItem').mockImplementation(() => { throw new Error('quota exceeded'); });
+  vi.mocked(generateChapter).mockRejectedValueOnce(new Error('response lost')).mockResolvedValueOnce(revision);
+  const view = mount();
+  await userEvent.click(screen.getByRole('button', { name: 'Generate next chapter' }));
+  await screen.findByText(/Could not finish the request/);
+  const original = vi.mocked(generateChapter).mock.calls[0][1];
+  view.unmount();
+  mount();
+  await userEvent.click(screen.getByRole('button', { name: 'Generate next chapter' }));
+  await screen.findByText('Chapter saved.');
+  expect(vi.mocked(generateChapter).mock.calls[1][1]).toEqual(original);
 });
