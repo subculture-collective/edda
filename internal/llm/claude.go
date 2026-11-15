@@ -379,10 +379,9 @@ func (c *ClaudeClient) parseSSEStream(ctx context.Context, body io.Reader, ch ch
 				args, _ := contentByIndex[ev.Index]["input"].(map[string]any)
 				if tu.jsonBuf.Len() > 0 {
 					if err := json.Unmarshal([]byte(tu.jsonBuf.String()), &args); err != nil {
-						// Malformed tool arguments JSON: skip emitting this tool call
-						// rather than forwarding nil/partial arguments to the caller.
-						delete(toolUseByIndex, ev.Index)
-						continue
+						// Reject the entire attempt. A partial set of tool results
+						// cannot safely replay the original assistant content.
+						return
 					}
 				}
 				if block := contentByIndex[ev.Index]; block != nil {

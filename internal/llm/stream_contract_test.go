@@ -114,3 +114,27 @@ func TestClaudeStreamThinkingReplay(t *testing.T) {
 		}
 	}
 }
+
+func TestClaudeMixedMalformedToolsNeverCompleteOrCache(t *testing.T) {
+	wire := strings.Join([]string{
+		`event: content_block_start`, `data: {"index":0,"content_block":{"type":"tool_use","id":"valid","name":"probe","input":{}}}`, ``,
+		`event: content_block_delta`, `data: {"index":0,"delta":{"type":"input_json_delta","partial_json":"{\"name\":\"gate\"}"}}`, ``,
+		`event: content_block_stop`, `data: {"index":0}`, ``,
+		`event: content_block_start`, `data: {"index":1,"content_block":{"type":"tool_use","id":"bad","name":"probe","input":{}}}`, ``,
+		`event: content_block_delta`, `data: {"index":1,"delta":{"type":"input_json_delta","partial_json":"{invalid"}}`, ``,
+		`event: content_block_stop`, `data: {"index":1}`, ``,
+		`event: message_stop`, `data: {}`, ``,
+	}, "\n")
+	client := &ClaudeClient{}
+	ch := make(chan StreamChunk, 10)
+	client.parseSSEStream(context.Background(), strings.NewReader(wire), ch)
+	close(ch)
+	for chunk := range ch {
+		if chunk.Done {
+			t.Fatal("partially malformed response completed")
+		}
+	}
+	if saved := client.replay.get("valid"); saved != nil {
+		t.Fatalf("malformed response cached: %s", saved)
+	}
+}

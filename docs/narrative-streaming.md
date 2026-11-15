@@ -38,7 +38,8 @@ fragmentation or extra inference is used to simulate streaming.
 
 Provider streams must assemble complete tool calls, including arguments, and
 send `Done` only on successful completion. An early close is a failed response;
-its partial calls are never dispatched. OpenRouter top-level errors and
+its partial calls are never dispatched. Malformed Claude tool arguments fail the
+whole attempt without caching a partial assistant replay. OpenRouter top-level errors and
 `finish_reason: error`, and Claude refusal stop reasons, cannot complete a turn.
 Claude retains signed thinking/redacted blocks in its private replay cache for
 tool-result follow-ups; those blocks are never emitted to the player.
@@ -58,6 +59,10 @@ continues synchronous consumption and sequence acknowledgment; it does not retai
 raw frames or reset the sequence on a narration revision. The optional pending
 consumer still fails closed at 256 frames. Only the current preview text is kept
 until reset/completion/failure; it is not a second transcript.
+
+Completed database turns explicitly unlock their dedicated PostgreSQL session
+and wait for acknowledgment before returning, avoiding transient conflicts on
+immediate sequential requests. No pool slot or transaction spans inference.
 
 Cancellation ownership is unchanged from [#37](investigations/issue-37-stream-cleanup.md).
 The consumer must drain or cancel; cancellation releases a blocked publisher and
