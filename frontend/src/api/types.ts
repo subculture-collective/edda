@@ -501,6 +501,27 @@ export interface CampaignTimeResponse {
   minute: number;
 }
 
+export interface ActionIntent {
+  actor_id: string;
+  kind: string;
+  ability?: string;
+  skill?: string;
+  entry_id?: string;
+}
+export interface ActionPreview {
+  intent: ActionIntent;
+  rules_version: string;
+  expected_revision: string;
+  available: boolean;
+  reason?: string;
+  modifier?: DerivedValue;
+  targets: { id: string; label: string }[];
+  options: string[];
+  costs: { resource_id: string; amount: number }[];
+  cost_status: 'requires-adjudication';
+  source_ids: string[];
+}
+
 export interface ChapterTurn {
   log_id: string;
   attempt_id?: string;
