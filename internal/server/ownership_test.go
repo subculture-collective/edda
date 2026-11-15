@@ -22,7 +22,7 @@ import (
 
 	"git.subcult.tv/subculture-collective/edda/internal/auth"
 	"git.subcult.tv/subculture-collective/edda/internal/config"
-	"git.subcult.tv/subculture-collective/edda/internal/dbutil"
+	"git.subcult.tv/subculture-collective/edda/internal/db"
 	"git.subcult.tv/subculture-collective/edda/internal/engine"
 	statedb "git.subcult.tv/subculture-collective/edda/internal/state/sqlc"
 )
@@ -86,7 +86,7 @@ func (e *ownershipEngine) ProcessTurnStream(context.Context, uuid.UUID, string) 
 func ownershipFixture(t *testing.T) (http.Handler, *ownershipQueries, *ownershipEngine, uuid.UUID, uuid.UUID, uuid.UUID) {
 	t.Helper()
 	a, b, c := uuid.New(), uuid.New(), uuid.New()
-	q := &ownershipQueries{campaigns: map[pgtype.UUID]statedb.Campaign{dbutil.ToPgtype(c): {ID: dbutil.ToPgtype(c), CreatedBy: dbutil.ToPgtype(a), Name: "Private campaign"}}}
+	q := &ownershipQueries{campaigns: map[pgtype.UUID]statedb.Campaign{db.ToPgUUID(c): {ID: db.ToPgUUID(c), CreatedBy: db.ToPgUUID(a), Name: "Private campaign"}}}
 	e := &ownershipEngine{}
 	cfg := config.Config{}
 	cfg.Server.JWTSecret = "ownership-test-secret"
@@ -208,7 +208,7 @@ func TestCampaignOwnershipWebSocket(t *testing.T) {
 		conn, resp, err := websocket.Dial(ctx, url, &websocket.DialOptions{HTTPHeader: headers})
 		if user == b {
 			if err == nil {
-				conn.CloseNow()
+				_ = conn.CloseNow()
 				t.Fatal("foreign upgrade accepted")
 			}
 			if resp == nil || resp.StatusCode != 404 {
@@ -219,7 +219,7 @@ func TestCampaignOwnershipWebSocket(t *testing.T) {
 		if err != nil {
 			t.Fatal(err)
 		}
-		defer conn.CloseNow()
+		defer func() { _ = conn.CloseNow() }()
 		if err := wsjson.Write(ctx, conn, map[string]any{"type": "action", "payload": map[string]string{"input": "look"}}); err != nil {
 			t.Fatal(err)
 		}

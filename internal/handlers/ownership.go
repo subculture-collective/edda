@@ -7,7 +7,7 @@ import (
 	"github.com/jackc/pgx/v5"
 
 	"git.subcult.tv/subculture-collective/edda/internal/auth"
-	"git.subcult.tv/subculture-collective/edda/internal/dbutil"
+	"git.subcult.tv/subculture-collective/edda/internal/db"
 )
 
 // RequireOwnership protects every campaign HTTP route, including WebSocket upgrades.
@@ -25,8 +25,8 @@ func (h *CampaignHandlers) RequireOwnership(next http.Handler) http.Handler {
 			writeError(w, http.StatusBadRequest, "invalid campaign id")
 			return
 		}
-		campaign, err := h.Queries.GetCampaignByID(r.Context(), dbutil.ToPgtype(campaignID))
-		if errors.Is(err, pgx.ErrNoRows) || (err == nil && (!campaign.CreatedBy.Valid || dbutil.FromPgtype(campaign.CreatedBy) != userID)) {
+		campaign, err := h.Queries.GetCampaignByID(r.Context(), db.ToPgUUID(campaignID))
+		if errors.Is(err, pgx.ErrNoRows) || (err == nil && (!campaign.CreatedBy.Valid || db.FromPgUUID(campaign.CreatedBy) != userID)) {
 			writeError(w, http.StatusNotFound, "campaign not found")
 			return
 		}
