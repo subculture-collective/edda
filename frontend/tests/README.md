@@ -3,8 +3,10 @@
 Run from the repository root with Node 24 and the package-pinned pnpm:
 
 ```sh
+cd frontend
 corepack enable
-pnpm --dir frontend install --frozen-lockfile
+pnpm install --frozen-lockfile
+cd ..
 pnpm --dir frontend exec playwright install --with-deps chromium
 pnpm --dir frontend test
 pnpm --dir frontend test:browser

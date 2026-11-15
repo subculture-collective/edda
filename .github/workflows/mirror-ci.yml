@@ -67,6 +67,9 @@ jobs:
     if: github.repository == 'subculture-collective/edda'
     runs-on: ubuntu-24.04
     timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: frontend
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with:
@@ -76,14 +79,14 @@ jobs:
         with:
           node-version: 24
       - name: Install frontend dependencies
-        run: corepack enable && pnpm --dir frontend install --frozen-lockfile
+        run: corepack enable && pnpm install --frozen-lockfile
       - name: Install Chromium
-        run: pnpm --dir frontend exec playwright install --with-deps chromium
+        run: pnpm exec playwright install --with-deps chromium
       - name: Check frontend behavior
         run: |
-          pnpm --dir frontend test
-          pnpm --dir frontend test:browser
-          pnpm --dir frontend build
+          pnpm test
+          pnpm test:browser
+          pnpm build
 
   mirror-gate:
     name: Mirror CI gate
