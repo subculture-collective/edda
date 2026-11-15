@@ -7,6 +7,7 @@ import { cn } from '../../lib/cn';
 import { HudPanel } from '../layout/HudPanel';
 import { AbilityList } from './AbilityList';
 import { FeatBrowser } from './FeatBrowser';
+import { RulesSheet } from './RulesSheet';
 import { SkillTree } from './SkillTree';
 
 interface CharacterSheetProps {
@@ -49,6 +50,11 @@ export function CharacterSheet({ campaignId, className }: CharacterSheetProps) {
   }
 
   const character = characterQuery.data;
+  if (character.rules_version === 'srd-5.2.1') {
+    return <HudPanel title={character.name} accent="vitals" className={className}>
+      {character.sheet ? <RulesSheet sheet={character.sheet} /> : <p role="status">{character.sheet_unavailable ?? 'Rules projection unavailable for this build.'}</p>}
+    </HudPanel>;
+  }
   const statEntries = Object.entries(character.stats);
 
   return (
