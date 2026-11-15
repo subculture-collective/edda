@@ -581,3 +581,7 @@ func TestBuildWorld_RefusesVersionedLegacyCharacterCreation(t *testing.T) {
 		t.Fatalf("legacy inference calls = %d", provider.calls)
 	}
 }
+
+func (s *startupStubQuerier) RunInTransaction(ctx context.Context, fn func(statedb.Querier, statedb.DBTX) error) error {
+	return fn(s, nil)
+}
