@@ -20,7 +20,7 @@ import (
 	"github.com/jackc/pgx/v5/pgtype"
 
 	"git.subcult.tv/subculture-collective/edda/internal/config"
-	"git.subcult.tv/subculture-collective/edda/internal/dbutil"
+	"git.subcult.tv/subculture-collective/edda/internal/db"
 	"git.subcult.tv/subculture-collective/edda/internal/llm"
 	"git.subcult.tv/subculture-collective/edda/internal/memory"
 	statedb "git.subcult.tv/subculture-collective/edda/internal/state/sqlc"
@@ -56,11 +56,11 @@ type campaignMemoryStore struct {
 }
 
 func (s *campaignMemoryStore) GetLocationByID(context.Context, pgtype.UUID) (statedb.Location, error) {
-	return statedb.Location{CampaignID: dbutil.ToPgtype(s.campaignID)}, nil
+	return statedb.Location{CampaignID: db.ToPgUUID(s.campaignID)}, nil
 }
 
 func (s *campaignMemoryStore) CreateFact(_ context.Context, p statedb.CreateFactParams) (statedb.WorldFact, error) {
-	f := statedb.WorldFact{ID: dbutil.ToPgtype(uuid.New()), CampaignID: p.CampaignID, Fact: p.Fact, Category: p.Category, PlayerKnown: p.PlayerKnown}
+	f := statedb.WorldFact{ID: db.ToPgUUID(uuid.New()), CampaignID: p.CampaignID, Fact: p.Fact, Category: p.Category, PlayerKnown: p.PlayerKnown}
 	s.facts = append(s.facts, f)
 	return f, nil
 }
@@ -76,7 +76,7 @@ func (s *campaignMemoryStore) SearchMemoriesBySimilarity(_ context.Context, p st
 	s.searches++
 	var rows []statedb.SearchMemoriesBySimilarityRow
 	for _, m := range s.memories {
-		if m.CampaignID != dbutil.FromPgtype(p.CampaignID) {
+		if m.CampaignID != db.FromPgUUID(p.CampaignID) {
 			continue
 		}
 		// Fixtures use unit basis vectors, so 1-dot is their cosine distance.
@@ -85,7 +85,7 @@ func (s *campaignMemoryStore) SearchMemoriesBySimilarity(_ context.Context, p st
 			dot += float64(q * m.Embedding[i])
 		}
 		rows = append(rows, statedb.SearchMemoriesBySimilarityRow{
-			ID: dbutil.ToPgtype(uuid.New()), CampaignID: p.CampaignID,
+			ID: db.ToPgUUID(uuid.New()), CampaignID: p.CampaignID,
 			Content: m.Content, MemoryType: m.MemoryType, Distance: 1 - dot,
 			CreatedAt: pgtype.Timestamptz{Time: time.Unix(1, 0), Valid: true},
 		})
