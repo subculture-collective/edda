@@ -47,7 +47,9 @@ func PrepareStoredAction(ctx context.Context, database statedb.DBTX, campaign do
 		return nil, err
 	}
 	p := result.Preview
-	p.Intent = intent
+	if base != intent {
+		p.Intent = intent
+	}
 	encounter, err := ReadEncounter(ctx, database, campaign.ID)
 	if err != nil {
 		return nil, err
