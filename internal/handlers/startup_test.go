@@ -12,6 +12,8 @@ import (
 	"github.com/charmbracelet/log"
 	"github.com/go-chi/chi/v5"
 	"github.com/google/uuid"
+	"github.com/jackc/pgx/v5"
+	"github.com/jackc/pgx/v5/pgconn"
 	"github.com/jackc/pgx/v5/pgtype"
 
 	"git.subcult.tv/subculture-collective/edda/internal/auth"
@@ -563,6 +565,38 @@ func decodeStartupJSON[T any](t *testing.T, rec *httptest.ResponseRecorder) T {
 	return v
 }
 
-func (s *startupStubQuerier) RunInTransaction(ctx context.Context, fn func(statedb.Querier, statedb.DBTX) error) error {
-	return fn(s, nil)
+func TestBuildWorld_RefusesVersionedLegacyCharacterCreation(t *testing.T) {
+	provider := newStartupScriptedProvider(t)
+	q := &startupStubQuerier{createCampaignFn: func(context.Context, statedb.CreateCampaignParams) (statedb.Campaign, error) {
+		t.Fatal("versioned request reached legacy persistence")
+		return statedb.Campaign{}, nil
+	}}
+	h := NewStartupHandlers(provider, q, log.Default(), nil)
+	router := newStartupRouter(h, true)
+	req := httptest.NewRequest(http.MethodPost, "/api/v1/campaigns/start/world", bytes.NewBufferString(`{"rules_version":"srd-5.2.1","profile":{},"character_profile":{}}`))
+	rec := httptest.NewRecorder()
+	router.ServeHTTP(rec, req)
+	if rec.Code != http.StatusConflict {
+		t.Fatalf("status = %d, body = %s", rec.Code, rec.Body.String())
+	}
+	if provider.calls != 0 {
+		t.Fatalf("legacy inference calls = %d", provider.calls)
+	}
 }
+
+func (s *startupStubQuerier) RunInTransaction(ctx context.Context, fn func(statedb.Querier, statedb.DBTX) error) error {
+	return fn(s, startupSetupDB{})
+}
+
+type startupSetupDB struct{ campaignRulesDB }
+
+func (startupSetupDB) Exec(context.Context, string, ...any) (pgconn.CommandTag, error) {
+	return pgconn.NewCommandTag("INSERT 0 1"), nil
+}
+func (startupSetupDB) QueryRow(_ context.Context, _ string, args ...any) pgx.Row {
+	return startupSetupRow{mode: args[0].(string)}
+}
+
+type startupSetupRow struct{ mode string }
+
+func (r startupSetupRow) Scan(dest ...any) error { *dest[0].(*string) = r.mode; return nil }
