@@ -24,12 +24,18 @@ func TestIntegrationCharacterProjection(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	for _, version := range []string{"legacy", "srd-5.2.1"} {
-		c, err := q.CreateCampaign(ctx, statedb.CreateCampaignParams{Name: "Projection", RulesVersion: version, Status: "active", CreatedBy: dbutil.ToPgtype(testUserID)})
+	for _, version := range []string{"legacy", "srd-5.2.1", "unsupported"} {
+		rulesVersion := version
+		build := stats
+		if version == "unsupported" {
+			rulesVersion = "srd-5.2.1"
+			build = []byte(`{"srd521":{"class":"wizard"}}`)
+		}
+		c, err := q.CreateCampaign(ctx, statedb.CreateCampaignParams{Name: "Projection", RulesVersion: rulesVersion, Status: "active", CreatedBy: dbutil.ToPgtype(testUserID)})
 		if err != nil {
 			t.Fatal(err)
 		}
-		_, err = q.CreatePlayerCharacter(ctx, statedb.CreatePlayerCharacterParams{CampaignID: c.ID, UserID: dbutil.ToPgtype(testUserID), Name: "Fixture fighter", Stats: stats, Hp: 9, MaxHp: 12, Level: 1, Status: "active", Abilities: []byte(`[]`)})
+		_, err = q.CreatePlayerCharacter(ctx, statedb.CreatePlayerCharacterParams{CampaignID: c.ID, UserID: dbutil.ToPgtype(testUserID), Name: "Fixture fighter", Stats: build, Hp: 9, MaxHp: 12, Level: 1, Status: "active", Abilities: []byte(`[]`)})
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -45,8 +51,11 @@ func TestIntegrationCharacterProjection(t *testing.T) {
 		if err := json.Unmarshal(rec.Body.Bytes(), &response); err != nil {
 			t.Fatal(err)
 		}
-		if response.RulesVersion != version || response.HP != 9 {
+		if response.RulesVersion != rulesVersion || response.HP != 9 {
 			t.Fatalf("bad adapter %+v", response)
+		}
+		if version == "unsupported" && (response.Sheet != nil || response.SheetUnavailable == "") {
+			t.Fatalf("unsupported projection = %+v", response)
 		}
 		if version == "legacy" && response.Sheet != nil {
 			t.Fatal("legacy converted")
