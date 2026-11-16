@@ -169,6 +169,7 @@ func TestIntegrationFaithRecipients(t *testing.T) {
 	}
 	// Same caster replacement removes only its former link, retaining identities.
 	replace := request(actors[0], srd521.SpellCast)
+	replace.ActionID = uuid.MustParse("ffffffff-ffff-4fff-bfff-ffffffffffff")
 	confirm(replace)
 	if active().ID != replace.ActionID {
 		t.Fatal("replacement failed")
@@ -198,6 +199,7 @@ func TestIntegrationFaithRecipients(t *testing.T) {
 	}
 	// Failure after all effect/cost mutations leaves no partial state or receipt.
 	rollback := request(actors[1], srd521.SpellCast)
+	rollback.ActionID = uuid.MustParse("00000000-0000-4000-8000-000000000001")
 	snapshot := func() string {
 		t.Helper()
 		var value string
@@ -228,11 +230,19 @@ func TestIntegrationFaithRecipients(t *testing.T) {
 		t.Fatal("cast survived rollback")
 	}
 	confirm(rollback)
-	// Same-second ties use stable ID order; AC still has exactly one spell term.
-	var expected uuid.UUID
-	must(testPool.QueryRow(ctx, `SELECT id FROM concentration_casts WHERE id IN ($1,$2) ORDER BY id DESC LIMIT 1`, replace.ActionID, rollback.ActionID).Scan(&expected))
-	if active().ID != expected {
-		t.Fatal("unstable equal-time tie")
+	// The later confirmation wins even with the lower UUID in the same second.
+	var sameSecond bool
+	must(testPool.QueryRow(ctx, `SELECT a.started_at=b.started_at FROM concentration_casts a,concentration_casts b WHERE a.id=$1 AND b.id=$2`, replace.ActionID, rollback.ActionID).Scan(&sameSecond))
+	if !sameSecond {
+		t.Fatal("ordering fixture did not share a campaign second")
+	}
+	var increasingOrder bool
+	must(testPool.QueryRow(ctx, `SELECT a.cast_order<b.cast_order FROM concentration_casts a,concentration_casts b WHERE a.id=$1 AND b.id=$2`, replace.ActionID, rollback.ActionID).Scan(&increasingOrder))
+	if !increasingOrder {
+		t.Fatal("confirmation order was not persisted")
+	}
+	if active().ID != rollback.ActionID {
+		t.Fatal("latest confirmation lost to UUID order")
 	}
 	c2, p, err := game.ReadActionSnapshot(ctx, testPool, campaign, actors[0], testUserID, false)
 	must(err)

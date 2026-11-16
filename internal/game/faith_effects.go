@@ -23,10 +23,10 @@ type FaithEffect struct {
 	ExpiresAt   int
 }
 
-// ReadFaithEffect chooses the latest live fixed +2 effect. UUID descending is
-// the stable tie break for identical campaign seconds, independent of row order.
+// ReadFaithEffect chooses the latest live fixed +2 effect by persisted cast order.
+// The campaign lock serializes confirmations, including casts in the same second.
 func ReadFaithEffect(ctx context.Context, database statedb.DBTX, campaign, recipient uuid.UUID, now int) (*FaithEffect, error) {
-	rows, err := database.Query(ctx, `SELECT c.id,c.caster_id,r.recipient_id,c.started_at,c.expires_at FROM concentration_casts c JOIN concentration_recipients r ON r.cast_id=c.id JOIN player_characters p ON p.id=c.caster_id AND p.campaign_id=c.campaign_id WHERE c.campaign_id=$1 AND r.recipient_id=$2 AND c.started_at<=$3 AND c.expires_at>$3 AND p.hp>0 AND p.status='active' AND p.stats#>>'{srd521,casting,concentration,id}'=c.id::text ORDER BY c.started_at DESC,c.id DESC LIMIT 1`, campaign, recipient, now)
+	rows, err := database.Query(ctx, `SELECT c.id,c.caster_id,r.recipient_id,c.started_at,c.expires_at FROM concentration_casts c JOIN concentration_recipients r ON r.cast_id=c.id JOIN player_characters p ON p.id=c.caster_id AND p.campaign_id=c.campaign_id WHERE c.campaign_id=$1 AND r.recipient_id=$2 AND c.started_at<=$3 AND c.expires_at>$3 AND p.hp>0 AND p.status='active' AND p.stats#>>'{srd521,casting,concentration,id}'=c.id::text ORDER BY c.cast_order DESC LIMIT 1`, campaign, recipient, now)
 	if err != nil {
 		return nil, err
 	}
@@ -149,7 +149,7 @@ func prepareFaithTargets(ctx context.Context, database statedb.DBTX, campaign do
 		return nil, err
 	}
 	result.Preview.ExpectedRevision = fmt.Sprintf("faith-v1:%x", sha256.Sum256(data))
-	result.Preview.Options = []string{"Shield of Faith; self or one explicitly entitled isolated known creature within 60 feet and clear path; Bonus Action; V/S and noncostly Holy Symbol focus; one level 1 slot; concentration up to 600 seconds. Equal +2 AC applies once; latest cast wins, stable cast-ID order breaks same-second ties. Ending costs no action or refund."}
+	result.Preview.Options = []string{"Shield of Faith; self or one explicitly entitled isolated known creature within 60 feet and clear path; Bonus Action; V/S and noncostly Holy Symbol focus; one level 1 slot; concentration up to 600 seconds. Equal +2 AC applies once; latest confirmed cast wins, including casts in the same second. Ending costs no action or refund."}
 	return result, nil
 }
 

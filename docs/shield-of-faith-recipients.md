@@ -4,7 +4,8 @@ This adaptation implements two explicitly prepared level-one Clerics casting on
 one known NPC in the same campaign and scene. It extends the existing conscious
 self fixture, rather than granting general Cleric or spell support. Production
 eligibility and discovery for other recipients remain unavailable pending
-[#382](https://github.com/subculture-collective/edda/issues/382). The class
+[#382](https://github.com/subculture-collective/edda/issues/382). Native readback confirms #382 is a child of #323,
+requires #351, and directly blocks #279, #280 and #337. The class
 investigation #323 and imported spell records do not grant that eligibility.
 
 The source is the pinned SRD 5.2.1, PDF/printed pages 105, 106, 162 and 179;
@@ -24,7 +25,8 @@ prepared isolated test caster must additionally have
 that grants this test entitlement. Existing self-only casters remain self-only.
 
 An NPC must be alive, previously encountered, and in the caster's current scene.
-Its authoritative `properties.srd521_faith` fixture has exactly seven fields:
+The model-facing NPC writer reserves `srd521_faith` and its case aliases, alongside
+the allied-healing namespace. Its authoritative fixture has exactly seven fields:
 `profile` (`shield-of-faith-isolated-v1`), `actor_ids` (explicit permitted casters),
 `location_id`, `hidden` (false), `distance_feet` (0 through 60), `line_of_sight`
 (true), and `cover` (a recognized value other than total). Missing, null, unknown,
@@ -53,8 +55,10 @@ existing paths.
 
 Casts have absolute start/expiry seconds and exactly 600 seconds maximum. Reads
 require `start <= now < expiry` and a live matching caster concentration. For the
-fixed equal +2 bonus, greatest start time wins; descending UUID breaks exact
-same-second ties. This is an Edda deterministic ordering adaptation, not a new SRD
+fixed equal +2 bonus, the latest confirmed cast wins. A database-generated
+`cast_order` records confirmation order under the campaign lock, including casts
+in the same campaign second. Failed transactions may leave sequence gaps without
+persisting a cast. This implements source precedence without a new SRD
 simultaneity rule. Suppressed casts retain their original expiry. Applying the
 projection repeatedly still adds only one source-attributed spell term. NPC attack
 AC and public character AC use the same live selection; other AC terms remain
@@ -73,7 +77,8 @@ validation and never charges, rolls or writes again.
 container with real migrations, authorized HTTP preparation, forged cost/timing
 rejection, real TUI engine preparation, and fresh engine confirmations. It checks
 independent casters/targets, latest/resumption/original expiry, same-caster
-replacement, stable ties, exact expiry, stale actor/recipient/effect snapshots,
+replacement, later confirmation with a lower UUID in the same second, exact expiry,
+stale actor/recipient/effect snapshots,
 range/hidden/cover negatives, no doubled AC, no caster AC for a nonself cast,
 explicit entitlement, complete history-failure rollback, saved receipt replay,
 concurrent confirmations, unrelated JSON and public disclosure. Dice are injected;

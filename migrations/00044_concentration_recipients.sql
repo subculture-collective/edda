@@ -1,6 +1,7 @@
 -- +goose Up
 CREATE TABLE concentration_casts (
  id uuid PRIMARY KEY,
+ cast_order bigint GENERATED ALWAYS AS IDENTITY UNIQUE,
  campaign_id uuid NOT NULL REFERENCES campaigns(id) ON DELETE CASCADE,
  caster_id uuid NOT NULL REFERENCES player_characters(id) ON DELETE CASCADE,
  started_at integer NOT NULL CHECK (started_at >= 0),
