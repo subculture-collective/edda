@@ -253,8 +253,8 @@ func VerifyArtifact(pdf io.Reader) error {
 	return nil
 }
 
-func validateSource(source Source) error {
-	s := source
+// validateSource keeps catalogue and coverage provenance on the same pin.
+func validateSource(s Source) error {
 	if s.Version != Version || s.Language != "en" ||
 		s.LandingURL != "https://www.dndbeyond.com/srd" ||
 		s.ArtifactURL != "https://media.dndbeyond.com/compendium-images/srd/5.2/SRD_CC_v5.2.1.pdf" ||
