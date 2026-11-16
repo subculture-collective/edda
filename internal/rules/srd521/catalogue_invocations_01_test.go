@@ -366,3 +366,17 @@ func TestInvocations01OwnershipExtensionGuards(t *testing.T) {
 		})
 	}
 }
+
+func TestInvocations01RejectsSecondarySourceOnClassFeature(t *testing.T) {
+	c := warlockCatalogue(t)
+	for i := range c.Records {
+		if c.Records[i].ID == "srd-5.2.1:character/feature/warlock/pact-magic" {
+			c.Records[i].Sources = append(c.Records[i].Sources, CharacterSource{
+				InventoryID: "srd-5.2.1:planning/invocations/agonizing-blast", Page: 72,
+			})
+		}
+	}
+	if err := c.Validate(os.DirFS("../../..")); err == nil {
+		t.Fatal("class feature accepted an unrelated secondary invocation source")
+	}
+}
