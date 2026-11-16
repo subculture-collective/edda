@@ -132,7 +132,7 @@
       "requirement": {
         "key": "srd-5.2.1:mechanic/warlock/invocations/requires-pact-of-the-blade-invocation",
         "record_refs": [
-          "srd-5.2.1:character/choice/warlock/invocations"
+          "srd-5.2.1:character/feature/warlock/invocations/pact-of-the-blade"
         ],
         "parameters": {}
       }

@@ -23,19 +23,26 @@ func invocations03Catalogue(t *testing.T) (CharacterCatalogue, CharacterCatalogu
 	if err := json.Unmarshal(b, &manifest); err != nil {
 		t.Fatal(err)
 	}
-	if !reflect.DeepEqual(manifest.Catalogues, []string{"character-warlock.json", "character-invocations-03.json"}) {
+	if !reflect.DeepEqual(manifest.Catalogues, []string{"character-warlock.json", "character-origin-feats.json", "character-invocations-02.json", "character-invocations-03.json"}) {
 		t.Fatal("composition changed")
 	}
 	composed := warlockCatalogue(t)
-	b, err = os.ReadFile("testdata/" + manifest.Catalogues[1])
-	if err != nil {
-		t.Fatal(err)
+	var batch CharacterCatalogue
+	for _, file := range manifest.Catalogues[1:] {
+		data, err := os.ReadFile("testdata/" + file)
+		if err != nil {
+			t.Fatal(err)
+		}
+		loaded, err := DecodeCharacterCatalogue(strings.NewReader(string(data)))
+		if err != nil {
+			t.Fatal(err)
+		}
+		composed.Records = append(composed.Records, loaded.Records...)
+		if file == "character-invocations-03.json" {
+			batch = loaded
+		}
 	}
-	batch, err := DecodeCharacterCatalogue(strings.NewReader(string(b)))
-	if err != nil {
-		t.Fatal(err)
-	}
-	composed.Records = append(composed.Records, batch.Records...)
+
 	return batch, composed
 }
 
@@ -85,7 +92,7 @@ func TestInvocations03SourceCompositionAndUnavailable(t *testing.T) {
 	if err := invocations03SourceError(batch); err != nil {
 		t.Fatal(err)
 	}
-	if !reflect.DeepEqual(c.Records[:len(c.Records)-len(batch.Records)], warlockCatalogue(t).Records) {
+	if !reflect.DeepEqual(c.Records[:len(warlockCatalogue(t).Records)], warlockCatalogue(t).Records) {
 		t.Fatal("Warlock changed")
 	}
 	if err := warlockSourceError(warlockCatalogue(t)); err != nil {
@@ -99,6 +106,21 @@ func TestInvocations03SourceCompositionAndUnavailable(t *testing.T) {
 			if qualifiedCharacterMechanic(k) {
 				t.Fatalf("qualified %s", k)
 			}
+		}
+	}
+	for _, file := range []string{"character-origin-feats.json", "character-invocations-02.json"} {
+		data, err := os.ReadFile("testdata/" + file)
+		if err != nil {
+			t.Fatal(err)
+		}
+		external, err := DecodeCharacterCatalogue(strings.NewReader(string(data)))
+		if err != nil {
+			t.Fatal(err)
+		}
+		duplicate := c
+		duplicate.Records = append(append([]CharacterRecord{}, c.Records...), external.Records...)
+		if duplicate.Validate(repo) == nil {
+			t.Fatal("duplicate external owner accepted", file)
 		}
 	}
 	duplicateWarlock := c
@@ -283,7 +305,7 @@ func TestInvocations03SchemaUnknownAndPDF(t *testing.T) {
 	} {
 		bad, err := DecodeCharacterCatalogue(strings.NewReader(raw))
 		if err == nil {
-			bad.Records = append(append([]CharacterRecord{}, warlockCatalogue(t).Records...), bad.Records...)
+			bad.Records = append(append([]CharacterRecord{}, c.Records[:len(c.Records)-len(batch.Records)]...), bad.Records...)
 		}
 		if err == nil && bad.Validate(os.DirFS("../../..")) == nil {
 			t.Fatal("invalid source/schema accepted")

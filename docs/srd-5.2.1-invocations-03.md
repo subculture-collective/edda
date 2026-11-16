@@ -6,11 +6,12 @@ SRD 5.2.1 source, CC-BY-4.0 attribution and adaptation notice. Feature IDs use
 `feature/warlock/invocations/<source-slug>` and belong to the canonical
 `choice/warlock/invocations`, under Eldritch Invocations and Warlock.
 
-The composition manifest imports canonical Warlock once. This batch copies no
-class or other invocation records. Thirsting Blade requires Warlock level 5
+The composition manifest imports canonical Warlock, Origin feats and Invocation
+batch 02 once each. This batch copies no class or other invocation records. Thirsting Blade requires Warlock level 5
 and Pact of the Blade; its Extra Attack applies only to the pact weapon, twice
-instead of once when taking the Attack action on your turn. Pact of the Blade
-is an opaque required mechanic until its separate canonical catalogue lands.
+instead of once when taking the Attack action on your turn. Its prerequisite
+references `srd-5.2.1:character/feature/warlock/invocations/pact-of-the-blade`, the stable
+owner delivered by #303. The predicate remains unavailable metadata.
 Visions requires level 9 and permits casting Arcane Eye without expending a
 spell slot. Whispers requires level 7 and permits casting Speak with Dead
 without expending a spell slot. Witch Sight requires level 15 and grants

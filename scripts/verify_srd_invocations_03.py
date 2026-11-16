@@ -34,7 +34,7 @@ def source_records(levels=(5, 9, 7, 15), attacks=2, distance=30):
         predicate('level', 'warlock-minimum-level', ['class/warlock'], {'minimum-level':level})
         predicate('selection', 'requires-canonical-invocation-selection', ['choice/warlock/invocations'], {})
         if slug == 'thirsting-blade':
-            predicate('pact', 'requires-pact-of-the-blade-invocation', ['choice/warlock/invocations'], {})
+            predicate('pact', 'requires-pact-of-the-blade-invocation', ['feature/warlock/invocations/pact-of-the-blade'], {})
             f['required_mechanics'] += [M+x for x in ('thirsting-blade/extra-attack-for-pact-weapon-only', 'thirsting-blade/when-take-attack-action-on-your-turn', 'thirsting-blade/attacks-instead-of-once')]
             f['parameters'] = {M+'thirsting-blade/attacks-instead-of-once':attacks}
         elif slug in ('visions-of-distant-realms', 'whispers-of-the-grave'):

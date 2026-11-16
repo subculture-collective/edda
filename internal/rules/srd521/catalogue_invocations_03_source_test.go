@@ -32,7 +32,7 @@ func invocations03SourceRecords() []CharacterRecord {
 		pred("selection", "requires-canonical-invocation-selection", []string{c + "choice/warlock/invocations"}, map[string]int{})
 		switch fact.slug {
 		case "thirsting-blade":
-			pred("pact", "requires-pact-of-the-blade-invocation", []string{c + "choice/warlock/invocations"}, map[string]int{})
+			pred("pact", "requires-pact-of-the-blade-invocation", []string{c + "feature/warlock/invocations/pact-of-the-blade"}, map[string]int{})
 			feature.RequiredMechanics = append(feature.RequiredMechanics, m+"thirsting-blade/extra-attack-for-pact-weapon-only", m+"thirsting-blade/when-take-attack-action-on-your-turn", m+"thirsting-blade/attacks-instead-of-once")
 			feature.Parameters = map[string]int{m + "thirsting-blade/attacks-instead-of-once": 2}
 		case "visions-of-distant-realms":
