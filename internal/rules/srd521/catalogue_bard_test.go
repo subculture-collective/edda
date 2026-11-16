@@ -39,6 +39,101 @@ func bardSourceDigest(c CharacterCatalogue) string {
 
 const bardSourcePin = "63651ddcd8479abb0ffe1527245cc7e16ef443df897a188760f438e3f27ce366"
 
+// These p31–32 facts are checked semantically, independently of the digest.
+func bardProseSourceError(c CharacterCatalogue) error {
+	records := map[string]CharacterRecord{}
+	for _, r := range c.Records {
+		records[strings.TrimPrefix(r.ID, bardID)] = r
+	}
+	r := records["resource/bard/bardic-inspiration"]
+	if r.Capacity != 0 || r.CapacityMechanic != bardKey+"bard/inspiration/charisma-modifier-minimum-one" || len(r.ValuesByLevel) != 0 || !reflect.DeepEqual(r.RequiredMechanics, []string{
+		bardKey + "bard/inspiration/charisma-modifier-minimum-one",
+		bardKey + "bard/inspiration/long-rest-all",
+		bardKey + "bard/inspiration/level-5-short-rest-all",
+	}) {
+		return fmt.Errorf("Inspiration capacity/recovery differs from source")
+	}
+	r = records["feature/bard/bardic-inspiration"]
+	if !reflect.DeepEqual(r.RequiredMechanics, []string{
+		bardKey + "bard/bardic-inspiration", bardKey + "bard/inspiration/bonus-action-other-creature",
+		bardKey + "bard/inspiration/target-see-or-hear-bard", bardKey + "bard/inspiration/one-die-per-creature",
+		bardKey + "bard/inspiration/failed-d20-test-add-roll-once", bardKey + "bard/inspiration/expended-when-rolled",
+		bardKey + "bard/inspiration/range-feet", bardKey + "bard/inspiration/duration-hours",
+		bardKey + "bard/inspiration/minimum-uses", bardKey + "bard/inspiration/dice-per-creature", bardKey + "bard/inspiration/uses-per-die",
+	}) || !reflect.DeepEqual(r.Parameters, map[string]int{
+		bardKey + "bard/inspiration/range-feet": 60, bardKey + "bard/inspiration/duration-hours": 1,
+		bardKey + "bard/inspiration/minimum-uses": 1, bardKey + "bard/inspiration/dice-per-creature": 1, bardKey + "bard/inspiration/uses-per-die": 1,
+	}) {
+		return fmt.Errorf("Inspiration conditions/numbers differ from source")
+	}
+	r = records["choice/bard/expertise"]
+	counts := []CharacterLevelValue{}
+	for n := 2; n <= 20; n++ {
+		value := 2
+		if n >= 9 {
+			value = 4
+		}
+		counts = append(counts, CharacterLevelValue{Level: n, Value: value})
+	}
+	if r.Select != 2 || !reflect.DeepEqual(r.ValuesByLevel, counts) {
+		return fmt.Errorf("Expertise cumulative selections differ from source")
+	}
+	r = records["prerequisite/bard/equipment-a"]
+	if !reflect.DeepEqual(r.Requirement, &CharacterRequirement{
+		Key: bardKey + "bard/equipment/a-selected", RecordRefs: []string{bardID + "choice/bard/starting-equipment"}, Parameters: map[string]int{},
+	}) || !reflect.DeepEqual(r.RequiredMechanics, []string{bardKey + "bard/equipment/a-selected"}) {
+		return fmt.Errorf("equipment instrument condition differs from source")
+	}
+	return nil
+}
+
+func TestBardProseContraryControls(t *testing.T) {
+	if err := bardProseSourceError(bardCatalogue(t)); err != nil {
+		t.Fatal(err)
+	}
+	cases := map[string]func(map[string]*CharacterRecord){
+		"initial recovery": func(r map[string]*CharacterRecord) {
+			r["resource/bard/bardic-inspiration"].RequiredMechanics[1] = bardKey + "bard/inspiration/short-rest-all"
+		},
+		"visibility": func(r map[string]*CharacterRecord) {
+			r["feature/bard/bardic-inspiration"].RequiredMechanics[2] = bardKey + "bard/inspiration/target-see-and-hear-bard"
+		},
+		"equipment operand": func(r map[string]*CharacterRecord) {
+			r["prerequisite/bard/equipment-a"].Requirement.RecordRefs = []string{bardID + "choice/bard/cantrips"}
+		},
+		"Expertise scaling": func(r map[string]*CharacterRecord) {
+			for i := range r["choice/bard/expertise"].ValuesByLevel {
+				if r["choice/bard/expertise"].ValuesByLevel[i].Level >= 9 {
+					r["choice/bard/expertise"].ValuesByLevel[i].Value = 6
+				}
+			}
+		},
+		"range": func(r map[string]*CharacterRecord) {
+			r["feature/bard/bardic-inspiration"].Parameters[bardKey+"bard/inspiration/range-feet"] = 600
+		},
+		"fixed capacity": func(r map[string]*CharacterRecord) {
+			r["resource/bard/bardic-inspiration"].CapacityMechanic = ""
+			r["resource/bard/bardic-inspiration"].Capacity = 5
+		},
+	}
+	for name, mutate := range cases {
+		t.Run(name, func(t *testing.T) {
+			c := bardCatalogue(t)
+			records := map[string]*CharacterRecord{}
+			for i := range c.Records {
+				records[strings.TrimPrefix(c.Records[i].ID, bardID)] = &c.Records[i]
+			}
+			mutate(records)
+			if err := c.Validate(os.DirFS("../../..")); err != nil {
+				t.Fatalf("source control must remain structurally valid: %v", err)
+			}
+			if err := bardProseSourceError(c); err == nil {
+				t.Fatal("contrary prose metadata accepted")
+			}
+		})
+	}
+}
+
 func TestBardExactSourceAndContraryControls(t *testing.T) {
 	c := bardCatalogue(t)
 	if err := c.Validate(os.DirFS("../../..")); err != nil {
@@ -161,6 +256,9 @@ func TestBardExactSourceAndContraryControls(t *testing.T) {
 
 func TestBardIdentitiesRowsAndSymbolicResource(t *testing.T) {
 	c := bardCatalogue(t)
+	if err := bardProseSourceError(c); err != nil {
+		t.Fatal(err)
+	}
 	records := map[string]CharacterRecord{}
 	identities := map[string]int{}
 	for _, r := range c.Records {
