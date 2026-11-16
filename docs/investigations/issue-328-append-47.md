@@ -1,4 +1,4 @@
 
 <!-- edda-328:start -->
-Ranger #328: bounded owners; qualification pending.
+Ranger #328.
 <!-- edda-328:end -->

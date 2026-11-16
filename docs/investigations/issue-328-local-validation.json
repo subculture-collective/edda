@@ -23,9 +23,9 @@
     "epic_boon_feats"
   ],
   "source_comparators_exit": 0,
-  "controls": "21 focused tests, including all602+14 owned edge corruption cases, semantic ownership/class-total integer controls, both cycles/caps and immutable-prefix controls",
-  "publication": "123Tasks published; full unsealed940issue readback PASS; final prefix/seal held",
-  "final_parent_prefix": "not released; no immutable final native snapshot",
+  "controls": "21 tests pass; includes all616 owned dependency edge deletions, source/page/numeric/semantic ownership, integer class-total operands, body/metadata/parent, native caps/both cycles, API/pagination and immutable parent-section controls",
+  "publication": "123Tasks published; final accepted post-Paladin sealed940issue native readback PASS",
+  "final_parent_prefix": "Accepted root release matched live and frozen in code+artifact",
   "limitations": [
     "No runtime grant/coverage promotion",
     "No database or browser/device run",
@@ -51,5 +51,7 @@
       "353": 68
     }
   },
-  "native_summary": "issue-328-unsealed-native-summary.json"
+  "native_summary": "issue-328-unsealed-native-summary.json",
+  "parent_supplements": "root serial publication pending; child ran read-only preflight only",
+  "final_native_receipt": "issue-328-link-verification.json"
 }

@@ -17,7 +17,7 @@ RECEIPT=ROOT/'docs/investigations/issue-328-link-verification.json'
 PIN='8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87'
 PROJECT='PVT_kwDODjtmGM4BrFJ2'
 # Filled only from the root's accepted post-Paladin release.
-ACCEPTED_PREFIX_SHA256={}
+ACCEPTED_PREFIX_SHA256={'47': 'c1b834b560b3f2bb02f6dc00b5fe4af0dc420da03d4b48ec6f609cf1d4b0abfd', '54': '1aa9e45bea8e4bca9537291a1ead94da4c2b78d2e68fb33b8d241dcf0cf68a0c', '283': '9811b7b706ecfb6e951f290ec3e8eadcbfa47bd28613bb5ff6933aac4bca541e', '337': 'b2d4914b8390fb206110f670d964f5ff10b72e75ea5c227b81c447345dedddc1'}
 ADVANCEMENT='internal/rules/srd521/testdata/character-advancement.json'
 def sha(v):return hashlib.sha256(v.encode() if isinstance(v,str) else v).hexdigest()
 def rows(m):return {x['key']:x for x in m['tasks']+m['gates']}

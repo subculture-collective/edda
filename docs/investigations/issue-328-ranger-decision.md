@@ -2,8 +2,8 @@
 
 This is a decision and publication change. Ranger and Hunter remain unavailable.
 No runtime, grants, coverage, fixed Fighter/Cleric fixtures or production state
-are changed. Native publication and the unsealed readback are complete; the
-immutable final parent seal awaits the accepted Paladin release.
+are changed. Native publication and final sealed readback are complete against the accepted
+Paladin release. The four parent appends await root serial publication.
 
 Prepared base: `3042172c935bdefa606c008c8ddda277b7548fd8` (accepted Monk #843).
 The pinned SRD5.2.1 PDF SHA256 is
@@ -78,7 +78,11 @@ All feature fixtures require isolated entitlements and grant no production acces
 Published **123 Task/M issues**: protocol gateway968,113 implementation leaves
 and9 finite qualification gates. The complete unsealed readback covers940issues.
 Every owned title/body/parent/prerequisite and Task/Size matched; both DAGs and
-all native caps passed. This is not the final immutable receipt.
+all native caps passed. After the accepted Paladin merge952fab917329e00cceebf46a8bacd59cb1c30e99,
+the root released four complete parent prefixes. Fresh live readback matched
+all four released hashes and the final audited reused bodies. The final receipt
+is `issue-328-link-verification.json`; the earlier unsealed summary is retained
+only as checkpoint provenance.
 
 | Role | Native issues |
 |---|---|
@@ -245,11 +249,15 @@ or host changes were made. No database, browser/device or production journey
 was run; runtime behavior has not changed.
 
 Parent owns serial47/54/283/337 supplements, fresh independent review, final CI
-and merge. Final accepted post-Paladin prefix release is required before any
-immutable final seal. Keep328 OPEN until its decision PR merges. Source/old
+and merge. The accepted post-Paladin prefixes are frozen in
+`issue-328-accepted-parent-baselines.json`; the verifier hardcodes their hashes.
+`python3 scripts/publish_ranger_supplements.py` is a read-only preflight. Only the
+parent invokes `--apply`, which fresh-reads each target, preserves its entire
+accepted prefix and later pure appends, and rejects partial/altered/duplicate
+owned sections before readback. The Ranger child did not apply parent appends. Keep328 OPEN until its decision PR merges. Source/old
 owner bodies remain untouched; no watch, polling, merge, deploy or closure.
 
 Capacity projection from initial live graph plus proposed exact edges:279incoming98,
 280incoming93,337incoming55,429outgoing100,283children95,328children5.
 Existing primitive outgoing projections61=75,64=41,65=66,66=55,67=92,273=32,
-353=68. These values also match the completed unsealed native readback; final seal pending.
+353=68. These values also match the final sealed native readback. Parent serial appends remain pending.
