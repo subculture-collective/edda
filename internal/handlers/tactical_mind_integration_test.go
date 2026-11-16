@@ -52,7 +52,7 @@ func TestIntegrationTacticalMind(t *testing.T) {
 			t.Fatal(err)
 		}
 	}
-	for _, choice := range []string{"success", "failure", "decline", "ownership", "stale", "concurrent", "history-stale", "empty-resource"} {
+	for _, choice := range []string{"success", "failure", "decline", "ownership", "stale", "concurrent", "history-stale", "empty-resource", "origin-create", "background-create", "origin-consume", "background-consume", "history-edit", "history-replace", "history-missing-create"} {
 		t.Run(choice, func(t *testing.T) {
 			creation, err := srd521.SupportedBuildForConcept("Human Fighter", "Soldier")
 			must(err)
@@ -85,6 +85,18 @@ func TestIntegrationTacticalMind(t *testing.T) {
 			if choice == "failure" {
 				dc = 20
 			}
+			if choice == "origin-create" || choice == "background-create" {
+				field, value := "origin", "Elf"
+				if choice == "background-create" {
+					field, value = "background", "Sage"
+				}
+				_, err = testPool.Exec(ctx, `UPDATE player_characters SET stats=jsonb_set(stats,ARRAY['srd521_creation',$2],to_jsonb($3::text)) WHERE id=$1`, p.ID, field, value)
+				must(err)
+			}
+			if choice == "history-missing-create" {
+				_, err = testPool.Exec(ctx, `DELETE FROM session_logs WHERE campaign_id=$1`, c.ID)
+				must(err)
+			}
 			ca, pc, err := game.ReadActionSnapshot(ctx, testPool, campaign, actor, testUserID, false)
 			must(err)
 			sheet, err = srd521.Project(stats, 2, 9, 20, 300)
@@ -93,7 +105,15 @@ func TestIntegrationTacticalMind(t *testing.T) {
 			must(err)
 			tx, err := testPool.Begin(ctx)
 			must(err)
-			must(game.OpenTacticalMindWindow(ctx, tx, ca, pc, uuid.New(), resolution, dc))
+			err = game.OpenTacticalMindWindow(ctx, tx, ca, pc, uuid.New(), resolution, dc)
+			if strings.HasSuffix(choice, "-create") {
+				must(tx.Rollback(ctx))
+				if err == nil {
+					t.Fatal("unsupported creation or missing original history opened a window")
+				}
+				return
+			}
+			must(err)
 			must(tx.Commit(ctx))
 			entry := "use"
 			if choice == "decline" {
@@ -128,6 +148,45 @@ func TestIntegrationTacticalMind(t *testing.T) {
 				t.Fatal("TUI preparation diverged")
 			}
 			request := engine.PreparedAction{ActionID: uuid.New(), ExpectedRevision: preview.ExpectedRevision, Intent: preview.Intent}
+			if choice == "origin-consume" || choice == "background-consume" || choice == "history-edit" || choice == "history-replace" {
+				switch choice {
+				case "origin-consume", "background-consume":
+					field, value := "origin", "Elf"
+					if choice == "background-consume" {
+						field, value = "background", "Sage"
+					}
+					_, err = testPool.Exec(ctx, `UPDATE player_characters SET stats=jsonb_set(stats,ARRAY['srd521_creation',$2],to_jsonb($3::text)) WHERE id=$1`, p.ID, field, value)
+					must(err)
+					// A stored revision alone cannot qualify an unsupported build.
+					ca, pc, err := game.ReadActionSnapshot(ctx, testPool, campaign, actor, testUserID, false)
+					must(err)
+					basePreview, err := game.PrepareCharacterAction(ctx, ca, pc, game.ActionIntent{ActorID: actor, Kind: srd521.AbilityCheck, Ability: "strength"})
+					must(err)
+					_, err = testPool.Exec(ctx, `UPDATE tactical_mind_windows SET revision=$2 WHERE actor_id=$1`, p.ID, basePreview.ExpectedRevision)
+					must(err)
+				case "history-edit":
+					_, err = testPool.Exec(ctx, `UPDATE session_logs SET llm_response='Original check withdrawn' WHERE campaign_id=$1 AND turn_number=1`, c.ID)
+					must(err)
+				case "history-replace":
+					_, err = testPool.Exec(ctx, `DELETE FROM session_logs WHERE campaign_id=$1 AND turn_number=1`, c.ID)
+					must(err)
+					_, err = testPool.Exec(ctx, `INSERT INTO session_logs(campaign_id,turn_number,player_input,input_type,llm_response,tool_calls) VALUES($1,1,'base check','game_action','Original failed-check narration','[]')`, c.ID)
+					must(err)
+				}
+				if prepare().Available {
+					t.Fatal("unsupported build or edited original history offered Tactical Mind")
+				}
+				if _, err := newEngine().ConfirmAction(ctx, campaign, request); !errors.Is(err, engine.ErrActionRefresh) {
+					t.Fatal(err)
+				}
+				var uses int
+				var resolved bool
+				must(testPool.QueryRow(ctx, `SELECT (p.stats#>>'{srd521,second_wind}')::int,w.resolved FROM player_characters p JOIN tactical_mind_windows w ON w.actor_id=p.id WHERE p.id=$1`, p.ID).Scan(&uses, &resolved))
+				if dice.calls != 0 || uses != 2 || resolved {
+					t.Fatal("rejection changed dice, resource or window")
+				}
+				return
+			}
 			if choice == "ownership" {
 				// Reassign the character while leaving the campaign owned by the caller.
 				other := uuid.New()

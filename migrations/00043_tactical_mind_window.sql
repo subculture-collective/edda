@@ -7,6 +7,7 @@ CREATE TABLE tactical_mind_windows (
  base_receipt jsonb NOT NULL,
  difficulty integer NOT NULL CHECK (difficulty > 0),
  revision text NOT NULL,
+ history_revision text NOT NULL,
  turn_number integer NOT NULL,
  resolved boolean NOT NULL DEFAULT false
 );

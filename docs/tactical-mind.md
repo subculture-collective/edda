@@ -31,7 +31,7 @@ Coverage remains partial.
 
 Migration 00043 adds only `tactical_mind_windows`, with cascading actor/campaign
 references, original check ID and public receipt, private difficulty, owner,
-actor revision, last history turn and consumed flag. It has no player/model
+actor revision, last history turn, original-history fingerprint and consumed flag. It has no player/model
 write endpoint. No production migration was run.
 
 `game.OpenTacticalMindWindow` is the trusted fixture-adjudication boundary.
@@ -46,9 +46,12 @@ not automatic post-failure choices for arbitrary narrative checks.
 The window is bound to the character owner as well as the campaign owner.
 Fresh authenticated preparation rejects a character reassigned to another user;
 transferring both character and campaign cannot transfer the old owner's window.
-Revision and latest-history checks additionally reject changed actor state or
-later actions. Confirmation locks the campaign/actor/window and reloads those
-facts. The existing transaction atomically closes the window, updates only the
+The executable eligibility check requires the recorded Human origin and Soldier
+background during both window creation and consumption. Revision and history
+checks reject changed actor state, later actions, and edited or replaced original
+history records even if their turn number stays the same. Confirmation locks the
+campaign, actor and window, retains shared locks on the original history rows,
+and reloads those facts. The existing transaction atomically closes the window, updates only the
 Second Wind JSON leaf, and writes history and a durable action receipt.
 Unrelated stats and legacy reads remain intact. Same-ID retry/reload returns
 the original durable receipt without another die; a different ID cannot reuse
