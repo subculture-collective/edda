@@ -35,6 +35,9 @@ def verify(pdf):
     assert len(expected) == 5 and actual == expected, "source identities/pages"
     sub = records[ID + "subclass/barbarian/berserker"]
     assert "Barbarian Subclass: " + sub["name"] in flat
+    for r in c["records"]:
+        if r["kind"] == "prerequisite":
+            assert r["required_mechanics"] == ["srd-5.2.1:mechanic/prerequisite/class-level"], "prerequisite mechanics"
     headings = re.findall(r"Level (\d+): ([^\n]+)", text)
     assert headings == [("3", "Frenzy"), ("6", "Mindless Rage"), ("10", "Retaliation"), ("14", "Intimidating Presence")]
     for level, name in headings:
@@ -103,6 +106,7 @@ def verify(pdf):
         assert r.get("parameters", {}) == {prefix + k: v for k, v in numbers[slug].items()}
     resource = records[ID + "resource/barbarian/berserker/intimidating-presence"]
     assert resource["capacity"] == 1
+    assert not resource.get("values_by_level"), "unexpected resource scaling"
     assert "Once you use this feature, you can’t use it again until you finish a Long Rest unless" in flat
     assert "expend a use of your Rage (no action required) to restore your use of it" in flat
     assert resource["required_mechanics"] == [KEY + "intimidating-presence/use/long-rest-reset",

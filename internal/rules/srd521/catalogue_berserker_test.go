@@ -84,7 +84,7 @@ func berserkerSourceError(batch CharacterCatalogue) error {
 			expectedSlug = "berserker/path-of-the-berserker"
 		}
 		want := &CharacterRequirement{Key: "srd-5.2.1:mechanic/prerequisite/class-level", RecordRefs: []string{berserkerID + "class/barbarian"}, Parameters: map[string]int{"minimum-level": level}}
-		if p.ID != berserkerID+"prerequisite/barbarian/"+expectedSlug+"-level" || p.ParentID != r.ID || !reflect.DeepEqual(p.Sources, r.Sources) || !reflect.DeepEqual(p.Requirement, want) {
+		if p.ID != berserkerID+"prerequisite/barbarian/"+expectedSlug+"-level" || p.ParentID != r.ID || !reflect.DeepEqual(p.Sources, r.Sources) || !reflect.DeepEqual(p.Requirement, want) || !reflect.DeepEqual(p.RequiredMechanics, []string{want.Key}) {
 			return fmt.Errorf("level %s", r.ID)
 		}
 		return nil
@@ -128,7 +128,7 @@ func berserkerSourceError(batch CharacterCatalogue) error {
 	}
 	feature := records[berserkerID+"feature/barbarian/berserker/intimidating-presence"]
 	resource := records[berserkerID+"resource/barbarian/berserker/intimidating-presence"]
-	if resource.Capacity != 1 || resource.ParentID != feature.ID || !reflect.DeepEqual(resource.Sources, feature.Sources) || !reflect.DeepEqual(feature.ResourceRefs, []string{resource.ID}) || !reflect.DeepEqual(resource.RequiredMechanics, []string{berserkerKey + "intimidating-presence/use/long-rest-reset", berserkerKey + "intimidating-presence/use/restored-by-expending-rage-no-action"}) {
+	if resource.Capacity != 1 || len(resource.ValuesByLevel) != 0 || resource.ParentID != feature.ID || !reflect.DeepEqual(resource.Sources, feature.Sources) || !reflect.DeepEqual(feature.ResourceRefs, []string{resource.ID}) || !reflect.DeepEqual(resource.RequiredMechanics, []string{berserkerKey + "intimidating-presence/use/long-rest-reset", berserkerKey + "intimidating-presence/use/restored-by-expending-rage-no-action"}) {
 		return fmt.Errorf("use/restoration")
 	}
 	return nil
@@ -193,6 +193,12 @@ func TestBerserkerContrarySource(t *testing.T) {
 		{"missing rage restoration", func(c *CharacterCatalogue) { c.Records[10].RequiredMechanics = c.Records[10].RequiredMechanics[:1] }},
 		{"short rest recharge", func(c *CharacterCatalogue) {
 			c.Records[10].RequiredMechanics[0] = berserkerKey + "intimidating-presence/use/short-rest-reset"
+		}},
+		{"resource scaling", func(c *CharacterCatalogue) {
+			c.Records[10].ValuesByLevel = []CharacterLevelValue{{Level: 14, Value: 1}, {Level: 15, Value: 2}}
+		}},
+		{"prerequisite mechanic", func(c *CharacterCatalogue) {
+			c.Records[3].RequiredMechanics = append(c.Records[3].RequiredMechanics, berserkerKey+"frenzy/requires-heavy-armor")
 		}},
 		{"extra identity", func(c *CharacterCatalogue) { c.Records = append(c.Records, c.Records[2]) }},
 	}
