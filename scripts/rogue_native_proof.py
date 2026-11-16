@@ -18,6 +18,7 @@ CONSUMED_SEAL='9a79ecaf85edeab10722e16df3c6602cf109c29b41f5d1e1c237cf58a493ef76'
 from freeze_rogue_parents import MERGE as ACCEPTED_POST_RANGER,SEALS as ACCEPTED_PREFIXES,validate_release
 
 SUPPLEMENT_SEALS={'47': 'bf593511dbf09fa72139420f3dfcb74de84a8fc5884c2a0acd4f7b3eb11c3175', '54': 'ccc07cea6e80e01d472d553d2f40c8d36713bf3080e65d8756bee300e033d16d', '283': 'ccc07cea6e80e01d472d553d2f40c8d36713bf3080e65d8756bee300e033d16d', '337': 'ccc07cea6e80e01d472d553d2f40c8d36713bf3080e65d8756bee300e033d16d'}
+ADDITIVE_QUALIFICATION_ROOTS=frozenset({279,280,337})
 
 PUBLISHED_PARENT_SEALS={'47': 'b471db938c1d2357fee6bf70f03e19529f6d991422f8a978820874e3c8e2c842', '54': 'feda9427a6862e5d9b288d7e7017beb4fd3ed4965a02f9961b8a78d440da2169', '283': 'b4b5f948f6484924fb43d19586717fc982350e7ae1e63120ad6854c594c8464c', '337': '3a7bf09aa9eb6d48a81139902351f8bf2fcc6c5e96900425d6b52bbb3a197b07'}
 
@@ -118,7 +119,14 @@ def validate(m,r,sealed=False):
         expected=set(x['blocked_by'])
         if n==337:expected.add(by['qualification']['issue'])
         if n in [279,280]:expected.add(by['shared']['issue'])
-        assert set(g[n]['blocked_by'])==expected,f'old edges#{n}'
+        if n in ADDITIVE_QUALIFICATION_ROOTS:
+            # Later classes can add required outputs to these shared roots;
+            # their existing requirements and our owned paths remain mandatory.
+            assert expected<=set(g[n]['blocked_by']),f'old required root edges#{n}'
+            assert x['title']==g[n]['title'],f'shared qualification title#{n}'
+            if n in [279,280]:assert x['body']==g[n]['body'],f'shared qualification body#{n}'
+        else:
+            assert set(g[n]['blocked_by'])==expected,f'old edges#{n}'
     for x in m['issues']:
         assert reaches(g,337,by[x['key']]['issue'])
     for level in range(1,21):
