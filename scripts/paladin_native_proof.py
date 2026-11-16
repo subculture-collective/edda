@@ -5,13 +5,13 @@ from datetime import datetime, timezone
 import hashlib
 import json
 from pathlib import Path
-import re
 from verify_fighter_scope import graph_read, api, acyclic
 from publish_paladin_scope import rows, body
 
 ROOT=Path(__file__).resolve().parents[1]
 RECEIPT=ROOT/'docs/investigations/issue-327-link-verification.json'
 PROJECT='PVT_kwDODjtmGM4BrFJ2'
+OWNED_NATIVE_SEAL='acb39e3741d86ffec6bc2ecede112df0eb5cbce9448e1d854d4a68be2e9975d3'
 # Filled only from the root-released accepted Monk merge/bookkeeping receipt.
 # An unaccepted prefix cannot pass sealed mode merely by being copied into the manifest.
 ACCEPTED_MONK_MERGE='3042172c935bdefa606c008c8ddda277b7548fd8'
@@ -20,6 +20,12 @@ ACCEPTED_PARENT_SEALS={
     '54':'59f0852d5dc077e6206a7b16a0ef444cde3abed19044e50f7bb08c06c592570b',
     '283':'1b70b7140f557648e249bd2f3203a1f8277b31f1cc3539824eba5e3a951fb6d0',
     '337':'64e7dad70c20be9dc09b2e61c150a783aacc8c93f26330fa6dacf133d712b882',
+}
+PUBLISHED_PARENT_SEALS={
+    '47':'c1b834b560b3f2bb02f6dc00b5fe4af0dc420da03d4b48ec6f609cf1d4b0abfd',
+    '54':'4518e86ba4b4bf00f81dcb25629f458e9a26584832fdc8268e13bd64100f6c24',
+    '283':'588045b9ddcf5cd3cb4b0295434419f50a745f0fa51a2621a2355df93a9059c3',
+    '337':'8ec09dd27418755ce3828ace6c1b5bd1665c1059aa88dc0267f4884e6a355aae',
 }
 
 
@@ -59,6 +65,8 @@ def validate(m,r,sealed=False):
     g={x['number']:x for x in r['graph']};assert len(g)==len(r['graph'])
     published=m['published_issues'];by={x['key']:x for x in published}
     assert len(published)==len(by)==121 and len({x['issue'] for x in published})==121
+    frozen={x['key']:{k:x[k] for k in ['issue','title','parent','blocked_by_issues','body','project_size']} for x in published}
+    assert hashlib.sha256(json.dumps(frozen,sort_keys=True).encode()).hexdigest()==OWNED_NATIVE_SEAL,'immutable owned native contract drift'
     source_own,source_shared=rows(m);source_by={x['key']:x for x in source_own+source_shared}
     for x in published:
         n=x['issue'];actual=g[n]
@@ -136,6 +144,7 @@ def validate(m,r,sealed=False):
             seal=m['accepted_parent_baseline'][str(s['issue'])];prefix=seal['body']
             assert hashlib.sha256(prefix.encode()).hexdigest()==seal['sha256']==ACCEPTED_PARENT_SEALS[str(s['issue'])]
             actual=g[s['issue']]['body'];section=s['append']
+            assert hashlib.sha256((prefix+section).encode()).hexdigest()==s['published_sha256']==PUBLISHED_PARENT_SEALS[str(s['issue'])],'published section seal drift'
             validate_parent(prefix,section,actual)
         else:
             assert '<!-- edda-327:start -->' not in g[s['issue']]['body'],'supplements published without accepted seal'

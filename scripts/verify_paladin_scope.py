@@ -12,10 +12,12 @@ from verify_fighter_scope import graph_read, acyclic
 ROOT=Path(__file__).resolve().parents[1]
 MANIFEST=ROOT/'docs/investigations/issue-327-paladin-scope.json'
 PIN='8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87'
-AUDIT_SEAL='8687089ef9fb3e07985697a9c3f7f7bf8707f3eb7cace90f099ff10dfeb6f208'
+AUDIT_SEAL='686413bbe46e535c17a6787c3288982bd9047d6f68c27457b9ae526f8a06aad7'
 
 
 def validate(m):
+    from verify_paladin_consumed_sources import validate_inherited_contracts
+    validate_inherited_contracts(m)
     assert hashlib.sha256(json.dumps({k:m[k] for k in ['issues','shared_issues','common_acceptance']},sort_keys=True).encode()).hexdigest()==AUDIT_SEAL,'audited scope drift'
     assert m['source_sha256']==PIN
     assert m['base']=='c577e3e7a8dac94d579b65f58af444fe427a412e'
@@ -27,6 +29,13 @@ def validate(m):
     assert len(records)==87 and records==[x['record'] for x in m['records']]
     assert len(m['issues'])==54
     rows={x['key']:x for x in m['issues']}
+    membership=json.loads(rows['membership']['fixture'].split('Exact finite membership by spell level: ',1)[1][:-1])
+    assert m['spell_lists']['paladin']==membership,'finite Paladin list drift'
+    assert [len(membership[str(n)]) for n in range(1,6)]==[13,11,6,4,4]
+    assert m['spell_lists']['cleric_cantrips']==['Guidance','Light','Mending','Resistance','Sacred Flame','Spare the Dying','Thaumaturgy']
+    devotion=next(x for x in records if x['id'].endswith('feature/paladin/oath-of-devotion/oath-of-devotion-spells'))
+    expected=[dict(level=int(n),spell_keys=['srd-5.2.1:mechanic/spells/'+name.lower().replace(' ','-') for name in names]) for n,names in m['spell_lists']['devotion'].items()]
+    assert expected==devotion['always_prepared'],'Devotion table ownership drift'
     assert len(rows)==54
     assert set(rows)>=set(f'level-{n}' for n in range(1,21))|{'later-1','hp','multiclass'}
     assert [x['key'] for x in m['issues'] if 429 in x['prerequisites']]==['hp'],'429 single consumer'
@@ -125,7 +134,7 @@ def main():
         for name in ['paladin','devotion','advancement','multiclass','origin_feats','general_feats','fighting_styles','epic_boon_feats']:
             subprocess.run(['rtk','proxy','python3',str(ROOT/f'scripts/verify_srd_{name}.py'),str(a.pdf)],check=True)
         subprocess.run(['rtk','proxy','python3',str(ROOT/'scripts/verify_paladin_consumed_sources.py'),str(a.pdf)],check=True)
-    if a.native:
+    if a.native or m.get('published_issues'):
         import paladin_native_proof as native
         sealed=a.sealed or m.get('supplement_publication')=='sealed'
         r=native.live(m) if a.live else json.loads(native.RECEIPT.read_text())

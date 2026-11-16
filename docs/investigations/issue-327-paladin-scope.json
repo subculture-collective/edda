@@ -3,7 +3,7 @@
   "decision": 327,
   "base": "c577e3e7a8dac94d579b65f58af444fe427a412e",
   "source_sha256": "8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87",
-  "publication": "NATIVE PUBLICATION COMPLETE; supplements PENDING root publication",
+  "publication": "NATIVE PUBLICATION COMPLETE; parent supplements SEALED",
   "catalogues": {
     "internal/rules/srd521/testdata/character-paladin.json": {
       "schema_version": 1,
@@ -14594,7 +14594,7 @@
       "key": "detect-extension",
       "spell": "Detect Magic",
       "title": "Resolve Detect Magic detect extension",
-      "fixture": "PDF123 Action OR Ritual,VS,self,Concentration10min. Extend265 free-use resolver with class slots and qualified ritual273;30ft presence,Magic action visible aura and spell school only; barriers1ft stone/dirt/wood,1inch metal,thin lead. Positive:class slot receipt. Negative:unselected ritual eligibility,free-use recharge,seeing invisible object from aura.",
+      "fixture": "PDF123 Action OR Ritual,VS,self,Concentration10min. Extend265 free-use resolver with class slots and the PDF104 prepared Ritual rule: normal casting time plus10minutes,no spell slot,no extra Ritual Adept feature required. Planning273 closure supplies no execution. Consume PDF105 longer-casting Magic action each turn and casting Concentration;interruption fails without spending a slot. Preserve30ft presence,Magic action visible aura and spell school only;barriers1ft stone/dirt/wood,1inch metal,thin lead. Positive:class slot receipt;prepared Ritual-tag spell casts as a Ritual without a slot or separate Ritual Adept feature. Negative:unprepared ritual,missing Ritual tag,omitted10minutes,free-use recharge,seeing invisible object from aura.",
       "prerequisites": [
         265,
         273
@@ -15443,10 +15443,11 @@
       "key": "light-extension",
       "spell": "Light",
       "title": "Resolve Light light extension",
-      "fixture": "PDF144 Action,Touch,V+M firefly or phosphorescent moss,1hour. Source-correct admission/routing supersedes incompatible264 historical other-holder/dismissal predicates while delegating its common identity/storage/expiry engine and145light adjudication. ONE Large-or-smaller object NOT worn/carried by SOMEONE ELSE,even if willing. Chosen color,Bright20ft+Dim20ft further;opaque cover blocks light;RECAST ends previous effect. Positive:self-carried or unattended eligible object,cover/uncover and exact one-hour expiry survive reload. Negative:another willing holder,another worn item,Huge object,remote touch,standalone voluntary dismissal invented from264,duplicate storage/replay. Historical264 fixture alone is insufficient for source-correct execution; preserve valid old self-carried/duration/storage behavior only.",
+      "fixture": "PDF144 Action,Touch,V+M firefly or phosphorescent moss,1hour. Correct264 historical other-holder targeting while retaining its common identity/storage/expiry engine and145light adjudication. ONE Large-or-smaller object NOT worn/carried by SOMEONE ELSE,even if willing. Chosen color,Bright20ft+Dim20ft further;opaque cover blocks light;RECAST ends previous effect. Inherit PDF106:the caster may dismiss its own ongoing time-span spell with NO ACTION if NOT Incapacitated;consume487 for that predicate. Incapacitated alone does not end this non-Concentration spell. Positive:self-carried or unattended eligible object,cover/uncover,exact one-hour expiry and non-Incapacitated caster dismissal survive reload. Negative:another willing holder,another worn item,Huge object,remote touch,Incapacitated dismissal,foreign-caster dismissal,action cost or own-turn restriction,expired-effect dismissal,duplicate storage/replay. Historical264 alone is insufficient for target admission;its valid caster-dismissal behavior remains source-correct.",
       "prerequisites": [
         264,
-        145
+        145,
+        487
       ],
       "depends": [],
       "cohort": 3,
@@ -15601,41 +15602,49 @@
       "issue": 47,
       "append": "\n<!-- edda-327:start -->\nPaladin #845.\n<!-- edda-327:end -->",
       "append_chars": 60,
-      "publication": "PENDING accepted post-Monk immutable prefix; root-only publication",
+      "publication": "SEALED root serial publication 2026-11-16",
       "previous_sha256": "7f45098b2071c4037f80cc12ce24022be73a9fac519d419eae4de2f27ce7d16a",
       "previous_chars": 64779,
       "result_chars": 64839,
-      "maximum_chars": 65536
+      "maximum_chars": 65536,
+      "published_sha256": "c1b834b560b3f2bb02f6dc00b5fe4af0dc420da03d4b48ec6f609cf1d4b0abfd",
+      "published_chars": 64839
     },
     {
       "issue": 54,
       "append": "\n<!-- edda-327:start -->\nPaladin #327: 87 source records and 20 levels; 54 class and 61 shared implementation leaves remain unqualified. Gates #845/#846/#847 and finite spell cohorts #848\u2013850 retain exact ownership. Planning closure grants no runtime support.\n<!-- edda-327:end -->",
       "append_chars": 281,
-      "publication": "PENDING accepted post-Monk immutable prefix; root-only publication",
+      "publication": "SEALED root serial publication 2026-11-16",
       "previous_sha256": "59f0852d5dc077e6206a7b16a0ef444cde3abed19044e50f7bb08c06c592570b",
       "previous_chars": 40784,
       "result_chars": 41065,
-      "maximum_chars": 65536
+      "maximum_chars": 65536,
+      "published_sha256": "4518e86ba4b4bf00f81dcb25629f458e9a26584832fdc8268e13bd64100f6c24",
+      "published_chars": 41065
     },
     {
       "issue": 283,
       "append": "\n<!-- edda-327:start -->\nPaladin #327: 54 class leaves \u2192 #846; 54 spell leaves \u2192 #848/#849/#850 and five condition plus two Dispel leaves \u2192 #847; #846/#847 \u2192 #845 \u2192 #337. Paladin #851 D10/fixed6 is the sole new #429 consumer. Every leaf remains mandatory after #327 closes. Independent implementation acceptance is still required.\n<!-- edda-327:end -->",
       "append_chars": 352,
-      "publication": "PENDING accepted post-Monk immutable prefix; root-only publication",
+      "publication": "SEALED root serial publication 2026-11-16",
       "previous_sha256": "1b70b7140f557648e249bd2f3203a1f8277b31f1cc3539824eba5e3a951fb6d0",
       "previous_chars": 29250,
       "result_chars": 29602,
-      "maximum_chars": 65536
+      "maximum_chars": 65536,
+      "published_sha256": "588045b9ddcf5cd3cb4b0295434419f50a745f0fa51a2621a2355df93a9059c3",
+      "published_chars": 29602
     },
     {
       "issue": 337,
       "append": "\n<!-- edda-327:start -->\nPaladin gate #845 requires #327/#846/#847. All 54 class and 61 shared leaves require source-bound execution, web and trusted TUI confirmation, and isolated PostgreSQL replay/reload/concurrency/rollback proof. Cohorts #848\u2013850 and five condition plus two Dispel leaves also gate #279/#280. Closing #327 grants no runtime support or coverage.\n<!-- edda-327:end -->",
       "append_chars": 387,
-      "publication": "PENDING accepted post-Monk immutable prefix; root-only publication",
+      "publication": "SEALED root serial publication 2026-11-16",
       "previous_sha256": "64e7dad70c20be9dc09b2e61c150a783aacc8c93f26330fa6dacf133d712b882",
       "previous_chars": 28233,
       "result_chars": 28620,
-      "maximum_chars": 65536
+      "maximum_chars": 65536,
+      "published_sha256": "8ec09dd27418755ce3828ace6c1b5bd1665c1059aa88dc0267f4884e6a355aae",
+      "published_chars": 28620
     }
   ],
   "published_issues": [
@@ -19755,7 +19764,7 @@
       "key": "detect-extension",
       "spell": "Detect Magic",
       "title": "Resolve Detect Magic detect extension",
-      "fixture": "PDF123 Action OR Ritual,VS,self,Concentration10min. Extend265 free-use resolver with class slots and qualified ritual273;30ft presence,Magic action visible aura and spell school only; barriers1ft stone/dirt/wood,1inch metal,thin lead. Positive:class slot receipt. Negative:unselected ritual eligibility,free-use recharge,seeing invisible object from aura.",
+      "fixture": "PDF123 Action OR Ritual,VS,self,Concentration10min. Extend265 free-use resolver with class slots and the PDF104 prepared Ritual rule: normal casting time plus10minutes,no spell slot,no extra Ritual Adept feature required. Planning273 closure supplies no execution. Consume PDF105 longer-casting Magic action each turn and casting Concentration;interruption fails without spending a slot. Preserve30ft presence,Magic action visible aura and spell school only;barriers1ft stone/dirt/wood,1inch metal,thin lead. Positive:class slot receipt;prepared Ritual-tag spell casts as a Ritual without a slot or separate Ritual Adept feature. Negative:unprepared ritual,missing Ritual tag,omitted10minutes,free-use recharge,seeing invisible object from aura.",
       "prerequisites": [
         265,
         273
@@ -19778,10 +19787,10 @@
       "numeric_context": [
         {
           "source_page": 123,
-          "scope": "PDF123 Action OR Ritual,VS,self,Concentration10min. Extend265 free-use resolver with class slots and qualified ritual273;30ft presence,Magic action visible aura and spell school only; barriers1ft stone/dirt/wood,1inch metal,thin lead. Positive:class slot receipt. Negative:unselected ritual eligibility,free-use recharge,seeing invisible object from aura."
+          "scope": "PDF123 Action OR Ritual,VS,self,Concentration10min. Extend265 free-use resolver with class slots and the PDF104 prepared Ritual rule: normal casting time plus10minutes,no spell slot,no extra Ritual Adept feature required. Planning273 closure supplies no execution. Consume PDF105 longer-casting Magic action each turn and casting Concentration;interruption fails without spending a slot. Preserve30ft presence,Magic action visible aura and spell school only;barriers1ft stone/dirt/wood,1inch metal,thin lead. Positive:class slot receipt;prepared Ritual-tag spell casts as a Ritual without a slot or separate Ritual Adept feature. Negative:unprepared ritual,missing Ritual tag,omitted10minutes,free-use recharge,seeing invisible object from aura."
         }
       ],
-      "body": "<!-- edda-327:detect-extension -->\nDecision #327; roadmap #47. One implementation PR; Task Size M.\n\nSource: pinned SRD5.2.1 PDF, exact pages in scope; SHA256 8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87. CC-BY-4.0 attribution and adaptation notice: docs/srd-5.2.1-conformance.md. Fixture boundaries are Edda additions.\n\nExact scope, positive and independently violated negative fixtures:\nPDF123 Action OR Ritual,VS,self,Concentration10min. Extend265 free-use resolver with class slots and qualified ritual273;30ft presence,Magic action visible aura and spell school only; barriers1ft stone/dirt/wood,1inch metal,thin lead. Positive:class slot receipt. Negative:unselected ritual eligibility,free-use recharge,seeing invisible object from aura.\n\nEvery source predicate requires deterministic positive and independently violated negative fixtures. Authoritative preview is inert: no writes/dice; explicit confirm revalidates actor/campaign/source/class level/expected revision, targets, range, action, resource and costs. For class applications only,class and total levels must be integers1\u201320,not booleans or fractional values; class level cannot exceed total. Independently reject total21,unqualified current-class configurations and unknown source paths. Class-application XP/live PB select canonical TOTAL-level advancement independently of Paladin-level feature/slot/HP rows. Shared effect execution adds no Paladin or other-class admission requirement to its targets. Commit choices, injectable dice, derived state and history atomically. Durable receipt binds payload: retry/replay/reload/reconnect returns exact result; conflicting payload and stale state reject. Concurrent confirmations commit once. Inject cost/effect/history failures and prove complete isolated PostgreSQL rollback. Web AND trusted TUI expose availability/reasons, accessible confirmation/cancel/reconnect; changed web requires desktop/phone journeys, build and focused lint. For passive/source-automatic effects confirmation belongs to triggering action/turn, never invent optional activation. Unknown facts remain unavailable; no hidden target/HP/DC disclosure. Feature tests use isolated entitlements; creation and later-level applications consume separately qualified execution. Planning closure never qualifies implementation.\n\nRun GOMAXPROCS=2 go test -p 2 -short -race ./... and GOMAXPROCS=2 go vet -p 2 ./...; additionally isolated PostgreSQL integration tests with injectable dice,atomic rollback,durable replay/reload and concurrent confirmation. Short tests do not run integration-tag tests. No production access,inference,deployment or coverage promotion.\n\nOwnership: feature execution is separate from creation,later-class eligibility and every adjacent level application. Generic planning parents do not implement effects. Source catalogues do not unlock actions. Consume qualified named terminals; never copy spell/item/condition effects or another class eligibility. Unknown authoritative world/possession/plane/item facts stay unavailable. For automatic benefits,use triggering confirmed event; no invented optional activation.\n\nNative parent #848. Exact native prerequisites: #265, #273.\n\nMandatory native qualification: this leaf -> its declared cohort/class/shared gate -> Paladin qualification -> #337. Shared spell cohorts also block #279 and #280. The five condition and two Dispel leaves directly block #279/#280. Closing327 never removes these edges.\n\nExact source keys:\n- srd-5.2.1:content/spells/detect-magic\n- srd-5.2.1:mechanic/paladin-consumed/detect-extension\n\nComplete numeric/source context (opaque references do not duplicate execution):\n```json\n[\n  {\n    \"source_page\": 123,\n    \"scope\": \"PDF123 Action OR Ritual,VS,self,Concentration10min. Extend265 free-use resolver with class slots and qualified ritual273;30ft presence,Magic action visible aura and spell school only; barriers1ft stone/dirt/wood,1inch metal,thin lead. Positive:class slot receipt. Negative:unselected ritual eligibility,free-use recharge,seeing invisible object from aura.\"\n  }\n]\n```\n"
+      "body": "<!-- edda-327:detect-extension -->\nDecision #327; roadmap #47. One implementation PR; Task Size M.\n\nSource: pinned SRD5.2.1 PDF, exact pages in scope; SHA256 8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87. CC-BY-4.0 attribution and adaptation notice: docs/srd-5.2.1-conformance.md. Fixture boundaries are Edda additions.\n\nExact scope, positive and independently violated negative fixtures:\nPDF123 Action OR Ritual,VS,self,Concentration10min. Extend265 free-use resolver with class slots and the PDF104 prepared Ritual rule: normal casting time plus10minutes,no spell slot,no extra Ritual Adept feature required. Planning273 closure supplies no execution. Consume PDF105 longer-casting Magic action each turn and casting Concentration;interruption fails without spending a slot. Preserve30ft presence,Magic action visible aura and spell school only;barriers1ft stone/dirt/wood,1inch metal,thin lead. Positive:class slot receipt;prepared Ritual-tag spell casts as a Ritual without a slot or separate Ritual Adept feature. Negative:unprepared ritual,missing Ritual tag,omitted10minutes,free-use recharge,seeing invisible object from aura.\n\nEvery source predicate requires deterministic positive and independently violated negative fixtures. Authoritative preview is inert: no writes/dice; explicit confirm revalidates actor/campaign/source/class level/expected revision, targets, range, action, resource and costs. For class applications only,class and total levels must be integers1\u201320,not booleans or fractional values; class level cannot exceed total. Independently reject total21,unqualified current-class configurations and unknown source paths. Class-application XP/live PB select canonical TOTAL-level advancement independently of Paladin-level feature/slot/HP rows. Shared effect execution adds no Paladin or other-class admission requirement to its targets. Commit choices, injectable dice, derived state and history atomically. Durable receipt binds payload: retry/replay/reload/reconnect returns exact result; conflicting payload and stale state reject. Concurrent confirmations commit once. Inject cost/effect/history failures and prove complete isolated PostgreSQL rollback. Web AND trusted TUI expose availability/reasons, accessible confirmation/cancel/reconnect; changed web requires desktop/phone journeys, build and focused lint. For passive/source-automatic effects confirmation belongs to triggering action/turn, never invent optional activation. Unknown facts remain unavailable; no hidden target/HP/DC disclosure. Feature tests use isolated entitlements; creation and later-level applications consume separately qualified execution. Planning closure never qualifies implementation.\n\nRun GOMAXPROCS=2 go test -p 2 -short -race ./... and GOMAXPROCS=2 go vet -p 2 ./...; additionally isolated PostgreSQL integration tests with injectable dice,atomic rollback,durable replay/reload and concurrent confirmation. Short tests do not run integration-tag tests. No production access,inference,deployment or coverage promotion.\n\nOwnership: feature execution is separate from creation,later-class eligibility and every adjacent level application. Generic planning parents do not implement effects. Source catalogues do not unlock actions. Consume qualified named terminals; never copy spell/item/condition effects or another class eligibility. Unknown authoritative world/possession/plane/item facts stay unavailable. For automatic benefits,use triggering confirmed event; no invented optional activation.\n\nNative parent #848. Exact native prerequisites: #265, #273.\n\nMandatory native qualification: this leaf -> its declared cohort/class/shared gate -> Paladin qualification -> #337. Shared spell cohorts also block #279 and #280. The five condition and two Dispel leaves directly block #279/#280. Closing327 never removes these edges.\n\nExact source keys:\n- srd-5.2.1:content/spells/detect-magic\n- srd-5.2.1:mechanic/paladin-consumed/detect-extension\n\nComplete numeric/source context (opaque references do not duplicate execution):\n```json\n[\n  {\n    \"source_page\": 123,\n    \"scope\": \"PDF123 Action OR Ritual,VS,self,Concentration10min. Extend265 free-use resolver with class slots and the PDF104 prepared Ritual rule: normal casting time plus10minutes,no spell slot,no extra Ritual Adept feature required. Planning273 closure supplies no execution. Consume PDF105 longer-casting Magic action each turn and casting Concentration;interruption fails without spending a slot. Preserve30ft presence,Magic action visible aura and spell school only;barriers1ft stone/dirt/wood,1inch metal,thin lead. Positive:class slot receipt;prepared Ritual-tag spell casts as a Ritual without a slot or separate Ritual Adept feature. Negative:unprepared ritual,missing Ritual tag,omitted10minutes,free-use recharge,seeing invisible object from aura.\"\n  }\n]\n```\n"
     },
     {
       "key": "command",
@@ -21545,10 +21554,11 @@
       "key": "light-extension",
       "spell": "Light",
       "title": "Resolve Light light extension",
-      "fixture": "PDF144 Action,Touch,V+M firefly or phosphorescent moss,1hour. Source-correct admission/routing supersedes incompatible264 historical other-holder/dismissal predicates while delegating its common identity/storage/expiry engine and145light adjudication. ONE Large-or-smaller object NOT worn/carried by SOMEONE ELSE,even if willing. Chosen color,Bright20ft+Dim20ft further;opaque cover blocks light;RECAST ends previous effect. Positive:self-carried or unattended eligible object,cover/uncover and exact one-hour expiry survive reload. Negative:another willing holder,another worn item,Huge object,remote touch,standalone voluntary dismissal invented from264,duplicate storage/replay. Historical264 fixture alone is insufficient for source-correct execution; preserve valid old self-carried/duration/storage behavior only.",
+      "fixture": "PDF144 Action,Touch,V+M firefly or phosphorescent moss,1hour. Correct264 historical other-holder targeting while retaining its common identity/storage/expiry engine and145light adjudication. ONE Large-or-smaller object NOT worn/carried by SOMEONE ELSE,even if willing. Chosen color,Bright20ft+Dim20ft further;opaque cover blocks light;RECAST ends previous effect. Inherit PDF106:the caster may dismiss its own ongoing time-span spell with NO ACTION if NOT Incapacitated;consume487 for that predicate. Incapacitated alone does not end this non-Concentration spell. Positive:self-carried or unattended eligible object,cover/uncover,exact one-hour expiry and non-Incapacitated caster dismissal survive reload. Negative:another willing holder,another worn item,Huge object,remote touch,Incapacitated dismissal,foreign-caster dismissal,action cost or own-turn restriction,expired-effect dismissal,duplicate storage/replay. Historical264 alone is insufficient for target admission;its valid caster-dismissal behavior remains source-correct.",
       "prerequisites": [
         264,
-        145
+        145,
+        487
       ],
       "depends": [],
       "cohort": 3,
@@ -21559,7 +21569,8 @@
       "parent": 850,
       "blocked_by_issues": [
         145,
-        264
+        264,
+        487
       ],
       "source_keys": [
         "srd-5.2.1:content/spells/light",
@@ -21568,10 +21579,10 @@
       "numeric_context": [
         {
           "source_page": 144,
-          "scope": "PDF144 Action,Touch,V+M firefly or phosphorescent moss,1hour. Source-correct admission/routing supersedes incompatible264 historical other-holder/dismissal predicates while delegating its common identity/storage/expiry engine and145light adjudication. ONE Large-or-smaller object NOT worn/carried by SOMEONE ELSE,even if willing. Chosen color,Bright20ft+Dim20ft further;opaque cover blocks light;RECAST ends previous effect. Positive:self-carried or unattended eligible object,cover/uncover and exact one-hour expiry survive reload. Negative:another willing holder,another worn item,Huge object,remote touch,standalone voluntary dismissal invented from264,duplicate storage/replay. Historical264 fixture alone is insufficient for source-correct execution; preserve valid old self-carried/duration/storage behavior only."
+          "scope": "PDF144 Action,Touch,V+M firefly or phosphorescent moss,1hour. Correct264 historical other-holder targeting while retaining its common identity/storage/expiry engine and145light adjudication. ONE Large-or-smaller object NOT worn/carried by SOMEONE ELSE,even if willing. Chosen color,Bright20ft+Dim20ft further;opaque cover blocks light;RECAST ends previous effect. Inherit PDF106:the caster may dismiss its own ongoing time-span spell with NO ACTION if NOT Incapacitated;consume487 for that predicate. Incapacitated alone does not end this non-Concentration spell. Positive:self-carried or unattended eligible object,cover/uncover,exact one-hour expiry and non-Incapacitated caster dismissal survive reload. Negative:another willing holder,another worn item,Huge object,remote touch,Incapacitated dismissal,foreign-caster dismissal,action cost or own-turn restriction,expired-effect dismissal,duplicate storage/replay. Historical264 alone is insufficient for target admission;its valid caster-dismissal behavior remains source-correct."
         }
       ],
-      "body": "<!-- edda-327:light-extension -->\nDecision #327; roadmap #47. One implementation PR; Task Size M.\n\nSource: pinned SRD5.2.1 PDF, exact pages in scope; SHA256 8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87. CC-BY-4.0 attribution and adaptation notice: docs/srd-5.2.1-conformance.md. Fixture boundaries are Edda additions.\n\nExact scope, positive and independently violated negative fixtures:\nPDF144 Action,Touch,V+M firefly or phosphorescent moss,1hour. Source-correct admission/routing supersedes incompatible264 historical other-holder/dismissal predicates while delegating its common identity/storage/expiry engine and145light adjudication. ONE Large-or-smaller object NOT worn/carried by SOMEONE ELSE,even if willing. Chosen color,Bright20ft+Dim20ft further;opaque cover blocks light;RECAST ends previous effect. Positive:self-carried or unattended eligible object,cover/uncover and exact one-hour expiry survive reload. Negative:another willing holder,another worn item,Huge object,remote touch,standalone voluntary dismissal invented from264,duplicate storage/replay. Historical264 fixture alone is insufficient for source-correct execution; preserve valid old self-carried/duration/storage behavior only.\n\nEvery source predicate requires deterministic positive and independently violated negative fixtures. Authoritative preview is inert: no writes/dice; explicit confirm revalidates actor/campaign/source/class level/expected revision, targets, range, action, resource and costs. For class applications only,class and total levels must be integers1\u201320,not booleans or fractional values; class level cannot exceed total. Independently reject total21,unqualified current-class configurations and unknown source paths. Class-application XP/live PB select canonical TOTAL-level advancement independently of Paladin-level feature/slot/HP rows. Shared effect execution adds no Paladin or other-class admission requirement to its targets. Commit choices, injectable dice, derived state and history atomically. Durable receipt binds payload: retry/replay/reload/reconnect returns exact result; conflicting payload and stale state reject. Concurrent confirmations commit once. Inject cost/effect/history failures and prove complete isolated PostgreSQL rollback. Web AND trusted TUI expose availability/reasons, accessible confirmation/cancel/reconnect; changed web requires desktop/phone journeys, build and focused lint. For passive/source-automatic effects confirmation belongs to triggering action/turn, never invent optional activation. Unknown facts remain unavailable; no hidden target/HP/DC disclosure. Feature tests use isolated entitlements; creation and later-level applications consume separately qualified execution. Planning closure never qualifies implementation.\n\nRun GOMAXPROCS=2 go test -p 2 -short -race ./... and GOMAXPROCS=2 go vet -p 2 ./...; additionally isolated PostgreSQL integration tests with injectable dice,atomic rollback,durable replay/reload and concurrent confirmation. Short tests do not run integration-tag tests. No production access,inference,deployment or coverage promotion.\n\nOwnership: feature execution is separate from creation,later-class eligibility and every adjacent level application. Generic planning parents do not implement effects. Source catalogues do not unlock actions. Consume qualified named terminals; never copy spell/item/condition effects or another class eligibility. Unknown authoritative world/possession/plane/item facts stay unavailable. For automatic benefits,use triggering confirmed event; no invented optional activation.\n\nNative parent #850. Exact native prerequisites: #145, #264.\n\nMandatory native qualification: this leaf -> its declared cohort/class/shared gate -> Paladin qualification -> #337. Shared spell cohorts also block #279 and #280. The five condition and two Dispel leaves directly block #279/#280. Closing327 never removes these edges.\n\nExact source keys:\n- srd-5.2.1:content/spells/light\n- srd-5.2.1:mechanic/paladin-consumed/light-extension\n\nComplete numeric/source context (opaque references do not duplicate execution):\n```json\n[\n  {\n    \"source_page\": 144,\n    \"scope\": \"PDF144 Action,Touch,V+M firefly or phosphorescent moss,1hour. Source-correct admission/routing supersedes incompatible264 historical other-holder/dismissal predicates while delegating its common identity/storage/expiry engine and145light adjudication. ONE Large-or-smaller object NOT worn/carried by SOMEONE ELSE,even if willing. Chosen color,Bright20ft+Dim20ft further;opaque cover blocks light;RECAST ends previous effect. Positive:self-carried or unattended eligible object,cover/uncover and exact one-hour expiry survive reload. Negative:another willing holder,another worn item,Huge object,remote touch,standalone voluntary dismissal invented from264,duplicate storage/replay. Historical264 fixture alone is insufficient for source-correct execution; preserve valid old self-carried/duration/storage behavior only.\"\n  }\n]\n```\n"
+      "body": "<!-- edda-327:light-extension -->\nDecision #327; roadmap #47. One implementation PR; Task Size M.\n\nSource: pinned SRD5.2.1 PDF, exact pages in scope; SHA256 8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87. CC-BY-4.0 attribution and adaptation notice: docs/srd-5.2.1-conformance.md. Fixture boundaries are Edda additions.\n\nExact scope, positive and independently violated negative fixtures:\nPDF144 Action,Touch,V+M firefly or phosphorescent moss,1hour. Correct264 historical other-holder targeting while retaining its common identity/storage/expiry engine and145light adjudication. ONE Large-or-smaller object NOT worn/carried by SOMEONE ELSE,even if willing. Chosen color,Bright20ft+Dim20ft further;opaque cover blocks light;RECAST ends previous effect. Inherit PDF106:the caster may dismiss its own ongoing time-span spell with NO ACTION if NOT Incapacitated;consume487 for that predicate. Incapacitated alone does not end this non-Concentration spell. Positive:self-carried or unattended eligible object,cover/uncover,exact one-hour expiry and non-Incapacitated caster dismissal survive reload. Negative:another willing holder,another worn item,Huge object,remote touch,Incapacitated dismissal,foreign-caster dismissal,action cost or own-turn restriction,expired-effect dismissal,duplicate storage/replay. Historical264 alone is insufficient for target admission;its valid caster-dismissal behavior remains source-correct.\n\nEvery source predicate requires deterministic positive and independently violated negative fixtures. Authoritative preview is inert: no writes/dice; explicit confirm revalidates actor/campaign/source/class level/expected revision, targets, range, action, resource and costs. For class applications only,class and total levels must be integers1\u201320,not booleans or fractional values; class level cannot exceed total. Independently reject total21,unqualified current-class configurations and unknown source paths. Class-application XP/live PB select canonical TOTAL-level advancement independently of Paladin-level feature/slot/HP rows. Shared effect execution adds no Paladin or other-class admission requirement to its targets. Commit choices, injectable dice, derived state and history atomically. Durable receipt binds payload: retry/replay/reload/reconnect returns exact result; conflicting payload and stale state reject. Concurrent confirmations commit once. Inject cost/effect/history failures and prove complete isolated PostgreSQL rollback. Web AND trusted TUI expose availability/reasons, accessible confirmation/cancel/reconnect; changed web requires desktop/phone journeys, build and focused lint. For passive/source-automatic effects confirmation belongs to triggering action/turn, never invent optional activation. Unknown facts remain unavailable; no hidden target/HP/DC disclosure. Feature tests use isolated entitlements; creation and later-level applications consume separately qualified execution. Planning closure never qualifies implementation.\n\nRun GOMAXPROCS=2 go test -p 2 -short -race ./... and GOMAXPROCS=2 go vet -p 2 ./...; additionally isolated PostgreSQL integration tests with injectable dice,atomic rollback,durable replay/reload and concurrent confirmation. Short tests do not run integration-tag tests. No production access,inference,deployment or coverage promotion.\n\nOwnership: feature execution is separate from creation,later-class eligibility and every adjacent level application. Generic planning parents do not implement effects. Source catalogues do not unlock actions. Consume qualified named terminals; never copy spell/item/condition effects or another class eligibility. Unknown authoritative world/possession/plane/item facts stay unavailable. For automatic benefits,use triggering confirmed event; no invented optional activation.\n\nNative parent #850. Exact native prerequisites: #145, #264, #487.\n\nMandatory native qualification: this leaf -> its declared cohort/class/shared gate -> Paladin qualification -> #337. Shared spell cohorts also block #279 and #280. The five condition and two Dispel leaves directly block #279/#280. Closing327 never removes these edges.\n\nExact source keys:\n- srd-5.2.1:content/spells/light\n- srd-5.2.1:mechanic/paladin-consumed/light-extension\n\nComplete numeric/source context (opaque references do not duplicate execution):\n```json\n[\n  {\n    \"source_page\": 144,\n    \"scope\": \"PDF144 Action,Touch,V+M firefly or phosphorescent moss,1hour. Correct264 historical other-holder targeting while retaining its common identity/storage/expiry engine and145light adjudication. ONE Large-or-smaller object NOT worn/carried by SOMEONE ELSE,even if willing. Chosen color,Bright20ft+Dim20ft further;opaque cover blocks light;RECAST ends previous effect. Inherit PDF106:the caster may dismiss its own ongoing time-span spell with NO ACTION if NOT Incapacitated;consume487 for that predicate. Incapacitated alone does not end this non-Concentration spell. Positive:self-carried or unattended eligible object,cover/uncover,exact one-hour expiry and non-Incapacitated caster dismissal survive reload. Negative:another willing holder,another worn item,Huge object,remote touch,Incapacitated dismissal,foreign-caster dismissal,action cost or own-turn restriction,expired-effect dismissal,duplicate storage/replay. Historical264 alone is insufficient for target admission;its valid caster-dismissal behavior remains source-correct.\"\n  }\n]\n```\n"
     },
     {
       "key": "blind",
@@ -29132,5 +29143,138 @@
     965,
     966,
     967
-  ]
+  ],
+  "native_validation": {
+    "observed_at": "2026-11-16T18:51:05.435497+00:00",
+    "nodes": 940,
+    "new_tasks": 121,
+    "new_implementation_leaves": 115,
+    "negative_controls": 1409,
+    "supplements": "sealed"
+  },
+  "supplement_publication": "sealed",
+  "native_issue_by_key": {
+    "hp": 851,
+    "traits": 852,
+    "equipment": 853,
+    "multiclass": 854,
+    "casting": 855,
+    "membership": 856,
+    "preparation": 857,
+    "slots": 858,
+    "lay-on-hands": 859,
+    "mastery": 860,
+    "style": 861,
+    "blessed-warrior": 862,
+    "smite": 863,
+    "channel": 864,
+    "divine-sense": 865,
+    "subclass": 866,
+    "improvement": 867,
+    "extra-attack": 868,
+    "steed": 869,
+    "aura": 870,
+    "abjure": 871,
+    "courage": 872,
+    "radiant": 873,
+    "restoring": 874,
+    "expansion": 875,
+    "boon": 876,
+    "oath-spells": 877,
+    "sacred-weapon": 878,
+    "devotion-aura": 879,
+    "smite-protection": 880,
+    "nimbus-use": 881,
+    "nimbus-ward": 882,
+    "nimbus-damage": 883,
+    "level-1": 884,
+    "level-2": 885,
+    "level-3": 886,
+    "level-4": 887,
+    "level-5": 888,
+    "level-6": 889,
+    "level-7": 890,
+    "level-8": 891,
+    "level-9": 892,
+    "level-10": 893,
+    "level-11": 894,
+    "level-12": 895,
+    "level-13": 896,
+    "level-14": 897,
+    "level-15": 898,
+    "level-16": 899,
+    "level-17": 900,
+    "level-18": 901,
+    "level-19": 902,
+    "level-20": 903,
+    "later-1": 904,
+    "bless-extension": 905,
+    "detect-extension": 906,
+    "command": 907,
+    "detect-evil": 908,
+    "detect-poison": 909,
+    "divine-favor": 910,
+    "divine-smite": 911,
+    "heroism": 912,
+    "protection-evil": 913,
+    "purify": 914,
+    "searing-hit": 916,
+    "searing-turn": 917,
+    "steed-summon": 918,
+    "steed-stats": 919,
+    "steed-control": 920,
+    "steed-bonus": 921,
+    "gentle-repose": 922,
+    "locate-object": 923,
+    "magic-weapon": 924,
+    "prayer-cast": 925,
+    "prayer-rest": 926,
+    "protection-poison": 927,
+    "shining-smite": 928,
+    "warding-bond": 930,
+    "warding-end": 931,
+    "zone-truth": 932,
+    "food-water": 933,
+    "daylight": 934,
+    "circle-ward": 935,
+    "circle-reverse": 936,
+    "curse-end": 937,
+    "curse-item": 938,
+    "banishment-cast": 939,
+    "banishment-end": 940,
+    "locate-creature": 941,
+    "dispel-evil-ward": 942,
+    "dispel-break": 943,
+    "dispel-dismiss": 944,
+    "geas-cast": 945,
+    "geas-damage": 946,
+    "raise-dead": 947,
+    "raise-penalty": 948,
+    "beacon": 949,
+    "guardian-create": 950,
+    "guardian-damage": 951,
+    "commune": 952,
+    "flame-strike": 953,
+    "guidance": 954,
+    "mending": 955,
+    "resistance": 956,
+    "sacred-flame": 957,
+    "spare-dying": 958,
+    "thaumaturgy": 959,
+    "light-extension": 967,
+    "blind": 960,
+    "deaf": 961,
+    "invisible": 962,
+    "blind-end": 963,
+    "deaf-end": 964,
+    "dispel-check": 965,
+    "dispel-object": 966,
+    "qualification": 845,
+    "class-gate": 846,
+    "shared-gate": 847,
+    "cohort-1": 848,
+    "cohort-2": 849,
+    "cohort-3": 850
+  },
+  "source_plan_notice": "issues/shared_issues retain immutable source-plan operands; published_issues and the native receipt are the actual readbacks. Resolve execution keys through native_issue_by_key. No source-plan row is advertised as a live issue."
 }

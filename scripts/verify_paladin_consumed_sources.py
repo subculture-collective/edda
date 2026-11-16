@@ -83,6 +83,29 @@ OPERANDS={
 'Locate Creature':['1,000 feet','within 30 feet','different form','any thickness of lead'],
 'Locate Object':['1,000 feet','within 30 feet','any thickness of lead']}
 
+# General casting clauses apply even when a spell's own entry does not repeat them.
+CASTING_CLAUSES=[
+    'The Ritual version of a spell takes 10 minutes longer to cast than normal, but it doesn’t expend a spell slot.',
+    'To cast a spell as a Ritual, a spellcaster must have it prepared.',
+    'you must take the Magic action on each of your turns, and you must maintain Concentration',
+    'If your Concentration is broken, the spell fails, but you don’t expend a spell slot.',
+    'While a time-span spell that you cast is ongoing, you can dismiss it (no action required) if you don’t have the Incapacitated condition.',
+]
+# Separate source transcription: compare the actual candidate contracts, not their seals.
+INHERITED_CONTRACTS={
+    'light-extension': 'PDF144 Action,Touch,V+M firefly or phosphorescent moss,1hour. Correct264 historical other-holder targeting while retaining its common identity/storage/expiry engine and145light adjudication. ONE Large-or-smaller object NOT worn/carried by SOMEONE ELSE,even if willing. Chosen color,Bright20ft+Dim20ft further;opaque cover blocks light;RECAST ends previous effect. Inherit PDF106:the caster may dismiss its own ongoing time-span spell with NO ACTION if NOT Incapacitated;consume487 for that predicate. Incapacitated alone does not end this non-Concentration spell. Positive:self-carried or unattended eligible object,cover/uncover,exact one-hour expiry and non-Incapacitated caster dismissal survive reload. Negative:another willing holder,another worn item,Huge object,remote touch,Incapacitated dismissal,foreign-caster dismissal,action cost or own-turn restriction,expired-effect dismissal,duplicate storage/replay. Historical264 alone is insufficient for target admission;its valid caster-dismissal behavior remains source-correct.',
+    'detect-extension': 'PDF123 Action OR Ritual,VS,self,Concentration10min. Extend265 free-use resolver with class slots and the PDF104 prepared Ritual rule: normal casting time plus10minutes,no spell slot,no extra Ritual Adept feature required. Planning273 closure supplies no execution. Consume PDF105 longer-casting Magic action each turn and casting Concentration;interruption fails without spending a slot. Preserve30ft presence,Magic action visible aura and spell school only;barriers1ft stone/dirt/wood,1inch metal,thin lead. Positive:class slot receipt;prepared Ritual-tag spell casts as a Ritual without a slot or separate Ritual Adept feature. Negative:unprepared ritual,missing Ritual tag,omitted10minutes,free-use recharge,seeing invisible object from aura.',
+}
+
+
+def validate_inherited_contracts(candidate):
+    for collection in ['shared_issues','published_issues']:
+        rows={x['key']:x for x in candidate[collection]}
+        for key,expected in INHERITED_CONTRACTS.items():
+            assert rows[key]['fixture']==expected,('inherited casting contract',collection,key)
+            if key=='light-extension':
+                assert 487 in rows[key]['prerequisites'],'Light dismissal requires actual Incapacitated owner'
+
 
 def source(pdf):
     assert hashlib.sha256(pdf.read_bytes()).hexdigest()==PIN
@@ -96,6 +119,8 @@ def source(pdf):
     names={x['name'] for x in inventory['records'] if x['family']=='spells'}
     starts=[i for i,l in enumerate(lines[:-1]) if l in names and (lines[i+1].startswith('Level ') or 'Cantrip' in lines[i+1])]
     blocks={}
+    general='\n'.join(lines[:starts[0]])
+    blocks['__casting__']=' '.join(re.sub(r'-\s*\n','',general).split())
     for pos,i in enumerate(starts):
         end=starts[pos+1] if pos+1<len(starts) else len(lines)
         value='\n'.join(lines[i:end])
@@ -107,6 +132,8 @@ def source(pdf):
 
 
 def validate(blocks):
+    for clause in CASTING_CLAUSES:
+        assert clause in blocks['__casting__'],('general casting clause',clause)
     for name,(level,casting,range_,duration) in ENVELOPES.items():
         text=blocks[name]
         found=re.search(r'Level (\d+)',text.split('Casting Time:')[0])
@@ -116,10 +143,16 @@ def validate(blocks):
         assert text.split('Duration: ',1)[1].startswith(duration),(name,'duration')
     for name,clauses in OPERANDS.items():
         for clause in clauses:assert clause in blocks[name],(name,clause)
+    for clause in ['one Large or smaller object that isn’t being worn or carried by someone else',
+                   'Covering the object with something opaque blocks the light.',
+                   'The spell ends if you cast it again.']:
+        assert clause in blocks['Light'],('Light',clause)
 
 
 def main():
     blocks=source(Path(sys.argv[1]));validate(blocks)
+    manifest=Path(sys.argv[2]) if len(sys.argv)>2 else ROOT/'docs/investigations/issue-327-paladin-scope.json'
+    candidate=json.loads(manifest.read_text());validate_inherited_contracts(candidate)
     # Each corrupted envelope and existing numeric clause must be independently rejected.
     count=0
     for name in ENVELOPES:
@@ -134,7 +167,13 @@ def main():
             try:validate(bad)
             except (AssertionError,IndexError):operand_controls+=1
             else:raise AssertionError('accepted numeric/alternative source corruption')
-    print(f'PASS:50 exact consumed spell envelopes;{sum(map(len,OPERANDS.values()))} source-bound numeric/alternative clauses;{count} contrary envelopes/{operand_controls} contrary operands rejected')
+    inherited_controls=0
+    for clause in CASTING_CLAUSES:
+        bad=dict(blocks);bad['__casting__']=bad['__casting__'].replace(clause,'CORRUPTED GENERAL CASTING RULE')
+        try:validate(bad)
+        except AssertionError:inherited_controls+=1
+        else:raise AssertionError('accepted general casting source corruption')
+    print(f'PASS:50 exact consumed spell envelopes;{sum(map(len,OPERANDS.values()))} source-bound numeric/alternative clauses;{count} contrary envelopes/{operand_controls} contrary operands rejected;2 actual inherited contracts and {inherited_controls} general casting controls')
 
 
 if __name__=='__main__':main()
