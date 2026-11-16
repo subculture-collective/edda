@@ -365,3 +365,12 @@ rtk proxy env GOMAXPROCS=2 EDDA_SRD_PDF=/tmp/edda-wave1/SRD_CC_v5.2.1.pdf go tes
 rtk proxy env GOMAXPROCS=2 go test -p 2 -short -race ./...
 rtk proxy env GOMAXPROCS=2 go vet -p 2 ./...
 ```
+||||||| 7067dcd
+
+## Evoker catalogue (#319)
+
+The six p82 identities use the existing guarded contract and externally compose
+canonical Wizard once. See [Evoker source metadata](srd-5.2.1-evoker.md) for
+spellbook/slot operands, all source conditions and costs, the full Go graph
+oracle and standalone pinned-PDF semantic comparator. Catalogue completion
+leaves Wizard and Evoker unavailable and changes no runtime or coverage.
