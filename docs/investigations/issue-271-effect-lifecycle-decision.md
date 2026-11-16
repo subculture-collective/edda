@@ -123,6 +123,7 @@ python3 scripts/verify_effect_lifecycle_scope.py --live --pdf /tmp/edda-wave1/SR
 git diff --check
 ```
 
+Live verification requires an authenticated GitHub CLI (`gh`).
 Offline verification checks complete unique scope ownership, child fields, exact
 prerequisites, recorded parents, both gate links and acyclicity. `--live` fetches
 every repository issue’s native graph and reads each child body back, rejecting

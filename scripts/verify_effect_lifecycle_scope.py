@@ -12,7 +12,7 @@ MANIFEST = ROOT / "docs/investigations/issue-271-effect-lifecycle-scope.json"
 RECEIPT = ROOT / "docs/investigations/issue-271-link-verification.json"
 
 def api(path, data=None):
-    cmd = ["rtk", "proxy", "gh", "api", path]
+    cmd = ["gh", "api", path]
     if data is not None:
         cmd += ["--input", "-"]
     result = subprocess.run(cmd, input=json.dumps(data) if data else None,
