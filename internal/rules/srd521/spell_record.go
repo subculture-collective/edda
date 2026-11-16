@@ -220,8 +220,16 @@ func (s SpellRecord) validate() error {
 			return fmt.Errorf("invalid typed slot scaling")
 		}
 		d := s.SourceDetails
-		if sc.Kind == "slot-targets" && (d.Bless == nil && d.Blindness == nil || !slices.Contains(s.RequiredMechanics, "scaling.targets-per-slot")) {
-			return fmt.Errorf("target scaling requires typed count")
+		if sc.Kind == "slot-targets" {
+			base, additional := 0, 0
+			if d.Bless != nil {
+				base, additional = d.Bless.BaseTargets, d.Bless.AdditionalTargetsPerSlot
+			} else if d.Blindness != nil {
+				base, additional = d.Blindness.BaseTargets, d.Blindness.AdditionalTargetsPerSlot
+			}
+			if base != s.Target.Count || additional <= 0 || !slices.Contains(s.RequiredMechanics, "scaling.targets-per-slot") {
+				return fmt.Errorf("target scaling requires consistent base and positive increment")
+			}
 		}
 		if sc.Kind == "slot-duration" && (d.Curse == nil || !slices.Contains(s.RequiredMechanics, "scaling.curse-slot-duration-concentration")) {
 			return fmt.Errorf("duration scaling requires typed slot table")

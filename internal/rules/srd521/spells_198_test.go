@@ -330,3 +330,38 @@ func TestSpells198WhitespaceEmptyListsAndNestedGuards(t *testing.T) {
 		}
 	}
 }
+
+func TestSpells198RejectContradictoryTargetScaling(t *testing.T) {
+	for _, index := range []int{6, 8} {
+		for _, invalid := range []string{"zero increment", "mismatched base"} {
+			t.Run(fmt.Sprintf("%d/%s", index, invalid), func(t *testing.T) {
+				r := loadSpells198(t)
+				s := &r.Records[index]
+				if d := s.SourceDetails.Bless; d != nil {
+					if invalid == "zero increment" {
+						d.AdditionalTargetsPerSlot = 0
+					} else {
+						d.BaseTargets = 99
+					}
+				} else {
+					d := s.SourceDetails.Blindness
+					if invalid == "zero increment" {
+						d.AdditionalTargetsPerSlot = 0
+					} else {
+						d.BaseTargets = 99
+					}
+				}
+				if err := r.Validate(); err == nil {
+					t.Error("contradictory target scaling validated")
+				}
+				b, err := json.Marshal(r)
+				if err != nil {
+					t.Fatal(err)
+				}
+				if _, err := DecodeSpellRecords(bytes.NewReader(b)); err == nil {
+					t.Error("contradictory target scaling decoded")
+				}
+			})
+		}
+	}
+}
