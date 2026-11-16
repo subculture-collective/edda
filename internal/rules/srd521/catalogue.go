@@ -56,7 +56,7 @@ type CharacterRecord struct {
 	ValuesByLevel []CharacterLevelValue `json:"values_by_level,omitempty"`
 	// Options retain quantities within alternative equipment bundles.
 	Options []CharacterChoiceOption `json:"options,omitempty"`
-	// Parameters retain uninterpreted numeric class or feature metadata.
+	// Parameters retain uninterpreted numeric class, feature, feat or class-table metadata.
 	Parameters map[string]int `json:"parameters,omitempty"`
 	// AlwaysPrepared retains fixed spell references at explicit class levels.
 	// These are opaque grants, never optional choices or executable spells.
@@ -555,8 +555,8 @@ func validateClassMetadata(r CharacterRecord) error {
 			}
 		}
 	}
-	if len(r.Parameters) > 0 && r.Kind != "class" && r.Kind != "feature" {
-		return fmt.Errorf("%s: parameters require class or feature", r.ID)
+	if len(r.Parameters) > 0 && r.Kind != "class" && r.Kind != "feature" && r.Kind != "feat" && !(r.Kind == "level" && r.Progression != nil) {
+		return fmt.Errorf("%s: parameters require class, feature, feat or class progression", r.ID)
 	}
 	for key, value := range r.Parameters {
 		if !required[key] || value < 1 {
