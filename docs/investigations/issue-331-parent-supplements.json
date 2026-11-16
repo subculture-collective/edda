@@ -1,0 +1,11 @@
+{
+  "state": "PENDING",
+  "writer": "ROOT only",
+  "accepted_prefix": null,
+  "appends": {
+    "47": "\n<!-- edda331 --> Warlock decision; execution gates remain mandatory.\n",
+    "54": "\n<!-- edda331 --> #331 reconciles191 source records/20rows/28Invocations. Source metadata and decision closure do not execute features or admit Warlock. Exact native implementation/shared-output paths remain required. ROOT-only PENDING; no live append.\n",
+    "283": "\n<!-- edda331 --> Warlock qualification belongs under331; no new283children. All20rows, first/later entry, own D8/fixed5 HP via968, subclass, repeatedASI/Arcanum/Invocations and finite shared117spell domain require real implementation outputs. ROOT-only PENDING; no live append.\n",
+    "337": "\n<!-- edda331 --> Warlock requires exact native feature/level/shared-output qualification paths, full source predicates, isolatedPostgres atomicity/replay/reload/races and sharedweb/TUI availability. Closure331 and catalogues grant no runtime support. ROOT-only PENDING; no live append.\n"
+  }
+}
