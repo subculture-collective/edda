@@ -1,0 +1,35 @@
+{
+  "base": "3042172c935bdefa606c008c8ddda277b7548fd8",
+  "runtime_changes": false,
+  "full_race": {
+    "command": "GOMAXPROCS=2 go test -p 2 -short -race ./...",
+    "exit_code": 0,
+    "runs": 1,
+    "log_sha256": "4754bf4cf55d5376b3c1005668f1fe0bc82409bb2273be3f545aafd64e198bd7"
+  },
+  "vet": {
+    "command": "GOMAXPROCS=2 go vet -p 2 ./...",
+    "exit_code": 0,
+    "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "source_comparators": [
+    "ranger",
+    "hunter",
+    "advancement",
+    "multiclass",
+    "origin_feats",
+    "fighting_styles",
+    "general_feats",
+    "epic_boon_feats"
+  ],
+  "source_comparators_exit": 0,
+  "controls": "15 tests pass; includes multiple feature/row corruption subcases",
+  "publication": "only gateway968 published; remaining scopes and dependency gateway await root approval",
+  "final_parent_prefix": "not released; no immutable final native snapshot",
+  "limitations": [
+    "No runtime grant/coverage promotion",
+    "No database or browser/device run",
+    "No CI claim at checkpoint",
+    "golangci-lint shim lacks binary; no install"
+  ]
+}
