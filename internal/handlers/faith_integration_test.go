@@ -268,6 +268,10 @@ func TestIntegrationFaithRecipients(t *testing.T) {
 	}
 	_, err = testPool.Exec(ctx, `INSERT INTO concentration_recipients(cast_id,recipient_id) VALUES($1,$2)`, rollback.ActionID, target)
 	must(err)
+	must(game.ApplyFaithAC(ctx, testPool, campaign, actors[0], now+600, sheet))
+	if sheet.Concentration != nil || sheet.Defenses["armor-class"].Value != 11 {
+		t.Fatal("public projection retained expired concentration")
+	}
 	// Concurrent independent engines serialize; exactly one stale revision wins.
 	a := request(actors[0], srd521.EndConcentration)
 	b := request(actors[0], srd521.EndConcentration)

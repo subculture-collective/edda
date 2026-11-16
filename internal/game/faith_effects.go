@@ -60,6 +60,9 @@ func ApplyFaithAC(ctx context.Context, database statedb.DBTX, campaign, actor uu
 	}
 	ac.Derivation = terms
 	legacy := sheet.Concentration
+	if legacy != nil && legacy.ExpiresAt <= now {
+		sheet.Concentration = nil
+	}
 	if e != nil || (legacy != nil && legacy.RecipientID == "" && legacy.StartedAt <= now && legacy.ExpiresAt > now) {
 		ac.Value += 2
 		// Keep the source-derived term shape owned by the rules package.
