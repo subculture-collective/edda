@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "observed_at": "2026-11-16T03:48:13.946078+00:00",
+  "observed_at": "2026-11-16T03:53:41.201541+00:00",
   "method": "GitHub GraphQL all issues and native blockedBy/parent; REST body readback",
   "bodies": {
     "351": {
@@ -30,8 +30,8 @@
     },
     "356": {
       "matches": true,
-      "sha256": "4dba96b0c82481919d597cf63d2260603d8078f7846ef188de57b2a763f5685a",
-      "updated_at": "2026-11-16T03:45:51Z"
+      "sha256": "b2866e15283b725d174f3225a723228bd4fdf6a3816794f951ce21bfe0dd08fa",
+      "updated_at": "2026-11-16T03:53:08Z"
     },
     "358": {
       "matches": true,

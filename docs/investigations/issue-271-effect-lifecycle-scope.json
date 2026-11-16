@@ -233,7 +233,7 @@
       ],
       "accept": [
         "Test failed and successful saves, decline, unavailable reaction, no components, unseen/foreign/out-of-range trigger, stale pending attempt, crash/reconnect before and after decision and duplicate confirmation.",
-        "Persist original attempt, reaction cost, save and resume/cancel outcome atomically; failed counter never heals and never spends target slot, successful original heals once. Existing opportunity-reaction flow remains bounded and intact."
+        "Persist original attempt, reaction cost, save and resume/cancel outcome atomically. If the target fails its Constitution save, the interrupted spell never heals and never spends the target slot; if the target succeeds, the original spell resolves and heals once. Existing opportunity-reaction flow remains bounded and intact."
       ],
       "exclusions": "No 2014 ability-check or automatic-level Counterspell, nested counter-counterspell, multiplayer priority, item/free-use refunds, new NPC spell AI, general Wizard builds or player discovery.",
       "blocked_by_issues": [
