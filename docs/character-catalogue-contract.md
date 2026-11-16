@@ -12,7 +12,7 @@ Neither fixture is a playable build.
 `CharacterCatalogue` has schema version 1, a pinned `Source`, and tagged
 `CharacterRecord` records. The supported kinds are `class`, `level`, `feature`,
 `subclass`, `origin` (background or species), `feat`, `prerequisite`, `choice`,
-`resource` and `advancement`. Stable IDs use `srd-5.2.1:character/<kind>/<owner>/<slug>`;
+`resource`, `invocation` and `advancement`. Stable IDs use `srd-5.2.1:character/<kind>/<owner>/<slug>`;
 class IDs may end at the class slug. Do not rename or reuse IDs. A different
 rules version needs its own namespace and source pin.
 
@@ -317,3 +317,51 @@ The seven page-88 Epic Boon feats use the existing guarded contract, with owned
 ability choices, level and source-condition predicates, operand references and
 single-use resources. See [the source evidence and checks](srd-5.2.1-epic-boon-feats.md).
 They are unavailable metadata; validation grants no runtime support.
+
+
+## Invocation batch 02 (#303)
+
+`character-invocations-02.json` records exactly the twelve inventory identities
+on PDF pp73–74, from Investment of the Chain Master through Repelling Blast,
+as 49 records. `invocation` is an additive schema-version-1 kind because the
+existing `feature` kind requires class-feature sources, and choices require
+their parent’s source. Each invocation requires exactly one `invocations`
+inventory source, an ID matching that source slug, and the canonical Warlock
+class as parent. Positive numeric parameters use the existing required-key
+guard. Other kinds keep their existing ownership and source guards.
+
+The composition manifest includes canonical Warlock and Origin feats once each,
+then this batch. Prerequisite operands reference their actual owners, including
+Pact Magic, Eldritch Invocations and the two Pact prerequisites in this batch.
+The canonical Warlock retains table counts, eligibility, replacement restrictions
+and the general duplicate prohibition; Lessons and Repelling Blast explicitly
+retain repeatability with different eligible selections. Other Invocation
+batches remain unresolved keys in canonical Warlock’s choice domain.
+
+Choices retain movement and damage alternatives, Origin feats, eligible known
+Warlock cantrips, conjured melee versus touched magic weapon bonds, normal and
+all seven special familiar forms, and Tome cantrips and level-one Ritual spells
+from any class. Conditions, optional actions, reaction ownership, costs, exact
+numbers, continuous separation timing, book possession, replacement and death
+termination remain unavailable mechanic keys and predicates. The p74 Pact
+variants are used directly; spell, item and familiar definitions and lifecycles
+are outside this batch. No runtime grants, derived statistics, creation,
+advancement, coverage or Full Rules qualification are added.
+
+The Go oracle compares every record and field against readable constant source
+facts. The standalone Python comparator extracts pp73–74 from the pinned PDF,
+binds semantic groups to source clauses and compares the resulting expected
+graph against actual metadata. It also checks the exact twelve inventory links
+and canonical Warlock source proof. Structurally valid contrary graphs exercise
+conditions, missing alternatives, known wrong operands, counts, costs, timing,
+source variants and invented scaling/recovery. Both semantic comparisons reject
+the same controls, and readiness rejects them independently. Strict decoding,
+source/schema, identity/parent guards, composition duplicates, unknown keys and
+fixed Human Fighter/Cleric and unavailable Warlock boundaries are tested.
+
+```sh
+rtk proxy python3 scripts/verify_srd_invocations_02.py /tmp/edda-wave1/SRD_CC_v5.2.1.pdf
+rtk proxy env GOMAXPROCS=2 EDDA_SRD_PDF=/tmp/edda-wave1/SRD_CC_v5.2.1.pdf go test -p 2 -short ./internal/rules/srd521 -run Invocations02
+rtk proxy env GOMAXPROCS=2 go test -p 2 -short -race ./...
+rtk proxy env GOMAXPROCS=2 go vet -p 2 ./...
+```

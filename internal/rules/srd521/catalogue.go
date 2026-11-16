@@ -25,7 +25,7 @@ type CharacterSource struct {
 }
 
 // CharacterRecord is a tagged record. Kind is advancement, class, level, feature, subclass,
-// origin, feat, prerequisite, choice or resource. IDs are immutable within this
+// origin, feat, invocation, prerequisite, choice or resource. IDs are immutable within this
 // schema; the rules namespace and Source.Version must both match the pin.
 // Parent ownership forms an acyclic graph. OptionKeys and
 // RequiredMechanics name contracts, never executable code supplied by data.
@@ -112,7 +112,7 @@ type CharacterRequirement struct {
 	Parameters map[string]int `json:"parameters"`
 }
 
-var characterID = regexp.MustCompile(`^srd-5\.2\.1:character/(advancement|class|level|feature|subclass|origin|feat|prerequisite|choice|resource)/` + slug + `(/` + slug + `)*$`)
+var characterID = regexp.MustCompile(`^srd-5\.2\.1:character/(advancement|class|level|feature|subclass|origin|feat|invocation|prerequisite|choice|resource)/` + slug + `(/` + slug + `)*$`)
 var mechanicKey = regexp.MustCompile(`^srd-5\.2\.1:mechanic/` + slug + `(/` + slug + `)*$`)
 
 // DecodeCharacterCatalogue rejects unknown fields and trailing JSON. Call
@@ -187,7 +187,7 @@ func (c CharacterCatalogue) Validate(repo fs.FS) error {
 			}
 			seenSource[s] = true
 		}
-		expectedFamily := map[string]string{"advancement": "levels", "class": "classes", "level": "classes", "subclass": "subclasses", "feat": "feats"}[r.Kind]
+		expectedFamily := map[string]string{"advancement": "levels", "class": "classes", "level": "classes", "subclass": "subclasses", "feat": "feats", "invocation": "invocations"}[r.Kind]
 		if expectedFamily != "" && families[r.Sources[0].InventoryID] != expectedFamily {
 			return fmt.Errorf("%s: wrong source family", r.ID)
 		}
@@ -326,6 +326,9 @@ func (c CharacterCatalogue) Validate(repo fs.FS) error {
 		switch r.Kind {
 		case "advancement", "class", "origin", "feat":
 			allowed = r.ParentID == ""
+		case "invocation":
+			// Invocations have their own inventory family, not class-feature pages.
+			allowed = len(r.Sources) == 1 && parent.ID == "srd-5.2.1:character/class/warlock" && r.ID == "srd-5.2.1:character/invocation/"+strings.TrimPrefix(r.Sources[0].InventoryID, "srd-5.2.1:planning/invocations/")
 		case "level", "subclass":
 			allowed = parent.Kind == "class"
 		case "feature":
@@ -558,8 +561,8 @@ func validateClassMetadata(r CharacterRecord) error {
 			}
 		}
 	}
-	if len(r.Parameters) > 0 && r.Kind != "class" && r.Kind != "feature" && r.Kind != "feat" && !(r.Kind == "level" && r.Progression != nil) {
-		return fmt.Errorf("%s: parameters require class, feature, feat or class progression", r.ID)
+	if len(r.Parameters) > 0 && r.Kind != "class" && r.Kind != "feature" && r.Kind != "feat" && r.Kind != "invocation" && !(r.Kind == "level" && r.Progression != nil) {
+		return fmt.Errorf("%s: parameters require class, feature, feat, invocation or class progression", r.ID)
 	}
 	for key, value := range r.Parameters {
 		if !required[key] || value < 1 {
