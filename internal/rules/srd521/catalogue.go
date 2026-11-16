@@ -192,7 +192,7 @@ func (c CharacterCatalogue) Validate(repo fs.FS) error {
 			return fmt.Errorf("%s: wrong source family", r.ID)
 		}
 		family := families[r.Sources[0].InventoryID]
-		if r.Kind == "origin" && family != "species" && family != "backgrounds" || r.Kind == "feature" && family != "class-features" && family != "subclass-features" && family != "metamagic" {
+		if r.Kind == "origin" && family != "species" && family != "backgrounds" || r.Kind == "feature" && family != "class-features" && family != "subclass-features" && family != "invocations" && family != "metamagic" {
 			return fmt.Errorf("%s: wrong source family", r.ID)
 		}
 		isLevel := r.Kind == "level" || r.Kind == "advancement"
@@ -329,7 +329,14 @@ func (c CharacterCatalogue) Validate(repo fs.FS) error {
 		case "level", "subclass":
 			allowed = parent.Kind == "class"
 		case "feature":
-			if families[r.Sources[0].InventoryID] == "metamagic" {
+			if families[r.Sources[0].InventoryID] == "invocations" {
+				// Invocation identities are metadata options of the canonical Warlock
+				// choice. Do not relax ownership for other feature families.
+				sourceSlug := strings.TrimPrefix(r.Sources[0].InventoryID, "srd-5.2.1:planning/invocations/")
+				allowed = len(r.Sources) == 1 && parent.ID == "srd-5.2.1:character/choice/warlock/invocations" &&
+					parent.Kind == "choice" && parent.ParentID == "srd-5.2.1:character/feature/warlock/eldritch-invocations" &&
+					r.ID == "srd-5.2.1:character/feature/warlock/invocations/"+sourceSlug
+			} else if families[r.Sources[0].InventoryID] == "metamagic" {
 				// Named Metamagic options belong only to the canonical Sorcerer choice.
 				sourceSlug := strings.TrimPrefix(r.Sources[0].InventoryID, "srd-5.2.1:planning/metamagic/")
 				allowed = len(r.Sources) == 1 && parent.ID == "srd-5.2.1:character/choice/sorcerer/metamagic" &&
@@ -449,6 +456,14 @@ func (c CharacterCatalogue) Validate(repo fs.FS) error {
 				class := strings.TrimPrefix(owner.Sources[0].InventoryID, "srd-5.2.1:planning/classes/")
 				family := "subclasses"
 				heading := class + "-"
+				if r.Kind == "feature" && families[source.InventoryID] == "invocations" {
+					if class != "warlock" || len(r.Sources) != 1 {
+						return fmt.Errorf("%s: invocation source requires unique Warlock ownership", r.ID)
+					}
+					// The unique source must be primary, so the exact invocation
+					// identity and choice ownership were checked above.
+					continue
+				}
 				if r.Kind == "feature" && families[source.InventoryID] == "metamagic" {
 					if len(r.Sources) != 1 || class != "sorcerer" || owner.ID != "srd-5.2.1:character/class/sorcerer" {
 						return fmt.Errorf("%s: Metamagic requires one source and canonical Sorcerer ancestry", r.ID)
