@@ -15,7 +15,7 @@ PATH=ROOT/'docs/investigations/issue-329-rogue-scope.json'
 RECEIPT=ROOT/'docs/investigations/issue-329-link-verification.json'
 PIN='8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87'
 AUDIT_FIELDS=['catalogues','records','issues','grants','evidence','common_acceptance','dispatch_inventory','unqualified_dispatch_ids','dispatch_bindings','reservation']
-AUDIT_SEAL='808447fae90e61548c36a7b9dd93ef41b421a07bf1488b2ed2edba879c5d9e38'
+AUDIT_SEAL='0369bcdfccb62a0ee14c359bc28f32ffcc8800b95a3f226b6dad85bd4a2c8ca2'
 
 def digest(x):return hashlib.sha256(json.dumps(x,sort_keys=True).encode()).hexdigest()
 
@@ -44,7 +44,8 @@ def semantic(m):
     # Reconstruct complete source/owner contracts independently of the native receipt.
     from build_rogue_checkpoint import audit
     expected=json.loads(json.dumps(audit(write=False)))
-    for k in AUDIT_FIELDS:assert m[k]==expected[k],f'complete actual source/contract:{k}'
+    for k in AUDIT_FIELDS:
+        assert json.dumps(m[k],sort_keys=True)==json.dumps(expected[k],sort_keys=True),f'complete typed actual source/contract:{k}'
     rows={x['key']:x for x in m['issues']};assert len(rows)==len(m['issues'])==72
     assert m['source_sha256']==PIN and m['base']=='952fab917329e00cceebf46a8bacd59cb1c30e99'
     for n in range(1,21):

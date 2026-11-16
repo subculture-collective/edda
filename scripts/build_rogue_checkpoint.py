@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build a source audit and unreserved proposal; performs no tracker writes."""
+"""Reconstruct the source audit; tracker publication belongs to the separate publisher."""
 import hashlib
 import json
 from pathlib import Path
@@ -100,13 +100,14 @@ def audit(write=True):
             if text in slug:return [target]
         return owners(by[r["parent_id"]])
     evidence={
-      "internal/rules/srd521/creation.go":"NewSupportedBuild fixed Fighter/Cleric admission only; no Rogue.",
+      "internal/rules/srd521/creation.go":"SupportedBuildForConcept and NewSupportedMartialBuild admit only fixed Fighter/Cleric fixtures; no Rogue.",
       "internal/rules/srd521/character.go":"Project class/level guard excludes Rogue; class label is insufficient.",
       "internal/rules/srd521/catalogue.go":"ValidateReadiness requires implemented mechanic keys; metadata does not grant runtime.",
       "internal/game/advancement_preview.go":"Fixed Fighter1->2 preview; no Rogue HP/eligibility adapter.",
       "internal/game/spell_preview.go":"Fixed Cleric cast seams; no Thief scroll admission.",
       "internal/engine/action_confirmation.go":"Durable receipt/transaction seam; no inferred Rogue feature execution.",
-      "internal/combat/resolver.go":"Shared combat arithmetic seam; no source-key Rogue entitlements.",
+      "internal/combat/resolver.go":"CombatResolver is a strategy interface,not Rogue arithmetic or source-key entitlement.",
+      "internal/combat/bandit.go":"BanditAttack validates only its explicit NPC profile and trusted spatial facts; it is not generic PLAYER Unarmed Strike779 or Rogue feature support.",
       "internal/handlers/character_rules.go":"Shared sheet read route; projection guard still controls readiness.",
       "frontend/src/components/start/CharacterGuidedForm.tsx":"Class selector labels do not qualify Rogue creation.",
       "frontend/src/components/character/ActionPreviewPanel.tsx":"Shared confirmation UI does not qualify Rogue action options.",
@@ -122,7 +123,7 @@ def audit(write=True):
                 own=["attunement"] if "attun" in key else ["charges"] if "charge" in key else ["scroll-check"]
             if r["id"].endswith("/second-story-work"):own=["climber"] if "climb" in key else ["jumper"]
             mapping[key]=own
-        matrix.append(dict(record=r,execution_owners=owners(r),key_owners=mapping,state="metadata only; Rogue/Thief unavailable",evidence={"engine":list(evidence)[:8],"web":list(evidence)[8:10],"tui":["tui/app.go"]}))
+        matrix.append(dict(record=r,execution_owners=owners(r),key_owners=mapping,state="metadata only; Rogue/Thief unavailable",evidence={"engine":list(evidence)[:9],"web":list(evidence)[9:11],"tui":["tui/app.go"]}))
     for t in tasks:
         t["source_records"]=[r["record"]["id"] for r in matrix if t["key"] in r["execution_owners"]]
         t["source_keys"]=sorted({k for r in matrix for k,v in r["key_owners"].items() if t["key"] in v})

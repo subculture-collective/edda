@@ -19,6 +19,8 @@ from freeze_rogue_parents import MERGE as ACCEPTED_POST_RANGER,SEALS as ACCEPTED
 
 SUPPLEMENT_SEALS={'47': 'bf593511dbf09fa72139420f3dfcb74de84a8fc5884c2a0acd4f7b3eb11c3175', '54': 'ccc07cea6e80e01d472d553d2f40c8d36713bf3080e65d8756bee300e033d16d', '283': 'ccc07cea6e80e01d472d553d2f40c8d36713bf3080e65d8756bee300e033d16d', '337': 'ccc07cea6e80e01d472d553d2f40c8d36713bf3080e65d8756bee300e033d16d'}
 
+PUBLISHED_PARENT_SEALS={'47': 'b471db938c1d2357fee6bf70f03e19529f6d991422f8a978820874e3c8e2c842', '54': 'feda9427a6862e5d9b288d7e7017beb4fd3ed4965a02f9961b8a78d440da2169', '283': 'b4b5f948f6484924fb43d19586717fc982350e7ae1e63120ad6854c594c8464c', '337': '3a7bf09aa9eb6d48a81139902351f8bf2fcc6c5e96900425d6b52bbb3a197b07'}
+
 def digest(x):return hashlib.sha256(json.dumps(x,sort_keys=True).encode()).hexdigest()
 
 def caps(g):
@@ -72,6 +74,7 @@ def collect(m):
     return r
 
 def validate(m,r,sealed=False):
+    sealed=sealed or m.get('final_seal')=='PASS'
     caps(r['graph']);g={x['number']:x for x in r['graph']};owned=m['published_issues'];by={x['key']:x for x in owned}
     assert len(owned)==len(by)==77 and len({x['issue'] for x in owned})==77
     assert digest(owned)==OWNED_SEAL,'independent complete owned contract seal'
@@ -99,6 +102,8 @@ def validate(m,r,sealed=False):
     for n in [285,294,316]:assert g[n]['state']=='closed'
     assert g[329]['parent']==283 and g[329]['blocked_by']==[285,294,316] and g[329]['state'] in ['open','closed']
     assert g[968]['parent']==336 and g[968]['blocked_by']==[429]
+    assert hashlib.sha256(g[779]['body'].encode()).hexdigest()=='556d1618d1cd2bd9c956fe38861d89e94ee14ff61a505b5d2b6a1fa46d19d150','generic PLAYER Unarmed contract'
+    assert g[779]['parent']==50 and g[779]['blocked_by']==[61,64,65,66,67,488,778]
     assert Counter(n for x in g.values() for n in x['blocked_by'])[429]==100
     assert not any(429 in x['blocked_by_issues'] for x in owned)
     assert set(g[by['qualification']['issue']]['blocked_by'])=={329,279,280,by['features']['issue'],by['levels']['issue'],by['shared']['issue']}
@@ -139,5 +144,6 @@ def validate(m,r,sealed=False):
             assert hashlib.sha256(prefix.encode()).hexdigest()==h,'independent released prefix seal'
             section=(ROOT/f'docs/investigations/issue-329-parent-{n}-PENDING.md').read_text()
             assert hashlib.sha256(section.encode()).hexdigest()==SUPPLEMENT_SEALS[n],'independent exact supplement seal'
+            assert hashlib.sha256((prefix+section).encode()).hexdigest()==PUBLISHED_PARENT_SEALS[n],'ROOT exact resulting publication seal'
             parent_append(prefix,section,g[int(n)]['body'])
     return dict(nodes=len(g),owned_tasks=len(owned),owned_edges=sum(len(x['blocked_by_issues']) for x in owned),root_edges=3,terminals=72,final_seal='PENDING' if not sealed else 'PASS')

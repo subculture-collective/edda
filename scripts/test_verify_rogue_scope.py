@@ -11,14 +11,17 @@ class CheckpointTests(unittest.TestCase):
     def setUpClass(cls):
         cls.m=json.loads(v.PATH.read_text());cls.r=json.loads(v.RECEIPT.read_text()) if v.RECEIPT.exists() else {}
     def test_numeric_semantics_beyond_seal(self):
-        for change in ['dc','source','grant','feat','gateway']:
+        for change in ['dc','source','grant','feat','gateway','boolean-level','fractional-level']:
             m=deepcopy(self.m)
             if change=='dc':
                 x=next(x for x in m['issues'] if x['key']=='scroll-check');x['fixture']=x['fixture'].replace('DC12/13','DC11/13')
             elif change=='source':m['catalogues']['rogue']['records'][0]['parameters']['srd-5.2.1:mechanic/rogue/hit-die-sides']=10
             elif change=='grant':next(x for x in m['issues'] if x['key']=='level-7')['depends'].remove('evasion')
             elif change=='feat':next(x for x in m['records'] if x['record']['name']=='Evasion')['execution_owners']=['improvement']
-            else:next(x for x in m['issues'] if x['key']=='scroll-item')['fixture']='Light and Detect Magic ONLY'
+            elif change=='gateway':next(x for x in m['issues'] if x['key']=='scroll-item')['fixture']='Light and Detect Magic ONLY'
+            else:
+                row=next(x for x in m['catalogues']['rogue']['records'] if x['kind']=='level' and x['level']==1)
+                row['level']=True if change=='boolean-level' else 1.0
             with self.assertRaises(AssertionError):v.semantic(m)
     def test_complete_consumed_contract_not_excerpt(self):
         import tempfile

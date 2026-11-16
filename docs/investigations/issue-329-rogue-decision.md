@@ -1,6 +1,6 @@
 # Rogue and Thief decision (#329)
 
-NATIVE77Task publication verified; accepted POST-RANGER prefix frozen; ROOT exact appends/FINAL sealed proof PENDING.
+FINAL sealed source/native publication proof PASS at 2026-11-16T20:08:42.485242+00:00; runtime remains unqualified; independent acceptance/CI are ROOT-owned.
 
 This decision supplies a finite implementation roadmap and native qualification paths. It implements no Rogue runtime. Universal source identity/eligibility and typed-dispatch permission are distinct from qualified effect execution. Every unknown/unqualified output remains unavailable. Full production class qualification consumes both #279 and #280 as well as the Rogue feature/level cohorts; broad Rogue and Full Rules remain unavailable.
 
@@ -10,7 +10,7 @@ Pinned English SRD5.2.1: Rogue PDF61–63,Thief64,advancement23,multiclass24–2
 
 Qualification #1093 is under #329 and remains blocked by #329,#279,#280,feature cohort #1094,level cohort #1095 and shared cohort #1096. Cohorts #1094/#1095 sit under #1093; shared #1096 sits under #192. Hide #1137 sits under #50; other shared items sit under #1096. Execution dependency gateway #1097 sits under #329,consumes only #61/#64/#65/#66/#67/#273/#353,and has an exact finite consumer roster. It supplies no runtime prerequisites or implementations. Own HP adapter consumes #968→#429; no new direct #429 edge.
 
-No child is added under #283. One shared cohort edge is added to each of #279/#280,and one qualification edge to #337. Dependency and containment DAGs and all three100-link caps are checked separately. Every preexisting required path is retained; all owned paths remain mandatory after #329 closes. Four parent supplements are local marked artifacts for ROOT publication only. ROOT’s accepted POST-RANGER merge e7cd1ba8318ba296edd4fc5b6b84715ca11016f2 and full four-body release were freshly matched and frozen. FINAL seal awaits ROOT’s exact appends.
+No child is added under #283. One shared cohort edge is added to each of #279/#280,and one qualification edge to #337. Dependency and containment DAGs and all three100-link caps are checked separately. Every preexisting required path is retained; all owned paths remain mandatory after #329 closes. Four parent supplements are local marked artifacts for ROOT publication only. Accepted POST-RANGER prefixes were freshly matched and frozen; ROOT published all four exact sections and the fresh FINAL sealed proof passed.
 
 ## All twenty class rows
 
@@ -43,13 +43,14 @@ Later-class first entry has its own application #1169 and actual own eligibility
 
 ## Actual runtime evidence
 
-- `internal/rules/srd521/creation.go`: NewSupportedBuild fixed Fighter/Cleric admission only; no Rogue.
+- `internal/rules/srd521/creation.go`: SupportedBuildForConcept and NewSupportedMartialBuild admit only fixed Fighter/Cleric fixtures; no Rogue.
 - `internal/rules/srd521/character.go`: Project class/level guard excludes Rogue; class label is insufficient.
 - `internal/rules/srd521/catalogue.go`: ValidateReadiness requires implemented mechanic keys; metadata does not grant runtime.
 - `internal/game/advancement_preview.go`: Fixed Fighter1->2 preview; no Rogue HP/eligibility adapter.
 - `internal/game/spell_preview.go`: Fixed Cleric cast seams; no Thief scroll admission.
 - `internal/engine/action_confirmation.go`: Durable receipt/transaction seam; no inferred Rogue feature execution.
-- `internal/combat/resolver.go`: Shared combat arithmetic seam; no source-key Rogue entitlements.
+- `internal/combat/resolver.go`: CombatResolver is a strategy interface,not Rogue arithmetic or source-key entitlement.
+- `internal/combat/bandit.go`: BanditAttack validates only its explicit NPC profile and trusted spatial facts; it is not generic PLAYER Unarmed Strike779 or Rogue feature support.
 - `internal/handlers/character_rules.go`: Shared sheet read route; projection guard still controls readiness.
 - `frontend/src/components/start/CharacterGuidedForm.tsx`: Class selector labels do not qualify Rogue creation.
 - `frontend/src/components/character/ActionPreviewPanel.tsx`: Shared confirmation UI does not qualify Rogue action options.
@@ -652,3 +653,7 @@ Remaining 587 source identities lack a qualified effect binding through this Rog
 ## Proof boundaries
 
 The strict offline/live verifier checks complete source transcriptions,source-key ownership,full actual native contracts,Task/Project Size,all old required paths,all own paths after decision closure,exact finite gateway rosters,both DAGs and native caps. Independent semantic reconstruction and immutable seals reject coherently weakened own matrices/receipts. FINAL parent proof separately rejects missing release,original-only rollback,changed prefixes/sections and duplicate or altered duplicate markers,while accepting later unrelated parent appends. No current live body is automatically accepted as a released prefix.
+
+## Dated publication and final seal
+
+The four `-PENDING.md` files are immutable prepared artifacts. Their embedded PENDING wording records the earlier handoff stage; ROOT published their exact bytes on2026-11-16 at20:06:53–20:07:04UTC. The final sealed observation at 2026-11-16T20:08:42.485242+00:00 passed and supersedes that workflow status. The artifacts stay byte-for-byte unchanged for independent prefix/section/marker verification. This seals publication evidence,not runtime implementation.

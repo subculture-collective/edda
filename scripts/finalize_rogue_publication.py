@@ -13,7 +13,8 @@ from render_rogue_decision import render
 
 def main():
     j=json.loads(JOURNAL.read_text());assert j['operations'].get('project-metadata'),'initial journal must finish first'
-    previous=json.loads(PATH.read_text());m=json.loads(json.dumps(audit(write=False)))
+    previous=json.loads(PATH.read_text());assert previous.get('final_seal')!='PASS','Final publication is immutable; verify only'
+    m=json.loads(json.dumps(audit(write=False)))
     graph=graph_read();ours={x['issue'] for x in j['issues'].values()}
     base=[dict(x,blocked_by=[n for n in x['blocked_by'] if n not in ours]) for x in graph if x['number'] not in ours]
     projection=project(m,base);assert projection['new_tasks']==77

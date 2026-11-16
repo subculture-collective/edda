@@ -3,7 +3,7 @@
   "decision": 329,
   "base": "952fab917329e00cceebf46a8bacd59cb1c30e99",
   "source_sha256": "8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87",
-  "publication": "NATIVE77Task publication verified; accepted POST-RANGER prefix frozen; ROOT exact appends/FINAL sealed proof PENDING",
+  "publication": "FINAL sealed source/native publication proof PASS at 2026-11-16T20:08:42.485242+00:00; runtime remains unqualified; independent acceptance/CI are ROOT-owned",
   "catalogues": {
     "rogue": {
       "schema_version": 1,
@@ -4814,6 +4814,7 @@
           "internal/game/spell_preview.go",
           "internal/engine/action_confirmation.go",
           "internal/combat/resolver.go",
+          "internal/combat/bandit.go",
           "internal/handlers/character_rules.go"
         ],
         "web": [
@@ -4907,6 +4908,7 @@
           "internal/game/spell_preview.go",
           "internal/engine/action_confirmation.go",
           "internal/combat/resolver.go",
+          "internal/combat/bandit.go",
           "internal/handlers/character_rules.go"
         ],
         "web": [
@@ -5000,6 +5002,7 @@
           "internal/game/spell_preview.go",
           "internal/engine/action_confirmation.go",
           "internal/combat/resolver.go",
+          "internal/combat/bandit.go",
           "internal/handlers/character_rules.go"
         ],
         "web": [
@@ -5119,6 +5122,7 @@
           "internal/game/spell_preview.go",
           "internal/engine/action_confirmation.go",
           "internal/combat/resolver.go",
+          "internal/combat/bandit.go",
           "internal/handlers/character_rules.go"
         ],
         "web": [
@@ -5193,6 +5197,7 @@
           "internal/game/spell_preview.go",
           "internal/engine/action_confirmation.go",
           "internal/combat/resolver.go",
+          "internal/combat/bandit.go",
           "internal/handlers/character_rules.go"
         ],
         "web": [
@@ -5264,6 +5269,7 @@
           "internal/game/spell_preview.go",
           "internal/engine/action_confirmation.go",
           "internal/combat/resolver.go",
+          "internal/combat/bandit.go",
           "internal/handlers/character_rules.go"
         ],
         "web": [
@@ -5336,6 +5342,7 @@
           "internal/game/spell_preview.go",
           "internal/engine/action_confirmation.go",
           "internal/combat/resolver.go",
+          "internal/combat/bandit.go",
           "internal/handlers/character_rules.go"
         ],
         "web": [
@@ -5407,6 +5414,7 @@
           "internal/game/spell_preview.go",
           "internal/engine/action_confirmation.go",
           "internal/combat/resolver.go",
+          "internal/combat/bandit.go",
           "internal/handlers/character_rules.go"
         ],
         "web": [
@@ -5479,6 +5487,7 @@
           "internal/game/spell_preview.go",
           "internal/engine/action_confirmation.go",
           "internal/combat/resolver.go",
+          "internal/combat/bandit.go",
           "internal/handlers/character_rules.go"
         ],
         "web": [
@@ -5550,6 +5559,7 @@
           "internal/game/spell_preview.go",
           "internal/engine/action_confirmation.go",
           "internal/combat/resolver.go",
+          "internal/combat/bandit.go",
           "internal/handlers/character_rules.go"
         ],
         "web": [
@@ -5622,6 +5632,7 @@
           "internal/game/spell_preview.go",
           "internal/engine/action_confirmation.go",
           "internal/combat/resolver.go",
+          "internal/combat/bandit.go",
           "internal/handlers/character_rules.go"
         ],
         "web": [
@@ -5693,6 +5704,7 @@
           "internal/game/spell_preview.go",
           "internal/engine/action_confirmation.go",
           "internal/combat/resolver.go",
+          "internal/combat/bandit.go",
           "internal/handlers/character_rules.go"
         ],
         "web": [
@@ -5768,6 +5780,7 @@
           "internal/game/spell_preview.go",
           "internal/engine/action_confirmation.go",
           "internal/combat/resolver.go",
+          "internal/combat/bandit.go",
           "internal/handlers/character_rules.go"
         ],
         "web": [
@@ -5839,6 +5852,7 @@
           "internal/game/spell_preview.go",
           "internal/engine/action_confirmation.go",
           "internal/combat/resolver.go",
+          "internal/combat/bandit.go",
           "internal/handlers/character_rules.go"
         ],
         "web": [
@@ -5910,6 +5924,7 @@
           "internal/game/spell_preview.go",
           "internal/engine/action_confirmation.go",
           "internal/combat/resolver.go",
+          "internal/combat/bandit.go",
           "internal/handlers/character_rules.go"
         ],
         "web": [
@@ -5981,6 +5996,7 @@
           "internal/game/spell_preview.go",
           "internal/engine/action_confirmation.go",
           "internal/combat/resolver.go",
+          "internal/combat/bandit.go",
           "internal/handlers/character_rules.go"
         ],
         "web": [
@@ -6056,6 +6072,7 @@
           "internal/game/spell_preview.go",
           "internal/engine/action_confirmation.go",
           "internal/combat/resolver.go",
+          "internal/combat/bandit.go",
           "internal/handlers/character_rules.go"
         ],
         "web": [
@@ -6127,6 +6144,7 @@
           "internal/game/spell_preview.go",
           "internal/engine/action_confirmation.go",
           "internal/combat/resolver.go",
+          "internal/combat/bandit.go",
           "internal/handlers/character_rules.go"
         ],
         "web": [
@@ -6198,6 +6216,7 @@
           "internal/game/spell_preview.go",
           "internal/engine/action_confirmation.go",
           "internal/combat/resolver.go",
+          "internal/combat/bandit.go",
           "internal/handlers/character_rules.go"
         ],
         "web": [
@@ -6269,6 +6288,7 @@
           "internal/game/spell_preview.go",
           "internal/engine/action_confirmation.go",
           "internal/combat/resolver.go",
+          "internal/combat/bandit.go",
           "internal/handlers/character_rules.go"
         ],
         "web": [
@@ -6344,6 +6364,7 @@
           "internal/game/spell_preview.go",
           "internal/engine/action_confirmation.go",
           "internal/combat/resolver.go",
+          "internal/combat/bandit.go",
           "internal/handlers/character_rules.go"
         ],
         "web": [
@@ -6415,6 +6436,7 @@
           "internal/game/spell_preview.go",
           "internal/engine/action_confirmation.go",
           "internal/combat/resolver.go",
+          "internal/combat/bandit.go",
           "internal/handlers/character_rules.go"
         ],
         "web": [
@@ -6486,6 +6508,7 @@
           "internal/game/spell_preview.go",
           "internal/engine/action_confirmation.go",
           "internal/combat/resolver.go",
+          "internal/combat/bandit.go",
           "internal/handlers/character_rules.go"
         ],
         "web": [
@@ -6557,6 +6580,7 @@
           "internal/game/spell_preview.go",
           "internal/engine/action_confirmation.go",
           "internal/combat/resolver.go",
+          "internal/combat/bandit.go",
           "internal/handlers/character_rules.go"
         ],
         "web": [
@@ -6633,6 +6657,7 @@
           "internal/game/spell_preview.go",
           "internal/engine/action_confirmation.go",
           "internal/combat/resolver.go",
+          "internal/combat/bandit.go",
           "internal/handlers/character_rules.go"
         ],
         "web": [
@@ -6713,6 +6738,7 @@
           "internal/game/spell_preview.go",
           "internal/engine/action_confirmation.go",
           "internal/combat/resolver.go",
+          "internal/combat/bandit.go",
           "internal/handlers/character_rules.go"
         ],
         "web": [
@@ -6767,6 +6793,7 @@
           "internal/game/spell_preview.go",
           "internal/engine/action_confirmation.go",
           "internal/combat/resolver.go",
+          "internal/combat/bandit.go",
           "internal/handlers/character_rules.go"
         ],
         "web": [
@@ -6825,6 +6852,7 @@
           "internal/game/spell_preview.go",
           "internal/engine/action_confirmation.go",
           "internal/combat/resolver.go",
+          "internal/combat/bandit.go",
           "internal/handlers/character_rules.go"
         ],
         "web": [
@@ -6879,6 +6907,7 @@
           "internal/game/spell_preview.go",
           "internal/engine/action_confirmation.go",
           "internal/combat/resolver.go",
+          "internal/combat/bandit.go",
           "internal/handlers/character_rules.go"
         ],
         "web": [
@@ -6933,6 +6962,7 @@
           "internal/game/spell_preview.go",
           "internal/engine/action_confirmation.go",
           "internal/combat/resolver.go",
+          "internal/combat/bandit.go",
           "internal/handlers/character_rules.go"
         ],
         "web": [
@@ -6995,6 +7025,7 @@
           "internal/game/spell_preview.go",
           "internal/engine/action_confirmation.go",
           "internal/combat/resolver.go",
+          "internal/combat/bandit.go",
           "internal/handlers/character_rules.go"
         ],
         "web": [
@@ -7049,6 +7080,7 @@
           "internal/game/spell_preview.go",
           "internal/engine/action_confirmation.go",
           "internal/combat/resolver.go",
+          "internal/combat/bandit.go",
           "internal/handlers/character_rules.go"
         ],
         "web": [
@@ -7148,6 +7180,7 @@
           "internal/game/spell_preview.go",
           "internal/engine/action_confirmation.go",
           "internal/combat/resolver.go",
+          "internal/combat/bandit.go",
           "internal/handlers/character_rules.go"
         ],
         "web": [
@@ -7215,6 +7248,7 @@
           "internal/game/spell_preview.go",
           "internal/engine/action_confirmation.go",
           "internal/combat/resolver.go",
+          "internal/combat/bandit.go",
           "internal/handlers/character_rules.go"
         ],
         "web": [
@@ -7279,6 +7313,7 @@
           "internal/game/spell_preview.go",
           "internal/engine/action_confirmation.go",
           "internal/combat/resolver.go",
+          "internal/combat/bandit.go",
           "internal/handlers/character_rules.go"
         ],
         "web": [
@@ -7343,6 +7378,7 @@
           "internal/game/spell_preview.go",
           "internal/engine/action_confirmation.go",
           "internal/combat/resolver.go",
+          "internal/combat/bandit.go",
           "internal/handlers/character_rules.go"
         ],
         "web": [
@@ -7404,6 +7440,7 @@
           "internal/game/spell_preview.go",
           "internal/engine/action_confirmation.go",
           "internal/combat/resolver.go",
+          "internal/combat/bandit.go",
           "internal/handlers/character_rules.go"
         ],
         "web": [
@@ -7462,6 +7499,7 @@
           "internal/game/spell_preview.go",
           "internal/engine/action_confirmation.go",
           "internal/combat/resolver.go",
+          "internal/combat/bandit.go",
           "internal/handlers/character_rules.go"
         ],
         "web": [
@@ -7518,6 +7556,7 @@
           "internal/game/spell_preview.go",
           "internal/engine/action_confirmation.go",
           "internal/combat/resolver.go",
+          "internal/combat/bandit.go",
           "internal/handlers/character_rules.go"
         ],
         "web": [
@@ -7570,6 +7609,7 @@
           "internal/game/spell_preview.go",
           "internal/engine/action_confirmation.go",
           "internal/combat/resolver.go",
+          "internal/combat/bandit.go",
           "internal/handlers/character_rules.go"
         ],
         "web": [
@@ -7628,6 +7668,7 @@
           "internal/game/spell_preview.go",
           "internal/engine/action_confirmation.go",
           "internal/combat/resolver.go",
+          "internal/combat/bandit.go",
           "internal/handlers/character_rules.go"
         ],
         "web": [
@@ -7693,6 +7734,7 @@
           "internal/game/spell_preview.go",
           "internal/engine/action_confirmation.go",
           "internal/combat/resolver.go",
+          "internal/combat/bandit.go",
           "internal/handlers/character_rules.go"
         ],
         "web": [
@@ -7752,6 +7794,7 @@
           "internal/game/spell_preview.go",
           "internal/engine/action_confirmation.go",
           "internal/combat/resolver.go",
+          "internal/combat/bandit.go",
           "internal/handlers/character_rules.go"
         ],
         "web": [
@@ -7814,6 +7857,7 @@
           "internal/game/spell_preview.go",
           "internal/engine/action_confirmation.go",
           "internal/combat/resolver.go",
+          "internal/combat/bandit.go",
           "internal/handlers/character_rules.go"
         ],
         "web": [
@@ -7873,6 +7917,7 @@
           "internal/game/spell_preview.go",
           "internal/engine/action_confirmation.go",
           "internal/combat/resolver.go",
+          "internal/combat/bandit.go",
           "internal/handlers/character_rules.go"
         ],
         "web": [
@@ -7935,6 +7980,7 @@
           "internal/game/spell_preview.go",
           "internal/engine/action_confirmation.go",
           "internal/combat/resolver.go",
+          "internal/combat/bandit.go",
           "internal/handlers/character_rules.go"
         ],
         "web": [
@@ -7996,6 +8042,7 @@
           "internal/game/spell_preview.go",
           "internal/engine/action_confirmation.go",
           "internal/combat/resolver.go",
+          "internal/combat/bandit.go",
           "internal/handlers/character_rules.go"
         ],
         "web": [
@@ -8058,6 +8105,7 @@
           "internal/game/spell_preview.go",
           "internal/engine/action_confirmation.go",
           "internal/combat/resolver.go",
+          "internal/combat/bandit.go",
           "internal/handlers/character_rules.go"
         ],
         "web": [
@@ -8115,6 +8163,7 @@
           "internal/game/spell_preview.go",
           "internal/engine/action_confirmation.go",
           "internal/combat/resolver.go",
+          "internal/combat/bandit.go",
           "internal/handlers/character_rules.go"
         ],
         "web": [
@@ -8174,6 +8223,7 @@
           "internal/game/spell_preview.go",
           "internal/engine/action_confirmation.go",
           "internal/combat/resolver.go",
+          "internal/combat/bandit.go",
           "internal/handlers/character_rules.go"
         ],
         "web": [
@@ -8233,6 +8283,7 @@
           "internal/game/spell_preview.go",
           "internal/engine/action_confirmation.go",
           "internal/combat/resolver.go",
+          "internal/combat/bandit.go",
           "internal/handlers/character_rules.go"
         ],
         "web": [
@@ -8298,6 +8349,7 @@
           "internal/game/spell_preview.go",
           "internal/engine/action_confirmation.go",
           "internal/combat/resolver.go",
+          "internal/combat/bandit.go",
           "internal/handlers/character_rules.go"
         ],
         "web": [
@@ -8359,6 +8411,7 @@
           "internal/game/spell_preview.go",
           "internal/engine/action_confirmation.go",
           "internal/combat/resolver.go",
+          "internal/combat/bandit.go",
           "internal/handlers/character_rules.go"
         ],
         "web": [
@@ -8420,6 +8473,7 @@
           "internal/game/spell_preview.go",
           "internal/engine/action_confirmation.go",
           "internal/combat/resolver.go",
+          "internal/combat/bandit.go",
           "internal/handlers/character_rules.go"
         ],
         "web": [
@@ -8483,6 +8537,7 @@
           "internal/game/spell_preview.go",
           "internal/engine/action_confirmation.go",
           "internal/combat/resolver.go",
+          "internal/combat/bandit.go",
           "internal/handlers/character_rules.go"
         ],
         "web": [
@@ -8546,6 +8601,7 @@
           "internal/game/spell_preview.go",
           "internal/engine/action_confirmation.go",
           "internal/combat/resolver.go",
+          "internal/combat/bandit.go",
           "internal/handlers/character_rules.go"
         ],
         "web": [
@@ -8609,6 +8665,7 @@
           "internal/game/spell_preview.go",
           "internal/engine/action_confirmation.go",
           "internal/combat/resolver.go",
+          "internal/combat/bandit.go",
           "internal/handlers/character_rules.go"
         ],
         "web": [
@@ -8672,6 +8729,7 @@
           "internal/game/spell_preview.go",
           "internal/engine/action_confirmation.go",
           "internal/combat/resolver.go",
+          "internal/combat/bandit.go",
           "internal/handlers/character_rules.go"
         ],
         "web": [
@@ -8756,6 +8814,7 @@
           "internal/game/spell_preview.go",
           "internal/engine/action_confirmation.go",
           "internal/combat/resolver.go",
+          "internal/combat/bandit.go",
           "internal/handlers/character_rules.go"
         ],
         "web": [
@@ -8837,6 +8896,7 @@
           "internal/game/spell_preview.go",
           "internal/engine/action_confirmation.go",
           "internal/combat/resolver.go",
+          "internal/combat/bandit.go",
           "internal/handlers/character_rules.go"
         ],
         "web": [
@@ -8901,6 +8961,7 @@
           "internal/game/spell_preview.go",
           "internal/engine/action_confirmation.go",
           "internal/combat/resolver.go",
+          "internal/combat/bandit.go",
           "internal/handlers/character_rules.go"
         ],
         "web": [
@@ -8981,6 +9042,7 @@
           "internal/game/spell_preview.go",
           "internal/engine/action_confirmation.go",
           "internal/combat/resolver.go",
+          "internal/combat/bandit.go",
           "internal/handlers/character_rules.go"
         ],
         "web": [
@@ -9047,6 +9109,7 @@
           "internal/game/spell_preview.go",
           "internal/engine/action_confirmation.go",
           "internal/combat/resolver.go",
+          "internal/combat/bandit.go",
           "internal/handlers/character_rules.go"
         ],
         "web": [
@@ -9108,6 +9171,7 @@
           "internal/game/spell_preview.go",
           "internal/engine/action_confirmation.go",
           "internal/combat/resolver.go",
+          "internal/combat/bandit.go",
           "internal/handlers/character_rules.go"
         ],
         "web": [
@@ -9179,6 +9243,7 @@
           "internal/game/spell_preview.go",
           "internal/engine/action_confirmation.go",
           "internal/combat/resolver.go",
+          "internal/combat/bandit.go",
           "internal/handlers/character_rules.go"
         ],
         "web": [
@@ -9245,6 +9310,7 @@
           "internal/game/spell_preview.go",
           "internal/engine/action_confirmation.go",
           "internal/combat/resolver.go",
+          "internal/combat/bandit.go",
           "internal/handlers/character_rules.go"
         ],
         "web": [
@@ -9317,6 +9383,7 @@
           "internal/game/spell_preview.go",
           "internal/engine/action_confirmation.go",
           "internal/combat/resolver.go",
+          "internal/combat/bandit.go",
           "internal/handlers/character_rules.go"
         ],
         "web": [
@@ -9383,6 +9450,7 @@
           "internal/game/spell_preview.go",
           "internal/engine/action_confirmation.go",
           "internal/combat/resolver.go",
+          "internal/combat/bandit.go",
           "internal/handlers/character_rules.go"
         ],
         "web": [
@@ -9444,6 +9512,7 @@
           "internal/game/spell_preview.go",
           "internal/engine/action_confirmation.go",
           "internal/combat/resolver.go",
+          "internal/combat/bandit.go",
           "internal/handlers/character_rules.go"
         ],
         "web": [
@@ -9513,6 +9582,7 @@
           "internal/game/spell_preview.go",
           "internal/engine/action_confirmation.go",
           "internal/combat/resolver.go",
+          "internal/combat/bandit.go",
           "internal/handlers/character_rules.go"
         ],
         "web": [
@@ -9579,6 +9649,7 @@
           "internal/game/spell_preview.go",
           "internal/engine/action_confirmation.go",
           "internal/combat/resolver.go",
+          "internal/combat/bandit.go",
           "internal/handlers/character_rules.go"
         ],
         "web": [
@@ -9648,6 +9719,7 @@
           "internal/game/spell_preview.go",
           "internal/engine/action_confirmation.go",
           "internal/combat/resolver.go",
+          "internal/combat/bandit.go",
           "internal/handlers/character_rules.go"
         ],
         "web": [
@@ -9728,6 +9800,7 @@
           "internal/game/spell_preview.go",
           "internal/engine/action_confirmation.go",
           "internal/combat/resolver.go",
+          "internal/combat/bandit.go",
           "internal/handlers/character_rules.go"
         ],
         "web": [
@@ -9794,6 +9867,7 @@
           "internal/game/spell_preview.go",
           "internal/engine/action_confirmation.go",
           "internal/combat/resolver.go",
+          "internal/combat/bandit.go",
           "internal/handlers/character_rules.go"
         ],
         "web": [
@@ -9855,6 +9929,7 @@
           "internal/game/spell_preview.go",
           "internal/engine/action_confirmation.go",
           "internal/combat/resolver.go",
+          "internal/combat/bandit.go",
           "internal/handlers/character_rules.go"
         ],
         "web": [
@@ -9926,6 +10001,7 @@
           "internal/game/spell_preview.go",
           "internal/engine/action_confirmation.go",
           "internal/combat/resolver.go",
+          "internal/combat/bandit.go",
           "internal/handlers/character_rules.go"
         ],
         "web": [
@@ -9992,6 +10068,7 @@
           "internal/game/spell_preview.go",
           "internal/engine/action_confirmation.go",
           "internal/combat/resolver.go",
+          "internal/combat/bandit.go",
           "internal/handlers/character_rules.go"
         ],
         "web": [
@@ -10052,6 +10129,7 @@
           "internal/game/spell_preview.go",
           "internal/engine/action_confirmation.go",
           "internal/combat/resolver.go",
+          "internal/combat/bandit.go",
           "internal/handlers/character_rules.go"
         ],
         "web": [
@@ -10104,6 +10182,7 @@
           "internal/game/spell_preview.go",
           "internal/engine/action_confirmation.go",
           "internal/combat/resolver.go",
+          "internal/combat/bandit.go",
           "internal/handlers/character_rules.go"
         ],
         "web": [
@@ -10159,6 +10238,7 @@
           "internal/game/spell_preview.go",
           "internal/engine/action_confirmation.go",
           "internal/combat/resolver.go",
+          "internal/combat/bandit.go",
           "internal/handlers/character_rules.go"
         ],
         "web": [
@@ -10220,6 +10300,7 @@
           "internal/game/spell_preview.go",
           "internal/engine/action_confirmation.go",
           "internal/combat/resolver.go",
+          "internal/combat/bandit.go",
           "internal/handlers/character_rules.go"
         ],
         "web": [
@@ -10279,6 +10360,7 @@
           "internal/game/spell_preview.go",
           "internal/engine/action_confirmation.go",
           "internal/combat/resolver.go",
+          "internal/combat/bandit.go",
           "internal/handlers/character_rules.go"
         ],
         "web": [
@@ -10337,6 +10419,7 @@
           "internal/game/spell_preview.go",
           "internal/engine/action_confirmation.go",
           "internal/combat/resolver.go",
+          "internal/combat/bandit.go",
           "internal/handlers/character_rules.go"
         ],
         "web": [
@@ -10400,6 +10483,7 @@
           "internal/game/spell_preview.go",
           "internal/engine/action_confirmation.go",
           "internal/combat/resolver.go",
+          "internal/combat/bandit.go",
           "internal/handlers/character_rules.go"
         ],
         "web": [
@@ -10468,6 +10552,7 @@
           "internal/game/spell_preview.go",
           "internal/engine/action_confirmation.go",
           "internal/combat/resolver.go",
+          "internal/combat/bandit.go",
           "internal/handlers/character_rules.go"
         ],
         "web": [
@@ -10536,6 +10621,7 @@
           "internal/game/spell_preview.go",
           "internal/engine/action_confirmation.go",
           "internal/combat/resolver.go",
+          "internal/combat/bandit.go",
           "internal/handlers/character_rules.go"
         ],
         "web": [
@@ -10595,6 +10681,7 @@
           "internal/game/spell_preview.go",
           "internal/engine/action_confirmation.go",
           "internal/combat/resolver.go",
+          "internal/combat/bandit.go",
           "internal/handlers/character_rules.go"
         ],
         "web": [
@@ -10658,6 +10745,7 @@
           "internal/game/spell_preview.go",
           "internal/engine/action_confirmation.go",
           "internal/combat/resolver.go",
+          "internal/combat/bandit.go",
           "internal/handlers/character_rules.go"
         ],
         "web": [
@@ -10717,6 +10805,7 @@
           "internal/game/spell_preview.go",
           "internal/engine/action_confirmation.go",
           "internal/combat/resolver.go",
+          "internal/combat/bandit.go",
           "internal/handlers/character_rules.go"
         ],
         "web": [
@@ -10776,6 +10865,7 @@
           "internal/game/spell_preview.go",
           "internal/engine/action_confirmation.go",
           "internal/combat/resolver.go",
+          "internal/combat/bandit.go",
           "internal/handlers/character_rules.go"
         ],
         "web": [
@@ -10835,6 +10925,7 @@
           "internal/game/spell_preview.go",
           "internal/engine/action_confirmation.go",
           "internal/combat/resolver.go",
+          "internal/combat/bandit.go",
           "internal/handlers/character_rules.go"
         ],
         "web": [
@@ -10898,6 +10989,7 @@
           "internal/game/spell_preview.go",
           "internal/engine/action_confirmation.go",
           "internal/combat/resolver.go",
+          "internal/combat/bandit.go",
           "internal/handlers/character_rules.go"
         ],
         "web": [
@@ -10954,6 +11046,7 @@
           "internal/game/spell_preview.go",
           "internal/engine/action_confirmation.go",
           "internal/combat/resolver.go",
+          "internal/combat/bandit.go",
           "internal/handlers/character_rules.go"
         ],
         "web": [
@@ -11015,6 +11108,7 @@
           "internal/game/spell_preview.go",
           "internal/engine/action_confirmation.go",
           "internal/combat/resolver.go",
+          "internal/combat/bandit.go",
           "internal/handlers/character_rules.go"
         ],
         "web": [
@@ -11077,6 +11171,7 @@
           "internal/game/spell_preview.go",
           "internal/engine/action_confirmation.go",
           "internal/combat/resolver.go",
+          "internal/combat/bandit.go",
           "internal/handlers/character_rules.go"
         ],
         "web": [
@@ -11140,6 +11235,7 @@
           "internal/game/spell_preview.go",
           "internal/engine/action_confirmation.go",
           "internal/combat/resolver.go",
+          "internal/combat/bandit.go",
           "internal/handlers/character_rules.go"
         ],
         "web": [
@@ -11199,6 +11295,7 @@
           "internal/game/spell_preview.go",
           "internal/engine/action_confirmation.go",
           "internal/combat/resolver.go",
+          "internal/combat/bandit.go",
           "internal/handlers/character_rules.go"
         ],
         "web": [
@@ -11262,6 +11359,7 @@
           "internal/game/spell_preview.go",
           "internal/engine/action_confirmation.go",
           "internal/combat/resolver.go",
+          "internal/combat/bandit.go",
           "internal/handlers/character_rules.go"
         ],
         "web": [
@@ -11321,6 +11419,7 @@
           "internal/game/spell_preview.go",
           "internal/engine/action_confirmation.go",
           "internal/combat/resolver.go",
+          "internal/combat/bandit.go",
           "internal/handlers/character_rules.go"
         ],
         "web": [
@@ -11416,6 +11515,7 @@
           "internal/game/spell_preview.go",
           "internal/engine/action_confirmation.go",
           "internal/combat/resolver.go",
+          "internal/combat/bandit.go",
           "internal/handlers/character_rules.go"
         ],
         "web": [
@@ -11487,6 +11587,7 @@
           "internal/game/spell_preview.go",
           "internal/engine/action_confirmation.go",
           "internal/combat/resolver.go",
+          "internal/combat/bandit.go",
           "internal/handlers/character_rules.go"
         ],
         "web": [
@@ -11552,6 +11653,7 @@
           "internal/game/spell_preview.go",
           "internal/engine/action_confirmation.go",
           "internal/combat/resolver.go",
+          "internal/combat/bandit.go",
           "internal/handlers/character_rules.go"
         ],
         "web": [
@@ -11614,6 +11716,7 @@
           "internal/game/spell_preview.go",
           "internal/engine/action_confirmation.go",
           "internal/combat/resolver.go",
+          "internal/combat/bandit.go",
           "internal/handlers/character_rules.go"
         ],
         "web": [
@@ -11677,6 +11780,7 @@
           "internal/game/spell_preview.go",
           "internal/engine/action_confirmation.go",
           "internal/combat/resolver.go",
+          "internal/combat/bandit.go",
           "internal/handlers/character_rules.go"
         ],
         "web": [
@@ -11736,6 +11840,7 @@
           "internal/game/spell_preview.go",
           "internal/engine/action_confirmation.go",
           "internal/combat/resolver.go",
+          "internal/combat/bandit.go",
           "internal/handlers/character_rules.go"
         ],
         "web": [
@@ -11815,6 +11920,7 @@
           "internal/game/spell_preview.go",
           "internal/engine/action_confirmation.go",
           "internal/combat/resolver.go",
+          "internal/combat/bandit.go",
           "internal/handlers/character_rules.go"
         ],
         "web": [
@@ -11876,6 +11982,7 @@
           "internal/game/spell_preview.go",
           "internal/engine/action_confirmation.go",
           "internal/combat/resolver.go",
+          "internal/combat/bandit.go",
           "internal/handlers/character_rules.go"
         ],
         "web": [
@@ -18329,7 +18436,7 @@
   },
   "evidence": {
     "internal/rules/srd521/creation.go": {
-      "finding": "NewSupportedBuild fixed Fighter/Cleric admission only; no Rogue.",
+      "finding": "SupportedBuildForConcept and NewSupportedMartialBuild admit only fixed Fighter/Cleric fixtures; no Rogue.",
       "sha256": "75df9feff30427f064a426aaf1a06026e35e62bc64cf383dac4c9247f5f3a5c6"
     },
     "internal/rules/srd521/character.go": {
@@ -18353,8 +18460,12 @@
       "sha256": "000dd1eba710dc7d00a2a6c493b05f90faf489896038eb88e809e5e18e6e475f"
     },
     "internal/combat/resolver.go": {
-      "finding": "Shared combat arithmetic seam; no source-key Rogue entitlements.",
+      "finding": "CombatResolver is a strategy interface,not Rogue arithmetic or source-key entitlement.",
       "sha256": "518ec7476b192b2af1fd48ef567ecad5243e8c4e4c6366c0706440ca60a62934"
+    },
+    "internal/combat/bandit.go": {
+      "finding": "BanditAttack validates only its explicit NPC profile and trusted spatial facts; it is not generic PLAYER Unarmed Strike779 or Rogue feature support.",
+      "sha256": "59e57eb5eaee31a4c5af323419bdfff1fe302cc90b58f56915bf1202f033f641"
     },
     "internal/handlers/character_rules.go": {
       "finding": "Shared sheet read route; projection guard still controls readiness.",
@@ -18376,10 +18487,34 @@
   "common_acceptance": "Preview inert: no writes or dice. Explicit confirmation revalidates source,actor,campaign,revision,target,range,timing,cost and qualification. Injectable dice; atomic choice/effect/resource/history persistence. Retry/replay/reload/reconnect returns same receipt,conflicting payload rejects,concurrent confirmations commit ONCE. Inject failures for complete isolated PostgreSQL rollback. Web AND TUI expose supported choices/unavailable reasons; accessible cancel/confirm/reconnect; changed web requires desktop/phone fixtures,build and focused lint. Automatic effects belong to triggering confirmed event,not optional new activation. Unknown/private facts unavailable without leaking hidden reasons. Short tests are not integration-tag PostgreSQL/browser/device proof. No production/inference/runtime promotion. Class-total levels integer1-20,not booleans/fractions; each admitted class positive,post-transition total<=20; later-class variants require own multiclass eligibility,first-character variants do not acquire a multiclass prerequisite at runtime. Spell Recall needs actual Spellcasting; ordinary feats have no blanket casting/encounter requirement. Slot-cast one/turn applies only to slot expenditure TO CAST; authoritative confirmed invalid target spends slot/no effect with source-private filtering; unauthorized/unverifiable facts unavailable.",
   "accepted_post_ranger": "e7cd1ba8318ba296edd4fc5b6b84715ca11016f2",
   "supplements": {
-    "47": "PENDING ROOT serial publication; no accepted prefix captured",
-    "54": "PENDING ROOT serial publication; no accepted prefix captured",
-    "283": "PENDING ROOT serial publication; no accepted prefix captured",
-    "337": "PENDING ROOT serial publication; no accepted prefix captured"
+    "47": {
+      "status": "ROOT published exact prepared artifact; FINAL sealed proof PASS",
+      "updated_at": "2026-11-16T20:06:53Z",
+      "body_sha256": "b471db938c1d2357fee6bf70f03e19529f6d991422f8a978820874e3c8e2c842",
+      "characters": 64980,
+      "section_sha256": "bf593511dbf09fa72139420f3dfcb74de84a8fc5884c2a0acd4f7b3eb11c3175"
+    },
+    "54": {
+      "status": "ROOT published exact prepared artifact; FINAL sealed proof PASS",
+      "updated_at": "2026-11-16T20:06:58Z",
+      "body_sha256": "feda9427a6862e5d9b288d7e7017beb4fd3ed4965a02f9961b8a78d440da2169",
+      "characters": 42993,
+      "section_sha256": "ccc07cea6e80e01d472d553d2f40c8d36713bf3080e65d8756bee300e033d16d"
+    },
+    "283": {
+      "status": "ROOT published exact prepared artifact; FINAL sealed proof PASS",
+      "updated_at": "2026-11-16T20:07:01Z",
+      "body_sha256": "b4b5f948f6484924fb43d19586717fc982350e7ae1e63120ad6854c594c8464c",
+      "characters": 31530,
+      "section_sha256": "ccc07cea6e80e01d472d553d2f40c8d36713bf3080e65d8756bee300e033d16d"
+    },
+    "337": {
+      "status": "ROOT published exact prepared artifact; FINAL sealed proof PASS",
+      "updated_at": "2026-11-16T20:07:04Z",
+      "body_sha256": "3a7bf09aa9eb6d48a81139902351f8bf2fcc6c5e96900425d6b52bbb3a197b07",
+      "characters": 30548,
+      "section_sha256": "ccc07cea6e80e01d472d553d2f40c8d36713bf3080e65d8756bee300e033d16d"
+    }
   },
   "dispatch_inventory": [
     {
@@ -36769,5 +36904,43 @@
         "337": "published"
       }
     }
+  },
+  "root_parent_publication": {
+    "47": {
+      "updated_at": "2026-11-16T20:06:53Z",
+      "body_sha256": "b471db938c1d2357fee6bf70f03e19529f6d991422f8a978820874e3c8e2c842",
+      "characters": 64980,
+      "section_sha256": "bf593511dbf09fa72139420f3dfcb74de84a8fc5884c2a0acd4f7b3eb11c3175"
+    },
+    "54": {
+      "updated_at": "2026-11-16T20:06:58Z",
+      "body_sha256": "feda9427a6862e5d9b288d7e7017beb4fd3ed4965a02f9961b8a78d440da2169",
+      "characters": 42993,
+      "section_sha256": "ccc07cea6e80e01d472d553d2f40c8d36713bf3080e65d8756bee300e033d16d"
+    },
+    "283": {
+      "updated_at": "2026-11-16T20:07:01Z",
+      "body_sha256": "b4b5f948f6484924fb43d19586717fc982350e7ae1e63120ad6854c594c8464c",
+      "characters": 31530,
+      "section_sha256": "ccc07cea6e80e01d472d553d2f40c8d36713bf3080e65d8756bee300e033d16d"
+    },
+    "337": {
+      "updated_at": "2026-11-16T20:07:04Z",
+      "body_sha256": "3a7bf09aa9eb6d48a81139902351f8bf2fcc6c5e96900425d6b52bbb3a197b07",
+      "characters": 30548,
+      "section_sha256": "ccc07cea6e80e01d472d553d2f40c8d36713bf3080e65d8756bee300e033d16d"
+    }
+  },
+  "final_seal": "PASS",
+  "final_proof": {
+    "status": "PASS",
+    "observed_at": "2026-11-16T20:08:42.485242+00:00",
+    "nodes": 1017,
+    "owned_tasks": 77,
+    "implementation_leaves": 72,
+    "qualification_gates": 5,
+    "owned_prerequisite_edges": 391,
+    "root_edges": 3,
+    "limits": "Complete native/source/prefix/Task/Project Size snapshot only; no runtime/PostgreSQL/browser/device qualification. Both329open/closed and all old required paths checked."
   }
 }

@@ -50,7 +50,9 @@ def rows(m,g,ids):
 
 def main():
     p=argparse.ArgumentParser(description=__doc__);p.add_argument('--apply',action='store_true');a=p.parse_args()
-    m=json.loads(PATH.read_text());graph=graph_read()
+    m=json.loads(PATH.read_text())
+    assert not(a.apply and m.get('final_seal')=='PASS'),'Final publication is immutable; verify only'
+    graph=graph_read()
     if JOURNAL.exists():
         j=json.loads(JOURNAL.read_text());ours={x['issue'] for x in j['issues'].values()}
         base=[dict(x,blocked_by=[n for n in x['blocked_by'] if n not in ours]) for x in graph if x['number'] not in ours]
