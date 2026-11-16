@@ -116,7 +116,7 @@ func (r SpellRecords) Validate() error {
 	if r.SchemaVersion != 1 {
 		return fmt.Errorf("unsupported spell schema %d", r.SchemaVersion)
 	}
-	if err := r.Source.validate(); err != nil {
+	if err := validateSource(r.Source); err != nil {
 		return err
 	}
 	if len(r.Records) == 0 {

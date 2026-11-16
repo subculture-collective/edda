@@ -184,7 +184,7 @@ func (r Register) Validate(repo fs.FS) error {
 	if r.SchemaVersion != 1 {
 		return fmt.Errorf("unsupported register schema %d", r.SchemaVersion)
 	}
-	if err := r.Source.validate(); err != nil {
+	if err := validateSource(r.Source); err != nil {
 		return err
 	}
 	if len(r.Entries) == 0 {
@@ -239,8 +239,22 @@ func (r Register) Validate(repo fs.FS) error {
 	return nil
 }
 
-// validate shares the pinned provenance checks across offline contracts.
-func (s Source) validate() error {
+// VerifyArtifact checks the original PDF's size and SHA-256 without retaining it.
+// It never downloads content. Callers provide an opened artifact reader.
+func VerifyArtifact(pdf io.Reader) error {
+	h := sha256.New()
+	n, err := io.Copy(h, pdf)
+	if err != nil {
+		return fmt.Errorf("read SRD artifact: %w", err)
+	}
+	if n != artifactBytes || fmt.Sprintf("%x", h.Sum(nil)) != artifactSHA256 {
+		return fmt.Errorf("artifact does not match pinned SRD %s size and SHA-256", Version)
+	}
+	return nil
+}
+
+// validateSource keeps catalogue and coverage provenance on the same pin.
+func validateSource(s Source) error {
 	if s.Version != Version || s.Language != "en" ||
 		s.LandingURL != "https://www.dndbeyond.com/srd" ||
 		s.ArtifactURL != "https://media.dndbeyond.com/compendium-images/srd/5.2/SRD_CC_v5.2.1.pdf" ||
@@ -253,20 +267,6 @@ func (s Source) validate() error {
 	}
 	if _, err := time.Parse(time.DateOnly, s.RetrievedAt); err != nil {
 		return fmt.Errorf("invalid source retrieval date: %w", err)
-	}
-	return nil
-}
-
-// VerifyArtifact checks the original PDF's size and SHA-256 without retaining it.
-// It never downloads content. Callers provide an opened artifact reader.
-func VerifyArtifact(pdf io.Reader) error {
-	h := sha256.New()
-	n, err := io.Copy(h, pdf)
-	if err != nil {
-		return fmt.Errorf("read SRD artifact: %w", err)
-	}
-	if n != artifactBytes || fmt.Sprintf("%x", h.Sum(nil)) != artifactSHA256 {
-		return fmt.Errorf("artifact does not match pinned SRD %s size and SHA-256", Version)
 	}
 	return nil
 }
