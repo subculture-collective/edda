@@ -15,6 +15,7 @@ MANIFEST=ROOT/'docs/investigations/issue-328-ranger-scope.json'
 RECEIPT=ROOT/'docs/investigations/issue-328-link-verification.json'
 PIN='8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87'
 PROJECT='PVT_kwDODjtmGM4BrFJ2'
+ADVANCEMENT='internal/rules/srd521/testdata/character-advancement.json'
 def sha(v):return hashlib.sha256(v.encode() if isinstance(v,str) else v).hexdigest()
 def rows(m):return {x['key']:x for x in m['tasks']+m['gates']}
 def path_to(rr,start,target):
@@ -76,6 +77,13 @@ def validate_plan(m):
   assert x['owned_contexts']==expected,'exact owned contexts'
   if not x['key'].startswith('level-'):
    assert x['source_records']==[c['record'] for c in m['record_matrix'] if x['key'] in c['key_owners'].values()],'real contextual source operands'
+ for witness,expected in zip(m['operand_witnesses'],[(1,5,6500),(2,6,14000)]):
+  ranger,total,xp=expected
+  assert witness['after']=={'fighter':4,'ranger':ranger},'authoritative class vector'
+  assert witness['ranger_row']==ranger and witness['total_row']==sum(witness['after'].values())==total,'class and total operands'
+  canonical=next(r for r in m['catalogues'][ADVANCEMENT]['records'] if r['level']==total)['advancement']
+  assert witness['xp']==canonical['experience_points']==xp and witness['pb']==canonical['proficiency_bonus']==3,'complete XP/PB table'
+  assert witness['hp_mode']=='later-class-d10-or-fixed6','own later HP'
  for p,h in m['evidence_hashes'].items():assert sha((ROOT/p).read_bytes())==h,'runtime evidence changed'
  return rr
 
@@ -92,7 +100,7 @@ def read_live(m):
   cursor=next_cursor(b['pageInfo'],cursors)
  else:raise AssertionError('graph page cap')
  project={}
- nums=[x['issue'] for x in m['tasks']+m['gates']]+[968]
+ nums=[x['issue'] for x in m['tasks']+m['gates'] if x['issue']]+[968]
  for start in range(0,len(nums),25):
   batch=nums[start:start+25]
   fields=' '.join('i%d:issue(number:%d){issueType{name} projectItems(first:100){pageInfo{hasNextPage}nodes{project{id} fieldValueByName(name:"Size"){... on ProjectV2ItemFieldSingleSelectValue{name}}}}}'%(n,n) for n in batch)
@@ -143,6 +151,25 @@ def source_check(m,pdf):
   text=re.sub(r'\f?System Reference Document 5.2.1\n\d+\n','',text).strip()
   assert text==x['source_excerpt'],'spell operands'
 
+def project_capacity(m,r):
+ """Temporary preflight only: proposed edges are never recorded as live evidence."""
+ rr=validate_plan(m);g={x['number']:deepcopy(x) for x in r['graph']}
+ for key,x in rr.items():
+  node=x['issue'] or 'planned:'+key
+  assert node not in g or x['issue'], 'proposal collision'
+  g[node]=dict(parent=x.get('parent',rr[x['parent_key']]['issue'] or 'planned:'+x['parent_key'] if x.get('parent_key') else None),blocked_by=x['prerequisites']+[rr[d]['issue'] or 'planned:'+d for d in x['depends']])
+  for root in x.get('roots',[]):
+   if node not in g[root]['blocked_by']:g[root]['blocked_by'].append(node)
+ outgoing={};children={}
+ for n,x in g.items():
+  assert len(x['blocked_by'])==len(set(x['blocked_by']))<=100,'projected incoming cap'
+  for d in x['blocked_by']:outgoing[d]=outgoing.get(d,0)+1
+  children[x['parent']]=children.get(x['parent'],0)+1
+ assert all(v<=100 for v in outgoing.values()),'projected outgoing cap'
+ assert all(v<=100 for k,v in children.items() if k is not None),'projected child cap'
+ acyclic(g);acyclic({n:dict(blocked_by=[x['parent']] if x['parent'] else []) for n,x in g.items()})
+ return dict(incoming={str(n):len(g[n]['blocked_by']) for n in [279,280,337]},outgoing={str(n):outgoing.get(n,0) for n in [61,64,65,66,67,273,353,429]},children={str(n):children.get(n,0) for n in [277,283,328,336]})
+
 def supplement_plan(current,supplement,prefix,pinned_hash):
  assert sha(prefix)==pinned_hash and supplement['previous_sha256']==pinned_hash,'accepted immutable prefix'
  assert current.startswith(prefix),'prefix rollback or alteration'
@@ -153,9 +180,11 @@ def supplement_plan(current,supplement,prefix,pinned_hash):
  return desired
 
 def main():
- p=argparse.ArgumentParser(description=__doc__);p.add_argument('--plan',action='store_true');p.add_argument('--live',action='store_true');p.add_argument('--pdf',type=Path);a=p.parse_args()
+ p=argparse.ArgumentParser(description=__doc__);p.add_argument('--plan',action='store_true');p.add_argument('--capacity-live',action='store_true');p.add_argument('--live',action='store_true');p.add_argument('--pdf',type=Path);a=p.parse_args()
  m=json.loads(MANIFEST.read_text());validate_plan(m)
  if a.pdf:source_check(m,a.pdf)
+ if a.capacity_live:
+  print('PROJECTION ONLY, not publication:',project_capacity(m,read_live(m)));return
  if a.plan:print('PASS planned source/ownership DAG only; NO published graph or final prefix proof');return
  assert m['accepted_parent_prefix'] is not None,'post-Paladin immutable prefix release pending'
  r=read_live(m) if a.live else json.loads(RECEIPT.read_text());counts=validate_live(m,r)

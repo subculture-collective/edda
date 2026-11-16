@@ -220,3 +220,8 @@ Parent owns serial47/54/283/337 supplements, fresh independent review, final CI
 and merge. Final accepted post-Paladin prefix release is required before any
 immutable final seal. Keep328 OPEN until its decision PR merges. Source/old
 owner bodies remain untouched; no watch, polling, merge, deploy or closure.
+
+Capacity projection from initial live graph plus proposed exact edges:279incoming98,
+280incoming93,337incoming55,429outgoing100,283children95,328children5.
+Existing primitive outgoing projections61=75,64=41,65=66,66=55,67=92,273=32,
+353=68. These are projections, not a published native graph receipt.

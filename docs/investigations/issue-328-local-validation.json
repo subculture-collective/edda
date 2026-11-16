@@ -23,7 +23,7 @@
     "epic_boon_feats"
   ],
   "source_comparators_exit": 0,
-  "controls": "15 tests pass; includes multiple feature/row corruption subcases",
+  "controls": "16 tests pass; includes every row missing-path control, coherent rehashed feature ownership changes, five unequal class/total/HP operand changes, source/PDF/pagination/API controls",
   "publication": "only gateway968 published; remaining scopes and dependency gateway await root approval",
   "final_parent_prefix": "not released; no immutable final native snapshot",
   "limitations": [
@@ -31,5 +31,24 @@
     "No database or browser/device run",
     "No CI claim at checkpoint",
     "golangci-lint shim lacks binary; no install"
-  ]
+  ],
+  "projected_counts": {
+    "not_live_publication": true,
+    "279_incoming": 98,
+    "280_incoming": 93,
+    "337_incoming": 55,
+    "429_outgoing": 100,
+    "283_children": 95,
+    "328_children": 5,
+    "277_children": 7,
+    "primitive_outgoing": {
+      "61": 75,
+      "64": 41,
+      "65": 66,
+      "66": 55,
+      "67": 92,
+      "273": 32,
+      "353": 68
+    }
+  }
 }

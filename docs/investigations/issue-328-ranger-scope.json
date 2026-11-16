@@ -20960,5 +20960,36 @@
       "previous_sha256": null,
       "status": "PENDING final root prefix release"
     }
+  ],
+  "operand_witnesses": [
+    {
+      "before": {
+        "fighter": 4
+      },
+      "after": {
+        "fighter": 4,
+        "ranger": 1
+      },
+      "ranger_row": 1,
+      "total_row": 5,
+      "xp": 6500,
+      "pb": 3,
+      "hp_mode": "later-class-d10-or-fixed6"
+    },
+    {
+      "before": {
+        "fighter": 4,
+        "ranger": 1
+      },
+      "after": {
+        "fighter": 4,
+        "ranger": 2
+      },
+      "ranger_row": 2,
+      "total_row": 6,
+      "xp": 14000,
+      "pb": 3,
+      "hp_mode": "later-class-d10-or-fixed6"
+    }
   ]
 }

@@ -36,6 +36,9 @@ class Controls(unittest.TestCase):
    self.reject(lambda m:next(x for x in m['tasks'] if x['key']=='level-2')['depends'].remove(dep))
  def test_total_operand(self):
   self.reject(lambda m:next(x for x in m['tasks'] if x['key']=='level-2').update(fixture='Class2 XP300 PB2 from sourceclassrow'))
+ def test_unequal_class_total_controls(self):
+  for field,value in [('ranger_row',6),('total_row',2),('xp',300),('pb',2),('hp_mode','first10plusCON')]:
+   self.reject(lambda m:m['operand_witnesses'][1].update({field:value}))
  def test_source_numeric(self):
   def mutate(m):
    p=next(p for p in m['catalogues'] if p.endswith('character-ranger.json'))
