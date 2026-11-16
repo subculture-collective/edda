@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"slices"
+	"strings"
 )
 
 // SpellSourceDetails retains the batch's additional source shapes as offline
@@ -228,11 +229,32 @@ func (s *SpellSourceDetails) UnmarshalJSON(data []byte) error {
 		}
 		for field := range required {
 			value := bytes.TrimSpace(actual[field])
-			if bytes.Equal(value, []byte(`""`)) || bytes.Equal(value, []byte(`[]`)) || (len(value) > 0 && value[0] == '-') {
-				return fmt.Errorf("%s has invalid %s", key, field)
-			}
-			if len(actual[field]) == 0 || bytes.Equal(actual[field], []byte("null")) {
+			if len(value) == 0 || bytes.Equal(value, []byte("null")) {
 				return fmt.Errorf("%s requires %s", key, field)
+			}
+			var content any
+			if err := json.Unmarshal(value, &content); err != nil {
+				return err
+			}
+			switch content := content.(type) {
+			case string:
+				if strings.TrimSpace(content) == "" {
+					return fmt.Errorf("%s has invalid %s", key, field)
+				}
+			case []any:
+				if len(content) == 0 {
+					return fmt.Errorf("%s has empty %s", key, field)
+				}
+				for _, item := range content {
+					text, isText := item.(string)
+					if item == nil || (isText && strings.TrimSpace(text) == "") {
+						return fmt.Errorf("%s has invalid %s entry", key, field)
+					}
+				}
+			case float64:
+				if content < 0 {
+					return fmt.Errorf("%s has invalid %s", key, field)
+				}
 			}
 		}
 	}
@@ -247,7 +269,8 @@ func (s *SpellSourceDetails) UnmarshalJSON(data []byte) error {
 				return err
 			}
 			for _, row := range rows {
-				if len(row["choice"]) == 0 || len(row["modifier"]) == 0 || bytes.Equal(row["modifier"], []byte("null")) {
+				var choice string
+				if err := json.Unmarshal(row["choice"], &choice); err != nil || strings.TrimSpace(choice) == "" || len(row["modifier"]) == 0 || bytes.Equal(bytes.TrimSpace(row["modifier"]), []byte("null")) {
 					return fmt.Errorf("incomplete scrying choice")
 				}
 			}

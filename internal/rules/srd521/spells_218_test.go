@@ -302,3 +302,73 @@ func TestSpells218InvalidAndUnknownUnavailable(t *testing.T) {
 		}
 	}
 }
+
+func TestSpells218RejectInvalidScryingLabels(t *testing.T) {
+	original, err := os.ReadFile("testdata/spells_218.json")
+	if err != nil {
+		t.Fatal(err)
+	}
+	for _, group := range []string{"knowledge", "connections"} {
+		for _, choice := range []any{nil, "", "   "} {
+			t.Run(fmt.Sprintf("%s/%v", group, choice), func(t *testing.T) {
+				var root map[string]any
+				if err := json.Unmarshal(original, &root); err != nil {
+					t.Fatal(err)
+				}
+				scrying := root["records"].([]any)[1].(map[string]any)["source_details"].(map[string]any)["scrying"].(map[string]any)
+				scrying[group].([]any)[0].(map[string]any)["choice"] = choice
+				b, err := json.Marshal(root)
+				if err != nil {
+					t.Fatal(err)
+				}
+				if _, err := DecodeSpellRecords(bytes.NewReader(b)); err == nil {
+					t.Fatal("invalid scrying label accepted")
+				}
+			})
+		}
+	}
+}
+
+func TestSpells218RejectInvalidRequiredLists(t *testing.T) {
+	original, err := os.ReadFile("testdata/spells_218.json")
+	if err != nil {
+		t.Fatal(err)
+	}
+	for index, spell := range loadSpells218(t).Records {
+		var root map[string]any
+		if err := json.Unmarshal(original, &root); err != nil {
+			t.Fatal(err)
+		}
+		details := root["records"].([]any)[index].(map[string]any)["source_details"].(map[string]any)
+		for payloadName, payload := range details {
+			fields, ok := payload.(map[string]any)
+			if !ok {
+				continue
+			}
+			for field, value := range fields {
+				list, ok := value.([]any)
+				if !ok {
+					continue
+				}
+				invalid := []string{`[]`, `[ ]`, `[null]`}
+				if _, stringList := list[0].(string); stringList {
+					invalid = append(invalid, `[""]`, `["   "]`, `["valid",null]`)
+				}
+				for _, raw := range invalid {
+					t.Run(spell.Name+"/"+payloadName+"/"+field+"/"+raw, func(t *testing.T) {
+						fields[field] = "invalid-required-list-marker"
+						b, err := json.Marshal(root)
+						fields[field] = value
+						if err != nil {
+							t.Fatal(err)
+						}
+						b = bytes.Replace(b, []byte(`"invalid-required-list-marker"`), []byte(raw), 1)
+						if _, err := DecodeSpellRecords(bytes.NewReader(b)); err == nil {
+							t.Fatal("invalid required list accepted")
+						}
+					})
+				}
+			}
+		}
+	}
+}
