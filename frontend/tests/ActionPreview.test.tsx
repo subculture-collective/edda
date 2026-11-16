@@ -199,3 +199,13 @@ it('routes Tactical Mind decline through preview and requires explicit confirmat
   expect(confirmCharacterAction).not.toHaveBeenCalled();
   expect(screen.getByRole('button', { name: 'Confirm action' })).toBeEnabled();
 });
+
+it('routes the explicitly selected Easy Athletics DC 10 fixture without accepting a DC', async () => {
+  vi.mocked(previewCharacterAction).mockResolvedValueOnce({ ...ready, intent: { actor_id: 'hero', kind: 'ability-check', entry_id: 'easy-strength-athletics-dc10' }, options: ['Edda bounded adjudication fixture: Easy Strength (Athletics), DC 10.'] });
+  render(<QueryClientProvider client={new QueryClient()}><ActionPreviewPanel campaignId="easy" actorId="hero" sheet={{ ...sheet, scope: 'fighter-2-chain-mail-defense-fixture' }} /></QueryClientProvider>);
+  await userEvent.selectOptions(screen.getByLabelText('Character action'), 'ability-check-fixture:easy-strength-athletics-dc10');
+  await userEvent.click(screen.getByRole('button', { name: 'Preview action' }));
+  expect(await screen.findByText(/Edda bounded adjudication fixture: Easy Strength/)).toBeVisible();
+  expect(previewCharacterAction).toHaveBeenLastCalledWith('easy', { actor_id: 'hero', kind: 'ability-check', entry_id: 'easy-strength-athletics-dc10' });
+  expect(confirmCharacterAction).not.toHaveBeenCalled();
+});

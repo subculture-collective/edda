@@ -3,7 +3,11 @@
 The supported level-two Human Soldier Fighter can explicitly use or decline
 Tactical Mind for one server-adjudicated ordinary ability check. Attacks, saves,
 advantage/disadvantage checks, unknown outcomes, other characters and later
-levels do not qualify. General scene adjudication remains unavailable.
+levels do not qualify. The player can select
+**Edda fixture · Easy Strength (Athletics) · DC 10**
+from the web action menu or use `/easy-athletics` in the TUI. General scene
+adjudication remains unavailable. This fixed, disclosed difficulty is Edda's
+bounded adjudication fixture, not an inference about a narrated task.
 
 The pinned English SRD 5.2.1 PDF, printed p.48, says to add one d10 to the
 failed ability check instead of healing. Second Wind is expended only if the
@@ -31,17 +35,26 @@ Coverage remains partial.
 
 Migration 00043 adds only `tactical_mind_windows`, with cascading actor/campaign
 references, original check ID and public receipt, private difficulty, owner,
-actor revision, last history turn, original-history fingerprint and consumed flag. It has no player/model
-write endpoint. No production migration was run.
+actor revision, last history turn, original-history fingerprint and consumed
+flag. It has no player/model write endpoint. No production migration was run.
 
-`game.OpenTacticalMindWindow` is the trusted fixture-adjudication boundary.
-Call it inside the transaction recording the original failed check and history,
-after those writes, with a locked current actor/campaign snapshot and the
-server resolution. It requires a disclosed failure and ordinary ability-check
-receipt. The existing free text/ordinary sheet check confirmation deliberately
-returns an unknown outcome; it does not invent a DC, infer failure or open a
-window. This PR therefore supports explicitly persisted adjudicated windows,
-not automatic post-failure choices for arbitrary narrative checks.
+The distinct `easy-strength-athletics-dc10` entry uses the existing ability-check
+prepare/explicit-confirm boundary, limited by the recorded Human/Soldier
+Fighter 2 fixture guard and actual ownership. It accepts no ability, skill,
+slot, DC or outcome overrides. Preparation discloses fixed DC 10 and rolls
+nothing. Confirmation derives Strength (Athletics), rolls one ordinary d20,
+and records its public check receipt, known success/failure and disclosed DC.
+It makes no world-fiction claim, spends no Second Wind and rolls no d10.
+The SRD p.6 Typical Difficulty Classes table defines Easy as DC 10; selecting
+this fixture is the explicit Edda adjudication choice.
+
+On failure, `engine.ConfirmAction` calls `game.OpenTacticalMindWindow` after
+all final history/campaign writes, with a fresh locked current snapshot in
+the same transaction. The original action ID identifies the saved base check.
+A successful check opens no eligible window. History, receipt and window
+creation roll back together on either history or window-write failure.
+The ordinary sheet/free-text checks still return unknown outcomes and do
+not open a window. There is no general player/model DC or GM endpoint.
 
 The window is bound to the character owner as well as the campaign owner.
 Fresh authenticated preparation rejects a character reassigned to another user;
@@ -51,21 +64,23 @@ background during both window creation and consumption. Revision and history
 checks reject changed actor state, later actions, and edited or replaced original
 history records even if their turn number stays the same. Confirmation locks the
 campaign, actor and window, retains shared locks on the original history rows,
-and reloads those facts. The existing transaction atomically closes the window, updates only the
-Second Wind JSON leaf, and writes history and a durable action receipt.
+and reloads those facts. The existing transaction atomically closes the window,
+updates only the Second Wind JSON leaf, and writes history and a durable action receipt.
 Unrelated stats and legacy reads remain intact. Same-ID retry/reload returns
 the original durable receipt without another die; a different ID cannot reuse
 the consumed window. An intervening rest or other action invalidates the window.
 
 ## Adapters and verification limits
 
-The web action menu has use/decline selections for Fighter 2. Both prepare
-through `game.PrepareStoredAction` and require the existing explicit Confirm
+The web action menu has the selectable base fixture and use/decline selections
+for Fighter 2. All prepare through `game.PrepareStoredAction` and require the existing explicit Confirm
 button. The typed public receipt has no private difficulty field. A known DC
 in the original check remains known; hidden DCs remain omitted.
 
 The shared Go preparation/confirmation boundary is available to Go consumers.
-The TUI follows the merged Action Surge command pattern: `/tactical-mind`
+The TUI follows the merged Action Surge command pattern: `/easy-athletics`
+prepares the fixed DC 10 base check and `/confirm-easy-athletics` explicitly
+confirms it. After failure, `/tactical-mind`
 previews use, `/decline-tactical-mind` previews decline, and
 `/confirm-tactical-mind` confirms the pending choice. `/cancel-tactical-mind`
 dismisses local confirmation without consuming the server window. Routing
@@ -78,7 +93,13 @@ invalid dice, unavailable resources, attacks/saves and nonordinary checks.
 Isolated PostgreSQL integration exercises injectable dice, history-failure
 rollback, reload, durable replay, concurrent confirmations, stale actor/history,
 empty resources, and fresh authenticated ownership negatives. These use a real
-disposable PostgreSQL container, not a database double. Browser fixtures use
-API doubles and test explicit confirmation plus lost-response/reload recovery
+disposable PostgreSQL container, not a database double. The authenticated HTTP
+product-path suite uses no directly opened/seeded window:
+it previews and confirms the base check, then prepares and confirms Tactical
+Mind use/decline, with exact d20/d10/cost, base success/no-window, replay/reload,
+forged IDs/fields, unsupported origins/backgrounds, same-turn history changes,
+and history/window failure rollback. Browser fixtures use API doubles and drive
+the full selectable base-check-to-Tactical flow, including use/decline, base
+success/no-window, explicit confirmation and lost-response/reload recovery
 at 1440×844 and 390×844. Phone viewport emulation does not establish physical
 phone keyboard behavior or end-to-end browser-to-PostgreSQL integration.

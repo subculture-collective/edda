@@ -72,8 +72,8 @@ export function ActionPreviewPanel({ campaignId, actorId, sheet, initialSelectio
     return previewCharacterAction(campaignId, {
       actor_id: actorId,
       ...(kind === 'spell-cast' ? { slot_level: Number(slotLevel) } : {}),
-      kind: kind === 'skill' ? 'ability-check' : kind,
-      ...(kind === 'skill' ? { skill: name } : kind.startsWith('equipment-') || kind === 'entry' || kind === 'martial-attack' || kind === 'combat-start' || kind === 'combat-react' || kind === 'consumable-use' || kind === 'spell-cast' || kind === 'rest-short' || kind === 'advance-level' || kind === 'tactical-mind' ? { entry_id: name } : { ability: name }),
+      kind: kind === 'skill' || kind === 'ability-check-fixture' ? 'ability-check' : kind,
+      ...(kind === 'skill' ? { skill: name } : kind.startsWith('equipment-') || kind === 'entry' || kind === 'martial-attack' || kind === 'combat-start' || kind === 'combat-react' || kind === 'consumable-use' || kind === 'spell-cast' || kind === 'rest-short' || kind === 'advance-level' || kind === 'tactical-mind' || kind === 'ability-check-fixture' ? { entry_id: name } : { ability: name }),
     });
   } });
   const result = preview.data ?? (pending ? undefined : providedPreview);
@@ -88,7 +88,7 @@ export function ActionPreviewPanel({ campaignId, actorId, sheet, initialSelectio
         <optgroup label="Skills">{Object.keys(sheet.skills).map(name => <option key={name} value={`skill:${name}`}>{name.replaceAll('-', ' ')} check</option>)}</optgroup>
         <optgroup label="Saving throws">{Object.keys(sheet.saves).map(name => <option key={name} value={`saving-throw:${name}`}>{name} save</option>)}</optgroup>
         {!sheet.spellcasting && !sheet.scope.startsWith('fighter-2-') && <optgroup label="Advancement"><option value="advance-level:fixed">Fighter level 2 · fixed HP · retain Defense and mastery</option><option value="advance-level:roll">Fighter level 2 · roll HP · retain Defense and mastery</option></optgroup>}
-        {sheet.scope.startsWith('fighter-2-') && <optgroup label="Tactical Mind"><option value="tactical-mind:use">Tactical Mind · inspect saved failed check</option><option value="tactical-mind:decline">Decline Tactical Mind · close saved check window</option></optgroup>}
+        {sheet.scope.startsWith('fighter-2-') && <optgroup label="Tactical Mind"><option value="ability-check-fixture:easy-strength-athletics-dc10">Edda fixture · Easy Strength (Athletics) · DC 10</option><option value="tactical-mind:use">Tactical Mind · inspect saved failed check</option><option value="tactical-mind:decline">Decline Tactical Mind · close saved check window</option></optgroup>}
         <optgroup label="Equipped weapons">{inventory.data?.filter(item => item.equipped && item.quantity > 0 && item.item_type === 'weapon' && item.properties.srd521_id === 'longsword').map(item => <option key={item.id} value={`martial-attack:${item.id}`}>{item.name} (one hand)</option>)}</optgroup>
         {trigger && <optgroup label="Pending reaction"><option value={`combat-react:${trigger.weapon_id}`}>Longsword opportunity attack (reaction)</option><option value="combat-decline-reaction">Decline opportunity attack (no cost)</option></optgroup>}
         {sheet.capabilities.some(c => c.id === 'action-surge' && c.playable) && <optgroup label="Fighter level 2"><option value="action-surge">Action Surge (one extra Action except Magic)</option><option value="rest-short">Short Rest (one hour; recover Fighter resources)</option><option value="rest-long">Long Rest (eight hours; recover Fighter resources)</option></optgroup>}

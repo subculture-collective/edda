@@ -21,6 +21,9 @@ type tacticalMock struct {
 func (m *tacticalMock) PreviewTacticalMind(_ context.Context, _ uuid.UUID, choice string) (*game.ActionPreview, error) {
 	return &game.ActionPreview{Available: true, ExpectedRevision: "tactical-rev", Intent: game.ActionIntent{ActorID: uuid.New(), Kind: "tactical-mind", EntryID: choice}, Options: []string{"one d10; Second Wind only on success"}}, nil
 }
+func (m *tacticalMock) PreviewEasyAthletics(context.Context, uuid.UUID) (*game.ActionPreview, error) {
+	return &game.ActionPreview{Available: true, ExpectedRevision: "easy-rev", Intent: game.ActionIntent{ActorID: uuid.New(), Kind: "ability-check", EntryID: game.EasyAthleticsEntry}, Options: []string{"Edda bounded adjudication fixture: Easy Strength (Athletics), DC 10"}}, nil
+}
 func (m *tacticalMock) ConfirmAction(_ context.Context, _ uuid.UUID, r engine.PreparedAction) (*engine.TurnResult, error) {
 	m.requests = append(m.requests, r)
 	if m.fail {
@@ -46,6 +49,29 @@ func TestTUITacticalMindPreviewConfirmationRetry(t *testing.T) {
 	if len(m.requests) != 0 {
 		t.Fatal("confirm without preview")
 	}
+	send("/confirm-easy-athletics")
+	if len(m.requests) != 0 {
+		t.Fatal("base confirmation without preview")
+	}
+	send("/easy-athletics")
+	if a.tacticalRequest == nil || a.tacticalRequest.Intent.EntryID != game.EasyAthleticsEntry || len(m.requests) != 0 {
+		t.Fatal("base preview routing")
+	}
+	send("/confirm-tactical-mind")
+	if len(m.requests) != 0 {
+		t.Fatal("wrong confirmation command")
+	}
+	send("/confirm-easy-athletics")
+	if a.tacticalRequest == nil || len(m.requests) != 1 {
+		t.Fatal("base uncertain delivery lost identity")
+	}
+	m.fail = false
+	send("/confirm-easy-athletics")
+	if len(m.requests) != 2 || m.requests[0] != m.requests[1] || a.tacticalRequest != nil {
+		t.Fatal("base retry identity")
+	}
+	m.requests = nil
+	m.fail = true
 	send("/tactical-mind")
 	if a.tacticalRequest == nil || len(m.requests) != 0 || !strings.Contains(a.narrativeView().View(), "Preview only") {
 		t.Fatal("preview unusable")
