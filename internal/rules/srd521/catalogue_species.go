@@ -1,6 +1,9 @@
 package srd521
 
-import "fmt"
+import (
+	"encoding/json"
+	"fmt"
+)
 
 // CharacterSpecies describes source anatomy and traits. It is never a runtime grant.
 // Sizes are alternatives at species selection, not simultaneous sizes.
@@ -28,15 +31,38 @@ type CharacterSpeciesTrait struct {
 	Key               string                  `json:"key"`
 	PrerequisiteRefs  []string                `json:"prerequisite_refs"`
 	RequiredMechanics []string                `json:"required_mechanics"`
-	Parameters        map[string]int          `json:"parameters"`
+	Parameters        CharacterSpeciesNumbers `json:"parameters"`
 	CharacterLevels   []CharacterSpeciesLevel `json:"character_levels"`
 	ResourceRef       string                  `json:"resource_ref,omitempty"`
 }
 
+// CharacterSpeciesNumbers preserves explicit zero while refusing null operands.
+type CharacterSpeciesNumbers map[string]int
+
+// UnmarshalJSON requires each supplied operand to be an explicit integer.
+func (n *CharacterSpeciesNumbers) UnmarshalJSON(data []byte) error {
+	var values map[string]*int
+	if err := json.Unmarshal(data, &values); err != nil {
+		return err
+	}
+	if values == nil {
+		return fmt.Errorf("species numbers require an object")
+	}
+	decoded := make(CharacterSpeciesNumbers, len(values))
+	for key, value := range values {
+		if value == nil {
+			return fmt.Errorf("species numeric operand %q must be an explicit integer", key)
+		}
+		decoded[key] = *value
+	}
+	*n = decoded
+	return nil
+}
+
 // CharacterSpeciesLevel replaces named numeric parameters at a character level.
 type CharacterSpeciesLevel struct {
-	Level      int            `json:"level"`
-	Parameters map[string]int `json:"parameters"`
+	Level      int                     `json:"level"`
+	Parameters CharacterSpeciesNumbers `json:"parameters"`
 }
 
 const speciesSelectedOption = "srd-5.2.1:mechanic/species/option-selected"

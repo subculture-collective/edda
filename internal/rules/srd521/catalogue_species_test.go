@@ -207,3 +207,41 @@ func TestSpeciesMetadataGuards(t *testing.T) {
 		t.Fatal("metadata promoted coverage")
 	}
 }
+
+func TestSpeciesRejectNullNumericOperands(t *testing.T) {
+	b, err := os.ReadFile("testdata/character-species.json")
+	if err != nil {
+		t.Fatal(err)
+	}
+	var root map[string]any
+	if err := json.Unmarshal(b, &root); err != nil {
+		t.Fatal(err)
+	}
+	for _, value := range root["records"].([]any) {
+		record := value.(map[string]any)
+		species, ok := record["species"].(map[string]any)
+		if !ok {
+			continue
+		}
+		for _, value := range species["traits"].([]any) {
+			trait := value.(map[string]any)
+			maps := []map[string]any{trait["parameters"].(map[string]any)}
+			for _, value := range trait["character_levels"].([]any) {
+				maps = append(maps, value.(map[string]any)["parameters"].(map[string]any))
+			}
+			for _, numbers := range maps {
+				for key, original := range numbers {
+					numbers[key] = nil
+					changed, err := json.Marshal(root)
+					numbers[key] = original
+					if err != nil {
+						t.Fatal(err)
+					}
+					if _, err := DecodeCharacterCatalogue(strings.NewReader(string(changed))); err == nil {
+						t.Fatalf("accepted null numeric operand %s in %s", key, record["id"])
+					}
+				}
+			}
+		}
+	}
+}
