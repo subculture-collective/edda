@@ -120,6 +120,7 @@ func (c CharacterCatalogue) Validate(repo fs.FS) error {
 		return fmt.Errorf("character records required")
 	}
 	records := map[string]CharacterRecord{}
+	levels := map[string]bool{}
 	for _, r := range c.Records {
 		if !characterID.MatchString(r.ID) || records[r.ID].ID != "" || !strings.HasPrefix(r.ID, "srd-5.2.1:character/"+r.Kind+"/") {
 			return fmt.Errorf("invalid or duplicate character ID %q", r.ID)
@@ -144,6 +145,13 @@ func (c CharacterCatalogue) Validate(repo fs.FS) error {
 		}
 		if r.Kind == "level" && (r.Level < 1 || r.Level > 20) || r.Kind != "level" && r.Level != 0 {
 			return fmt.Errorf("%s: invalid level", r.ID)
+		}
+		if r.Kind == "level" {
+			key := fmt.Sprintf("%s:%d", r.ParentID, r.Level)
+			if levels[key] {
+				return fmt.Errorf("%s: duplicate class level", r.ID)
+			}
+			levels[key] = true
 		}
 		if r.ChoiceRefs == nil || r.ResourceRefs == nil || r.PrerequisiteRefs == nil || r.OptionKeys == nil {
 			return fmt.Errorf("%s: reference arrays must be explicit", r.ID)
@@ -278,7 +286,51 @@ func (c CharacterCatalogue) Validate(repo fs.FS) error {
 			return fmt.Errorf("%s: cyclic parent links", id)
 		}
 	}
+	// Check ownership only after proving the parent graph is acyclic. Source
+	// headings must describe the same class/level as the record's ancestry.
+	for _, r := range c.Records {
+		parent := records[r.ParentID]
+		for _, source := range r.Sources {
+			switch r.Kind {
+			case "level", "choice", "resource", "prerequisite":
+				if !containsCharacterSource(parent.Sources, source) {
+					return fmt.Errorf("%s: source does not belong to parent", r.ID)
+				}
+			case "feature", "subclass":
+				owner := parent
+				for owner.ID != "" && owner.Kind != "class" {
+					owner = records[owner.ParentID]
+				}
+				if owner.ID == "" {
+					return fmt.Errorf("%s: class source owner required", r.ID)
+				}
+				class := strings.TrimPrefix(owner.Sources[0].InventoryID, "srd-5.2.1:planning/classes/")
+				family := "subclasses"
+				heading := class + "-"
+				if r.Kind == "feature" {
+					family = "subclass-features"
+					heading += "level-"
+					if parent.Kind == "level" {
+						family = "class-features"
+						heading += fmt.Sprintf("%d-", parent.Level)
+					}
+				}
+				if !strings.HasPrefix(source.InventoryID, "srd-5.2.1:planning/"+family+"/"+heading) {
+					return fmt.Errorf("%s: source disagrees with class/level ownership", r.ID)
+				}
+			}
+		}
+	}
 	return nil
+}
+
+func containsCharacterSource(sources []CharacterSource, wanted CharacterSource) bool {
+	for _, source := range sources {
+		if source == wanted {
+			return true
+		}
+	}
+	return false
 }
 
 // ValidateReadiness fails closed on every unimplemented feature and choice key.

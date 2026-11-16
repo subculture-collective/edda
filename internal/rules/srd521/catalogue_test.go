@@ -63,6 +63,19 @@ func TestCharacterCatalogueRejectsInvalidMetadata(t *testing.T) {
 	}{
 		{"schema", func(c *CharacterCatalogue) { c.SchemaVersion = 2 }},
 		{"duplicate", func(c *CharacterCatalogue) { c.Records = append(c.Records, c.Records[0]) }},
+		{"duplicate class level", func(c *CharacterCatalogue) {
+			r := c.Records[1]
+			r.ID = "srd-5.2.1:character/level/fighter/one-again"
+			c.Records = append(c.Records, r)
+		}},
+		{"other class feature source", func(c *CharacterCatalogue) {
+			c.Records[2].Sources = []CharacterSource{{InventoryID: "srd-5.2.1:planning/class-features/cleric-level-1-divine-order", Page: 37}}
+		}},
+		{"other level feature source", func(c *CharacterCatalogue) {
+			c.Records[2].Sources = []CharacterSource{{InventoryID: "srd-5.2.1:planning/class-features/fighter-level-2-action-surge", Page: 48}}
+		}},
+		{"nested choice source owner", func(c *CharacterCatalogue) { c.Records[3].Sources = c.Records[4].Sources }},
+		{"nested resource source owner", func(c *CharacterCatalogue) { c.Records[5].Sources = c.Records[2].Sources }},
 		{"version", func(c *CharacterCatalogue) { c.Source.Version = "5.1" }},
 		{"pin", func(c *CharacterCatalogue) { c.Source.SHA256 = "wrong" }},
 		{"license", func(c *CharacterCatalogue) { c.Source.License = "MIT" }},
