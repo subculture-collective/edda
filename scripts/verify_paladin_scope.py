@@ -12,7 +12,7 @@ from verify_fighter_scope import graph_read, acyclic
 ROOT=Path(__file__).resolve().parents[1]
 MANIFEST=ROOT/'docs/investigations/issue-327-paladin-scope.json'
 PIN='8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87'
-AUDIT_SEAL='f5bf910840a63e3f30903e18c6c21b19e94fa4c971c8010839c00f689b1b9609'
+AUDIT_SEAL='8687089ef9fb3e07985697a9c3f7f7bf8707f3eb7cace90f099ff10dfeb6f208'
 
 
 def validate(m):
@@ -46,7 +46,7 @@ def validate(m):
         assert x['state']=='metadata only; Paladin/Devotion unqualified'
         for key in x['execution_owners']:assert x['record']['id'] in rows[key]['source_records']
     for x in rows.values():
-        expected={k for r in m['records'] if x['key'] in r['execution_owners'] for k in r['record']['required_mechanics']+r['record']['option_keys']}
+        expected={k for r in m['records'] for k,v in r['key_owners'].items() if x['key'] in v}
         assert x['source_keys']==sorted(expected),'source-key ownership drift'
         assert len(x['depends'])==len(set(x['depends']))
         assert set(x['depends'])<=set(rows)
@@ -57,15 +57,36 @@ def validate(m):
     assert m['levels'][4]['values']['spell-slot-2']==2
     assert [m['levels'][-1]['values'][f'spell-slot-{n}'] for n in range(1,6)]==[4,3,3,3,2]
     assert m['levels'][-1]['values']['lay-on-hands']==100
+    advancement=next(c for p,c in m['catalogues'].items() if p.endswith('character-advancement.json'))
+    after=next(x for x in advancement['records'] if x['level']==6)
+    assert after['advancement']=={'experience_points':14000,'proficiency_bonus':3}
+    after5=next(x for x in advancement['records'] if x['level']==5)
+    assert after5['advancement']=={'experience_points':6500,'proficiency_bonus':3}
+    for key in [f'level-{n}' for n in range(1,21)]+['later-1']:
+        assert 'TOTAL CHARACTER level' in rows[key]['fixture'],'class versus total advancement'
+        assert 'class-indexed XP/PB' in rows[key]['fixture'],'wrong-row negative witness'
+    assert 'Fighter4/Paladin1→Paladin2 reaches total6,requires14000XP/PB+3' in rows['level-2']['fixture']
+    grants={1:['lay-on-hands','casting','preparation','slots','mastery'],2:['style','blessed-warrior','smite'],3:['channel','divine-sense','subclass','oath-spells','sacred-weapon'],4:['improvement'],5:['extra-attack','steed'],6:['aura'],7:['devotion-aura'],8:['improvement'],9:['abjure'],10:['courage'],11:['radiant'],12:['improvement'],14:['restoring'],15:['smite-protection'],16:['improvement'],18:['expansion'],19:['boon'],20:['nimbus-use','nimbus-ward','nimbus-damage']}
+    def requires(start,target):
+        return target in rows[start]['depends'] or any(requires(d,target) for d in rows[start]['depends'])
+    for level,targets in grants.items():
+        for target in targets:assert requires(f'level-{level}',target),f'missing granting-level feature {level}:{target}'
+    sense=next(x for x in m['records'] if x['record']['id'].endswith('feature/paladin/channel-divinity'))
+    for key,owners in sense['key_owners'].items():
+        assert owners==(['divine-sense'] if 'divine-sense' in key else ['channel']),'Channel versus Divine Sense owner'
+    for record in m['records']:
+        if record['record']['kind']=='feature':
+            assert record['key_owners']
+            assert 'improvement' not in {k for v in record['key_owners'].values() for k in v} or record['record']['id'].endswith('/ability-score-improvement'),'unrelated mechanic assigned to ASI'
     names={x['key']:i for i,x in enumerate(m['issues'])}
     acyclic({names[k]:dict(blocked_by=[names[d] for d in x['depends']]) for k,x in rows.items()})
     for p,e in m['evidence'].items():assert hashlib.sha256((ROOT/p).read_bytes()).hexdigest()==e['sha256'],'evidence drift'
-    shared=m['shared_issues'];assert len(shared)==53 and len({x['key'] for x in shared})==53
-    assert [sum(x['cohort']==c for x in shared) for c in [1,2,3]]==[20,20,13]
+    shared=m['shared_issues'];assert len(shared)==54 and len({x['key'] for x in shared})==54
+    assert [sum(x['cohort']==c for x in shared) for c in [1,2,3]]==[20,20,14]
     keys={x['key']:i for i,x in enumerate(shared)}
     for x in shared:assert set(x['depends'])<=set(keys)
     acyclic({keys[x['key']]:dict(blocked_by=[keys[d] for d in x['depends']]) for x in shared})
-    assert m['publication'].startswith('PENDING')
+    assert m['publication'].startswith('PENDING') or 'NATIVE PUBLICATION' in m['publication']
     assert all(x['issue'] is None and x['publication']=='UNPUBLISHED' for x in m['issues']+shared)
     return len(records)
 
@@ -95,11 +116,32 @@ def main():
     p.add_argument('--pdf',type=Path)
     p.add_argument('--live',action='store_true',help='bounded read-only graph audit; never writes a receipt')
     p.add_argument('--require-publication',action='store_true')
+    p.add_argument('--native',action='store_true',help='verify exact published contracts and saved receipt')
+    p.add_argument('--sealed',action='store_true',help='require accepted parent prefixes and published supplements')
+    p.add_argument('--probes',action='store_true',help='run exhaustive native edge/body corruption controls')
     a=p.parse_args();m=json.loads(MANIFEST.read_text());validate(m);probes(m)
     if a.pdf:
         assert hashlib.sha256(a.pdf.read_bytes()).hexdigest()==PIN
         for name in ['paladin','devotion','advancement','multiclass','origin_feats','general_feats','fighting_styles','epic_boon_feats']:
             subprocess.run(['rtk','proxy','python3',str(ROOT/f'scripts/verify_srd_{name}.py'),str(a.pdf)],check=True)
+        subprocess.run(['rtk','proxy','python3',str(ROOT/'scripts/verify_paladin_consumed_sources.py'),str(a.pdf)],check=True)
+    if a.native:
+        import paladin_native_proof as native
+        sealed=a.sealed or m.get('supplement_publication')=='sealed'
+        r=native.live(m) if a.live else json.loads(native.RECEIPT.read_text())
+        if a.live and not m.get('consumed_project'):
+            m['consumed_project']={n:r['project'][n] for n in m['consumed_contracts']}
+            MANIFEST.write_text(json.dumps(m,indent=2)+'\n')
+        n=native.validate(m,r,sealed)
+        controls=native.probes(m,r,sealed) if a.probes else None
+        if a.live:
+            native.RECEIPT.write_text(json.dumps(r,indent=2)+'\n')
+            m['native_validation']=dict(observed_at=r['observed_at'],nodes=n,new_tasks=121,new_implementation_leaves=115,negative_controls=controls,supplements='sealed' if sealed else 'PENDING root publication')
+            if sealed:m['supplement_publication']='sealed'
+            MANIFEST.write_text(json.dumps(m,indent=2)+'\n')
+        print(f'PASS native:{n}nodes,121Task/Size/parent/body contracts,115new mandatory leaves,54spell cohort leaves; '+str(controls)+' negative controls; supplements '+('SEALED' if sealed else 'PENDING root publication'))
+        if a.require_publication:assert sealed,'accepted immutable parent prefix and supplements still pending'
+        return
     if a.live:
         g={x['number']:x for x in graph_read()};acyclic(g)
         acyclic({n:dict(blocked_by=[x['parent']] if x['parent'] else []) for n,x in g.items()})
@@ -113,7 +155,7 @@ def main():
         assert all(g[n]['state']=='closed' for n in [285,292,314])
         print(f'Live read-only audit: {len(g)} nodes; separate DAGs and100incoming/outgoing/children caps pass. No publication proof.')
     if a.require_publication:raise AssertionError('UNPUBLISHED: shared scope approval/native graph/Task/Size receipt and accepted post-Monk parent seal pending')
-    print('PASS checkpoint only:87records/20rows/54class plans/53shared spell plans; numeric witnesses; corruption probes. Native publication and supplements PENDING.')
+    print('PASS checkpoint only:87records/20rows/54class plans/54shared spell plans; numeric witnesses; corruption probes. Native publication and supplements PENDING.')
 
 
 if __name__=='__main__':main()

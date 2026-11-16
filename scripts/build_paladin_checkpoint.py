@@ -11,6 +11,8 @@ PIN = '8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87'
 
 
 def build():
+    destination=OUT/'issue-327-paladin-scope.json'
+    previous=json.loads(destination.read_text()) if destination.exists() else {}
     catalogues = {f'internal/rules/srd521/testdata/character-{name}.json': json.loads(
         (ROOT / f'internal/rules/srd521/testdata/character-{name}.json').read_text())
         for name in ['paladin', 'devotion', 'advancement', 'multiclass']}
@@ -33,6 +35,8 @@ def build():
          'PDF54/97/104–106. Attack=PB+CHA; DC8+PB+CHA. Holy Symbol substitutes only noncostly/nonconsumed M, never costly/consumed M; V/S/hands/armor,one slot spell per turn,cast timing,range and target eligibility revalidated. Positive: CHA+3/PB2 gives DC13/attack5. Negative: WIS adapter,untrained armor,occupied required hand,unprepared spell,unknown effect. #273 modes and #58 projection do not establish execution; exact selected effect terminal mandatory.', [68, 273, 58], ['membership'])
     task('membership', 'Validate only exact Paladin spell-list membership',
          'PDF55–56. Exactly38 named spells in5 level groups (13/11/6/4/4), school and C/R/M markers. Membership does not execute any spell. Positive: Divine Smite level1 belongs; negative: Cleric-only Sacred Flame is not a normal Paladin-list spell; Blessed Warrior and Devotion use separate explicit feature exceptions. #503 remains four-class only.', [194])
+    spell_list={1:['Bless','Command','Cure Wounds','Detect Evil and Good','Detect Magic','Detect Poison and Disease','Divine Favor','Divine Smite','Heroism','Protection from Evil and Good','Purify Food and Drink','Searing Smite','Shield of Faith'],2:['Aid','Find Steed','Gentle Repose','Lesser Restoration','Locate Object','Magic Weapon','Prayer of Healing','Protection from Poison','Shining Smite','Warding Bond','Zone of Truth'],3:['Create Food and Water','Daylight','Dispel Magic','Magic Circle','Remove Curse','Revivify'],4:['Aura of Life','Banishment','Death Ward','Locate Creature'],5:['Dispel Evil and Good','Geas','Greater Restoration','Raise Dead']}
+    tasks[-1]['fixture']+=' Exact finite membership by spell level: '+json.dumps(spell_list,sort_keys=True)+'.'
     task('preparation', 'Confirm Paladin prepared counts and one Long Rest replacement',
          'PDF53–54. Start exactly2 level1 Paladin spells (Heroism/Searing Smite recommendations only). Counts by class level:2,3,4,5,6,6,7,7,9,9,10,10,11,11,12,12,14,14,15,15. Choose additions only on count increase; spell level must have a Paladin slot. Completed Long Rest replaces at most ONE; always-prepared do not count and still count as Paladin spells. Positive: level5 six level1/2 spells; negative: level3 spell at5,combined multiclass slot expanding preparation,replace2 per rest.', [384, 428], ['membership'])
     task('slots', 'Track all five Paladin slot columns and completed-rest recovery',
@@ -102,11 +106,11 @@ def build():
         deps += {7:['devotion-aura'],15:['smite-protection'],20:['nimbus-use','nimbus-ward','nimbus-damage']}.get(n,[])
         if n in [5,9,13,17]: deps += ['oath-spells']
         task(f'level-{n}', 'Confirm Paladin first-character level one' if n==1 else f'Confirm Paladin level{n-1} to{n} application',
-             f'PDF53 row{n}; PDF23 global advancement. Authoritative class-level {n-1}→{n}, one adjacent transition only; first-class1 uses creation HP. Exact row: '+json.dumps(row['progression'],sort_keys=True)+'; resources: '+json.dumps(values,sort_keys=True)+'. Positive: apply these grants/counts exactly once after all consumed features qualify. Negative: insufficient XP,level skip,duplicate grant,foreign class,state from another source version,wrong PB/count/slot cell. Repeated ASI at8/12/16 consumes original feature; passive benefits automatic. No grants from planning closure.', [], sorted(set(deps)))
+             f'PDF53 row{n}; PDF23 global advancement. Authoritative Paladin class-level {n-1}→{n}, one adjacent transition only; first-class1 uses creation HP. XP and live PB select canonical advancement by authoritative TOTAL CHARACTER level after transition, independently of Paladin class level. The progression.proficiency_bonus below is class-table source metadata ONLY and never a multiclass XP/PB eligibility operand. Unequal witness: Fighter4/Paladin1→Paladin2 reaches total6,requires14000XP/PB+3,not300XP/PB+2; Paladin2 features/slots/HP still use Paladin2. Exact Paladin row: '+json.dumps(row['progression'],sort_keys=True)+'; resources: '+json.dumps(values,sort_keys=True)+'. Positive: apply these grants/counts exactly once after all consumed features qualify. Negative: class-indexed XP/PB substitution,insufficient total-level XP,level skip,duplicate grant,foreign class,state from another source version,wrong count/slot cell. Repeated ASI at8/12/16 consumes original feature; passive benefits automatic. No grants from planning closure.', [], sorted(set(deps)))
         levels.append(dict(level=n,progression=row['progression'],values=values,grants=grants))
     task('later-1','Confirm later-class Paladin first-level application',
-         'PDF24–25/53. Later-class Paladin1 requires confirmed multiclass eligibility; later-level max(1,d10+CON) or max(1,6+CON) HP,not10+CON. Apply only reduced martial/light/medium/shield traits and level1 features. Positive:eligible current class plus STR13/CHA13 yields one new Paladin level. Negative:missing current threshold,starting equipment/saves/skills/Heavy armor,repeated admission,wrong combined slots. All20 higher Paladin applications retain total-level versus class-level distinction.', [], ['multiclass','hp','casting','preparation','slots','mastery','lay-on-hands'])
-    common = ('Every source predicate requires deterministic positive and independently violated negative fixtures. Authoritative preview is inert: no writes/dice; explicit confirm revalidates actor/campaign/source/class level/expected revision, targets, range, action, resource and costs. Commit choices, injectable dice, derived state and history atomically. Durable receipt binds payload: retry/replay/reload/reconnect returns exact result; conflicting payload and stale state reject. Concurrent confirmations commit once. Inject cost/effect/history failures and prove complete isolated PostgreSQL rollback. Web AND trusted TUI expose availability/reasons, accessible confirmation/cancel/reconnect; changed web requires desktop/phone journeys, build and focused lint. For passive/source-automatic effects confirmation belongs to triggering action/turn, never invent optional activation. Unknown facts remain unavailable; no hidden target/HP/DC disclosure. Feature tests use isolated entitlements; creation and later-level applications consume separately qualified execution. Planning closure never qualifies implementation.')
+         'PDF24–25/53. Later-class Paladin1 requires confirmed multiclass eligibility; later-level max(1,d10+CON) or max(1,6+CON) HP,not10+CON. Apply only reduced martial/light/medium/shield traits and level1 features. XP and live PB select canonical advancement by TOTAL CHARACTER level after transition independently of Paladin1. Positive:Fighter4→Fighter4/Paladin1 reaches total5,requires6500XP/PB+3,not0XP/PB+2; STR13/CHA13 and existing primary threshold required. Negative:class-indexed XP/PB,missing current threshold,starting equipment/saves/skills/Heavy armor,repeated admission,wrong combined slots. All20 higher Paladin applications retain total-level versus class-level distinction.', [], ['multiclass','hp','casting','preparation','slots','mastery','lay-on-hands'])
+    common = ('Every source predicate requires deterministic positive and independently violated negative fixtures. Authoritative preview is inert: no writes/dice; explicit confirm revalidates actor/campaign/source/class level/expected revision, targets, range, action, resource and costs. For class applications only,class and total levels must be integers1–20,not booleans or fractional values; class level cannot exceed total. Independently reject total21,unqualified current-class configurations and unknown source paths. Class-application XP/live PB select canonical TOTAL-level advancement independently of Paladin-level feature/slot/HP rows. Shared effect execution adds no Paladin or other-class admission requirement to its targets. Commit choices, injectable dice, derived state and history atomically. Durable receipt binds payload: retry/replay/reload/reconnect returns exact result; conflicting payload and stale state reject. Concurrent confirmations commit once. Inject cost/effect/history failures and prove complete isolated PostgreSQL rollback. Web AND trusted TUI expose availability/reasons, accessible confirmation/cancel/reconnect; changed web requires desktop/phone journeys, build and focused lint. For passive/source-automatic effects confirmation belongs to triggering action/turn, never invent optional activation. Unknown facts remain unavailable; no hidden target/HP/DC disclosure. Feature tests use isolated entitlements; creation and later-level applications consume separately qualified execution. Planning closure never qualifies implementation.')
     evidence = {
         'internal/rules/srd521/creation.go':'NewSupportedBuild admits fixed Human Soldier Fighter/Human Acolyte Cleric only; no Paladin creation.',
         'internal/rules/srd521/character.go':'Project rejects classes other than fighter/cleric and levels except their fixed1/Fighter2 envelope; no Paladin derived sheet.',
@@ -122,7 +126,7 @@ def build():
     def owners(r):
         if r['kind']=='level': return [f"level-{r['level']}"]
         ident=r['id']
-        if '/oath-of-devotion/' in ident:
+        if '/oath-of-devotion' in ident:
             for feature, targets in [('oath-of-devotion-spells',['oath-spells']),('sacred-weapon',['sacred-weapon']),('aura-of-devotion',['devotion-aura']),('smite-of-protection',['smite-protection']),('holy-nimbus',['nimbus-use','nimbus-ward','nimbus-damage'])]:
                 if feature in ident: return targets
             return ['subclass']
@@ -135,18 +139,45 @@ def build():
         if r.get('parent_id') in by:return owners(by[r['parent_id']])
         raise AssertionError(ident)
     matrix = [dict(record=r, execution_owners=owners(r), state='metadata only; Paladin/Devotion unqualified', engine=list(evidence)[:7], web=list(evidence)[7:10], tui=['tui/app.go']) for r in records]
+    def key_owners(r,key):
+        targets=owners(r)
+        if key=='srd-5.2.1:mechanic/paladin/spell-list/p55-56/level-1-plus':return ['membership']
+        if r['kind']=='class':
+            if 'hit-die' in key:return ['hp']
+            if '/multiclass/' in key:return ['multiclass']
+            return ['traits']
+        if r['id'].endswith('/feature/paladin/channel-divinity'):
+            return ['divine-sense'] if 'divine-sense' in key else ['channel']
+        if r['id'].endswith('/feature/paladin/spellcasting'):
+            if any(s in key for s in ['charisma','holy-symbol']):return ['casting']
+            return ['preparation']
+        if r['id'].endswith('/feature/paladin/paladin-subclass'):return ['subclass']
+        if r['id'].endswith('/feature/paladin/fighting-style'):return ['style']
+        if 'holy-nimbus' in r['id']:
+            if '/holy-ward/' in key:return ['nimbus-ward']
+            if '/radiant-damage/' in key or '/sunlight/' in key:return ['nimbus-damage']
+            return ['nimbus-use']
+        return targets
+    for x in matrix:
+        x['key_owners']={k:key_owners(x['record'],k) for k in x['record']['required_mechanics']+x['record']['option_keys']}
     for t in tasks:
-        t['source_records']=[x['record']['id'] for x in matrix if t['key'] in x['execution_owners']]
-        t['source_keys']=sorted({k for x in matrix if t['key'] in x['execution_owners'] for k in x['record']['required_mechanics']+x['record']['option_keys']})
+        t['source_records']=[x['record']['id'] for x in matrix if t['key'] in x['execution_owners'] or any(t['key'] in v for v in x['key_owners'].values())]
+        t['source_keys']=sorted({k for x in matrix for k,v in x['key_owners'].items() if t['key'] in v})
         t['numeric_context']=[dict(record=x['record']['id'], **{k:v for k,v in x['record'].items() if k in ['parameters','options','values_by_level','requirement','always_prepared','progression','capacity','select']}) for x in matrix if t['key'] in x['execution_owners']]
     manifest = dict(schema_version=1, decision=327, base='c577e3e7a8dac94d579b65f58af444fe427a412e',source_sha256=PIN,
                     publication='PENDING shared reservations and accepted post-Monk baseline',
                     catalogues=catalogues,records=matrix,levels=levels,issues=tasks,shared_issues=shared_tasks(),common_acceptance=common,
+                    spell_lists=dict(paladin=spell_list,cleric_cantrips=['Guidance','Light','Mending','Resistance','Sacred Flame','Spare the Dying','Thaumaturgy'],devotion={3:['Protection from Evil and Good','Shield of Faith'],5:['Aid','Zone of Truth'],9:['Beacon of Hope','Dispel Magic'],13:['Freedom of Movement','Guardian of Faith'],17:['Commune','Flame Strike']}),
                     evidence={p:dict(finding=f,sha256=hashlib.sha256((ROOT/p).read_bytes()).hexdigest()) for p,f in evidence.items()},
                     routing=dict(reserved_429_consumers=['hp'], prohibited_direct_429_consumers=['qualification','level-1..20','later-1'],
                                  requirement='Every flattened leaf must have mandatory dependency path through bounded native gates to337 after327 closure; dependency and containment DAGs checked separately.'),
                     supplements=dict(status='PENDING root accepted post-Monk prefix; no captured prefix is accepted',targets=[47,54,283,337]))
-    (OUT/'issue-327-paladin-scope.json').write_text(json.dumps(manifest,indent=2)+'\n')
+    # Rebuilding the source audit must not discard published IDs, native receipts or seals.
+    manifest.update({k:v for k,v in previous.items() if k not in manifest})
+    if previous.get('published_issues'):
+        manifest['publication']=previous['publication']
+        manifest['supplements']=previous['supplements']
+    destination.write_text(json.dumps(manifest,indent=2)+'\n')
     return manifest
 
 
