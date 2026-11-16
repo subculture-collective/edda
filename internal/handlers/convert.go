@@ -201,6 +201,13 @@ func engineResolutionEventsToAPI(applied []engine.AppliedToolCall) []api.Resolut
 			if event, ok := skillCheckResolutionEvent(call); ok {
 				out = append(out, event)
 			}
+		case "srd_tactical_mind":
+			var result struct {
+				Receipt *srd521.TacticalMindReceipt `json:"receipt"`
+			}
+			if json.Unmarshal(call.Result, &result) == nil && result.Receipt != nil {
+				out = append(out, api.ResolutionEvent{Type: "srd_tactical_mind", Label: "Tactical Mind", Outcome: result.Receipt.Outcome, Details: map[string]any{"receipt": result.Receipt}})
+			}
 		case "srd_advancement":
 			var result struct {
 				Receipt *srd521.AdvancementReceipt `json:"receipt"`

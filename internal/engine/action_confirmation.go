@@ -275,6 +275,24 @@ func (e *Engine) ConfirmAction(ctx context.Context, campaignID uuid.UUID, reques
 		if equipment.Expired != nil {
 			narrative += " Shield of Faith expired."
 		}
+	} else if request.Intent.Kind == srd521.TacticalMind {
+		w := prepared.Tactical
+		if w == nil {
+			return nil, ErrActionRefresh
+		}
+		r, err := srd521.ResolveTacticalMind(w.Base, w.DC, prepared.Build.SecondWind, request.Intent.EntryID, dice)
+		if err != nil {
+			return nil, ErrActionRefresh
+		}
+		r.CheckID = w.CheckID.String()
+		if _, err = tx.Exec(ctx, `UPDATE tactical_mind_windows SET resolved=true WHERE actor_id=$1`, pc.ID); err != nil {
+			return nil, err
+		}
+		if _, err = tx.Exec(ctx, `UPDATE player_characters SET stats=jsonb_set(stats,'{srd521,second_wind}',to_jsonb($1::int)),updated_at=clock_timestamp() WHERE id=$2`, r.SecondWindAfter, pc.ID); err != nil {
+			return nil, err
+		}
+		receipt, tool, label = r, "srd_tactical_mind", "Tactical Mind"
+		narrative = fmt.Sprintf("Tactical Mind: %s; saved check total %d, d10 %d, total %d. Second Wind %d to %d. Original roll and narration retained.", r.Outcome, r.Base.Total, r.Die, r.Total, r.SecondWindBefore, r.SecondWindAfter)
 	} else if request.Intent.Kind == srd521.AdvanceLevel {
 		var envelope struct {
 			Build srd521.Build `json:"srd521"`
@@ -294,7 +312,7 @@ func (e *Engine) ConfirmAction(ctx context.Context, campaignID uuid.UUID, reques
 			return nil, err
 		}
 		receipt, tool, label = advancement, "srd_advancement", "Fighter level 2"
-		narrative = fmt.Sprintf("Fighter level 2 saved: %s HP choice, d10 value %d, maximum HP %d to %d. Current HP unchanged. Defense and weapon mastery choices retained. Action Surge and Tactical Mind recorded; their effects remain unavailable.", advancement.Choice, advancement.Die, advancement.MaxHPBefore, advancement.MaxHPAfter)
+		narrative = fmt.Sprintf("Fighter level 2 saved: %s HP choice, d10 value %d, maximum HP %d to %d. Current HP unchanged. Defense and weapon mastery choices retained. Action Surge recorded read-only; Tactical Mind requires a saved ordinary failed-check window.", advancement.Choice, advancement.Die, advancement.MaxHPBefore, advancement.MaxHPAfter)
 	} else if srd521.IsLifecycle(request.Intent.Kind) || (request.Intent.Kind == srd521.SpellCast && request.Intent.EntryID == "shield-of-faith") {
 		var envelope struct {
 			Build srd521.Build `json:"srd521"`
