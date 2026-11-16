@@ -174,6 +174,9 @@ func PrepareStoredAction(ctx context.Context, database statedb.DBTX, campaign do
 		if err := database.QueryRow(ctx, `SELECT c.created_by::text,COALESCE(p.user_id::text,'') FROM campaigns c JOIN player_characters p ON p.campaign_id=c.id WHERE c.id=$1 AND p.id=$2`, campaign.ID, pc.ID).Scan(&owner, &actorOwner); err != nil {
 			return nil, err
 		}
+		if owner != actorOwner {
+			return unavailable("Action Surge requires a Fighter owned by the campaign owner.")
+		}
 		ownership, err := json.Marshal([]any{p.ExpectedRevision, owner, actorOwner})
 		if err != nil {
 			return nil, err

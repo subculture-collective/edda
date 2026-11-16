@@ -139,10 +139,48 @@ func TestIntegrationActionSurge(t *testing.T) {
 	for _, change := range []string{"hp", "ownership", "encounter", "turn"} {
 		stale := engine.PreparedAction{ActionID: uuid.New(), ExpectedRevision: p.ExpectedRevision, Intent: p.Intent}
 		if change == "ownership" {
+			var attemptsBefore, historyBefore int
+			must(testPool.QueryRow(ctx, `SELECT COUNT(*) FROM turn_attempts WHERE campaign_id=$1`, c.ID).Scan(&attemptsBefore))
+			must(testPool.QueryRow(ctx, `SELECT COUNT(*) FROM session_logs WHERE campaign_id=$1`, c.ID).Scan(&historyBefore))
 			_, err = testPool.Exec(ctx, `UPDATE player_characters SET user_id=$2 WHERE id=$1`, pc.ID, other.ID)
 			must(err)
 			if _, err := newEngine().ConfirmAction(ctx, campaign, stale); !errors.Is(err, engine.ErrActionRefresh) {
 				t.Fatalf("stale ownership: %v", err)
+			}
+			// Refreshing must not authorize spending another user's resource.
+			ownerToken, err := auth.GenerateToken(testUserID, cfg.Server.JWTSecret, time.Hour)
+			must(err)
+			previewPath := "/api/v1/campaigns/" + campaign.String() + "/character/action-preview?actor_id=" + actor.String() + "&kind=action-surge"
+			freshRequest := httptest.NewRequest("GET", previewPath, nil)
+			freshRequest.Header.Set("Authorization", "Bearer "+ownerToken)
+			freshResponse := httptest.NewRecorder()
+			router.ServeHTTP(freshResponse, freshRequest)
+			if freshResponse.Code != 200 {
+				t.Fatalf("fresh ownership preview status=%d", freshResponse.Code)
+			}
+			var fresh game.ActionPreview
+			must(json.Unmarshal(freshResponse.Body.Bytes(), &fresh))
+			if fresh.Available {
+				t.Fatal("fresh preview offered another user's Action Surge")
+			}
+			freshBody, err := json.Marshal(engine.PreparedAction{ActionID: uuid.New(), ExpectedRevision: fresh.ExpectedRevision, Intent: fresh.Intent})
+			must(err)
+			freshRequest = httptest.NewRequest("POST", "/api/v1/campaigns/"+campaign.String()+"/action/confirm", strings.NewReader(string(freshBody)))
+			freshRequest.Header.Set("Authorization", "Bearer "+ownerToken)
+			freshResponse = httptest.NewRecorder()
+			router.ServeHTTP(freshResponse, freshRequest)
+			if freshResponse.Code != 409 {
+				t.Fatalf("fresh ownership confirmation status=%d", freshResponse.Code)
+			}
+			var spent bool
+			must(testPool.QueryRow(ctx, `SELECT COALESCE((stats->'srd521'->>'action_surge_spent')::bool,false) FROM player_characters WHERE id=$1`, pc.ID).Scan(&spent))
+			unchanged, err := game.ReadEncounter(ctx, testPool, campaign)
+			must(err)
+			var attemptsAfter, historyAfter int
+			must(testPool.QueryRow(ctx, `SELECT COUNT(*) FROM turn_attempts WHERE campaign_id=$1`, c.ID).Scan(&attemptsAfter))
+			must(testPool.QueryRow(ctx, `SELECT COUNT(*) FROM session_logs WHERE campaign_id=$1`, c.ID).Scan(&historyAfter))
+			if spent || !reflect.DeepEqual(unchanged, before) || dice.calls != 2 || attemptsAfter != attemptsBefore || historyAfter != historyBefore {
+				t.Fatal("ownership rejection changed resource, encounter, dice or receipt")
 			}
 			_, err = testPool.Exec(ctx, `UPDATE player_characters SET user_id=$1 WHERE id=$2`, testUserID, pc.ID)
 			must(err)
