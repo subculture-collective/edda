@@ -7,6 +7,8 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"git.subcult.tv/subculture-collective/edda/internal/server"
+	"io"
 	"net/http"
 	"net/http/httptest"
 	"strings"
@@ -50,7 +52,7 @@ func TestIntegrationTacticalMind(t *testing.T) {
 			t.Fatal(err)
 		}
 	}
-	for _, choice := range []string{"success", "failure", "decline", "ownership", "stale", "concurrent"} {
+	for _, choice := range []string{"success", "failure", "decline", "ownership", "stale", "concurrent", "history-stale", "empty-resource"} {
 		t.Run(choice, func(t *testing.T) {
 			creation, err := srd521.SupportedBuildForConcept("Human Fighter", "Soldier")
 			must(err)
@@ -120,6 +122,11 @@ func TestIntegrationTacticalMind(t *testing.T) {
 				must(err)
 				return e
 			}
+			tuiPreview, err := newEngine().PreviewTacticalMind(ctx, campaign, entry)
+			must(err)
+			if !tuiPreview.Available || tuiPreview.ExpectedRevision != preview.ExpectedRevision {
+				t.Fatal("TUI preparation diverged")
+			}
 			request := engine.PreparedAction{ActionID: uuid.New(), ExpectedRevision: preview.ExpectedRevision, Intent: preview.Intent}
 			if choice == "ownership" {
 				// Reassign the character while leaving the campaign owned by the caller.
@@ -145,8 +152,45 @@ func TestIntegrationTacticalMind(t *testing.T) {
 				if _, err := newEngine().ConfirmAction(ctx, campaign, request); !errors.Is(err, engine.ErrActionRefresh) {
 					t.Fatal(err)
 				}
+				// Even reassigning the campaign as well cannot transfer the old window.
+				_, err = testPool.Exec(ctx, `UPDATE campaigns SET created_by=$1 WHERE id=$2`, other, c.ID)
+				must(err)
+				r = r.WithContext(auth.WithUser(r.Context(), other))
+				w = httptest.NewRecorder()
+				router.ServeHTTP(w, r)
+				if w.Code != 200 || strings.Contains(w.Body.String(), `"available":true`) {
+					t.Fatalf("new owner fresh preview: %d %s", w.Code, w.Body.String())
+				}
 				if dice.calls != 0 {
 					t.Fatal("ownership rolled")
+				}
+				return
+			}
+			if choice == "history-stale" {
+				_, err = testPool.Exec(ctx, `INSERT INTO session_logs(campaign_id,turn_number,player_input,input_type,llm_response,tool_calls) VALUES($1,2,'later action','game_action','Later narration','[]')`, c.ID)
+				must(err)
+				if prepare().Available {
+					t.Fatal("window survived later history")
+				}
+				if _, err := newEngine().ConfirmAction(ctx, campaign, request); !errors.Is(err, engine.ErrActionRefresh) {
+					t.Fatal(err)
+				}
+				if dice.calls != 0 {
+					t.Fatal("stale window rolled")
+				}
+				return
+			}
+			if choice == "empty-resource" {
+				_, err = testPool.Exec(ctx, `UPDATE player_characters SET stats=jsonb_set(stats,'{srd521,second_wind}','0') WHERE id=$1`, p.ID)
+				must(err)
+				if prepare().Available {
+					t.Fatal("empty resource offered")
+				}
+				if _, err := newEngine().ConfirmAction(ctx, campaign, request); !errors.Is(err, engine.ErrActionRefresh) {
+					t.Fatal(err)
+				}
+				if dice.calls != 0 {
+					t.Fatal("spent resource rolled")
 				}
 				return
 			}
@@ -176,6 +220,23 @@ func TestIntegrationTacticalMind(t *testing.T) {
 				t.Fatal("partial rollback")
 			}
 			failedCalls := dice.calls
+			if choice == "concurrent" {
+				start := make(chan struct{})
+				var wg sync.WaitGroup
+				for range 2 {
+					wg.Add(1)
+					go func() {
+						defer wg.Done()
+						<-start
+						_, err := newEngine().ConfirmAction(ctx, campaign, request)
+						if err != nil && !errors.Is(err, engine.ErrTurnInProgress) {
+							t.Error(err)
+						}
+					}()
+				}
+				close(start)
+				wg.Wait()
+			}
 			first, err := newEngine().ConfirmAction(ctx, campaign, request)
 			must(err)
 			if choice == "concurrent" {
@@ -191,6 +252,21 @@ func TestIntegrationTacticalMind(t *testing.T) {
 					}()
 				}
 				wg.Wait()
+			}
+			cfg := config.Config{}
+			router := server.NewRouterWithProvider(clog.New(io.Discard), newEngine(), q, nil, testPool, testUserID, cfg, nil)
+			body, err := json.Marshal(request)
+			must(err)
+			httpRequest := httptest.NewRequest(http.MethodPost, "/api/v1/campaigns/"+campaign.String()+"/action/confirm", strings.NewReader(string(body)))
+			httpResponse := httptest.NewRecorder()
+			router.ServeHTTP(httpResponse, httpRequest)
+			if httpResponse.Code != 200 || !strings.Contains(httpResponse.Body.String(), `"srd_tactical_mind"`) || strings.Contains(httpResponse.Body.String(), `"dc"`) {
+				t.Fatalf("HTTP durable replay: %d %s", httpResponse.Code, httpResponse.Body.String())
+			}
+			savedReceipt, err := newEngine().GetActionReceipt(ctx, campaign, request.ActionID)
+			must(err)
+			if savedReceipt.Result == nil {
+				t.Fatal("receipt reload missing")
 			}
 			again, err := newEngine().ConfirmAction(ctx, campaign, request)
 			must(err)

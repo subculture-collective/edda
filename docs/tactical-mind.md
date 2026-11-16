@@ -1,0 +1,81 @@
+# Tactical Mind: one persisted failed-check window (#339)
+
+The supported level-two Human Soldier Fighter can explicitly use or decline
+Tactical Mind for one server-adjudicated ordinary ability check. Attacks, saves,
+advantage/disadvantage checks, unknown outcomes, other characters and later
+levels do not qualify. General scene adjudication remains unavailable.
+
+The pinned English SRD 5.2.1 PDF, printed p.48, says to add one d10 to the
+failed ability check instead of healing. Second Wind is expended only if the
+new total succeeds. This feature does not specify an Action, Bonus Action or
+Reaction cost. It does not repeat the base check, heal, repeat narration or
+advance the scene. The original receipt and history remain intact; a new
+Tactical Mind receipt records the d10, resulting total/outcome and exact
+Second Wind before/after values. Decline closes the window without a die or
+resource charge. A still-failed attempt also closes it; this bounded slice
+never chains another attempt on the same check.
+
+Source review included D20 Tests and ability checks (p.6), Actions and Bonus
+Actions (pp.9–10), Second Wind and Tactical Mind (p.48), and the glossary's
+Long Rest and Short Rest rules. Second Wind recovers one expended use on a
+Short Rest and all uses on a Long Rest; recovery remains owned by the existing
+Fighter rest implementation. Tactical Mind does not award rest benefits or
+spend an encounter action. Source artifact:
+`/tmp/edda-wave1/SRD_CC_v5.2.1.pdf`, SHA-256
+`8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87`.
+These mechanics are Edda adaptations of the CC-BY-4.0 source; license,
+attribution, source URL and pin remain in [the conformance document](srd-5.2.1-conformance.md).
+Coverage remains partial.
+
+## Trusted window and persistence
+
+Migration 00043 adds only `tactical_mind_windows`, with cascading actor/campaign
+references, original check ID and public receipt, private difficulty, owner,
+actor revision, last history turn and consumed flag. It has no player/model
+write endpoint. No production migration was run.
+
+`game.OpenTacticalMindWindow` is the trusted fixture-adjudication boundary.
+Call it inside the transaction recording the original failed check and history,
+after those writes, with a locked current actor/campaign snapshot and the
+server resolution. It requires a disclosed failure and ordinary ability-check
+receipt. The existing free text/ordinary sheet check confirmation deliberately
+returns an unknown outcome; it does not invent a DC, infer failure or open a
+window. This PR therefore supports explicitly persisted adjudicated windows,
+not automatic post-failure choices for arbitrary narrative checks.
+
+The window is bound to the character owner as well as the campaign owner.
+Fresh authenticated preparation rejects a character reassigned to another user;
+transferring both character and campaign cannot transfer the old owner's window.
+Revision and latest-history checks additionally reject changed actor state or
+later actions. Confirmation locks the campaign/actor/window and reloads those
+facts. The existing transaction atomically closes the window, updates only the
+Second Wind JSON leaf, and writes history and a durable action receipt.
+Unrelated stats and legacy reads remain intact. Same-ID retry/reload returns
+the original durable receipt without another die; a different ID cannot reuse
+the consumed window. An intervening rest or other action invalidates the window.
+
+## Adapters and verification limits
+
+The web action menu has use/decline selections for Fighter 2. Both prepare
+through `game.PrepareStoredAction` and require the existing explicit Confirm
+button. The typed public receipt has no private difficulty field. A known DC
+in the original check remains known; hidden DCs remain omitted.
+
+The shared Go preparation/confirmation boundary is available to Go consumers.
+The TUI follows the merged Action Surge command pattern: `/tactical-mind`
+previews use, `/decline-tactical-mind` previews decline, and
+`/confirm-tactical-mind` confirms the pending choice. `/cancel-tactical-mind`
+dismisses local confirmation without consuming the server window. Routing
+tests exercise preview, explicit confirmation, same-ID lost-response retry and
+decline selection without entering the inference path. Pending TUI identity is
+in memory; process-restart recovery is not claimed.
+
+Rules tests cover d10 1/10, equality success, still-failed cost, decline,
+invalid dice, unavailable resources, attacks/saves and nonordinary checks.
+Isolated PostgreSQL integration exercises injectable dice, history-failure
+rollback, reload, durable replay, concurrent confirmations, stale actor/history,
+empty resources, and fresh authenticated ownership negatives. These use a real
+disposable PostgreSQL container, not a database double. Browser fixtures use
+API doubles and test explicit confirmation plus lost-response/reload recovery
+at 1440×844 and 390×844. Phone viewport emulation does not establish physical
+phone keyboard behavior or end-to-end browser-to-PostgreSQL integration.

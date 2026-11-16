@@ -554,3 +554,20 @@ func (e *Engine) PreviewActionSurge(ctx context.Context, campaignID uuid.UUID) (
 	}
 	return prepared.Preview, nil
 }
+
+// PreviewTacticalMind restores only the saved owned window for the trusted TUI.
+func (e *Engine) PreviewTacticalMind(ctx context.Context, campaignID uuid.UUID, choice string) (*game.ActionPreview, error) {
+	var actorID uuid.UUID
+	if err := e.baseDB.QueryRow(ctx, `SELECT actor_id FROM tactical_mind_windows WHERE campaign_id=$1 AND NOT resolved ORDER BY actor_id LIMIT 1`, campaignID).Scan(&actorID); err != nil {
+		return nil, ErrActionRefresh
+	}
+	c, pc, err := game.ReadActionSnapshot(ctx, e.baseDB, campaignID, actorID, uuid.Nil, false)
+	if err != nil {
+		return nil, err
+	}
+	prepared, err := game.PrepareStoredAction(ctx, e.baseDB, c, pc, game.ActionIntent{ActorID: actorID, Kind: srd521.TacticalMind, EntryID: choice}, false)
+	if err != nil {
+		return nil, err
+	}
+	return prepared.Preview, nil
+}

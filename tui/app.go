@@ -83,8 +83,22 @@ type surgeEngine interface {
 	ConfirmAction(context.Context, uuid.UUID, engine.PreparedAction) (*engine.TurnResult, error)
 }
 
+type tacticalPreparedMsg struct {
+	preview *game.ActionPreview
+	err     error
+}
+type tacticalConfirmedMsg struct {
+	result *engine.TurnResult
+	err    error
+}
+type tacticalEngine interface {
+	PreviewTacticalMind(context.Context, uuid.UUID, string) (*game.ActionPreview, error)
+	ConfirmAction(context.Context, uuid.UUID, engine.PreparedAction) (*engine.TurnResult, error)
+}
+
 type App struct {
-	surgeRequest *engine.PreparedAction
+	tacticalRequest *engine.PreparedAction
+	surgeRequest    *engine.PreparedAction
 
 	cfg      config.Config
 	ctx      context.Context
@@ -274,7 +288,82 @@ func (a App) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			nv.AddEntry(narrative.Entry{Kind: narrative.KindSystem, Text: text})
 		}
 		return a, nil
+	case tacticalPreparedMsg:
+		a.turnBusy = false
+		nv := a.narrativeView()
+		if nv == nil {
+			return a, nil
+		}
+		_ = nv.SetLoading(false)
+		if msg.err != nil || msg.preview == nil {
+			nv.AddEntry(narrative.Entry{Kind: narrative.KindSystem, Text: "Tactical Mind unavailable; requires the owned level-two Human Soldier Fighter saved failed-check window."})
+			return a, nil
+		}
+		if !msg.preview.Available {
+			nv.AddEntry(narrative.Entry{Kind: narrative.KindSystem, Text: msg.preview.Reason})
+			return a, nil
+		}
+		a.tacticalRequest = &engine.PreparedAction{ActionID: uuid.New(), ExpectedRevision: msg.preview.ExpectedRevision, Intent: msg.preview.Intent}
+		nv.AddEntry(narrative.Entry{Kind: narrative.KindSystem, Text: "Preview only: " + strings.Join(msg.preview.Options, " ") + " Type /confirm-tactical-mind to confirm this choice, or /cancel-tactical-mind. No dice or resources spent."})
+		return a, nil
+	case tacticalConfirmedMsg:
+		a.turnBusy = false
+		if nv := a.narrativeView(); nv != nil {
+			_ = nv.SetLoading(false)
+			text := "Delivery uncertain. /confirm-tactical-mind retries the same saved action ID."
+			if msg.err == engine.ErrActionRefresh {
+				a.tacticalRequest = nil
+				text = "Action changed; /tactical-mind to preview again."
+			}
+			if msg.err == nil && msg.result != nil {
+				text = msg.result.Narrative
+				a.tacticalRequest = nil
+			}
+			nv.AddEntry(narrative.Entry{Kind: narrative.KindSystem, Text: text})
+		}
+		return a, nil
 	case narrative.SubmitMsg:
+		if strings.TrimSpace(msg.Input) == "/tactical-mind" || strings.TrimSpace(msg.Input) == "/decline-tactical-mind" || strings.TrimSpace(msg.Input) == "/confirm-tactical-mind" || strings.TrimSpace(msg.Input) == "/cancel-tactical-mind" {
+			if a.turnBusy {
+				return a, nil
+			}
+			nv := a.narrativeView()
+			se, ok := a.engine.(tacticalEngine)
+			if nv == nil || !ok {
+				return a, nil
+			}
+			input := strings.TrimSpace(msg.Input)
+			if input == "/cancel-tactical-mind" {
+				a.tacticalRequest = nil
+				nv.AddEntry(narrative.Entry{Kind: narrative.KindSystem, Text: "Tactical Mind confirmation dismissed."})
+				return a, nil
+			}
+			if input == "/confirm-tactical-mind" {
+				if a.tacticalRequest == nil {
+					nv.AddEntry(narrative.Entry{Kind: narrative.KindSystem, Text: "Use /tactical-mind to preview first."})
+					return a, nil
+				}
+				request := *a.tacticalRequest
+				a.turnBusy = true
+				return a, func() tea.Msg {
+					result, err := se.ConfirmAction(a.ctx, dbutil.FromPgtype(a.campaign.ID), request)
+					return tacticalConfirmedMsg{result, err}
+				}
+			}
+			if a.tacticalRequest != nil {
+				nv.AddEntry(narrative.Entry{Kind: narrative.KindSystem, Text: "Confirm/retry or cancel the pending Tactical Mind first."})
+				return a, nil
+			}
+			a.turnBusy = true
+			return a, func() tea.Msg {
+				choice := "use"
+				if input == "/decline-tactical-mind" {
+					choice = "decline"
+				}
+				p, err := se.PreviewTacticalMind(a.ctx, dbutil.FromPgtype(a.campaign.ID), choice)
+				return tacticalPreparedMsg{p, err}
+			}
+		}
 		if strings.TrimSpace(msg.Input) == "/action-surge" || strings.TrimSpace(msg.Input) == "/confirm-action-surge" || strings.TrimSpace(msg.Input) == "/cancel-action-surge" {
 			if a.turnBusy {
 				return a, nil
