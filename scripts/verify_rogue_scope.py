@@ -15,7 +15,7 @@ PATH=ROOT/'docs/investigations/issue-329-rogue-scope.json'
 RECEIPT=ROOT/'docs/investigations/issue-329-link-verification.json'
 PIN='8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87'
 AUDIT_FIELDS=['catalogues','records','issues','grants','evidence','common_acceptance','dispatch_inventory','unqualified_dispatch_ids','dispatch_bindings','reservation']
-AUDIT_SEAL='0369bcdfccb62a0ee14c359bc28f32ffcc8800b95a3f226b6dad85bd4a2c8ca2'
+AUDIT_SEAL='34dfe34f09e59954d23b0ed9e1d5b5fc7178f77514e2f9dffadaf0d0126daec2'
 
 def digest(x):return hashlib.sha256(json.dumps(x,sort_keys=True).encode()).hexdigest()
 
@@ -40,7 +40,25 @@ def caps(graph):
     from rogue_native_proof import caps as check
     check(graph)
 
+def multiclass_ownership(m):
+    # The reduced multiclass grant includes proficiencies and level-1 features;
+    # its Hit Die is supplied by the separate HP adapter, not its grant owner.
+    composite='srd-5.2.1:mechanic/rogue/multiclass/hit-die-one-class-skill-thieves-tools-light-armor-and-level-1-features'
+    hit_die='srd-5.2.1:mechanic/rogue/hit-die-sides'
+    record=next(x for x in m['records'] if x['record']['id']=='srd-5.2.1:character/class/rogue')
+    assert record['key_owners'][composite]==['multiclass'],'composite multiclass grant owner'
+    assert record['key_owners'][hit_die]==['hp'],'standalone Hit Die owner'
+    rows={x['key']:x for x in m['issues']}
+    assert composite in rows['multiclass']['source_keys'] and composite not in rows['hp']['source_keys'],'composite multiclass source keys'
+    assert hit_die in rows['hp']['source_keys'] and hit_die not in rows['multiclass']['source_keys'],'standalone Hit Die source keys'
+    assert 'hp' in rows['multiclass']['depends'],'multiclass HP dependency'
+    if m.get('published_issues'):
+        published={x['key']:x for x in m['published_issues']}
+        assert composite in published['multiclass']['source_keys'] and composite not in published['hp']['source_keys'],'published composite multiclass source keys'
+        assert published['hp']['issue'] in published['multiclass']['blocked_by_issues'],'published multiclass HP dependency'
+
 def semantic(m):
+    multiclass_ownership(m)
     # Reconstruct complete source/owner contracts independently of the native receipt.
     from build_rogue_checkpoint import audit
     expected=json.loads(json.dumps(audit(write=False)))

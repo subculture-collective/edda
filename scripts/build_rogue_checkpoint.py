@@ -118,7 +118,7 @@ def audit(write=True):
         mapping={}
         for key in r["required_mechanics"]+r["option_keys"]:
             own=owners(r)
-            if r["kind"]=="class":own=["hp" if "hit-die" in key else "multiclass" if "/multiclass/" in key else "traits"]
+            if r["kind"]=="class":own=["multiclass" if "/multiclass/" in key else "hp" if "hit-die" in key else "traits"]
             if r["id"].endswith("/use-magic-device"):
                 own=["attunement"] if "attun" in key else ["charges"] if "charge" in key else ["scroll-check"]
             if r["id"].endswith("/second-story-work"):own=["climber"] if "climb" in key else ["jumper"]

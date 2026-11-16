@@ -12,7 +12,7 @@ from rogue_capacity import project
 ROOT=Path(__file__).resolve().parents[1]
 RECEIPT=ROOT/'docs/investigations/issue-329-link-verification.json'
 PROJECT='PVT_kwDODjtmGM4BrFJ2'
-OWNED_SEAL='aff6da9893702e5b6b219be27c75453b9bdfb1d33acf559bbf80e0a9b8eb057a'
+OWNED_SEAL='eda80018e3e44db7813ccec745124718ce9f21ea04cf84ba6c06ac84295e6b80'
 CONSUMED_SEAL='9a79ecaf85edeab10722e16df3c6602cf109c29b41f5d1e1c237cf58a493ef76'
 # Never populate from current live bodies. These require the accepted ROOT release.
 from freeze_rogue_parents import MERGE as ACCEPTED_POST_RANGER,SEALS as ACCEPTED_PREFIXES,validate_release
@@ -75,6 +75,8 @@ def collect(m):
     return r
 
 def validate(m,r,sealed=False):
+    from verify_rogue_scope import multiclass_ownership
+    multiclass_ownership(m)
     sealed=sealed or m.get('final_seal')=='PASS'
     caps(r['graph']);g={x['number']:x for x in r['graph']};owned=m['published_issues'];by={x['key']:x for x in owned}
     assert len(owned)==len(by)==77 and len({x['issue'] for x in owned})==77
