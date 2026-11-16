@@ -54,11 +54,21 @@ type CharacterRecord struct {
 	ValuesByLevel []CharacterLevelValue `json:"values_by_level,omitempty"`
 	// Options retain quantities within alternative equipment bundles.
 	Options []CharacterChoiceOption `json:"options,omitempty"`
-	// Parameters retain uninterpreted numeric class or feature metadata.
+	// Parameters retain uninterpreted numeric class, feature or feat metadata.
 	Parameters map[string]int `json:"parameters,omitempty"`
+	// AlwaysPrepared retains fixed spell references at explicit class levels.
+	// These are opaque grants, never optional choices or executable spells.
+	AlwaysPrepared []CharacterPreparedSpells `json:"always_prepared,omitempty"`
 	// Requirement is an unevaluated prerequisite predicate. Its key must also
 	// appear in RequiredMechanics. Parameters are source metadata, never code.
 	Requirement *CharacterRequirement `json:"requirement,omitempty"`
+}
+
+// CharacterPreparedSpells is one fixed domain-spell table row. SpellKeys must
+// also be required mechanics; only a qualified consumer could grant them.
+type CharacterPreparedSpells struct {
+	Level     int      `json:"level"`
+	SpellKeys []string `json:"spell_keys"`
 }
 
 // CharacterClassProgression records grants from a class table, never XP thresholds.
@@ -453,6 +463,20 @@ func validateClassMetadata(r CharacterRecord) error {
 	for _, key := range r.RequiredMechanics {
 		required[key] = true
 	}
+	previousPreparedLevel := 0
+	seenSpells := map[string]bool{}
+	for _, row := range r.AlwaysPrepared {
+		if r.Kind != "feature" || row.Level <= previousPreparedLevel || row.Level > 20 || len(row.SpellKeys) == 0 {
+			return fmt.Errorf("%s: invalid always-prepared row", r.ID)
+		}
+		previousPreparedLevel = row.Level
+		for _, key := range row.SpellKeys {
+			if !mechanicKey.MatchString(key) || !required[key] || seenSpells[key] {
+				return fmt.Errorf("%s: fixed spell key must be required and unique", r.ID)
+			}
+			seenSpells[key] = true
+		}
+	}
 	if p := r.Progression; p != nil {
 		if r.Kind != "level" || p.ProficiencyBonus < 2 || p.ProficiencyBonus > 6 || p.FeatureRefs == nil || p.FeatureKeys == nil {
 			return fmt.Errorf("%s: invalid class progression", r.ID)
@@ -505,8 +529,8 @@ func validateClassMetadata(r CharacterRecord) error {
 			}
 		}
 	}
-	if len(r.Parameters) > 0 && r.Kind != "class" && r.Kind != "feature" {
-		return fmt.Errorf("%s: parameters require class or feature", r.ID)
+	if len(r.Parameters) > 0 && r.Kind != "class" && r.Kind != "feature" && r.Kind != "feat" {
+		return fmt.Errorf("%s: parameters require class, feature or feat", r.ID)
 	}
 	for key, value := range r.Parameters {
 		if !required[key] || value < 1 {
