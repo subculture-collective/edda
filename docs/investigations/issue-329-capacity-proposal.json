@@ -1,6 +1,6 @@
 {
-  "new_tasks": 71,
-  "terminals": 66,
+  "new_tasks": 77,
+  "terminals": 72,
   "gates": 5,
   "execution_consumers": [
     "expertise",
@@ -38,7 +38,13 @@
     "utilize",
     "magic-item",
     "attune-item",
-    "scroll-item"
+    "scroll-item",
+    "scroll-aid",
+    "cloak-protection",
+    "gauntlets-ogre",
+    "ring-jumping",
+    "ring-protection",
+    "wand-dawn"
   ],
   "maxima": {
     "incoming": 99,
@@ -48,12 +54,12 @@
   "projected": {
     "279": {
       "incoming": 99,
-      "outgoing": 10,
+      "outgoing": 11,
       "children": 0
     },
     "280": {
       "incoming": 94,
-      "outgoing": 2,
+      "outgoing": 3,
       "children": 0
     },
     "283": {
@@ -117,14 +123,14 @@
       "children": 0
     },
     "-1": {
-      "incoming": 4,
+      "incoming": 6,
       "outgoing": 1,
       "children": 2
     },
     "-2": {
-      "incoming": 39,
+      "incoming": 40,
       "outgoing": 1,
-      "children": 39
+      "children": 40
     },
     "-3": {
       "incoming": 21,
@@ -132,13 +138,13 @@
       "children": 21
     },
     "-4": {
-      "incoming": 6,
+      "incoming": 11,
       "outgoing": 3,
-      "children": 5
+      "children": 10
     },
     "-5": {
-      "incoming": 5,
-      "outgoing": 36,
+      "incoming": 7,
+      "outgoing": 42,
       "children": 0
     }
   }

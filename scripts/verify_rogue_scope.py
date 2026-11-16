@@ -1,31 +1,30 @@
 #!/usr/bin/env python3
-"""Verify Rogue audit checkpoint. Publication/sealed proof deliberately fails while pending."""
+"""Strict Rogue source/native proof; FINAL prefix seal is a separate ROOT release gate."""
 import argparse
 from collections import Counter
 import hashlib
 import json
+import re
 from pathlib import Path
 import subprocess
-from verify_fighter_scope import graph_read, acyclic
+from verify_fighter_scope import graph_read,acyclic
 from rogue_capacity import project
 
 ROOT=Path(__file__).resolve().parents[1]
 PATH=ROOT/'docs/investigations/issue-329-rogue-scope.json'
-RECEIPT=ROOT/'docs/investigations/issue-329-native-observation.json'
+RECEIPT=ROOT/'docs/investigations/issue-329-link-verification.json'
 PIN='8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87'
-AUDIT_SEAL='c25cf037e54639956bf0cb1bd3617c9bdf817049c054f75d6417e7abeb260d76'
-OBSERVATION_SEAL='a09589a35cac1eb94d6936a3c2c035b15851d8571a286e19e0b30bb065962dc1'
+AUDIT_FIELDS=['catalogues','records','issues','grants','evidence','common_acceptance','dispatch_inventory','unqualified_dispatch_ids','dispatch_bindings','reservation']
+AUDIT_SEAL='808447fae90e61548c36a7b9dd93ef41b421a07bf1488b2ed2edba879c5d9e38'
 
 def digest(x):return hashlib.sha256(json.dumps(x,sort_keys=True).encode()).hexdigest()
 
 def pages(path,api,limit=3):
     assert '?' not in path
-    seen=set();result=[]
+    result=[];seen=set()
     for page in range(1,limit+1):
-        batch=api(f'{path}?per_page=100&page={page}')
-        assert isinstance(batch,list) and len(batch)<=100
-        ids=[x['id'] for x in batch]
-        assert len(set(ids))==len(ids) and not seen.intersection(ids),'repeated page'
+        batch=api(f'{path}?per_page=100&page={page}');assert isinstance(batch,list) and len(batch)<=100
+        ids=[x['id'] for x in batch];assert len(set(ids))==len(ids) and not seen.intersection(ids),'repeated page'
         seen.update(ids);result.extend(batch)
         if len(batch)<100:return result
     raise AssertionError('pagination call cap')
@@ -33,84 +32,72 @@ def pages(path,api,limit=3):
 def parent_append(prefix,section,actual):
     assert actual.startswith(prefix+section),'original-only rollback or changed prefix/section'
     assert actual.count('<!-- edda-329:start -->')==actual.count('<!-- edda-329:end -->')==1,'altered duplicate marker'
+    markers=re.findall(r'<!--\s*edda-329\s*:\s*(start|end)\s*-->',actual,re.I)
+    assert [x.lower() for x in markers].count('start')==[x.lower() for x in markers].count('end')==1,'altered duplicate marker'
     assert len(actual)<=65536
 
 def caps(graph):
-    g={x['number']:x for x in graph};assert len(g)==len(graph)
-    for x in graph:
-        assert len(x['blocked_by'])==len(set(x['blocked_by']))<=100
-        assert set(x['blocked_by'])<=set(g),'missing dependency'
-        assert x['parent'] is None or x['parent'] in g
-    outgoing=Counter(n for x in graph for n in x['blocked_by']);children=Counter(x['parent'] for x in graph if x['parent'] is not None)
-    assert max(outgoing.values(),default=0)<=100
-    assert max(children.values(),default=0)<=100
-    acyclic(g);acyclic({n:dict(blocked_by=[x['parent']] if x['parent'] is not None else []) for n,x in g.items()})
+    from rogue_native_proof import caps as check
+    check(graph)
 
-def validate(m):
-    assert digest(m)==AUDIT_SEAL,'independent audited checkpoint seal'
+def semantic(m):
+    # Reconstruct complete source/owner contracts independently of the native receipt.
+    from build_rogue_checkpoint import audit
+    expected=json.loads(json.dumps(audit(write=False)))
+    for k in AUDIT_FIELDS:assert m[k]==expected[k],f'complete actual source/contract:{k}'
+    rows={x['key']:x for x in m['issues']};assert len(rows)==len(m['issues'])==72
     assert m['source_sha256']==PIN and m['base']=='952fab917329e00cceebf46a8bacd59cb1c30e99'
-    assert m['accepted_post_ranger'] is None and m['publication'].startswith('PENDING')
-    records=[]
-    for name,c in m['catalogues'].items():
-        assert c==json.loads((ROOT/f'internal/rules/srd521/testdata/character-{name}.json').read_text())
-        assert c['source']['sha256']==PIN
-        if name in ['rogue','thief']:records+=c['records']
-    assert len(records)==107 and records==[x['record'] for x in m['records']]
-    rows={x['key']:x for x in m['issues']};assert len(rows)==len(m['issues'])==66
+    for n in range(1,21):
+        row=rows[f'level-{n}'];assert {'hp','multiclass'}<=set(row['depends'])
+        if n>1:
+            assert f'level-{n-1}' in row['depends']
+            assert f'exact adjacent Rogue{n-1}->{n} ONLY' in row['fixture']
+            assert 'first-character1 or adjacent' not in row['fixture'] and 'first1 consumes' not in row['fixture']
+        else:assert 'first-character Rogue1 creation ONLY' in row['fixture']
+        # Grant owners are source identities, never assigned to an unrelated ASI row.
+        canonical=next(r['record'] for r in m['records'] if r['record']['kind']=='level' and r['record']['level']==n)
+        for ident in canonical['progression']['feature_refs']:
+            feature=next(r for r in m['records'] if r['record']['id']==ident)
+            assert set(feature['execution_owners'])<=set(row['depends']),f'granting-level owner{n}:{ident}'
     for x in m['records']:
         r=x['record'];assert set(x['key_owners'])==set(r['required_mechanics']+r['option_keys'])
-        assert x['state']=='metadata only; Rogue/Thief unavailable'
-        assert set(x['execution_owners'])<=set(rows)
-        for owners in x['key_owners'].values():assert owners and set(owners)<=set(rows)
-        if r['kind']=='feature' and not r['id'].endswith('/ability-score-improvement'):
-            assert 'improvement' not in x['execution_owners'],'unrelated ASI owner'
-    for n in range(1,21):
-        row=rows[f'level-{n}'];assert 'hp' in row['depends'] and 'multiclass' in row['depends']
-        assert set(m['grants'][str(n)])<=set(row['depends'])
-        if n>1:assert f'level-{n-1}' in row['depends']
+        assert all(set(v)<=set(rows) and v for v in x['key_owners'].values())
+        if r['kind']=='feature' and not r['id'].endswith('/ability-score-improvement'):assert 'improvement' not in x['execution_owners']
     assert {'evasion','reliable-talent'}<=set(rows['level-7']['depends'])
     assert {'hp','multiclass'}<=set(rows['later-1']['depends'])
-    assert rows['hp']['prerequisites']==[968,58]
-    assert not any(429 in x['prerequisites'] for x in rows.values())
-    for x in rows.values():
-        assert x['issue'] is None and x['publication']=='UNPUBLISHED'
-        assert set(x['depends'])<=set(rows)
-    adv={x['level']:x['advancement'] for x in m['catalogues']['advancement']['records']}
-    assert adv[5]==dict(experience_points=6500,proficiency_bonus=3)
-    assert adv[6]==dict(experience_points=14000,proficiency_bonus=3)
+    assert rows['hp']['prerequisites']==[968,58] and not any(429 in x['prerequisites'] for x in rows.values())
     for p,x in m['evidence'].items():assert hashlib.sha256((ROOT/p).read_bytes()).hexdigest()==x['sha256']
+    d=m['dispatch_inventory'];assert len(d)==597 and Counter(x['record']['family'] for x in d)=={'spells':339,'magic-items':258}
+    assert len({x['record']['id'] for x in d})==597
+    assert m['unqualified_dispatch_ids']==[x['record']['id'] for x in d if x['effect_owner'] is None]
     for n in [47,54,283,337]:
         section=(ROOT/f'docs/investigations/issue-329-parent-{n}-PENDING.md').read_text()
-        assert len(section)<=(90 if n==47 else 750)
-        parent_append('',section,section)
-    return m
+        assert len(section)<=(90 if n==47 else 750);parent_append('',section,section)
+        from rogue_native_proof import SUPPLEMENT_SEALS
+        assert hashlib.sha256(section.encode()).hexdigest()==SUPPLEMENT_SEALS[str(n)]
 
-def validate_observation(m,r):
-    assert digest(r)==OBSERVATION_SEAL,'independent native observation seal'
-    assert r['status']=='OBSERVATION ONLY; NO OWN NATIVE PUBLICATION; PENDING'
-    assert r['owned_issues']==[] and r['observed_at'] and r['limits']
-    caps(r['graph']);g={x['number']:x for x in r['graph']}
-    for n in [285,294,316]:assert g[n]['state']=='closed'
-    assert g[329]['parent']==283 and g[329]['blocked_by']==[285,294,316]
-    assert g[968]['parent']==336 and g[968]['blocked_by']==[429]
-    for n,c in r['consumed_contracts'].items():assert c['number']==int(n)
-    c=r['consumed_contracts']['779'];assert hashlib.sha256(c['body'].encode()).hexdigest()=='556d1618d1cd2bd9c956fe38861d89e94ee14ff61a505b5d2b6a1fa46d19d150'
-    assert c['parent']==50 and c['blocked_by']==[61,64,65,66,67,488,778]
-    assert project(m,r['graph'])==json.loads((ROOT/'docs/investigations/issue-329-capacity-proposal.json').read_text())
+def validate(m):
+    assert digest({k:m[k] for k in AUDIT_FIELDS})==AUDIT_SEAL,'independent audited source/contract seal'
+    semantic(m);return m
 
 def main():
-    p=argparse.ArgumentParser(description=__doc__);p.add_argument('--pdf',required=True);p.add_argument('--live',action='store_true');p.add_argument('--publication',action='store_true');p.add_argument('--sealed',action='store_true');a=p.parse_args()
+    p=argparse.ArgumentParser(description=__doc__);p.add_argument('--pdf',required=True);p.add_argument('--live',action='store_true');p.add_argument('--publication',action='store_true');p.add_argument('--sealed',action='store_true');p.add_argument('--write-receipt',action='store_true');a=p.parse_args()
     assert hashlib.sha256(Path(a.pdf).read_bytes()).hexdigest()==PIN
-    m=validate(json.loads(PATH.read_text()));r=json.loads(RECEIPT.read_text());validate_observation(m,r)
+    m=validate(json.loads(PATH.read_text()))
     for name in ['rogue','thief','advancement','multiclass','origin_feats','general_feats','fighting_styles','epic_boon_feats']:
         subprocess.run(['rtk','proxy','python3',str(ROOT/f'scripts/verify_srd_{name}.py'),a.pdf],check=True,stdout=subprocess.DEVNULL)
+    from verify_rogue_consumed_sources import verify
+    verify(Path(a.pdf),m)
+    from rogue_native_proof import collect,validate as native
     if a.live:
-        graph=graph_read();caps(graph);g={x['number']:x for x in graph}
-        for n,c in r['consumed_contracts'].items():
-            actual=g[int(n)]
-            assert all(actual[k]==c[k] for k in ['title','body','parent','blocked_by']),f'consumed owner drift#{n}'
-        project(m,graph)
-    assert not(a.publication or a.sealed),'PENDING: native publication, item scope and accepted POST-RANGER prefix unavailable; checkpoint cannot qualify closure'
-    print('Rogue checkpoint passes:107 records,20 rows,66 proposed terminals; PUBLICATION/SEALED proof PENDING')
+        r=collect(m)
+        if a.write_receipt:RECEIPT.with_suffix('.candidate.json').write_text(json.dumps(r,indent=2)+'\n')
+        result=native(m,r,sealed=a.sealed)
+        if a.write_receipt:
+            RECEIPT.with_suffix('.candidate.json').replace(RECEIPT)
+    else:
+        assert not a.write_receipt,'live observation required'
+        r=json.loads(RECEIPT.read_text());result=native(m,r,sealed=a.sealed)
+    print('Rogue exact publication proof PASS',json.dumps(result),';runtime remains unavailable')
 
 if __name__=='__main__':main()
