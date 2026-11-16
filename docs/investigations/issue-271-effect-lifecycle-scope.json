@@ -80,7 +80,7 @@
       ],
       "fixture": "One prepared level-one Cleric casts Bless on self and two known creatures; one recipient makes a supported attack and another makes a supported saving throw.",
       "targets": "One to three distinct known same-campaign creatures within 30 feet and a clear path. Validate every target before any write. No hidden actor enumeration.",
-      "cost": "One level-one slot and Magic action, V/S/M with trusted focus ruling; a d4 per affected attack roll or saving throw, no cost per recipient.",
+      "cost": "One level-one slot and Magic action, V/S and an owned Holy Symbol worth at least 5 GP (not consumed). Verify the explicit priced material; an arbitrary focus cannot substitute for it. A d4 per affected attack roll or saving throw, no cost per recipient.",
       "timing": "Concentration up to 60 seconds; one cast identity owns all recipient links. Overlapping equal Bless casts give one d4, latest live effect; caster ending removes only that cast.",
       "keys": [
         "effect.recipients.explicit-set",
