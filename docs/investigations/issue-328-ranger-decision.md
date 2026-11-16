@@ -3,7 +3,7 @@
 This is a decision and publication change. Ranger and Hunter remain unavailable.
 No runtime, grants, coverage, fixed Fighter/Cleric fixtures or production state
 are changed. Native publication and final sealed readback are complete against the accepted
-Paladin release. The four parent appends await root serial publication.
+Paladin release. The root has published all four exact parent appends; fresh live verification with required supplements passes.
 
 Prepared base: `3042172c935bdefa606c008c8ddda277b7548fd8` (accepted Monk #843).
 The pinned SRD5.2.1 PDF SHA256 is
@@ -76,7 +76,7 @@ All feature fixtures require isolated entitlements and grant no production acces
 ## Published bounded owners and native routing
 
 Published **123 Task/M issues**: protocol gateway968,113 implementation leaves
-and9 finite qualification gates. The complete unsealed readback covers940issues.
+and9 finite qualification gates. The final published-supplement readback covers940issues.
 Every owned title/body/parent/prerequisite and Task/Size matched; both DAGs and
 all native caps passed. After the accepted Paladin merge952fab917329e00cceebf46a8bacd59cb1c30e99,
 the root released four complete parent prefixes. Fresh live readback matched
@@ -260,4 +260,4 @@ owner bodies remain untouched; no watch, polling, merge, deploy or closure.
 Capacity projection from initial live graph plus proposed exact edges:279incoming98,
 280incoming93,337incoming55,429outgoing100,283children95,328children5.
 Existing primitive outgoing projections61=75,64=41,65=66,66=55,67=92,273=32,
-353=68. These values also match the final sealed native readback. Parent serial appends remain pending.
+353=68. These values also match the final sealed native readback. All four parent appends are published and sealed in the refreshed receipt. Decision closure is accepted without removing any implementation requirement; all616 owned edge-removal controls also reject after simulated closure.

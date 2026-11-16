@@ -131,7 +131,7 @@ def validate_live(m,r):
  rr=validate_plan(m);assert all(x['issue'] for x in rr.values()),'unpublished plan cannot qualify'
  g={x['number']:x for x in r['graph']};assert len(g)==len(r['graph'])
  assert {328,285,293,315,968,429}<=set(g),'incomplete native graph'
- assert g[328]['state']=='open','decision must remain open until merge'
+ assert g[328]['state'] in ['open','closed'],'invalid decision state'
  assert g[328]['parent']==283 and g[328]['blocked_by']==[285,293,315],'decision source prerequisites'
  for n in [285,293,315]:assert g[n]['state']=='closed'
  acyclic(g);acyclic({n:dict(blocked_by=[x['parent']] if x['parent'] else []) for n,x in g.items()})

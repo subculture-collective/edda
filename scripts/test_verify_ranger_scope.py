@@ -82,15 +82,18 @@ class Controls(unittest.TestCase):
  def test_native_synthetic_positive_and_every_owned_edge(self):
   from ranger_scope_test_support import synthetic_receipt
   m,r=synthetic_receipt(self.m);v.validate_live(m,r)
-  # Every owned implementation/gate edge is checked independently.
+  # Closing the decision never substitutes for any implementation/gate edge.
+  next(x for x in r['graph'] if x['number']==328)['state']='closed'
+  v.validate_live(m,r)
+  # Every owned edge is independently required even after decision closure.
   for x in m['tasks']+m['gates']:
    for edge in set(x['prerequisites'])|{v.rows(m)[d]['issue'] for d in x['depends']}:
     broken=deepcopy(r);node=next(a for a in broken['graph'] if a['number']==x['issue']);node['blocked_by'].remove(edge)
     with self.assertRaises(AssertionError):v.validate_live(m,broken)
- def test_native_metadata_body_parent_root_and_closed(self):
+ def test_native_metadata_body_parent_and_root(self):
   from ranger_scope_test_support import synthetic_receipt
   m,r=synthetic_receipt(self.m);owned=m['tasks'][0]['issue'];g=lambda receipt,n:next(x for x in receipt['graph'] if x['number']==n)
-  changes=[lambda q:g(q,owned).update(body='altered'),lambda q:g(q,owned).update(parent=328),lambda q:q['project'][str(owned)].update(size='L'),lambda q:q['project'][str(owned)].update(type='Feature'),lambda q:g(q,328).update(state='closed'),lambda q:g(q,429).update(body='altered'),lambda q:g(q,279)['blocked_by'].remove(v.rows(m)['shared-gate']['issue'])]
+  changes=[lambda q:g(q,owned).update(body='altered'),lambda q:g(q,owned).update(parent=328),lambda q:q['project'][str(owned)].update(size='L'),lambda q:q['project'][str(owned)].update(type='Feature'),lambda q:g(q,429).update(body='altered'),lambda q:g(q,279)['blocked_by'].remove(v.rows(m)['shared-gate']['issue'])]
   for change in changes:
    broken=deepcopy(r);change(broken)
    with self.assertRaises(AssertionError):v.validate_live(m,broken)

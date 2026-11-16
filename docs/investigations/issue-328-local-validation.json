@@ -23,7 +23,7 @@
     "epic_boon_feats"
   ],
   "source_comparators_exit": 0,
-  "controls": "21 tests pass; includes all616 owned dependency edge deletions, source/page/numeric/semantic ownership, integer class-total operands, body/metadata/parent, native caps/both cycles, API/pagination and immutable parent-section controls",
+  "controls": "21 tests pass; includes all616 owned dependency edge deletions after decision closure, source/page/numeric/semantic ownership, integer class-total operands, body/metadata/parent, native caps/both cycles, API/pagination and immutable parent-section controls",
   "publication": "123Tasks published; final accepted post-Paladin sealed940issue native readback PASS",
   "final_parent_prefix": "Accepted root release matched live and frozen in code+artifact",
   "limitations": [
@@ -52,6 +52,17 @@
     }
   },
   "native_summary": "issue-328-unsealed-native-summary.json",
-  "parent_supplements": "root serial publication pending; child ran read-only preflight only",
-  "final_native_receipt": "issue-328-link-verification.json"
+  "parent_supplements": "Root serial publication completed and exact readback passed on47/54/283/337; fresh --live --require-supplements proof passed.",
+  "final_native_receipt": "issue-328-link-verification.json",
+  "root_publication": {
+    "observed_at": "2026-11-16T19:19:20.472967+00:00",
+    "nodes": 940,
+    "published_hashes": {
+      "47": "2fca8c5b3b4a17570c860687e106b9d38682df80f37c76583d4b22bbbff59b03",
+      "54": "a6cb311b695aec89fa44a2925098e471a21ff34e6abdf10e8a9a401b1dbc9ee9",
+      "283": "0cb8ac21c6dc2c8780f765337aa44e3086c71b895fc7c0fdb295293cb6cccd22",
+      "337": "33401397af92b506cc1f5d5c66d38abdb00b511b1336c9b9047518a3f8506a56"
+    },
+    "closed_decision_control": "Closure is accepted while every owned implementation/gate prerequisite remains required; all616 edge-removal controls reject."
+  }
 }
