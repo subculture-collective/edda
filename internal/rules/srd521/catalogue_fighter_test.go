@@ -227,6 +227,20 @@ func TestFighterMetadataGuards(t *testing.T) {
 		{"invalid count", func(c *CharacterCatalogue) { c.Records[5].ValuesByLevel[0].Value = 0 }},
 		{"duplicate level count", func(c *CharacterCatalogue) { c.Records[5].ValuesByLevel[1].Level = 1 }},
 		{"initial capacity mismatch", func(c *CharacterCatalogue) { c.Records[5].Capacity = 3 }},
+		{"resource before owning feature", func(c *CharacterCatalogue) {
+			for i := range c.Records {
+				if c.Records[i].ID == "srd-5.2.1:character/resource/fighter/indomitable" {
+					c.Records[i].ValuesByLevel[0].Level = 1
+				}
+			}
+		}},
+		{"choice before owning feature", func(c *CharacterCatalogue) {
+			for i := range c.Records {
+				if c.Records[i].ID == "srd-5.2.1:character/choice/fighter/tactical-master" {
+					c.Records[i].ValuesByLevel = []CharacterLevelValue{{Level: 1, Value: 1}}
+				}
+			}
+		}},
 		{"unknown quantity", func(c *CharacterCatalogue) { c.Records[10].Options[0].Quantities["unknown"] = 1 }},
 		{"wrong nested predicate owner", func(c *CharacterCatalogue) {
 			for i := range c.Records {

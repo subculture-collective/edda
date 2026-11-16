@@ -370,6 +370,17 @@ func (c CharacterCatalogue) Validate(repo fs.FS) error {
 	// headings must describe the same class/level as the record's ancestry.
 	for _, r := range c.Records {
 		parent := records[r.ParentID]
+		if len(r.ValuesByLevel) > 0 {
+			owner := parent
+			for owner.ID != "" && owner.Kind != "level" {
+				owner = records[owner.ParentID]
+			}
+			for _, value := range r.ValuesByLevel {
+				if value.Level < owner.Level {
+					return fmt.Errorf("%s: level count precedes owning feature", r.ID)
+				}
+			}
+		}
 		for _, source := range r.Sources {
 			switch r.Kind {
 			case "level", "choice", "resource", "prerequisite":
