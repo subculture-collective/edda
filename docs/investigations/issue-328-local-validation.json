@@ -23,7 +23,7 @@
     "epic_boon_feats"
   ],
   "source_comparators_exit": 0,
-  "controls": "21 tests pass; includes all616 owned dependency edge deletions after decision closure, source/page/numeric/semantic ownership, integer class-total operands, body/metadata/parent, native caps/both cycles, API/pagination and immutable parent-section controls",
+  "controls": "33 focused tests pass: original 616 owned edge deletions after decision closure, plus readable complete scopes for 57 spells, all 93 source contexts and 216 ownership keys, four nested Hunter paths, and the exact seven protocol owners and 72 consumers. Coherent manifest/receipt, cap, DAG, pagination and parent-section controls pass.",
   "publication": "123Tasks published; final accepted post-Paladin sealed940issue native readback PASS",
   "final_parent_prefix": "Accepted root release matched live and frozen in code+artifact",
   "limitations": [
@@ -64,5 +64,26 @@
       "337": "33401397af92b506cc1f5d5c66d38abdb00b511b1336c9b9047518a3f8506a56"
     },
     "closed_decision_control": "Closure is accepted while every owned implementation/gate prerequisite remains required; all616 edge-removal controls reject."
+  },
+  "review_repairs": {
+    "base": "b3f473737f0ff9ae80f6d05c68af9ad78b7b9c58",
+    "scope": "Verifier/tests/documentation only; no source fixture, native issue body, prerequisite, parent, Project field or published supplement changed.",
+    "spell_contracts": "57 complete readable scopes plus envelope body seals and exact output/split dependencies; source_check and plan/live paths bind actual candidate contracts.",
+    "source_ownership": "93independent record-context expectations cover216contextual mechanic/option keys; all Hunter alternatives required from selector/granting level.",
+    "execution_gateway": "Exact61/64/65/66/67/273/353 roster and72finite consumers independently required; erased path declarations cannot erase native obligations.",
+    "checks": [
+      "33focusedPython tests passed",
+      "All8pinnedPDF comparators and required-supplement proof passed",
+      "Fresh read-only native proof passed;receipt outside repository at /tmp/edda-ranger-repair-live.json",
+      "Original reviewer contradictions rejected;unrelated later parent appends accepted",
+      "Ruff could not run: existing mise shim has no configured version; no installation/configuration change. Python syntax and diff whitespace checks passed."
+    ],
+    "limits": "No full Go/race/vet repeat; no runtime/client/device/database qualification.",
+    "live_observation": {
+      "observed_at": "2026-11-16T19:41:24.735502+00:00",
+      "nodes": 1017,
+      "receipt": "/tmp/edda-ranger-repair-live.json",
+      "note": "New unowned Rogue nodes are admissible; committed publication receipt remains its dated940-node snapshot."
+    }
   }
 }

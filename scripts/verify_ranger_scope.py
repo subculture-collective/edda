@@ -11,6 +11,7 @@ import subprocess
 from verify_druid_scope import Reader
 from verify_monk_scope import next_cursor
 from verify_barbarian_scope import acyclic
+from ranger_contract_oracle import validate_spell_contracts, validate_hunter_ownership, validate_protocols, validate_native_obligations
 ROOT=Path(__file__).resolve().parents[1]
 MANIFEST=ROOT/'docs/investigations/issue-328-ranger-scope.json'
 RECEIPT=ROOT/'docs/investigations/issue-328-link-verification.json'
@@ -30,6 +31,7 @@ def path_to(rr,start,target):
   return any(walk(d) for d in rr[k]['depends'])
  return walk(start)
 def validate_plan(m):
+ validate_spell_contracts(m)
  assert m['decision']==328 and m['source']['sha256']==PIN
  assert m['base']=='3042172c935bdefa606c008c8ddda277b7548fd8'
  assert sha(m['protected_owners']['779']['body'])=='556d1618d1cd2bd9c956fe38861d89e94ee14ff61a505b5d2b6a1fa46d19d150'
@@ -41,6 +43,7 @@ def validate_plan(m):
  assert len(actual)==93 and actual==m['records'],'source93'
  assert len(m['record_matrix'])==93
  rr=rows(m);assert len(rr)==len(m['tasks'])+len(m['gates'])
+ validate_protocols(m,rr)
  acyclic({k:dict(blocked_by=x['depends']) for k,x in rr.items()})
  for x in m['tasks']:
   assert x['type']=='Task' and x['size']=='M'
@@ -50,6 +53,7 @@ def validate_plan(m):
   assert set(c['key_owners'])==set(r['required_mechanics']+r['option_keys'])
   assert all(v in rr for v in c['key_owners'].values())
   assert all(c[k] for k in ['rules','game','engine','combat','database','handlers','web','tui'])
+ validate_hunter_ownership(m,rr,path_to)
  # Independent semantic oracle: every named feature has its actual execution owner;
  # coherent rehashing of the manifest cannot move one into ASI or a selector.
  for r,c in zip(actual,m['record_matrix']):
@@ -160,6 +164,7 @@ def validate_live(m,r):
   assert a['parent']==x.get('parent',rr[x['parent_key']]['issue'] if x.get('parent_key') else None),'owned parent'
   assert set(a['blocked_by'])==expected,'owned prerequisite'
   assert r['project'][str(x['issue'])]==dict(type='Task',size='M'),'metadata'
+ validate_native_obligations(m,g,rr)
  for start,paths in m['qualification_paths'].items():
   for path in paths:
    assert path[0]==int(start) and path[-1] in [279,280,337]
@@ -172,6 +177,7 @@ def validate_live(m,r):
  return dict(incoming={str(n):len(g[n]['blocked_by']) for n in [279,280,337]},outgoing429=out[429],children283=children[283],nodes=len(g))
 
 def source_check(m,pdf):
+ validate_spell_contracts(m)
  assert sha(pdf.read_bytes())==PIN,'wrong PDF'
  for s in ['ranger','hunter','advancement','multiclass','origin_feats','fighting_styles','general_feats','epic_boon_feats']:
   subprocess.run(['python3',str(ROOT/'scripts'/('verify_srd_'+s+'.py')),str(pdf)],check=True)

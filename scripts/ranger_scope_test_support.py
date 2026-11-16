@@ -4,7 +4,9 @@ import verify_ranger_scope as v
 
 def synthetic_receipt(manifest):
  m=deepcopy(manifest);rr=v.rows(m)
- for i,x in enumerate(rr.values()):x['issue']=500000+i
+ # Use the published identities in this isolated graph so identity guards are
+ # exercised too. Synthetic graph contents never constitute a hosted readback.
+ assert all(type(x['issue']) is int for x in rr.values())
  g={}
  def node(n):
   return g.setdefault(n,dict(number=n,title='synthetic anchor',body='',state='open',parent=None,blocked_by=[]))
@@ -33,6 +35,9 @@ def synthetic_receipt(manifest):
   if x.get('spell'):paths=[[x['issue'],parent,rr['shared-gate']['issue'],r] for r in [279,280]]+[[x['issue'],parent,rr['shared-gate']['issue'],rr['class-gate']['issue'],337]]
   else:paths=[[x['issue'],parent,rr['class-gate']['issue'],337]]
   m['qualification_paths'][str(x['issue'])]=paths
+ for primitive in [61,64,65,66,67,273,353]:
+  casting=rr['spellcasting'];cohort=rr[casting['parent_key']]
+  m['qualification_paths'][str(primitive)]=[[primitive,rr['execution-dependencies']['issue'],casting['issue'],cohort['issue'],rr['class-gate']['issue'],337]]
  for i in range(100-sum(429 in x['blocked_by'] for x in g.values())):node(700000+i)['blocked_by']=[429]
  # Add only missing anchors; no implied implementation for them.
  for n in [n for x in list(g.values()) for n in x['blocked_by']+([x['parent']] if x['parent'] else [])]:node(n)
