@@ -163,14 +163,23 @@ func TestClericNestedChoicesAndNumbers(t *testing.T) {
 	spark := choice("divine-spark", 1, "cleric/divine-spark/healing", "damage/necrotic", "damage/radiant")
 	bl := choice("blessed-strikes", 1, "cleric/blessed-strikes/divine-strike", "cleric/blessed-strikes/potent-spellcasting")
 	ds := choice("divine-strike", 1, "damage/necrotic", "damage/radiant")
-	for _, pair := range [][2]CharacterRecord{{pro, order}, {th, order}, {spark, ch}, {ds, bl}} {
-		child, parent := pair[0], pair[1]
+	for _, option := range []struct {
+		child, parent CharacterRecord
+		predicate     string
+	}{
+		{pro, order, "cleric/divine-order/protector-selected"},
+		{th, order, "cleric/divine-order/thaumaturge-selected"},
+		{spark, ch, "cleric/channel-divinity/divine-spark-selected"},
+		{ds, bl, "cleric/blessed-strikes/divine-strike-selected"},
+	} {
+		child, parent := option.child, option.parent
 		if child.ParentID != parent.ID || len(child.PrerequisiteRefs) != 1 {
 			t.Fatal("flattened nested option")
 		}
-		req := records[child.PrerequisiteRefs[0]].Requirement
-		if req == nil || !reflect.DeepEqual(req.RecordRefs, []string{parent.ID}) {
-			t.Fatal("lost conditional selection")
+		prerequisite := records[child.PrerequisiteRefs[0]]
+		req := prerequisite.Requirement
+		if req == nil || req.Key != clericKey+option.predicate || !reflect.DeepEqual(prerequisite.RequiredMechanics, []string{clericKey + option.predicate}) || !reflect.DeepEqual(req.RecordRefs, []string{parent.ID}) {
+			t.Fatalf("lost conditional selection for %s", child.ID)
 		}
 	}
 	choice("cleric-subclass", 1, "cleric/subclasses", "cleric/subclasses/life-domain")

@@ -48,6 +48,20 @@ def verify(pdf):
                   count("choice", "prepared-spells", n)]
         actual += [count("resource", f"spell-slot-{j}", n) for j in range(1, 10)]
         assert actual == cells, (n, actual, cells)
+    # Bind each nested choice to the role selected in its source parent choice.
+    for child, parent, predicate in [
+        ("protector", "divine-order", "divine-order/protector-selected"),
+        ("thaumaturge", "divine-order", "divine-order/thaumaturge-selected"),
+        ("divine-spark", "channel-divinity", "channel-divinity/divine-spark-selected"),
+        ("divine-strike", "blessed-strikes", "blessed-strikes/divine-strike-selected"),
+    ]:
+        choice = records[f"srd-5.2.1:character/choice/cleric/{child}"]
+        assert len(choice["prerequisite_refs"]) == 1, child
+        prerequisite = records[choice["prerequisite_refs"][0]]
+        key = f"srd-5.2.1:mechanic/cleric/{predicate}"
+        assert prerequisite["requirement"]["key"] == key, child + " selection predicate"
+        assert prerequisite["required_mechanics"] == [key], child + " required selection"
+        assert prerequisite["requirement"]["record_refs"] == [f"srd-5.2.1:character/choice/cleric/{parent}"], child
     # These anchors are independent of the JSON and bind nested and conditional
     # choices/numeric metadata to 2024 source wording, rather than 2014 memory.
     flat = " ".join(text.replace("\u00ad", "").split())
