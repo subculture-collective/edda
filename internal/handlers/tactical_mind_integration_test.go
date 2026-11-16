@@ -129,7 +129,7 @@ func TestIntegrationTacticalMind(t *testing.T) {
 				t.Cleanup(func() { _, _ = testPool.Exec(ctx, `DELETE FROM users WHERE id=$1`, other) })
 				_, err = testPool.Exec(ctx, `UPDATE player_characters SET user_id=$1 WHERE id=$2`, other, p.ID)
 				must(err)
-				h := &handlers.CharacterHandlers{Queries:q,Pool:testPool,Logger:clog.Default()}
+				h := &handlers.CharacterHandlers{Queries: q, Pool: testPool, Logger: clog.Default()}
 				router := chi.NewRouter()
 				router.Get("/campaigns/{id}/character/action-preview", h.PreviewAction)
 				r := httptest.NewRequest(http.MethodGet, fmt.Sprintf("/campaigns/%s/character/action-preview?actor_id=%s&kind=tactical-mind&entry_id=use", campaign, actor), nil)
@@ -185,7 +185,7 @@ func TestIntegrationTacticalMind(t *testing.T) {
 					go func() {
 						defer wg.Done()
 						_, err := newEngine().ConfirmAction(ctx, campaign, request)
-						if err != nil && !errors.Is(err,engine.ErrTurnInProgress) {
+						if err != nil && !errors.Is(err, engine.ErrTurnInProgress) {
 							t.Error(err)
 						}
 					}()

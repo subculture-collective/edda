@@ -201,11 +201,18 @@ func engineResolutionEventsToAPI(applied []engine.AppliedToolCall) []api.Resolut
 			if event, ok := skillCheckResolutionEvent(call); ok {
 				out = append(out, event)
 			}
+		case "srd_action_surge":
+			var result struct {
+				Receipt *srd521.ActionSurgeReceipt `json:"receipt"`
+			}
+			if json.Unmarshal(call.Result, &result) == nil && result.Receipt != nil && result.Receipt.RulesVersion == "srd-5.2.1" && result.Receipt.Kind == srd521.ActionSurge {
+				out = append(out, api.ResolutionEvent{Type: "srd_action_surge", Label: "Action Surge", Outcome: "one additional Action except Magic", Details: map[string]any{"receipt": result.Receipt}})
+			}
 		case "srd_tactical_mind":
 			var result struct {
 				Receipt *srd521.TacticalMindReceipt `json:"receipt"`
 			}
-			if json.Unmarshal(call.Result, &result) == nil && result.Receipt != nil {
+			if json.Unmarshal(call.Result, &result) == nil && result.Receipt != nil && result.Receipt.RulesVersion == "srd-5.2.1" && result.Receipt.Kind == srd521.TacticalMind {
 				out = append(out, api.ResolutionEvent{Type: "srd_tactical_mind", Label: "Tactical Mind", Outcome: result.Receipt.Outcome, Details: map[string]any{"receipt": result.Receipt}})
 			}
 		case "srd_advancement":
