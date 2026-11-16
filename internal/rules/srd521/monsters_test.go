@@ -17,6 +17,62 @@ func banditCatalogue(t *testing.T) MonsterCatalogue {
 	return c
 }
 
+func TestMonsterRequiredNumbersCannotDisappear(t *testing.T) {
+	for _, path := range []string{
+		"ac", "xp", "proficiency_bonus", "hp.average", "hp.dice", "hp.sides", "hp.modifier",
+		"initiative.modifier", "initiative.score", "abilities.dex.score", "abilities.dex.modifier", "abilities.dex.save",
+		"senses.passive_perception", "actions.0.attack.bonus", "actions.0.attack.reach", "actions.0.attack.range",
+		"actions.0.attack.long_range", "actions.0.attack.damage.modifier",
+	} {
+		for _, mode := range []string{"omitted", "null"} {
+			t.Run(path+"/"+mode, func(t *testing.T) {
+				var root map[string]any
+				if err := json.Unmarshal(monsterJSON, &root); err != nil {
+					t.Fatal(err)
+				}
+				var value any = root["monsters"].([]any)[0]
+				parts := strings.Split(path, ".")
+				for _, part := range parts[:len(parts)-1] {
+					if part == "0" {
+						value = value.([]any)[0]
+					} else {
+						value = value.(map[string]any)[part]
+					}
+				}
+				object := value.(map[string]any)
+				key := parts[len(parts)-1]
+				if mode == "omitted" {
+					delete(object, key)
+				} else {
+					object[key] = nil
+				}
+				data, err := json.Marshal(root)
+				if err != nil {
+					t.Fatal(err)
+				}
+				if _, err := DecodeMonsters(bytes.NewReader(data)); err == nil {
+					t.Fatal("incomplete numeric mechanics accepted")
+				}
+			})
+		}
+	}
+	for name, data := range map[string][]byte{
+		"null speed":   bytes.Replace(monsterJSON, []byte(`"walk": 30`), []byte(`"walk": null`), 1),
+		"duplicate XP": bytes.Replace(monsterJSON, []byte(`"xp": 25`), []byte(`"xp": 99, "xp": 25`), 1),
+	} {
+		t.Run(name, func(t *testing.T) {
+			if _, err := DecodeMonsters(bytes.NewReader(data)); err == nil {
+				t.Fatal("ambiguous numeric mechanics accepted")
+			}
+		})
+	}
+	// Existing Bandit STR/INT/WIS/CHA saves and melee range zeros are explicit
+	// valid data; presence checks must not reject those source-backed zeros.
+	if _, err := LoadMonsters(); err != nil {
+		t.Fatal(err)
+	}
+}
+
 func TestBanditSourceFixture(t *testing.T) {
 	c := banditCatalogue(t)
 	if len(c.Monsters) != 1 {

@@ -8,7 +8,6 @@ import (
 	"io"
 	"slices"
 	"strings"
-	"time"
 )
 
 //go:embed testdata/monsters.json
@@ -103,6 +102,72 @@ type MonsterAttack struct {
 	DamageType string    `json:"damage_type"`
 }
 
+// decodeMonsterNumbers distinguishes an explicit zero from absent or null
+// mechanical data. Alias destinations retain strict unknown-field decoding.
+func decodeMonsterNumbers(data []byte, dst any, required ...string) error {
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return err
+	}
+	for _, key := range required {
+		if value, ok := fields[key]; !ok || bytes.Equal(bytes.TrimSpace(value), []byte("null")) {
+			return fmt.Errorf("explicit monster numeric field %s required", key)
+		}
+	}
+	for _, key := range []string{"speeds", "special"} {
+		if value, ok := fields[key]; ok {
+			var ranges map[string]*int
+			if err := json.Unmarshal(value, &ranges); err != nil {
+				return err
+			}
+			for mode, feet := range ranges {
+				if feet == nil {
+					return fmt.Errorf("explicit %s range for %s required", key, mode)
+				}
+			}
+		}
+	}
+	d := json.NewDecoder(bytes.NewReader(data))
+	d.DisallowUnknownFields()
+	return d.Decode(dst)
+}
+
+// UnmarshalJSON requires all numeric block mechanics, including zero XP.
+func (m *Monster) UnmarshalJSON(data []byte) error {
+	type plain Monster
+	return decodeMonsterNumbers(data, (*plain)(m), "ac", "xp", "proficiency_bonus")
+}
+
+// UnmarshalJSON requires an explicit fixed value, dice and modifier.
+func (h *MonsterHP) UnmarshalJSON(data []byte) error {
+	type plain MonsterHP
+	return decodeMonsterNumbers(data, (*plain)(h), "average", "dice", "sides", "modifier")
+}
+
+// UnmarshalJSON requires explicit initiative modifier and score.
+func (i *MonsterInitiative) UnmarshalJSON(data []byte) error {
+	type plain MonsterInitiative
+	return decodeMonsterNumbers(data, (*plain)(i), "modifier", "score")
+}
+
+// UnmarshalJSON requires explicit score, modifier and saving throw.
+func (a *MonsterAbility) UnmarshalJSON(data []byte) error {
+	type plain MonsterAbility
+	return decodeMonsterNumbers(data, (*plain)(a), "score", "modifier", "save")
+}
+
+// UnmarshalJSON requires an explicit passive perception value.
+func (s *MonsterSenses) UnmarshalJSON(data []byte) error {
+	type plain MonsterSenses
+	return decodeMonsterNumbers(data, (*plain)(s), "passive_perception")
+}
+
+// UnmarshalJSON requires bonus and all range fields, including explicit zeros.
+func (a *MonsterAttack) UnmarshalJSON(data []byte) error {
+	type plain MonsterAttack
+	return decodeMonsterNumbers(data, (*plain)(a), "bonus", "reach", "range", "long_range")
+}
+
 // LoadMonsters returns a fresh validated catalogue. Unknown JSON fields are
 // rejected so future traits cannot silently disappear during decoding.
 func LoadMonsters() (MonsterCatalogue, error) {
@@ -112,7 +177,14 @@ func LoadMonsters() (MonsterCatalogue, error) {
 // DecodeMonsters strictly decodes one catalogue and validates its source and data.
 func DecodeMonsters(r io.Reader) (MonsterCatalogue, error) {
 	var c MonsterCatalogue
-	d := json.NewDecoder(r)
+	data, err := io.ReadAll(r)
+	if err != nil {
+		return c, err
+	}
+	if err := uniqueItemJSON(json.NewDecoder(bytes.NewReader(data))); err != nil {
+		return c, err
+	}
+	d := json.NewDecoder(bytes.NewReader(data))
 	d.DisallowUnknownFields()
 	if err := d.Decode(&c); err != nil {
 		return MonsterCatalogue{}, fmt.Errorf("decode monsters: %w", err)
@@ -133,7 +205,7 @@ func (c MonsterCatalogue) Validate() error {
 	if c.SchemaVersion != 1 {
 		return fmt.Errorf("unsupported monster schema %d", c.SchemaVersion)
 	}
-	if err := validateMonsterSource(c.Source); err != nil {
+	if err := validateSource(c.Source); err != nil {
 		return err
 	}
 	if len(c.Monsters) == 0 {
@@ -148,23 +220,6 @@ func (c MonsterCatalogue) Validate() error {
 		if err := m.Validate(); err != nil {
 			return fmt.Errorf("%s: %w", m.ID, err)
 		}
-	}
-	return nil
-}
-
-// Keep this private until the shared Source helper lands; do not couple monster
-// validation to coverage entries or change register.go alongside its extraction.
-func validateMonsterSource(s Source) error {
-	if s.Version != Version || s.Language != "en" || s.LandingURL != "https://www.dndbeyond.com/srd" ||
-		s.ArtifactURL != "https://media.dndbeyond.com/compendium-images/srd/5.2/SRD_CC_v5.2.1.pdf" ||
-		s.SHA256 != artifactSHA256 || s.Bytes != artifactBytes || s.Pages != 364 {
-		return fmt.Errorf("monster source must match pinned English SRD %s", Version)
-	}
-	if s.License != "CC-BY-4.0" || s.LicenseURL != "https://creativecommons.org/licenses/by/4.0/legalcode" || s.Attribution != Attribution || strings.TrimSpace(s.Changes) == "" {
-		return fmt.Errorf("monster source requires license, attribution and adaptation notice")
-	}
-	if _, err := time.Parse(time.DateOnly, s.RetrievedAt); err != nil {
-		return fmt.Errorf("monster source date: %w", err)
 	}
 	return nil
 }
