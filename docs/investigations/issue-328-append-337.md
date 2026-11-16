@@ -1,4 +1,4 @@
 
 <!-- edda-328:start -->
-Ranger #328 reconciles93metadata records and all20rows; runtime remains unavailable. Own HP adapter requires shared gateway968. Exact bounded source/implementation owners and finite native gates are recorded in docs/investigations/issue-328-ranger-scope.json. Final published receipt and accepted post-Paladin prefix pending; decision closure supplies no implementation.
+Ranger #328:93metadata records/all20rows; runtime unavailable. Published123Tasks:113implementation leaves,9finite gates,shared protocol gateway968. Own HP979/later-entry983 feed class cohorts971/972→970→337. Spell cohorts974–977→973→279/280 and973→970→337; execution dependency gateway978 owns no runtime behavior. Source/ownership/native-path manifest: docs/investigations/issue-328-ranger-scope.json. Parent owns final qualification; decision closure supplies no implementation.
 <!-- edda-328:end -->

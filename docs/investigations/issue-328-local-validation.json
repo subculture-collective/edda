@@ -23,8 +23,8 @@
     "epic_boon_feats"
   ],
   "source_comparators_exit": 0,
-  "controls": "16 tests pass; includes every row missing-path control, coherent rehashed feature ownership changes, five unequal class/total/HP operand changes, source/PDF/pagination/API controls",
-  "publication": "only gateway968 published; remaining scopes and dependency gateway await root approval",
+  "controls": "21 focused tests, including all602+14 owned edge corruption cases, semantic ownership/class-total integer controls, both cycles/caps and immutable-prefix controls",
+  "publication": "123Tasks published; full unsealed940issue readback PASS; final prefix/seal held",
   "final_parent_prefix": "not released; no immutable final native snapshot",
   "limitations": [
     "No runtime grant/coverage promotion",
@@ -50,5 +50,6 @@
       "273": 32,
       "353": 68
     }
-  }
+  },
+  "native_summary": "issue-328-unsealed-native-summary.json"
 }

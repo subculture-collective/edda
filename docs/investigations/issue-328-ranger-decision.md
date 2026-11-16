@@ -2,7 +2,8 @@
 
 This is a decision and publication change. Ranger and Hunter remain unavailable.
 No runtime, grants, coverage, fixed Fighter/Cleric fixtures or production state
-are changed. Final native publication and immutable parent seal are pending.
+are changed. Native publication and the unsealed readback are complete; the
+immutable final parent seal awaits the accepted Paladin release.
 
 Prepared base: `3042172c935bdefa606c008c8ddda277b7548fd8` (accepted Monk #843).
 The pinned SRD5.2.1 PDF SHA256 is
@@ -72,140 +73,167 @@ All feature fixtures require isolated entitlements and grant no production acces
 | 19 | +6 | 15 | 6 | 4/3/3/3/2 | Epic Boon |
 | 20 | +6 | 15 | 6 | 4/3/3/3/2 | Foe Slayer |
 
-## Exact bounded owners and native routing
+## Published bounded owners and native routing
 
-The following is a proposed manifest, not live publication proof. Native IDs,
-Task/Size readback and full graph receipt will replace this state after reservation.
+Published **123 Task/M issues**: protocol gateway968,113 implementation leaves
+and9 finite qualification gates. The complete unsealed readback covers940issues.
+Every owned title/body/parent/prerequisite and Task/Size matched; both DAGs and
+all native caps passed. This is not the final immutable receipt.
 
-- `class-gate`: Qualify finite Ranger class gate. Parent `328`; needs class-cohort, levels-cohort, shared-gate, #328.
-- `class-cohort`: Qualify finite Ranger class cohort. Parent `328`; needs hp, core, skills, equipment, later-entry, spellcasting, favored-enemy, weapon-mastery, deft-explorer, fighting-style, ranger-subclass, ability-score-improvement, extra-attack, roving, expertise, relentless-hunter, natures-veil, precise-hunter, feral-senses, epic-boon, foe-slayer, tireless-hp, tireless-rest, slots, membership, druidic-cantrips, hunter-identity, hunters-lore, colossus-slayer, horde-breaker, escape-the-horde, multiattack-defense, superior-hunters-prey, superior-hunters-defense, hunters-prey, defensive-tactics.
-- `levels-cohort`: Qualify finite Ranger levels cohort. Parent `328`; needs level-1, level-2, level-3, level-4, level-5, level-6, level-7, level-8, level-9, level-10, level-11, level-12, level-13, level-14, level-15, level-16, level-17, level-18, level-19, level-20.
-- `shared-gate`: Qualify finite Ranger shared gate. Parent `328`; needs spell-cohort-1, spell-cohort-2, spell-cohort-3, spell-cohort-4, #263, #265, #355, #614, #615, #616, #618, #621, #623, #624, #625, #626, #627, #682, #692, #693, #700, #906, #909, #923, #924, #927, #934, #941, #954, #955, #956, #958, #965, #966.
-- `spell-cohort-1`: Qualify finite Ranger spell cohort 1. Parent `277`; needs spell-alarm, spell-animal-friendship, spell-animal-messenger-admission, spell-animal-messenger-journey, spell-barkskin, spell-commune-with-nature-facts, spell-conjure-animals-aura, spell-conjure-animals-movement, spell-conjure-animals-damage, spell-conjure-woodland-beings-aura, spell-conjure-woodland-beings-disengage, spell-darkvision, spell-dominate-beast-charm, spell-dominate-beast-control, spell-druidcraft-weather.
-- `spell-cohort-2`: Qualify finite Ranger spell cohort 2. Parent `277`; needs spell-druidcraft-nature, spell-elementalism-air-earth, spell-elementalism-fire-water, spell-elementalism-sculpt, spell-enhance-ability, spell-ensnaring-strike-hit, spell-ensnaring-strike-tick-escape, spell-entangle, spell-find-traps, spell-goodberry-create, spell-goodberry-eat, spell-gust-of-wind, spell-hunters-mark-cast, spell-hunters-mark-transfer, spell-jump.
-- `spell-cohort-3`: Qualify finite Ranger spell cohort 3. Parent `277`; needs spell-locate-animals-or-plants, spell-longstrider, spell-meld-into-stone-entry, spell-meld-into-stone-inside, spell-meld-into-stone-expulsion, spell-message, spell-nondetection, spell-pass-without-trace, spell-plant-growth-overgrowth, spell-plant-growth-enrichment, spell-poison-spray, spell-produce-flame-light, spell-produce-flame-attack, spell-protection-from-energy, spell-shillelagh.
-- `spell-cohort-4`: Qualify finite Ranger spell cohort 4. Parent `277`; needs spell-silence, spell-speak-with-plants-facts, spell-speak-with-plants-terrain, spell-spike-growth-terrain, spell-spike-growth-movement, spell-starry-wisp, spell-stoneskin, spell-water-breathing, spell-water-walk, spell-wind-wall-placement, spell-wind-wall-damage, spell-wind-wall-barrier.
-- `execution-dependencies`: Qualify finite Ranger shared execution dependency contracts. Parent `328`; needs #61, #64, #65, #66, #67, #273, #353.
-- `hp`: Adapt Ranger own D10 fixed6 HP to shared transaction. Parent `class-cohort`; needs #968.
-- `core`: Confirm Ranger first-character core proficiencies. Parent `class-cohort`; needs #430.
-- `skills`: Select Ranger three first-character skills. Parent `class-cohort`; needs #430.
-- `equipment`: Choose Ranger exact starting equipment. Parent `class-cohort`; needs .
-- `later-entry`: Admit exact later-class Ranger entry. Parent `class-cohort`; needs hp, #430.
-- `spellcasting`: Prepare Ranger spells with Wisdom and Druidic Focus. Parent `class-cohort`; needs execution-dependencies, membership, slots, spell-alarm, spell-animal-friendship, spell-animal-messenger-admission, spell-animal-messenger-journey, spell-barkskin, spell-commune-with-nature-facts, spell-conjure-animals-aura, spell-conjure-animals-damage, spell-conjure-animals-movement, spell-conjure-woodland-beings-aura, spell-conjure-woodland-beings-disengage, spell-darkvision, spell-dominate-beast-charm, spell-dominate-beast-control, spell-enhance-ability, spell-ensnaring-strike-hit, spell-ensnaring-strike-tick-escape, spell-entangle, spell-find-traps, spell-goodberry-create, spell-goodberry-eat, spell-gust-of-wind, spell-hunters-mark-cast, spell-hunters-mark-transfer, spell-jump, spell-locate-animals-or-plants, spell-longstrider, spell-meld-into-stone-entry, spell-meld-into-stone-expulsion, spell-meld-into-stone-inside, spell-nondetection, spell-pass-without-trace, spell-plant-growth-enrichment, spell-plant-growth-overgrowth, spell-protection-from-energy, spell-silence, spell-speak-with-plants-facts, spell-speak-with-plants-terrain, spell-spike-growth-movement, spell-spike-growth-terrain, spell-stoneskin, spell-water-breathing, spell-water-walk, spell-wind-wall-barrier, spell-wind-wall-damage, spell-wind-wall-placement, #263, #265, #355, #428, #614, #615, #616, #618, #621, #623, #624, #625, #626, #627, #682, #692, #693, #700, #906, #909, #923, #924, #927, #934, #941, #965, #966.
-- `favored-enemy`: Cast Favored Enemy exact 5.2.1 Hunter’s Mark. Parent `class-cohort`; needs spell-hunters-mark-cast, spell-hunters-mark-transfer, #428.
-- `weapon-mastery`: Select and replace two Ranger mastery kinds. Parent `class-cohort`; needs #428, #489, #490, #491, #492, #493, #494, #495, #496.
-- `deft-explorer`: Apply Deft Explorer expertise and languages. Parent `class-cohort`; needs #430.
-- `fighting-style`: Choose Ranger Fighting Style or Druidic Warrior. Parent `class-cohort`; needs druidic-cantrips, #384, #385, #386, #387, #388, #389, #390, #391, #392, #393, #394, #395, #396, #397, #398, #399, #400, #401.
-- `ranger-subclass`: Select Hunter and exact Ranger subclass timing. Parent `class-cohort`; needs hunter-identity.
-- `ability-score-improvement`: Select Ranger qualified ASI at four class levels. Parent `class-cohort`; needs #384, #385, #386, #387, #388, #389, #390, #391, #392, #393, #394, #395, #396, #397, #398, #399, #400, #401.
-- `extra-attack`: Resolve Ranger two own-turn Attack attacks. Parent `class-cohort`; needs execution-dependencies.
-- `roving`: Apply Roving nonheavy Speed climb and swim. Parent `class-cohort`; needs execution-dependencies.
-- `expertise`: Select two Ranger Expertise skills. Parent `class-cohort`; needs #430.
-- `relentless-hunter`: Protect Hunter’s Mark concentration against damage only. Parent `class-cohort`; needs execution-dependencies, spell-hunters-mark-cast, #487.
-- `natures-veil`: Spend Nature’s Veil uses for exact Invisible duration. Parent `class-cohort`; needs #428, #962.
-- `precise-hunter`: Apply Precise Hunter marked-target attack advantage. Parent `class-cohort`; needs execution-dependencies, spell-hunters-mark-transfer.
-- `feral-senses`: Resolve Feral Senses exact thirty-foot Blindsight. Parent `class-cohort`; needs execution-dependencies, #962.
-- `epic-boon`: Select qualified Ranger Epic Boon at class nineteen. Parent `class-cohort`; needs #384, #385, #386, #387, #388, #389, #390, #391, #392, #393, #394, #395, #396, #397, #398, #399, #400, #401.
-- `foe-slayer`: Replace own Hunter’s Mark damage die with D10. Parent `class-cohort`; needs execution-dependencies, spell-hunters-mark-cast.
-- `tireless-hp`: Resolve Tireless Magic action temporary HP. Parent `class-cohort`; needs execution-dependencies, #428.
-- `tireless-rest`: Resolve Tireless Short Rest Exhaustion reduction. Parent `class-cohort`; needs #427, #623.
-- `slots`: Apply Ranger class slot counts and combined multiclass slot table. Parent `class-cohort`; needs execution-dependencies, #428.
-- `membership`: Validate exact Ranger source spell list membership. Parent `class-cohort`; needs #293, #315.
-- `druidic-cantrips`: Prepare and replace two Druidic Warrior Ranger cantrips. Parent `class-cohort`; needs membership, spell-druidcraft-nature, spell-druidcraft-weather, spell-elementalism-air-earth, spell-elementalism-fire-water, spell-elementalism-sculpt, spell-message, spell-poison-spray, spell-produce-flame-attack, spell-produce-flame-light, spell-shillelagh, spell-starry-wisp, #954, #955, #956, #958.
-- `hunter-identity`: Validate chosen Hunter class-three identity. Parent `class-cohort`; needs .
-- `hunters-lore`: Disclose Hunter’s Lore exact own marked defenses. Parent `class-cohort`; needs hunter-identity, spell-hunters-mark-transfer.
-- `colossus-slayer`: Resolve Colossus Slayer once per turn extra weapon damage. Parent `class-cohort`; needs execution-dependencies, hunter-identity.
-- `horde-breaker`: Resolve Horde Breaker same-weapon distinct nearby target. Parent `class-cohort`; needs execution-dependencies, hunter-identity.
-- `escape-the-horde`: Apply Escape the Horde Opportunity Attack disadvantage. Parent `class-cohort`; needs execution-dependencies, hunter-identity.
-- `multiattack-defense`: Apply Multiattack Defense same-creature remainder-turn disadvantage. Parent `class-cohort`; needs execution-dependencies, hunter-identity.
-- `superior-hunters-prey`: Resolve Superior Hunter’s Prey current mark damage to nearby visible creature. Parent `class-cohort`; needs execution-dependencies, foe-slayer, hunter-identity, spell-hunters-mark-cast.
-- `superior-hunters-defense`: Resolve Superior Hunter’s Defense reaction resistance through turn end. Parent `class-cohort`; needs execution-dependencies, hunter-identity.
-- `hunters-prey`: Choose or rest-replace Hunter’s Prey option. Parent `class-cohort`; needs colossus-slayer, horde-breaker, #427, #428.
-- `defensive-tactics`: Choose or rest-replace Defensive Tactics option. Parent `class-cohort`; needs escape-the-horde, multiattack-defense, #427, #428.
-- `level-1`: Apply Ranger class level 1 first-character or later-class entry. Parent `levels-cohort`; needs core, equipment, favored-enemy, hp, later-entry, skills, slots, spellcasting, weapon-mastery.
-- `level-2`: Apply Ranger class level 2 from class 1. Parent `levels-cohort`; needs deft-explorer, favored-enemy, fighting-style, hp, later-entry, level-1, slots, spellcasting.
-- `level-3`: Apply Ranger class level 3 from class 2. Parent `levels-cohort`; needs favored-enemy, hp, hunters-lore, hunters-prey, later-entry, level-2, ranger-subclass, slots, spellcasting.
-- `level-4`: Apply Ranger class level 4 from class 3. Parent `levels-cohort`; needs ability-score-improvement, favored-enemy, hp, later-entry, level-3, slots, spellcasting.
-- `level-5`: Apply Ranger class level 5 from class 4. Parent `levels-cohort`; needs extra-attack, favored-enemy, hp, later-entry, level-4, slots, spellcasting.
-- `level-6`: Apply Ranger class level 6 from class 5. Parent `levels-cohort`; needs favored-enemy, hp, later-entry, level-5, roving, slots, spellcasting.
-- `level-7`: Apply Ranger class level 7 from class 6. Parent `levels-cohort`; needs defensive-tactics, favored-enemy, hp, later-entry, level-6, slots, spellcasting.
-- `level-8`: Apply Ranger class level 8 from class 7. Parent `levels-cohort`; needs ability-score-improvement, favored-enemy, hp, later-entry, level-7, slots, spellcasting.
-- `level-9`: Apply Ranger class level 9 from class 8. Parent `levels-cohort`; needs expertise, favored-enemy, hp, later-entry, level-8, slots, spellcasting.
-- `level-10`: Apply Ranger class level 10 from class 9. Parent `levels-cohort`; needs favored-enemy, hp, later-entry, level-9, slots, spellcasting, tireless-hp, tireless-rest.
-- `level-11`: Apply Ranger class level 11 from class 10. Parent `levels-cohort`; needs favored-enemy, hp, later-entry, level-10, slots, spellcasting, superior-hunters-prey.
-- `level-12`: Apply Ranger class level 12 from class 11. Parent `levels-cohort`; needs ability-score-improvement, favored-enemy, hp, later-entry, level-11, slots, spellcasting.
-- `level-13`: Apply Ranger class level 13 from class 12. Parent `levels-cohort`; needs favored-enemy, hp, later-entry, level-12, relentless-hunter, slots, spellcasting.
-- `level-14`: Apply Ranger class level 14 from class 13. Parent `levels-cohort`; needs favored-enemy, hp, later-entry, level-13, natures-veil, slots, spellcasting.
-- `level-15`: Apply Ranger class level 15 from class 14. Parent `levels-cohort`; needs favored-enemy, hp, later-entry, level-14, slots, spellcasting, superior-hunters-defense.
-- `level-16`: Apply Ranger class level 16 from class 15. Parent `levels-cohort`; needs ability-score-improvement, favored-enemy, hp, later-entry, level-15, slots, spellcasting.
-- `level-17`: Apply Ranger class level 17 from class 16. Parent `levels-cohort`; needs favored-enemy, hp, later-entry, level-16, precise-hunter, slots, spellcasting.
-- `level-18`: Apply Ranger class level 18 from class 17. Parent `levels-cohort`; needs favored-enemy, feral-senses, hp, later-entry, level-17, slots, spellcasting.
-- `level-19`: Apply Ranger class level 19 from class 18. Parent `levels-cohort`; needs epic-boon, favored-enemy, hp, later-entry, level-18, slots, spellcasting.
-- `level-20`: Apply Ranger class level 20 from class 19. Parent `levels-cohort`; needs favored-enemy, foe-slayer, hp, later-entry, level-19, slots, spellcasting.
-- `spell-alarm`: Resolve Alarm effect. Parent `spell-cohort-1`; needs execution-dependencies.
-- `spell-animal-friendship`: Resolve Animal Friendship effect. Parent `spell-cohort-1`; needs execution-dependencies, #488.
-- `spell-animal-messenger-admission`: Resolve Animal Messenger admission. Parent `spell-cohort-1`; needs execution-dependencies.
-- `spell-animal-messenger-journey`: Resolve Animal Messenger journey. Parent `spell-cohort-1`; needs execution-dependencies, spell-animal-messenger-admission.
-- `spell-barkskin`: Resolve Barkskin effect. Parent `spell-cohort-1`; needs execution-dependencies.
-- `spell-commune-with-nature-facts`: Resolve Commune with Nature facts. Parent `spell-cohort-1`; needs execution-dependencies.
-- `spell-conjure-animals-aura`: Resolve Conjure Animals aura. Parent `spell-cohort-1`; needs execution-dependencies.
-- `spell-conjure-animals-movement`: Resolve Conjure Animals movement. Parent `spell-cohort-1`; needs execution-dependencies, spell-conjure-animals-aura.
-- `spell-conjure-animals-damage`: Resolve Conjure Animals damage. Parent `spell-cohort-1`; needs execution-dependencies, spell-conjure-animals-aura.
-- `spell-conjure-woodland-beings-aura`: Resolve Conjure Woodland Beings aura. Parent `spell-cohort-1`; needs execution-dependencies.
-- `spell-conjure-woodland-beings-disengage`: Resolve Conjure Woodland Beings disengage. Parent `spell-cohort-1`; needs execution-dependencies, spell-conjure-woodland-beings-aura, #781.
-- `spell-darkvision`: Resolve Darkvision effect. Parent `spell-cohort-1`; needs execution-dependencies.
-- `spell-dominate-beast-charm`: Resolve Dominate Beast charm. Parent `spell-cohort-1`; needs execution-dependencies, #488.
-- `spell-dominate-beast-control`: Resolve Dominate Beast control. Parent `spell-cohort-1`; needs execution-dependencies, spell-dominate-beast-charm, #488.
-- `spell-druidcraft-weather`: Resolve Druidcraft weather. Parent `spell-cohort-1`; needs execution-dependencies.
-- `spell-druidcraft-nature`: Resolve Druidcraft nature. Parent `spell-cohort-2`; needs execution-dependencies, spell-druidcraft-weather.
-- `spell-elementalism-air-earth`: Resolve Elementalism air-earth. Parent `spell-cohort-2`; needs execution-dependencies.
-- `spell-elementalism-fire-water`: Resolve Elementalism fire-water. Parent `spell-cohort-2`; needs execution-dependencies, spell-elementalism-air-earth.
-- `spell-elementalism-sculpt`: Resolve Elementalism sculpt. Parent `spell-cohort-2`; needs execution-dependencies, spell-elementalism-air-earth.
-- `spell-enhance-ability`: Resolve Enhance Ability effect. Parent `spell-cohort-2`; needs execution-dependencies.
-- `spell-ensnaring-strike-hit`: Resolve Ensnaring Strike hit. Parent `spell-cohort-2`; needs execution-dependencies, #727.
-- `spell-ensnaring-strike-tick-escape`: Resolve Ensnaring Strike tick-escape. Parent `spell-cohort-2`; needs execution-dependencies, spell-ensnaring-strike-hit, #727.
-- `spell-entangle`: Resolve Entangle effect. Parent `spell-cohort-2`; needs execution-dependencies, #727.
-- `spell-find-traps`: Resolve Find Traps effect. Parent `spell-cohort-2`; needs execution-dependencies.
-- `spell-goodberry-create`: Resolve Goodberry create. Parent `spell-cohort-2`; needs execution-dependencies.
-- `spell-goodberry-eat`: Resolve Goodberry eat. Parent `spell-cohort-2`; needs execution-dependencies, spell-goodberry-create.
-- `spell-gust-of-wind`: Resolve Gust of Wind effect. Parent `spell-cohort-2`; needs execution-dependencies.
-- `spell-hunters-mark-cast`: Resolve Hunter’s Mark cast. Parent `spell-cohort-2`; needs execution-dependencies.
-- `spell-hunters-mark-transfer`: Resolve Hunter’s Mark transfer. Parent `spell-cohort-2`; needs execution-dependencies, spell-hunters-mark-cast.
-- `spell-jump`: Resolve Jump effect. Parent `spell-cohort-2`; needs execution-dependencies.
-- `spell-locate-animals-or-plants`: Resolve Locate Animals or Plants effect. Parent `spell-cohort-3`; needs execution-dependencies.
-- `spell-longstrider`: Resolve Longstrider effect. Parent `spell-cohort-3`; needs execution-dependencies.
-- `spell-meld-into-stone-entry`: Resolve Meld into Stone entry. Parent `spell-cohort-3`; needs execution-dependencies.
-- `spell-meld-into-stone-inside`: Resolve Meld into Stone inside. Parent `spell-cohort-3`; needs execution-dependencies, spell-meld-into-stone-entry.
-- `spell-meld-into-stone-expulsion`: Resolve Meld into Stone expulsion. Parent `spell-cohort-3`; needs execution-dependencies, spell-meld-into-stone-entry, #488.
-- `spell-message`: Resolve Message effect. Parent `spell-cohort-3`; needs execution-dependencies.
-- `spell-nondetection`: Resolve Nondetection effect. Parent `spell-cohort-3`; needs execution-dependencies.
-- `spell-pass-without-trace`: Resolve Pass without Trace effect. Parent `spell-cohort-3`; needs execution-dependencies.
-- `spell-plant-growth-overgrowth`: Resolve Plant Growth overgrowth. Parent `spell-cohort-3`; needs execution-dependencies.
-- `spell-plant-growth-enrichment`: Resolve Plant Growth enrichment. Parent `spell-cohort-3`; needs execution-dependencies, spell-plant-growth-overgrowth.
-- `spell-poison-spray`: Resolve Poison Spray effect. Parent `spell-cohort-3`; needs execution-dependencies.
-- `spell-produce-flame-light`: Resolve Produce Flame light. Parent `spell-cohort-3`; needs execution-dependencies.
-- `spell-produce-flame-attack`: Resolve Produce Flame attack. Parent `spell-cohort-3`; needs execution-dependencies, spell-produce-flame-light.
-- `spell-protection-from-energy`: Resolve Protection from Energy effect. Parent `spell-cohort-3`; needs execution-dependencies.
-- `spell-shillelagh`: Resolve Shillelagh effect. Parent `spell-cohort-3`; needs execution-dependencies.
-- `spell-silence`: Resolve Silence effect. Parent `spell-cohort-4`; needs execution-dependencies, #961.
-- `spell-speak-with-plants-facts`: Resolve Speak with Plants facts. Parent `spell-cohort-4`; needs execution-dependencies.
-- `spell-speak-with-plants-terrain`: Resolve Speak with Plants terrain. Parent `spell-cohort-4`; needs execution-dependencies, spell-speak-with-plants-facts.
-- `spell-spike-growth-terrain`: Resolve Spike Growth terrain. Parent `spell-cohort-4`; needs execution-dependencies.
-- `spell-spike-growth-movement`: Resolve Spike Growth movement. Parent `spell-cohort-4`; needs execution-dependencies, spell-spike-growth-terrain.
-- `spell-starry-wisp`: Resolve Starry Wisp effect. Parent `spell-cohort-4`; needs execution-dependencies, #962.
-- `spell-stoneskin`: Resolve Stoneskin effect. Parent `spell-cohort-4`; needs execution-dependencies.
-- `spell-water-breathing`: Resolve Water Breathing effect. Parent `spell-cohort-4`; needs execution-dependencies.
-- `spell-water-walk`: Resolve Water Walk effect. Parent `spell-cohort-4`; needs execution-dependencies.
-- `spell-wind-wall-placement`: Resolve Wind Wall placement. Parent `spell-cohort-4`; needs execution-dependencies.
-- `spell-wind-wall-damage`: Resolve Wind Wall damage. Parent `spell-cohort-4`; needs execution-dependencies, spell-wind-wall-placement.
-- `spell-wind-wall-barrier`: Resolve Wind Wall barrier. Parent `spell-cohort-4`; needs execution-dependencies, spell-wind-wall-placement.
+| Role | Native issues |
+|---|---|
+| Protocol qualification | #968, parent336, sole blocker429 |
+| Ranger class qualification | #970, parent328, blocks337 |
+| Class and level cohorts | #971/#972, parent328 |
+| Shared qualification | #973, parent328, blocks279/280 |
+| Spell cohorts,15/15/15/12 | #974–977, parent277 |
+| Exact execution dependency qualification | #978, parent328, blockers61/64/65/66/67/273/353 |
+| Own HP and later entry | #979/#983 |
+| All20 level applications | #1015–1034 |
+| New bounded spell contracts | #1035–1091 |
 
-The dependency DAG and containment DAG are separate. Each shared terminal must
-feed a finite spell cohort→shared gate→279/280, and shared gate→class gate→337.
-Class/level cohorts feed class gate→337. No new283children or direct shared leaf
-root edges. A separately proposed ninth finite execution dependency gate routes
-consumers to exact existing primitives to respect outgoing caps; it must never
-depend on consuming leaves. Gate closure supplies no substitute implementation.
+The explicit source/owner matrix and exact native paths are in
+`issue-328-ranger-scope.json`. Newly shared leaves route through a spell cohort
+and973 to279/280, and through973→970→337. Class/level cohorts route through970
+to337. Gateway968 is mandatory through ownHP979; no new direct429 consumer.
+The execution dependency gate is build/qualification coupling and adds no
+runtime casting/concentration/encounter precondition to ordinary leaves.
+Individual leaf tests against actual qualified outputs remain mandatory.
+
+- [#970](https://github.com/subculture-collective/edda/issues/970) `class-gate`: Qualify finite Ranger class gate; parent#328; exact blockers #328, #971, #972, #973.
+- [#971](https://github.com/subculture-collective/edda/issues/971) `class-cohort`: Qualify finite Ranger class cohort; parent#328; exact blockers #979, #980, #981, #982, #983, #984, #985, #986, #987, #988, #989, #990, #991, #992, #993, #994, #995, #996, #997, #998, #999, #1000, #1001, #1002, #1003, #1004, #1005, #1006, #1007, #1008, #1009, #1010, #1011, #1012, #1013, #1014.
+- [#972](https://github.com/subculture-collective/edda/issues/972) `levels-cohort`: Qualify finite Ranger levels cohort; parent#328; exact blockers #1015, #1016, #1017, #1018, #1019, #1020, #1021, #1022, #1023, #1024, #1025, #1026, #1027, #1028, #1029, #1030, #1031, #1032, #1033, #1034.
+- [#973](https://github.com/subculture-collective/edda/issues/973) `shared-gate`: Qualify finite Ranger shared gate; parent#328; exact blockers #263, #265, #355, #614, #615, #616, #618, #621, #623, #624, #625, #626, #627, #682, #692, #693, #700, #906, #909, #923, #924, #927, #934, #941, #954, #955, #956, #958, #965, #966, #974, #975, #976, #977.
+- [#974](https://github.com/subculture-collective/edda/issues/974) `spell-cohort-1`: Qualify finite Ranger spell cohort 1; parent#277; exact blockers #1035, #1036, #1037, #1038, #1039, #1040, #1041, #1042, #1043, #1044, #1045, #1046, #1047, #1048, #1049.
+- [#975](https://github.com/subculture-collective/edda/issues/975) `spell-cohort-2`: Qualify finite Ranger spell cohort 2; parent#277; exact blockers #1050, #1051, #1052, #1053, #1054, #1055, #1056, #1057, #1058, #1059, #1060, #1061, #1062, #1063, #1064.
+- [#976](https://github.com/subculture-collective/edda/issues/976) `spell-cohort-3`: Qualify finite Ranger spell cohort 3; parent#277; exact blockers #1065, #1066, #1067, #1068, #1069, #1070, #1071, #1072, #1073, #1074, #1075, #1076, #1077, #1078, #1079.
+- [#977](https://github.com/subculture-collective/edda/issues/977) `spell-cohort-4`: Qualify finite Ranger spell cohort 4; parent#277; exact blockers #1080, #1081, #1082, #1083, #1084, #1085, #1086, #1087, #1088, #1089, #1090, #1091.
+- [#978](https://github.com/subculture-collective/edda/issues/978) `execution-dependencies`: Qualify finite Ranger shared execution dependency contracts; parent#328; exact blockers #61, #64, #65, #66, #67, #273, #353.
+- [#979](https://github.com/subculture-collective/edda/issues/979) `hp`: Adapt Ranger own D10 fixed6 HP to shared transaction; parent#971; exact blockers #968.
+- [#980](https://github.com/subculture-collective/edda/issues/980) `core`: Confirm Ranger first-character core proficiencies; parent#971; exact blockers #430.
+- [#981](https://github.com/subculture-collective/edda/issues/981) `skills`: Select Ranger three first-character skills; parent#971; exact blockers #430.
+- [#982](https://github.com/subculture-collective/edda/issues/982) `equipment`: Choose Ranger exact starting equipment; parent#971; exact blockers .
+- [#983](https://github.com/subculture-collective/edda/issues/983) `later-entry`: Admit exact later-class Ranger entry; parent#971; exact blockers #430, #979.
+- [#984](https://github.com/subculture-collective/edda/issues/984) `spellcasting`: Prepare Ranger spells with Wisdom and Druidic Focus; parent#971; exact blockers #263, #265, #355, #428, #614, #615, #616, #618, #621, #623, #624, #625, #626, #627, #682, #692, #693, #700, #906, #909, #923, #924, #927, #934, #941, #965, #966, #978, #1002, #1003, #1035, #1036, #1037, #1038, #1039, #1040, #1041, #1042, #1043, #1044, #1045, #1046, #1047, #1048, #1054, #1055, #1056, #1057, #1058, #1059, #1060, #1061, #1062, #1063, #1064, #1065, #1066, #1067, #1068, #1069, #1071, #1072, #1073, #1074, #1078, #1080, #1081, #1082, #1083, #1084, #1086, #1087, #1088, #1089, #1090, #1091.
+- [#985](https://github.com/subculture-collective/edda/issues/985) `favored-enemy`: Cast Favored Enemy exact 5.2.1 Hunter’s Mark; parent#971; exact blockers #428, #1062, #1063.
+- [#986](https://github.com/subculture-collective/edda/issues/986) `weapon-mastery`: Select and replace two Ranger mastery kinds; parent#971; exact blockers #428, #489, #490, #491, #492, #493, #494, #495, #496.
+- [#987](https://github.com/subculture-collective/edda/issues/987) `deft-explorer`: Apply Deft Explorer expertise and languages; parent#971; exact blockers #430.
+- [#988](https://github.com/subculture-collective/edda/issues/988) `fighting-style`: Choose Ranger Fighting Style or Druidic Warrior; parent#971; exact blockers #384, #385, #386, #387, #388, #389, #390, #391, #392, #393, #394, #395, #396, #397, #398, #399, #400, #401, #1004.
+- [#989](https://github.com/subculture-collective/edda/issues/989) `ranger-subclass`: Select Hunter and exact Ranger subclass timing; parent#971; exact blockers #1005.
+- [#990](https://github.com/subculture-collective/edda/issues/990) `ability-score-improvement`: Select Ranger qualified ASI at four class levels; parent#971; exact blockers #384, #385, #386, #387, #388, #389, #390, #391, #392, #393, #394, #395, #396, #397, #398, #399, #400, #401, #427, #428, #487, #778, #779, #962, #984.
+- [#991](https://github.com/subculture-collective/edda/issues/991) `extra-attack`: Resolve Ranger two own-turn Attack attacks; parent#971; exact blockers #978.
+- [#992](https://github.com/subculture-collective/edda/issues/992) `roving`: Apply Roving nonheavy Speed climb and swim; parent#971; exact blockers #978.
+- [#993](https://github.com/subculture-collective/edda/issues/993) `expertise`: Select two Ranger Expertise skills; parent#971; exact blockers #430.
+- [#994](https://github.com/subculture-collective/edda/issues/994) `relentless-hunter`: Protect Hunter’s Mark concentration against damage only; parent#971; exact blockers #487, #978, #1062.
+- [#995](https://github.com/subculture-collective/edda/issues/995) `natures-veil`: Spend Nature’s Veil uses for exact Invisible duration; parent#971; exact blockers #428, #962.
+- [#996](https://github.com/subculture-collective/edda/issues/996) `precise-hunter`: Apply Precise Hunter marked-target attack advantage; parent#971; exact blockers #978, #1063.
+- [#997](https://github.com/subculture-collective/edda/issues/997) `feral-senses`: Resolve Feral Senses exact thirty-foot Blindsight; parent#971; exact blockers #962, #978.
+- [#998](https://github.com/subculture-collective/edda/issues/998) `epic-boon`: Select qualified Ranger Epic Boon at class nineteen; parent#971; exact blockers #384, #385, #386, #387, #388, #389, #390, #391, #392, #393, #394, #395, #396, #397, #398, #399, #400, #401, #427, #428, #487, #778, #779, #962, #984.
+- [#999](https://github.com/subculture-collective/edda/issues/999) `foe-slayer`: Replace own Hunter’s Mark damage die with D10; parent#971; exact blockers #978, #1062.
+- [#1000](https://github.com/subculture-collective/edda/issues/1000) `tireless-hp`: Resolve Tireless Magic action temporary HP; parent#971; exact blockers #428, #978.
+- [#1001](https://github.com/subculture-collective/edda/issues/1001) `tireless-rest`: Resolve Tireless Short Rest Exhaustion reduction; parent#971; exact blockers #427, #623.
+- [#1002](https://github.com/subculture-collective/edda/issues/1002) `slots`: Apply Ranger class slot counts and combined multiclass slot table; parent#971; exact blockers #428, #978.
+- [#1003](https://github.com/subculture-collective/edda/issues/1003) `membership`: Validate exact Ranger source spell list membership; parent#971; exact blockers #293, #315.
+- [#1004](https://github.com/subculture-collective/edda/issues/1004) `druidic-cantrips`: Prepare and replace two Druidic Warrior Ranger cantrips; parent#971; exact blockers #954, #955, #956, #958, #1003, #1049, #1050, #1051, #1052, #1053, #1070, #1075, #1076, #1077, #1079, #1085.
+- [#1005](https://github.com/subculture-collective/edda/issues/1005) `hunter-identity`: Validate chosen Hunter class-three identity; parent#971; exact blockers .
+- [#1006](https://github.com/subculture-collective/edda/issues/1006) `hunters-lore`: Disclose Hunter’s Lore exact own marked defenses; parent#971; exact blockers #1005, #1063.
+- [#1007](https://github.com/subculture-collective/edda/issues/1007) `colossus-slayer`: Resolve Colossus Slayer once per turn extra weapon damage; parent#971; exact blockers #978, #1005.
+- [#1008](https://github.com/subculture-collective/edda/issues/1008) `horde-breaker`: Resolve Horde Breaker same-weapon distinct nearby target; parent#971; exact blockers #978, #1005.
+- [#1009](https://github.com/subculture-collective/edda/issues/1009) `escape-the-horde`: Apply Escape the Horde Opportunity Attack disadvantage; parent#971; exact blockers #978, #1005.
+- [#1010](https://github.com/subculture-collective/edda/issues/1010) `multiattack-defense`: Apply Multiattack Defense same-creature remainder-turn disadvantage; parent#971; exact blockers #978, #1005.
+- [#1011](https://github.com/subculture-collective/edda/issues/1011) `superior-hunters-prey`: Resolve Superior Hunter’s Prey current mark damage to nearby visible creature; parent#971; exact blockers #978, #999, #1005, #1062.
+- [#1012](https://github.com/subculture-collective/edda/issues/1012) `superior-hunters-defense`: Resolve Superior Hunter’s Defense reaction resistance through turn end; parent#971; exact blockers #978, #1005.
+- [#1013](https://github.com/subculture-collective/edda/issues/1013) `hunters-prey`: Choose or rest-replace Hunter’s Prey option; parent#971; exact blockers #427, #428, #1007, #1008.
+- [#1014](https://github.com/subculture-collective/edda/issues/1014) `defensive-tactics`: Choose or rest-replace Defensive Tactics option; parent#971; exact blockers #427, #428, #1009, #1010.
+- [#1015](https://github.com/subculture-collective/edda/issues/1015) `level-1`: Apply Ranger class level 1 first-character or later-class entry; parent#972; exact blockers #979, #980, #981, #982, #983, #984, #985, #986, #1002.
+- [#1016](https://github.com/subculture-collective/edda/issues/1016) `level-2`: Apply Ranger class level 2 from class 1; parent#972; exact blockers #979, #983, #984, #985, #987, #988, #1002, #1015.
+- [#1017](https://github.com/subculture-collective/edda/issues/1017) `level-3`: Apply Ranger class level 3 from class 2; parent#972; exact blockers #979, #983, #984, #985, #989, #1002, #1006, #1013, #1016.
+- [#1018](https://github.com/subculture-collective/edda/issues/1018) `level-4`: Apply Ranger class level 4 from class 3; parent#972; exact blockers #979, #983, #984, #985, #990, #1002, #1017.
+- [#1019](https://github.com/subculture-collective/edda/issues/1019) `level-5`: Apply Ranger class level 5 from class 4; parent#972; exact blockers #979, #983, #984, #985, #991, #1002, #1018.
+- [#1020](https://github.com/subculture-collective/edda/issues/1020) `level-6`: Apply Ranger class level 6 from class 5; parent#972; exact blockers #979, #983, #984, #985, #992, #1002, #1019.
+- [#1021](https://github.com/subculture-collective/edda/issues/1021) `level-7`: Apply Ranger class level 7 from class 6; parent#972; exact blockers #979, #983, #984, #985, #1002, #1014, #1020.
+- [#1022](https://github.com/subculture-collective/edda/issues/1022) `level-8`: Apply Ranger class level 8 from class 7; parent#972; exact blockers #979, #983, #984, #985, #990, #1002, #1021.
+- [#1023](https://github.com/subculture-collective/edda/issues/1023) `level-9`: Apply Ranger class level 9 from class 8; parent#972; exact blockers #979, #983, #984, #985, #993, #1002, #1022.
+- [#1024](https://github.com/subculture-collective/edda/issues/1024) `level-10`: Apply Ranger class level 10 from class 9; parent#972; exact blockers #979, #983, #984, #985, #1000, #1001, #1002, #1023.
+- [#1025](https://github.com/subculture-collective/edda/issues/1025) `level-11`: Apply Ranger class level 11 from class 10; parent#972; exact blockers #979, #983, #984, #985, #1002, #1011, #1024.
+- [#1026](https://github.com/subculture-collective/edda/issues/1026) `level-12`: Apply Ranger class level 12 from class 11; parent#972; exact blockers #979, #983, #984, #985, #990, #1002, #1025.
+- [#1027](https://github.com/subculture-collective/edda/issues/1027) `level-13`: Apply Ranger class level 13 from class 12; parent#972; exact blockers #979, #983, #984, #985, #994, #1002, #1026.
+- [#1028](https://github.com/subculture-collective/edda/issues/1028) `level-14`: Apply Ranger class level 14 from class 13; parent#972; exact blockers #979, #983, #984, #985, #995, #1002, #1027.
+- [#1029](https://github.com/subculture-collective/edda/issues/1029) `level-15`: Apply Ranger class level 15 from class 14; parent#972; exact blockers #979, #983, #984, #985, #1002, #1012, #1028.
+- [#1030](https://github.com/subculture-collective/edda/issues/1030) `level-16`: Apply Ranger class level 16 from class 15; parent#972; exact blockers #979, #983, #984, #985, #990, #1002, #1029.
+- [#1031](https://github.com/subculture-collective/edda/issues/1031) `level-17`: Apply Ranger class level 17 from class 16; parent#972; exact blockers #979, #983, #984, #985, #996, #1002, #1030.
+- [#1032](https://github.com/subculture-collective/edda/issues/1032) `level-18`: Apply Ranger class level 18 from class 17; parent#972; exact blockers #979, #983, #984, #985, #997, #1002, #1031.
+- [#1033](https://github.com/subculture-collective/edda/issues/1033) `level-19`: Apply Ranger class level 19 from class 18; parent#972; exact blockers #979, #983, #984, #985, #998, #1002, #1032.
+- [#1034](https://github.com/subculture-collective/edda/issues/1034) `level-20`: Apply Ranger class level 20 from class 19; parent#972; exact blockers #979, #983, #984, #985, #999, #1002, #1033.
+- [#1035](https://github.com/subculture-collective/edda/issues/1035) `spell-alarm`: Resolve Alarm effect; parent#974; exact blockers #978.
+- [#1036](https://github.com/subculture-collective/edda/issues/1036) `spell-animal-friendship`: Resolve Animal Friendship effect; parent#974; exact blockers #488, #978.
+- [#1037](https://github.com/subculture-collective/edda/issues/1037) `spell-animal-messenger-admission`: Resolve Animal Messenger admission; parent#974; exact blockers #978.
+- [#1038](https://github.com/subculture-collective/edda/issues/1038) `spell-animal-messenger-journey`: Resolve Animal Messenger journey; parent#974; exact blockers #978, #1037.
+- [#1039](https://github.com/subculture-collective/edda/issues/1039) `spell-barkskin`: Resolve Barkskin effect; parent#974; exact blockers #978.
+- [#1040](https://github.com/subculture-collective/edda/issues/1040) `spell-commune-with-nature-facts`: Resolve Commune with Nature facts; parent#974; exact blockers #978.
+- [#1041](https://github.com/subculture-collective/edda/issues/1041) `spell-conjure-animals-aura`: Resolve Conjure Animals aura; parent#974; exact blockers #978.
+- [#1042](https://github.com/subculture-collective/edda/issues/1042) `spell-conjure-animals-movement`: Resolve Conjure Animals movement; parent#974; exact blockers #978, #1041.
+- [#1043](https://github.com/subculture-collective/edda/issues/1043) `spell-conjure-animals-damage`: Resolve Conjure Animals damage; parent#974; exact blockers #978, #1041.
+- [#1044](https://github.com/subculture-collective/edda/issues/1044) `spell-conjure-woodland-beings-aura`: Resolve Conjure Woodland Beings aura; parent#974; exact blockers #978.
+- [#1045](https://github.com/subculture-collective/edda/issues/1045) `spell-conjure-woodland-beings-disengage`: Resolve Conjure Woodland Beings disengage; parent#974; exact blockers #781, #978, #1044.
+- [#1046](https://github.com/subculture-collective/edda/issues/1046) `spell-darkvision`: Resolve Darkvision effect; parent#974; exact blockers #978.
+- [#1047](https://github.com/subculture-collective/edda/issues/1047) `spell-dominate-beast-charm`: Resolve Dominate Beast charm; parent#974; exact blockers #488, #978.
+- [#1048](https://github.com/subculture-collective/edda/issues/1048) `spell-dominate-beast-control`: Resolve Dominate Beast control; parent#974; exact blockers #488, #978, #1047.
+- [#1049](https://github.com/subculture-collective/edda/issues/1049) `spell-druidcraft-weather`: Resolve Druidcraft weather; parent#974; exact blockers #978.
+- [#1050](https://github.com/subculture-collective/edda/issues/1050) `spell-druidcraft-nature`: Resolve Druidcraft nature; parent#975; exact blockers #978, #1049.
+- [#1051](https://github.com/subculture-collective/edda/issues/1051) `spell-elementalism-air-earth`: Resolve Elementalism air-earth; parent#975; exact blockers #978.
+- [#1052](https://github.com/subculture-collective/edda/issues/1052) `spell-elementalism-fire-water`: Resolve Elementalism fire-water; parent#975; exact blockers #978, #1051.
+- [#1053](https://github.com/subculture-collective/edda/issues/1053) `spell-elementalism-sculpt`: Resolve Elementalism sculpt; parent#975; exact blockers #978, #1051.
+- [#1054](https://github.com/subculture-collective/edda/issues/1054) `spell-enhance-ability`: Resolve Enhance Ability effect; parent#975; exact blockers #978.
+- [#1055](https://github.com/subculture-collective/edda/issues/1055) `spell-ensnaring-strike-hit`: Resolve Ensnaring Strike hit; parent#975; exact blockers #727, #978.
+- [#1056](https://github.com/subculture-collective/edda/issues/1056) `spell-ensnaring-strike-tick-escape`: Resolve Ensnaring Strike tick-escape; parent#975; exact blockers #727, #978, #1055.
+- [#1057](https://github.com/subculture-collective/edda/issues/1057) `spell-entangle`: Resolve Entangle effect; parent#975; exact blockers #727, #978.
+- [#1058](https://github.com/subculture-collective/edda/issues/1058) `spell-find-traps`: Resolve Find Traps effect; parent#975; exact blockers #978.
+- [#1059](https://github.com/subculture-collective/edda/issues/1059) `spell-goodberry-create`: Resolve Goodberry create; parent#975; exact blockers #978.
+- [#1060](https://github.com/subculture-collective/edda/issues/1060) `spell-goodberry-eat`: Resolve Goodberry eat; parent#975; exact blockers #978, #1059.
+- [#1061](https://github.com/subculture-collective/edda/issues/1061) `spell-gust-of-wind`: Resolve Gust of Wind effect; parent#975; exact blockers #978.
+- [#1062](https://github.com/subculture-collective/edda/issues/1062) `spell-hunters-mark-cast`: Resolve Hunter’s Mark cast; parent#975; exact blockers #978.
+- [#1063](https://github.com/subculture-collective/edda/issues/1063) `spell-hunters-mark-transfer`: Resolve Hunter’s Mark transfer; parent#975; exact blockers #978, #1062.
+- [#1064](https://github.com/subculture-collective/edda/issues/1064) `spell-jump`: Resolve Jump effect; parent#975; exact blockers #978.
+- [#1065](https://github.com/subculture-collective/edda/issues/1065) `spell-locate-animals-or-plants`: Resolve Locate Animals or Plants effect; parent#976; exact blockers #978.
+- [#1066](https://github.com/subculture-collective/edda/issues/1066) `spell-longstrider`: Resolve Longstrider effect; parent#976; exact blockers #978.
+- [#1067](https://github.com/subculture-collective/edda/issues/1067) `spell-meld-into-stone-entry`: Resolve Meld into Stone entry; parent#976; exact blockers #978.
+- [#1068](https://github.com/subculture-collective/edda/issues/1068) `spell-meld-into-stone-inside`: Resolve Meld into Stone inside; parent#976; exact blockers #978, #1067.
+- [#1069](https://github.com/subculture-collective/edda/issues/1069) `spell-meld-into-stone-expulsion`: Resolve Meld into Stone expulsion; parent#976; exact blockers #488, #978, #1067.
+- [#1070](https://github.com/subculture-collective/edda/issues/1070) `spell-message`: Resolve Message effect; parent#976; exact blockers #978.
+- [#1071](https://github.com/subculture-collective/edda/issues/1071) `spell-nondetection`: Resolve Nondetection effect; parent#976; exact blockers #978.
+- [#1072](https://github.com/subculture-collective/edda/issues/1072) `spell-pass-without-trace`: Resolve Pass without Trace effect; parent#976; exact blockers #978.
+- [#1073](https://github.com/subculture-collective/edda/issues/1073) `spell-plant-growth-overgrowth`: Resolve Plant Growth overgrowth; parent#976; exact blockers #978.
+- [#1074](https://github.com/subculture-collective/edda/issues/1074) `spell-plant-growth-enrichment`: Resolve Plant Growth enrichment; parent#976; exact blockers #978, #1073.
+- [#1075](https://github.com/subculture-collective/edda/issues/1075) `spell-poison-spray`: Resolve Poison Spray effect; parent#976; exact blockers #978.
+- [#1076](https://github.com/subculture-collective/edda/issues/1076) `spell-produce-flame-light`: Resolve Produce Flame light; parent#976; exact blockers #978.
+- [#1077](https://github.com/subculture-collective/edda/issues/1077) `spell-produce-flame-attack`: Resolve Produce Flame attack; parent#976; exact blockers #978, #1076.
+- [#1078](https://github.com/subculture-collective/edda/issues/1078) `spell-protection-from-energy`: Resolve Protection from Energy effect; parent#976; exact blockers #978.
+- [#1079](https://github.com/subculture-collective/edda/issues/1079) `spell-shillelagh`: Resolve Shillelagh effect; parent#976; exact blockers #978.
+- [#1080](https://github.com/subculture-collective/edda/issues/1080) `spell-silence`: Resolve Silence effect; parent#977; exact blockers #961, #978.
+- [#1081](https://github.com/subculture-collective/edda/issues/1081) `spell-speak-with-plants-facts`: Resolve Speak with Plants facts; parent#977; exact blockers #978.
+- [#1082](https://github.com/subculture-collective/edda/issues/1082) `spell-speak-with-plants-terrain`: Resolve Speak with Plants terrain; parent#977; exact blockers #978, #1081.
+- [#1083](https://github.com/subculture-collective/edda/issues/1083) `spell-spike-growth-terrain`: Resolve Spike Growth terrain; parent#977; exact blockers #978.
+- [#1084](https://github.com/subculture-collective/edda/issues/1084) `spell-spike-growth-movement`: Resolve Spike Growth movement; parent#977; exact blockers #978, #1083.
+- [#1085](https://github.com/subculture-collective/edda/issues/1085) `spell-starry-wisp`: Resolve Starry Wisp effect; parent#977; exact blockers #962, #978.
+- [#1086](https://github.com/subculture-collective/edda/issues/1086) `spell-stoneskin`: Resolve Stoneskin effect; parent#977; exact blockers #978.
+- [#1087](https://github.com/subculture-collective/edda/issues/1087) `spell-water-breathing`: Resolve Water Breathing effect; parent#977; exact blockers #978.
+- [#1088](https://github.com/subculture-collective/edda/issues/1088) `spell-water-walk`: Resolve Water Walk effect; parent#977; exact blockers #978.
+- [#1089](https://github.com/subculture-collective/edda/issues/1089) `spell-wind-wall-placement`: Resolve Wind Wall placement; parent#977; exact blockers #978.
+- [#1090](https://github.com/subculture-collective/edda/issues/1090) `spell-wind-wall-damage`: Resolve Wind Wall damage; parent#977; exact blockers #978, #1089.
+- [#1091](https://github.com/subculture-collective/edda/issues/1091) `spell-wind-wall-barrier`: Resolve Wind Wall barrier; parent#977; exact blockers #978, #1089.
+
+Direct PDF104–106 audit preserves prepared ritual+10min/no slot, longer-cast
+Concentration and interruption without slot expenditure, general non-Incapacitated
+time-span dismissal, component/armor/clear-path rules and privately authoritative
+invalid-target slot expenditure without disclosure. Missing or unauthorized
+facts remain unavailable. No extra Ritual Adept feature is invented.
+
+Tireless owns its distinct completed-Short-Rest adapter. #623 remains a trusted
+Greater Restoration owner; no fake restoration event or spell cost is borrowed.
+ASI/Epic composition consumes actual487/427/428/778/779/962 plus own casting984,
+rather than treating planning parents as effect implementation. Existing owners
+and the exact779 body/prerequisites remain unchanged.
 
 ## Verification and remaining release work
 
@@ -224,4 +252,4 @@ owner bodies remain untouched; no watch, polling, merge, deploy or closure.
 Capacity projection from initial live graph plus proposed exact edges:279incoming98,
 280incoming93,337incoming55,429outgoing100,283children95,328children5.
 Existing primitive outgoing projections61=75,64=41,65=66,66=55,67=92,273=32,
-353=68. These are projections, not a published native graph receipt.
+353=68. These values also match the completed unsealed native readback; final seal pending.
