@@ -22,6 +22,83 @@ def column(pdf, x):
     return " ".join(re.sub(r"-\s+", "", result.stdout).split())
 
 
+def expected_records():
+    """Transcribe the complete graph from the source text checked below."""
+    cid = "srd-5.2.1:character/"
+
+    def record(kind, slug, name, parent, mechanics, **fields):
+        return {
+            "id": cid + kind + "/" + slug, "kind": kind, "name": name,
+            "sources": [{"inventory_id": "srd-5.2.1:planning/feats/" + slug.split("/")[0], "page": 87}],
+            "parent_id": parent, "level": 0, "choice_refs": [],
+            "resource_refs": [], "prerequisite_refs": [],
+            "required_mechanics": [KEY + k for k in mechanics],
+            "select": 0, "option_keys": [], "capacity": 0, **fields,
+        }
+
+    def predicate(slug, name, parent, key, refs=(), parameters=None):
+        return record("prerequisite", slug, name, parent, ["prerequisite/" + key],
+                      requirement={"key": KEY + "prerequisite/" + key,
+                                   "record_refs": list(refs),
+                                   "parameters": {} if parameters is None else parameters})
+
+    asi = "ability-score-improvement"
+    base = "feats/" + asi + "/"
+    feat_id = cid + "feat/" + asi
+    pattern_id = cid + "choice/" + asi + "/increase-pattern"
+    result = [
+        record("feat", asi, "Ability Score Improvement", "",
+               ["feats/category/general", "feats/repeatability/unrestricted", base + "maximum-ability-score"],
+               choice_refs=[pattern_id], prerequisite_refs=[cid + "prerequisite/" + asi + "/level"],
+               parameters={KEY + base + "maximum-ability-score": 20}),
+        predicate(asi + "/level", "Level", feat_id, "minimum-character-level", parameters={"minimum-level": 4}),
+        record("choice", asi + "/increase-pattern", "Ability increase pattern", feat_id,
+               [base + "choose-one-increase-pattern", base + "increase-per-score"], select=1,
+               choice_refs=[pattern_id + "/one-score", pattern_id + "/two-scores"],
+               option_keys=[KEY + base + "one-score-plus-two", KEY + base + "two-scores-plus-one"],
+               options=[
+                   {"key": KEY + base + "one-score-plus-two", "quantities": {KEY + base + "increase-per-score": 2}},
+                   {"key": KEY + base + "two-scores-plus-one", "quantities": {KEY + base + "increase-per-score": 1}},
+               ]),
+    ]
+    for part, name, count, option in (
+        ("one-score", "One ability score", 1, "one-score-plus-two"),
+        ("two-scores", "Two distinct ability scores", 2, "two-scores-plus-one"),
+    ):
+        slug = asi + "/increase-pattern/" + part
+        result.append(record(
+            "choice", slug, name, pattern_id,
+            [base + "increase-selected-scores", base + "subject-to-maximum-ability-score"],
+            select=count, option_keys=[KEY + "abilities/" + ability for ability in
+                                      ("strength", "dexterity", "constitution", "intelligence", "wisdom", "charisma")],
+            prerequisite_refs=[cid + "prerequisite/" + slug + "/selected-pattern"],
+        ))
+        result.append(predicate(slug + "/selected-pattern", "Selected pattern", cid + "choice/" + slug,
+                                asi + "/" + option + "-selected", refs=[pattern_id]))
+    feat_id = cid + "feat/grappler"
+    result.extend([
+        record("feat", "grappler", "Grappler", "", [
+            "feats/category/general", "feats/maximum-times-taken",
+            "feats/grappler/ability-score-increase", "feats/grappler/maximum-ability-score",
+            "feats/grappler/punch-and-grab/optional-on-hit-creature", "feats/grappler/punch-and-grab/unarmed-strike",
+            "feats/grappler/punch-and-grab/part-of-attack-action-on-your-turn",
+            "feats/grappler/punch-and-grab/use-both-damage-and-grapple-options", "feats/grappler/punch-and-grab/uses-per-turn",
+            "feats/grappler/attack-advantage/on-attack-rolls-against-creature-grappled-by-you",
+            "feats/grappler/fast-wrestler/no-extra-movement-to-move-creature-grappled-by-you",
+            "feats/grappler/fast-wrestler/only-if-creature-your-size-or-smaller",
+        ], choice_refs=[cid + "choice/grappler/ability-score"],
+            prerequisite_refs=[cid + "prerequisite/grappler/level", cid + "prerequisite/grappler/ability"],
+            parameters={KEY + "feats/maximum-times-taken": 1, KEY + "feats/grappler/ability-score-increase": 1,
+                        KEY + "feats/grappler/maximum-ability-score": 20, KEY + "feats/grappler/punch-and-grab/uses-per-turn": 1}),
+        predicate("grappler/level", "Level", feat_id, "minimum-character-level", parameters={"minimum-level": 4}),
+        predicate("grappler/ability", "Ability", feat_id, "strength-or-dexterity-at-least", parameters={"minimum-score": 13}),
+        record("choice", "grappler/ability-score", "Ability Score Increase", feat_id,
+               ["feats/grappler/increase-one-selected-ability", "feats/grappler/subject-to-maximum-ability-score"],
+               select=1, option_keys=[KEY + "abilities/strength", KEY + "abilities/dexterity"]),
+    ])
+    return result
+
+
 def main():
     if len(sys.argv) != 2:
         raise SystemExit("usage: verify_srd_general_feats.py /path/to/SRD_CC_v5.2.1.pdf")
@@ -41,6 +118,7 @@ def main():
         "Fast Wrestler. You don’t have to spend extra movement to move a creature Grappled by you if the creature is your size or smaller."
     ), ("source text changed", text)
     c = json.loads((ROOT / "internal/rules/srd521/testdata/character-general-feats.json").read_text())
+    assert c["schema_version"] == 1
     source = c["source"]
     assert source["sha256"] == PIN and source["license"] == "CC-BY-4.0"
     assert source["attribution"] and source["changes"]
@@ -53,30 +131,9 @@ def main():
     for r in records:
         assert r["sources"] == [{"inventory_id": "srd-5.2.1:planning/feats/" + r["id"].split("/")[2], "page": 87}]
         assert r["kind"] in ("feat", "choice", "prerequisite")
-    a, level, pattern, one, cond_one, two, cond_two, g, g_level, ability, g_choice = records
-    assert a["parameters"] == {KEY+"feats/ability-score-improvement/maximum-ability-score": 20}
-    assert KEY+"feats/repeatability/unrestricted" in a["required_mechanics"]
-    assert level["requirement"]["parameters"] == g_level["requirement"]["parameters"] == {"minimum-level": 4}
-    assert ability["requirement"] == {"key": KEY+"prerequisite/strength-or-dexterity-at-least", "record_refs": [], "parameters": {"minimum-score": 13}}
-    assert pattern["select"] == one["select"] == g_choice["select"] == 1 and two["select"] == 2
-    base = KEY+"feats/ability-score-improvement/"
-    assert pattern["option_keys"] == [base+"one-score-plus-two", base+"two-scores-plus-one"]
-    assert pattern["options"] == [
-        {"key": base+"one-score-plus-two", "quantities": {base+"increase-per-score": 2}},
-        {"key": base+"two-scores-plus-one", "quantities": {base+"increase-per-score": 1}},
-    ]
-    assert one["option_keys"] == two["option_keys"] == [KEY+"abilities/"+n for n in ("strength", "dexterity", "constitution", "intelligence", "wisdom", "charisma")]
-    for choice, condition, option in ((one, cond_one, "one-score-plus-two"), (two, cond_two, "two-scores-plus-one")):
-        assert choice["parent_id"] == pattern["id"] and condition["parent_id"] == choice["id"]
-        assert condition["requirement"] == {"key": KEY+"prerequisite/ability-score-improvement/"+option+"-selected", "record_refs": [pattern["id"]], "parameters": {}}
-    assert g_choice["option_keys"] == [KEY+"abilities/strength", KEY+"abilities/dexterity"]
-    assert g["parameters"] == {KEY+"feats/maximum-times-taken": 1, KEY+"feats/grappler/ability-score-increase": 1, KEY+"feats/grappler/maximum-ability-score": 20, KEY+"feats/grappler/punch-and-grab/uses-per-turn": 1}
-    assert g["required_mechanics"] == [KEY+k for k in (
-        "feats/category/general", "feats/maximum-times-taken", "feats/grappler/ability-score-increase", "feats/grappler/maximum-ability-score",
-        "feats/grappler/punch-and-grab/optional-on-hit-creature", "feats/grappler/punch-and-grab/unarmed-strike",
-        "feats/grappler/punch-and-grab/part-of-attack-action-on-your-turn", "feats/grappler/punch-and-grab/use-both-damage-and-grapple-options",
-        "feats/grappler/punch-and-grab/uses-per-turn", "feats/grappler/attack-advantage/on-attack-rolls-against-creature-grappled-by-you",
-        "feats/grappler/fast-wrestler/no-extra-movement-to-move-creature-grappled-by-you", "feats/grappler/fast-wrestler/only-if-creature-your-size-or-smaller")]
+    # Canonical JSON distinguishes explicit integers from Boolean/float aliases
+    # while ignoring object property order. Extra fields and scaling also fail.
+    assert json.dumps(records, sort_keys=True) == json.dumps(expected_records(), sort_keys=True), "complete page 87 source graph"
     print("SRD " + PIN + ": exact two General feat identities on PDF p87; complete source text, prerequisites, alternatives, nested choices, caps and conditional benefits agree")
 
 
