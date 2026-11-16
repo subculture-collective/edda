@@ -185,4 +185,3 @@ locally on pp47–48. These checks establish this data batch's completeness;
 they do not evaluate feat eligibility, resolve adjacent catalogues or qualify
 creation, advancement, actions, Champion mechanics or Full Rules. The catalogue
 retains CC-BY-4.0 attribution and its adaptation notice.
-
