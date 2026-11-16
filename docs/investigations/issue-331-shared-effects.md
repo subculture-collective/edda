@@ -1,6 +1,6 @@
-# Warlock shared effect split — pending protocol/cap approval
+# Bounded shared spell contracts — publication pending
 
-These70 bounded parts cover29 new effect identities. They retain original source-page predicates, numeric positive/negative witnesses and common durable/shared-client acceptance. Existing whole effect owners and330reservations remain external; new modes do not duplicate spell effects. FindFamiliar/statblocks and full prerequisite/cohort graph remain in progress.
+Each body is one future bounded PR. Actual qualified referenced outputs are mandatory; source data, labels and planning closure never supply execution. Native title/body/parent/Task/ProjectSize/blocked-by readback and ROOT approval are pending. Pinned source and CC-BY4 adaptation are retained.
 
 ## Resolve Astral Projection projection
 
@@ -56,7 +56,7 @@ Prepare is inert: no dice, cost, grant or writes. Confirm revalidates actor, cam
 
 Decision #331; one shared effect implementation PR; Task Size M.
 
-PDF112: At end every30days repeatINTsave, successendsblock; GreaterRestoration/Heal/Wish exactoutputs endblock. Positive day30success restorescasting; reject dailyrepeat, restcure, DispelMagic ofinstantaneousspell inferred or unqualifiedrestorationname.
+PDF112: At end every30days repeatINTsave, successendsblock; GreaterRestoration/Heal/Wish exactoutputs endblock. Positive day30DC18/roll19 restorescasting; actual621+623 GreaterRestoration on same known recipient withExhaustion1 removes thatExhaustion AND ownBefuddlement source exception; actual585Wish binds exactselectedrecipient. Preserve old621five-option dispatcher; no blanketcure. Heal producer remainsUNBOUND/unavailable untilactualnamedqualifiedoutput. Rejectroll17,dailyrepeat,restcure,foreignrecipient,DispelMagic ofinstantaneousspell inferred or clientrestorationname.
 
 Consume actual source-specific casting/target/dice/concentration outputs, not273/277 planning closure. Normal prepared Ritual-tag mode adds10minutes/no slot/no upcast; longcasts MagicActioneveryturn and castingConcentration/interruptionnoslotspend. Preserve106ongoingcasterNoActiondismissal unlessIncapacitated, source-specificstrongest/latest-equal same-spellnonstacking, exact206item/244scroll exceptions and confirmedprivateinvalidtargetslotspend/noeffect/noprivateleaks. These shared effects grant no class-list/feature entitlement; finite eligibility and unknown execution stay distinct.
 
@@ -76,7 +76,7 @@ Prepare is inert: no dice, cost, grant or writes. Confirm revalidates actor, cam
 
 Decision #331; one shared effect implementation PR; Task Size M.
 
-PDF119: FailedDC15INTsave deals6d6Psychic and Incapacitated untilLongRest via487/428; GreaterRestoration exactoutputends. Positive6rolls6=36; reject ShortRestend, failedsavequestions, wrongdamage, treating allnormalcasts auto-success.
+PDF119: FailedDC15INTsave deals6d6Psychic and Incapacitated untilTHISCASTERLongRest via487/428; GreaterRestoration exactoutputends THISsource-boundIncappacket only. Positive6rolls6=36; same-recipient actual621+623 cureevent withExhaustion1 endsownpacketwithoutchangingoldfive-optiondispatcher. RejectShortRestend,otheractorrest,failedsavequestions,wrongdamage,foreigncureevent or treatingallnormalcastsauto-success.
 
 Consume actual source-specific casting/target/dice/concentration outputs, not273/277 planning closure. Normal prepared Ritual-tag mode adds10minutes/no slot/no upcast; longcasts MagicActioneveryturn and castingConcentration/interruptionnoslotspend. Preserve106ongoingcasterNoActiondismissal unlessIncapacitated, source-specificstrongest/latest-equal same-spellnonstacking, exact206item/244scroll exceptions and confirmedprivateinvalidtargetslotspend/noeffect/noprivateleaks. These shared effects grant no class-list/feature entitlement; finite eligibility and unknown execution stay distinct.
 
@@ -616,7 +616,7 @@ Prepare is inert: no dice, cost, grant or writes. Confirm revalidates actor, cam
 
 Decision #331; one shared effect implementation PR; Task Size M.
 
-PDF170: Creature->creature CR<=targetCRorlevel;replacegamestatsbutretainHP/HitDice/alignment/personality;gainnewformHPasTHP,remainingTHPvanishspellend;nospeech/casting,anatomylimits. Positivelevel9targetCR9form; rejectCR10, replacingcurrentHP, retainedspellcastingorunqualifiednamedstatblock. Exactfinitepinnedworldroster routing independentofeffectavailability.
+PDF170: Creature->creature CR<=targetCRorlevel;replacegamestatsbutretainHP/HitDice/alignment/personality;gainnewformHPasTHP,remainingTHPvanishspellend;nospeech/casting,anatomylimits. Positivelevel1target/currentHP20 with actualqualifiedOwlCR0/HP1 output retainsHP20 and gains1THP/Fly60/Flyby; rejectCR2form, replacingcurrentHP, retainedspellcastingorunqualifiednamedstatblock. Exactfinitepinnedworldroster routing independentofeffectavailability.
 
 Consume actual source-specific casting/target/dice/concentration outputs, not273/277 planning closure. Normal prepared Ritual-tag mode adds10minutes/no slot/no upcast; longcasts MagicActioneveryturn and castingConcentration/interruptionnoslotspend. Preserve106ongoingcasterNoActiondismissal unlessIncapacitated, source-specificstrongest/latest-equal same-spellnonstacking, exact206item/244scroll exceptions and confirmedprivateinvalidtargetslotspend/noeffect/noprivateleaks. These shared effects grant no class-list/feature entitlement; finite eligibility and unknown execution stay distinct.
 
@@ -636,7 +636,7 @@ Prepare is inert: no dice, cost, grant or writes. Confirm revalidates actor, cam
 
 Decision #331; one shared effect implementation PR; Task Size M.
 
-PDF170: Object->creatureformsize<=objectsize,CR<=9,Friendlytoyou/allies,ownturnimmediatelyafteryours/obeyscommands; aftermorethan1hourcontrolends,mayremainFriendlydependingtreatment. PositiveLargeobjectLargeCR9; rejectHugeform,CR10orpermanentcommandcontrol. Namedstatblock/actions/lifecycleownersrequired.
+PDF170: Object->creatureformsize<=objectsize,CR<=9,Friendlytoyou/allies,ownturnimmediatelyafteryours/obeyscommands; aftermorethan1hourcontrolends,mayremainFriendlydependingtreatment. PositiveagreedTinyglassbottle->actualqualifiedTinyOwlCR0/HP1/Fly60; rejectSmallformfromTinybottle,CR10orpermanentcommandcontrol. Namedstatblock/actions/lifecycleownersrequired; noundefinedform inferred.
 
 Consume actual source-specific casting/target/dice/concentration outputs, not273/277 planning closure. Normal prepared Ritual-tag mode adds10minutes/no slot/no upcast; longcasts MagicActioneveryturn and castingConcentration/interruptionnoslotspend. Preserve106ongoingcasterNoActiondismissal unlessIncapacitated, source-specificstrongest/latest-equal same-spellnonstacking, exact206item/244scroll exceptions and confirmedprivateinvalidtargetslotspend/noeffect/noprivateleaks. These shared effects grant no class-list/feature entitlement; finite eligibility and unknown execution stay distinct.
 
@@ -646,7 +646,7 @@ Prepare is inert: no dice, cost, grant or writes. Confirm revalidates actor, cam
 
 Decision #331; one shared effect implementation PR; Task Size M.
 
-PDF170: Creatureandworn/carriedgear->objectsize<=creaturesize,statsbecomeobjectstats,norecollectionoftimewhenreturns. PositiveMedium->Smallobject; rejectLargeobjectfromMedium, keepingcreatureactionsorinventedgeneralobjectstats.
+PDF170: Creatureandworn/carriedgear->objectsize<=creaturesize,statsbecomeobjectstats,norecollectionoftimewhenreturns. PositiveMediumcreature->knownagreedTinyglassbottleAC13/HP2; rejectLargeobjectfromMedium,keepingcreatureactionsorinventedgeneralobjectstats. Unbounddeath/overflow/endingoutputs unavailable; do notimport2014overflow/healing/gear duplication.
 
 Consume actual source-specific casting/target/dice/concentration outputs, not273/277 planning closure. Normal prepared Ritual-tag mode adds10minutes/no slot/no upcast; longcasts MagicActioneveryturn and castingConcentration/interruptionnoslotspend. Preserve106ongoingcasterNoActiondismissal unlessIncapacitated, source-specificstrongest/latest-equal same-spellnonstacking, exact206item/244scroll exceptions and confirmedprivateinvalidtargetslotspend/noeffect/noprivateleaks. These shared effects grant no class-list/feature entitlement; finite eligibility and unknown execution stay distinct.
 

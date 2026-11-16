@@ -3,6 +3,7 @@ import copy
 import json
 from pathlib import Path
 import unittest
+from unittest.mock import patch
 
 import verify_warlock_scope as v
 
@@ -53,6 +54,70 @@ class WarlockCandidateProof(unittest.TestCase):
                 m['tasks'][n]['body'] = v.body(m['tasks'][n]['key'], m['tasks'][n]['fixture'])
                 m['native_receipt'] = {'body': m['tasks'][n]['body'], 'state': 'PUBLISHED'}
             self.reject(weaken)
+
+    def test_every_actual_shared_and_creature_contract(self):
+        for field in ('shared_effect_tasks', 'creature_tasks', 'gear_tasks'):
+            for n in range(len(self.candidate[field])):
+                def weaken(m, n=n, field=field):
+                    t = m[field][n]
+                    t['fixture'] = 'Generic unsupported effect with no bounds.'
+                    t['body'] = t['fixture']
+                    m['native_receipt'] = {'state': 'PUBLISHED', 'body': t['body']}
+                self.reject(weaken)
+
+    def test_mind_spike_does_not_grant_sorcerer_membership(self):
+        self.reject(lambda m: m['source_conflicts'].__setitem__('Sorcerer–Mind Spike', 'Header automatically grants Sorcerer list membership.'))
+        self.reject(lambda m: m['familiar_source_roster']['normal'].append('Venomous Snake'))
+        self.reject(lambda m: m['familiar_source_roster']['chain'].remove('Sphinx of Wonder'))
+
+    def test_whole_owner_reuse_rejects_coherent_name_only_matches(self):
+        for name, issue in [('Gate', 179), ('Light', 1076), ('Message', 640), ('Resistance', 586), ('Find Familiar', 181)]:
+            def fake(m, name=name, issue=issue):
+                row = next(x for x in m['spell_overlap_audit'] if x['name'] == name)
+                row['candidate_owners'] = [dict(issue=issue, title='forged matching title', body='forged matching body')]
+                m['native_receipt'] = {'state': 'PUBLISHED', 'owner': issue}
+            self.reject(fake)
+
+    def test_unequal_actual_candidate_class_total_operands(self):
+        for n in range(2):
+            for field, bad in [('warlock_row', True), ('total_row', 5.0), ('experience_points', 300), ('proficiency_bonus', 2), ('hp_mode', 'first-character-D8')]:
+                self.reject(lambda m, n=n, field=field, bad=bad: m['transition_witnesses'][n].__setitem__(field, bad))
+
+    def test_complete_actual_native_proposal_and_coherent_weakening(self):
+        import warlock_native_proof as native
+        proposal = json.loads(native.PROPOSAL.read_text())
+        baseline = json.loads(native.BASELINE.read_text())
+        foreign = json.loads(native.FOREIGN.read_text())
+        result = native.validate_proposal(self.candidate, proposal, baseline, foreign)
+        self.assertFalse(result['unresolved_foreign'])
+        for section, n, field, bad in [('tasks', 0, 'native_body', 'weakened complete body'),
+                                       ('gates', 0, 'prerequisites', []),
+                                       ('gates', 0, 'parent', 283)]:
+            wrong = copy.deepcopy(proposal)
+            wrong[section][n][field] = bad
+            with self.assertRaises(AssertionError):
+                native.validate_proposal(self.candidate, wrong, baseline, foreign)
+
+    def test_graphql_pages_never_hang_on_forged_api(self):
+        import warlock_native_proof as native
+        class Repeated:
+            calls = 0
+            def __call__(self, query, variables):
+                self.calls += 1
+                return {'issues': {'nodes':[dict(number=1, title='x', body='', state='OPEN', parent=None,
+                    blockedBy={'pageInfo': {'hasNextPage':False}, 'nodes':[]})],
+                    'pageInfo': {'hasNextPage':True, 'endCursor':'same'}}}
+        fake = Repeated()
+        with patch.object(native, 'Reader', return_value=fake):
+            with self.assertRaises(AssertionError):
+                native.read_live({})
+        self.assertEqual(fake.calls, 2)
+
+    def test_observed_baseline_never_becomes_future_root_release(self):
+        import warlock_native_proof as native
+        self.assertIsNone(native.ACCEPTED_POST_SORCERER_PREFIXES)
+        with self.assertRaises(AssertionError):
+            native.validate_native(self.candidate, {}, {'state':'PUBLISHED', 'root_released':True}, {})
 
     def test_actual_native_flags_cannot_forge_publication(self):
         for live in [False, True]:

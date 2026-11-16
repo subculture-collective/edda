@@ -1,2 +1,2 @@
 
-<!-- edda331 --> #331 reconciles191 source records/20rows/28Invocations. Source metadata and decision closure do not execute features or admit Warlock. Exact native implementation/shared-output paths remain required. ROOT-only PENDING; no live append.
+<!-- edda331 --> #331 reconciles191 source records,20rows and28Invocations. Native feature,level,shared-effect and qualification descendants remain mandatory. Source catalogues and decision closure do not execute effects,admit Warlock or promote FullRules.

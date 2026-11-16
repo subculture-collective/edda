@@ -4,6 +4,6 @@
 
 **Sorcerer–Mind Spike**: p68 absent; p149 header includes; list admission unavailable. Single effect ownership reserved Warlock, printed75/header149 agree. No duplicate330owner..
 
-**Sorcerer–Phantasmal Force**: printed68 entry/header151 conflict; disputed list admission unavailable; unallocated/outside245.
+**Sorcerer–Phantasmal Force**: p68 complete level2 printed list ABSENT; p151 header includes; disputed list admission unavailable, unallocated/outside245.
 
-**Wizard–Phantasmal Force**: printed80 entry/header151 conflict; disputed list admission unavailable; unallocated/outside245.
+**Wizard–Phantasmal Force**: p80 complete level2 printed list ABSENT; p151 header includes; disputed list admission unavailable, unallocated/outside245.

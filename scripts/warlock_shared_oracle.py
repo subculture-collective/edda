@@ -15,11 +15,11 @@ SPELLS = {
  'Bane': (112, {'save-penalty': 'Level1Action30ft,VSMblood,Concentration1minute; up to3visiblecreatures CHA save; failure subtract1d4 each attackroll/save, +1target perslotabove1. Positive slot3targets5,d4=3 reducesattack17->14; reject6targets, abilitycheckpenalty, successfulsavepenalty, stacking same-spell penalties.'}),
  'Befuddlement': (112, {
   'damage-block': 'Level8Action150ft,VSMkeyring,instant;1visiblecreature INTsave; failure10d12Psychic and cannotcastspells/takeMagicAction; successhalfdamageonly. Positive10rolls12=120/60success; reject successblock,9d12, restrictionallactions or immunityinferredfromIntelligence.',
-  'ending': 'At end every30days repeatINTsave, successendsblock; GreaterRestoration/Heal/Wish exactoutputs endblock. Positive day30success restorescasting; reject dailyrepeat, restcure, DispelMagic ofinstantaneousspell inferred or unqualifiedrestorationname.',
+  'ending': 'At end every30days repeatINTsave, successendsblock; GreaterRestoration/Heal/Wish exactoutputs endblock. Positive day30DC18/roll19 restorescasting; actual621+623 GreaterRestoration on same known recipient withExhaustion1 removes thatExhaustion AND ownBefuddlement source exception; actual585Wish binds exactselectedrecipient. Preserve old621five-option dispatcher; no blanketcure. Heal producer remainsUNBOUND/unavailable untilactualnamedqualifiedoutput. Rejectroll17,dailyrepeat,restcure,foreignrecipient,DispelMagic ofinstantaneousspell inferred or clientrestorationname.',
  }),
  'Contact Other Plane': (119, {
   'contact-questions': 'Level5;1minuteorRitual;Self,V;duration1minute; DC15INTsave success asksup to5questions beforeend; knowledgeableotherplanarentity, one-wordanswers or shortphrase ifmisleading. Positive5questions; reject6, latequestion, inventedknowledge or undisclosedworldfacts guessed as answer. OwnContactPatron exception separate.',
-  'failed-contact': 'FailedDC15INTsave deals6d6Psychic and Incapacitated untilLongRest via487/428; GreaterRestoration exactoutputends. Positive6rolls6=36; reject ShortRestend, failedsavequestions, wrongdamage, treating allnormalcasts auto-success.',
+  'failed-contact': 'FailedDC15INTsave deals6d6Psychic and Incapacitated untilTHISCASTERLongRest via487/428; GreaterRestoration exactoutputends THISsource-boundIncappacket only. Positive6rolls6=36; same-recipient actual621+623 cureevent withExhaustion1 endsownpacketwithoutchangingoldfive-optiondispatcher. RejectShortRestend,otheractorrest,failedsavequestions,wrongdamage,foreigncureevent or treatingallnormalcastsauto-success.',
  }),
  'Create Undead': (121, {
   'animate': 'Level6;1minute;10ft,VSM150GPonyx percorpse(nonconsumed); ONLYnight; up to3Small/MediumHumanoidcorpses becomeGhouls. Positive3corpses/450GPstones; reject daytime, Largecorpse, nonHumanoid, consumedstones or metadata-onlyGhoul.',
@@ -109,10 +109,10 @@ SPELLS = {
  }),
  'True Polymorph': (170, {
   'admission-duration': 'Level9Action30ft,seencreatureornonmagicalobject,VSMmercury/gum/smoke,Concentration1hour;unwillingWISsave,successunaffected. Endsdeath/destruction;fullhourconcentrationbecomesuntildispelled. Positive60minpersistent; reject59minpersistent, worn/carriedobjecttargetortransformationendingat0THP2014.',
-  'creature-form': 'Creature->creature CR<=targetCRorlevel;replacegamestatsbutretainHP/HitDice/alignment/personality;gainnewformHPasTHP,remainingTHPvanishspellend;nospeech/casting,anatomylimits. Positivelevel9targetCR9form; rejectCR10, replacingcurrentHP, retainedspellcastingorunqualifiednamedstatblock. Exactfinitepinnedworldroster routing independentofeffectavailability.',
+  'creature-form': 'Creature->creature CR<=targetCRorlevel;replacegamestatsbutretainHP/HitDice/alignment/personality;gainnewformHPasTHP,remainingTHPvanishspellend;nospeech/casting,anatomylimits. Positivelevel1target/currentHP20 with actualqualifiedOwlCR0/HP1 output retainsHP20 and gains1THP/Fly60/Flyby; rejectCR2form, replacingcurrentHP, retainedspellcastingorunqualifiednamedstatblock. Exactfinitepinnedworldroster routing independentofeffectavailability.',
   'equipment': 'Creature->creaturegear melds,newformcannotuseorbenefitfromequipment. Positivearmorbonusremovedwhilemeldedandrestoredending; rejectmagicitembenefits, orphanedgearorregrantingoldbonustwiceonreplay.',
-  'object-creature': 'Object->creatureformsize<=objectsize,CR<=9,Friendlytoyou/allies,ownturnimmediatelyafteryours/obeyscommands; aftermorethan1hourcontrolends,mayremainFriendlydependingtreatment. PositiveLargeobjectLargeCR9; rejectHugeform,CR10orpermanentcommandcontrol. Namedstatblock/actions/lifecycleownersrequired.',
-  'creature-object': 'Creatureandworn/carriedgear->objectsize<=creaturesize,statsbecomeobjectstats,norecollectionoftimewhenreturns. PositiveMedium->Smallobject; rejectLargeobjectfromMedium, keepingcreatureactionsorinventedgeneralobjectstats.',
+  'object-creature': 'Object->creatureformsize<=objectsize,CR<=9,Friendlytoyou/allies,ownturnimmediatelyafteryours/obeyscommands; aftermorethan1hourcontrolends,mayremainFriendlydependingtreatment. PositiveagreedTinyglassbottle->actualqualifiedTinyOwlCR0/HP1/Fly60; rejectSmallformfromTinybottle,CR10orpermanentcommandcontrol. Namedstatblock/actions/lifecycleownersrequired; noundefinedform inferred.',
+  'creature-object': 'Creatureandworn/carriedgear->objectsize<=creaturesize,statsbecomeobjectstats,norecollectionoftimewhenreturns. PositiveMediumcreature->knownagreedTinyglassbottleAC13/HP2; rejectLargeobjectfromMedium,keepingcreatureactionsorinventedgeneralobjectstats. Unbounddeath/overflow/endingoutputs unavailable; do notimport2014overflow/healing/gear duplication.',
  }),
  'Unseen Servant': (171, {
   'manifest-ending': 'Level1ActionorRitual60ft,VSMstring/wood,1hour;InvisiblemindlessshapelessMediumforceunoccupiedground;AC10/HP1/STR2,cannotattack;0HPendsspell. Positive1damageends; rejectAC12,attackpermission,occupiedspaceorTreatingforceasfamiliar.',
@@ -131,3 +131,46 @@ CASTING = ('Consume actual source-specific casting/target/dice/concentration out
            'unlessIncapacitated, source-specificstrongest/latest-equal same-spellnonstacking, exact206item/244scroll '
            'exceptions and confirmedprivateinvalidtargetslotspend/noeffect/noprivateleaks. '
            'These shared effects grant no class-list/feature entitlement; finite eligibility and unknown execution stay distinct.')
+
+
+# Explicit audited whole-contract roster; no substring inference.
+EXISTING_OWNERS = {'Acid Splash': (694,),
+ 'Alarm': (1035,),
+ 'Banishment': (939, 940),
+ 'Blight': (680,),
+ 'Burning Hands': (677,),
+ 'Command': (907,),
+ 'Detect Magic': (906,),
+ 'Detect Poison and Disease': (909,),
+ 'Dispel Magic': (355, 965, 966),
+ 'Druidcraft': (1049, 1050),
+ 'Elementalism': (1051, 1052, 1053),
+ 'Fire Bolt': (678,),
+ 'Fireball': (679,),
+ 'Geas': (945, 946),
+ 'Guidance': (954,),
+ 'Hold Person': (683,),
+ 'Insect Plague': (699,),
+ 'Jump': (1064,),
+ 'Light': (967,),
+ 'Magic Circle': (935, 936),
+ 'Mending': (955,),
+ 'Message': (1070,),
+ 'Misty Step': (688,),
+ 'Poison Spray': (1075,),
+ 'Power Word Kill': (506,),
+ 'Produce Flame': (1076, 1077),
+ 'Protection from Evil and Good': (913,),
+ 'Purify Food and Drink': (914,),
+ 'Ray of Frost': (684,),
+ 'Remove Curse': (937, 938),
+ 'Resistance': (956,),
+ 'Sacred Flame': (957,),
+ 'Shillelagh': (1079,),
+ 'Shocking Grasp': (689,),
+ 'Spare the Dying': (958,),
+ 'Speak with Animals': (700,),
+ 'Starry Wisp': (1085,),
+ 'Stinking Cloud': (697,),
+ 'Thaumaturgy': (959,),
+ 'Water Breathing': (1087,)}

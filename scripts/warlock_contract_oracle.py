@@ -16,12 +16,31 @@ COMMON = ('Prepare is inert: no dice, cost, grant or writes. Confirm revalidates
           'issues grant nothing. SRD5.2.1 CC-BY4 attribution/adaptation is retained '
           'via docs/srd-5.2.1-conformance.md.')
 
+CONSUMER_EVIDENCE = [
+ dict(area='rules', path='internal/rules/srd521/creation.go', symbol='SupportedBuildForConcept', finding='Fixed Fighter/Cleric builds only; Warlock is not admitted.'),
+ dict(area='rules', path='internal/rules/srd521/equipment.go', symbol='ChangeEquipment', finding='Chain mail/shield and fixed Fighter/Cleric only; no general Leather/Orb/Book/weapon adapter.'),
+ dict(area='game', path='internal/game/advancement_preview.go', symbol='prepareAdvancement', finding='Fixed Fighter1-to2 preview; no Warlock class vector or adjacent transition.'),
+ dict(area='engine', path='internal/engine/action_confirmation.go', symbol='ConfirmAction', finding='Authoritative preview/revision gate and narrow spell targets; storage does not supply Warlock effects.'),
+ dict(area='combat', path='internal/combat/encounter.go', symbol='SpendSpell', finding='One slot TO CAST turn budget; no Pact/Arcanum/Invocation resource ownership.'),
+ dict(area='database', path='internal/state/sqlc/player_characters.sql.go', symbol='CreatePlayerCharacter', finding='Persists character state; no source grant/effect execution supplied by stored labels or JSON.'),
+ dict(area='handlers', path='internal/handlers/advancement_integration_test.go', symbol='TestIntegrationFighterAdvancement', finding='Isolated PostgreSQL Fighter precedent only, not Warlock qualification.'),
+ dict(area='handlers', path='internal/world/rules_character.go', symbol='ValidateRulesCharacter', finding='Guided/interview/persistence share supported-build validation.'),
+ dict(area='web', path='frontend/src/components/start/CharacterGuidedForm.tsx', symbol='Warlock label', finding='Display label does not admit or execute Warlock.'),
+ dict(area='tui', path='tui/campaign/char_form.go', symbol='NewCharFormModel', finding='Class labels from world.D5EClasses; no independent Warlock rules executor.'),
+ dict(area='rules', path='internal/rules/srd521/catalogue_warlock_test.go', symbol='TestWarlockSourceAndBoundaries', finding='Explicit metadata-only and Warlock creation rejection.'),
+]
+
 CONTRACTS = {
+ 'core-traits': 'PDF70first-character ONLY: Charismaprimary(noautomaticabilityincrease),Wisdom/Charismasaveproficiencies,Simpleweaponproficiency,Lightarmortraining;HitDie/HPownadapter,skill/equipmentchoicesseparate. PositivefirstWarlock1bothsaves/simple/light; rejectMartial/Medium/Shieldtraining,automaticCHA13orfirst-classsavesonlater-entry. Consume430wholeprovenance; do notgrantitemeffectsfromproficiency.',
+ 'skills': 'PDF70first-characterONLYchoose2distinctArcana/Deception/History/Intimidation/Investigation/Nature/Religion. Actualskillmodifiers/PBvia61/58with430sourceprovenance; overlappingothersourcegrantdoesnotdoublePB. PositiveArcana+ReligionINT2/PB2=4each; reject3selections,duplicatewithinchoice,unlistedPerception,PBtwiceornewskillsonlaterWarlockentry. Do notinventunprintedreplacementpermissions.',
+ 'equipment': 'PDF70initialA grantsLeatherArmor,Sickle,2Daggers,OrbArcaneFocus,occultBook,ScholarsPack,15GP; B grants100GPonly; chooseexactlyone,creationonly. ActualScholarPack99 addsBackpack,SECOND Book,Ink,InkPen,Lamp,10Oil,10Parchment,Tinderbox. PositiveA2Daggers/2Books/10Oil/15GP; reject1Booktotal,3Daggers,mixedA+B,purchasechargesatcreationorgrantingpackagainonlaterentry. Consumeactualnameditemoutputs; storage/identityalone doesnotexecutearmor/weapon/book/focus/light effects.',
+ 'warlock-list': 'PDF74–76/105: exact72 printed Warlock spell identities with level/school/Ritual/Concentration/material flags; prepared Pact selection levels1–5 and known cantrip selection level0 use own list, not503. Mystic Arcanum levels6–9 separate; named Fiend/Invocation/Tome routes do not silently add all117 to ordinary list. PositiveMindSpike listed75/header149 eligibleWarlock2; rejectFireball ordinaryWarlocklist, SpeakwithDead ordinarylist, disputedSorcererMindSpike grant or header-onlyoverride. Unknown/unqualified effects unavailable even when source eligibility is true.',
+ 'pact-cross-casting': 'PDF25–26: actual PactMagic AND actualSpellcasting required for cross-casting. Pactslots may cast prepared Spellcasting-class spells; actualSpellcasting slots may cast preparedWarlockspells, normal slot>=spelllevel and sourcecastingability/provenance. Pactlevels excluded sharedSpellcasting-slot sum; Arcanum resources remain separate. Positive admittedWizard1/Warlock1 preparedMagicMissile usesPactslot1; preparedHex usesWizard1slot withCHA; rejectMagicInitiate-only feature, unpreparedArcanumasordinaryprepared, addingWarlocklevel tosharedsum or counting other slot resource spend as slotTOCAST.',
  'hp': 'PDF23/70: own D8/fixed5 HP adapter consumes968, never direct429. First-character level1 gets8+CON. Later entry and every adjacent row add max(1,D8+CON) or max(1,5+CON) and one D8 Hit Die; no healing or reroll on replay. Positive CON2 fixed later gain7; reject D6, fixed4, first-character8 on later entry and duplicate gain.',
  'creation': 'PDF70: first-character creation only at level1, Charisma primary, Wisdom/Charisma saves, simple weapons, light armor; choose2 distinct Arcana/Deception/History/Intimidation/Investigation/Nature/Religion. Equipment A: Leather Armor,Sickle,2 Daggers,Arcane Focus orb,occult Book,Scholars Pack,15GP; B:100GP. Positive A exactly2 Daggers/15GP; reject3 skills, duplicate skill, mixed A+B, medium armor. Inventory identity does not execute item effects.',
  'later-entry': 'PDF24/70: add Warlock1 only to admitted existing class combination with Charisma13 and each existing class source minimum; grant D8 and light armor plus level1 features, no saves/weapons/skills/equipment. Fighter4->Warlock1 total5 uses6500XP/PB3 and later HP. Reject CHA12, boolean13, unqualified prior class, total>20 or first-character HP/equipment.',
  'eldritch-invocations': 'PDF70–71: exact per-Warlock-level counts; level1 choose1; level2 total3; level5 total5. Learn only eligible options. Once per gained Warlock level replace at most1; cannot replace an Invocation required by another owned Invocation. Nonrepeatable default; only Agonizing Blast/Eldritch Spear/Repelling Blast/Lessons repeat with different eligible selection. Positive remove independent option; reject removal Pact Blade while Thirsting Blade retained, duplicate nonrepeatable, same repeatable cantrip and2 replacements.',
- 'pact-magic': 'PDF71/104–106: Charisma spell attack/DC; two Warlock cantrips, two prepared level1 spells initially; exact list adapter not503. Spell costs one distinct Pact slot of printed class slot level, not generic Spellcasting or Arcanum resource. Positive Warlock5 Charm Person cast at3 using one of2 slots; reject unprepared, wrong list, level4 spell at Warlock5, generic slot substitution without actual qualified multiclass routing. One SLOT TO CAST per turn; other slot resource expenditures are not casts. Confirm private invalid target spends confirmed slot/no effect without private leakage; unverifiable facts unavailable.',
+ 'pact-magic': 'PDF71/104–106: Charisma spell attack/DC; two Warlock cantrips, two prepared level1 spells initially; exact list adapter not503. Spell costs one distinct Pact slot of printed class slot level, not generic Spellcasting or Arcanum resource. Positive Warlock5 Charm Person cast at3 using one of2 slots; reject unprepared, wrong list, level4 spell atWarlock5, generic slot substitution without actual qualified multiclass routing. One SLOT TO CAST per turn; other slot resource expenditures are not casts. Confirm private invalid target spends confirmed slot/no effect without private leakage; unverifiable facts unavailable.',
  'preparation': 'PDF71–72: on each Warlock level replace at most1 class cantrip and1 prepared spell; additions exactly printed count deltas, chosen level no higher than own slot level. Always-prepared feature spells excluded from class prepared count; retain distinct source provenance. Positive level4 third cantrip/5 prepared; reject rest-based wholesale replacement, overcapacity, invalid level, removing another source grant.',
  'slots': 'PDF71/427/428: distinct Pact pool recovers all expended slots after completed Short or Long Rest. Capacity by own Warlock level1=1@1,2=2@1,11=3@5,17=4@5. Positive spent2/2->2 after rest; reject overcapacity, Arcanum recharge on short rest, interruption and duplicate receipt recharge.',
  'magical-cunning': 'PDF72: perform1-minute rite; at end regain expended Pact slots up to ceil(max/2), once per Long Rest. Positive capacity3 spent3 recovers2, capacity1 recovers1; reject instant recovery, generic pool, second use, floor rounding, interruption/replay restoring again.',
@@ -104,7 +123,7 @@ SPLITS = {
  },
  'investment-of-the-chain-master': {
   'investment-movement': 'PDF73: own5+/Chain when castingFindFamiliar infuse summonedfamiliar; chooseFly40 OR Swim40. PositiveFly40; reject both, speed30, retroactive unrelatedcreature. Realformstatblock/lifecycle required.',
-  'investment-command': 'PDF73: BonusAction command familiar Attack action, consume actual familiar action economy/attack implementation. Positive1BA/Attackaction; reject noBA, unrelatedcreature or unsupported attack. Does not grant Chainforgoneattack for free.',
+  'investment-command': 'PDF73/257: BonusAction command familiar Attack action, consume actual familiar action economy/attack implementation. Source257Multiattack IS partAttackaction: qualifiedPseudodragon mayuseTWO Bites; this is distinct from ChainONEattackexchange. Positive1BA/twoactualBites; reject noBA, unrelatedcreature, unsupported attack, twoStings or Chainforgoneattackforfree.',
   'investment-damage': 'PDF73: whenever familiar deals B/P/S optionally make thatdamage Necrotic or Radiant. PositivePiercing->Radiant; rejectFire->Radiant, Force choice, changing extra unrelateddamage.',
   'investment-save-dc': 'PDF73: if familiar forces save use your spellSaveDC. PositiveCHA3/PB3/DC14; reject creatureprintedDC, attackingwithDC or changing nonfamiliar save.',
   'investment-resistance': 'PDF73: when familiar takesdamage use ownReaction to grant Resistance against thatdamage. PositiveReaction1/Fire9->4; reject Reaction0, unrelateddamagepacket or persistentResistance afterpacket.',
@@ -124,12 +143,23 @@ def body(key, fixture):
     return f'Decision #331. One implementation PR; Task Size M.\n\n{fixture}\n\n{COMMON}\n'
 
 
+TRANSITION_WITNESSES = [
+    dict(before={'fighter': 4}, after={'fighter': 4, 'warlock': 1}, warlock_row=1,
+         total_row=5, experience_points=6500, proficiency_bonus=3, hp_mode='later-D8-or-fixed5',
+         pact_slots=1, pact_slot_level=1, invocations=1, cantrips=2, prepared=2),
+    dict(before={'fighter': 4, 'warlock': 1}, after={'fighter': 4, 'warlock': 2}, warlock_row=2,
+         total_row=6, experience_points=14000, proficiency_bonus=3, hp_mode='later-D8-or-fixed5',
+         pact_slots=2, pact_slot_level=1, invocations=3, cantrips=2, prepared=3),
+]
+
+
 def level_fixture(level, row):
     # row supplied only after independent PDF comparator verifies it.
     values = {k.rsplit('/', 2)[-2] + '/' + k.rsplit('/', 1)[-1]: v for k, v in row['parameters'].items()}
     return (f'PDF23–26/70–72/76: Warlock{level}, exact source row {values}. '
             + ('First-character level1 OR distinct later-entry contract with actual eligibility; ' if level == 1 else f'Only exact adjacent Warlock{level-1}->{level}; no first-character creation; ')
             + 'own HP adapter mandatory, slots/Invocation/preparation by Warlock level; XP/live PB by complete canonical285 table at authoritative sum of admitted post-transition class levels. '
+            'A first-class Warlock lineage does not gain a blanket multiclass CHA13 prerequisite on ordinary advancement; only actual later-entry/multiclass variants consume their own source eligibility. '
             'Positive Fighter4/Warlock1->Warlock2 requires total6/14000XP/PB3; Fighter4->Warlock1 total5/6500XP/PB3/later HP. '
             'Reject booleans/decimals/zero/nonadjacent/total>20/unqualified combinations. Apply every granted feature, nested option and replacement exactly once; '
             'repeated ASIs4/8/12/16 and Arcanum11/13/15/17 retain independent grants, not a single initial receipt. No grant inferred from empty row features.')
