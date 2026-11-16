@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "observed_at": "2026-11-16T07:44:43.239715+00:00",
+  "observed_at": "2026-11-16T08:05:52.666232+00:00",
   "method": "GitHub GraphQL all issues and native blockedBy/parent; REST body readback",
   "bodies": {
     "384": {
@@ -12,8 +12,8 @@
       "updated_at": "2026-11-16T07:40:36Z"
     },
     "386": {
-      "sha256": "e9e25a62c7a635bb9f9a8392b5411691e32d5270862b7f19b277e8e39fcdc5fa",
-      "updated_at": "2026-11-16T07:40:40Z"
+      "sha256": "b21e60c27279ecd3eacd22e1123878a99ac5abe2e75e90ede1177a05b473421d",
+      "updated_at": "2026-11-16T08:04:35Z"
     },
     "387": {
       "sha256": "2522b01de58e86a5e05a071e1fe7ab67309c98f8b8c46d3c7335929b940c29b7",
@@ -60,8 +60,8 @@
       "updated_at": "2026-11-16T07:41:06Z"
     },
     "398": {
-      "sha256": "05650e086209296ada23e0044a03a5bbca1c515e59d09654a89b02aab78d46a1",
-      "updated_at": "2026-11-16T07:41:09Z"
+      "sha256": "d3d9fcf5f55ace6932ab792e6175b2a8d20a35b6e87e32a5578a2a8286b89b8c",
+      "updated_at": "2026-11-16T08:04:36Z"
     },
     "399": {
       "sha256": "99aae39be4a0b9c212907152cfec86fdf3096333787e1b0bf3cd491b5363fed3",
@@ -160,9 +160,9 @@
     "47": {
       "append_sha256": "b3c6f671609b8698740fdf244b8a2df1440378aeb7be47070f3cea0bcb857263",
       "publication_prefix_sha256": "16651994ecccb8b51285a64f942a02c0ad3e28d9b6d7121d04bc4ef71f672349",
-      "observed_prefix_sha256": "0acc5499577f1355657269e9baefe3f656d6019bf5a8f51cf586879c497e427f",
+      "observed_prefix_sha256": "ced68c87f1b6754776d39d4d57e550bdb1a1316c019b4d9bcb663cc85052e0be",
       "prefix_changed_since_publication": true,
-      "body_sha256": "765b477b9bceffbbd81d775ffb0ec89fb4c19a705eee475e9dc05bdae33a7bac"
+      "body_sha256": "cd7a1d4f4c581316abfcdb6793e51bd854de1902d5865f41455b54621bc1175e"
     },
     "283": {
       "append_sha256": "b3c6f671609b8698740fdf244b8a2df1440378aeb7be47070f3cea0bcb857263",
@@ -384,8 +384,8 @@
     {"number": 276, "parent": 193, "blocked_by": [80]},
     {"number": 277, "parent": 191, "blocked_by": [80, 196, 197, 198, 199, 200, 201, 202, 203, 204, 205, 206, 207, 208, 209, 210, 211, 212, 213, 214, 215, 216, 217, 218, 219, 220, 221, 222, 223, 224]},
     {"number": 278, "parent": 192, "blocked_by": [80, 225, 226, 227, 228, 229, 230, 231, 232, 233, 234, 235, 236, 237, 238, 239, 240, 241, 242, 243, 244, 245, 246, 247, 248, 249, 250, 251, 252, 253, 254, 255, 256, 257, 258, 259, 260, 261, 262]},
-    {"number": 279, "parent": 191, "blocked_by": [181, 185, 263, 264, 265, 268, 269, 270, 271, 272, 273, 277, 351, 352, 353, 354, 355, 356, 358, 359]},
-    {"number": 280, "parent": 192, "blocked_by": [266, 267, 274, 275, 276, 278, 279, 351, 352, 353, 354, 355, 356, 358, 359]},
+    {"number": 279, "parent": 191, "blocked_by": [181, 185, 263, 264, 265, 268, 269, 270, 271, 272, 273, 277, 351, 352, 353, 354, 355, 356, 358, 359, 382]},
+    {"number": 280, "parent": 192, "blocked_by": [266, 267, 274, 275, 276, 278, 279, 351, 352, 353, 354, 355, 356, 358, 359, 382]},
     {"number": 282, "parent": 54, "blocked_by": []},
     {"number": 283, "parent": 54, "blocked_by": []},
     {"number": 284, "parent": 282, "blocked_by": [74]},
@@ -441,7 +441,7 @@
     {"number": 334, "parent": 283, "blocked_by": [298, 299, 300, 301]},
     {"number": 335, "parent": 283, "blocked_by": [320]},
     {"number": 336, "parent": 283, "blocked_by": [285]},
-    {"number": 337, "parent": 283, "blocked_by": [61, 65, 66, 67, 145, 264, 265, 267, 321, 322, 323, 324, 325, 326, 327, 328, 329, 330, 331, 332, 333, 334, 335, 336, 338, 339, 384, 385, 386, 387, 388, 389, 390, 391, 392, 393, 394, 395, 396, 397, 398, 399, 400, 401]},
+    {"number": 337, "parent": 283, "blocked_by": [61, 65, 66, 67, 145, 264, 265, 267, 321, 322, 323, 324, 325, 326, 327, 328, 329, 330, 331, 332, 333, 334, 335, 336, 338, 339, 382, 384, 385, 386, 387, 388, 389, 390, 391, 392, 393, 394, 395, 396, 397, 398, 399, 400, 401]},
     {"number": 338, "parent": 283, "blocked_by": [66, 73, 74]},
     {"number": 339, "parent": 283, "blocked_by": [61, 73, 74]},
     {"number": 342, "parent": 50, "blocked_by": [64, 88]},
@@ -453,10 +453,10 @@
     {"number": 356, "parent": 193, "blocked_by": [201]},
     {"number": 358, "parent": 193, "blocked_by": []},
     {"number": 359, "parent": 193, "blocked_by": [203, 355]},
-    {"number": 382, "parent": null, "blocked_by": []},
+    {"number": 382, "parent": 323, "blocked_by": [351]},
     {"number": 384, "parent": 283, "blocked_by": [284, 298, 299, 300, 301]},
     {"number": 385, "parent": 283, "blocked_by": [66, 269, 384]},
-    {"number": 386, "parent": 283, "blocked_by": [265, 273, 384]},
+    {"number": 386, "parent": 283, "blocked_by": [265, 272, 273, 336, 384]},
     {"number": 387, "parent": 283, "blocked_by": [65, 384]},
     {"number": 388, "parent": 283, "blocked_by": [61, 333, 384]},
     {"number": 389, "parent": 283, "blocked_by": [285, 336, 384]},

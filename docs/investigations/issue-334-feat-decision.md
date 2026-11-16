@@ -44,6 +44,10 @@ Magic Initiate is repeatable only with a different one of Cleric/Druid/Wizard li
 Skilled is repeatable; every other feat defaults to once. Feat category and prerequisite
 exceptions must come from the actual source grant. Magic Initiate alone is not the
 Spellcasting feature prerequisite for Spell Recall.
+Irresistible Offense ignores Resistance to the character's Bludgeoning, Piercing and
+Slashing damage, including spell damage of those types; other damage Resistance
+and all Immunity remain. Magic Initiate natively depends on #272 for completed-rest
+recovery and #336 for level-gain replacement, as well as casting/selection owners.
 
 ASI application is shared in the ASI child, including boon/Grappler allowed alternatives,
 Constitution maximum-HP changes, derived modifiers and caps. Boon and Grappler children
@@ -104,7 +108,7 @@ git diff --check
 
 The matrix verifier checks exact nested catalogue equality, all unique mechanic-key owners,
 evidence file existence, 17 identities/four category counts, exact child body hashes and
-native parents/prerequisites, every terminal gate edge, and repository-wide dependency
+native parents/prerequisites, all four #334 source edges, every terminal gate edge, and repository-wide dependency
 acyclicity. The four existing source verifiers independently compare catalogue transcriptions
 to the pinned PDF. These checks prove source/plan/tracker consistency, not playable children.
 
@@ -145,7 +149,9 @@ Local verification for this decision: all four existing source comparators passe
 the pinned PDF (Fighting Style also rejected 255 contrary-source cases). Full Go short race
 and vet passed with `GOMAXPROCS=2` and `-p 2`. Python compilation and diff whitespace
 checks passed. New verifier corruption probes rejected changed source data, missing terminal
-gate edge, changed child-body hash and a dependency cycle. Live readback matched 18 exact
+gate edge, changed child-body hash and a dependency cycle. The verifier also rejects
+each missing #334 source edge and removal of all four, even when those source issues
+remain closed. Live readback matched 18 exact
 child bodies, native parents and prerequisites, Task types and Edda Project sizes (Magic
 Initiate, Grappler and Night Spirit L; other children M), with 146 keys and 285 acyclic issue
 nodes. No new child mechanics were implemented or qualified by these checks.

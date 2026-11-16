@@ -71,7 +71,9 @@
       "title": "Resolve source-exact Magic Initiate with durable deterministic fixtures",
       "prerequisites": [
         265,
-        273
+        272,
+        273,
+        336
       ],
       "depends": [
         "selection"
@@ -82,7 +84,9 @@
       "issue": 386,
       "blocked_by_issues": [
         265,
+        272,
         273,
+        336,
         384
       ],
       "project_size": "L"
@@ -335,8 +339,8 @@
         "ability-score-improvement"
       ],
       "fixture": "Level19+, STR/DEX+1 cap30; own Bludgeoning/Piercing/Slashing damage ignores Resistance, not Immunity. On attack d20=20 optionally extra damage equal to ability SCORE increased by feat, attack damage type.",
-      "positive": "STR25 makes optional25 typed extra damage on natural20; BPS resistance ignored.",
-      "negative": "Modified20 without d20=20 does not trigger; spell/non-BPS resistance and immunity remain; never substitute ability modifier.",
+      "positive": "STR25 makes optional25 typed extra damage on natural20; own BPS damage ignores Resistance, including BPS damage dealt by a spell.",
+      "negative": "Modified20 without d20=20 does not trigger; non-BPS Resistance and all Immunity remain; never substitute ability modifier.",
       "issue": 398,
       "blocked_by_issues": [
         65,

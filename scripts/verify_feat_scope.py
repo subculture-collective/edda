@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Verify #334 source coverage and native graph; --live is read-only on GitHub."""
 import argparse
+from copy import deepcopy
 from datetime import datetime, timezone
 import hashlib
 import importlib.util
@@ -76,6 +77,7 @@ def validate(m, receipt):
     for n in graph:
         visit(n)
     assert graph[334]["parent"] == 283
+    assert {298, 299, 300, 301} <= set(graph[334]["blocked_by"]), "missing #334 source prerequisites"
     assert graph[337]["parent"] == 283 and 334 in graph[337]["blocked_by"]
     for r in rows.values():
         n = r["issue"]
@@ -95,6 +97,20 @@ def validate(m, receipt):
         assert saved["append_sha256"] == hashlib.sha256(supplement["append"].encode()).hexdigest()
         assert saved["publication_prefix_sha256"] == supplement["previous_sha256"]
     return len(keys), len(graph)
+
+
+def check_missing_source_edges(m, receipt):
+    # Each source edge is required independently of the source issue's state.
+    for removed in [{298}, {299}, {300}, {301}, {298, 299, 300, 301}]:
+        probe = deepcopy(receipt)
+        node = next(r for r in probe["graph"] if r["number"] == 334)
+        node["blocked_by"] = [n for n in node["blocked_by"] if n not in removed]
+        try:
+            validate(m, probe)
+        except AssertionError as error:
+            assert str(error) == "missing #334 source prerequisites", str(error)
+        else:
+            raise AssertionError(f"accepted missing source edges: {removed}")
 
 
 def main():
@@ -149,6 +165,7 @@ def main():
     else:
         receipt = json.loads(RECEIPT.read_text())
     keys, nodes = validate(m, receipt)
+    check_missing_source_edges(m, receipt)
     if args.live:
         header = {k: v for k, v in receipt.items() if k != "graph"}
         text = json.dumps(header, indent=2)[:-2] + ',\n  "graph": [\n'
