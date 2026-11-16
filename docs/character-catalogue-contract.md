@@ -317,3 +317,10 @@ The seven page-88 Epic Boon feats use the existing guarded contract, with owned
 ability choices, level and source-condition predicates, operand references and
 single-use resources. See [the source evidence and checks](srd-5.2.1-epic-boon-feats.md).
 They are unavailable metadata; validation grants no runtime support.
+
+## Invocation options, batch 01 (#302)
+
+The invocation feature-family extension and its exact Warlock ownership guards
+are documented in [Invocation metadata, batch 01](invocations-01-catalogue.md).
+That batch composes canonical Warlock once and retains adjacent invocation
+requirements as unresolved keys. Source metadata never enables playability.
