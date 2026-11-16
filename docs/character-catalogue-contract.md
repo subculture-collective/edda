@@ -12,7 +12,7 @@ Neither fixture is a playable build.
 `CharacterCatalogue` has schema version 1, a pinned `Source`, and tagged
 `CharacterRecord` records. The supported kinds are `class`, `level`, `feature`,
 `subclass`, `origin` (background or species), `feat`, `prerequisite`, `choice`,
-`resource`, `invocation` and `advancement`. Stable IDs use `srd-5.2.1:character/<kind>/<owner>/<slug>`;
+`resource` and `advancement`. Stable IDs use `srd-5.2.1:character/<kind>/<owner>/<slug>`;
 class IDs may end at the class slug. Do not rename or reuse IDs. A different
 rules version needs its own namespace and source pin.
 
@@ -323,12 +323,13 @@ They are unavailable metadata; validation grants no runtime support.
 
 `character-invocations-02.json` records exactly the twelve inventory identities
 on PDF pp73–74, from Investment of the Chain Master through Repelling Blast,
-as 49 records. `invocation` is an additive schema-version-1 kind because the
-existing `feature` kind requires class-feature sources, and choices require
-their parent’s source. Each invocation requires exactly one `invocations`
-inventory source, an ID matching that source slug, and the canonical Warlock
-class as parent. Positive numeric parameters use the existing required-key
-guard. Other kinds keep their existing ownership and source guards.
+as 49 records. Top-level identities use the existing `feature` kind with IDs
+`srd-5.2.1:character/feature/warlock/invocations/<source-slug>`, owned by the
+canonical Warlock Invocation choice beneath Eldritch Invocations. The shared
+batch-01 guard requires exactly one Invocation inventory source, an exact
+source-slug match, that specific choice/feature ancestry and Warlock class
+ownership. Other feature families keep their existing guards; no new record
+kind is added. Owned choice and prerequisite IDs retain their original slugs.
 
 The composition manifest includes canonical Warlock and Origin feats once each,
 then this batch. Prerequisite operands reference their actual owners, including
@@ -352,7 +353,10 @@ The Go oracle compares every record and field against readable constant source
 facts. The standalone Python comparator extracts pp73–74 from the pinned PDF,
 binds semantic groups to source clauses and compares the resulting expected
 graph against actual metadata. It also checks the exact twelve inventory links
-and canonical Warlock source proof. Structurally valid contrary graphs exercise
+and canonical Warlock source proof. An optional `EDDA_INVOCATIONS_01_OVERLAY`
+path tests both twelve-identity batches together without copying batch-01 data.
+Wrong source, owner, slug, multiple sources, legacy kind and ancestry guards
+are exercised separately. Structurally valid contrary graphs exercise
 conditions, missing alternatives, known wrong operands, counts, costs, timing,
 source variants and invented scaling/recovery. Both semantic comparisons reject
 the same controls, and readiness rejects them independently. Strict decoding,

@@ -16,8 +16,8 @@
   },
   "records": [
     {
-      "id": "srd-5.2.1:character/invocation/investment-of-the-chain-master",
-      "kind": "invocation",
+      "id": "srd-5.2.1:character/feature/warlock/invocations/investment-of-the-chain-master",
+      "kind": "feature",
       "name": "Investment of the Chain Master",
       "sources": [
         {
@@ -25,7 +25,7 @@
           "page": 73
         }
       ],
-      "parent_id": "srd-5.2.1:character/class/warlock",
+      "parent_id": "srd-5.2.1:character/choice/warlock/invocations",
       "level": 0,
       "choice_refs": [
         "srd-5.2.1:character/choice/investment-of-the-chain-master/movement",
@@ -67,7 +67,7 @@
           "page": 73
         }
       ],
-      "parent_id": "srd-5.2.1:character/invocation/investment-of-the-chain-master",
+      "parent_id": "srd-5.2.1:character/feature/warlock/invocations/investment-of-the-chain-master",
       "level": 0,
       "choice_refs": [],
       "resource_refs": [],
@@ -97,7 +97,7 @@
           "page": 73
         }
       ],
-      "parent_id": "srd-5.2.1:character/invocation/investment-of-the-chain-master",
+      "parent_id": "srd-5.2.1:character/feature/warlock/invocations/investment-of-the-chain-master",
       "level": 0,
       "choice_refs": [],
       "resource_refs": [],
@@ -128,7 +128,7 @@
           "page": 73
         }
       ],
-      "parent_id": "srd-5.2.1:character/invocation/investment-of-the-chain-master",
+      "parent_id": "srd-5.2.1:character/feature/warlock/invocations/investment-of-the-chain-master",
       "level": 0,
       "choice_refs": [],
       "resource_refs": [],
@@ -142,7 +142,7 @@
       "requirement": {
         "key": "srd-5.2.1:mechanic/warlock/invocations/requires-pact-invocation",
         "record_refs": [
-          "srd-5.2.1:character/invocation/pact-of-the-chain"
+          "srd-5.2.1:character/feature/warlock/invocations/pact-of-the-chain"
         ],
         "parameters": {}
       }
@@ -157,7 +157,7 @@
           "page": 73
         }
       ],
-      "parent_id": "srd-5.2.1:character/invocation/investment-of-the-chain-master",
+      "parent_id": "srd-5.2.1:character/feature/warlock/invocations/investment-of-the-chain-master",
       "level": 0,
       "choice_refs": [],
       "resource_refs": [],
@@ -182,7 +182,7 @@
           "page": 73
         }
       ],
-      "parent_id": "srd-5.2.1:character/invocation/investment-of-the-chain-master",
+      "parent_id": "srd-5.2.1:character/feature/warlock/invocations/investment-of-the-chain-master",
       "level": 0,
       "choice_refs": [],
       "resource_refs": [],
@@ -207,7 +207,7 @@
           "page": 73
         }
       ],
-      "parent_id": "srd-5.2.1:character/invocation/investment-of-the-chain-master",
+      "parent_id": "srd-5.2.1:character/feature/warlock/invocations/investment-of-the-chain-master",
       "level": 0,
       "choice_refs": [],
       "resource_refs": [],
@@ -227,8 +227,8 @@
       }
     },
     {
-      "id": "srd-5.2.1:character/invocation/lessons-of-the-first-ones",
-      "kind": "invocation",
+      "id": "srd-5.2.1:character/feature/warlock/invocations/lessons-of-the-first-ones",
+      "kind": "feature",
       "name": "Lessons of the First Ones",
       "sources": [
         {
@@ -236,7 +236,7 @@
           "page": 73
         }
       ],
-      "parent_id": "srd-5.2.1:character/class/warlock",
+      "parent_id": "srd-5.2.1:character/choice/warlock/invocations",
       "level": 0,
       "choice_refs": [
         "srd-5.2.1:character/choice/lessons-of-the-first-ones/origin-feat"
@@ -266,7 +266,7 @@
           "page": 73
         }
       ],
-      "parent_id": "srd-5.2.1:character/invocation/lessons-of-the-first-ones",
+      "parent_id": "srd-5.2.1:character/feature/warlock/invocations/lessons-of-the-first-ones",
       "level": 0,
       "choice_refs": [],
       "resource_refs": [],
@@ -296,7 +296,7 @@
           "page": 73
         }
       ],
-      "parent_id": "srd-5.2.1:character/invocation/lessons-of-the-first-ones",
+      "parent_id": "srd-5.2.1:character/feature/warlock/invocations/lessons-of-the-first-ones",
       "level": 0,
       "choice_refs": [],
       "resource_refs": [],
@@ -327,7 +327,7 @@
           "page": 73
         }
       ],
-      "parent_id": "srd-5.2.1:character/invocation/lessons-of-the-first-ones",
+      "parent_id": "srd-5.2.1:character/feature/warlock/invocations/lessons-of-the-first-ones",
       "level": 0,
       "choice_refs": [],
       "resource_refs": [],
@@ -351,7 +351,7 @@
           "page": 73
         }
       ],
-      "parent_id": "srd-5.2.1:character/invocation/lessons-of-the-first-ones",
+      "parent_id": "srd-5.2.1:character/feature/warlock/invocations/lessons-of-the-first-ones",
       "level": 0,
       "choice_refs": [],
       "resource_refs": [],
@@ -374,8 +374,8 @@
       }
     },
     {
-      "id": "srd-5.2.1:character/invocation/lifedrinker",
-      "kind": "invocation",
+      "id": "srd-5.2.1:character/feature/warlock/invocations/lifedrinker",
+      "kind": "feature",
       "name": "Lifedrinker",
       "sources": [
         {
@@ -383,7 +383,7 @@
           "page": 73
         }
       ],
-      "parent_id": "srd-5.2.1:character/class/warlock",
+      "parent_id": "srd-5.2.1:character/choice/warlock/invocations",
       "level": 0,
       "choice_refs": [
         "srd-5.2.1:character/choice/lifedrinker/damage"
@@ -429,7 +429,7 @@
           "page": 73
         }
       ],
-      "parent_id": "srd-5.2.1:character/invocation/lifedrinker",
+      "parent_id": "srd-5.2.1:character/feature/warlock/invocations/lifedrinker",
       "level": 0,
       "choice_refs": [],
       "resource_refs": [],
@@ -459,7 +459,7 @@
           "page": 73
         }
       ],
-      "parent_id": "srd-5.2.1:character/invocation/lifedrinker",
+      "parent_id": "srd-5.2.1:character/feature/warlock/invocations/lifedrinker",
       "level": 0,
       "choice_refs": [],
       "resource_refs": [],
@@ -490,7 +490,7 @@
           "page": 73
         }
       ],
-      "parent_id": "srd-5.2.1:character/invocation/lifedrinker",
+      "parent_id": "srd-5.2.1:character/feature/warlock/invocations/lifedrinker",
       "level": 0,
       "choice_refs": [],
       "resource_refs": [],
@@ -504,7 +504,7 @@
       "requirement": {
         "key": "srd-5.2.1:mechanic/warlock/invocations/requires-pact-invocation",
         "record_refs": [
-          "srd-5.2.1:character/invocation/pact-of-the-blade"
+          "srd-5.2.1:character/feature/warlock/invocations/pact-of-the-blade"
         ],
         "parameters": {}
       }
@@ -519,7 +519,7 @@
           "page": 73
         }
       ],
-      "parent_id": "srd-5.2.1:character/invocation/lifedrinker",
+      "parent_id": "srd-5.2.1:character/feature/warlock/invocations/lifedrinker",
       "level": 0,
       "choice_refs": [],
       "resource_refs": [],
@@ -545,7 +545,7 @@
           "page": 73
         }
       ],
-      "parent_id": "srd-5.2.1:character/invocation/lifedrinker",
+      "parent_id": "srd-5.2.1:character/feature/warlock/invocations/lifedrinker",
       "level": 0,
       "choice_refs": [],
       "resource_refs": [],
@@ -559,14 +559,14 @@
       "requirement": {
         "key": "srd-5.2.1:mechanic/warlock/invocations/lifedrinker/uses-bonded-pact-weapon",
         "record_refs": [
-          "srd-5.2.1:character/invocation/pact-of-the-blade"
+          "srd-5.2.1:character/feature/warlock/invocations/pact-of-the-blade"
         ],
         "parameters": {}
       }
     },
     {
-      "id": "srd-5.2.1:character/invocation/mask-of-many-faces",
-      "kind": "invocation",
+      "id": "srd-5.2.1:character/feature/warlock/invocations/mask-of-many-faces",
+      "kind": "feature",
       "name": "Mask of Many Faces",
       "sources": [
         {
@@ -574,7 +574,7 @@
           "page": 73
         }
       ],
-      "parent_id": "srd-5.2.1:character/class/warlock",
+      "parent_id": "srd-5.2.1:character/choice/warlock/invocations",
       "level": 0,
       "choice_refs": [],
       "resource_refs": [],
@@ -602,7 +602,7 @@
           "page": 73
         }
       ],
-      "parent_id": "srd-5.2.1:character/invocation/mask-of-many-faces",
+      "parent_id": "srd-5.2.1:character/feature/warlock/invocations/mask-of-many-faces",
       "level": 0,
       "choice_refs": [],
       "resource_refs": [],
@@ -632,7 +632,7 @@
           "page": 73
         }
       ],
-      "parent_id": "srd-5.2.1:character/invocation/mask-of-many-faces",
+      "parent_id": "srd-5.2.1:character/feature/warlock/invocations/mask-of-many-faces",
       "level": 0,
       "choice_refs": [],
       "resource_refs": [],
@@ -654,8 +654,8 @@
       }
     },
     {
-      "id": "srd-5.2.1:character/invocation/master-of-myriad-forms",
-      "kind": "invocation",
+      "id": "srd-5.2.1:character/feature/warlock/invocations/master-of-myriad-forms",
+      "kind": "feature",
       "name": "Master of Myriad Forms",
       "sources": [
         {
@@ -663,7 +663,7 @@
           "page": 73
         }
       ],
-      "parent_id": "srd-5.2.1:character/class/warlock",
+      "parent_id": "srd-5.2.1:character/choice/warlock/invocations",
       "level": 0,
       "choice_refs": [],
       "resource_refs": [],
@@ -691,7 +691,7 @@
           "page": 73
         }
       ],
-      "parent_id": "srd-5.2.1:character/invocation/master-of-myriad-forms",
+      "parent_id": "srd-5.2.1:character/feature/warlock/invocations/master-of-myriad-forms",
       "level": 0,
       "choice_refs": [],
       "resource_refs": [],
@@ -721,7 +721,7 @@
           "page": 73
         }
       ],
-      "parent_id": "srd-5.2.1:character/invocation/master-of-myriad-forms",
+      "parent_id": "srd-5.2.1:character/feature/warlock/invocations/master-of-myriad-forms",
       "level": 0,
       "choice_refs": [],
       "resource_refs": [],
@@ -743,8 +743,8 @@
       }
     },
     {
-      "id": "srd-5.2.1:character/invocation/misty-visions",
-      "kind": "invocation",
+      "id": "srd-5.2.1:character/feature/warlock/invocations/misty-visions",
+      "kind": "feature",
       "name": "Misty Visions",
       "sources": [
         {
@@ -752,7 +752,7 @@
           "page": 74
         }
       ],
-      "parent_id": "srd-5.2.1:character/class/warlock",
+      "parent_id": "srd-5.2.1:character/choice/warlock/invocations",
       "level": 0,
       "choice_refs": [],
       "resource_refs": [],
@@ -780,7 +780,7 @@
           "page": 74
         }
       ],
-      "parent_id": "srd-5.2.1:character/invocation/misty-visions",
+      "parent_id": "srd-5.2.1:character/feature/warlock/invocations/misty-visions",
       "level": 0,
       "choice_refs": [],
       "resource_refs": [],
@@ -810,7 +810,7 @@
           "page": 74
         }
       ],
-      "parent_id": "srd-5.2.1:character/invocation/misty-visions",
+      "parent_id": "srd-5.2.1:character/feature/warlock/invocations/misty-visions",
       "level": 0,
       "choice_refs": [],
       "resource_refs": [],
@@ -832,8 +832,8 @@
       }
     },
     {
-      "id": "srd-5.2.1:character/invocation/one-with-shadows",
-      "kind": "invocation",
+      "id": "srd-5.2.1:character/feature/warlock/invocations/one-with-shadows",
+      "kind": "feature",
       "name": "One with Shadows",
       "sources": [
         {
@@ -841,7 +841,7 @@
           "page": 74
         }
       ],
-      "parent_id": "srd-5.2.1:character/class/warlock",
+      "parent_id": "srd-5.2.1:character/choice/warlock/invocations",
       "level": 0,
       "choice_refs": [],
       "resource_refs": [],
@@ -871,7 +871,7 @@
           "page": 74
         }
       ],
-      "parent_id": "srd-5.2.1:character/invocation/one-with-shadows",
+      "parent_id": "srd-5.2.1:character/feature/warlock/invocations/one-with-shadows",
       "level": 0,
       "choice_refs": [],
       "resource_refs": [],
@@ -901,7 +901,7 @@
           "page": 74
         }
       ],
-      "parent_id": "srd-5.2.1:character/invocation/one-with-shadows",
+      "parent_id": "srd-5.2.1:character/feature/warlock/invocations/one-with-shadows",
       "level": 0,
       "choice_refs": [],
       "resource_refs": [],
@@ -923,8 +923,8 @@
       }
     },
     {
-      "id": "srd-5.2.1:character/invocation/otherworldly-leap",
-      "kind": "invocation",
+      "id": "srd-5.2.1:character/feature/warlock/invocations/otherworldly-leap",
+      "kind": "feature",
       "name": "Otherworldly Leap",
       "sources": [
         {
@@ -932,7 +932,7 @@
           "page": 74
         }
       ],
-      "parent_id": "srd-5.2.1:character/class/warlock",
+      "parent_id": "srd-5.2.1:character/choice/warlock/invocations",
       "level": 0,
       "choice_refs": [],
       "resource_refs": [],
@@ -961,7 +961,7 @@
           "page": 74
         }
       ],
-      "parent_id": "srd-5.2.1:character/invocation/otherworldly-leap",
+      "parent_id": "srd-5.2.1:character/feature/warlock/invocations/otherworldly-leap",
       "level": 0,
       "choice_refs": [],
       "resource_refs": [],
@@ -991,7 +991,7 @@
           "page": 74
         }
       ],
-      "parent_id": "srd-5.2.1:character/invocation/otherworldly-leap",
+      "parent_id": "srd-5.2.1:character/feature/warlock/invocations/otherworldly-leap",
       "level": 0,
       "choice_refs": [],
       "resource_refs": [],
@@ -1013,8 +1013,8 @@
       }
     },
     {
-      "id": "srd-5.2.1:character/invocation/pact-of-the-blade",
-      "kind": "invocation",
+      "id": "srd-5.2.1:character/feature/warlock/invocations/pact-of-the-blade",
+      "kind": "feature",
       "name": "Pact of the Blade",
       "sources": [
         {
@@ -1022,7 +1022,7 @@
           "page": 74
         }
       ],
-      "parent_id": "srd-5.2.1:character/class/warlock",
+      "parent_id": "srd-5.2.1:character/choice/warlock/invocations",
       "level": 0,
       "choice_refs": [
         "srd-5.2.1:character/choice/pact-of-the-blade/bond-method",
@@ -1065,7 +1065,7 @@
           "page": 74
         }
       ],
-      "parent_id": "srd-5.2.1:character/invocation/pact-of-the-blade",
+      "parent_id": "srd-5.2.1:character/feature/warlock/invocations/pact-of-the-blade",
       "level": 0,
       "choice_refs": [],
       "resource_refs": [],
@@ -1095,7 +1095,7 @@
           "page": 74
         }
       ],
-      "parent_id": "srd-5.2.1:character/invocation/pact-of-the-blade",
+      "parent_id": "srd-5.2.1:character/feature/warlock/invocations/pact-of-the-blade",
       "level": 0,
       "choice_refs": [],
       "resource_refs": [],
@@ -1120,7 +1120,7 @@
           "page": 74
         }
       ],
-      "parent_id": "srd-5.2.1:character/invocation/pact-of-the-blade",
+      "parent_id": "srd-5.2.1:character/feature/warlock/invocations/pact-of-the-blade",
       "level": 0,
       "choice_refs": [],
       "resource_refs": [],
@@ -1138,8 +1138,8 @@
       "capacity": 0
     },
     {
-      "id": "srd-5.2.1:character/invocation/pact-of-the-chain",
-      "kind": "invocation",
+      "id": "srd-5.2.1:character/feature/warlock/invocations/pact-of-the-chain",
+      "kind": "feature",
       "name": "Pact of the Chain",
       "sources": [
         {
@@ -1147,7 +1147,7 @@
           "page": 74
         }
       ],
-      "parent_id": "srd-5.2.1:character/class/warlock",
+      "parent_id": "srd-5.2.1:character/choice/warlock/invocations",
       "level": 0,
       "choice_refs": [
         "srd-5.2.1:character/choice/pact-of-the-chain/familiar"
@@ -1185,7 +1185,7 @@
           "page": 74
         }
       ],
-      "parent_id": "srd-5.2.1:character/invocation/pact-of-the-chain",
+      "parent_id": "srd-5.2.1:character/feature/warlock/invocations/pact-of-the-chain",
       "level": 0,
       "choice_refs": [],
       "resource_refs": [],
@@ -1215,7 +1215,7 @@
           "page": 74
         }
       ],
-      "parent_id": "srd-5.2.1:character/invocation/pact-of-the-chain",
+      "parent_id": "srd-5.2.1:character/feature/warlock/invocations/pact-of-the-chain",
       "level": 0,
       "choice_refs": [],
       "resource_refs": [],
@@ -1237,8 +1237,8 @@
       "capacity": 0
     },
     {
-      "id": "srd-5.2.1:character/invocation/pact-of-the-tome",
-      "kind": "invocation",
+      "id": "srd-5.2.1:character/feature/warlock/invocations/pact-of-the-tome",
+      "kind": "feature",
       "name": "Pact of the Tome",
       "sources": [
         {
@@ -1246,7 +1246,7 @@
           "page": 74
         }
       ],
-      "parent_id": "srd-5.2.1:character/class/warlock",
+      "parent_id": "srd-5.2.1:character/choice/warlock/invocations",
       "level": 0,
       "choice_refs": [
         "srd-5.2.1:character/choice/pact-of-the-tome/cantrips",
@@ -1285,7 +1285,7 @@
           "page": 74
         }
       ],
-      "parent_id": "srd-5.2.1:character/invocation/pact-of-the-tome",
+      "parent_id": "srd-5.2.1:character/feature/warlock/invocations/pact-of-the-tome",
       "level": 0,
       "choice_refs": [],
       "resource_refs": [],
@@ -1315,7 +1315,7 @@
           "page": 74
         }
       ],
-      "parent_id": "srd-5.2.1:character/invocation/pact-of-the-tome",
+      "parent_id": "srd-5.2.1:character/feature/warlock/invocations/pact-of-the-tome",
       "level": 0,
       "choice_refs": [],
       "resource_refs": [],
@@ -1339,7 +1339,7 @@
           "page": 74
         }
       ],
-      "parent_id": "srd-5.2.1:character/invocation/pact-of-the-tome",
+      "parent_id": "srd-5.2.1:character/feature/warlock/invocations/pact-of-the-tome",
       "level": 0,
       "choice_refs": [],
       "resource_refs": [],
@@ -1363,7 +1363,7 @@
           "page": 74
         }
       ],
-      "parent_id": "srd-5.2.1:character/invocation/pact-of-the-tome",
+      "parent_id": "srd-5.2.1:character/feature/warlock/invocations/pact-of-the-tome",
       "level": 0,
       "choice_refs": [],
       "resource_refs": [],
@@ -1383,8 +1383,8 @@
       }
     },
     {
-      "id": "srd-5.2.1:character/invocation/repelling-blast",
-      "kind": "invocation",
+      "id": "srd-5.2.1:character/feature/warlock/invocations/repelling-blast",
+      "kind": "feature",
       "name": "Repelling Blast",
       "sources": [
         {
@@ -1392,7 +1392,7 @@
           "page": 74
         }
       ],
-      "parent_id": "srd-5.2.1:character/class/warlock",
+      "parent_id": "srd-5.2.1:character/choice/warlock/invocations",
       "level": 0,
       "choice_refs": [
         "srd-5.2.1:character/choice/repelling-blast/cantrip"
@@ -1427,7 +1427,7 @@
           "page": 74
         }
       ],
-      "parent_id": "srd-5.2.1:character/invocation/repelling-blast",
+      "parent_id": "srd-5.2.1:character/feature/warlock/invocations/repelling-blast",
       "level": 0,
       "choice_refs": [],
       "resource_refs": [],
@@ -1457,7 +1457,7 @@
           "page": 74
         }
       ],
-      "parent_id": "srd-5.2.1:character/invocation/repelling-blast",
+      "parent_id": "srd-5.2.1:character/feature/warlock/invocations/repelling-blast",
       "level": 0,
       "choice_refs": [],
       "resource_refs": [],
@@ -1488,7 +1488,7 @@
           "page": 74
         }
       ],
-      "parent_id": "srd-5.2.1:character/invocation/repelling-blast",
+      "parent_id": "srd-5.2.1:character/feature/warlock/invocations/repelling-blast",
       "level": 0,
       "choice_refs": [],
       "resource_refs": [],

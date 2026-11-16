@@ -48,21 +48,21 @@ def source_records(pdf=None):
             r.setdefault("parameters", {}).update({K+k:v for k,v in nums.items()})
             r["required_mechanics"] += [K+k for k in nums]
     def pred(r, suffix, key, refs=(), nums=None):
-        p = add("prerequisite", r["id"][len(C+"invocation/"):]+"/"+suffix,
+        p = add("prerequisite", r["id"][len(C+"feature/warlock/invocations/"):]+"/"+suffix,
                 r["name"]+" "+suffix, r["id"], r["sources"][0])
         p["required_mechanics"] = [K+key]
         p["requirement"] = dict(key=K+key, record_refs=[C+x for x in refs], parameters=nums or {})
         r["prerequisite_refs"].append(p["id"])
         return p
     def choice(r, suffix, count, options, key):
-        q = add("choice", r["id"][len(C+"invocation/"):]+"/"+suffix,
+        q = add("choice", r["id"][len(C+"feature/warlock/invocations/"):]+"/"+suffix,
                 r["name"]+" "+suffix, r["id"], r["sources"][0])
         q.update(select=count, option_keys=[M+x for x in options.split()], required_mechanics=[K+key])
         r["choice_refs"].append(q["id"])
         return q
     def inv(slug, name, page, level=0, pact=None, repeat=False):
         clause(name)
-        r = add("invocation", slug, name, C+"class/warlock",
+        r = add("feature", "warlock/invocations/"+slug, name, C+"choice/warlock/invocations",
                 dict(inventory_id="srd-5.2.1:planning/invocations/"+slug, page=page))
         r["required_mechanics"] = [K+slug, K+("repeatable/different-eligible-selection" if repeat else "not-repeatable")]
         pred(r, "canonical-eligibility", "canonical-eligibility-and-replacement", ["feature/warlock/eldritch-invocations", "choice/warlock/invocations"])
@@ -71,7 +71,7 @@ def source_records(pdf=None):
             pred(r, "level", "minimum-warlock-level", ["class/warlock"], {"minimum-level":level})
         if pact:
             clause("Pact of the "+pact.title()+" Invocation")
-            pred(r, "pact", "requires-pact-invocation", ["invocation/pact-of-the-"+pact])
+            pred(r, "pact", "requires-pact-invocation", ["feature/warlock/invocations/pact-of-the-"+pact])
         return r
 
     r = inv("investment-of-the-chain-master", "Investment of the Chain Master", 73, 5, "chain")
@@ -99,7 +99,7 @@ def source_records(pdf=None):
     choice(r,"damage",1,"damage/necrotic damage/psychic damage/radiant","lifedrinker/damage-choice")
     rule(r, "expend one of your Hit Point Dice to roll it", "lifedrinker/optional-expend-own-hit-point-die-and-roll-it", {"lifedrinker/hit-point-dice-cost":1})
     rule(r, "equal to the roll plus your Constitution modifier (minimum of 1 Hit Point)", "lifedrinker/self-healing/expended-die-roll-plus-constitution", {"lifedrinker/minimum-healing":1})
-    pred(r,"weapon","lifedrinker/uses-bonded-pact-weapon",["invocation/pact-of-the-blade"])
+    pred(r,"weapon","lifedrinker/uses-bonded-pact-weapon",["feature/warlock/invocations/pact-of-the-blade"])
 
     for slug, name, page, level, spell, text in [
         ("mask-of-many-faces","Mask of Many Faces",73,2,"disguise-self","Disguise Self"),
@@ -179,7 +179,7 @@ def verify(pdf):
     compare(actual["records"], pdf)
     inv = json.loads((ROOT/"docs/investigations/issue-74-character-inventory.json").read_text())
     expected = {r["id"]:r["source_page"] for r in inv["records"] if r["batch_key"] == "options-invocations-02"}
-    identities = [r for r in actual["records"] if r["kind"] == "invocation"]
+    identities = [r for r in actual["records"] if r["kind"] == "feature"]
     assert len(identities) == len(expected) == 12
     assert {s["inventory_id"]:s["page"] for r in identities for s in r["sources"]} == expected
     from verify_srd_warlock import verify as verify_warlock

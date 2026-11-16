@@ -159,7 +159,7 @@ func TestInvocations02ContrarySourceBothProofs(t *testing.T) {
 				}
 			}
 		}
-		if r.Kind == "invocation" {
+		if r.Kind == "feature" {
 			check(fmt.Sprintf("invented-scaling-or-recovery-%d", i), func(b *CharacterCatalogue) {
 				q := &b.Records[i]
 				key := "srd-5.2.1:mechanic/invocations/scale-per-warlock-level-recover-short-rest"
@@ -241,5 +241,91 @@ func TestInvocations02SchemaUnknownAndPDF(t *testing.T) {
 	cmd := exec.Command("python3", "../../../scripts/verify_srd_invocations_02.py", pdf)
 	if out, err := cmd.CombinedOutput(); err != nil {
 		t.Fatalf("PDF proof: %v\n%s", err, out)
+	}
+}
+
+// The shared feature extension must not admit alternate identity/source owners.
+func TestInvocations02CanonicalFeatureGuards(t *testing.T) {
+	repo := os.DirFS("../../..")
+	for _, name := range []string{"legacy-kind", "wrong-slug", "wrong-source", "multiple-sources", "class-parent", "wrong-choice", "wrong-ancestor"} {
+		t.Run(name, func(t *testing.T) {
+			batch, c := invocations02Catalogue(t)
+			r := &c.Records[len(c.Records)-len(batch.Records)]
+			switch name {
+			case "legacy-kind":
+				r.Kind = "invocation"
+				r.ID = "srd-5.2.1:character/invocation/investment-of-the-chain-master"
+			case "wrong-slug":
+				old := r.ID
+				r.ID += "-wrong"
+				for i := range c.Records {
+					if c.Records[i].ParentID == old {
+						c.Records[i].ParentID = r.ID
+					}
+					if q := c.Records[i].Requirement; q != nil {
+						for j, ref := range q.RecordRefs {
+							if ref == old {
+								q.RecordRefs[j] = r.ID
+							}
+						}
+					}
+				}
+			case "wrong-source":
+				r.Sources[0] = CharacterSource{InventoryID: "srd-5.2.1:planning/invocations/lessons-of-the-first-ones", Page: 73}
+			case "multiple-sources":
+				r.Sources = append(r.Sources, CharacterSource{InventoryID: "srd-5.2.1:planning/invocations/lessons-of-the-first-ones", Page: 73})
+			case "class-parent":
+				r.ParentID = "srd-5.2.1:character/class/warlock"
+			case "wrong-choice":
+				r.ParentID = "srd-5.2.1:character/choice/warlock/skills"
+			case "wrong-ancestor":
+				for i := range c.Records {
+					if c.Records[i].ID == r.ParentID {
+						c.Records[i].ParentID = "srd-5.2.1:character/feature/warlock/pact-magic"
+					}
+				}
+			}
+			if c.Validate(repo) == nil {
+				t.Fatal("invalid Invocation representation accepted")
+			}
+		})
+	}
+}
+
+// The optional batch-01 input is an external review overlay, never copied data.
+func TestInvocations02ExternalBatchComposition(t *testing.T) {
+	path := os.Getenv("EDDA_INVOCATIONS_01_OVERLAY")
+	if path == "" {
+		t.Skip("set EDDA_INVOCATIONS_01_OVERLAY for cross-batch composition")
+	}
+	raw, err := os.ReadFile(path)
+	if err != nil {
+		t.Fatal(err)
+	}
+	external, err := DecodeCharacterCatalogue(strings.NewReader(string(raw)))
+	if err != nil {
+		t.Fatal(err)
+	}
+	_, c := invocations02Catalogue(t)
+	c.Records = append(c.Records, external.Records...)
+	repo := os.DirFS("../../..")
+	if err := c.Validate(repo); err != nil {
+		t.Fatal(err)
+	}
+	count := 0
+	for _, r := range c.Records {
+		if r.Kind == "feature" && strings.HasPrefix(r.ID, "srd-5.2.1:character/feature/warlock/invocations/") {
+			count++
+		}
+	}
+	if count != 24 {
+		t.Fatalf("got %d Invocation identities, want both twelve-identity batches", count)
+	}
+	if c.ValidateReadiness(repo) == nil {
+		t.Fatal("composed Invocation metadata available")
+	}
+	c.Records = append(c.Records, external.Records...)
+	if c.Validate(repo) == nil {
+		t.Fatal("duplicate external batch accepted")
 	}
 }
