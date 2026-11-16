@@ -1,6 +1,7 @@
 package srd521
 
 import (
+	"bytes"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -61,10 +62,26 @@ type SpellComponents struct {
 	Material *SpellMaterial `json:"material"`
 }
 
+// UnmarshalJSON requires an explicit material object or null. Omission cannot
+// silently remove a casting requirement from imported data.
+func (c *SpellComponents) UnmarshalJSON(data []byte) error {
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return err
+	}
+	if _, ok := fields["material"]; !ok {
+		return fmt.Errorf("explicit material object or null required")
+	}
+	type plain SpellComponents
+	d := json.NewDecoder(bytes.NewReader(data))
+	d.DisallowUnknownFields()
+	return d.Decode((*plain)(c))
+}
+
 // SpellMaterial distinguishes absent cost from a consumed component.
 type SpellMaterial struct {
 	Description string `json:"description"`
-	CostCP      int    `json:"cost_cp"`
+	CostCP      *int   `json:"cost_cp"`
 	Consumed    *bool  `json:"consumed"`
 }
 
@@ -96,7 +113,16 @@ type SpellEffect struct {
 // Unknown mechanic names are retained but remain unavailable.
 func DecodeSpellRecords(r io.Reader) (SpellRecords, error) {
 	var records SpellRecords
-	d := json.NewDecoder(r)
+	data, err := io.ReadAll(r)
+	if err != nil {
+		return records, fmt.Errorf("read spell records: %w", err)
+	}
+	// Reuse the catalogue JSON guard: duplicate and case-aliased properties
+	// must fail before encoding/json can silently take the last value.
+	if err := uniqueItemJSON(json.NewDecoder(bytes.NewReader(data))); err != nil {
+		return records, err
+	}
+	d := json.NewDecoder(bytes.NewReader(data))
 	d.DisallowUnknownFields()
 	if err := d.Decode(&records); err != nil {
 		return records, fmt.Errorf("decode spell records: %w", err)
@@ -151,7 +177,7 @@ func (s SpellRecord) validate() error {
 		return fmt.Errorf("explicit component, ritual and concentration flags required")
 	}
 	if m := s.Components.Material; m != nil {
-		if strings.TrimSpace(m.Description) == "" || m.CostCP < 0 || m.Consumed == nil {
+		if strings.TrimSpace(m.Description) == "" || m.CostCP == nil || *m.CostCP < 0 || m.Consumed == nil {
 			return fmt.Errorf("invalid material")
 		}
 	}
@@ -217,11 +243,25 @@ func (s SpellRecord) MechanicsAvailable() bool {
 	if s.validate() != nil || s.Scope != "bounded-self-level-1" {
 		return false
 	}
+	if !*s.Components.Verbal || !*s.Components.Somatic || *s.Ritual || s.School != "abjuration" || len(s.Effects) != 1 {
+		return false
+	}
+	e := s.Effects[0]
+	if e.DamageType != "" || *e.HalfInitialOnly {
+		return false
+	}
 	var required []string
 	switch s.ID {
 	case prefix + "spells/cure-wounds":
+		if s.Name != "Cure Wounds" || s.SourcePage != 121 || s.CastingTime != "action" || s.Range != (SpellRange{"touch", 0}) || s.Components.Material != nil || *s.Concentration || s.Duration != "instantaneous" || s.DurationSeconds != 0 || !slices.Equal(s.Lists, []string{"bard", "cleric", "druid", "paladin", "ranger"}) || e.ID != "healing" || e.Mechanic != "healing.cure-wounds-self" || e.Timing != "immediate" || e.DiceCount != 2 || e.DieSides != 8 || e.Bonus != 0 || !*e.AddCastingModifier {
+			return false
+		}
 		required = []string{"cast.cleric-self-slot-1", "healing.cure-wounds-self"}
 	case prefix + "spells/shield-of-faith":
+		m := s.Components.Material
+		if s.Name != "Shield of Faith" || s.SourcePage != 162 || s.CastingTime != "bonus-action" || s.Range != (SpellRange{"feet", 60}) || m == nil || m.Description != "a prayer scroll" || *m.CostCP != 0 || *m.Consumed || !*s.Concentration || s.Duration != "timed" || s.DurationSeconds != 600 || !slices.Equal(s.Lists, []string{"cleric", "paladin"}) || e.ID != "ac" || e.Mechanic != "defense.shield-of-faith-self" || e.Timing != "while-concentrating" || e.DiceCount != 0 || e.DieSides != 0 || e.Bonus != 2 || *e.AddCastingModifier {
+			return false
+		}
 		required = []string{"cast.cleric-self-slot-1", "defense.shield-of-faith-self", "concentration.self-600-seconds"}
 	default:
 		return false

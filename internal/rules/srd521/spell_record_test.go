@@ -32,7 +32,7 @@ func TestSpellRecordsSourceAndAcidArrow(t *testing.T) {
 		t.Fatalf("wrong Acid Arrow identity/target: %+v", s)
 	}
 	m := s.Components.Material
-	if !*s.Components.Verbal || !*s.Components.Somatic || m == nil || m.Description != "powdered rhubarb leaf" || m.CostCP != 0 || *m.Consumed || *s.Ritual || *s.Concentration || s.Duration != "instantaneous" || s.DurationSeconds != 0 {
+	if !*s.Components.Verbal || !*s.Components.Somatic || m == nil || m.Description != "powdered rhubarb leaf" || m.CostCP == nil || *m.CostCP != 0 || *m.Consumed || *s.Ritual || *s.Concentration || s.Duration != "instantaneous" || s.DurationSeconds != 0 {
 		t.Fatal("wrong Acid Arrow casting requirements")
 	}
 	if len(s.Effects) != 2 || s.Effects[0].DiceCount != 4 || s.Effects[0].DieSides != 4 || s.Effects[0].DamageType != "acid" || !*s.Effects[0].HalfInitialOnly || *s.Effects[0].AddCastingModifier || s.Effects[1].DiceCount != 2 || s.Effects[1].DieSides != 4 || s.Effects[1].DamageType != "acid" || s.Effects[1].Timing != "on-hit-end-next-target-turn" || *s.Effects[1].HalfInitialOnly {
@@ -123,6 +123,56 @@ func TestSpellRecordsUnknownMechanicsDecodeUnavailable(t *testing.T) {
 		if s.MechanicsAvailable() {
 			t.Fatalf("%s: unknown mechanic available", s.Name)
 		}
+	}
+}
+
+func TestSpellBoundedPayloadsCannotClaimAvailability(t *testing.T) {
+	for _, tc := range []struct {
+		name   string
+		change func(*SpellRecord)
+	}{
+		{"unknown timing", func(s *SpellRecord) { s.Effects[0].Timing = "invented-unknown-timing" }},
+		{"unknown damage", func(s *SpellRecord) { s.Effects[0].DamageType = "invented-damage" }},
+		{"invented dice", func(s *SpellRecord) { s.Effects[0].DiceCount = 99; s.Effects[0].DieSides = 20 }},
+		{"wrong bonus", func(s *SpellRecord) { s.Effects[0].Bonus = 99 }},
+		{"removed concentration", func(s *SpellRecord) { *s.Concentration = false }},
+		{"extended duration", func(s *SpellRecord) { s.DurationSeconds = 1200 }},
+		{"removed material", func(s *SpellRecord) { s.Components.Material = nil }},
+		{"wrong source page", func(s *SpellRecord) { s.SourcePage = 121 }},
+	} {
+		t.Run(tc.name, func(t *testing.T) {
+			s := loadSpellRecords(t).Records[2]
+			tc.change(&s)
+			if s.MechanicsAvailable() {
+				t.Fatal("unsupported payload reported available")
+			}
+		})
+	}
+}
+
+func TestSpellRecordsRequireUnambiguousMaterialMetadata(t *testing.T) {
+	data, err := os.ReadFile("testdata/spell_records.json")
+	if err != nil {
+		t.Fatal(err)
+	}
+	for name, replacement := range map[string][]byte{
+		"duplicate count":  bytes.Replace(data, []byte(`"count": 1`), []byte(`"count": 99, "count": 1`), 1),
+		"case alias":       bytes.Replace(data, []byte(`"count": 1`), []byte(`"Count": 99, "count": 1`), 1),
+		"missing material": bytes.Replace(data, []byte("\"somatic\": true,\n        \"material\": null"), []byte(`"somatic": true`), 1),
+		"missing cost":     bytes.Replace(data, []byte(`"cost_cp": 0,`), nil, 1),
+		"null cost":        bytes.Replace(data, []byte(`"cost_cp": 0`), []byte(`"cost_cp": null`), 1),
+	} {
+		t.Run(name, func(t *testing.T) {
+			if _, err := DecodeSpellRecords(bytes.NewReader(replacement)); err == nil {
+				t.Fatal("incomplete or ambiguous metadata accepted")
+			}
+		})
+	}
+	// A missing material member is distinct from explicit null, even without
+	// another JSON error masking the missing required member.
+	var c SpellComponents
+	if err := json.Unmarshal([]byte(`{"verbal":true,"somatic":true}`), &c); err == nil {
+		t.Fatal("missing material accepted")
 	}
 }
 
