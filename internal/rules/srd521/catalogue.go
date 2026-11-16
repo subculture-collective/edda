@@ -451,10 +451,11 @@ func (c CharacterCatalogue) Validate(repo fs.FS) error {
 				family := "subclasses"
 				heading := class + "-"
 				if r.Kind == "feature" && families[source.InventoryID] == "invocations" {
-					if class != "warlock" {
-						return fmt.Errorf("%s: invocation class owner must be Warlock", r.ID)
+					if class != "warlock" || len(r.Sources) != 1 {
+						return fmt.Errorf("%s: invocation source requires unique Warlock ownership", r.ID)
 					}
-					// Exact invocation identity/choice ownership was checked above.
+					// The unique source must be primary, so the exact invocation
+					// identity and choice ownership were checked above.
 					continue
 				}
 				if r.Kind == "feature" {

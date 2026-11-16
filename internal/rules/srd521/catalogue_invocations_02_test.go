@@ -329,3 +329,17 @@ func TestInvocations02ExternalBatchComposition(t *testing.T) {
 		t.Fatal("duplicate external batch accepted")
 	}
 }
+
+func TestInvocations02RejectsSecondarySourceOnClassFeature(t *testing.T) {
+	c := warlockCatalogue(t)
+	for i := range c.Records {
+		if c.Records[i].ID == "srd-5.2.1:character/feature/warlock/pact-magic" {
+			c.Records[i].Sources = append(c.Records[i].Sources, CharacterSource{
+				InventoryID: "srd-5.2.1:planning/invocations/pact-of-the-blade", Page: 74,
+			})
+		}
+	}
+	if err := c.Validate(os.DirFS("../../..")); err == nil {
+		t.Fatal("class feature accepted an unrelated secondary invocation source")
+	}
+}
