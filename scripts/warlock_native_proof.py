@@ -1,6 +1,7 @@
 """Read-only actual-candidate/native proof; ROOT release is deliberately unset."""
 import hashlib
 import json
+from datetime import datetime, timezone
 from pathlib import Path
 import subprocess
 
@@ -17,6 +18,10 @@ PROPOSAL = ROOT / 'docs/investigations/issue-331-native-proposal.json'
 
 
 def validate_proposal(m, actual, baseline, foreign):
+    from warlock_approved_native import load_frozen
+    _, frozen, approved_baseline, _, _, _ = load_frozen()
+    assert exact(actual, frozen[331]), 'unchanged281-node approved proposal'
+    assert exact(foreign, frozen[330]) and exact(baseline, approved_baseline), 'explicit frozen input refresh only'
     expected = build(m, foreign, baseline['graph'])
     assert exact(actual, expected), 'complete actual candidate native bodies/parents/prerequisites/TaskSize'
     graph = {x['number']: x for x in baseline['graph']}
@@ -27,7 +32,7 @@ def validate_proposal(m, actual, baseline, foreign):
     assert [x['number'] for x in m['source_prerequisites']] == [285, 296, 302, 303, 304, 318]
     for source in m['source_prerequisites']:
         old = graph[source['number']]
-        assert source['state'] == old['state'] == 'CLOSED'
+        assert source['state'] == 'CLOSED' and old['state'] in ('CLOSED', 'closed')
         assert source['body'] == old['body'] and source['title'] == old['title']
     for entry in m['spell_overlap_audit']:
         for owner in entry['candidate_owners']:
@@ -66,16 +71,17 @@ class Reader:
         return result['data']['repository']
 
 
-def read_live(issue_map):
+def read_live(issue_map, protected_project_numbers=()):
+    started_at = datetime.now(timezone.utc).isoformat()
     api, cursor, cursors, seen, graph = Reader(), None, set(), set(), []
-    query = 'query($cursor:String){repository(owner:"subculture-collective",name:"edda"){issues(first:100,after:$cursor){pageInfo{hasNextPage endCursor}nodes{number title body state parent{number} blockedBy(first:100){pageInfo{hasNextPage}nodes{number}}}}}}'
+    query = 'query($cursor:String){repository(owner:"subculture-collective",name:"edda"){issues(first:100,after:$cursor){pageInfo{hasNextPage endCursor}nodes{id databaseId number title body state parent{number} blockedBy(first:100){pageInfo{hasNextPage}nodes{number}}}}}}'
     for _ in range(20):
         page = api(query, {'cursor': cursor})['issues']
         for row in page['nodes']:
             assert row['number'] not in seen, 'duplicate issue/page'
             seen.add(row['number'])
             assert not row['blockedBy']['pageInfo']['hasNextPage'], 'incoming cap'
-            graph.append(dict(number=row['number'], title=row['title'], body=row['body'] or '',
+            graph.append(dict(number=row['number'], id=row['databaseId'], node_id=row['id'], title=row['title'], body=row['body'] or '',
                 state=row['state'], parent=(row['parent'] or {}).get('number'),
                 blocked_by=sorted(n['number'] for n in row['blockedBy']['nodes'])))
         if not page['pageInfo']['hasNextPage']:
@@ -86,7 +92,7 @@ def read_live(issue_map):
     else:
         raise AssertionError('native graph page cap')
     project = {}
-    nums = sorted(set(issue_map.values()) | {779, 968})
+    nums = sorted(set(issue_map.values()) | {779, 968} | {int(n) for n in protected_project_numbers})
     for start in range(0, len(nums), 25):
         batch = nums[start:start+25]
         fields = ' '.join(f'i{n}:issue(number:{n})' + '{issueType{name} projectItems(first:100){pageInfo{hasNextPage}nodes{project{id} fieldValueByName(name:"Size"){... on ProjectV2ItemFieldSingleSelectValue{name}}}}}' for n in batch)
@@ -96,80 +102,41 @@ def read_live(issue_map):
             assert not row['projectItems']['pageInfo']['hasNextPage'], 'project page bound'
             entries = [x for x in row['projectItems']['nodes'] if x['project']['id'] == PROJECT]
             assert len(entries) == 1, 'exact Project membership'
-            project[str(n)] = dict(type=row['issueType']['name'], size=entries[0]['fieldValueByName']['name'])
-    return dict(graph=graph, project=project, api_calls=api.calls)
+            project[str(n)] = dict(type=(row['issueType'] or {}).get('name'), size=(entries[0]['fieldValueByName'] or {}).get('name'))
+    return dict(graph=graph, project=project, api_calls=api.calls,
+                observed_from=started_at, observed_at=datetime.now(timezone.utc).isoformat())
 
 
 def validate_native(m, plan, receipt, snapshot):
+    """Final proof additionally requires ROOT's real accepted prefix release."""
     assert ACCEPTED_POST_SORCERER_PREFIXES is not None, 'ROOT accepted POST-SORCERER prefix release pending'
     assert set(ACCEPTED_POST_SORCERER_PREFIXES) == {47, 54, 283, 337}, 'complete ROOT release'
-    assert receipt and receipt.get('issue_map'), 'actual native publication missing'
-    ids = receipt['issue_map']
-    rows = {t['key']: t for t in plan['tasks'] + plan['gates']}
-    assert ids.keys() == rows.keys() and len(set(ids.values())) == len(ids)
-    assert all(type(v) is int and v > 0 for v in ids.values()), 'typed actual native identities'
-    foreign = receipt['foreign_issue_map']
-    assert all(type(v) is int and v > 0 for v in foreign.values()), 'typed actual foreign identities'
-    def resolve(value):
-        if isinstance(value, int) or str(value).isdigit():
-            return int(value)
-        return foreign[value] if ':' in value else ids[value]
+    from warlock_approved_native import load_frozen, validate_wiring
+    approval, proposals, baseline, expected, _, _ = load_frozen()
+    assert exact(plan, proposals[331]), 'exact approved own proposal'
+    result = validate_wiring(approval, expected, baseline, receipt['registry'], snapshot)
     graph = {t['number']: t for t in snapshot['graph']}
-    assert len(graph) == len(snapshot['graph'])
-    caps({n: t['blocked_by'] for n, t in graph.items()}, {n: t['parent'] for n, t in graph.items() if t['parent']})
-    assert snapshot['project']['779'] == dict(type='Task', size='M')
-    assert snapshot['project']['968'] == dict(type='Task', size='M')
-    for key, expected in rows.items():
-        actual = graph[ids[key]]
-        assert actual['title'] == expected['title'] and actual['body'] == expected.get('native_body', expected['body']), ('exact native body/title', key)
-        assert actual['parent'] == resolve(expected['parent'])
-        required = set(expected['prerequisites']) | {resolve(d) for d in expected['depends']}
-        extensions = {resolve(d) for owner, d in APPROVED_FINITE_EXTENSIONS if owner == key}
-        assert set(actual['blocked_by']) == required | extensions, ('exact native prerequisites', key)
-        assert snapshot['project'][str(ids[key])] == dict(type='Task', size='M')
-        assert actual['state'] == 'OPEN', 'future implementation/qualification remains mandatory'
-    sorcerer = json.loads(FOREIGN.read_text())
-    wizard = json.loads((ROOT / 'docs/investigations/issue-331-wizard-boundary.json').read_text())
-    foreign_rows = {'330:' + t['key']: t for t in sorcerer['tasks'] + sorcerer['shared_split_proposal'] + sorcerer['gates']}
-    foreign_rows.update({'332:' + t['key']: t for t in wizard['tasks'] + wizard['gates']})
-    def external(value, namespace):
-        value = str(value)
-        if value.isdigit():
-            return int(value)
-        if value == 'warlock-shared-output':
-            return ids['shared-output']
-        if value == 'wizard-shared-output':
-            return foreign['332:shared-output']
-        key = value if ':' in value else namespace + ':' + value
-        return ids[key[4:]] if key.startswith('331:') else foreign[key]
-    for key, number in foreign.items():
-        expected = foreign_rows[key]
-        actual = graph[number]
-        assert actual['title'] == expected['title'] and actual['body'] == expected.get('native_body', expected['body']), ('actual foreign whole contract', key)
-        assert actual['parent'] == external(expected['parent'], key[:3])
-        required = set(expected['prerequisites']) | {external(d, key[:3]) for d in expected['depends']}
-        extensions = {external(d, key[:3]) for owner, d in APPROVED_FINITE_EXTENSIONS if owner == key}
-        assert set(actual['blocked_by']) == required | extensions, ('actual foreign prerequisites', key)
-        assert snapshot['project'][str(number)] == dict(type='Task', size='M')
-    baseline = json.loads(BASELINE.read_text())['graph']
-    for old in baseline:
-        actual = graph[old['number']]
-        assert actual['title'] == old['title'] and actual['parent'] == old['parent'], 'old title/parent'
-        if old['number'] in (279, 280, 337):
-            assert set(old['blocked_by']) <= set(actual['blocked_by']), 'historical root edge removed'
-        else:
-            assert actual['blocked_by'] == old['blocked_by'], 'old owner prerequisites changed'
-        if old['number'] not in (47, 54, 283, 337):
-            assert actual['body'] == old['body'], 'old owner whole body changed'
     for n, prefix in ACCEPTED_POST_SORCERER_PREFIXES.items():
         append = (ROOT / f'docs/investigations/issue-331-append-{n}.md').read_text()
         assert len(append) <= (70 if n == 47 else 750)
         prefix_check(graph[n]['body'], prefix, append, '<!-- edda331 -->')
-    assert ids['class-gate'] in graph[337]['blocked_by']
-    aggregate = foreign['330:shared-aggregate']
-    assert graph[aggregate]['parent'] == 191
-    assert set(graph[aggregate]['blocked_by']) == {foreign['330:shared-output'], ids['shared-output'], foreign['332:shared-output']}
-    assert aggregate in graph[279]['blocked_by'] and aggregate in graph[280]['blocked_by']
-    assert ids['class-gate'] not in graph[aggregate]['blocked_by']
-    # Decision closure itself may occur; all actual implementation edges remain.
-    assert graph[331]['state'] in ('OPEN', 'CLOSED')
+    return {**result, 'status': 'FINAL_NATIVE_AND_PREFIX_PASS', 'final_prefix_sealed': True}
+
+
+def prove_registry(m, registry_raw, delivery, stage, prior_allocation=None, verified_receipt_raw=None, prior_allocation_raw=None):
+    """Run only at a ROOT-delivered allocation/wiring boundary; never poll."""
+    from warlock_approved_native import (load_frozen, load_renderer, load_milestone_contract,
+        validate_milestone, validate_registry, validate_allocation, validate_wiring)
+    approval, proposals, baseline, expected, _, _ = load_frozen()
+    load_renderer()
+    load_milestone_contract()
+    validate_proposal(m, proposals[331], baseline, proposals[330])
+    assert stage in ('allocation', 'wiring'), 'exact milestone proof mode'
+    assert delivery['milestone'] == ('IDS_ALLOCATED' if stage == 'allocation' else 'VERIFIED')
+    registry = validate_milestone(registry_raw, delivery, expected, baseline, prior_allocation, verified_receipt_raw, prior_allocation_raw)
+    numbers = validate_registry(registry, expected, baseline)
+    snapshot = read_live(numbers, baseline['project'])
+    check = validate_allocation if stage == 'allocation' else validate_wiring
+    result = check(approval, expected, baseline, registry, snapshot)
+    return dict(registry=registry, delivery=delivery, allocation_delivery=prior_allocation,
+                snapshot=snapshot, result=result)

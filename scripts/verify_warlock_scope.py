@@ -355,18 +355,32 @@ def validate_publication(m, receipt, live=False):
     assert live, 'strict proof requires live native readback, never forged published flags'
     import warlock_native_proof as native
     assert native.ACCEPTED_POST_SORCERER_PREFIXES is not None, 'ROOT final prefix release pending'
-    assert receipt and receipt.get('issue_map'), 'PENDING native publication'
+    assert receipt and receipt.get('registry'), 'PENDING native publication'
+    from warlock_approved_native import load_frozen, load_renderer, load_milestone_contract, validate_registry, validate_milestone
+    _, frozen, baseline, expected, _, _ = load_frozen()
+    load_renderer()
+    load_milestone_contract()
+    delivery = receipt['delivery']
+    raw = Path(delivery['registry_path']).read_bytes()
+    registry = validate_milestone(raw, delivery, expected, baseline, receipt['allocation_delivery'],
+        Path(delivery['verified_receipt_path']).read_bytes(), Path(receipt['allocation_delivery']['registry_path']).read_bytes())
+    assert exact(registry, receipt['registry']), 'retained actual registry matches immutable delivered bytes'
     plan = json.loads(native.PROPOSAL.read_text())
-    native.validate_proposal(m, plan, json.loads(native.BASELINE.read_text()), json.loads(native.FOREIGN.read_text()))
-    snapshot = native.read_live({**receipt['issue_map'], **receipt['foreign_issue_map']})
-    native.validate_native(m, plan, receipt, snapshot)
-    return snapshot
+    native.validate_proposal(m, plan, baseline, frozen[330])
+    numbers = validate_registry(receipt['registry'], expected, baseline)
+    snapshot = native.read_live(numbers, baseline['project'])
+    return native.validate_native(m, plan, receipt, snapshot)
 
 
 def main():
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument('--pdf', type=Path, required=True)
-    p.add_argument('--source-class-checkpoint', action='store_true')
+    mode = p.add_mutually_exclusive_group()
+    mode.add_argument('--source-class-checkpoint', action='store_true')
+    mode.add_argument('--allocated-registry', type=Path, help='ROOT-provided complete registry; allocation proof only')
+    mode.add_argument('--wired-registry', type=Path, help='ROOT-provided VERIFIED registry; no final prefix seal')
+    p.add_argument('--milestone', type=Path, help='ROOT-delivered immutable milestone sidecar')
+    p.add_argument('--allocation-evidence', type=Path, help='Retained own allocation readback for VERIFIED identity continuity')
     p.add_argument('--live', action='store_true', help='Read actual native issues/Task/Project Size after ROOT release')
     args = p.parse_args()
     m = json.loads(MANIFEST.read_text())
@@ -386,10 +400,30 @@ def main():
     skeleton_attacks = subprocess.check_output(['pdftotext', '-f', '326', '-l', '326', '-x', '0', '-y', '0', '-W', '310', '-H', '792', '-layout', str(args.pdf), '-'], text=True)
     for clause in ('Shortsword. Melee Attack Roll: +5, reach 5 ft.', 'Shortbow. Ranged Attack Roll: +5, range 80/320 ft.', '(1d6 + 3) Piercing damage.'):
         assert clause in skeleton_attacks, 'actual Skeleton326attack clause'
-    if not args.source_class_checkpoint:
-        path = ROOT / 'docs/investigations/issue-331-link-verification.json'
+    if args.allocated_registry or args.wired_registry:
+        from warlock_native_proof import prove_registry
+        assert args.live, 'native milestone proof requires --live actual collection'
+        assert args.milestone is not None, 'ROOT-delivered immutable milestone required; no polling'
+        output = ROOT / ('docs/investigations/issue-331-allocation-readback.json' if args.allocated_registry else 'docs/investigations/issue-331-native-readback.json')
+        assert not output.exists(), 'retain delivered evidence; do not overwrite an existing milestone'
+        delivery = json.loads(args.milestone.read_text())
+        registry_path = args.allocated_registry or args.wired_registry
+        assert registry_path.resolve() == Path(delivery['registry_path']).resolve(), 'use delivered immutable registry_path'
+        registry_raw = registry_path.read_bytes()
+        prior, receipt_raw, prior_raw = None, None, None
+        if args.wired_registry:
+            assert args.allocation_evidence is not None, 'retained allocation evidence required'
+            prior = json.loads(args.allocation_evidence.read_text())['delivery']
+            prior_raw = Path(prior['registry_path']).read_bytes()
+            receipt_raw = Path(delivery['verified_receipt_path']).read_bytes()
+        result = prove_registry(m, registry_raw, delivery, 'allocation' if args.allocated_registry else 'wiring', prior, receipt_raw, prior_raw)
+        with output.open('x', encoding='utf-8') as evidence:
+            evidence.write(json.dumps(result, indent=2) + '\n')
+        print(json.dumps(result['result'], sort_keys=True))
+    elif not args.source_class_checkpoint:
+        path = ROOT / 'docs/investigations/issue-331-native-readback.json'
         receipt = json.loads(path.read_text()) if path.exists() else None
-        validate_publication(m, receipt, live=True)
+        print(json.dumps(validate_publication(m, receipt, live=args.live), sort_keys=True))
     print('PASS source/class contracts only:191 records/588contexts/28Invocations/20rows/117spell identities; actual native proof is separate')
 
 

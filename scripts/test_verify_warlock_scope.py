@@ -104,7 +104,7 @@ class WarlockCandidateProof(unittest.TestCase):
             calls = 0
             def __call__(self, query, variables):
                 self.calls += 1
-                return {'issues': {'nodes':[dict(number=1, title='x', body='', state='OPEN', parent=None,
+                return {'issues': {'nodes':[dict(number=1, id='I_old', databaseId=1, title='x', body='', state='OPEN', parent=None,
                     blockedBy={'pageInfo': {'hasNextPage':False}, 'nodes':[]})],
                     'pageInfo': {'hasNextPage':True, 'endCursor':'same'}}}
         fake = Repeated()
