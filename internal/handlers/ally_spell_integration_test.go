@@ -9,6 +9,7 @@ import (
 	"fmt"
 	"git.subcult.tv/subculture-collective/edda/internal/auth"
 	"git.subcult.tv/subculture-collective/edda/internal/server"
+	"git.subcult.tv/subculture-collective/edda/internal/tools"
 	"github.com/charmbracelet/log"
 	"io"
 	"net/http/httptest"
@@ -47,7 +48,7 @@ func TestIntegrationAllySpellAction(t *testing.T) {
 	must(testPool.QueryRow(ctx, `INSERT INTO locations(campaign_id,name) VALUES($1,'Court') RETURNING id`, c.ID).Scan(&location))
 	_, err = testPool.Exec(ctx, `UPDATE player_characters SET current_location_id=$1 WHERE id=$2`, location, pc.ID)
 	must(err)
-	facts := fmt.Sprintf(`{"profile":"cure-wounds-ally-v1","actor_id":"%s","allied":true,"willing":true,"conscious":true,"hidden":false,"conditions":"ordinary","max_hp":10,"distance_feet":5,"line_of_sight":true,"cover":"none"}`, actor)
+	facts := fmt.Sprintf(`{"profile":"cure-wounds-ally-v1","actor_id":"%s","location_id":"%s","allied":true,"willing":true,"conscious":true,"hidden":false,"conditions":"ordinary","max_hp":10,"distance_feet":5,"line_of_sight":true,"cover":"none"}`, actor, location)
 	must(testPool.QueryRow(ctx, `INSERT INTO npcs(campaign_id,name,hp,location_id,properties) VALUES($1,'Rowan',1,$2,jsonb_build_object('srd521_ally',$3::jsonb,'secret','unpublished villain')) RETURNING id`, c.ID, location, facts).Scan(&ally))
 	_, err = testPool.Exec(ctx, `INSERT INTO session_logs(campaign_id,turn_number,player_input,input_type,llm_response,npcs_involved) VALUES($1,1,'Arrive','game_action','Rowan waits.',ARRAY[$2]::uuid[])`, c.ID, ally)
 	must(err)
@@ -104,9 +105,17 @@ func TestIntegrationAllySpellAction(t *testing.T) {
 		{"unknown conditions", `UPDATE npcs SET properties=properties #- '{srd521_ally,conditions}' WHERE id=$1`},
 		{"unknown maximum", `UPDATE npcs SET properties=properties #- '{srd521_ally,max_hp}' WHERE id=$1`},
 		{"unknown mechanic", `UPDATE npcs SET properties=jsonb_set(properties,'{srd521_ally,healing_multiplier}','2') WHERE id=$1`},
+		{"case alias", `UPDATE npcs SET properties=jsonb_set(properties #- '{srd521_ally,willing}','{srd521_ally,WILLING}','true') WHERE id=$1`},
+		{"unsupported revision", `UPDATE npcs SET properties=jsonb_set(properties,'{srd521_ally,revision}','"unsupported mechanic"') WHERE id=$1`},
+		{"missing ruling location", `UPDATE npcs SET properties=properties #- '{srd521_ally,location_id}' WHERE id=$1`},
+		{"wrong ruling location", `UPDATE npcs SET properties=jsonb_set(properties,'{srd521_ally,location_id}','"00000000-0000-0000-0000-000000000001"') WHERE id=$1`},
 		{"stale hp", `UPDATE npcs SET hp=2 WHERE id=$1`},
 	} {
 		t.Run(tc.name, func(t *testing.T) {
+			t.Cleanup(func() {
+				_, err := testPool.Exec(ctx, `UPDATE npcs SET hp=1,location_id=$1,properties=jsonb_build_object('srd521_ally',$2::jsonb,'secret','unpublished villain') WHERE id=$3`, location, facts, ally)
+				must(err)
+			})
 			request.ExpectedRevision = prepare().ExpectedRevision
 			_, err = testPool.Exec(ctx, tc.sql, ally)
 			must(err)
@@ -116,10 +125,39 @@ func TestIntegrationAllySpellAction(t *testing.T) {
 			if tc.name != "stale hp" && len(prepare().Targets) != 1 {
 				t.Fatal("ineligible target disclosed")
 			}
-			_, err = testPool.Exec(ctx, `UPDATE npcs SET hp=1,location_id=$1,properties=jsonb_build_object('srd521_ally',$2::jsonb,'secret','unpublished villain') WHERE id=$3`, location, facts, ally)
-			must(err)
 		})
 	}
+	t.Run("model relocation cannot reuse touch ruling", func(t *testing.T) {
+		var other uuid.UUID
+		must(testPool.QueryRow(ctx, `INSERT INTO locations(campaign_id,name) VALUES($1,'Other scene') RETURNING id`, c.ID).Scan(&other))
+		moveNPC := tools.NewUpdateNPCHandler(game.NewNPCService(q))
+		t.Cleanup(func() {
+			_, err := testPool.Exec(ctx, `UPDATE player_characters SET current_location_id=$1 WHERE id=$2`, location, pc.ID)
+			must(err)
+			_, err = moveNPC.Handle(ctx, map[string]any{"npc_id": ally.String(), "location_id": location.String()})
+			must(err)
+			_, err = testPool.Exec(ctx, `UPDATE npcs SET properties=jsonb_build_object('srd521_ally',$1::jsonb) WHERE id=$2`, facts, ally)
+			must(err)
+		})
+		_, err = testPool.Exec(ctx, `UPDATE player_characters SET current_location_id=$1 WHERE id=$2`, other, pc.ID)
+		must(err)
+		_, err = moveNPC.Handle(ctx, map[string]any{"npc_id": ally.String(), "location_id": other.String()})
+		must(err)
+		fresh := prepare()
+		if len(fresh.Targets) != 1 {
+			t.Fatal("old touch ruling offered in a new scene")
+		}
+		invalid := request
+		invalid.ExpectedRevision = fresh.ExpectedRevision
+		if _, err := makeEngine().ConfirmAction(ctx, campaign, invalid); !errors.Is(err, engine.ErrActionRefresh) {
+			t.Fatalf("old touch ruling confirmed in a new scene: %v", err)
+		}
+		_, err = testPool.Exec(ctx, `UPDATE npcs SET properties=jsonb_set(properties,'{srd521_ally,location_id}',to_jsonb($1::text)) WHERE id=$2`, other.String(), ally)
+		must(err)
+		if len(prepare().Targets) != 2 {
+			t.Fatal("fresh trusted touch ruling not offered in new scene")
+		}
+	})
 	// Previously encountered is independent of physical presence and consent.
 	_, err = testPool.Exec(ctx, `UPDATE session_logs SET npcs_involved='{}' WHERE campaign_id=$1`, c.ID)
 	must(err)

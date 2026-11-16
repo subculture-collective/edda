@@ -98,6 +98,7 @@ Eligibility is a trusted fixture ruling stored in NPC `properties.srd521_ally`:
 {
   "profile": "cure-wounds-ally-v1",
   "actor_id": "8b2d58b7-9952-40bf-8641-af62ed37334e",
+  "location_id": "5d6c90cf-55d1-4416-b2cc-248f586d640e",
   "allied": true,
   "willing": true,
   "conscious": true,
@@ -111,11 +112,16 @@ Eligibility is a trusted fixture ruling stored in NPC `properties.srd521_ally`:
 ```
 
 The example actor UUID identifies the fixture caster; the actual ruling must
-name the campaign's caster. The existing NPC type has current HP but no maximum
-HP field, so this bounded fixture explicitly supplies `max_hp`. All booleans,
+name the campaign's caster. The location UUID binds the touch ruling to the
+location where it was adjudicated. Both participants must currently be there;
+moving them to another location does not transfer the old ruling, even after a
+new preview. A trusted ruling for the new location is required. The existing
+NPC type has current HP but no maximum HP field, so this bounded fixture explicitly supplies `max_hp`. All booleans,
 ordinary conditions, maximum HP and spatial facts are required. Unknown fields
-also fail closed. Positive NPC HP and alive state are independently required;
-positive HP alone does not establish consciousness. Existing session history
+also fail closed, including case aliases and an input `revision` property. The
+fixture exposes only distance, sight and cover from the spatial contract; its
+revision is derived by the server. Positive NPC HP and alive state are
+independently required; positive HP alone does not establish consciousness. Existing session history
 must identify the NPC in `npcs_involved`. Disposition, faction, descriptions and
 model output never establish alliance or willingness. `create_npc` rejects the
 reserved `srd521_ally` key; `update_npc` does not accept properties. No fixture

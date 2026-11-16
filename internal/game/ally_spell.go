@@ -38,15 +38,18 @@ func (s *StoredAction) HealingTarget(id uuid.UUID) *HealingTarget {
 // allyFacts deliberately has no compatibility defaults. Missing booleans and
 // unknown condition/mechanic fields fail closed. Disposition/prose is not consent.
 type allyFacts struct {
-	Profile    string    `json:"profile"`
-	ActorID    uuid.UUID `json:"actor_id"`
-	Allied     *bool     `json:"allied"`
-	Willing    *bool     `json:"willing"`
-	Conscious  *bool     `json:"conscious"`
-	Hidden     *bool     `json:"hidden"`
-	Conditions string    `json:"conditions"`
-	MaxHP      int       `json:"max_hp"`
-	combat.Space
+	Profile      string    `json:"profile"`
+	ActorID      uuid.UUID `json:"actor_id"`
+	LocationID   uuid.UUID `json:"location_id"`
+	Allied       *bool     `json:"allied"`
+	Willing      *bool     `json:"willing"`
+	Conscious    *bool     `json:"conscious"`
+	Hidden       *bool     `json:"hidden"`
+	Conditions   string    `json:"conditions"`
+	MaxHP        int       `json:"max_hp"`
+	DistanceFeet *int      `json:"distance_feet"`
+	LineOfSight  *bool     `json:"line_of_sight"`
+	Cover        string    `json:"cover"`
 }
 
 func prepareStoredSpell(ctx context.Context, database statedb.DBTX, campaign domain.Campaign, pc domain.PlayerCharacter, intent ActionIntent, lock bool) (*StoredAction, error) {
@@ -75,13 +78,29 @@ func prepareStoredSpell(ctx context.Context, database statedb.DBTX, campaign dom
 		if err := rows.Scan(&target.ID, &target.Name, &target.HP, &target.UpdatedAt, &data); err != nil {
 			return nil, err
 		}
-		var facts allyFacts
-		decoder := json.NewDecoder(bytes.NewReader(data))
-		decoder.DisallowUnknownFields()
-		if decoder.Decode(&facts) != nil || !yes(facts.Allied) || !yes(facts.Willing) || !yes(facts.Conscious) || facts.Hidden == nil || *facts.Hidden || facts.Conditions != "ordinary" || facts.MaxHP < target.HP || facts.Space.Melee() != nil || facts.Cover != "none" {
+		// Require the exact documented vocabulary before Go's case-insensitive
+		// struct decoding. Every fixture field is explicit and non-null.
+		var fields map[string]json.RawMessage
+		if json.Unmarshal(data, &fields) != nil {
 			continue
 		}
-		target.MaxHP, target.Space = facts.MaxHP, facts.Space
+		keys := []string{"profile", "actor_id", "location_id", "allied", "willing", "conscious", "hidden", "conditions", "max_hp", "distance_feet", "line_of_sight", "cover"}
+		valid := len(fields) == len(keys)
+		for _, key := range keys {
+			value := bytes.TrimSpace(fields[key])
+			if len(value) == 0 || bytes.Equal(value, []byte("null")) {
+				valid = false
+			}
+		}
+		var facts allyFacts
+		if !valid || json.Unmarshal(data, &facts) != nil {
+			continue
+		}
+		space := combat.Space{DistanceFeet: facts.DistanceFeet, LineOfSight: facts.LineOfSight, Cover: facts.Cover}
+		if facts.Profile != "cure-wounds-ally-v1" || facts.ActorID != pc.ID || facts.LocationID == uuid.Nil || pc.CurrentLocationID == nil || facts.LocationID != *pc.CurrentLocationID || !yes(facts.Allied) || !yes(facts.Willing) || !yes(facts.Conscious) || facts.Hidden == nil || *facts.Hidden || facts.Conditions != "ordinary" || facts.MaxHP < target.HP || space.Melee() != nil || facts.Cover != "none" {
+			continue
+		}
+		target.MaxHP, target.Space = facts.MaxHP, space
 		target.Space.Revision = fmt.Sprintf("%x", sha256.Sum256(data))
 		result.HealingTargets = append(result.HealingTargets, target)
 		result.Preview.Targets = append(result.Preview.Targets, ActionTarget{ID: target.ID, Label: target.Name + " (willing conscious ally; touch)", DistanceFeet: target.Space.DistanceFeet, ReachFeet: 5})
