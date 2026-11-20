@@ -1,0 +1,1568 @@
+{
+  "schema_version": 1,
+  "source": {
+    "version": "5.2.1",
+    "language": "en",
+    "landing_url": "https://www.dndbeyond.com/srd",
+    "artifact_url": "https://media.dndbeyond.com/compendium-images/srd/5.2/SRD_CC_v5.2.1.pdf",
+    "sha256": "8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87",
+    "bytes": 6031375,
+    "pages": 364,
+    "retrieved_at": "2026-11-15",
+    "license": "CC-BY-4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/legalcode",
+    "attribution": "This work includes material from the System Reference Document 5.2.1 (“SRD 5.2.1”) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd. The SRD 5.2.1 is licensed under the Creative Commons Attribution 4.0 International License, available at https://creativecommons.org/licenses/by/4.0/legalcode.",
+    "changes": "SRD 5.2.1 PDF pp.118-121 adapted into twelve complete offline spell families for issue #201, including the Conjure Woodland Beings and Control Water continuation text. No executable effects or availability grants."
+  },
+  "records": [
+    {
+      "id": "srd-5.2.1:content/spells/conjure-woodland-beings",
+      "name": "Conjure Woodland Beings",
+      "source_id": "srd-5.2.1:content/spells/conjure-woodland-beings",
+      "source_page": 118,
+      "scope": "complete-source-record",
+      "level": 4,
+      "school": "conjuration",
+      "lists": [
+        "druid",
+        "ranger"
+      ],
+      "casting_time": "action",
+      "range": {
+        "kind": "self",
+        "feet": 0
+      },
+      "target": {
+        "shape": "emanation",
+        "count": 0,
+        "eligibility": "visible-creatures-in-emanation"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": null
+      },
+      "ritual": false,
+      "concentration": true,
+      "duration": "timed",
+      "duration_seconds": 600,
+      "scaling": {
+        "kind": "slot",
+        "above_level": 4,
+        "dice_count": 1,
+        "die_sides": 8,
+        "effect_ids": [
+          "damage"
+        ]
+      },
+      "effects": [
+        {
+          "id": "damage",
+          "mechanic": "damage.conjure-woodland-beings",
+          "timing": "emanation-enters-creature-space-or-creature-enters-or-ends-turn-save-half-once-per-turn",
+          "dice_count": 5,
+          "die_sides": 8,
+          "damage_type": "force",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "disengage",
+          "mechanic": "action.conjure-woodland-beings-bonus-disengage",
+          "timing": "bonus-action-for-duration",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "damage.conjure-woodland-beings",
+        "action.conjure-woodland-beings-bonus-disengage",
+        "area.emanation-10",
+        "save.wisdom-half-once-per-turn",
+        "scaling.per-slot",
+        "concentration.source-duration"
+      ],
+      "slot_levels": [
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 0,
+        "casting_triggers": [],
+        "end_timing": "duration-or-concentration-ended",
+        "woodland": {
+          "source_pages": [
+            118,
+            119
+          ],
+          "emanation_feet": 10,
+          "origin": "caster",
+          "triggers": [
+            "emanation-enters-creature-space",
+            "creature-enters-emanation",
+            "creature-ends-turn-in-emanation"
+          ],
+          "trigger_visibility": "creature-you-can-see",
+          "save": "wisdom",
+          "save_success": "half-damage",
+          "saves_per_turn": 1,
+          "bonus_action": "disengage",
+          "bonus_action_duration": "spell-duration"
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/contact-other-plane",
+      "name": "Contact Other Plane",
+      "source_id": "srd-5.2.1:content/spells/contact-other-plane",
+      "source_page": 119,
+      "scope": "complete-source-record",
+      "level": 5,
+      "school": "divination",
+      "lists": [
+        "warlock",
+        "wizard"
+      ],
+      "casting_time": "1-minute",
+      "range": {
+        "kind": "self",
+        "feet": 0
+      },
+      "target": {
+        "shape": "single",
+        "count": 1,
+        "eligibility": "self"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": false,
+        "material": null
+      },
+      "ritual": true,
+      "concentration": false,
+      "duration": "timed",
+      "duration_seconds": 60,
+      "scaling": {
+        "kind": "none",
+        "above_level": 0,
+        "dice_count": 0,
+        "die_sides": 0,
+        "effect_ids": []
+      },
+      "effects": [
+        {
+          "id": "questions",
+          "mechanic": "divination.contact-other-plane-questions",
+          "timing": "successful-save-before-spell-ends",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "backlash",
+          "mechanic": "damage.contact-other-plane-backlash",
+          "timing": "failed-save",
+          "dice_count": 6,
+          "die_sides": 6,
+          "damage_type": "psychic",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "incapacitated",
+          "mechanic": "condition.contact-other-plane-incapacitated",
+          "timing": "failed-save-until-long-rest-or-greater-restoration",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "divination.contact-other-plane-questions",
+        "damage.contact-other-plane-backlash",
+        "condition.contact-other-plane-incapacitated",
+        "save.intelligence-dc-15",
+        "response.gm-one-word",
+        "cast.one-minute"
+      ],
+      "slot_levels": [
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 60,
+        "casting_triggers": [],
+        "end_timing": "duration-ended",
+        "other_plane": {
+          "save": "intelligence",
+          "save_dc": 15,
+          "success_questions_max": 5,
+          "question_timing": "before-spell-ends",
+          "answer_format": "one-word",
+          "answer_examples": [
+            "yes",
+            "no",
+            "maybe",
+            "never",
+            "irrelevant",
+            "unclear"
+          ],
+          "unclear_meaning": "entity-does-not-know-answer",
+          "misleading_alternative": "short-phrase",
+          "failure_damage_dice_count": 6,
+          "failure_damage_die_sides": 6,
+          "failure_damage_type": "psychic",
+          "failure_condition": "incapacitated",
+          "failure_ends": [
+            "finish-long-rest",
+            "greater-restoration-cast-on-you"
+          ]
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/contagion",
+      "name": "Contagion",
+      "source_id": "srd-5.2.1:content/spells/contagion",
+      "source_page": 119,
+      "scope": "complete-source-record",
+      "level": 5,
+      "school": "necromancy",
+      "lists": [
+        "cleric",
+        "druid"
+      ],
+      "casting_time": "action",
+      "range": {
+        "kind": "touch",
+        "feet": 0
+      },
+      "target": {
+        "shape": "single",
+        "count": 1,
+        "eligibility": "creature-touch"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": null
+      },
+      "ritual": false,
+      "concentration": false,
+      "duration": "timed",
+      "duration_seconds": 604800,
+      "scaling": {
+        "kind": "none",
+        "above_level": 0,
+        "dice_count": 0,
+        "die_sides": 0,
+        "effect_ids": []
+      },
+      "effects": [
+        {
+          "id": "damage",
+          "mechanic": "damage.contagion",
+          "timing": "failed-initial-save",
+          "dice_count": 11,
+          "die_sides": 8,
+          "damage_type": "necrotic",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "poisoned",
+          "mechanic": "condition.contagion-poisoned",
+          "timing": "failed-initial-save-until-three-saves-succeed-or-seven-days",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "disadvantage",
+          "mechanic": "save-penalty.contagion-chosen-ability",
+          "timing": "while-poisoned",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "repeat",
+          "mechanic": "save.contagion-three-successes-or-failures",
+          "timing": "end-of-each-target-turn",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "persist",
+          "mechanic": "save.contagion-resist-ending-poisoned",
+          "timing": "effect-would-end-poisoned",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "damage.contagion",
+        "condition.contagion-poisoned",
+        "save-penalty.contagion-chosen-ability",
+        "save.contagion-three-successes-or-failures",
+        "save.contagion-resist-ending-poisoned",
+        "choice.contagion-ability",
+        "save.constitution"
+      ],
+      "slot_levels": [
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 0,
+        "casting_triggers": [],
+        "end_timing": "duration-or-three-saves-succeeded",
+        "contagion": {
+          "save": "constitution",
+          "save_success": "unaffected",
+          "ability_choice": "one-ability-chosen-on-cast",
+          "ability_effect": "disadvantage-on-saves-with-chosen-ability-while-poisoned",
+          "repeat_timing": "end-of-each-target-turn",
+          "successes_to_end": 3,
+          "success_result": "spell-ends-on-target",
+          "failures_to_last": 3,
+          "failure_result": "spell-lasts-7-days-on-target",
+          "duration_days": 7,
+          "end_effect_save": "constitution",
+          "end_effect_failure": "poisoned-condition-does-not-end"
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/contingency",
+      "name": "Contingency",
+      "source_id": "srd-5.2.1:content/spells/contingency",
+      "source_page": 119,
+      "scope": "complete-source-record",
+      "level": 6,
+      "school": "abjuration",
+      "lists": [
+        "wizard"
+      ],
+      "casting_time": "10-minutes",
+      "range": {
+        "kind": "self",
+        "feet": 0
+      },
+      "target": {
+        "shape": "single",
+        "count": 1,
+        "eligibility": "self"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": {
+          "description": "a gem-encrusted statuette of yourself worth 1,500+ GP",
+          "cost_cp": 150000,
+          "consumed": false
+        }
+      },
+      "ritual": false,
+      "concentration": false,
+      "duration": "timed",
+      "duration_seconds": 864000,
+      "scaling": {
+        "kind": "none",
+        "above_level": 0,
+        "dice_count": 0,
+        "die_sides": 0,
+        "effect_ids": []
+      },
+      "effects": [
+        {
+          "id": "store",
+          "mechanic": "contingency.store-spell",
+          "timing": "cast-with-contingent-spell-deferred-until-trigger",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "trigger",
+          "mechanic": "contingency.trigger-effect",
+          "timing": "immediately-after-trigger-first-occurs",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "contingency.store-spell",
+        "contingency.trigger-effect",
+        "contingency.contingent-spell-limits",
+        "contingency.single-active",
+        "contingency.self-only",
+        "contingency.ends-without-component-on-person",
+        "cast.ten-minutes",
+        "components.priced-material",
+        "components.material"
+      ],
+      "slot_levels": [
+        6,
+        7,
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 600,
+        "casting_triggers": [],
+        "end_timing": "duration-ended-trigger-resolved-or-component-absent",
+        "contingency": {
+          "contingent_max_level": 5,
+          "contingent_casting_time": "action",
+          "contingent_target": "can-target-you",
+          "contingent_caster": "spell-you-can-cast",
+          "slots_expended": "both-spells",
+          "deferred_on_cast": true,
+          "trigger_described": "when-you-cast-the-two-spells",
+          "trigger_example_spell": "water-breathing",
+          "trigger_example": "engulfed-in-water-or-similar-liquid",
+          "takes_effect": "immediately-after-trigger-first-occurs",
+          "regardless_of_wish": true,
+          "ends_after_trigger": true,
+          "affects_only": "caster",
+          "max_active": 1,
+          "recast_ends": "other-contingency-on-you",
+          "component_requirement": "statuette-on-your-person"
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/continual-flame",
+      "name": "Continual Flame",
+      "source_id": "srd-5.2.1:content/spells/continual-flame",
+      "source_page": 119,
+      "scope": "complete-source-record",
+      "level": 2,
+      "school": "evocation",
+      "lists": [
+        "cleric",
+        "druid",
+        "wizard"
+      ],
+      "casting_time": "action",
+      "range": {
+        "kind": "touch",
+        "feet": 0
+      },
+      "target": {
+        "shape": "single",
+        "count": 1,
+        "eligibility": "object-touch"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": {
+          "description": "ruby dust worth 50+ GP, which the spell consumes",
+          "cost_cp": 5000,
+          "consumed": true
+        }
+      },
+      "ritual": false,
+      "concentration": false,
+      "duration": "until-dispelled",
+      "duration_seconds": 0,
+      "scaling": {
+        "kind": "none",
+        "above_level": 0,
+        "dice_count": 0,
+        "die_sides": 0,
+        "effect_ids": []
+      },
+      "effects": [
+        {
+          "id": "flame",
+          "mechanic": "light.continual-flame",
+          "timing": "until-dispelled",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "light.continual-flame",
+        "duration.until-dispelled",
+        "components.consumed-priced-material",
+        "components.material"
+      ],
+      "slot_levels": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 0,
+        "casting_triggers": [],
+        "end_timing": "dispelled",
+        "flame": {
+          "source": "object-you-touch",
+          "bright_light_radius_feet": 20,
+          "dim_light_additional_feet": 20,
+          "appearance": "regular-flame",
+          "heat": "none",
+          "fuel": "consumes-no-fuel",
+          "concealment": "can-be-covered-or-hidden",
+          "extinguish": "cannot-be-smothered-or-quenched"
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/control-water",
+      "name": "Control Water",
+      "source_id": "srd-5.2.1:content/spells/control-water",
+      "source_page": 119,
+      "scope": "complete-source-record",
+      "level": 4,
+      "school": "transmutation",
+      "lists": [
+        "cleric",
+        "druid",
+        "wizard"
+      ],
+      "casting_time": "action",
+      "range": {
+        "kind": "feet",
+        "feet": 300
+      },
+      "target": {
+        "shape": "cube",
+        "count": 0,
+        "eligibility": "water-in-cube"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": {
+          "description": "a mixture of water and dust",
+          "cost_cp": 0,
+          "consumed": false
+        }
+      },
+      "ritual": false,
+      "concentration": true,
+      "duration": "timed",
+      "duration_seconds": 600,
+      "scaling": {
+        "kind": "none",
+        "above_level": 0,
+        "dice_count": 0,
+        "die_sides": 0,
+        "effect_ids": []
+      },
+      "effects": [
+        {
+          "id": "flood",
+          "mechanic": "water.control-water-flood",
+          "timing": "chosen-effect-until-spell-ends-or-different-effect",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "part",
+          "mechanic": "water.control-water-part",
+          "timing": "chosen-effect-until-spell-ends-or-different-effect",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "redirect",
+          "mechanic": "water.control-water-redirect",
+          "timing": "chosen-effect-until-spell-ends-or-different-effect",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "whirlpool",
+          "mechanic": "water.control-water-whirlpool",
+          "timing": "chosen-effect-until-spell-ends-or-different-effect",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "whirlpool-damage",
+          "mechanic": "damage.control-water-whirlpool",
+          "timing": "first-entry-on-turn-or-end-turn-in-whirlpool-save-half-on-success",
+          "dice_count": 2,
+          "die_sides": 8,
+          "damage_type": "bludgeoning",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "water.control-water-flood",
+        "water.control-water-part",
+        "water.control-water-redirect",
+        "water.control-water-whirlpool",
+        "damage.control-water-whirlpool",
+        "area.cube-100",
+        "action.magic-repeat-or-change-effect",
+        "save.strength-half",
+        "check.strength-athletics-escape",
+        "concentration.source-duration",
+        "components.material"
+      ],
+      "slot_levels": [
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 0,
+        "casting_triggers": [],
+        "end_timing": "duration-or-concentration-ended",
+        "water_control": {
+          "source_pages": [
+            119,
+            120
+          ],
+          "cube_max_feet": 100,
+          "repeat_action": "magic",
+          "repeat_choices": [
+            "same-effect",
+            "different-effect"
+          ],
+          "effect_choices": [
+            "flood",
+            "part-water",
+            "redirect-flow",
+            "whirlpool"
+          ],
+          "flood": {
+            "standing_water_rise_feet": 20,
+            "wave_height_feet": 20,
+            "wave_area": "area-in-large-body-of-water",
+            "wave_path": "one-side-of-area-to-other-then-crashes",
+            "vehicle_size": "huge-or-smaller",
+            "vehicle_effect": "carried-to-other-side",
+            "capsize_percent": 25,
+            "capsize_target": "huge-or-smaller-vehicles-struck-by-wave",
+            "elevated_until": "spell-ends-or-different-effect",
+            "wave_repeats": "start-of-your-next-turn-while-flood-lasts"
+          },
+          "part": {
+            "result": "trench-across-area",
+            "walls": "separated-water-forms-wall-either-side",
+            "lasts": "until-spell-ends-or-different-effect",
+            "refill": "water-slowly-fills-trench-over-next-round"
+          },
+          "redirect": {
+            "movement": "flowing-water-moves-in-chosen-direction",
+            "obstacles": "over-obstacles-up-walls-or-other-unlikely-directions",
+            "beyond_area": "resumes-terrain-flow",
+            "lasts": "until-spell-ends-or-different-effect"
+          },
+          "whirlpool": {
+            "minimum_area_side_feet": 50,
+            "minimum_depth_feet": 25,
+            "location": "center-of-area",
+            "base_width_feet": 5,
+            "top_width_feet": 50,
+            "height_feet": 25,
+            "pull_radius_feet": 25,
+            "pull_subjects": "creatures-in-water",
+            "pull_feet": 10,
+            "save_triggers": [
+              "first-entry-on-turn",
+              "ends-turn-in-whirlpool"
+            ],
+            "save": "strength",
+            "save_success": "half-damage",
+            "escape_action": "take-action-to-pull-away",
+            "escape_check": "strength-athletics-vs-spell-save-dc",
+            "lasts": "until-different-effect-or-spell-ends"
+          }
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/control-weather",
+      "name": "Control Weather",
+      "source_id": "srd-5.2.1:content/spells/control-weather",
+      "source_page": 120,
+      "scope": "complete-source-record",
+      "level": 8,
+      "school": "transmutation",
+      "lists": [
+        "cleric",
+        "druid",
+        "wizard"
+      ],
+      "casting_time": "10-minutes",
+      "range": {
+        "kind": "self",
+        "feet": 0
+      },
+      "target": {
+        "shape": "single",
+        "count": 1,
+        "eligibility": "self"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": {
+          "description": "burning incense",
+          "cost_cp": 0,
+          "consumed": false
+        }
+      },
+      "ritual": false,
+      "concentration": true,
+      "duration": "timed",
+      "duration_seconds": 28800,
+      "scaling": {
+        "kind": "none",
+        "above_level": 0,
+        "dice_count": 0,
+        "die_sides": 0,
+        "effect_ids": []
+      },
+      "effects": [
+        {
+          "id": "weather",
+          "mechanic": "weather.control-weather-stage-change",
+          "timing": "on-cast-and-after-new-conditions-take-effect",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "delay",
+          "mechanic": "time.control-weather-delay",
+          "timing": "before-new-conditions-take-effect",
+          "dice_count": 1,
+          "die_sides": 4,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "weather.control-weather-stage-change",
+        "time.control-weather-delay",
+        "area.radius-5-miles",
+        "requirement.outdoors",
+        "table.precipitation",
+        "table.temperature",
+        "table.wind",
+        "cast.ten-minutes",
+        "concentration.source-duration",
+        "components.material"
+      ],
+      "slot_levels": [
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 600,
+        "casting_triggers": [],
+        "end_timing": "duration-concentration-ended-or-went-indoors",
+        "weather": {
+          "radius_miles": 5,
+          "requires_outdoors": true,
+          "ends_indoors": true,
+          "current_conditions_by": "gm",
+          "changeable": [
+            "precipitation",
+            "temperature",
+            "wind"
+          ],
+          "delay_dice_count": 1,
+          "delay_die_sides": 4,
+          "delay_multiplier_minutes": 10,
+          "rechange_after_effect": true,
+          "end_behavior": "weather-gradually-returns-to-normal",
+          "stage_change": 1,
+          "stage_directions": [
+            "up",
+            "down"
+          ],
+          "wind_direction_changeable": true,
+          "precipitation": [
+            {
+              "stage": 1,
+              "condition": "clear"
+            },
+            {
+              "stage": 2,
+              "condition": "light-clouds"
+            },
+            {
+              "stage": 3,
+              "condition": "overcast-or-ground-fog"
+            },
+            {
+              "stage": 4,
+              "condition": "rain-hail-or-snow"
+            },
+            {
+              "stage": 5,
+              "condition": "torrential-rain-driving-hail-or-blizzard"
+            }
+          ],
+          "temperature": [
+            {
+              "stage": 1,
+              "condition": "heat-wave"
+            },
+            {
+              "stage": 2,
+              "condition": "hot"
+            },
+            {
+              "stage": 3,
+              "condition": "warm"
+            },
+            {
+              "stage": 4,
+              "condition": "cool"
+            },
+            {
+              "stage": 5,
+              "condition": "cold"
+            },
+            {
+              "stage": 6,
+              "condition": "freezing"
+            }
+          ],
+          "wind": [
+            {
+              "stage": 1,
+              "condition": "calm"
+            },
+            {
+              "stage": 2,
+              "condition": "moderate-wind"
+            },
+            {
+              "stage": 3,
+              "condition": "strong-wind"
+            },
+            {
+              "stage": 4,
+              "condition": "gale"
+            },
+            {
+              "stage": 5,
+              "condition": "storm"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/counterspell",
+      "name": "Counterspell",
+      "source_id": "srd-5.2.1:content/spells/counterspell",
+      "source_page": 120,
+      "scope": "complete-source-record",
+      "level": 3,
+      "school": "abjuration",
+      "lists": [
+        "sorcerer",
+        "warlock",
+        "wizard"
+      ],
+      "casting_time": "reaction",
+      "range": {
+        "kind": "feet",
+        "feet": 60
+      },
+      "target": {
+        "shape": "single",
+        "count": 1,
+        "eligibility": "creature-in-range"
+      },
+      "components": {
+        "verbal": false,
+        "somatic": true,
+        "material": null
+      },
+      "ritual": false,
+      "concentration": false,
+      "duration": "instantaneous",
+      "duration_seconds": 0,
+      "scaling": {
+        "kind": "none",
+        "above_level": 0,
+        "dice_count": 0,
+        "die_sides": 0,
+        "effect_ids": []
+      },
+      "effects": [
+        {
+          "id": "interrupt",
+          "mechanic": "counter.counterspell-interrupt",
+          "timing": "failed-constitution-save",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "refund",
+          "mechanic": "slot.counterspell-not-expended",
+          "timing": "failed-save-if-cast-with-spell-slot",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "counter.counterspell-interrupt",
+        "slot.counterspell-not-expended",
+        "cast.reaction-trigger",
+        "save.constitution",
+        "cost.wasted-on-failed-save"
+      ],
+      "slot_levels": [
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 0,
+        "casting_triggers": [
+          "creature-within-60-feet-casting-spell-with-verbal-somatic-or-material-components"
+        ],
+        "end_timing": "instantaneous",
+        "counter": {
+          "trigger_range_feet": 60,
+          "trigger_components": [
+            "verbal",
+            "somatic",
+            "material"
+          ],
+          "trigger_visibility": "you-see-the-creature",
+          "save": "constitution",
+          "failure_result": "spell-dissipates-with-no-effect",
+          "wasted_costs": [
+            "action",
+            "bonus-action",
+            "reaction"
+          ],
+          "slot_refund": "slot-not-expended-if-cast-with-spell-slot"
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/create-food-and-water",
+      "name": "Create Food and Water",
+      "source_id": "srd-5.2.1:content/spells/create-food-and-water",
+      "source_page": 120,
+      "scope": "complete-source-record",
+      "level": 3,
+      "school": "conjuration",
+      "lists": [
+        "cleric",
+        "paladin"
+      ],
+      "casting_time": "action",
+      "range": {
+        "kind": "feet",
+        "feet": 30
+      },
+      "target": {
+        "shape": "choice",
+        "count": 1,
+        "eligibility": "ground-or-containers-in-range"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": null
+      },
+      "ritual": false,
+      "concentration": false,
+      "duration": "instantaneous",
+      "duration_seconds": 0,
+      "scaling": {
+        "kind": "none",
+        "above_level": 0,
+        "dice_count": 0,
+        "die_sides": 0,
+        "effect_ids": []
+      },
+      "effects": [
+        {
+          "id": "food",
+          "mechanic": "create.food-45-pounds",
+          "timing": "on-cast",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "water",
+          "mechanic": "create.water-30-gallons",
+          "timing": "on-cast",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "spoil",
+          "mechanic": "time.food-spoils-24-hours",
+          "timing": "uneaten-after-24-hours",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "create.food-45-pounds",
+        "create.water-30-gallons",
+        "time.food-spoils-24-hours"
+      ],
+      "slot_levels": [
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 0,
+        "casting_triggers": [],
+        "end_timing": "instantaneous",
+        "provisions": {
+          "food_pounds": 45,
+          "water_gallons": 30,
+          "placement": [
+            "ground",
+            "containers-in-range"
+          ],
+          "food_quality": "bland-but-nourishing",
+          "food_form": "food-of-your-choice",
+          "water_quality": "clean",
+          "spoil_hours": 24,
+          "spoil_condition": "uneaten"
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/create-undead",
+      "name": "Create Undead",
+      "source_id": "srd-5.2.1:content/spells/create-undead",
+      "source_page": 121,
+      "scope": "complete-source-record",
+      "level": 6,
+      "school": "necromancy",
+      "lists": [
+        "cleric",
+        "warlock",
+        "wizard"
+      ],
+      "casting_time": "1-minute",
+      "range": {
+        "kind": "feet",
+        "feet": 10
+      },
+      "target": {
+        "shape": "up-to-count",
+        "count": 3,
+        "eligibility": "corpses-of-medium-or-small-humanoids-in-range"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": {
+          "description": "one 150+ GP black onyx stone for each corpse",
+          "cost_cp": 15000,
+          "consumed": false
+        }
+      },
+      "ritual": false,
+      "concentration": false,
+      "duration": "instantaneous",
+      "duration_seconds": 0,
+      "scaling": {
+        "kind": "slot-creature-table",
+        "above_level": 6,
+        "dice_count": 0,
+        "die_sides": 0,
+        "effect_ids": [
+          "animate"
+        ]
+      },
+      "effects": [
+        {
+          "id": "animate",
+          "mechanic": "undead.create-undead-ghoul",
+          "timing": "on-cast-night-only",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "command",
+          "mechanic": "command.create-undead-mental-bonus-action",
+          "timing": "bonus-action-each-turn-within-120-feet",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "control",
+          "mechanic": "control.create-undead-24-hours-reassert",
+          "timing": "24-hours-then-reassert-by-recasting",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "undead.create-undead-ghoul",
+        "command.create-undead-mental-bonus-action",
+        "control.create-undead-24-hours-reassert",
+        "restriction.night-only",
+        "scaling.creature-count-by-slot",
+        "components.priced-material",
+        "components.material",
+        "cast.one-minute"
+      ],
+      "slot_levels": [
+        6,
+        7,
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 60,
+        "casting_triggers": [],
+        "end_timing": "instantaneous",
+        "undead": {
+          "night_only": true,
+          "corpse_max": 3,
+          "corpse_sizes": [
+            "medium",
+            "small"
+          ],
+          "corpse_type": "humanoid",
+          "result": "ghoul-under-your-control",
+          "stat_block_reference": "monsters-section-stat-block",
+          "command_action": "bonus-action",
+          "command_range_feet": 120,
+          "command_scope": [
+            "any-animated-creature",
+            "several-at-once-same-command"
+          ],
+          "command_decides": [
+            "action",
+            "movement-on-next-turn",
+            "general-command"
+          ],
+          "general_command_example": "guard-a-particular-place",
+          "no_command_behavior": "dodge-and-move-only-to-avoid-harm",
+          "order_persistence": "follows-order-until-task-complete",
+          "control_hours": 24,
+          "control_ends": "stops-obeying-after-24-hours",
+          "reassert": "cast-on-creature-before-24-hour-period-ends",
+          "reassert_creatures_max": 3,
+          "reassert_instead": "rather-than-animating-new-ones",
+          "onyx_per_corpse": true,
+          "onyx_minimum_cost_cp": 15000,
+          "slot_options": [
+            {
+              "slot_level": 7,
+              "options": [
+                {
+                  "creature": "ghoul",
+                  "count": 4
+                }
+              ]
+            },
+            {
+              "slot_level": 8,
+              "options": [
+                {
+                  "creature": "ghoul",
+                  "count": 5
+                },
+                {
+                  "creature": "ghast-or-wight",
+                  "count": 2
+                }
+              ]
+            },
+            {
+              "slot_level": 9,
+              "options": [
+                {
+                  "creature": "ghoul",
+                  "count": 6
+                },
+                {
+                  "creature": "ghast-or-wight",
+                  "count": 3
+                },
+                {
+                  "creature": "mummy",
+                  "count": 2
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/create-or-destroy-water",
+      "name": "Create or Destroy Water",
+      "source_id": "srd-5.2.1:content/spells/create-or-destroy-water",
+      "source_page": 121,
+      "scope": "complete-source-record",
+      "level": 1,
+      "school": "transmutation",
+      "lists": [
+        "cleric",
+        "druid"
+      ],
+      "casting_time": "action",
+      "range": {
+        "kind": "feet",
+        "feet": 30
+      },
+      "target": {
+        "shape": "choice",
+        "count": 1,
+        "eligibility": "container-or-cube-in-range"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": {
+          "description": "a mix of water and sand",
+          "cost_cp": 0,
+          "consumed": false
+        }
+      },
+      "ritual": false,
+      "concentration": false,
+      "duration": "instantaneous",
+      "duration_seconds": 0,
+      "scaling": {
+        "kind": "slot-increment",
+        "above_level": 1,
+        "dice_count": 0,
+        "die_sides": 0,
+        "effect_ids": [
+          "create",
+          "destroy"
+        ]
+      },
+      "effects": [
+        {
+          "id": "create",
+          "mechanic": "water.create-or-destroy-water-create",
+          "timing": "chosen-on-cast",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "destroy",
+          "mechanic": "water.create-or-destroy-water-destroy",
+          "timing": "chosen-on-cast",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "water.create-or-destroy-water-create",
+        "water.create-or-destroy-water-destroy",
+        "choice.create-or-destroy",
+        "area.cube-30",
+        "scaling.per-slot-increment",
+        "components.material"
+      ],
+      "slot_levels": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 0,
+        "casting_triggers": [],
+        "end_timing": "instantaneous",
+        "water_create": {
+          "choices": [
+            "create-water",
+            "destroy-water"
+          ],
+          "create_gallons": 10,
+          "create_container": "open-container",
+          "create_alternative": "rain-in-cube-extinguishing-exposed-flames",
+          "destroy_gallons": 10,
+          "destroy_container": "open-container",
+          "destroy_alternative": "destroy-fog-in-cube",
+          "cube_feet": 30,
+          "additional_gallons_per_slot": 10,
+          "additional_cube_feet_per_slot": 5
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/creation",
+      "name": "Creation",
+      "source_id": "srd-5.2.1:content/spells/creation",
+      "source_page": 121,
+      "scope": "complete-source-record",
+      "level": 5,
+      "school": "illusion",
+      "lists": [
+        "sorcerer",
+        "wizard"
+      ],
+      "casting_time": "1-minute",
+      "range": {
+        "kind": "feet",
+        "feet": 30
+      },
+      "target": {
+        "shape": "created-effect",
+        "count": 1,
+        "eligibility": "point-in-range"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": {
+          "description": "a paintbrush",
+          "cost_cp": 0,
+          "consumed": false
+        }
+      },
+      "ritual": false,
+      "concentration": false,
+      "duration": "special",
+      "duration_seconds": 0,
+      "scaling": {
+        "kind": "slot-increment",
+        "above_level": 5,
+        "dice_count": 0,
+        "die_sides": 0,
+        "effect_ids": [
+          "object"
+        ]
+      },
+      "effects": [
+        {
+          "id": "object",
+          "mechanic": "create.creation-object",
+          "timing": "duration-by-material-shortest-if-multiple",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "component-failure",
+          "mechanic": "restriction.creation-material-component",
+          "timing": "used-as-another-spell-material-component",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "create.creation-object",
+        "restriction.creation-material-component",
+        "duration.special-by-material",
+        "table.creation-materials",
+        "limit.cube-5-feet",
+        "scaling.per-slot-increment",
+        "cast.one-minute",
+        "components.material"
+      ],
+      "slot_levels": [
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 60,
+        "casting_triggers": [],
+        "end_timing": "object-duration-by-material",
+        "creation": {
+          "origin": "shadowfell",
+          "matter_kinds": [
+            "vegetable-matter",
+            "mineral-matter"
+          ],
+          "vegetable_examples": [
+            "soft-goods",
+            "rope",
+            "wood"
+          ],
+          "mineral_examples": [
+            "stone",
+            "crystal",
+            "metal"
+          ],
+          "max_cube_feet": 5,
+          "form_requirement": "form-and-material-you-have-seen",
+          "duration_rule": "depends-on-object-material",
+          "multiple_materials": "shortest-duration",
+          "material_component_use": "other-spell-fails",
+          "materials": [
+            {
+              "material": "vegetable-matter",
+              "duration_seconds": 86400
+            },
+            {
+              "material": "stone-or-crystal",
+              "duration_seconds": 43200
+            },
+            {
+              "material": "precious-metals",
+              "duration_seconds": 3600
+            },
+            {
+              "material": "gems",
+              "duration_seconds": 600
+            },
+            {
+              "material": "adamantine-or-mithral",
+              "duration_seconds": 60
+            }
+          ],
+          "additional_cube_feet_per_slot": 5
+        }
+      }
+    }
+  ]
+}
