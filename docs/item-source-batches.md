@@ -326,6 +326,66 @@ Composing the Healing contract fixture with batches #225 to #229 and #230 yields
 ```sh
 rtk proxy python3 -I scripts/verify_srd_items_230.py /path/to/SRD_CC_v5.2.1.pdf
 ```
+```
+
+## Magic items 07 (#231), pp. 220–223
+
+Twelve families and 25 variants, in planning inventory order. Files:
+`item_details_231.go`, `testdata/items_231.json`, `items_231_test.go` and
+`scripts/verify_srd_items_231.py`. `item_source.go` is unchanged.
+
+| Family | Page | Variants | Typed payload |
+| --- | --- | --- | --- |
+| Energy Bow | 220 | `standard` (Very Rare, attunement) | `energy_bow`: three properties |
+| Eversmoking Bottle | 220 | `standard` (Uncommon) | `eversmoking_bottle`: continues onto p. 221 |
+| Eyes of Charming | 221 | `standard` (Uncommon, attunement) | `eyes_of_charming`: 3 charges |
+| Eyes of Minute Seeing | 221 | `standard` (Uncommon) | `eyes_of_minute_seeing` |
+| Eyes of the Eagle | 221 | `standard` (Uncommon) | `eyes_of_the_eagle` |
+| Feather Token | 221 | `anchor`, `bird`, `fan`, `swan-boat`, `tree`, `whip` | `feather_token`: its 1d100 row and numeric facts |
+| Figurine of Wondrous Power | 221 | nine printed figurines, `bronze-griffon` to `silver-raven` | `figurine`: shared rules and its forms; continues onto p. 222 |
+| Flame Tongue | 223 | `standard` (Rare, attunement) | `flame_tongue` |
+| Folding Boat | 223 | `standard` (Rare) | `folding_boat`: three command words |
+| Frost Brand | 223 | `standard` (Very Rare, attunement) | `frost_brand` |
+| Gauntlets of Ogre Power | 223 | `standard` (Uncommon, attunement) | `gauntlets_of_ogre_power` |
+| Gem of Brightness | 223 | `standard` (Uncommon) | `gem_of_brightness`: 50 charges, three command words |
+
+Variant rules used in this batch:
+
+- Feather Token and Figurine of Wondrous Power print "Rarity Varies". Each printed
+  kind is a variant named as printed, with the rarity printed after its name.
+  The six rows of the Feather Tokens table are payload data (`table_min`,
+  `table_max`; a printed `00` is stored as 100), not separate records.
+- All variants of a family share one payload type, so per-kind numbers are
+  `ItemFact231` entries: a key, a non-negative amount and a unit. The unit
+  `minus` marks an amount printed with a minus sign (the Giant Fly's modifiers
+  and saves for Intelligence and Charisma).
+- Ivory Goats is one variant with three forms (Goat of Terror, Goat of
+  Traveling, Goat of Travail), because the source prints one heading and one
+  rarity. The Goat of Traveling has no hour limit; its `duration_hours` is 0 and
+  its 24 charges are facts of that form, not the variant's charge pool.
+- The Ebony Fly's accompanying Giant Fly stat block is recorded as facts of that
+  form. Creature names are keys, not links to monster records.
+- The Energy Bow's, Flame Tongue's and Frost Brand's base weapons are base item
+  options, not variants.
+
+Eyes of Charming (3 charges, regains all at dawn) and the Gem of Brightness (50
+charges, no recharge) are the only families with a charge pool. Their
+`per_use` is 1, the least a use costs; the Eyes accept more charges and the
+gem's command words cost 0, 1 and 5, all recorded in the payloads. The 50 GP
+value of the depleted gem is a payload fact, not a price: every cost stays
+unspecified. The Frost Brand's once-per-hour property is a use limit, not a
+charge pool.
+
+Composing the Healing contract fixture with batches #225 to #230 and this batch yields 85
+families and 123 variants with no shared identity. The Healing fixture,
+`ResolveHealingPotion` and the coverage register are unchanged.
+
+The comparison script reads pp. 220–223 as one text stream, so the Eversmoking
+Bottle and the figurine text continue across their page breaks.
+
+```sh
+rtk proxy python3 -I scripts/verify_srd_items_231.py /path/to/SRD_CC_v5.2.1.pdf
+```
 
 This work includes material from the System Reference Document 5.2.1 (“SRD
 5.2.1”) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd.
