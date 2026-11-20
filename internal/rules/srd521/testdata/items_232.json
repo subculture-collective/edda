@@ -1,0 +1,1320 @@
+{
+  "schema_version": 1,
+  "rules_version": "srd-5.2.1",
+  "batch": "data-magic-items-08",
+  "catalogue_issue": 232,
+  "source": {
+    "version": "5.2.1",
+    "language": "en",
+    "landing_url": "https://www.dndbeyond.com/srd",
+    "artifact_url": "https://media.dndbeyond.com/compendium-images/srd/5.2/SRD_CC_v5.2.1.pdf",
+    "sha256": "8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87",
+    "bytes": 6031375,
+    "pages": 364,
+    "retrieved_at": "2026-11-15",
+    "license": "CC-BY-4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/legalcode",
+    "attribution": "This work includes material from the System Reference Document 5.2.1 (“SRD 5.2.1”) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd. The SRD 5.2.1 is licensed under the Creative Commons Attribution 4.0 International License, available at https://creativecommons.org/licenses/by/4.0/legalcode.",
+    "changes": "SRD 5.2.1 pp. 223–225 adapted into twelve versioned magic-item families (Gem of Seeing through Headband of Intellect) with explicit variant identities, structured requirements and typed source values. Names, numeric rules and key phrases are adapted into keys; no rules prose is reproduced. Prices are not listed and remain unspecified. Catalogue data grants no inventory, action or gameplay permissions; every record is unavailable."
+  },
+  "families": [
+    {
+      "id": "srd-5.2.1:content/items/gem-of-seeing",
+      "name": "Gem of Seeing",
+      "kind": "magic",
+      "category": "wondrous-item",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/gem-of-seeing",
+          "pages": [
+            223,
+            223
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/gem-of-seeing/variant/standard",
+          "name": "Gem of Seeing",
+          "rarity": "rare",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "limited",
+            "maximum": 3,
+            "per_use": 1,
+            "recharge": "regain-1d3-at-dawn"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "magic-action",
+            "restrictions": [
+              "expend-one-charge"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              223,
+              223
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "item.charges",
+            "action.magic",
+            "senses.truesight-120-feet",
+            "duration.ten-minutes",
+            "item.peer-through-gem"
+          ],
+          "details": {
+            "gem_of_seeing": {
+              "max_charges": 3,
+              "action": "magic",
+              "charge_cost": 1,
+              "sense": "truesight",
+              "sense_range_feet": 120,
+              "condition": "peering-through-gem",
+              "duration_seconds": 600,
+              "recharge": {
+                "dice": 1,
+                "sides": 3,
+                "type": "charges"
+              },
+              "recharge_when": "daily-at-dawn"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/giant-slayer",
+      "name": "Giant Slayer",
+      "kind": "magic",
+      "category": "weapon",
+      "base": {
+        "options": [
+          "any-simple-weapon",
+          "any-martial-weapon"
+        ],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/giant-slayer",
+          "pages": [
+            223,
+            223
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/giant-slayer/variant/standard",
+          "name": "Giant Slayer",
+          "rarity": "rare",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wield",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "weapon-attack",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              223,
+              223
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.magic-weapon",
+            "bonus.attack-and-damage-1",
+            "damage.extra-2d6-against-giants",
+            "save.strength-dc-15",
+            "condition.prone"
+          ],
+          "details": {
+            "giant_slayer": {
+              "attack_bonus": 1,
+              "damage_bonus": 1,
+              "trigger": "hit-giant-with-weapon",
+              "target_creature_type": "giant",
+              "extra_damage": {
+                "dice": 2,
+                "sides": 6,
+                "type": "weapon-type"
+              },
+              "save_ability": "strength",
+              "save_dc": 15,
+              "condition": "prone"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/glamoured-studded-leather",
+      "name": "Glamoured Studded Leather",
+      "kind": "magic",
+      "category": "armor",
+      "base": {
+        "options": [
+          "studded-leather-armor"
+        ],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/glamoured-studded-leather",
+          "pages": [
+            223,
+            223
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/glamoured-studded-leather/variant/standard",
+          "name": "Glamoured Studded Leather",
+          "rarity": "rare",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wear",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "bonus-action",
+            "restrictions": [
+              "assume-appearance-of-clothing-or-armor"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              223,
+              223
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.wear",
+            "defense.armor-class-bonus-1",
+            "action.bonus-action",
+            "effect.illusory-appearance",
+            "item.retains-bulk-and-weight",
+            "effect.appearance-lasts-until-used-again-or-doffed"
+          ],
+          "details": {
+            "glamoured_studded_leather": {
+              "armor_class_bonus": 1,
+              "action": "bonus",
+              "appearance": "normal-clothing-or-other-armor",
+              "chosen_details": [
+                "color",
+                "style",
+                "accessories"
+              ],
+              "retains_bulk_and_weight": true,
+              "ends_on": [
+                "use-property-again",
+                "doff-armor"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/gloves-of-missile-snaring",
+      "name": "Gloves of Missile Snaring",
+      "kind": "magic",
+      "category": "wondrous-item",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/gloves-of-missile-snaring",
+          "pages": [
+            224,
+            224
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/gloves-of-missile-snaring/variant/standard",
+          "name": "Gloves of Missile Snaring",
+          "rarity": "uncommon",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wear",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "reaction",
+            "restrictions": [
+              "hit-by-ranged-or-thrown-attack",
+              "free-hand"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              224,
+              224
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "item.wear",
+            "action.reaction",
+            "damage.reduce-1d10-plus-dexterity-modifier",
+            "item.free-hand-required",
+            "item.catch-ammunition-or-weapon"
+          ],
+          "details": {
+            "gloves_of_missile_snaring": {
+              "trigger": "hit-by-ranged-or-thrown-weapon-attack-roll",
+              "action": "reaction",
+              "reduction": {
+                "dice": 1,
+                "sides": 10,
+                "type": "damage-reduction"
+              },
+              "reduction_bonus_ability": "dexterity",
+              "requires_free_hand": true,
+              "catch_condition": "damage-reduced-to-0",
+              "catchable": "ammunition-or-weapon-small-enough-to-hold-in-that-hand"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/gloves-of-swimming-and-climbing",
+      "name": "Gloves of Swimming and Climbing",
+      "kind": "magic",
+      "category": "wondrous-item",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/gloves-of-swimming-and-climbing",
+          "pages": [
+            224,
+            224
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/gloves-of-swimming-and-climbing/variant/standard",
+          "name": "Gloves of Swimming and Climbing",
+          "rarity": "uncommon",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wear",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              224,
+              224
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "item.wear",
+            "movement.climb-speed-equals-speed",
+            "movement.swim-speed-equals-speed",
+            "check.athletics-bonus-5-climb-or-swim"
+          ],
+          "details": {
+            "gloves_of_swimming_and_climbing": {
+              "condition": "while-wearing",
+              "climb_speed": "equal-to-speed",
+              "swim_speed": "equal-to-speed",
+              "check_bonus": 5,
+              "check_ability": "strength",
+              "check_skill": "athletics",
+              "check_subjects": [
+                "climb",
+                "swim"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/gloves-of-thievery",
+      "name": "Gloves of Thievery",
+      "kind": "magic",
+      "category": "wondrous-item",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/gloves-of-thievery",
+          "pages": [
+            224,
+            224
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/gloves-of-thievery/variant/standard",
+          "name": "Gloves of Thievery",
+          "rarity": "uncommon",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wear",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              224,
+              224
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.wear",
+            "item.imperceptible-while-worn",
+            "check.sleight-of-hand-bonus-5"
+          ],
+          "details": {
+            "gloves_of_thievery": {
+              "appearance": "imperceptible-while-worn",
+              "condition": "while-wearing",
+              "check_bonus": 5,
+              "check_ability": "dexterity",
+              "check_skill": "sleight-of-hand"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/goggles-of-night",
+      "name": "Goggles of Night",
+      "kind": "magic",
+      "category": "wondrous-item",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/goggles-of-night",
+          "pages": [
+            224,
+            224
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/goggles-of-night/variant/standard",
+          "name": "Goggles of Night",
+          "rarity": "uncommon",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wear",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              224,
+              224
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.wear",
+            "vision.darkvision-60-feet",
+            "vision.darkvision-increase-60-feet"
+          ],
+          "details": {
+            "goggles_of_night": {
+              "appearance": "dark-lenses",
+              "condition": "while-wearing",
+              "darkvision_feet": 60,
+              "existing_darkvision_increase_feet": 60
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/hammer-of-thunderbolts",
+      "name": "Hammer of Thunderbolts",
+      "kind": "magic",
+      "category": "weapon",
+      "base": {
+        "options": [
+          "maul",
+          "warhammer"
+        ],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/hammer-of-thunderbolts",
+          "pages": [
+            224,
+            224
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/hammer-of-thunderbolts/variant/standard",
+          "name": "Hammer of Thunderbolts",
+          "rarity": "legendary",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "limited",
+            "maximum": 5,
+            "per_use": 1,
+            "recharge": "regain-1d4-plus-1-at-dawn"
+          },
+          "equip": {
+            "mode": "wield",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "weapon-attack",
+            "restrictions": [
+              "expend-one-charge",
+              "thrown-ranged-attack"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              224,
+              224
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "item.magic-weapon",
+            "bonus.attack-and-damage-1",
+            "item.charges",
+            "property.thrown-20-60",
+            "effect.thunderclap-audible-300-feet",
+            "save.constitution-dc-17",
+            "condition.stunned",
+            "item.returns-to-hand",
+            "property.giants-bane",
+            "effect.die-on-failed-save-against-giant",
+            "ability.strength-score-bonus-4-max-30"
+          ],
+          "details": {
+            "hammer_of_thunderbolts": {
+              "attack_bonus": 1,
+              "damage_bonus": 1,
+              "max_charges": 5,
+              "hurl": {
+                "charge_cost": 1,
+                "thrown_normal_range_feet": 20,
+                "thrown_long_range_feet": 60,
+                "thunderclap_audible_feet": 300,
+                "burst_radius_feet": 30,
+                "burst_excludes": "you",
+                "save_ability": "constitution",
+                "save_dc": 17,
+                "condition": "stunned",
+                "condition_ends": "end-of-your-next-turn",
+                "returns_to_hand": "immediately-after-hitting-or-missing",
+                "thunderclap_requires_hit": true
+              },
+              "recharge": {
+                "dice": 1,
+                "sides": 4,
+                "type": "charges"
+              },
+              "recharge_bonus": 1,
+              "recharge_when": "daily-at-dawn",
+              "giants_bane": {
+                "requires_attunement_to_weapon": true,
+                "requires_wearing_either": [
+                  "belt-of-giant-strength",
+                  "gauntlets-of-ogre-power"
+                ],
+                "requires_attunement_to_worn_item": true,
+                "natural_roll": 20,
+                "target_creature_type": "giant",
+                "save_ability": "constitution",
+                "save_dc": 17,
+                "failure": "die"
+              },
+              "might_of_giants": {
+                "affects": [
+                  "belt-of-giant-strength",
+                  "gauntlets-of-ogre-power"
+                ],
+                "strength_increase": 4,
+                "strength_maximum": 30
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/handy-haversack",
+      "name": "Handy Haversack",
+      "kind": "magic",
+      "category": "wondrous-item",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/handy-haversack",
+          "pages": [
+            224,
+            224
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/handy-haversack/variant/standard",
+          "name": "Handy Haversack",
+          "rarity": "rare",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "container",
+            "restrictions": [
+              "retrieve-with-utilize-or-bonus-action"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              224,
+              224
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.extradimensional-storage",
+            "item.side-pouches-200-pounds-25-cubic-feet",
+            "item.central-pouch-500-pounds-64-cubic-feet",
+            "item.weight-5-pounds",
+            "item.retrieved-item-on-top",
+            "item.destroyed-if-overloaded-pierced-or-torn",
+            "item.contents-lost-if-destroyed",
+            "item.inside-out-spills-contents",
+            "item.air-10-minutes-per-pouch",
+            "item.nested-extradimensional-space-opens-astral-gate"
+          ],
+          "details": {
+            "handy_haversack": {
+              "weight_pounds": 5,
+              "side_pouches": {
+                "count": 2,
+                "capacity_pounds": 200,
+                "capacity_cubic_feet": 25
+              },
+              "central_pouch": {
+                "count": 1,
+                "capacity_pounds": 500,
+                "capacity_cubic_feet": 64
+              },
+              "retrieval_actions": [
+                "utilize",
+                "bonus-action"
+              ],
+              "retrieved_item_on_top": true,
+              "rupture_triggers": [
+                "overloaded",
+                "pierced",
+                "torn"
+              ],
+              "contents_lost_when_destroyed": true,
+              "artifact_turns_up_again": true,
+              "inside_out_result": "contents-spill-unharmed-and-haversack-must-be-put-right",
+              "air_minutes_per_pouch": 10,
+              "air_divided_by": "breathing-creatures-inside",
+              "nested_extradimensional_space": {
+                "items": [
+                  "bag-of-holding",
+                  "portable-hole",
+                  "similar-item"
+                ],
+                "result": "both-items-destroyed",
+                "gate_to": "astral-plane",
+                "gate_radius_feet": 10,
+                "spared_by": "total-cover",
+                "destination": "random-location-on-astral-plane",
+                "gate_closes_after": true,
+                "gate_one_way": true,
+                "gate_reopens": false
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/hat-of-disguise",
+      "name": "Hat of Disguise",
+      "kind": "magic",
+      "category": "wondrous-item",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/hat-of-disguise",
+          "pages": [
+            224,
+            224
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/hat-of-disguise/variant/standard",
+          "name": "Hat of Disguise",
+          "rarity": "uncommon",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wear",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "cast-spell",
+            "restrictions": [
+              "disguise-self"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              224,
+              224
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "item.wear",
+            "spell.cast-disguise-self",
+            "item.spell-ends-when-removed"
+          ],
+          "details": {
+            "hat_of_disguise": {
+              "condition": "while-wearing",
+              "spell": "disguise-self",
+              "ends_when": "hat-removed"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/hat-of-many-spells",
+      "name": "Hat of Many Spells",
+      "kind": "magic",
+      "category": "wondrous-item",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/hat-of-many-spells",
+          "pages": [
+            224,
+            224
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/hat-of-many-spells/variant/standard",
+          "name": "Hat of Many Spells",
+          "rarity": "very-rare",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "hold",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "cast-spell",
+            "restrictions": [
+              "unknown-wizard-spell",
+              "until-short-or-long-rest-after-success"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              224,
+              224
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "attunement.wizard",
+            "item.hold",
+            "spell.focus-wizard-spells",
+            "spell.added-somatic-component",
+            "spell.cast-unknown-wizard-spell",
+            "check.intelligence-arcana-dc-10-plus-spell-level",
+            "item.spell-slot-expended",
+            "table.failure-1d100",
+            "spell.uses-your-save-dc-and-attack-bonus"
+          ],
+          "details": {
+            "hat_of_many_spells": {
+              "source_pages": [
+                224,
+                225
+              ],
+              "attunement_class": "wizard",
+              "condition": "while-holding",
+              "focus_spell_list": "wizard",
+              "added_somatic_component": "reach-into-hat-and-pull-spell-out",
+              "unknown_spell": {
+                "min_spell_level": 1,
+                "spell_list": "wizard",
+                "level_limit": "level-you-can-cast",
+                "material_cost_limit_gp": 1000,
+                "slot_expended": "spell-level",
+                "check_ability": "intelligence",
+                "check_skill": "arcana",
+                "check_dc_base": 10,
+                "check_dc_adds": "spell-level",
+                "success_casting_time": "normal-casting-time",
+                "success_lockout_until": "short-or-long-rest",
+                "failure_result": "fail-to-cast-and-random-effect",
+                "table_die_sides": 100
+              },
+              "spell_stats": "your-spell-save-dc-and-spell-attack-bonus",
+              "failure_table": [
+                {
+                  "min": 1,
+                  "max": 50,
+                  "effect": "cast-random-spell",
+                  "sub_die_sides": 10,
+                  "outcomes": [
+                    {
+                      "min": 1,
+                      "max": 1,
+                      "result": "enlarge-reduce-enlarge-effect"
+                    },
+                    {
+                      "min": 2,
+                      "max": 2,
+                      "result": "enlarge-reduce-reduce-effect"
+                    },
+                    {
+                      "min": 3,
+                      "max": 3,
+                      "result": "faerie-fire"
+                    },
+                    {
+                      "min": 4,
+                      "max": 4,
+                      "result": "fireball"
+                    },
+                    {
+                      "min": 5,
+                      "max": 5,
+                      "result": "gust-of-wind"
+                    },
+                    {
+                      "min": 6,
+                      "max": 6,
+                      "result": "invisibility-cast-on-yourself"
+                    },
+                    {
+                      "min": 7,
+                      "max": 7,
+                      "result": "lightning-bolt"
+                    },
+                    {
+                      "min": 8,
+                      "max": 8,
+                      "result": "phantasmal-force"
+                    },
+                    {
+                      "min": 9,
+                      "max": 9,
+                      "result": "polymorph"
+                    },
+                    {
+                      "min": 10,
+                      "max": 10,
+                      "result": "stinking-cloud"
+                    }
+                  ],
+                  "facts": [],
+                  "traits": []
+                },
+                {
+                  "min": 51,
+                  "max": 55,
+                  "effect": "stunned-condition",
+                  "sub_die_sides": 0,
+                  "outcomes": [],
+                  "facts": [],
+                  "traits": [
+                    "until-end-of-your-next-turn",
+                    "believing-something-awesome-happened"
+                  ]
+                },
+                {
+                  "min": 56,
+                  "max": 60,
+                  "effect": "harmless-swarm-of-butterflies",
+                  "sub_die_sides": 0,
+                  "outcomes": [],
+                  "facts": [
+                    {
+                      "key": "cube-size",
+                      "amount": 10,
+                      "unit": "feet"
+                    },
+                    {
+                      "key": "range",
+                      "amount": 30,
+                      "unit": "feet"
+                    },
+                    {
+                      "key": "disperses-after",
+                      "amount": 1,
+                      "unit": "minutes"
+                    }
+                  ],
+                  "traits": [
+                    "swarm-fills-cube-within-range-of-yourself"
+                  ]
+                },
+                {
+                  "min": 61,
+                  "max": 65,
+                  "effect": "pull-nonmagical-object",
+                  "sub_die_sides": 4,
+                  "outcomes": [
+                    {
+                      "min": 1,
+                      "max": 1,
+                      "result": "vial-of-acid"
+                    },
+                    {
+                      "min": 2,
+                      "max": 2,
+                      "result": "flask-of-alchemists-fire"
+                    },
+                    {
+                      "min": 3,
+                      "max": 3,
+                      "result": "crowbar"
+                    },
+                    {
+                      "min": 4,
+                      "max": 4,
+                      "result": "lit-torch"
+                    }
+                  ],
+                  "facts": [],
+                  "traits": []
+                },
+                {
+                  "min": 66,
+                  "max": 70,
+                  "effect": "magic-sickness-poisoned-condition",
+                  "sub_die_sides": 0,
+                  "outcomes": [],
+                  "facts": [
+                    {
+                      "key": "duration",
+                      "amount": 1,
+                      "unit": "hours"
+                    }
+                  ],
+                  "traits": []
+                },
+                {
+                  "min": 71,
+                  "max": 75,
+                  "effect": "petrified-condition",
+                  "sub_die_sides": 0,
+                  "outcomes": [],
+                  "facts": [],
+                  "traits": [
+                    "until-end-of-your-next-turn"
+                  ]
+                },
+                {
+                  "min": 76,
+                  "max": 80,
+                  "effect": "pull-nonmagical-object",
+                  "sub_die_sides": 4,
+                  "outcomes": [
+                    {
+                      "min": 1,
+                      "max": 1,
+                      "result": "dagger"
+                    },
+                    {
+                      "min": 2,
+                      "max": 2,
+                      "result": "rope-with-grappling-hook-tied-to-one-end"
+                    },
+                    {
+                      "min": 3,
+                      "max": 3,
+                      "result": "bag-of-caltrops"
+                    },
+                    {
+                      "min": 4,
+                      "max": 4,
+                      "result": "gem-worth-50-gp"
+                    }
+                  ],
+                  "facts": [
+                    {
+                      "key": "gem-value",
+                      "amount": 50,
+                      "unit": "gp"
+                    }
+                  ],
+                  "traits": []
+                },
+                {
+                  "min": 81,
+                  "max": 85,
+                  "effect": "creature-appears",
+                  "sub_die_sides": 4,
+                  "outcomes": [
+                    {
+                      "min": 1,
+                      "max": 1,
+                      "result": "camel"
+                    },
+                    {
+                      "min": 2,
+                      "max": 2,
+                      "result": "constrictor-snake"
+                    },
+                    {
+                      "min": 3,
+                      "max": 3,
+                      "result": "elephant"
+                    },
+                    {
+                      "min": 4,
+                      "max": 4,
+                      "result": "mule"
+                    }
+                  ],
+                  "facts": [
+                    {
+                      "key": "duration",
+                      "amount": 1,
+                      "unit": "hours"
+                    }
+                  ],
+                  "traits": [
+                    "unoccupied-space-as-close-to-you-as-possible",
+                    "not-under-your-control",
+                    "acts-as-it-normally-would",
+                    "disappears-when-duration-elapses",
+                    "disappears-at-0-hit-points"
+                  ]
+                },
+                {
+                  "min": 86,
+                  "max": 90,
+                  "effect": "hostile-swarm-of-bats",
+                  "sub_die_sides": 0,
+                  "outcomes": [],
+                  "facts": [],
+                  "traits": [
+                    "flies-out-of-hat",
+                    "occupies-your-space",
+                    "attacks-you"
+                  ]
+                },
+                {
+                  "min": 91,
+                  "max": 95,
+                  "effect": "two-way-portal-to-another-plane",
+                  "sub_die_sides": 0,
+                  "outcomes": [],
+                  "facts": [
+                    {
+                      "key": "portal-diameter",
+                      "amount": 10,
+                      "unit": "feet"
+                    },
+                    {
+                      "key": "range",
+                      "amount": 30,
+                      "unit": "feet"
+                    }
+                  ],
+                  "traits": [
+                    "vertical",
+                    "unoccupied-space-within-range",
+                    "open-until-end-of-your-next-turn",
+                    "gm-determines-destination"
+                  ]
+                },
+                {
+                  "min": 96,
+                  "max": 100,
+                  "effect": "pull-magic-item",
+                  "sub_die_sides": 6,
+                  "outcomes": [
+                    {
+                      "min": 1,
+                      "max": 3,
+                      "result": "common"
+                    },
+                    {
+                      "min": 4,
+                      "max": 5,
+                      "result": "uncommon"
+                    },
+                    {
+                      "min": 6,
+                      "max": 6,
+                      "result": "rare"
+                    }
+                  ],
+                  "facts": [
+                    {
+                      "key": "disappears-after",
+                      "amount": 1,
+                      "unit": "hours"
+                    }
+                  ],
+                  "traits": [
+                    "gm-chooses-item",
+                    "disappears-if-not-consumed-or-destroyed"
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/headband-of-intellect",
+      "name": "Headband of Intellect",
+      "kind": "magic",
+      "category": "wondrous-item",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/headband-of-intellect",
+          "pages": [
+            225,
+            225
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/headband-of-intellect/variant/standard",
+          "name": "Headband of Intellect",
+          "rarity": "uncommon",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wear",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              225,
+              225
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "item.wear",
+            "ability.intelligence-score-19"
+          ],
+          "details": {
+            "headband_of_intellect": {
+              "condition": "while-wearing",
+              "ability": "intelligence",
+              "score": 19,
+              "no_effect_at_or_above_score": 19
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

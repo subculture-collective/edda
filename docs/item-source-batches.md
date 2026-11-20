@@ -386,6 +386,57 @@ Bottle and the figurine text continue across their page breaks.
 rtk proxy python3 -I scripts/verify_srd_items_231.py /path/to/SRD_CC_v5.2.1.pdf
 ```
 
+## Magic items 08 (#232), pp. 223–225
+
+Twelve families and 12 variants, in planning inventory order. Files:
+`item_details_232.go`, `testdata/items_232.json`, `items_232_test.go` and
+`scripts/verify_srd_items_232.py`. `item_source.go` is unchanged.
+
+| Family | Page | Variants | Typed payload |
+| --- | --- | --- | --- |
+| Gem of Seeing | 223 | `standard` (Rare, attunement) | `gem_of_seeing`: 3 charges, regains 1d3 at dawn |
+| Giant Slayer | 223 | `standard` (Rare) | `giant_slayer` |
+| Glamoured Studded Leather | 223 | `standard` (Rare) | `glamoured_studded_leather` |
+| Gloves of Missile Snaring | 224 | `standard` (Uncommon, attunement) | `gloves_of_missile_snaring` |
+| Gloves of Swimming and Climbing | 224 | `standard` (Uncommon, attunement) | `gloves_of_swimming_and_climbing` |
+| Gloves of Thievery | 224 | `standard` (Uncommon) | `gloves_of_thievery` |
+| Goggles of Night | 224 | `standard` (Uncommon) | `goggles_of_night` |
+| Hammer of Thunderbolts | 224 | `standard` (Legendary, attunement) | `hammer_of_thunderbolts`: 5 charges, regains 1d4 + 1 at dawn |
+| Handy Haversack | 224 | `standard` (Rare) | `handy_haversack`: pouches and the nested-space gate |
+| Hat of Disguise | 224 | `standard` (Uncommon, attunement) | `hat_of_disguise` |
+| Hat of Many Spells | 224 | `standard` (Very Rare, attunement by a Wizard) | `hat_of_many_spells`: continues onto p. 225 |
+| Headband of Intellect | 225 | `standard` (Uncommon, attunement) | `headband_of_intellect` |
+
+Variant rules used in this batch:
+
+- No family in this batch prints several kinds or "Rarity Varies", so each has one
+  `standard` variant named as printed.
+- The Hat of Many Spells is attuned by a Wizard. The shared attunement field has
+  no class slot and stays `required` with no restrictions; the class is the
+  payload fact `attunement_class` and the mechanic key `attunement.wizard`.
+- The Hat's failure table is payload data: eleven rows (`min`, `max`; a printed
+  `00` is stored as 100) whose further rolls (d10, d4 and d6) are `outcomes`
+  that must cover their die exactly once. The Hat is listed on p. 224; its text
+  and table continue on p. 225, recorded as `source_pages` [224, 225].
+- Gem of Seeing (3 charges) and Hammer of Thunderbolts (5 charges) are the only
+  families with a charge pool. Their `per_use` is 1. The Hammer's Giant's Bane
+  benefits are payload data of the Hammer, not separate records. The 50 GP gem and
+  1,000 GP component limit in the Hat's rows are payload facts, not prices: every
+  cost stays unspecified.
+- Belt of Giant Strength, Gauntlets of Ogre Power, Bag of Holding and Portable Hole
+  appear only as keys; they are not links to item records.
+
+Composing the Healing contract fixture with batches #225 to #231 and this batch yields 97
+families and 135 variants with no shared identity. The Healing fixture,
+`ResolveHealingPotion` and the coverage register are unchanged.
+
+The comparison script reads pp. 223–225 as one text stream, so the Hat of Many
+Spells text and table continue across the p. 224 to p. 225 break.
+
+```sh
+rtk proxy python3 -I scripts/verify_srd_items_232.py /path/to/SRD_CC_v5.2.1.pdf
+```
+
 This work includes material from the System Reference Document 5.2.1 (“SRD
 5.2.1”) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd.
 The SRD 5.2.1 is licensed under the Creative Commons Attribution 4.0 International
