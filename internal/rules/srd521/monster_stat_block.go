@@ -315,5 +315,5 @@ func (m Monster) validateStatBlock() error {
 			}
 		}
 	}
-	return nil
+	return m.validateStatBlockNotes()
 }

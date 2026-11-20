@@ -1,0 +1,2503 @@
+{
+  "schema_version": 1,
+  "source": {
+    "version": "5.2.1",
+    "language": "en",
+    "landing_url": "https://www.dndbeyond.com/srd",
+    "artifact_url": "https://media.dndbeyond.com/compendium-images/srd/5.2/SRD_CC_v5.2.1.pdf",
+    "sha256": "8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87",
+    "bytes": 6031375,
+    "pages": 364,
+    "retrieved_at": "2026-11-15",
+    "license": "CC-BY-4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/legalcode",
+    "attribution": "This work includes material from the System Reference Document 5.2.1 (“SRD 5.2.1”) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd. The SRD 5.2.1 is licensed under the Creative Commons Attribution 4.0 International License, available at https://creativecommons.org/licenses/by/4.0/legalcode.",
+    "changes": "Adapted the twelve stat blocks of issue #154 (Azer Sentinel, Baboon, Badger, Balor, Bandit, Bandit Captain, Barbed Devil, Basilisk, Bat, Bearded Devil, Behir and Berserker; PDF pages 261–263 and 345) into typed mechanical fields and implementation keys. Trait, action, bonus action and reaction entries keep their source rules text, rejoined across line, column and page breaks; descriptive prose outside the stat blocks is omitted. The Bandit record repeats the revision already catalogued for issue #143 unchanged. A ranged attack printed with one range repeats it as its long range, and a hit printed without dice keeps explicit zero dice. No playable NPC behavior is granted."
+  },
+  "monsters": [
+    {
+      "id": "srd-5.2.1:content/monsters/azer-sentinel",
+      "name": "Azer Sentinel",
+      "source_pages": [
+        261,
+        261
+      ],
+      "sizes": [
+        "medium"
+      ],
+      "type": "elemental",
+      "alignment": "Lawful Neutral",
+      "ac": 17,
+      "hp": {
+        "average": 39,
+        "dice": 6,
+        "sides": 8,
+        "modifier": 12
+      },
+      "initiative": {
+        "modifier": 1,
+        "score": 11
+      },
+      "speeds": {
+        "walk": 30
+      },
+      "abilities": {
+        "str": {
+          "score": 17,
+          "modifier": 3,
+          "save": 3
+        },
+        "dex": {
+          "score": 12,
+          "modifier": 1,
+          "save": 1
+        },
+        "con": {
+          "score": 15,
+          "modifier": 2,
+          "save": 4
+        },
+        "int": {
+          "score": 12,
+          "modifier": 1,
+          "save": 1
+        },
+        "wis": {
+          "score": 13,
+          "modifier": 1,
+          "save": 1
+        },
+        "cha": {
+          "score": 10,
+          "modifier": 0,
+          "save": 0
+        }
+      },
+      "senses": {
+        "passive_perception": 11,
+        "special": {}
+      },
+      "languages": [
+        "Primordial (Ignan)"
+      ],
+      "gear": [],
+      "cr": "2",
+      "xp": 450,
+      "proficiency_bonus": 2,
+      "traits": [
+        {
+          "key": "trait/fire-aura",
+          "name": "Fire Aura",
+          "text": "Fire Aura. At the end of each of the azer’s turns, each creature of the azer’s choice in a 5-foot Emanation originating from the azer takes 5 (1d10) Fire damage unless the azer has the Incapacitated condition.",
+          "target": {
+            "shape": "emanation",
+            "size": 5,
+            "width": 0,
+            "range": 0
+          },
+          "dice": {
+            "average": 5,
+            "dice": 1,
+            "sides": 10,
+            "modifier": 0
+          },
+          "requires": [
+            "area/emanation",
+            "effect/fire-damage",
+            "target/creatures-of-choice",
+            "requirement/not-incapacitated"
+          ]
+        },
+        {
+          "key": "trait/illumination",
+          "name": "Illumination",
+          "text": "Illumination. The azer sheds Bright Light in a 10-foot radius and Dim Light for an additional 10 feet.",
+          "requires": [
+            "effect/shed-light"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "burning-hammer",
+          "name": "Burning Hammer",
+          "text": "Burning Hammer. Melee Attack Roll: +5, reach 5 ft. Hit: 8 (1d10 + 3) Bludgeoning damage plus 3 (1d6) Fire damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 5,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 8,
+              "dice": 1,
+              "sides": 10,
+              "modifier": 3
+            },
+            "damage_type": "bludgeoning"
+          },
+          "effects": [
+            {
+              "key": "effect/bludgeoning-damage",
+              "name": "Bludgeoning damage",
+              "text": "8 (1d10 + 3) Bludgeoning damage.",
+              "dice": {
+                "average": 8,
+                "dice": 1,
+                "sides": 10,
+                "modifier": 3
+              }
+            },
+            {
+              "key": "effect/fire-damage",
+              "name": "Fire damage",
+              "text": "3 (1d6) Fire damage.",
+              "dice": {
+                "average": 3,
+                "dice": 1,
+                "sides": 6,
+                "modifier": 0
+              }
+            }
+          ]
+        }
+      ],
+      "immunities": [
+        "fire",
+        "poison"
+      ],
+      "condition_immunities": [
+        "poisoned"
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "defense/damage-immunity",
+        "defense/condition-immunity",
+        "trait/fire-aura",
+        "area/emanation",
+        "effect/fire-damage",
+        "target/creatures-of-choice",
+        "requirement/not-incapacitated",
+        "trait/illumination",
+        "effect/shed-light",
+        "action/melee-attack",
+        "effect/bludgeoning-damage"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/animals/baboon",
+      "name": "Baboon",
+      "source_pages": [
+        345,
+        345
+      ],
+      "sizes": [
+        "small"
+      ],
+      "type": "beast",
+      "alignment": "Unaligned",
+      "ac": 12,
+      "hp": {
+        "average": 3,
+        "dice": 1,
+        "sides": 6,
+        "modifier": 0
+      },
+      "initiative": {
+        "modifier": 2,
+        "score": 12
+      },
+      "speeds": {
+        "walk": 30,
+        "climb": 30
+      },
+      "abilities": {
+        "str": {
+          "score": 8,
+          "modifier": -1,
+          "save": -1
+        },
+        "dex": {
+          "score": 14,
+          "modifier": 2,
+          "save": 2
+        },
+        "con": {
+          "score": 11,
+          "modifier": 0,
+          "save": 0
+        },
+        "int": {
+          "score": 4,
+          "modifier": -3,
+          "save": -3
+        },
+        "wis": {
+          "score": 12,
+          "modifier": 1,
+          "save": 1
+        },
+        "cha": {
+          "score": 6,
+          "modifier": -2,
+          "save": -2
+        }
+      },
+      "senses": {
+        "passive_perception": 11,
+        "special": {}
+      },
+      "languages": [],
+      "gear": [],
+      "cr": "0",
+      "xp": 10,
+      "proficiency_bonus": 2,
+      "traits": [
+        {
+          "key": "trait/pack-tactics",
+          "name": "Pack Tactics",
+          "text": "Pack Tactics. The baboon has Advantage on an attack roll against a creature if at least one of the baboon’s allies is within 5 feet of the creature and the ally doesn’t have the Incapacitated condition.",
+          "requires": [
+            "attack/advantage",
+            "requirement/ally-within-5-feet",
+            "requirement/ally-not-incapacitated"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "bite",
+          "name": "Bite",
+          "text": "Bite. Melee Attack Roll: +1, reach 5 ft. Hit: 1 (1d4 − 1) Piercing damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 1,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 1,
+              "dice": 1,
+              "sides": 4,
+              "modifier": -1
+            },
+            "damage_type": "piercing"
+          },
+          "effects": [
+            {
+              "key": "effect/piercing-damage",
+              "name": "Piercing damage",
+              "text": "1 (1d4 − 1) Piercing damage.",
+              "dice": {
+                "average": 1,
+                "dice": 1,
+                "sides": 4,
+                "modifier": -1
+              }
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "movement/climb",
+        "trait/pack-tactics",
+        "attack/advantage",
+        "requirement/ally-within-5-feet",
+        "requirement/ally-not-incapacitated",
+        "action/melee-attack",
+        "effect/piercing-damage"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/animals/badger",
+      "name": "Badger",
+      "source_pages": [
+        345,
+        345
+      ],
+      "sizes": [
+        "tiny"
+      ],
+      "type": "beast",
+      "alignment": "Unaligned",
+      "ac": 11,
+      "hp": {
+        "average": 5,
+        "dice": 1,
+        "sides": 4,
+        "modifier": 3
+      },
+      "initiative": {
+        "modifier": 0,
+        "score": 10
+      },
+      "speeds": {
+        "walk": 20,
+        "burrow": 5
+      },
+      "abilities": {
+        "str": {
+          "score": 10,
+          "modifier": 0,
+          "save": 0
+        },
+        "dex": {
+          "score": 11,
+          "modifier": 0,
+          "save": 0
+        },
+        "con": {
+          "score": 16,
+          "modifier": 3,
+          "save": 3
+        },
+        "int": {
+          "score": 2,
+          "modifier": -4,
+          "save": -4
+        },
+        "wis": {
+          "score": 12,
+          "modifier": 1,
+          "save": 1
+        },
+        "cha": {
+          "score": 5,
+          "modifier": -3,
+          "save": -3
+        }
+      },
+      "senses": {
+        "passive_perception": 13,
+        "special": {
+          "darkvision": 30
+        }
+      },
+      "languages": [],
+      "gear": [],
+      "cr": "0",
+      "xp": 10,
+      "proficiency_bonus": 2,
+      "traits": [],
+      "actions": [
+        {
+          "id": "bite",
+          "name": "Bite",
+          "text": "Bite. Melee Attack Roll: +2, reach 5 ft. Hit: 1 Piercing damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 2,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 1,
+              "dice": 0,
+              "sides": 0,
+              "modifier": 0
+            },
+            "damage_type": "piercing"
+          },
+          "effects": [
+            {
+              "key": "effect/piercing-damage",
+              "name": "Piercing damage",
+              "text": "1 Piercing damage.",
+              "requires": [
+                "damage/fixed"
+              ]
+            }
+          ]
+        }
+      ],
+      "skills": {
+        "perception": 3
+      },
+      "resistances": [
+        "poison"
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/skills",
+        "defense/damage-resistance",
+        "movement/burrow",
+        "sense/darkvision",
+        "action/melee-attack",
+        "effect/piercing-damage",
+        "damage/fixed"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/balor",
+      "name": "Balor",
+      "source_pages": [
+        261,
+        261
+      ],
+      "sizes": [
+        "huge"
+      ],
+      "type": "fiend",
+      "alignment": "Chaotic Evil",
+      "ac": 19,
+      "hp": {
+        "average": 287,
+        "dice": 23,
+        "sides": 12,
+        "modifier": 138
+      },
+      "initiative": {
+        "modifier": 14,
+        "score": 24
+      },
+      "speeds": {
+        "walk": 40,
+        "fly": 80
+      },
+      "abilities": {
+        "str": {
+          "score": 26,
+          "modifier": 8,
+          "save": 8
+        },
+        "dex": {
+          "score": 15,
+          "modifier": 2,
+          "save": 2
+        },
+        "con": {
+          "score": 22,
+          "modifier": 6,
+          "save": 12
+        },
+        "int": {
+          "score": 20,
+          "modifier": 5,
+          "save": 5
+        },
+        "wis": {
+          "score": 16,
+          "modifier": 3,
+          "save": 9
+        },
+        "cha": {
+          "score": 22,
+          "modifier": 6,
+          "save": 6
+        }
+      },
+      "senses": {
+        "passive_perception": 19,
+        "special": {
+          "truesight": 120
+        }
+      },
+      "languages": [
+        "Abyssal"
+      ],
+      "gear": [],
+      "cr": "19",
+      "xp": 22000,
+      "proficiency_bonus": 6,
+      "traits": [
+        {
+          "key": "trait/death-throes",
+          "name": "Death Throes",
+          "text": "Death Throes. The balor explodes when it dies. Dexterity Saving Throw: DC 20, each creature in a 30-foot Emanation originating from the balor. Failure: 31 (9d6) Fire damage plus 31 (9d6) Force damage. Success: Half damage. Failure or Success: If the balor dies outside the Abyss, it gains a new body instantly, reviving with all its Hit Points somewhere in the Abyss.",
+          "save": {
+            "ability": "dex",
+            "dc": 20
+          },
+          "target": {
+            "shape": "emanation",
+            "size": 30,
+            "width": 0,
+            "range": 0
+          },
+          "dice": {
+            "average": 31,
+            "dice": 9,
+            "sides": 6,
+            "modifier": 0
+          },
+          "more_dice": [
+            {
+              "key": "effect/force-damage",
+              "dice": {
+                "average": 31,
+                "dice": 9,
+                "sides": 6,
+                "modifier": 0
+              }
+            }
+          ],
+          "requires": [
+            "trigger/death",
+            "save/dex",
+            "area/emanation",
+            "effect/fire-damage",
+            "save/half-damage",
+            "effect/revive"
+          ]
+        },
+        {
+          "key": "trait/fire-aura",
+          "name": "Fire Aura",
+          "text": "Fire Aura. At the end of each of the balor’s turns, each creature in a 5-foot Emanation originating from the balor takes 13 (3d8) Fire damage.",
+          "target": {
+            "shape": "emanation",
+            "size": 5,
+            "width": 0,
+            "range": 0
+          },
+          "dice": {
+            "average": 13,
+            "dice": 3,
+            "sides": 8,
+            "modifier": 0
+          },
+          "requires": [
+            "area/emanation",
+            "effect/fire-damage"
+          ]
+        },
+        {
+          "key": "trait/legendary-resistance",
+          "name": "Legendary Resistance",
+          "text": "Legendary Resistance (3/Day). If the balor fails a saving throw, it can choose to succeed instead.",
+          "uses": {
+            "per_day": 3,
+            "lair_per_day": 0,
+            "recharge": 0
+          },
+          "requires": [
+            "limit/per-day",
+            "save/choose-success"
+          ]
+        },
+        {
+          "key": "trait/magic-resistance",
+          "name": "Magic Resistance",
+          "text": "Magic Resistance. The balor has Advantage on saving throws against spells and other magical effects.",
+          "requires": [
+            "save/advantage-against-magic"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "multiattack",
+          "name": "Multiattack",
+          "text": "Multiattack. The balor makes one Flame Whip attack and one Lightning Blade attack.",
+          "key": "action/multiattack",
+          "effects": [
+            {
+              "key": "action/melee-attack",
+              "name": "Attack",
+              "text": "The balor makes one Flame Whip attack and one Lightning Blade attack."
+            }
+          ]
+        },
+        {
+          "id": "flame-whip",
+          "name": "Flame Whip",
+          "text": "Flame Whip. Melee Attack Roll: +14, reach 30 ft. Hit: 18 (3d6 + 8) Force damage plus 17 (5d6) Fire damage. If the target is a Huge or smaller creature, the balor pulls the target up to 25 feet straight toward itself, and the target has the Prone condition.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 14,
+            "reach": 30,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 18,
+              "dice": 3,
+              "sides": 6,
+              "modifier": 8
+            },
+            "damage_type": "force"
+          },
+          "effects": [
+            {
+              "key": "effect/force-damage",
+              "name": "Force damage",
+              "text": "18 (3d6 + 8) Force damage.",
+              "dice": {
+                "average": 18,
+                "dice": 3,
+                "sides": 6,
+                "modifier": 8
+              }
+            },
+            {
+              "key": "effect/fire-damage",
+              "name": "Fire damage",
+              "text": "17 (5d6) Fire damage.",
+              "dice": {
+                "average": 17,
+                "dice": 5,
+                "sides": 6,
+                "modifier": 0
+              }
+            },
+            {
+              "key": "effect/pull",
+              "name": "Pull",
+              "text": "If the target is a Huge or smaller creature, the balor pulls the target up to 25 feet straight toward itself, and the target has the Prone condition."
+            },
+            {
+              "key": "condition/prone",
+              "name": "Prone",
+              "text": "If the target is a Huge or smaller creature, the balor pulls the target up to 25 feet straight toward itself, and the target has the Prone condition."
+            },
+            {
+              "key": "requirement/target-size",
+              "name": "Target size",
+              "text": "If the target is a Huge or smaller creature, the balor pulls the target up to 25 feet straight toward itself, and the target has the Prone condition."
+            }
+          ]
+        },
+        {
+          "id": "lightning-blade",
+          "name": "Lightning Blade",
+          "text": "Lightning Blade. Melee Attack Roll: +14, reach 10 ft. Hit: 21 (3d8 + 8) Force damage plus 22 (4d10) Lightning damage, and the target can’t take Reactions until the start of the balor’s next turn.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 14,
+            "reach": 10,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 21,
+              "dice": 3,
+              "sides": 8,
+              "modifier": 8
+            },
+            "damage_type": "force"
+          },
+          "effects": [
+            {
+              "key": "effect/force-damage",
+              "name": "Force damage",
+              "text": "21 (3d8 + 8) Force damage.",
+              "dice": {
+                "average": 21,
+                "dice": 3,
+                "sides": 8,
+                "modifier": 8
+              }
+            },
+            {
+              "key": "effect/lightning-damage",
+              "name": "Lightning damage",
+              "text": "22 (4d10) Lightning damage",
+              "dice": {
+                "average": 22,
+                "dice": 4,
+                "sides": 10,
+                "modifier": 0
+              }
+            },
+            {
+              "key": "effect/no-reactions",
+              "name": "No Reactions",
+              "text": "the target can’t take Reactions until the start of the balor’s next turn."
+            }
+          ]
+        }
+      ],
+      "tags": [
+        "Demon"
+      ],
+      "skills": {
+        "perception": 9
+      },
+      "resistances": [
+        "cold",
+        "lightning"
+      ],
+      "immunities": [
+        "fire",
+        "poison"
+      ],
+      "condition_immunities": [
+        "charmed",
+        "frightened",
+        "poisoned"
+      ],
+      "telepathy": 120,
+      "bonus_actions": [
+        {
+          "id": "teleport",
+          "name": "Teleport",
+          "text": "Teleport. The balor teleports itself or a willing demon within 10 feet of itself up to 60 feet to an unoccupied space the balor can see.",
+          "key": "action/special",
+          "effects": [
+            {
+              "key": "effect/teleport",
+              "name": "Teleport",
+              "text": "The balor teleports itself or a willing demon within 10 feet of itself up to 60 feet to an unoccupied space the balor can see."
+            },
+            {
+              "key": "target/self-or-willing-demon",
+              "name": "Self or willing demon",
+              "text": "The balor teleports itself or a willing demon within 10 feet of itself up to 60 feet to an unoccupied space the balor can see."
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/skills",
+        "defense/damage-resistance",
+        "defense/damage-immunity",
+        "defense/condition-immunity",
+        "movement/fly",
+        "sense/truesight",
+        "language/telepathy",
+        "action/bonus-action",
+        "trait/death-throes",
+        "trigger/death",
+        "save/dex",
+        "area/emanation",
+        "effect/fire-damage",
+        "save/half-damage",
+        "effect/revive",
+        "effect/force-damage",
+        "trait/fire-aura",
+        "trait/legendary-resistance",
+        "limit/per-day",
+        "save/choose-success",
+        "trait/magic-resistance",
+        "save/advantage-against-magic",
+        "action/multiattack",
+        "action/melee-attack",
+        "effect/pull",
+        "condition/prone",
+        "requirement/target-size",
+        "effect/lightning-damage",
+        "effect/no-reactions",
+        "action/special",
+        "effect/teleport",
+        "target/self-or-willing-demon"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/bandit",
+      "name": "Bandit",
+      "source_pages": [
+        261,
+        261
+      ],
+      "sizes": [
+        "medium",
+        "small"
+      ],
+      "type": "humanoid",
+      "alignment": "Neutral",
+      "ac": 12,
+      "hp": {
+        "average": 11,
+        "dice": 2,
+        "sides": 8,
+        "modifier": 2
+      },
+      "initiative": {
+        "modifier": 1,
+        "score": 11
+      },
+      "speeds": {
+        "walk": 30
+      },
+      "abilities": {
+        "str": {
+          "score": 11,
+          "modifier": 0,
+          "save": 0
+        },
+        "dex": {
+          "score": 12,
+          "modifier": 1,
+          "save": 1
+        },
+        "con": {
+          "score": 12,
+          "modifier": 1,
+          "save": 1
+        },
+        "int": {
+          "score": 10,
+          "modifier": 0,
+          "save": 0
+        },
+        "wis": {
+          "score": 10,
+          "modifier": 0,
+          "save": 0
+        },
+        "cha": {
+          "score": 10,
+          "modifier": 0,
+          "save": 0
+        }
+      },
+      "senses": {
+        "passive_perception": 10,
+        "special": {}
+      },
+      "languages": [
+        "Common",
+        "Thieves’ Cant"
+      ],
+      "gear": [
+        "Leather Armor",
+        "Light Crossbow",
+        "Scimitar"
+      ],
+      "cr": "1/8",
+      "xp": 25,
+      "proficiency_bonus": 2,
+      "traits": [],
+      "actions": [
+        {
+          "id": "scimitar",
+          "key": "action/melee-attack",
+          "name": "Scimitar",
+          "text": "Scimitar. Melee Attack Roll: +3, reach 5 ft. Hit: 4 (1d6 + 1) Slashing damage.",
+          "attack": {
+            "kind": "melee",
+            "bonus": 3,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 4,
+              "dice": 1,
+              "sides": 6,
+              "modifier": 1
+            },
+            "damage_type": "slashing"
+          },
+          "effects": [
+            {
+              "key": "effect/slashing-damage",
+              "name": "Slashing damage",
+              "text": "4 (1d6 + 1) Slashing damage."
+            }
+          ]
+        },
+        {
+          "id": "light-crossbow",
+          "key": "action/ranged-attack",
+          "name": "Light Crossbow",
+          "text": "Light Crossbow. Ranged Attack Roll: +3, range 80/320 ft. Hit: 5 (1d8 + 1) Piercing damage.",
+          "attack": {
+            "kind": "ranged",
+            "bonus": 3,
+            "reach": 0,
+            "range": 80,
+            "long_range": 320,
+            "damage": {
+              "average": 5,
+              "dice": 1,
+              "sides": 8,
+              "modifier": 1
+            },
+            "damage_type": "piercing"
+          },
+          "effects": [
+            {
+              "key": "effect/piercing-damage",
+              "name": "Piercing damage",
+              "text": "5 (1d8 + 1) Piercing damage."
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "action/melee-attack",
+        "effect/slashing-damage",
+        "action/ranged-attack",
+        "effect/piercing-damage"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/bandit-captain",
+      "name": "Bandit Captain",
+      "source_pages": [
+        261,
+        262
+      ],
+      "sizes": [
+        "medium",
+        "small"
+      ],
+      "type": "humanoid",
+      "alignment": "Neutral",
+      "ac": 15,
+      "hp": {
+        "average": 52,
+        "dice": 8,
+        "sides": 8,
+        "modifier": 16
+      },
+      "initiative": {
+        "modifier": 3,
+        "score": 13
+      },
+      "speeds": {
+        "walk": 30
+      },
+      "abilities": {
+        "str": {
+          "score": 15,
+          "modifier": 2,
+          "save": 4
+        },
+        "dex": {
+          "score": 16,
+          "modifier": 3,
+          "save": 5
+        },
+        "con": {
+          "score": 14,
+          "modifier": 2,
+          "save": 2
+        },
+        "int": {
+          "score": 14,
+          "modifier": 2,
+          "save": 2
+        },
+        "wis": {
+          "score": 11,
+          "modifier": 0,
+          "save": 2
+        },
+        "cha": {
+          "score": 14,
+          "modifier": 2,
+          "save": 2
+        }
+      },
+      "senses": {
+        "passive_perception": 10,
+        "special": {}
+      },
+      "languages": [
+        "Common",
+        "Thieves’ Cant"
+      ],
+      "gear": [
+        "Pistol",
+        "Scimitar",
+        "Studded Leather Armor"
+      ],
+      "cr": "2",
+      "xp": 450,
+      "proficiency_bonus": 2,
+      "traits": [],
+      "actions": [
+        {
+          "id": "multiattack",
+          "name": "Multiattack",
+          "text": "Multiattack. The bandit makes two attacks, using Scimitar and Pistol in any combination.",
+          "key": "action/multiattack",
+          "effects": [
+            {
+              "key": "action/melee-attack",
+              "name": "Attack",
+              "text": "The bandit makes two attacks, using Scimitar and Pistol in any combination."
+            },
+            {
+              "key": "action/ranged-attack",
+              "name": "Ranged attack",
+              "text": "The bandit makes two attacks, using Scimitar and Pistol in any combination."
+            }
+          ]
+        },
+        {
+          "id": "scimitar",
+          "name": "Scimitar",
+          "text": "Scimitar. Melee Attack Roll: +5, reach 5 ft. Hit: 6 (1d6 + 3) Slashing damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 5,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 6,
+              "dice": 1,
+              "sides": 6,
+              "modifier": 3
+            },
+            "damage_type": "slashing"
+          },
+          "effects": [
+            {
+              "key": "effect/slashing-damage",
+              "name": "Slashing damage",
+              "text": "6 (1d6 + 3) Slashing damage.",
+              "dice": {
+                "average": 6,
+                "dice": 1,
+                "sides": 6,
+                "modifier": 3
+              }
+            }
+          ]
+        },
+        {
+          "id": "pistol",
+          "name": "Pistol",
+          "text": "Pistol. Ranged Attack Roll: +5, range 30/90 ft. Hit: 8 (1d10 + 3) Piercing damage.",
+          "key": "action/ranged-attack",
+          "attack": {
+            "kind": "ranged",
+            "bonus": 5,
+            "reach": 0,
+            "range": 30,
+            "long_range": 90,
+            "damage": {
+              "average": 8,
+              "dice": 1,
+              "sides": 10,
+              "modifier": 3
+            },
+            "damage_type": "piercing"
+          },
+          "effects": [
+            {
+              "key": "effect/piercing-damage",
+              "name": "Piercing damage",
+              "text": "8 (1d10 + 3) Piercing damage.",
+              "dice": {
+                "average": 8,
+                "dice": 1,
+                "sides": 10,
+                "modifier": 3
+              }
+            }
+          ]
+        }
+      ],
+      "skills": {
+        "athletics": 4,
+        "deception": 4
+      },
+      "reactions": [
+        {
+          "id": "parry",
+          "name": "Parry",
+          "text": "Parry. Trigger: The bandit is hit by a melee attack roll while holding a weapon. Response: The bandit adds 2 to its AC against that attack, possibly causing it to miss.",
+          "key": "action/special",
+          "effects": [
+            {
+              "key": "reaction/trigger",
+              "name": "Trigger",
+              "text": "Trigger: The bandit is hit by a melee attack roll while holding a weapon."
+            },
+            {
+              "key": "requirement/holding-weapon",
+              "name": "Holding a weapon",
+              "text": "Trigger: The bandit is hit by a melee attack roll while holding a weapon."
+            },
+            {
+              "key": "effect/ac-bonus",
+              "name": "AC bonus",
+              "text": "Response: The bandit adds 2 to its AC against that attack, possibly causing it to miss."
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/skills",
+        "action/reaction",
+        "action/multiattack",
+        "action/melee-attack",
+        "action/ranged-attack",
+        "effect/slashing-damage",
+        "effect/piercing-damage",
+        "action/special",
+        "reaction/trigger",
+        "requirement/holding-weapon",
+        "effect/ac-bonus"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/barbed-devil",
+      "name": "Barbed Devil",
+      "source_pages": [
+        262,
+        262
+      ],
+      "sizes": [
+        "medium"
+      ],
+      "type": "fiend",
+      "alignment": "Lawful Evil",
+      "ac": 15,
+      "hp": {
+        "average": 110,
+        "dice": 13,
+        "sides": 8,
+        "modifier": 52
+      },
+      "initiative": {
+        "modifier": 3,
+        "score": 13
+      },
+      "speeds": {
+        "walk": 30,
+        "climb": 30
+      },
+      "abilities": {
+        "str": {
+          "score": 16,
+          "modifier": 3,
+          "save": 6
+        },
+        "dex": {
+          "score": 17,
+          "modifier": 3,
+          "save": 3
+        },
+        "con": {
+          "score": 18,
+          "modifier": 4,
+          "save": 7
+        },
+        "int": {
+          "score": 12,
+          "modifier": 1,
+          "save": 1
+        },
+        "wis": {
+          "score": 14,
+          "modifier": 2,
+          "save": 5
+        },
+        "cha": {
+          "score": 14,
+          "modifier": 2,
+          "save": 5
+        }
+      },
+      "senses": {
+        "passive_perception": 18,
+        "special": {
+          "darkvision": 120
+        },
+        "notes": {
+          "darkvision": "unimpeded by magical Darkness"
+        }
+      },
+      "languages": [
+        "Infernal"
+      ],
+      "gear": [],
+      "cr": "5",
+      "xp": 1800,
+      "proficiency_bonus": 3,
+      "traits": [
+        {
+          "key": "trait/barbed-hide",
+          "name": "Barbed Hide",
+          "text": "Barbed Hide. At the start of each of its turns, the devil deals 5 (1d10) Piercing damage to any creature it is grappling or any creature grappling it.",
+          "dice": {
+            "average": 5,
+            "dice": 1,
+            "sides": 10,
+            "modifier": 0
+          },
+          "requires": [
+            "effect/piercing-damage",
+            "requirement/grappling-or-grappled"
+          ]
+        },
+        {
+          "key": "trait/diabolical-restoration",
+          "name": "Diabolical Restoration",
+          "text": "Diabolical Restoration. If the devil dies outside the Nine Hells, its body disappears in sulfurous smoke, and it gains a new body instantly, reviving with all its Hit Points somewhere in the Nine Hells.",
+          "requires": [
+            "effect/revive"
+          ]
+        },
+        {
+          "key": "trait/magic-resistance",
+          "name": "Magic Resistance",
+          "text": "Magic Resistance. The devil has Advantage on saving throws against spells and other magical effects.",
+          "requires": [
+            "save/advantage-against-magic"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "multiattack",
+          "name": "Multiattack",
+          "text": "Multiattack. The devil makes one Claws attack and one Tail attack, or it makes two Hurl Flame attacks.",
+          "key": "action/multiattack",
+          "effects": [
+            {
+              "key": "action/melee-attack",
+              "name": "Attack",
+              "text": "The devil makes one Claws attack and one Tail attack, or it makes two Hurl Flame attacks."
+            },
+            {
+              "key": "action/ranged-attack",
+              "name": "Ranged attack",
+              "text": "The devil makes one Claws attack and one Tail attack, or it makes two Hurl Flame attacks."
+            }
+          ]
+        },
+        {
+          "id": "claws",
+          "name": "Claws",
+          "text": "Claws. Melee Attack Roll: +6, reach 5 ft. Hit: 10 (2d6 + 3) Piercing damage. If the target is a Large or smaller creature, it has the Grappled condition (escape DC 13) from both claws.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 6,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 10,
+              "dice": 2,
+              "sides": 6,
+              "modifier": 3
+            },
+            "damage_type": "piercing"
+          },
+          "effects": [
+            {
+              "key": "effect/piercing-damage",
+              "name": "Piercing damage",
+              "text": "10 (2d6 + 3) Piercing damage.",
+              "dice": {
+                "average": 10,
+                "dice": 2,
+                "sides": 6,
+                "modifier": 3
+              }
+            },
+            {
+              "key": "condition/grappled",
+              "name": "Grappled",
+              "text": "If the target is a Large or smaller creature, it has the Grappled condition (escape DC 13) from both claws."
+            },
+            {
+              "key": "requirement/target-size",
+              "name": "Target size",
+              "text": "If the target is a Large or smaller creature, it has the Grappled condition (escape DC 13) from both claws."
+            }
+          ]
+        },
+        {
+          "id": "tail",
+          "name": "Tail",
+          "text": "Tail. Melee Attack Roll: +6, reach 10 ft. Hit: 14 (2d10 + 3) Slashing damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 6,
+            "reach": 10,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 14,
+              "dice": 2,
+              "sides": 10,
+              "modifier": 3
+            },
+            "damage_type": "slashing"
+          },
+          "effects": [
+            {
+              "key": "effect/slashing-damage",
+              "name": "Slashing damage",
+              "text": "14 (2d10 + 3) Slashing damage.",
+              "dice": {
+                "average": 14,
+                "dice": 2,
+                "sides": 10,
+                "modifier": 3
+              }
+            }
+          ]
+        },
+        {
+          "id": "hurl-flame",
+          "name": "Hurl Flame",
+          "text": "Hurl Flame. Ranged Attack Roll: +5, range 150 ft. Hit: 17 (5d6) Fire damage. If the target is a flammable object that isn’t being worn or carried, it starts burning.",
+          "key": "action/ranged-attack",
+          "attack": {
+            "kind": "ranged",
+            "bonus": 5,
+            "reach": 0,
+            "range": 150,
+            "long_range": 150,
+            "damage": {
+              "average": 17,
+              "dice": 5,
+              "sides": 6,
+              "modifier": 0
+            },
+            "damage_type": "fire"
+          },
+          "effects": [
+            {
+              "key": "effect/fire-damage",
+              "name": "Fire damage",
+              "text": "17 (5d6) Fire damage.",
+              "dice": {
+                "average": 17,
+                "dice": 5,
+                "sides": 6,
+                "modifier": 0
+              }
+            },
+            {
+              "key": "effect/ignite-object",
+              "name": "Ignite object",
+              "text": "If the target is a flammable object that isn’t being worn or carried, it starts burning."
+            }
+          ]
+        }
+      ],
+      "tags": [
+        "Devil"
+      ],
+      "skills": {
+        "deception": 5,
+        "insight": 5,
+        "perception": 8
+      },
+      "resistances": [
+        "cold"
+      ],
+      "immunities": [
+        "fire",
+        "poison"
+      ],
+      "condition_immunities": [
+        "poisoned"
+      ],
+      "telepathy": 120,
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/skills",
+        "defense/damage-resistance",
+        "defense/damage-immunity",
+        "defense/condition-immunity",
+        "movement/climb",
+        "sense/darkvision",
+        "sense/darkvision-unimpeded-by-magical-darkness",
+        "language/telepathy",
+        "trait/barbed-hide",
+        "effect/piercing-damage",
+        "requirement/grappling-or-grappled",
+        "trait/diabolical-restoration",
+        "effect/revive",
+        "trait/magic-resistance",
+        "save/advantage-against-magic",
+        "action/multiattack",
+        "action/melee-attack",
+        "action/ranged-attack",
+        "condition/grappled",
+        "requirement/target-size",
+        "effect/slashing-damage",
+        "effect/fire-damage",
+        "effect/ignite-object"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/basilisk",
+      "name": "Basilisk",
+      "source_pages": [
+        262,
+        262
+      ],
+      "sizes": [
+        "medium"
+      ],
+      "type": "monstrosity",
+      "alignment": "Unaligned",
+      "ac": 15,
+      "hp": {
+        "average": 52,
+        "dice": 8,
+        "sides": 8,
+        "modifier": 16
+      },
+      "initiative": {
+        "modifier": -1,
+        "score": 9
+      },
+      "speeds": {
+        "walk": 20
+      },
+      "abilities": {
+        "str": {
+          "score": 16,
+          "modifier": 3,
+          "save": 3
+        },
+        "dex": {
+          "score": 8,
+          "modifier": -1,
+          "save": -1
+        },
+        "con": {
+          "score": 15,
+          "modifier": 2,
+          "save": 2
+        },
+        "int": {
+          "score": 2,
+          "modifier": -4,
+          "save": -4
+        },
+        "wis": {
+          "score": 8,
+          "modifier": -1,
+          "save": -1
+        },
+        "cha": {
+          "score": 7,
+          "modifier": -2,
+          "save": -2
+        }
+      },
+      "senses": {
+        "passive_perception": 9,
+        "special": {
+          "darkvision": 60
+        }
+      },
+      "languages": [],
+      "gear": [],
+      "cr": "3",
+      "xp": 700,
+      "proficiency_bonus": 2,
+      "traits": [],
+      "actions": [
+        {
+          "id": "bite",
+          "name": "Bite",
+          "text": "Bite. Melee Attack Roll: +5, reach 5 ft. Hit: 10 (2d6 + 3) Piercing damage plus 7 (2d6) Poison damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 5,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 10,
+              "dice": 2,
+              "sides": 6,
+              "modifier": 3
+            },
+            "damage_type": "piercing"
+          },
+          "effects": [
+            {
+              "key": "effect/piercing-damage",
+              "name": "Piercing damage",
+              "text": "10 (2d6 + 3) Piercing damage.",
+              "dice": {
+                "average": 10,
+                "dice": 2,
+                "sides": 6,
+                "modifier": 3
+              }
+            },
+            {
+              "key": "effect/poison-damage",
+              "name": "Poison damage",
+              "text": "7 (2d6) Poison damage.",
+              "dice": {
+                "average": 7,
+                "dice": 2,
+                "sides": 6,
+                "modifier": 0
+              }
+            }
+          ]
+        }
+      ],
+      "bonus_actions": [
+        {
+          "id": "petrifying-gaze",
+          "name": "Petrifying Gaze",
+          "text": "Petrifying Gaze (Recharge 4–6). Constitution Saving Throw: DC 12, each creature in a 30-foot Cone. If the basilisk sees its reflection in the Cone, the basilisk must make this save. First Failure: The target has the Restrained condition and repeats the save at the end of its next turn if it is still Restrained, ending the effect on itself on a success. Second Failure: The target has the Petrified condition instead of the Restrained condition.",
+          "key": "action/saving-throw",
+          "save": {
+            "ability": "con",
+            "dc": 12
+          },
+          "target": {
+            "shape": "cone",
+            "size": 30,
+            "width": 0,
+            "range": 0
+          },
+          "uses": {
+            "per_day": 0,
+            "lair_per_day": 0,
+            "recharge": 4
+          },
+          "effects": [
+            {
+              "key": "save/con",
+              "name": "Constitution Saving Throw",
+              "text": "Constitution Saving Throw: DC 12"
+            },
+            {
+              "key": "area/cone",
+              "name": "Target",
+              "text": "each creature in a 30-foot Cone."
+            },
+            {
+              "key": "limit/recharge",
+              "name": "Recharge",
+              "text": "(Recharge 4–6)"
+            },
+            {
+              "key": "effect/reflected-gaze",
+              "name": "Reflected gaze",
+              "text": "If the basilisk sees its reflection in the Cone, the basilisk must make this save."
+            },
+            {
+              "key": "condition/restrained",
+              "name": "Restrained",
+              "text": "First Failure: The target has the Restrained condition and repeats the save at the end of its next turn if it is still Restrained, ending the effect on itself on a success."
+            },
+            {
+              "key": "save/repeat",
+              "name": "Repeated save",
+              "text": "First Failure: The target has the Restrained condition and repeats the save at the end of its next turn if it is still Restrained, ending the effect on itself on a success."
+            },
+            {
+              "key": "condition/petrified",
+              "name": "Petrified",
+              "text": "Second Failure: The target has the Petrified condition instead of the Restrained condition."
+            },
+            {
+              "key": "save/second-failure",
+              "name": "Second failure",
+              "text": "Second Failure: The target has the Petrified condition instead of the Restrained condition."
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "sense/darkvision",
+        "action/bonus-action",
+        "action/melee-attack",
+        "effect/piercing-damage",
+        "effect/poison-damage",
+        "action/saving-throw",
+        "save/con",
+        "area/cone",
+        "limit/recharge",
+        "effect/reflected-gaze",
+        "condition/restrained",
+        "save/repeat",
+        "condition/petrified",
+        "save/second-failure"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/animals/bat",
+      "name": "Bat",
+      "source_pages": [
+        345,
+        345
+      ],
+      "sizes": [
+        "tiny"
+      ],
+      "type": "beast",
+      "alignment": "Unaligned",
+      "ac": 12,
+      "hp": {
+        "average": 1,
+        "dice": 1,
+        "sides": 4,
+        "modifier": -1
+      },
+      "initiative": {
+        "modifier": 2,
+        "score": 12
+      },
+      "speeds": {
+        "walk": 5,
+        "fly": 30
+      },
+      "abilities": {
+        "str": {
+          "score": 2,
+          "modifier": -4,
+          "save": -4
+        },
+        "dex": {
+          "score": 15,
+          "modifier": 2,
+          "save": 2
+        },
+        "con": {
+          "score": 8,
+          "modifier": -1,
+          "save": -1
+        },
+        "int": {
+          "score": 2,
+          "modifier": -4,
+          "save": -4
+        },
+        "wis": {
+          "score": 12,
+          "modifier": 1,
+          "save": 1
+        },
+        "cha": {
+          "score": 4,
+          "modifier": -3,
+          "save": -3
+        }
+      },
+      "senses": {
+        "passive_perception": 11,
+        "special": {
+          "blindsight": 60
+        }
+      },
+      "languages": [],
+      "gear": [],
+      "cr": "0",
+      "xp": 10,
+      "proficiency_bonus": 2,
+      "traits": [],
+      "actions": [
+        {
+          "id": "bite",
+          "name": "Bite",
+          "text": "Bite. Melee Attack Roll: +4, reach 5 ft. Hit: 1 Piercing damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 4,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 1,
+              "dice": 0,
+              "sides": 0,
+              "modifier": 0
+            },
+            "damage_type": "piercing"
+          },
+          "effects": [
+            {
+              "key": "effect/piercing-damage",
+              "name": "Piercing damage",
+              "text": "1 Piercing damage.",
+              "requires": [
+                "damage/fixed"
+              ]
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "movement/fly",
+        "sense/blindsight",
+        "action/melee-attack",
+        "effect/piercing-damage",
+        "damage/fixed"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/bearded-devil",
+      "name": "Bearded Devil",
+      "source_pages": [
+        262,
+        263
+      ],
+      "sizes": [
+        "medium"
+      ],
+      "type": "fiend",
+      "alignment": "Lawful Evil",
+      "ac": 13,
+      "hp": {
+        "average": 58,
+        "dice": 9,
+        "sides": 8,
+        "modifier": 18
+      },
+      "initiative": {
+        "modifier": 2,
+        "score": 12
+      },
+      "speeds": {
+        "walk": 30
+      },
+      "abilities": {
+        "str": {
+          "score": 16,
+          "modifier": 3,
+          "save": 5
+        },
+        "dex": {
+          "score": 15,
+          "modifier": 2,
+          "save": 2
+        },
+        "con": {
+          "score": 15,
+          "modifier": 2,
+          "save": 4
+        },
+        "int": {
+          "score": 9,
+          "modifier": -1,
+          "save": -1
+        },
+        "wis": {
+          "score": 11,
+          "modifier": 0,
+          "save": 0
+        },
+        "cha": {
+          "score": 14,
+          "modifier": 2,
+          "save": 4
+        }
+      },
+      "senses": {
+        "passive_perception": 10,
+        "special": {
+          "darkvision": 120
+        },
+        "notes": {
+          "darkvision": "unimpeded by magical Darkness"
+        }
+      },
+      "languages": [
+        "Infernal"
+      ],
+      "gear": [],
+      "cr": "3",
+      "xp": 700,
+      "proficiency_bonus": 2,
+      "traits": [
+        {
+          "key": "trait/magic-resistance",
+          "name": "Magic Resistance",
+          "text": "Magic Resistance. The devil has Advantage on saving throws against spells and other magical effects.",
+          "requires": [
+            "save/advantage-against-magic"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "multiattack",
+          "name": "Multiattack",
+          "text": "Multiattack. The devil makes one Beard attack and one Infernal Glaive attack.",
+          "key": "action/multiattack",
+          "effects": [
+            {
+              "key": "action/melee-attack",
+              "name": "Attack",
+              "text": "The devil makes one Beard attack and one Infernal Glaive attack."
+            }
+          ]
+        },
+        {
+          "id": "beard",
+          "name": "Beard",
+          "text": "Beard. Melee Attack Roll: +5, reach 5 ft. Hit: 7 (1d8 + 3) Piercing damage, and the target has the Poisoned condition until the start of the devil’s next turn. Until this poison ends, the target can’t regain Hit Points.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 5,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 7,
+              "dice": 1,
+              "sides": 8,
+              "modifier": 3
+            },
+            "damage_type": "piercing"
+          },
+          "effects": [
+            {
+              "key": "effect/piercing-damage",
+              "name": "Piercing damage",
+              "text": "7 (1d8 + 3) Piercing damage.",
+              "dice": {
+                "average": 7,
+                "dice": 1,
+                "sides": 8,
+                "modifier": 3
+              }
+            },
+            {
+              "key": "condition/poisoned",
+              "name": "Poisoned",
+              "text": "the target has the Poisoned condition until the start of the devil’s next turn."
+            },
+            {
+              "key": "effect/no-hit-point-recovery",
+              "name": "No Hit Point recovery",
+              "text": "Until this poison ends, the target can’t regain Hit Points."
+            }
+          ]
+        },
+        {
+          "id": "infernal-glaive",
+          "name": "Infernal Glaive",
+          "text": "Infernal Glaive. Melee Attack Roll: +5, reach 10 ft. Hit: 8 (1d10 + 3) Slashing damage. If the target is a creature and doesn’t already have an infernal wound, it is subjected to the following effect. Constitution Saving Throw: DC 12. Failure: The target receives an infernal wound. While wounded, the target loses 5 (1d10) Hit Points at the start of each of its turns. The wound closes after 1 minute, after a spell restores Hit Points to the target, or after the target or a creature within 5 feet of it takes an action to stanch the wound, doing so by succeeding on a DC 12 Wisdom (Medicine) check.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 5,
+            "reach": 10,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 8,
+              "dice": 1,
+              "sides": 10,
+              "modifier": 3
+            },
+            "damage_type": "slashing"
+          },
+          "effects": [
+            {
+              "key": "effect/slashing-damage",
+              "name": "Slashing damage",
+              "text": "8 (1d10 + 3) Slashing damage.",
+              "dice": {
+                "average": 8,
+                "dice": 1,
+                "sides": 10,
+                "modifier": 3
+              }
+            },
+            {
+              "key": "requirement/no-existing-infernal-wound",
+              "name": "No existing infernal wound",
+              "text": "If the target is a creature and doesn’t already have an infernal wound, it is subjected to the following effect."
+            },
+            {
+              "key": "save/con",
+              "name": "Constitution Saving Throw",
+              "text": "Constitution Saving Throw: DC 12"
+            },
+            {
+              "key": "effect/infernal-wound",
+              "name": "Infernal wound",
+              "text": "Failure: The target receives an infernal wound."
+            },
+            {
+              "key": "effect/hit-point-loss",
+              "name": "Hit Point loss",
+              "text": "While wounded, the target loses 5 (1d10) Hit Points at the start of each of its turns.",
+              "dice": {
+                "average": 5,
+                "dice": 1,
+                "sides": 10,
+                "modifier": 0
+              }
+            },
+            {
+              "key": "effect/wound-closes",
+              "name": "Wound closes",
+              "text": "The wound closes after 1 minute, after a spell restores Hit Points to the target, or after the target or a creature within 5 feet of it takes an action to stanch the wound, doing so by succeeding on a DC 12 Wisdom (Medicine) check."
+            },
+            {
+              "key": "check/wis-medicine",
+              "name": "Wisdom (Medicine) check",
+              "text": "The wound closes after 1 minute, after a spell restores Hit Points to the target, or after the target or a creature within 5 feet of it takes an action to stanch the wound, doing so by succeeding on a DC 12 Wisdom (Medicine) check."
+            }
+          ],
+          "save": {
+            "ability": "con",
+            "dc": 12
+          }
+        }
+      ],
+      "tags": [
+        "Devil"
+      ],
+      "resistances": [
+        "cold"
+      ],
+      "immunities": [
+        "fire",
+        "poison"
+      ],
+      "condition_immunities": [
+        "frightened",
+        "poisoned"
+      ],
+      "telepathy": 120,
+      "required_mechanics": [
+        "monster/stat-block",
+        "defense/damage-resistance",
+        "defense/damage-immunity",
+        "defense/condition-immunity",
+        "sense/darkvision",
+        "sense/darkvision-unimpeded-by-magical-darkness",
+        "language/telepathy",
+        "trait/magic-resistance",
+        "save/advantage-against-magic",
+        "action/multiattack",
+        "action/melee-attack",
+        "effect/piercing-damage",
+        "condition/poisoned",
+        "effect/no-hit-point-recovery",
+        "effect/slashing-damage",
+        "requirement/no-existing-infernal-wound",
+        "save/con",
+        "effect/infernal-wound",
+        "effect/hit-point-loss",
+        "effect/wound-closes",
+        "check/wis-medicine"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/behir",
+      "name": "Behir",
+      "source_pages": [
+        263,
+        263
+      ],
+      "sizes": [
+        "huge"
+      ],
+      "type": "monstrosity",
+      "alignment": "Neutral Evil",
+      "ac": 17,
+      "hp": {
+        "average": 168,
+        "dice": 16,
+        "sides": 12,
+        "modifier": 64
+      },
+      "initiative": {
+        "modifier": 3,
+        "score": 13
+      },
+      "speeds": {
+        "walk": 50,
+        "climb": 50
+      },
+      "abilities": {
+        "str": {
+          "score": 23,
+          "modifier": 6,
+          "save": 6
+        },
+        "dex": {
+          "score": 16,
+          "modifier": 3,
+          "save": 3
+        },
+        "con": {
+          "score": 18,
+          "modifier": 4,
+          "save": 4
+        },
+        "int": {
+          "score": 7,
+          "modifier": -2,
+          "save": -2
+        },
+        "wis": {
+          "score": 14,
+          "modifier": 2,
+          "save": 2
+        },
+        "cha": {
+          "score": 12,
+          "modifier": 1,
+          "save": 1
+        }
+      },
+      "senses": {
+        "passive_perception": 16,
+        "special": {
+          "darkvision": 90
+        }
+      },
+      "languages": [
+        "Draconic"
+      ],
+      "gear": [],
+      "cr": "11",
+      "xp": 7200,
+      "proficiency_bonus": 4,
+      "traits": [],
+      "actions": [
+        {
+          "id": "multiattack",
+          "name": "Multiattack",
+          "text": "Multiattack. The behir makes one Bite attack and uses Constrict.",
+          "key": "action/multiattack",
+          "effects": [
+            {
+              "key": "action/melee-attack",
+              "name": "Attack",
+              "text": "The behir makes one Bite attack and uses Constrict."
+            },
+            {
+              "key": "multiattack/additional-action",
+              "name": "Additional action",
+              "text": "The behir makes one Bite attack and uses Constrict."
+            }
+          ]
+        },
+        {
+          "id": "bite",
+          "name": "Bite",
+          "text": "Bite. Melee Attack Roll: +10, reach 10 ft. Hit: 19 (2d12 + 6) Piercing damage plus 11 (2d10) Lightning damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 10,
+            "reach": 10,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 19,
+              "dice": 2,
+              "sides": 12,
+              "modifier": 6
+            },
+            "damage_type": "piercing"
+          },
+          "effects": [
+            {
+              "key": "effect/piercing-damage",
+              "name": "Piercing damage",
+              "text": "19 (2d12 + 6) Piercing damage.",
+              "dice": {
+                "average": 19,
+                "dice": 2,
+                "sides": 12,
+                "modifier": 6
+              }
+            },
+            {
+              "key": "effect/lightning-damage",
+              "name": "Lightning damage",
+              "text": "11 (2d10) Lightning damage.",
+              "dice": {
+                "average": 11,
+                "dice": 2,
+                "sides": 10,
+                "modifier": 0
+              }
+            }
+          ]
+        },
+        {
+          "id": "constrict",
+          "name": "Constrict",
+          "text": "Constrict. Strength Saving Throw: DC 18, one Large or smaller creature the behir can see within 5 feet. Failure: 28 (5d8 + 6) Bludgeoning damage. The target has the Grappled condition (escape DC 16), and it has the Restrained condition until the grapple ends.",
+          "key": "action/saving-throw",
+          "save": {
+            "ability": "str",
+            "dc": 18
+          },
+          "target": {
+            "shape": "creature",
+            "size": 0,
+            "width": 0,
+            "range": 5
+          },
+          "effects": [
+            {
+              "key": "save/str",
+              "name": "Strength Saving Throw",
+              "text": "Strength Saving Throw: DC 18"
+            },
+            {
+              "key": "target/creature",
+              "name": "Target",
+              "text": "one Large or smaller creature the behir can see within 5 feet."
+            },
+            {
+              "key": "requirement/target-size",
+              "name": "Target size",
+              "text": "one Large or smaller creature the behir can see within 5 feet."
+            },
+            {
+              "key": "effect/bludgeoning-damage",
+              "name": "Bludgeoning damage",
+              "text": "28 (5d8 + 6) Bludgeoning damage.",
+              "dice": {
+                "average": 28,
+                "dice": 5,
+                "sides": 8,
+                "modifier": 6
+              }
+            },
+            {
+              "key": "condition/grappled",
+              "name": "Grappled",
+              "text": "The target has the Grappled condition (escape DC 16), and it has the Restrained condition until the grapple ends."
+            },
+            {
+              "key": "condition/restrained",
+              "name": "Restrained",
+              "text": "The target has the Grappled condition (escape DC 16), and it has the Restrained condition until the grapple ends."
+            }
+          ]
+        },
+        {
+          "id": "lightning-breath",
+          "name": "Lightning Breath",
+          "text": "Lightning Breath (Recharge 5–6). Dexterity Saving Throw: DC 16, each creature in a 90-foot-long, 5-foot-wide Line. Failure: 66 (12d10) Lightning damage. Success: Half damage.",
+          "key": "action/saving-throw",
+          "save": {
+            "ability": "dex",
+            "dc": 16
+          },
+          "target": {
+            "shape": "line",
+            "size": 90,
+            "width": 5,
+            "range": 0
+          },
+          "uses": {
+            "per_day": 0,
+            "lair_per_day": 0,
+            "recharge": 5
+          },
+          "effects": [
+            {
+              "key": "save/dex",
+              "name": "Dexterity Saving Throw",
+              "text": "Dexterity Saving Throw: DC 16"
+            },
+            {
+              "key": "area/line",
+              "name": "Target",
+              "text": "each creature in a 90-foot-long, 5-foot-wide Line."
+            },
+            {
+              "key": "limit/recharge",
+              "name": "Recharge",
+              "text": "(Recharge 5–6)"
+            },
+            {
+              "key": "effect/lightning-damage",
+              "name": "Lightning damage",
+              "text": "66 (12d10) Lightning damage.",
+              "dice": {
+                "average": 66,
+                "dice": 12,
+                "sides": 10,
+                "modifier": 0
+              }
+            },
+            {
+              "key": "save/half-damage",
+              "name": "Half damage",
+              "text": "Success: Half damage."
+            }
+          ]
+        }
+      ],
+      "skills": {
+        "perception": 6,
+        "stealth": 7
+      },
+      "immunities": [
+        "lightning"
+      ],
+      "bonus_actions": [
+        {
+          "id": "swallow",
+          "name": "Swallow",
+          "text": "Swallow. Dexterity Saving Throw: DC 18, one Large or smaller creature Grappled by the behir (the behir can have only one creature swallowed at a time). Failure: The behir swallows the target, which is no longer Grappled. While swallowed, a creature has the Blinded and Restrained conditions, has Total Cover against attacks and other effects outside the behir, and takes 21 (6d6) Acid damage at the start of each of the behir’s turns. If the behir takes 30 damage or more on a single turn from the swallowed creature, the behir must succeed on a DC 14 Constitution saving throw at the end of that turn or regurgitate the creature, which falls in a space within 10 feet of the behir and has the Prone condition. If the behir dies, a swallowed creature is no longer Restrained and can escape from the corpse by using 15 feet of movement, exiting Prone.",
+          "key": "action/saving-throw",
+          "save": {
+            "ability": "dex",
+            "dc": 18
+          },
+          "target": {
+            "shape": "creature",
+            "size": 0,
+            "width": 0,
+            "range": 0
+          },
+          "effects": [
+            {
+              "key": "save/dex",
+              "name": "Dexterity Saving Throw",
+              "text": "Dexterity Saving Throw: DC 18"
+            },
+            {
+              "key": "target/creature",
+              "name": "Target",
+              "text": "one Large or smaller creature Grappled by the behir (the behir can have only one creature swallowed at a time)."
+            },
+            {
+              "key": "requirement/target-size",
+              "name": "Target size",
+              "text": "one Large or smaller creature Grappled by the behir (the behir can have only one creature swallowed at a time)."
+            },
+            {
+              "key": "requirement/grappled-creature",
+              "name": "Grappled creature",
+              "text": "one Large or smaller creature Grappled by the behir (the behir can have only one creature swallowed at a time)."
+            },
+            {
+              "key": "limit/one-swallowed-creature",
+              "name": "One swallowed creature",
+              "text": "one Large or smaller creature Grappled by the behir (the behir can have only one creature swallowed at a time)."
+            },
+            {
+              "key": "effect/swallow",
+              "name": "Swallow",
+              "text": "Failure: The behir swallows the target, which is no longer Grappled."
+            },
+            {
+              "key": "condition/blinded",
+              "name": "Blinded",
+              "text": "While swallowed, a creature has the Blinded and Restrained conditions, has Total Cover against attacks and other effects outside the behir, and takes 21 (6d6) Acid damage at the start of each of the behir’s turns."
+            },
+            {
+              "key": "condition/restrained",
+              "name": "Restrained",
+              "text": "While swallowed, a creature has the Blinded and Restrained conditions, has Total Cover against attacks and other effects outside the behir, and takes 21 (6d6) Acid damage at the start of each of the behir’s turns."
+            },
+            {
+              "key": "effect/total-cover",
+              "name": "Total Cover",
+              "text": "While swallowed, a creature has the Blinded and Restrained conditions, has Total Cover against attacks and other effects outside the behir, and takes 21 (6d6) Acid damage at the start of each of the behir’s turns."
+            },
+            {
+              "key": "effect/acid-damage",
+              "name": "Acid damage",
+              "text": "21 (6d6) Acid damage",
+              "dice": {
+                "average": 21,
+                "dice": 6,
+                "sides": 6,
+                "modifier": 0
+              }
+            },
+            {
+              "key": "effect/regurgitate",
+              "name": "Regurgitate",
+              "text": "If the behir takes 30 damage or more on a single turn from the swallowed creature, the behir must succeed on a DC 14 Constitution saving throw at the end of that turn or regurgitate the creature, which falls in a space within 10 feet of the behir and has the Prone condition."
+            },
+            {
+              "key": "save/con-or-regurgitate",
+              "name": "Constitution save or regurgitate",
+              "text": "If the behir takes 30 damage or more on a single turn from the swallowed creature, the behir must succeed on a DC 14 Constitution saving throw at the end of that turn or regurgitate the creature, which falls in a space within 10 feet of the behir and has the Prone condition."
+            },
+            {
+              "key": "condition/prone",
+              "name": "Prone",
+              "text": "If the behir takes 30 damage or more on a single turn from the swallowed creature, the behir must succeed on a DC 14 Constitution saving throw at the end of that turn or regurgitate the creature, which falls in a space within 10 feet of the behir and has the Prone condition."
+            },
+            {
+              "key": "effect/escape-corpse",
+              "name": "Escape corpse",
+              "text": "If the behir dies, a swallowed creature is no longer Restrained and can escape from the corpse by using 15 feet of movement, exiting Prone."
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/skills",
+        "defense/damage-immunity",
+        "movement/climb",
+        "sense/darkvision",
+        "action/bonus-action",
+        "action/multiattack",
+        "action/melee-attack",
+        "multiattack/additional-action",
+        "effect/piercing-damage",
+        "effect/lightning-damage",
+        "action/saving-throw",
+        "save/str",
+        "target/creature",
+        "requirement/target-size",
+        "effect/bludgeoning-damage",
+        "condition/grappled",
+        "condition/restrained",
+        "save/dex",
+        "area/line",
+        "limit/recharge",
+        "save/half-damage",
+        "requirement/grappled-creature",
+        "limit/one-swallowed-creature",
+        "effect/swallow",
+        "condition/blinded",
+        "effect/total-cover",
+        "effect/acid-damage",
+        "effect/regurgitate",
+        "save/con-or-regurgitate",
+        "condition/prone",
+        "effect/escape-corpse"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/berserker",
+      "name": "Berserker",
+      "source_pages": [
+        263,
+        263
+      ],
+      "sizes": [
+        "medium",
+        "small"
+      ],
+      "type": "humanoid",
+      "alignment": "Neutral",
+      "ac": 13,
+      "hp": {
+        "average": 67,
+        "dice": 9,
+        "sides": 8,
+        "modifier": 27
+      },
+      "initiative": {
+        "modifier": 1,
+        "score": 11
+      },
+      "speeds": {
+        "walk": 30
+      },
+      "abilities": {
+        "str": {
+          "score": 16,
+          "modifier": 3,
+          "save": 3
+        },
+        "dex": {
+          "score": 12,
+          "modifier": 1,
+          "save": 1
+        },
+        "con": {
+          "score": 17,
+          "modifier": 3,
+          "save": 3
+        },
+        "int": {
+          "score": 9,
+          "modifier": -1,
+          "save": -1
+        },
+        "wis": {
+          "score": 11,
+          "modifier": 0,
+          "save": 0
+        },
+        "cha": {
+          "score": 9,
+          "modifier": -1,
+          "save": -1
+        }
+      },
+      "senses": {
+        "passive_perception": 10,
+        "special": {}
+      },
+      "languages": [
+        "Common"
+      ],
+      "gear": [
+        "Greataxe",
+        "Hide Armor"
+      ],
+      "cr": "2",
+      "xp": 450,
+      "proficiency_bonus": 2,
+      "traits": [
+        {
+          "key": "trait/bloodied-frenzy",
+          "name": "Bloodied Frenzy",
+          "text": "Bloodied Frenzy. While Bloodied, the berserker has Advantage on attack rolls and saving throws.",
+          "requires": [
+            "requirement/bloodied",
+            "attack/advantage",
+            "save/advantage"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "greataxe",
+          "name": "Greataxe",
+          "text": "Greataxe. Melee Attack Roll: +5, reach 5 ft. Hit: 9 (1d12 + 3) Slashing damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 5,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 9,
+              "dice": 1,
+              "sides": 12,
+              "modifier": 3
+            },
+            "damage_type": "slashing"
+          },
+          "effects": [
+            {
+              "key": "effect/slashing-damage",
+              "name": "Slashing damage",
+              "text": "9 (1d12 + 3) Slashing damage.",
+              "dice": {
+                "average": 9,
+                "dice": 1,
+                "sides": 12,
+                "modifier": 3
+              }
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "trait/bloodied-frenzy",
+        "requirement/bloodied",
+        "attack/advantage",
+        "save/advantage",
+        "action/melee-attack",
+        "effect/slashing-damage"
+      ]
+    }
+  ]
+}

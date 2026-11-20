@@ -87,6 +87,9 @@ type MonsterAbility struct {
 type MonsterSenses struct {
 	PassivePerception int            `json:"passive_perception"`
 	Special           map[string]int `json:"special"`
+
+	// Notes retains a parenthetical the source prints after a special sense.
+	Notes map[string]string `json:"notes,omitempty"`
 }
 
 // MonsterMechanic retains a trait or effect and its required implementation key.
@@ -101,6 +104,9 @@ type MonsterMechanic struct {
 	Target   *MonsterTarget `json:"target,omitempty"`
 	Dice     *MonsterHP     `json:"dice,omitempty"`
 	Requires []string       `json:"requires,omitempty"`
+
+	// MoreDice types the dice an entry prints after Dice, in source order.
+	MoreDice []MonsterKeyedDice `json:"more_dice,omitempty"`
 }
 
 // MonsterAction has a stable local ID and retains all effects. Attack is present
@@ -361,7 +367,7 @@ func (m Monster) Validate() error {
 			if !hasDamage {
 				return fmt.Errorf("attack damage effect must be retained")
 			}
-			if !validMonsterDice(attack.Damage) || !slices.Contains(strings.Fields("acid bludgeoning cold fire force lightning necrotic piercing poison psychic radiant slashing thunder"), attack.DamageType) {
+			if !m.validAttackDamage(attack.Damage) || !slices.Contains(strings.Fields("acid bludgeoning cold fire force lightning necrotic piercing poison psychic radiant slashing thunder"), attack.DamageType) {
 				return fmt.Errorf("invalid attack damage")
 			}
 			if (attack.Kind != "melee" && attack.Kind != "ranged") || (attack.Kind == "melee" && (attack.Reach <= 0 || attack.Range != 0 || attack.LongRange != 0)) || (attack.Kind == "ranged" && (attack.Reach != 0 || attack.Range <= 0 || attack.LongRange < attack.Range)) {
