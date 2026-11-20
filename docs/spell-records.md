@@ -5,7 +5,7 @@ Issue #194 defines `SpellRecords`, decoded by `DecodeSpellRecords(io.Reader)` in
 runtime consumers, action registration, database writes or coverage promotion.
 `testdata/spell_records.json` contains one complete new source record, Acid Arrow,
 and adaptations of the two existing bounded fixtures. Subsequent catalogue
-imports are separately owned; the #218, #198, #196 and #199 batches are described below.
+imports are separately owned; the #218, #198, #196, #199 and #200 batches are described below.
 
 The envelope retains the exact `Source` pin, license, attribution and adaptation
 notice checked by the conformance register. Each record has its own stable
@@ -386,6 +386,61 @@ To recheck the PDF pin, identities, pages and source anchors, run:
 
 ```sh
 rtk proxy python3 scripts/verify_srd_spells_199.py /path/to/SRD_CC_v5.2.1.pdf
+```
+
+The same limits as #198 apply: the source check supplements the offline literal
+fixtures and is not an automatic conformance proof.
+
+## Issue #200: Command through Conjure Minor Elementals
+
+`testdata/spells_200.json` imports the twelve families the issue-80 inventory
+assigns to #200, on PDF pp.116-118: Command, Commune, Commune with Nature,
+Comprehend Languages, Compulsion, Cone of Cold, Confusion, Conjure Animals,
+Conjure Celestial, Conjure Elemental, Conjure Fey and Conjure Minor Elementals.
+Commune with Nature keeps its p.116 to p.117 continuation and Conjure Animals its
+p.117 to p.118 continuation in explicit `source_pages` lists. Conjure Woodland
+Beings, which follows on p.118, belongs to a later batch and is not imported.
+`spells_200_test.go` supplies literal source-value fixtures for every header,
+choice, table row, effect and scaling value, and checks the family list and
+pages against the inventory.
+
+The typed payloads retain Command's five options; Commune's three yes-or-no
+questions and cumulative no-answer chance; Commune with Nature's two radii and
+five facts; Comprehend Languages' reading limits; Compulsion's directed
+movement; Cone of Cold's cone; Confusion's behavior table and direction die;
+Conjure Animals' pack, movement and triggers; Conjure Celestial's two lights;
+Conjure Elemental's four elements and restraint; Conjure Fey's attack, fear and
+teleport; and Conjure Minor Elementals' emanation and damage types.
+
+Schema version 1 gains only shapes present in this batch, on top of #199:
+
+- Commune, Commune with Nature and Comprehend Languages set `ritual = true`
+  with their normal casting time (`1-minute` or `action`) and a
+  `ritual_alternative` flag in the payload, as #196 does for Alarm.
+- Target `created-effect` gains `unoccupied-space-in-range`, and `emanation`
+  gains `creatures-in-emanation`. The other targets reuse existing shapes.
+- `slot-targets` also covers Command's extra creature per slot.
+- `slot-radius` scaling (Confusion) references `additional_radius_feet_per_slot`
+  in the `confusion` payload and the `scaling.radius-per-slot` dependency.
+- `slot` scaling also lists several effects: Conjure Celestial scales its healing
+  and damage together, and Conjure Elemental scales both its 8d8 and 4d8 damage
+  because the source says only "the damage increases".
+
+Validation pins each record's printed level, school, casting time, range, target,
+ritual flag, concentration, duration, scaling dice and effect dice by equality,
+and the printed measurements of each payload (for example the 60-foot Cone of
+Cold, the 10-foot Confusion sphere, the 40-foot Celestial cylinder and the 30-foot
+Fey teleport), so a positive but wrong value is rejected.
+
+Composition of the two bounded compatibility fixtures with #196, #218, #198,
+#197, #199 and #200 yields 72 unique records. Every imported record remains
+unavailable: no resolver, action, entitlement, tool, inventory, coverage or Full
+Rules behavior is added.
+
+To recheck the PDF pin, identities, pages and source anchors, run:
+
+```sh
+rtk proxy python3 scripts/verify_srd_spells_200.py /path/to/SRD_CC_v5.2.1.pdf
 ```
 
 The same limits as #198 apply: the source check supplements the offline literal

@@ -87,7 +87,7 @@ type SpellMaterial struct {
 }
 
 // SpellScaling identifies per-slot dice additions or references a typed ray
-// or bolt count increment in SourceDetails. Kind slot-effect-dice references the
+// or bolt count increment, or a typed radius increment, in SourceDetails. Kind slot-effect-dice references the
 // per-effect dice rows in SourceDetails.Hand.SlotDice.
 // Bounded fixtures use none; their higher-slot catalogue data belongs elsewhere.
 type SpellScaling struct {
@@ -243,6 +243,8 @@ func (s SpellRecord) validate() error {
 				base, additional = d.Friendship.BaseTargets, d.Friendship.AdditionalTargetsPerSlot
 			} else if b, a, ok := spell197TargetScaling(d); ok {
 				base, additional = b, a
+			} else if d.Command != nil {
+				base, additional = d.Command.BaseTargets, d.Command.AdditionalTargetsPerSlot
 			} else if d.Monster != nil {
 				base, additional = d.Monster.BaseTargets, d.Monster.AdditionalTargetsPerSlot
 			} else if d.Person != nil {
@@ -265,6 +267,10 @@ func (s SpellRecord) validate() error {
 	case "slot-effect-dice":
 		if err := s.validateSpell197EffectDice(effects); err != nil {
 			return err
+		}
+	case "slot-radius":
+		if sc.AboveLevel != s.Level || sc.DiceCount != 0 || sc.DieSides != 0 || len(sc.EffectIDs) != 1 || !effects[sc.EffectIDs[0]] || s.SourceDetails == nil || s.SourceDetails.Confusion == nil || s.SourceDetails.Confusion.AdditionalRadiusFeetSlot <= 0 || !slices.Contains(s.RequiredMechanics, "scaling.radius-per-slot") {
+			return fmt.Errorf("invalid radius scaling")
 		}
 	case "slot-count":
 		additional, mechanic := 0, ""
