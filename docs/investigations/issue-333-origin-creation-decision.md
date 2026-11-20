@@ -2,7 +2,7 @@
 
 Class choice, class equipment, level advancement, higher-level starts, multiclassing and the four Origin feats already have published owners, and this decision reuses them unchanged. No published issue executes a background other than the two fixed builds, any species trait, ability-score generation, the language and alignment choices, trinkets, GM-authored backgrounds, the player's Passive Perception or typed damage Resistance. Those residuals are assigned to 22 bounded tasks, each one PR, each a native child of #333 and a direct blocker of character qualification #337. Twenty implement a rule and two are qualification-only outputs that keep #430 and #488 under GitHub's limit of 100 outgoing blocking relations. One of the twenty, `drow-faerie-fire`, stays open until the open spell splitter #277 publishes the Faerie Fire effect. Closing this decision supplies no runtime.
 
-The tasks are drafted here as exact body files. Their issue numbers, native links and readback are recorded in the link-verification receipt when they are published; until then the scope status is `SOURCE_RECONCILED_PUBLICATION_PENDING`.
+The tasks are published as #2090–#2111 from the exact body files in this directory. Their numbers, native links and readback are in the Publication section and in [the link-verification receipt](issue-333-link-verification.json); the scope status is `EXACT_SOURCE_PUBLICATION_PASS`.
 
 ## Source reconciliation
 
@@ -110,9 +110,48 @@ Two reused owners are too close to the outgoing limit to take one edge per consu
 | #384 outgoing | 67 | 70 | 100 |
 | #66 outgoing | 62 | 69 | 100 |
 
-The scope file lists the before and after outgoing count of all 71 reused prerequisites; apart from #430 and #488 none passes 92. Other splitters publish in parallel, so the publisher rereads these counts immediately before creating edges.
+The scope file lists the before and after outgoing count of all 71 reused prerequisites; apart from #430 and #488 none passes 92. These are the counts read at review; the counts at publication are in the Publication section.
 
 No new task is a child of #283. Publication order follows the new-to-new edges: the two outputs and `typed-resistance` first, then the tasks that depend only on them, then `custom-background`, `elf-lineage-spells`, the two Goliath follow-ups and last `drow-faerie-fire`. The dependency graph was read in full (1,892 issues, 10,201 blocked-by edges): no planned prerequisite is transitively blocked by #337, the new-to-new edges are acyclic, and so the 22 new edges into #337 close no cycle. The parent chain stays #333 → #283 → #54 → #47. No existing body, parent or edge changes; #430 stays a child of #333 and keeps its own edges.
+
+## Publication
+
+Published and read back on 2026-11-20 (receipt: [issue-333-link-verification.json](issue-333-link-verification.json)). Every task is an open Task on the edda Project with its Size set, a native child of #333 and a native blocker of #337.
+
+| Key | Issue | Size | Blocked by |
+|---|---|---|---|
+| `creation-output` | #2090 | S | #430 |
+| `condition-output` | #2091 | S | #488 |
+| `typed-resistance` | #2092 | S | #65 |
+| `trinket` | #2093 | S | #195, #284 |
+| `passive-perception` | #2094 | S | #61, #284 |
+| `ability-scores` | #2095 | M | #284, #306, #2090 |
+| `backgrounds` | #2096 | M | #195, #247, #249, #253, #254, #256, #257, #258, #259, #260, #261, #306, #384, #385, #386, #387, #2090 |
+| `languages-alignment` | #2097 | S | #284, #2090 |
+| `dragonborn` | #2098 | M | #61, #65, #66, #145, #307, #428, #487, #968, #2090, #2092 |
+| `dwarf` | #2099 | M | #61, #66, #145, #307, #428, #504, #727, #968, #2090, #2092 |
+| `elf` | #2100 | M | #61, #145, #307, #428, #1049, #1050, #1281, #1384, #1385, #1386, #2090, #2091 |
+| `gnome` | #2101 | M | #61, #66, #145, #307, #428, #700, #955, #1375, #1376, #1384, #1385, #1386, #1448, #2090 |
+| `goliath` | #2102 | M | #61, #65, #66, #307, #428, #778, #2090, #2091 |
+| `halfling` | #2103 | M | #61, #307, #1137, #2090, #2091 |
+| `human` | #2104 | S | #307, #384, #385, #386, #387, #388, #428, #774, #2090 |
+| `orc` | #2105 | M | #65, #66, #145, #307, #427, #428, #487, #780, #2090 |
+| `tiefling` | #2106 | M | #145, #307, #428, #678, #683, #695, #959, #968, #1075, #1264, #1282, #1318, #1448, #1607, #1631, #1632, #2090, #2092 |
+| `custom-background` | #2107 | M | #247, #248, #249, #250, #251, #252, #253, #254, #255, #256, #257, #258, #259, #260, #261, #262, #301, #306, #384, #385, #386, #387, #388, #2090, #2095, #2096 |
+| `elf-lineage-spells` | #2108 | M | #265, #428, #688, #906, #968, #1066, #1072, #1282, #1448, #2100 |
+| `goliath-reactions` | #2109 | M | #66, #81, #2102 |
+| `goliath-large-form` | #2110 | M | #61, #66, #968, #2102 |
+| `drow-faerie-fire` | #2111 | S | #277, #2108 |
+
+Each body matches its task file byte for byte. The publication added 22 parent links, 144 blocked-by edges to existing issues, 25 between the new tasks and 22 into #337, and removed none. Both ends of every edge were reread immediately before it was added. #337 went from 62 to 84 blockers and #333 from 1 to 23 sub-issues; #283 stays at 95.
+
+The counts moved between review and publication because other splitters published in between. #488 had 99 dependents, not 97, so the single edge from `condition-output` (#2091) took it to 100. **#488 is now full**: later issues that need the Charmed, Frightened or Prone output depend on #2091 or another shared output. #430 is at 99 through `creation-output` (#2090). #61 is at 95, #428 and #487 at 93, #65 at 81. #67 gained nothing.
+
+One edge is still owed. #2111 is blocked by #277 and #2108 today. The #277 decision must add the Faerie Fire effect owner it publishes as a native blocker of #2111; until then that task's own closing condition keeps it open.
+
+Decision #270 published #2062 after this package was reviewed. It starts a fall when a flying creature is Incapacitated, Prone or at Fly Speed 0. It does not cover a timed flight ending, so the Dragonborn body (#2098) was published as reviewed and takes no edge to it.
+
+A page-through of 1,940 issues after publication shows the dependency graph (10,495 edges) and the parent hierarchy acyclic, and no issue above 100 blockers, dependents or children. Against the read taken just before publication, the only differences in earlier issues are the 22 blockers on #337, the 22 children of #333 and the planned dependent counts.
 
 ## Deterministic witnesses
 

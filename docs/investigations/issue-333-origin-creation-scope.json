@@ -1,7 +1,7 @@
 {
  "schema_version": 1,
  "decision": 333,
- "status": "SOURCE_RECONCILED_PUBLICATION_PENDING",
+ "status": "EXACT_SOURCE_PUBLICATION_PASS",
  "observed_at": "2026-11-20T08:00:37.093295+00:00",
  "observed_base": "7b14aba4f4a3f69c138354ed9d2bc3484fa7b84c",
  "source": {
@@ -2002,7 +2002,7 @@
  ],
  "new_implementation_tasks": [
   {
-   "number": null,
+   "number": 2090,
    "key": "creation-output",
    "marker": "edda-333:creation-output",
    "title": "Qualify creation provenance output for origin consumers",
@@ -2021,7 +2021,7 @@
    "body_sha256": "c9fe7e876eacec190c2ab1ed185f8b96a17b12830e81783d6b0afff763e43843"
   },
   {
-   "number": null,
+   "number": 2091,
    "key": "condition-output",
    "marker": "edda-333:condition-output",
    "title": "Qualify Charmed, Frightened and Prone outputs for origin consumers",
@@ -2040,7 +2040,7 @@
    "body_sha256": "d0a2d4552fcef41966af0a6f54ba30c3622697405a2be4f4bf0b9c52210c47a5"
   },
   {
-   "number": null,
+   "number": 2092,
    "key": "typed-resistance",
    "marker": "edda-333:typed-resistance",
    "title": "Apply typed damage Resistance once per damage instance",
@@ -2059,7 +2059,7 @@
    "body_sha256": "03c81fb6b2ee28054d1e43ff8d15aefb7e4eae2e66ff5bf4676a4387ebb0ca35"
   },
   {
-   "number": null,
+   "number": 2095,
    "key": "ability-scores",
    "marker": "edda-333:ability-scores",
    "title": "Confirm creation ability scores by Standard Array, 4d6 or 27-point cost",
@@ -2081,7 +2081,7 @@
    "body_sha256": "01de8b25d730c984d65f9860b2902f64a78e472cf21b855044948f86154c5cc2"
   },
   {
-   "number": null,
+   "number": 2096,
    "key": "backgrounds",
    "marker": "edda-333:backgrounds",
    "title": "Confirm Acolyte, Criminal, Sage or Soldier grants and equipment choice",
@@ -2117,7 +2117,7 @@
    "body_sha256": "cd37236a679b208363791bb315f7239e77ca173b4a2822d840d6113e19b8e014"
   },
   {
-   "number": null,
+   "number": 2097,
    "key": "languages-alignment",
    "marker": "edda-333:languages-alignment",
    "title": "Record creation languages and alignment from the exact source tables",
@@ -2138,7 +2138,7 @@
    "body_sha256": "f2e05c7cd961cf69345c91aca6cfdabe79a94bdc29b382e57dff07e821953d29"
   },
   {
-   "number": null,
+   "number": 2093,
    "key": "trinket",
    "marker": "edda-333:trinket",
    "title": "Confirm one optional creation trinket roll from the exact d100 table",
@@ -2158,7 +2158,7 @@
    "body_sha256": "c169db80e6cade6d32b1f41cb7ef54ea002118137d280214d24fcf1274e7c605"
   },
   {
-   "number": null,
+   "number": 2094,
    "key": "passive-perception",
    "marker": "edda-333:passive-perception",
    "title": "Project player Passive Perception on the derived sheet",
@@ -2178,7 +2178,7 @@
    "body_sha256": "2b999229bc99d54dfa10a06d7d504e7415b49912c731721aa41a1c70d308be08"
   },
   {
-   "number": null,
+   "number": 2107,
    "key": "custom-background",
    "marker": "edda-333:custom-background",
    "title": "Confirm one GM-authored background under the five source steps",
@@ -2223,7 +2223,7 @@
    "body_sha256": "737fd4c74c03aa2ec87f687ffee9982454b292aebb3f32dc524752720741dde2"
   },
   {
-   "number": null,
+   "number": 2098,
    "key": "dragonborn",
    "marker": "edda-333:species-dragonborn",
    "title": "Confirm Dragonborn ancestry, Breath Weapon, resistance and level5 flight",
@@ -2252,7 +2252,7 @@
    "body_sha256": "7e4752d264a20ec9ecd48b19f0557381dc6ef7a6b1126aab6b946a1bc1a83bd2"
   },
   {
-   "number": null,
+   "number": 2099,
    "key": "dwarf",
    "marker": "edda-333:species-dwarf",
    "title": "Confirm Dwarf resilience, per-level toughness and Stonecunning",
@@ -2281,7 +2281,7 @@
    "body_sha256": "698fc384815c1f9b1cdc484c1f76b9effc5bf894abe73760a04a386e166a21e3"
   },
   {
-   "number": null,
+   "number": 2100,
    "key": "elf",
    "marker": "edda-333:species-elf",
    "title": "Confirm Elf lineage choice, cantrips, Fey Ancestry, Keen Senses and Trance",
@@ -2312,7 +2312,7 @@
    "body_sha256": "888ae1fc2f319435ae9abab2264f144730351faf2fc5d217f12d83baa3222e7f"
   },
   {
-   "number": null,
+   "number": 2108,
    "key": "elf-lineage-spells",
    "marker": "edda-333:species-elf-lineage-spells",
    "title": "Confirm Elf level 3 and 5 lineage spell uses and High Elf cantrip replacement",
@@ -2341,7 +2341,7 @@
    "body_sha256": "bcbf368f67ca3a46e907fff2fb5de0ea2911cd7471210830cad3a2bc7ba043bf"
   },
   {
-   "number": null,
+   "number": 2111,
    "key": "drow-faerie-fire",
    "marker": "edda-333:species-drow-faerie-fire",
    "title": "Enable the Drow level 3 Faerie Fire lineage cast",
@@ -2369,7 +2369,7 @@
    "body_sha256": "6de6f973e44db6898db30da0458951b7b84ae6294b2eb63e92f149b3cca0d6d7"
   },
   {
-   "number": null,
+   "number": 2101,
    "key": "gnome",
    "marker": "edda-333:species-gnome",
    "title": "Confirm Gnome cunning, lineage spells and Rock Gnome clockwork devices",
@@ -2402,7 +2402,7 @@
    "body_sha256": "f45b1126dafd21030e9015dc9eba893c4a0ec17d042b9af2daa034a3411ef30a"
   },
   {
-   "number": null,
+   "number": 2102,
    "key": "goliath",
    "marker": "edda-333:species-goliath",
    "title": "Confirm Goliath Powerful Build, Giant Ancestry choice and on-hit boons",
@@ -2429,7 +2429,7 @@
    "body_sha256": "bf402e6d77f239f53e96cab74fc8fc16fdd29719d8ffe0ff4b485edf33ce2f6a"
   },
   {
-   "number": null,
+   "number": 2109,
    "key": "goliath-reactions",
    "marker": "edda-333:species-goliath-reactions",
    "title": "Resolve Goliath Cloud's Jaunt, Stone's Endurance and Storm's Thunder",
@@ -2451,7 +2451,7 @@
    "body_sha256": "a75cadc326241f57c64d576e103b65d891f7c1aa99723db0794b125fbe16a48f"
   },
   {
-   "number": null,
+   "number": 2110,
    "key": "goliath-large-form",
    "marker": "edda-333:species-goliath-large-form",
    "title": "Confirm Goliath Large Form size change at character level 5",
@@ -2474,7 +2474,7 @@
    "body_sha256": "61f4628c64e5e4fe4f281be5a064774530d935c354695da1667eedc2a8757570"
   },
   {
-   "number": null,
+   "number": 2103,
    "key": "halfling",
    "marker": "edda-333:species-halfling",
    "title": "Confirm Halfling Brave, Luck, Nimbleness and Naturally Stealthy",
@@ -2498,7 +2498,7 @@
    "body_sha256": "861e1bd8b047d5172814c48480c00436cf75c02220e6902620d2589f33c832cb"
   },
   {
-   "number": null,
+   "number": 2104,
    "key": "human",
    "marker": "edda-333:species-human",
    "title": "Confirm Human size, Resourceful, Skillful and Versatile choices",
@@ -2526,7 +2526,7 @@
    "body_sha256": "9229b6ad321827c7ecf124a0942208e3d5f5ac6909c30973ddfeb7d4356f91ae"
   },
   {
-   "number": null,
+   "number": 2105,
    "key": "orc",
    "marker": "edda-333:species-orc",
    "title": "Confirm Orc Adrenaline Rush and Relentless Endurance",
@@ -2554,7 +2554,7 @@
    "body_sha256": "ba597b26d2a641de2f4577176020cce810ab6f07f0050eaab2b4f971afd3d136"
   },
   {
-   "number": null,
+   "number": 2106,
    "key": "tiefling",
    "marker": "edda-333:species-tiefling",
    "title": "Confirm Tiefling size, Fiendish Legacy spells and Otherworldly Presence",
@@ -2998,7 +2998,11 @@
    283,
    54,
    47
-  ]
+  ],
+  "native_readback_dependency_acyclic": true,
+  "native_readback_parent_acyclic": true,
+  "native_readback_issues_paged": 1940,
+  "native_readback_dependency_edges": 10495
  },
  "referenced_neighbours": [
   {
@@ -3074,5 +3078,587 @@
   "existing_edges": true,
   "issue_430_remains_child_of_333": true
  },
- "runtime_qualified": false
+ "runtime_qualified": false,
+ "published": {
+  "observed_at": "2026-11-20T15:52:13Z",
+  "issue_count": 1940,
+  "numbers": {
+   "creation-output": 2090,
+   "condition-output": 2091,
+   "typed-resistance": 2092,
+   "trinket": 2093,
+   "passive-perception": 2094,
+   "ability-scores": 2095,
+   "backgrounds": 2096,
+   "languages-alignment": 2097,
+   "dragonborn": 2098,
+   "dwarf": 2099,
+   "elf": 2100,
+   "gnome": 2101,
+   "goliath": 2102,
+   "halfling": 2103,
+   "human": 2104,
+   "orc": 2105,
+   "tiefling": 2106,
+   "custom-background": 2107,
+   "elf-lineage-spells": 2108,
+   "goliath-reactions": 2109,
+   "goliath-large-form": 2110,
+   "drow-faerie-fire": 2111
+  },
+  "receipt": "docs/investigations/issue-333-link-verification.json",
+  "edges_added": [
+   "#2090 parent #333",
+   "#2091 parent #333",
+   "#2092 parent #333",
+   "#2093 parent #333",
+   "#2094 parent #333",
+   "#2095 parent #333",
+   "#2096 parent #333",
+   "#2097 parent #333",
+   "#2098 parent #333",
+   "#2099 parent #333",
+   "#2100 parent #333",
+   "#2101 parent #333",
+   "#2102 parent #333",
+   "#2103 parent #333",
+   "#2104 parent #333",
+   "#2105 parent #333",
+   "#2106 parent #333",
+   "#2107 parent #333",
+   "#2108 parent #333",
+   "#2109 parent #333",
+   "#2110 parent #333",
+   "#2111 parent #333",
+   "#2090 blocked-by #430",
+   "#2091 blocked-by #488",
+   "#2092 blocked-by #65",
+   "#2095 blocked-by #284",
+   "#2095 blocked-by #306",
+   "#2096 blocked-by #195",
+   "#2096 blocked-by #247",
+   "#2096 blocked-by #249",
+   "#2096 blocked-by #253",
+   "#2096 blocked-by #254",
+   "#2096 blocked-by #256",
+   "#2096 blocked-by #257",
+   "#2096 blocked-by #258",
+   "#2096 blocked-by #259",
+   "#2096 blocked-by #260",
+   "#2096 blocked-by #261",
+   "#2096 blocked-by #306",
+   "#2096 blocked-by #384",
+   "#2096 blocked-by #385",
+   "#2096 blocked-by #386",
+   "#2096 blocked-by #387",
+   "#2097 blocked-by #284",
+   "#2093 blocked-by #195",
+   "#2093 blocked-by #284",
+   "#2094 blocked-by #61",
+   "#2094 blocked-by #284",
+   "#2107 blocked-by #247",
+   "#2107 blocked-by #248",
+   "#2107 blocked-by #249",
+   "#2107 blocked-by #250",
+   "#2107 blocked-by #251",
+   "#2107 blocked-by #252",
+   "#2107 blocked-by #253",
+   "#2107 blocked-by #254",
+   "#2107 blocked-by #255",
+   "#2107 blocked-by #256",
+   "#2107 blocked-by #257",
+   "#2107 blocked-by #258",
+   "#2107 blocked-by #259",
+   "#2107 blocked-by #260",
+   "#2107 blocked-by #261",
+   "#2107 blocked-by #262",
+   "#2107 blocked-by #301",
+   "#2107 blocked-by #306",
+   "#2107 blocked-by #384",
+   "#2107 blocked-by #385",
+   "#2107 blocked-by #386",
+   "#2107 blocked-by #387",
+   "#2107 blocked-by #388",
+   "#2098 blocked-by #61",
+   "#2098 blocked-by #65",
+   "#2098 blocked-by #66",
+   "#2098 blocked-by #145",
+   "#2098 blocked-by #307",
+   "#2098 blocked-by #428",
+   "#2098 blocked-by #487",
+   "#2098 blocked-by #968",
+   "#2099 blocked-by #61",
+   "#2099 blocked-by #66",
+   "#2099 blocked-by #145",
+   "#2099 blocked-by #307",
+   "#2099 blocked-by #428",
+   "#2099 blocked-by #504",
+   "#2099 blocked-by #727",
+   "#2099 blocked-by #968",
+   "#2100 blocked-by #61",
+   "#2100 blocked-by #145",
+   "#2100 blocked-by #307",
+   "#2100 blocked-by #428",
+   "#2100 blocked-by #1049",
+   "#2100 blocked-by #1050",
+   "#2100 blocked-by #1281",
+   "#2100 blocked-by #1384",
+   "#2100 blocked-by #1385",
+   "#2100 blocked-by #1386",
+   "#2108 blocked-by #265",
+   "#2108 blocked-by #428",
+   "#2108 blocked-by #688",
+   "#2108 blocked-by #906",
+   "#2108 blocked-by #968",
+   "#2108 blocked-by #1066",
+   "#2108 blocked-by #1072",
+   "#2108 blocked-by #1282",
+   "#2108 blocked-by #1448",
+   "#2111 blocked-by #277",
+   "#2101 blocked-by #61",
+   "#2101 blocked-by #66",
+   "#2101 blocked-by #145",
+   "#2101 blocked-by #307",
+   "#2101 blocked-by #428",
+   "#2101 blocked-by #700",
+   "#2101 blocked-by #955",
+   "#2101 blocked-by #1375",
+   "#2101 blocked-by #1376",
+   "#2101 blocked-by #1384",
+   "#2101 blocked-by #1385",
+   "#2101 blocked-by #1386",
+   "#2101 blocked-by #1448",
+   "#2102 blocked-by #61",
+   "#2102 blocked-by #65",
+   "#2102 blocked-by #66",
+   "#2102 blocked-by #307",
+   "#2102 blocked-by #428",
+   "#2102 blocked-by #778",
+   "#2109 blocked-by #66",
+   "#2109 blocked-by #81",
+   "#2110 blocked-by #61",
+   "#2110 blocked-by #66",
+   "#2110 blocked-by #968",
+   "#2103 blocked-by #61",
+   "#2103 blocked-by #307",
+   "#2103 blocked-by #1137",
+   "#2104 blocked-by #307",
+   "#2104 blocked-by #384",
+   "#2104 blocked-by #385",
+   "#2104 blocked-by #386",
+   "#2104 blocked-by #387",
+   "#2104 blocked-by #388",
+   "#2104 blocked-by #428",
+   "#2104 blocked-by #774",
+   "#2105 blocked-by #65",
+   "#2105 blocked-by #66",
+   "#2105 blocked-by #145",
+   "#2105 blocked-by #307",
+   "#2105 blocked-by #427",
+   "#2105 blocked-by #428",
+   "#2105 blocked-by #487",
+   "#2105 blocked-by #780",
+   "#2106 blocked-by #145",
+   "#2106 blocked-by #307",
+   "#2106 blocked-by #428",
+   "#2106 blocked-by #678",
+   "#2106 blocked-by #683",
+   "#2106 blocked-by #695",
+   "#2106 blocked-by #959",
+   "#2106 blocked-by #968",
+   "#2106 blocked-by #1075",
+   "#2106 blocked-by #1264",
+   "#2106 blocked-by #1282",
+   "#2106 blocked-by #1318",
+   "#2106 blocked-by #1448",
+   "#2106 blocked-by #1607",
+   "#2106 blocked-by #1631",
+   "#2106 blocked-by #1632",
+   "#2095 blocked-by #2090",
+   "#2096 blocked-by #2090",
+   "#2097 blocked-by #2090",
+   "#2107 blocked-by #2090",
+   "#2107 blocked-by #2095",
+   "#2107 blocked-by #2096",
+   "#2098 blocked-by #2090",
+   "#2098 blocked-by #2092",
+   "#2099 blocked-by #2090",
+   "#2099 blocked-by #2092",
+   "#2100 blocked-by #2090",
+   "#2100 blocked-by #2091",
+   "#2108 blocked-by #2100",
+   "#2111 blocked-by #2108",
+   "#2101 blocked-by #2090",
+   "#2102 blocked-by #2090",
+   "#2102 blocked-by #2091",
+   "#2109 blocked-by #2102",
+   "#2110 blocked-by #2102",
+   "#2103 blocked-by #2090",
+   "#2103 blocked-by #2091",
+   "#2104 blocked-by #2090",
+   "#2105 blocked-by #2090",
+   "#2106 blocked-by #2090",
+   "#2106 blocked-by #2092",
+   "#337 blocked-by #2090",
+   "#337 blocked-by #2091",
+   "#337 blocked-by #2092",
+   "#337 blocked-by #2093",
+   "#337 blocked-by #2094",
+   "#337 blocked-by #2095",
+   "#337 blocked-by #2096",
+   "#337 blocked-by #2097",
+   "#337 blocked-by #2098",
+   "#337 blocked-by #2099",
+   "#337 blocked-by #2100",
+   "#337 blocked-by #2101",
+   "#337 blocked-by #2102",
+   "#337 blocked-by #2103",
+   "#337 blocked-by #2104",
+   "#337 blocked-by #2105",
+   "#337 blocked-by #2106",
+   "#337 blocked-by #2107",
+   "#337 blocked-by #2108",
+   "#337 blocked-by #2109",
+   "#337 blocked-by #2110",
+   "#337 blocked-by #2111"
+  ],
+  "pending_blocked_by_edges": [
+   {
+    "published_by": 277,
+    "what": "the Faerie Fire effect owner (SRD 5.2.1 PDF129); no issue owns it yet",
+    "edge": "that owner blocks this task",
+    "added_by": "the #277 decision when it publishes the owner",
+    "task": 2111,
+    "status": "NOT_YET_PUBLISHED"
+   }
+  ],
+  "note": "Task keys in new_implementation_tasks, blocked_by_new_tasks and publication_order resolve through numbers. caps holds the review read; the counts at publication are under caps_at_publication."
+ },
+ "caps_at_publication": {
+  "limit": 100,
+  "nodes": 1940,
+  "dependency_edges": 10495,
+  "parent_edges": 1936,
+  "incoming337": 84,
+  "children333": 23,
+  "children283": 95,
+  "outgoing430": 99,
+  "outgoing488": 100,
+  "outgoing67": 100,
+  "outgoing61": 95,
+  "outgoing428": 93,
+  "outgoing487": 93,
+  "outgoing65": 81,
+  "outgoing66": 71,
+  "outgoing384": 70,
+  "outgoing277": 4,
+  "max_incoming": 100,
+  "max_outgoing": 100,
+  "max_children": 95,
+  "before": {
+   "observed_at": "2026-11-20T15:36:50Z",
+   "nodes": 1918,
+   "dependency_edges": 10304,
+   "parent_edges": 1914,
+   "incoming337": 62,
+   "children333": 1,
+   "children283": 95,
+   "outgoing430": 98,
+   "outgoing488": 99,
+   "outgoing67": 100,
+   "outgoing61": 87,
+   "outgoing428": 84,
+   "outgoing487": 91,
+   "outgoing65": 77,
+   "outgoing66": 64,
+   "outgoing384": 67,
+   "outgoing277": 3
+  },
+  "existing_outgoing": {
+   "61": {
+    "before": 87,
+    "after": 95
+   },
+   "65": {
+    "before": 77,
+    "after": 81
+   },
+   "66": {
+    "before": 64,
+    "after": 71
+   },
+   "81": {
+    "before": 2,
+    "after": 3
+   },
+   "145": {
+    "before": 12,
+    "after": 18
+   },
+   "195": {
+    "before": 66,
+    "after": 68
+   },
+   "247": {
+    "before": 13,
+    "after": 15
+   },
+   "248": {
+    "before": 13,
+    "after": 14
+   },
+   "249": {
+    "before": 9,
+    "after": 11
+   },
+   "250": {
+    "before": 1,
+    "after": 2
+   },
+   "251": {
+    "before": 4,
+    "after": 5
+   },
+   "252": {
+    "before": 3,
+    "after": 4
+   },
+   "253": {
+    "before": 1,
+    "after": 3
+   },
+   "254": {
+    "before": 1,
+    "after": 3
+   },
+   "255": {
+    "before": 1,
+    "after": 2
+   },
+   "256": {
+    "before": 1,
+    "after": 3
+   },
+   "257": {
+    "before": 2,
+    "after": 4
+   },
+   "258": {
+    "before": 1,
+    "after": 3
+   },
+   "259": {
+    "before": 4,
+    "after": 6
+   },
+   "260": {
+    "before": 1,
+    "after": 3
+   },
+   "261": {
+    "before": 6,
+    "after": 8
+   },
+   "262": {
+    "before": 1,
+    "after": 2
+   },
+   "265": {
+    "before": 7,
+    "after": 8
+   },
+   "277": {
+    "before": 3,
+    "after": 4
+   },
+   "284": {
+    "before": 37,
+    "after": 41
+   },
+   "301": {
+    "before": 2,
+    "after": 3
+   },
+   "306": {
+    "before": 1,
+    "after": 4
+   },
+   "307": {
+    "before": 1,
+    "after": 10
+   },
+   "384": {
+    "before": 67,
+    "after": 70
+   },
+   "385": {
+    "before": 30,
+    "after": 33
+   },
+   "386": {
+    "before": 32,
+    "after": 35
+   },
+   "387": {
+    "before": 31,
+    "after": 34
+   },
+   "388": {
+    "before": 30,
+    "after": 32
+   },
+   "427": {
+    "before": 36,
+    "after": 37
+   },
+   "428": {
+    "before": 84,
+    "after": 93
+   },
+   "430": {
+    "before": 98,
+    "after": 99
+   },
+   "487": {
+    "before": 91,
+    "after": 93
+   },
+   "488": {
+    "before": 99,
+    "after": 100
+   },
+   "504": {
+    "before": 54,
+    "after": 55
+   },
+   "678": {
+    "before": 7,
+    "after": 8
+   },
+   "683": {
+    "before": 7,
+    "after": 8
+   },
+   "688": {
+    "before": 7,
+    "after": 8
+   },
+   "695": {
+    "before": 6,
+    "after": 7
+   },
+   "700": {
+    "before": 7,
+    "after": 8
+   },
+   "727": {
+    "before": 35,
+    "after": 36
+   },
+   "774": {
+    "before": 13,
+    "after": 14
+   },
+   "778": {
+    "before": 16,
+    "after": 17
+   },
+   "780": {
+    "before": 13,
+    "after": 14
+   },
+   "906": {
+    "before": 9,
+    "after": 10
+   },
+   "955": {
+    "before": 8,
+    "after": 9
+   },
+   "959": {
+    "before": 4,
+    "after": 5
+   },
+   "968": {
+    "before": 7,
+    "after": 12
+   },
+   "1049": {
+    "before": 4,
+    "after": 5
+   },
+   "1050": {
+    "before": 3,
+    "after": 4
+   },
+   "1066": {
+    "before": 3,
+    "after": 4
+   },
+   "1072": {
+    "before": 2,
+    "after": 3
+   },
+   "1075": {
+    "before": 5,
+    "after": 6
+   },
+   "1137": {
+    "before": 4,
+    "after": 5
+   },
+   "1264": {
+    "before": 3,
+    "after": 4
+   },
+   "1281": {
+    "before": 4,
+    "after": 5
+   },
+   "1282": {
+    "before": 4,
+    "after": 6
+   },
+   "1318": {
+    "before": 5,
+    "after": 6
+   },
+   "1375": {
+    "before": 4,
+    "after": 5
+   },
+   "1376": {
+    "before": 3,
+    "after": 4
+   },
+   "1384": {
+    "before": 5,
+    "after": 7
+   },
+   "1385": {
+    "before": 3,
+    "after": 5
+   },
+   "1386": {
+    "before": 3,
+    "after": 5
+   },
+   "1448": {
+    "before": 7,
+    "after": 10
+   },
+   "1607": {
+    "before": 2,
+    "after": 3
+   },
+   "1631": {
+    "before": 3,
+    "after": 4
+   },
+   "1632": {
+    "before": 3,
+    "after": 4
+   }
+  }
+ }
 }
