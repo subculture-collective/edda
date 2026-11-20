@@ -1,0 +1,935 @@
+{
+  "schema_version": 1,
+  "rules_version": "srd-5.2.1",
+  "batch": "data-magic-items-04",
+  "catalogue_issue": 228,
+  "source": {
+    "version": "5.2.1",
+    "language": "en",
+    "landing_url": "https://www.dndbeyond.com/srd",
+    "artifact_url": "https://media.dndbeyond.com/compendium-images/srd/5.2/SRD_CC_v5.2.1.pdf",
+    "sha256": "8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87",
+    "bytes": 6031375,
+    "pages": 364,
+    "retrieved_at": "2026-11-15",
+    "license": "CC-BY-4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/legalcode",
+    "attribution": "This work includes material from the System Reference Document 5.2.1 (“SRD 5.2.1”) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd. The SRD 5.2.1 is licensed under the Creative Commons Attribution 4.0 International License, available at https://creativecommons.org/licenses/by/4.0/legalcode.",
+    "changes": "SRD 5.2.1 pp. 215–216 adapted into twelve versioned magic-item families (Censer of Controlling Air Elementals through Crystal Ball of Mind Reading) with explicit variant identities, structured requirements and typed source values. Names, numeric rules and key phrases are adapted into keys; no rules prose is reproduced. Prices are not listed and remain unspecified. Catalogue data grants no inventory, action or gameplay permissions; every record is unavailable."
+  },
+  "families": [
+    {
+      "id": "srd-5.2.1:content/items/censer-of-controlling-air-elementals",
+      "name": "Censer of Controlling Air Elementals",
+      "kind": "magic",
+      "category": "wondrous-item",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/censer-of-controlling-air-elementals",
+          "pages": [
+            215,
+            215
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/censer-of-controlling-air-elementals/variant/standard",
+          "name": "Censer of Controlling Air Elementals",
+          "rarity": "rare",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "magic-action",
+            "restrictions": [
+              "swinging-censer",
+              "once-until-next-dawn"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              215,
+              215
+            ]
+          },
+          "required_mechanic_keys": [
+            "action.magic",
+            "summon.air-elemental",
+            "duration.one-hour",
+            "item.once-until-next-dawn"
+          ],
+          "details": {
+            "censer": {
+              "condition": "gently-swinging",
+              "action": "magic",
+              "summons": "air-elemental",
+              "location": "unoccupied-space-nearest-censer",
+              "understands_owner_languages": true,
+              "obeys_owner_commands": true,
+              "initiative": "immediately-after-summoner",
+              "duration_seconds": 3600,
+              "end_triggers": [
+                "duration-elapsed",
+                "dies",
+                "dismissed-as-bonus-action"
+              ],
+              "uses": 1,
+              "recharge": "next-dawn"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/chime-of-opening",
+      "name": "Chime of Opening",
+      "kind": "magic",
+      "category": "wondrous-item",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/chime-of-opening",
+          "pages": [
+            215,
+            215
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/chime-of-opening/variant/standard",
+          "name": "Chime of Opening",
+          "rarity": "rare",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "magic-action",
+            "restrictions": [
+              "ten-uses"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              215,
+              215
+            ]
+          },
+          "required_mechanic_keys": [
+            "action.magic",
+            "spell.cast-knock",
+            "item.limited-uses",
+            "item.useless-after-final-use"
+          ],
+          "details": {
+            "chime": {
+              "appearance": "hollow-metal-tube",
+              "length_feet": 1,
+              "weight_pounds": 1,
+              "action": "magic",
+              "spell": "knock",
+              "sound_replaces": "customary-knocking-sound",
+              "audible_feet": 300,
+              "uses": 10,
+              "after_final_use": "cracks-and-becomes-useless"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/circlet-of-blasting",
+      "name": "Circlet of Blasting",
+      "kind": "magic",
+      "category": "wondrous-item",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/circlet-of-blasting",
+          "pages": [
+            215,
+            215
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/circlet-of-blasting/variant/standard",
+          "name": "Circlet of Blasting",
+          "rarity": "uncommon",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wear",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "cast-spell",
+            "restrictions": [
+              "once-until-next-dawn"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              215,
+              215
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.wear",
+            "spell.cast-scorching-ray",
+            "spell.attack-bonus-5",
+            "item.once-until-next-dawn"
+          ],
+          "details": {
+            "circlet": {
+              "condition": "while-wearing",
+              "spell": "scorching-ray",
+              "attack_bonus": 5,
+              "uses": 1,
+              "recharge": "next-dawn"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/cloak-of-arachnida",
+      "name": "Cloak of Arachnida",
+      "kind": "magic",
+      "category": "wondrous-item",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/cloak-of-arachnida",
+          "pages": [
+            215,
+            215
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/cloak-of-arachnida/variant/standard",
+          "name": "Cloak of Arachnida",
+          "rarity": "very-rare",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wear",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "cast-spell",
+            "restrictions": [
+              "once-until-next-dawn"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              215,
+              215
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "item.wear",
+            "defense.resistance-poison",
+            "movement.climb-speed-equals-speed",
+            "movement.web-immunity-and-passage",
+            "spell.cast-web",
+            "spell.web-save-dc-13",
+            "item.once-until-next-dawn"
+          ],
+          "details": {
+            "arachnida": {
+              "condition": "while-wearing",
+              "resistances": [
+                "poison"
+              ],
+              "climb_speed": "equal-to-speed",
+              "climb_directions": [
+                "up",
+                "down",
+                "across-vertical-surfaces",
+                "along-ceilings"
+              ],
+              "climb_hands_free": true,
+              "web_catch": "cannot-be-caught-in-webs",
+              "web_movement": "as-difficult-terrain",
+              "web_spell": "web",
+              "web_save_dc": 13,
+              "web_area_multiplier": 2,
+              "web_uses": 1,
+              "web_recharge": "next-dawn"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/cloak-of-displacement",
+      "name": "Cloak of Displacement",
+      "kind": "magic",
+      "category": "wondrous-item",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/cloak-of-displacement",
+          "pages": [
+            215,
+            215
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/cloak-of-displacement/variant/standard",
+          "name": "Cloak of Displacement",
+          "rarity": "rare",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wear",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              215,
+              215
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "item.wear",
+            "defense.attackers-have-disadvantage",
+            "effect.suspended-after-damage",
+            "effect.suppressed-at-speed-0"
+          ],
+          "details": {
+            "displacement": {
+              "condition": "while-wearing",
+              "effect": "illusion-appears-near-actual-location",
+              "attack_rolls_against_wearer": "disadvantage",
+              "suspended_by": "taking-damage",
+              "resumes_at": "start-of-next-turn",
+              "suppressed_while": "speed-0"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/cloak-of-elvenkind",
+      "name": "Cloak of Elvenkind",
+      "kind": "magic",
+      "category": "wondrous-item",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/cloak-of-elvenkind",
+          "pages": [
+            215,
+            215
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/cloak-of-elvenkind/variant/standard",
+          "name": "Cloak of Elvenkind",
+          "rarity": "uncommon",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wear",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              215,
+              215
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "item.wear",
+            "check.perception-to-perceive-wearer-disadvantage",
+            "check.stealth-advantage"
+          ],
+          "details": {
+            "elvenkind": {
+              "condition": "while-wearing",
+              "perceive_wearer_ability": "wisdom",
+              "perceive_wearer_skill": "perception",
+              "perceive_wearer_mode": "disadvantage",
+              "stealth_ability": "dexterity",
+              "stealth_skill": "stealth",
+              "stealth_mode": "advantage"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/cloak-of-invisibility",
+      "name": "Cloak of Invisibility",
+      "kind": "magic",
+      "category": "wondrous-item",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/cloak-of-invisibility",
+          "pages": [
+            215,
+            215
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/cloak-of-invisibility/variant/standard",
+          "name": "Cloak of Invisibility",
+          "rarity": "legendary",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "limited",
+            "maximum": 3,
+            "per_use": 1,
+            "recharge": "regain-1d3-at-dawn"
+          },
+          "equip": {
+            "mode": "wear",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "magic-action",
+            "restrictions": [
+              "expend-one-charge"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              215,
+              215
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "item.wear",
+            "item.charges",
+            "action.magic",
+            "condition.invisible",
+            "duration.one-hour",
+            "effect.ends-when-hood-down-or-cloak-removed"
+          ],
+          "details": {
+            "invisibility": {
+              "condition": "while-wearing",
+              "action": "magic",
+              "gesture": "pull-hood-over-head",
+              "charge_cost": 1,
+              "grants_condition": "invisible",
+              "duration_seconds": 3600,
+              "ends_early": [
+                "hood-pulled-down",
+                "cloak-no-longer-worn"
+              ],
+              "hood_down_action": "none",
+              "max_charges": 3,
+              "regain_dice": {
+                "dice": 1,
+                "sides": 3,
+                "type": "charges"
+              },
+              "regain_timing": "dawn"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/cloak-of-protection",
+      "name": "Cloak of Protection",
+      "kind": "magic",
+      "category": "wondrous-item",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/cloak-of-protection",
+          "pages": [
+            216,
+            216
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/cloak-of-protection/variant/standard",
+          "name": "Cloak of Protection",
+          "rarity": "uncommon",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wear",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              216,
+              216
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "item.wear",
+            "defense.armor-class-bonus-1",
+            "save.bonus-1"
+          ],
+          "details": {
+            "protection": {
+              "condition": "while-wearing",
+              "ac_bonus": 1,
+              "saving_throw_bonus": 1
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/cloak-of-the-bat",
+      "name": "Cloak of the Bat",
+      "kind": "magic",
+      "category": "wondrous-item",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/cloak-of-the-bat",
+          "pages": [
+            216,
+            216
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/cloak-of-the-bat/variant/standard",
+          "name": "Cloak of the Bat",
+          "rarity": "rare",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wear",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "cast-spell",
+            "restrictions": [
+              "dim-light-or-darkness",
+              "once-until-next-dawn"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              216,
+              216
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "item.wear",
+            "check.stealth-advantage",
+            "movement.fly-speed-40-in-dim-light-or-darkness",
+            "spell.cast-polymorph-self-bat",
+            "item.once-until-next-dawn"
+          ],
+          "details": {
+            "bat": {
+              "condition": "while-wearing",
+              "stealth_ability": "dexterity",
+              "stealth_skill": "stealth",
+              "stealth_mode": "advantage",
+              "fly_speed_feet": 40,
+              "fly_light": [
+                "dim-light",
+                "darkness"
+              ],
+              "fly_grip": "grip-edges-of-cloak",
+              "fly_ends_on": [
+                "fail-to-grip-edges-while-flying",
+                "no-longer-in-dim-light-or-darkness"
+              ],
+              "polymorph_spell": "polymorph",
+              "polymorph_target": "self",
+              "polymorph_form": "bat",
+              "polymorph_light": [
+                "dim-light",
+                "darkness"
+              ],
+              "retained_scores": [
+                "intelligence",
+                "wisdom",
+                "charisma"
+              ],
+              "polymorph_uses": 1,
+              "polymorph_recharge": "next-dawn"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/cloak-of-the-manta-ray",
+      "name": "Cloak of the Manta Ray",
+      "kind": "magic",
+      "category": "wondrous-item",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/cloak-of-the-manta-ray",
+          "pages": [
+            216,
+            216
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/cloak-of-the-manta-ray/variant/standard",
+          "name": "Cloak of the Manta Ray",
+          "rarity": "uncommon",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wear",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              216,
+              216
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "item.wear",
+            "movement.breathe-underwater",
+            "movement.swim-speed-60"
+          ],
+          "details": {
+            "manta_ray": {
+              "condition": "while-wearing",
+              "breathe_underwater": true,
+              "swim_speed_feet": 60
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/crystal-ball",
+      "name": "Crystal Ball",
+      "kind": "magic",
+      "category": "wondrous-item",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/crystal-ball",
+          "pages": [
+            216,
+            216
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/crystal-ball/variant/standard",
+          "name": "Crystal Ball",
+          "rarity": "very-rare",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "touch",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "cast-spell",
+            "restrictions": [
+              "touching-crystal-orb"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              216,
+              216
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "item.touch",
+            "spell.cast-scrying",
+            "spell.scrying-save-dc-17"
+          ],
+          "details": {
+            "crystal_ball": {
+              "condition": "while-touching",
+              "spell": "scrying",
+              "save_dc": 17
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/crystal-ball-of-mind-reading",
+      "name": "Crystal Ball of Mind Reading",
+      "kind": "magic",
+      "category": "wondrous-item",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/crystal-ball-of-mind-reading",
+          "pages": [
+            216,
+            216
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/crystal-ball-of-mind-reading/variant/standard",
+          "name": "Crystal Ball of Mind Reading",
+          "rarity": "legendary",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "touch",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "cast-spell",
+            "restrictions": [
+              "touching-crystal-orb"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              216,
+              216
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "item.touch",
+            "spell.cast-scrying",
+            "spell.scrying-save-dc-17",
+            "spell.cast-detect-thoughts",
+            "spell.detect-thoughts-save-dc-17",
+            "concentration.detect-thoughts-ends-with-scrying"
+          ],
+          "details": {
+            "mind_reading": {
+              "condition": "while-touching",
+              "spell": "scrying",
+              "save_dc": 17,
+              "extra_spell": "detect-thoughts",
+              "extra_save_dc": 17,
+              "extra_targets": "creatures-you-can-see-within-range-of-sensor",
+              "extra_range_feet": 30,
+              "extra_range_from": "spell-sensor",
+              "extra_concentration_required": false,
+              "extra_ends_with": "scrying-ends"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

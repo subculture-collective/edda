@@ -205,6 +205,42 @@ rarity lines, every table row and the source values, run:
 
 ```sh
 rtk proxy python3 -I scripts/verify_srd_items_227.py /path/to/SRD_CC_v5.2.1.pdf
+||||||| parent of 57d22a1 (Catalogue SRD magic items batch 04 as unavailable source records for #228)
+
+## Magic items 04 (#228), pp. 215–216
+
+Twelve families, each with the single variant `standard`, in planning inventory
+order. Files: `item_details_228.go`, `testdata/items_228.json`,
+`items_228_test.go` and `scripts/verify_srd_items_228.py`.
+
+| Family | Page | Rarity | Attunement | Typed payload |
+| --- | --- | --- | --- | --- |
+| Censer of Controlling Air Elementals | 215 | Rare | none | `censer` |
+| Chime of Opening | 215 | Rare | none | `chime`: ten uses, then useless |
+| Circlet of Blasting | 215 | Uncommon | none | `circlet` |
+| Cloak of Arachnida | 215 | Very Rare | required | `arachnida` |
+| Cloak of Displacement | 215 | Rare | required | `displacement` |
+| Cloak of Elvenkind | 215 | Uncommon | required | `elvenkind` |
+| Cloak of Invisibility | 215 | Legendary | required | `invisibility`: continues onto p. 216 |
+| Cloak of Protection | 216 | Uncommon | required | `protection` |
+| Cloak of the Bat | 216 | Rare | required | `bat` |
+| Cloak of the Manta Ray | 216 | Uncommon | required | `manta_ray` |
+| Crystal Ball | 216 | Very Rare | required | `crystal_ball` |
+| Crystal Ball of Mind Reading | 216 | Legendary | required | `mind_reading` |
+
+The Cloak of Invisibility is the only family here with a charge pool: 3
+charges, 1 per use, regaining 1d3 at dawn. A manifest family may now state
+`Charges`; without it the decoder still requires no charges. The Chime of
+Opening says "used 10 times", not charges, so its ten uses are a use limit in
+the payload. Once-per-dawn properties are use limits, as in batch 01. None of
+the twelve lists a price.
+
+Composing the Healing contract fixture with batches #225 and #228 yields 25
+families and 32 variants with no shared identity. The Healing fixture,
+`ResolveHealingPotion` and the coverage register are unchanged.
+
+```sh
+rtk proxy python3 -I scripts/verify_srd_items_228.py /path/to/SRD_CC_v5.2.1.pdf
 ```
 
 This work includes material from the System Reference Document 5.2.1 (“SRD
