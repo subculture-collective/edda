@@ -160,6 +160,53 @@ The comparison ties every payload key to its printed phrase and fails when a
 payload gains a key it does not map. It supplements the offline literal fixtures
 in `TestItems226SourceValues`; it is not an automatic conformance proof.
 
+## Magic items 03 (#227), pp. 214–215
+
+Files: `item_details_227.go` (`ItemDetails227`, `LoadItems227`,
+`DecodeItems227`), `testdata/items_227.json`, `items_227_test.go` and
+`scripts/verify_srd_items_227.py`. `item_source.go` is unchanged.
+
+Twelve families and twelve variants, in planning inventory order. Every family
+is a Wondrous Item with one printed rarity, so each has the single variant
+`standard`:
+
+| Family | Page | Rarity | Attunement | Typed payload |
+| --- | --- | --- | --- | --- |
+| Boots of Speed | 214 | Rare | Required | `boots_speed`: ten-minute total until a Long Rest |
+| Boots of Striding and Springing | 214 | Uncommon | Required | `boots_striding` |
+| Boots of the Winterlands | 214 | Uncommon | Required | `boots_winterlands`: Cold Resistance and Winter Strider |
+| Bowl of Commanding Water Elementals | 214 | Rare | None | `bowl`: summon and the bowl's size |
+| Bracers of Archery | 214 | Uncommon | Required | `bracers_archery` |
+| Bracers of Defense | 214 | Rare | Required | `bracers_defense` |
+| Brazier of Commanding Fire Elementals | 214 | Rare | None | `brazier`: summon |
+| Brooch of Shielding | 214 | Uncommon | Required | `brooch` |
+| Broom of Flying | 214 | Uncommon | Required | `broom`: riding, sending and recalling |
+| Candle of Invocation | 214 | Very Rare | Required | `candle`: burn time, light and the 16-row 1d100 Outer Plane table |
+| Cape of the Mountebank | 215 | Rare | None | `cape` |
+| Carpet of Flying | 215 | Very Rare | None | `carpet`: 4-row 1d100 size table |
+
+Candle of Invocation starts on p. 214 and its Outer Plane table is on p. 215.
+The presentation keeps the inventory page 214; the payload records
+`table_page: 215`. The four Carpet of Flying sizes are rows of its random table,
+so they are payload data, not variants. A printed `00` is stored as 100.
+
+None of the twelve lists a price or has charges. The Boots of Speed ten-minute
+total, the candle's four-hour burn time and the once-until-next-dawn properties
+of the bowl, brazier and cape are use limits in the payload, not charge pools.
+The Bowl and Brazier share the `ItemBowlBrazierSummon` type because the source
+prints the same summoning property for both.
+
+Composing the Healing contract fixture, magic items 01 and this batch yields 25
+families and 32 variants with no shared identity. The Healing fixture,
+`ResolveHealingPotion` and the coverage register are unchanged.
+
+To recheck the PDF pin, inventory identities and pages, printed category and
+rarity lines, every table row and the source values, run:
+
+```sh
+rtk proxy python3 -I scripts/verify_srd_items_227.py /path/to/SRD_CC_v5.2.1.pdf
+```
+
 This work includes material from the System Reference Document 5.2.1 (“SRD
 5.2.1”) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd.
 The SRD 5.2.1 is licensed under the Creative Commons Attribution 4.0 International

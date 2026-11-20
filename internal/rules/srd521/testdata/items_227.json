@@ -1,0 +1,1107 @@
+{
+  "schema_version": 1,
+  "rules_version": "srd-5.2.1",
+  "batch": "data-magic-items-03",
+  "catalogue_issue": 227,
+  "source": {
+    "version": "5.2.1",
+    "language": "en",
+    "landing_url": "https://www.dndbeyond.com/srd",
+    "artifact_url": "https://media.dndbeyond.com/compendium-images/srd/5.2/SRD_CC_v5.2.1.pdf",
+    "sha256": "8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87",
+    "bytes": 6031375,
+    "pages": 364,
+    "retrieved_at": "2026-11-15",
+    "license": "CC-BY-4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/legalcode",
+    "attribution": "This work includes material from the System Reference Document 5.2.1 (“SRD 5.2.1”) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd. The SRD 5.2.1 is licensed under the Creative Commons Attribution 4.0 International License, available at https://creativecommons.org/licenses/by/4.0/legalcode.",
+    "changes": "SRD 5.2.1 pp. 214–215 adapted into twelve versioned magic-item families (Boots of Speed through Carpet of Flying) with explicit variant identities, structured requirements and typed source values. Names, numeric rules and table rows are adapted into keys; no rules prose is reproduced. Prices are not listed and remain unspecified. Catalogue data grants no inventory, action or gameplay permissions; every record is unavailable."
+  },
+  "families": [
+    {
+      "id": "srd-5.2.1:content/items/boots-of-speed",
+      "name": "Boots of Speed",
+      "kind": "magic",
+      "category": "wondrous-item",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/boots-of-speed",
+          "pages": [
+            214,
+            214
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/boots-of-speed/variant/standard",
+          "name": "Boots of Speed",
+          "rarity": "rare",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wear",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "bonus-action",
+            "restrictions": [
+              "ten-minutes-total-until-long-rest"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              214,
+              214
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "item.wear",
+            "action.bonus-action",
+            "speed.doubled",
+            "attack.opportunity-attacks-against-wearer-disadvantage",
+            "duration.ends-on-repeat-activation",
+            "item.ten-minutes-total-until-long-rest"
+          ],
+          "details": {
+            "boots_speed": {
+              "condition": "while-wearing",
+              "activate_action": "bonus-action",
+              "activation": "click-heels-together",
+              "speed_multiplier": 2,
+              "opportunity_attacks_against_wearer": "disadvantage",
+              "end_trigger": "click-heels-together-again",
+              "total_use_seconds": 600,
+              "after_total_use": "ceases-to-function-for-wearer",
+              "recharge": "long-rest"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/boots-of-striding-and-springing",
+      "name": "Boots of Striding and Springing",
+      "kind": "magic",
+      "category": "wondrous-item",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/boots-of-striding-and-springing",
+          "pages": [
+            214,
+            214
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/boots-of-striding-and-springing/variant/standard",
+          "name": "Boots of Striding and Springing",
+          "rarity": "uncommon",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wear",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              214,
+              214
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "item.wear",
+            "speed.becomes-30-feet-unless-higher",
+            "speed.ignores-carrying-and-heavy-armor-reduction",
+            "movement.jump-30-feet-for-10-feet-once-per-turn"
+          ],
+          "details": {
+            "boots_striding": {
+              "condition": "while-wearing",
+              "speed_becomes_feet": 30,
+              "speed_unless": "speed-is-higher",
+              "speed_not_reduced_by": [
+                "carrying-weight-over-carrying-capacity",
+                "wearing-heavy-armor"
+              ],
+              "jump_frequency": "once-on-each-of-your-turns",
+              "jump_distance_feet": 30,
+              "jump_movement_cost_feet": 10
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/boots-of-the-winterlands",
+      "name": "Boots of the Winterlands",
+      "kind": "magic",
+      "category": "wondrous-item",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/boots-of-the-winterlands",
+          "pages": [
+            214,
+            214
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/boots-of-the-winterlands/variant/standard",
+          "name": "Boots of the Winterlands",
+          "rarity": "uncommon",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wear",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              214,
+              214
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "item.wear",
+            "defense.resistance-cold",
+            "environment.tolerates-0-fahrenheit-or-lower",
+            "movement.ignores-ice-and-snow-difficult-terrain"
+          ],
+          "details": {
+            "boots_winterlands": {
+              "appearance": "furred-boots",
+              "condition": "while-wearing",
+              "cold_resistance": {
+                "benefit": "cold-resistance",
+                "resistance": "cold",
+                "tolerated_temperature_fahrenheit": 0,
+                "temperature_bound": "or-lower",
+                "without": "additional-protection"
+              },
+              "winter_strider": {
+                "benefit": "winter-strider",
+                "ignores": "difficult-terrain",
+                "created_by": [
+                  "ice",
+                  "snow"
+                ]
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/bowl-of-commanding-water-elementals",
+      "name": "Bowl of Commanding Water Elementals",
+      "kind": "magic",
+      "category": "wondrous-item",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/bowl-of-commanding-water-elementals",
+          "pages": [
+            214,
+            214
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/bowl-of-commanding-water-elementals/variant/standard",
+          "name": "Bowl of Commanding Water Elementals",
+          "rarity": "rare",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "magic-action",
+            "restrictions": [
+              "bowl-filled-with-water",
+              "within-5-feet-of-bowl",
+              "once-until-next-dawn"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              214,
+              214
+            ]
+          },
+          "required_mechanic_keys": [
+            "action.magic",
+            "summon.water-elemental",
+            "summon.acts-after-summoner-initiative",
+            "duration.one-hour-death-or-dismissal",
+            "action.bonus-action-dismiss",
+            "item.once-until-next-dawn"
+          ],
+          "details": {
+            "bowl": {
+              "vessel_condition": "filled-with-water",
+              "summon": {
+                "within_feet": 5,
+                "action": "magic",
+                "summons": "water-elemental",
+                "appears": "unoccupied-space-as-close-to-bowl-as-possible",
+                "elemental_traits": [
+                  "understands-your-languages",
+                  "obeys-your-commands",
+                  "acts-immediately-after-you-on-your-initiative-count"
+                ],
+                "duration_seconds": 3600,
+                "ends_when": [
+                  "duration-elapsed",
+                  "elemental-dies",
+                  "dismissed-as-bonus-action"
+                ],
+                "dismiss_action": "bonus-action",
+                "uses": 1,
+                "recharge": "next-dawn"
+              },
+              "dimensions_approximate": true,
+              "diameter_feet": 1,
+              "depth": "half-of-diameter",
+              "capacity_gallons": 3
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/bracers-of-archery",
+      "name": "Bracers of Archery",
+      "kind": "magic",
+      "category": "wondrous-item",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/bracers-of-archery",
+          "pages": [
+            214,
+            214
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/bracers-of-archery/variant/standard",
+          "name": "Bracers of Archery",
+          "rarity": "uncommon",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wear",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              214,
+              214
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "item.wear",
+            "proficiency.longbow-and-shortbow",
+            "damage.longbow-and-shortbow-bonus-2"
+          ],
+          "details": {
+            "bracers_archery": {
+              "condition": "while-wearing",
+              "weapon_proficiencies": [
+                "longbow",
+                "shortbow"
+              ],
+              "damage_bonus": 2,
+              "damage_bonus_weapons": [
+                "longbow",
+                "shortbow"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/bracers-of-defense",
+      "name": "Bracers of Defense",
+      "kind": "magic",
+      "category": "wondrous-item",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/bracers-of-defense",
+          "pages": [
+            214,
+            214
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/bracers-of-defense/variant/standard",
+          "name": "Bracers of Defense",
+          "rarity": "rare",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wear",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              214,
+              214
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "item.wear",
+            "defense.armor-class-bonus-2-without-armor-or-shield"
+          ],
+          "details": {
+            "bracers_defense": {
+              "condition": "while-wearing",
+              "ac_bonus": 2,
+              "requires": [
+                "wearing-no-armor",
+                "using-no-shield"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/brazier-of-commanding-fire-elementals",
+      "name": "Brazier of Commanding Fire Elementals",
+      "kind": "magic",
+      "category": "wondrous-item",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/brazier-of-commanding-fire-elementals",
+          "pages": [
+            214,
+            214
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/brazier-of-commanding-fire-elementals/variant/standard",
+          "name": "Brazier of Commanding Fire Elementals",
+          "rarity": "rare",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "magic-action",
+            "restrictions": [
+              "within-5-feet-of-brazier",
+              "once-until-next-dawn"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              214,
+              214
+            ]
+          },
+          "required_mechanic_keys": [
+            "action.magic",
+            "summon.fire-elemental",
+            "summon.acts-after-summoner-initiative",
+            "duration.one-hour-death-or-dismissal",
+            "action.bonus-action-dismiss",
+            "item.once-until-next-dawn"
+          ],
+          "details": {
+            "brazier": {
+              "summon": {
+                "within_feet": 5,
+                "action": "magic",
+                "summons": "fire-elemental",
+                "appears": "unoccupied-space-as-close-to-brazier-as-possible",
+                "elemental_traits": [
+                  "understands-your-languages",
+                  "obeys-your-commands",
+                  "acts-immediately-after-you-on-your-initiative-count"
+                ],
+                "duration_seconds": 3600,
+                "ends_when": [
+                  "duration-elapsed",
+                  "elemental-dies",
+                  "dismissed-as-bonus-action"
+                ],
+                "dismiss_action": "bonus-action",
+                "uses": 1,
+                "recharge": "next-dawn"
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/brooch-of-shielding",
+      "name": "Brooch of Shielding",
+      "kind": "magic",
+      "category": "wondrous-item",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/brooch-of-shielding",
+          "pages": [
+            214,
+            214
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/brooch-of-shielding/variant/standard",
+          "name": "Brooch of Shielding",
+          "rarity": "uncommon",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wear",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              214,
+              214
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "item.wear",
+            "defense.resistance-force",
+            "defense.immunity-magic-missile-damage"
+          ],
+          "details": {
+            "brooch": {
+              "condition": "while-wearing",
+              "resistances": [
+                "force"
+              ],
+              "immunity_to_damage_from": "magic-missile-spell"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/broom-of-flying",
+      "name": "Broom of Flying",
+      "kind": "magic",
+      "category": "wondrous-item",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/broom-of-flying",
+          "pages": [
+            214,
+            214
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/broom-of-flying/variant/standard",
+          "name": "Broom of Flying",
+          "rarity": "uncommon",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "magic-action",
+            "restrictions": [
+              "stand-astride-broom"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              214,
+              214
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "action.magic",
+            "movement.ridden-fly-speed-50-feet",
+            "item.carrying-capacity-400-pounds",
+            "movement.fly-speed-30-feet-over-200-pounds",
+            "item.hover-ends-on-landing-or-dismount",
+            "item.send-to-named-familiar-location-within-1-mile",
+            "item.recall-by-command-word-within-1-mile"
+          ],
+          "details": {
+            "broom": {
+              "appearance": "wooden-broom",
+              "inactive": "functions-like-mundane-broom",
+              "hover_requirement": "stand-astride",
+              "hover_action": "magic",
+              "fly_speed_feet": 50,
+              "capacity_pounds": 400,
+              "reduced_fly_speed_feet": 30,
+              "reduced_when_over_pounds": 200,
+              "hover_ends": [
+                "rider-lands",
+                "no-longer-riding"
+              ],
+              "send_action": "magic",
+              "send_mode": "travels-alone",
+              "send_range_miles": 1,
+              "send_requirements": [
+                "name-the-location",
+                "familiar-with-location"
+              ],
+              "recall_action": "magic",
+              "recall_requirements": [
+                "command-word",
+                "broom-still-within-range"
+              ],
+              "recall_range_miles": 1
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/candle-of-invocation",
+      "name": "Candle of Invocation",
+      "kind": "magic",
+      "category": "wondrous-item",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/candle-of-invocation",
+          "pages": [
+            214,
+            214
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/candle-of-invocation/variant/standard",
+          "name": "Candle of Invocation",
+          "rarity": "very-rare",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "magic-action",
+            "restrictions": [
+              "four-hours-total-burn-time"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              214,
+              214
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "action.magic",
+            "item.burn-time-four-hours",
+            "light.dim-30-feet",
+            "d20.advantage-while-in-light",
+            "spell.cleric-or-druid-level-1-without-slot",
+            "spell.cast-gate-on-first-lighting",
+            "item.destroyed-by-gate-or-burn",
+            "item.outer-plane-table"
+          ],
+          "details": {
+            "candle": {
+              "activation": "lit",
+              "activate_action": "magic",
+              "burn_seconds": 14400,
+              "after_burn": "destroyed",
+              "snuff_early": true,
+              "burn_deduction_increment_seconds": 60,
+              "light": "dim",
+              "light_radius_feet": 30,
+              "attuned_in_light": "advantage-on-d20-tests",
+              "free_casters": [
+                "cleric",
+                "druid"
+              ],
+              "free_cast_spell_level": 1,
+              "free_cast_requirement": "prepared",
+              "free_cast_cost": "no-spell-slot",
+              "gate_condition": "lit-for-first-time",
+              "gate_casts": "gate",
+              "gate_destroys_candle": true,
+              "gate_links_to": "outer-plane",
+              "plane_selection": [
+                "gm-chooses",
+                "random-table"
+              ],
+              "table_die_sides": 100,
+              "table_page": 215,
+              "outer_planes": [
+                {
+                  "min": 1,
+                  "max": 5,
+                  "plane": "abyss"
+                },
+                {
+                  "min": 6,
+                  "max": 10,
+                  "plane": "acheron"
+                },
+                {
+                  "min": 11,
+                  "max": 17,
+                  "plane": "arborea"
+                },
+                {
+                  "min": 18,
+                  "max": 25,
+                  "plane": "arcadia"
+                },
+                {
+                  "min": 26,
+                  "max": 33,
+                  "plane": "beastlands"
+                },
+                {
+                  "min": 34,
+                  "max": 41,
+                  "plane": "bytopia"
+                },
+                {
+                  "min": 42,
+                  "max": 46,
+                  "plane": "carceri"
+                },
+                {
+                  "min": 47,
+                  "max": 54,
+                  "plane": "elysium"
+                },
+                {
+                  "min": 55,
+                  "max": 59,
+                  "plane": "gehenna"
+                },
+                {
+                  "min": 60,
+                  "max": 64,
+                  "plane": "hades"
+                },
+                {
+                  "min": 65,
+                  "max": 69,
+                  "plane": "limbo"
+                },
+                {
+                  "min": 70,
+                  "max": 77,
+                  "plane": "mechanus"
+                },
+                {
+                  "min": 78,
+                  "max": 85,
+                  "plane": "mount-celestia"
+                },
+                {
+                  "min": 86,
+                  "max": 90,
+                  "plane": "nine-hells"
+                },
+                {
+                  "min": 91,
+                  "max": 95,
+                  "plane": "pandemonium"
+                },
+                {
+                  "min": 96,
+                  "max": 100,
+                  "plane": "ysgard"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/cape-of-the-mountebank",
+      "name": "Cape of the Mountebank",
+      "kind": "magic",
+      "category": "wondrous-item",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/cape-of-the-mountebank",
+          "pages": [
+            215,
+            215
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/cape-of-the-mountebank/variant/standard",
+          "name": "Cape of the Mountebank",
+          "rarity": "rare",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wear",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "magic-action",
+            "restrictions": [
+              "once-until-next-dawn"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              215,
+              215
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.wear",
+            "action.magic",
+            "spell.cast-dimension-door",
+            "item.once-until-next-dawn",
+            "area.vacated-space-lightly-obscured"
+          ],
+          "details": {
+            "cape": {
+              "scent": "brimstone",
+              "condition": "while-wearing",
+              "casts": "dimension-door",
+              "action": "magic",
+              "uses": 1,
+              "recharge": "next-dawn",
+              "on_teleport": "leaves-cloud-of-smoke",
+              "vacated_space": "lightly-obscured",
+              "obscured_until": "end-of-your-next-turn"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/carpet-of-flying",
+      "name": "Carpet of Flying",
+      "kind": "magic",
+      "category": "wondrous-item",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/carpet-of-flying",
+          "pages": [
+            215,
+            215
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/carpet-of-flying/variant/standard",
+          "name": "Carpet of Flying",
+          "rarity": "very-rare",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "magic-action",
+            "restrictions": [
+              "command-word"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              215,
+              215
+            ]
+          },
+          "required_mechanic_keys": [
+            "action.magic",
+            "item.command-word",
+            "movement.hover-and-fly",
+            "item.directed-within-30-feet",
+            "item.carpet-size-table",
+            "item.carrying-capacity-double-at-half-fly-speed"
+          ],
+          "details": {
+            "carpet": {
+              "activate_action": "magic",
+              "activation_requirement": "command-word",
+              "effect": "hovers-and-flies",
+              "control": "moves-according-to-your-directions",
+              "control_range_feet": 30,
+              "size_count": 4,
+              "size_selection": [
+                "gm-chooses",
+                "random-table"
+              ],
+              "table_die_sides": 100,
+              "sizes": [
+                {
+                  "min": 1,
+                  "max": 20,
+                  "width_feet": 3,
+                  "length_feet": 5,
+                  "capacity_pounds": 200,
+                  "fly_speed_feet": 80
+                },
+                {
+                  "min": 21,
+                  "max": 55,
+                  "width_feet": 4,
+                  "length_feet": 6,
+                  "capacity_pounds": 400,
+                  "fly_speed_feet": 60
+                },
+                {
+                  "min": 56,
+                  "max": 80,
+                  "width_feet": 5,
+                  "length_feet": 7,
+                  "capacity_pounds": 600,
+                  "fly_speed_feet": 40
+                },
+                {
+                  "min": 81,
+                  "max": 100,
+                  "width_feet": 6,
+                  "length_feet": 9,
+                  "capacity_pounds": 800,
+                  "fly_speed_feet": 30
+                }
+              ],
+              "max_load_multiplier": 2,
+              "overloaded_fly_speed": "halved",
+              "overloaded_when": "carrying-more-than-normal-capacity"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
