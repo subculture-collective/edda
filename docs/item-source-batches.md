@@ -243,6 +243,45 @@ families and 32 variants with no shared identity. The Healing fixture,
 rtk proxy python3 -I scripts/verify_srd_items_228.py /path/to/SRD_CC_v5.2.1.pdf
 ```
 
+## Magic items 05 (#229), pp. 216–218
+
+Twelve families, each with the single variant `standard`, in planning inventory
+order. Files: `item_details_229.go`, `testdata/items_229.json`,
+`items_229_test.go` and `scripts/verify_srd_items_229.py`.
+
+| Family | Page | Rarity | Attunement | Typed payload |
+| --- | --- | --- | --- | --- |
+| Crystal Ball of Telepathy | 216 | Legendary | required | `telepathy` |
+| Crystal Ball of True Seeing | 216 | Legendary | required | `true_seeing` |
+| Cube of Force | 216 | Rare | required | `cube_of_force`: six-face charge table |
+| Cubic Gate | 216 | Legendary | none | `cubic_gate` |
+| Dagger of Venom | 216 | Rare | none | `venom`: base `dagger` |
+| Dancing Sword | 217 | Very Rare | required | `dancing`: five base swords |
+| Decanter of Endless Water | 217 | Uncommon | none | `decanter` |
+| Deck of Illusions | 217 | Uncommon | none | `illusions`: 33-row 1d100 table, p. 217 into p. 218 |
+| Defender | 218 | Legendary | required | `defender`: base any melee weapon |
+| Demon Armor | 218 | Very Rare | required | `demon_armor`: base any light, medium or heavy armor |
+| Dimensional Shackles | 218 | Rare | none | `shackles` |
+| Dragon Orb | 218 | Artifact | required | `dragon_orb`: five-row spell table |
+
+Three families have a charge pool. The Cubic Gate has 3 charges, 1 per use,
+regaining 1d3 at dawn. The Cube of Force (10 charges, regains 1d6) and the
+Dragon Orb (7 charges, regains 1d4 + 3) charge a different amount for each
+spell, so the variant states `per_use: 0` and each cost is a row in the
+payload table. Zero in a payload spell row means the source gives no spell
+level or save DC. The Deck of Illusions table lists 32 creature rows of three
+numbers each and the card drawer at 97–00, recorded as 97–100. The deck
+subtracts one from 1d20 for missing cards, stored as `missing_cards_subtract`
+because payload numbers are never negative. None of the twelve lists a price.
+
+Composing the Healing contract fixture with batches #225 to #229 yields 61
+families and 74 variants with no shared identity. The Healing fixture,
+`ResolveHealingPotion` and the coverage register are unchanged.
+
+```sh
+rtk proxy python3 -I scripts/verify_srd_items_229.py /path/to/SRD_CC_v5.2.1.pdf
+```
+
 This work includes material from the System Reference Document 5.2.1 (“SRD
 5.2.1”) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd.
 The SRD 5.2.1 is licensed under the Creative Commons Attribution 4.0 International

@@ -1,0 +1,1366 @@
+{
+  "schema_version": 1,
+  "rules_version": "srd-5.2.1",
+  "batch": "data-magic-items-05",
+  "catalogue_issue": 229,
+  "source": {
+    "version": "5.2.1",
+    "language": "en",
+    "landing_url": "https://www.dndbeyond.com/srd",
+    "artifact_url": "https://media.dndbeyond.com/compendium-images/srd/5.2/SRD_CC_v5.2.1.pdf",
+    "sha256": "8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87",
+    "bytes": 6031375,
+    "pages": 364,
+    "retrieved_at": "2026-11-15",
+    "license": "CC-BY-4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/legalcode",
+    "attribution": "This work includes material from the System Reference Document 5.2.1 (“SRD 5.2.1”) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd. The SRD 5.2.1 is licensed under the Creative Commons Attribution 4.0 International License, available at https://creativecommons.org/licenses/by/4.0/legalcode.",
+    "changes": "SRD 5.2.1 pp. 216–218 adapted into twelve versioned magic-item families (Crystal Ball of Telepathy through Dragon Orb) with explicit variant identities, structured requirements and typed source values. Names, numeric rules and key phrases are adapted into keys; no rules prose is reproduced. Prices are not listed and remain unspecified. Catalogue data grants no inventory, action or gameplay permissions; every record is unavailable."
+  },
+  "families": [
+    {
+      "id": "srd-5.2.1:content/items/crystal-ball-of-telepathy",
+      "name": "Crystal Ball of Telepathy",
+      "kind": "magic",
+      "category": "wondrous-item",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/crystal-ball-of-telepathy",
+          "pages": [
+            216,
+            216
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/crystal-ball-of-telepathy/variant/standard",
+          "name": "Crystal Ball of Telepathy",
+          "rarity": "legendary",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "touch",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "cast-spell",
+            "restrictions": [
+              "touching-crystal-orb"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              216,
+              216
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "item.touch",
+            "spell.cast-scrying",
+            "spell.scrying-save-dc-17",
+            "communication.telepathy-within-30-feet-of-sensor",
+            "spell.cast-suggestion",
+            "spell.suggestion-save-dc-17",
+            "concentration.suggestion-ends-with-scrying",
+            "item.once-until-next-dawn"
+          ],
+          "details": {
+            "telepathy": {
+              "condition": "while-touching",
+              "spell": "scrying",
+              "save_dc": 17,
+              "communication_mode": "telepathy",
+              "communication_targets": "creatures-you-can-see-within-range-of-sensor",
+              "communication_range_feet": 30,
+              "communication_range_from": "spell-sensor",
+              "extra_spell": "suggestion",
+              "extra_save_dc": 17,
+              "extra_targets": "one-of-those-creatures",
+              "extra_delivery": "through-the-sensor",
+              "extra_concentration_required": false,
+              "extra_ends_with": "scrying-ends",
+              "extra_uses": 1,
+              "extra_recharge": "next-dawn"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/crystal-ball-of-true-seeing",
+      "name": "Crystal Ball of True Seeing",
+      "kind": "magic",
+      "category": "wondrous-item",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/crystal-ball-of-true-seeing",
+          "pages": [
+            216,
+            216
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/crystal-ball-of-true-seeing/variant/standard",
+          "name": "Crystal Ball of True Seeing",
+          "rarity": "legendary",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "touch",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "cast-spell",
+            "restrictions": [
+              "touching-crystal-orb"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              216,
+              216
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "item.touch",
+            "spell.cast-scrying",
+            "spell.scrying-save-dc-17",
+            "senses.truesight-120-feet-at-sensor"
+          ],
+          "details": {
+            "true_seeing": {
+              "condition": "while-touching",
+              "spell": "scrying",
+              "save_dc": 17,
+              "sense": "truesight",
+              "sense_range_feet": 120,
+              "sense_centered_on": "spell-sensor"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/cube-of-force",
+      "name": "Cube of Force",
+      "kind": "magic",
+      "category": "wondrous-item",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/cube-of-force",
+          "pages": [
+            216,
+            216
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/cube-of-force/variant/standard",
+          "name": "Cube of Force",
+          "rarity": "rare",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "limited",
+            "maximum": 10,
+            "per_use": 0,
+            "recharge": "regain-1d6-at-dawn"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "press-face",
+            "restrictions": [
+              "expend-charges-required-for-face"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              216,
+              216
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "item.charges",
+            "item.press-face",
+            "spell.cast-face-spell",
+            "spell.face-save-dc-17",
+            "item.face-charge-cost-table"
+          ],
+          "details": {
+            "cube_of_force": {
+              "appearance": "cube",
+              "width_inches": 1,
+              "markings": "distinct-marking-on-each-face",
+              "activation": "press-face",
+              "cost": "expend-charges-required-for-face",
+              "save_dc": 17,
+              "starting_charges": 10,
+              "regain_dice": {
+                "dice": 1,
+                "sides": 6,
+                "type": "charges"
+              },
+              "regain_timing": "dawn",
+              "faces": [
+                {
+                  "spell": "mage-armor",
+                  "charge_cost": 1
+                },
+                {
+                  "spell": "shield",
+                  "charge_cost": 1
+                },
+                {
+                  "spell": "tiny-hut",
+                  "charge_cost": 3
+                },
+                {
+                  "spell": "private-sanctum",
+                  "charge_cost": 4
+                },
+                {
+                  "spell": "resilient-sphere",
+                  "charge_cost": 4
+                },
+                {
+                  "spell": "wall-of-force",
+                  "charge_cost": 5
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/cubic-gate",
+      "name": "Cubic Gate",
+      "kind": "magic",
+      "category": "wondrous-item",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/cubic-gate",
+          "pages": [
+            216,
+            216
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/cubic-gate/variant/standard",
+          "name": "Cubic Gate",
+          "rarity": "legendary",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "limited",
+            "maximum": 3,
+            "per_use": 1,
+            "recharge": "regain-1d3-at-dawn"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "magic-action",
+            "restrictions": [
+              "expend-one-charge"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              216,
+              216
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.charges",
+            "action.magic",
+            "item.six-sides-keyed-to-planes",
+            "spell.cast-gate",
+            "spell.cast-plane-shift"
+          ],
+          "details": {
+            "cubic_gate": {
+              "appearance": "cube",
+              "width_inches": 3,
+              "radiates": "palpable-magical-energy",
+              "sides": 6,
+              "material_plane_sides": 1,
+              "other_planes_determined_by": "gm",
+              "max_charges": 3,
+              "regain_dice": {
+                "dice": 1,
+                "sides": 3,
+                "type": "charges"
+              },
+              "regain_timing": "dawn",
+              "action": "magic",
+              "charge_cost": 1,
+              "gate_spell": "gate",
+              "gate_activation": "press-one-side",
+              "gate_effect": "opens-portal-to-plane-keyed-to-side",
+              "plane_shift_spell": "plane-shift",
+              "plane_shift_activation": "press-one-side-twice",
+              "plane_shift_effect": "transports-targets-to-plane-keyed-to-side"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/dagger-of-venom",
+      "name": "Dagger of Venom",
+      "kind": "magic",
+      "category": "weapon",
+      "base": {
+        "options": [
+          "dagger"
+        ],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/dagger-of-venom",
+          "pages": [
+            216,
+            216
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/dagger-of-venom/variant/standard",
+          "name": "Dagger of Venom",
+          "rarity": "rare",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wield",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "bonus-action",
+            "restrictions": [
+              "once-until-next-dawn"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              216,
+              216
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.magic-weapon",
+            "attack.weapon-bonus",
+            "damage.weapon-bonus",
+            "action.bonus-action",
+            "effect.poison-coating-one-minute",
+            "save.constitution-dc-15",
+            "damage.poison-2d10",
+            "condition.poisoned-one-minute",
+            "item.once-until-next-dawn"
+          ],
+          "details": {
+            "venom": {
+              "attack_bonus": 1,
+              "damage_bonus": 1,
+              "apply_action": "bonus-action",
+              "coats": "blade",
+              "poison_duration_seconds": 60,
+              "poison_ends_on": [
+                "duration-elapsed",
+                "attack-hits-creature"
+              ],
+              "save": "constitution",
+              "save_dc": 15,
+              "failure_damage": {
+                "dice": 2,
+                "sides": 10,
+                "type": "poison"
+              },
+              "failure_condition": "poisoned",
+              "condition_duration_seconds": 60,
+              "uses": 1,
+              "recharge": "next-dawn"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/dancing-sword",
+      "name": "Dancing Sword",
+      "kind": "magic",
+      "category": "weapon",
+      "base": {
+        "options": [
+          "greatsword",
+          "longsword",
+          "rapier",
+          "scimitar",
+          "shortsword"
+        ],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/dancing-sword",
+          "pages": [
+            217,
+            217
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/dancing-sword/variant/standard",
+          "name": "Dancing Sword",
+          "rarity": "very-rare",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wield",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "bonus-action",
+            "restrictions": [
+              "toss-into-air",
+              "hover-flight"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              217,
+              217
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "item.magic-weapon",
+            "action.bonus-action",
+            "effect.hover-fly-30-feet",
+            "attack.uses-your-attack-roll",
+            "damage.adds-ability-modifier",
+            "attack.returns-after-fourth-attack",
+            "effect.hover-ends-when-grasped-or-over-30-feet"
+          ],
+          "details": {
+            "dancing": {
+              "activate_action": "bonus-action",
+              "activation": "toss-into-air",
+              "hover_fly_feet": 30,
+              "attack_range_feet": 5,
+              "attack_roll": "uses-your-attack-roll",
+              "adds_ability_modifier_to_damage": true,
+              "move_action": "bonus-action",
+              "move_feet": 30,
+              "move_within_feet_of_you": 30,
+              "attack_with_move": true,
+              "attacks_before_return": 4,
+              "returns_to": "your-hand",
+              "no_hand_free": "falls-to-ground-in-your-space",
+              "no_path": "moves-as-close-as-possible-then-falls",
+              "hover_ends_on": [
+                "you-grasp-it",
+                "more-than-30-feet-away"
+              ],
+              "hover_end_distance_feet": 30
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/decanter-of-endless-water",
+      "name": "Decanter of Endless Water",
+      "kind": "magic",
+      "category": "wondrous-item",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/decanter-of-endless-water",
+          "pages": [
+            217,
+            217
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/decanter-of-endless-water/variant/standard",
+          "name": "Decanter of Endless Water",
+          "rarity": "uncommon",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "magic-action",
+            "restrictions": [
+              "remove-stopper",
+              "command-word"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              217,
+              217
+            ]
+          },
+          "required_mechanic_keys": [
+            "action.magic",
+            "item.command-words",
+            "water.fresh-or-salt",
+            "water.splash-1-gallon",
+            "water.fountain-5-gallons",
+            "water.geyser-30-gallons",
+            "area.line-30-feet-by-1-foot",
+            "save.strength-dc-13",
+            "damage.bludgeoning-1d4",
+            "condition.prone"
+          ],
+          "details": {
+            "decanter": {
+              "appearance": "stoppered-flask",
+              "weight_pounds": 2,
+              "action": "magic",
+              "opens": "remove-stopper",
+              "water_types": [
+                "fresh",
+                "salt"
+              ],
+              "water_choice": "your-choice",
+              "stops_at": "start-of-your-next-turn",
+              "commands": [
+                {
+                  "word": "splash",
+                  "gallons": 1
+                },
+                {
+                  "word": "fountain",
+                  "gallons": 5
+                },
+                {
+                  "word": "geyser",
+                  "gallons": 30
+                }
+              ],
+              "geyser_shape": "line",
+              "geyser_length_feet": 30,
+              "geyser_width_feet": 1,
+              "geyser_aim": "one-direction-no-action-if-holding",
+              "geyser_targets": "one-creature-in-line",
+              "geyser_save": "strength",
+              "geyser_save_dc": 13,
+              "geyser_damage": {
+                "dice": 1,
+                "sides": 4,
+                "type": "bludgeoning"
+              },
+              "geyser_failure_condition": "prone",
+              "object_condition": "not-worn-or-carried",
+              "object_max_pounds": 200,
+              "object_effect": "knocked-over"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/deck-of-illusions",
+      "name": "Deck of Illusions",
+      "kind": "magic",
+      "category": "wondrous-item",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/deck-of-illusions",
+          "pages": [
+            217,
+            217
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/deck-of-illusions/variant/standard",
+          "name": "Deck of Illusions",
+          "rarity": "uncommon",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "magic-action",
+            "restrictions": [
+              "draw-card-at-random",
+              "throw-within-30-feet"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              217,
+              217
+            ]
+          },
+          "required_mechanic_keys": [
+            "action.magic",
+            "item.deck-34-cards",
+            "item.cards-drawn-at-random",
+            "summon.illusory-creature-from-table",
+            "action.study",
+            "check.intelligence-investigation-dc-15",
+            "effect.illusion-ends-when-card-moved-or-dispelled",
+            "item.illusion-table"
+          ],
+          "details": {
+            "illusions": {
+              "full_deck_cards": 34,
+              "creature_cards": 32,
+              "mirror_cards": 2,
+              "missing_cards_dice": {
+                "dice": 1,
+                "sides": 20,
+                "type": "cards"
+              },
+              "missing_cards_subtract": 1,
+              "functions_only_if": "cards-drawn-at-random",
+              "draw_action": "magic",
+              "throw_range_feet": 30,
+              "illusion": "looks-and-behaves-like-real-creature",
+              "can_do_harm": false,
+              "move_action": "magic",
+              "move_while_within_feet": 120,
+              "move_requires": "can-see-illusion",
+              "move_distance_feet": 30,
+              "move_from": "its-card",
+              "physical_interaction": "reveals-false-objects-pass-through",
+              "inspect_action": "study",
+              "inspect_check": {
+                "ability": "intelligence",
+                "skill": "investigation",
+                "dc": 15
+              },
+              "inspect_result": "identifies-as-illusion",
+              "lasts_until": [
+                "card-moved",
+                "illusion-dispelled"
+              ],
+              "dispelled_by": [
+                "dispel-magic",
+                "similar-effect"
+              ],
+              "after_end": "card-image-disappears",
+              "card_reusable": false,
+              "stat_block_source": "monsters",
+              "stat_block_exception": "card-drawer",
+              "table_die_sides": 100,
+              "table_page": 218,
+              "illusions": [
+                {
+                  "min": 1,
+                  "max": 3,
+                  "creature": "adult-red-dragon"
+                },
+                {
+                  "min": 4,
+                  "max": 6,
+                  "creature": "archmage"
+                },
+                {
+                  "min": 7,
+                  "max": 9,
+                  "creature": "assassin"
+                },
+                {
+                  "min": 10,
+                  "max": 12,
+                  "creature": "bandit-captain"
+                },
+                {
+                  "min": 13,
+                  "max": 15,
+                  "creature": "basilisk"
+                },
+                {
+                  "min": 16,
+                  "max": 18,
+                  "creature": "berserker"
+                },
+                {
+                  "min": 19,
+                  "max": 21,
+                  "creature": "bugbear-warrior"
+                },
+                {
+                  "min": 22,
+                  "max": 24,
+                  "creature": "cloud-giant"
+                },
+                {
+                  "min": 25,
+                  "max": 27,
+                  "creature": "druid"
+                },
+                {
+                  "min": 28,
+                  "max": 30,
+                  "creature": "erinyes"
+                },
+                {
+                  "min": 31,
+                  "max": 33,
+                  "creature": "ettin"
+                },
+                {
+                  "min": 34,
+                  "max": 36,
+                  "creature": "fire-giant"
+                },
+                {
+                  "min": 37,
+                  "max": 39,
+                  "creature": "frost-giant"
+                },
+                {
+                  "min": 40,
+                  "max": 42,
+                  "creature": "gnoll-warrior"
+                },
+                {
+                  "min": 43,
+                  "max": 45,
+                  "creature": "goblin-warrior"
+                },
+                {
+                  "min": 46,
+                  "max": 48,
+                  "creature": "guardian-naga"
+                },
+                {
+                  "min": 49,
+                  "max": 51,
+                  "creature": "hill-giant"
+                },
+                {
+                  "min": 52,
+                  "max": 54,
+                  "creature": "hobgoblin-warrior"
+                },
+                {
+                  "min": 55,
+                  "max": 57,
+                  "creature": "incubus"
+                },
+                {
+                  "min": 58,
+                  "max": 60,
+                  "creature": "iron-golem"
+                },
+                {
+                  "min": 61,
+                  "max": 63,
+                  "creature": "knight"
+                },
+                {
+                  "min": 64,
+                  "max": 66,
+                  "creature": "kobold-warrior"
+                },
+                {
+                  "min": 67,
+                  "max": 69,
+                  "creature": "lich"
+                },
+                {
+                  "min": 70,
+                  "max": 72,
+                  "creature": "medusa"
+                },
+                {
+                  "min": 73,
+                  "max": 75,
+                  "creature": "night-hag"
+                },
+                {
+                  "min": 76,
+                  "max": 78,
+                  "creature": "ogre"
+                },
+                {
+                  "min": 79,
+                  "max": 81,
+                  "creature": "oni"
+                },
+                {
+                  "min": 82,
+                  "max": 84,
+                  "creature": "priest"
+                },
+                {
+                  "min": 85,
+                  "max": 87,
+                  "creature": "succubus"
+                },
+                {
+                  "min": 88,
+                  "max": 90,
+                  "creature": "troll"
+                },
+                {
+                  "min": 91,
+                  "max": 93,
+                  "creature": "veteran-warrior"
+                },
+                {
+                  "min": 94,
+                  "max": 96,
+                  "creature": "wyvern"
+                },
+                {
+                  "min": 97,
+                  "max": 100,
+                  "creature": "card-drawer"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/defender",
+      "name": "Defender",
+      "kind": "magic",
+      "category": "weapon",
+      "base": {
+        "options": [
+          "any-melee-weapon"
+        ],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/defender",
+          "pages": [
+            218,
+            218
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/defender/variant/standard",
+          "name": "Defender",
+          "rarity": "legendary",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wield",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "weapon-attack",
+            "restrictions": [
+              "first-attack-each-turn"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              218,
+              218
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "item.magic-weapon",
+            "attack.weapon-bonus-3",
+            "damage.weapon-bonus-3",
+            "defense.transfer-bonus-to-armor-class",
+            "effect.adjustment-lasts-until-next-turn"
+          ],
+          "details": {
+            "defender": {
+              "attack_bonus": 3,
+              "damage_bonus": 3,
+              "transfer_timing": "first-attack-each-turn",
+              "transfer_from": [
+                "attack-rolls",
+                "damage-rolls"
+              ],
+              "transfer_to": "armor-class",
+              "transfer_amount": "some-or-all",
+              "example_attack_damage_bonus": 1,
+              "example_armor_class_bonus": 2,
+              "adjustment_lasts": "until-start-of-your-next-turn",
+              "must_hold_for_armor_class_bonus": true
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/demon-armor",
+      "name": "Demon Armor",
+      "kind": "magic",
+      "category": "armor",
+      "base": {
+        "options": [
+          "any-light-armor",
+          "any-medium-armor",
+          "any-heavy-armor"
+        ],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/demon-armor",
+          "pages": [
+            218,
+            218
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/demon-armor/variant/standard",
+          "name": "Demon Armor",
+          "rarity": "very-rare",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wear",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              218,
+              218
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "item.wear",
+            "defense.armor-class-bonus-1",
+            "language.abyssal",
+            "attack.unarmed-strike-slashing-1d8",
+            "attack.unarmed-bonus-1",
+            "item.curse",
+            "item.curse-cannot-doff",
+            "attack.disadvantage-against-demons",
+            "save.disadvantage-against-demons"
+          ],
+          "details": {
+            "demon_armor": {
+              "condition": "while-wearing",
+              "armor_class_bonus": 1,
+              "language": "abyssal",
+              "gauntlets": "clawed-gauntlets",
+              "unarmed_damage": {
+                "dice": 1,
+                "sides": 8,
+                "type": "slashing"
+              },
+              "unarmed_replaces_damage_type": "bludgeoning",
+              "unarmed_attack_bonus": 1,
+              "unarmed_damage_bonus": 1,
+              "cursed": true,
+              "curse_trigger": "don-armor",
+              "cannot_doff": true,
+              "doff_allowed_if": [
+                "targeted-by-remove-curse",
+                "targeted-by-similar-magic"
+              ],
+              "curse_disadvantage": [
+                "attack-rolls-against-demons",
+                "saving-throws-against-demon-spells-and-special-abilities"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/dimensional-shackles",
+      "name": "Dimensional Shackles",
+      "kind": "magic",
+      "category": "wondrous-item",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/dimensional-shackles",
+          "pages": [
+            218,
+            218
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/dimensional-shackles/variant/standard",
+          "name": "Dimensional Shackles",
+          "rarity": "rare",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "utilize-action",
+            "restrictions": [
+              "target-incapacitated-small-to-large"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              218,
+              218
+            ]
+          },
+          "required_mechanic_keys": [
+            "action.utilize",
+            "condition.incapacitated",
+            "movement.prevents-extradimensional-movement",
+            "check.strength-athletics-dc-30",
+            "effect.escape-once-every-30-days"
+          ],
+          "details": {
+            "shackles": {
+              "place_action": "utilize",
+              "place_target_condition": "incapacitated",
+              "fit_size_min": "small",
+              "fit_size_max": "large",
+              "prevents_movement": "any-extradimensional-movement",
+              "prevented_examples": [
+                "teleportation",
+                "travel-to-different-plane"
+              ],
+              "does_not_prevent": "passing-through-interdimensional-portal",
+              "remove_action": "utilize",
+              "removable_by": [
+                "you",
+                "creature-you-designate-when-you-use-the-shackles"
+              ],
+              "escape_interval_days": 30,
+              "escape_check": {
+                "ability": "strength",
+                "skill": "athletics",
+                "dc": 30
+              },
+              "escape_success": "breaks-free-and-destroys-shackles"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/dragon-orb",
+      "name": "Dragon Orb",
+      "kind": "magic",
+      "category": "wondrous-item",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/dragon-orb",
+          "pages": [
+            218,
+            218
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/dragon-orb/variant/standard",
+          "name": "Dragon Orb",
+          "rarity": "artifact",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "limited",
+            "maximum": 7,
+            "per_use": 0,
+            "recharge": "regain-1d4-plus-3-at-dawn"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "magic-action",
+            "restrictions": [
+              "attuned",
+              "control-orb-for-spells-and-call"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              218,
+              218
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "item.charges",
+            "action.magic",
+            "save.charisma-dc-15",
+            "condition.charmed",
+            "spell.suggestion-save-dc-18",
+            "item.spell-charge-cost-table",
+            "action.call-dragons",
+            "defense.armor-class-20",
+            "item.artifact-destruction"
+          ],
+          "details": {
+            "dragon_orb": {
+              "appearance": "etched-crystal-globe",
+              "diameter_inches": 10,
+              "used_diameter_inches": 20,
+              "interior": "swirling-mist",
+              "peer_action": "magic",
+              "peer_requires": "attuned",
+              "save": "charisma",
+              "save_dc": 15,
+              "success_effect": "control-orb-while-attuned",
+              "failure_condition": "charmed",
+              "failure_lasts": "while-attuned",
+              "charmed_cannot_end_attunement": true,
+              "charmed_spell": "suggestion",
+              "charmed_spell_frequency": "at-will",
+              "charmed_spell_save_dc": 18,
+              "charmed_urge": "work-toward-evil-ends-orb-desires",
+              "desire_examples": [
+                "annihilation-of-a-particular-society-or-organization",
+                "freedom-from-the-orb",
+                "spread-suffering-in-the-world",
+                "advance-worship-of-tiamat",
+                "something-else-the-gm-decides"
+              ],
+              "max_charges": 7,
+              "regain_dice": {
+                "dice": 1,
+                "sides": 4,
+                "type": "charges"
+              },
+              "regain_bonus": 3,
+              "regain_timing": "dawn",
+              "spells_require": "control-orb",
+              "spells": [
+                {
+                  "spell": "cure-wounds",
+                  "spell_level": 9,
+                  "save_dc": 0,
+                  "charge_cost": 4
+                },
+                {
+                  "spell": "daylight",
+                  "spell_level": 0,
+                  "save_dc": 0,
+                  "charge_cost": 1
+                },
+                {
+                  "spell": "death-ward",
+                  "spell_level": 0,
+                  "save_dc": 0,
+                  "charge_cost": 2
+                },
+                {
+                  "spell": "detect-magic",
+                  "spell_level": 0,
+                  "save_dc": 0,
+                  "charge_cost": 0
+                },
+                {
+                  "spell": "scrying",
+                  "spell_level": 0,
+                  "save_dc": 18,
+                  "charge_cost": 3
+                }
+              ],
+              "call_action": "magic",
+              "call_requires": "control-orb",
+              "call_range_miles": 40,
+              "call_directions": "all-directions",
+              "call_targets": "chromatic-dragons-in-range",
+              "call_effect": "compelled-to-come-to-orb-by-most-direct-route",
+              "call_unaffected": "dragon-deities-such-as-tiamat",
+              "call_attitude": "might-be-hostile-toward-you",
+              "call_cooldown_seconds": 3600,
+              "armor_class": 20,
+              "destroyed_by": [
+                "damage-from-plus-3-weapon",
+                "disintegrate-spell"
+              ],
+              "nothing_else_harms": true
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
