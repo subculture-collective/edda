@@ -126,7 +126,11 @@ func (m Monster) allActions() []MonsterAction {
 // (PDF p. 256), a saving throw is the ability modifier with or without the
 // Proficiency Bonus, and a typed save must be printed in its own entry.
 func (m Monster) validateStatBlock() error {
-	if !encounterValidXP(m.CR, int64(m.XP)) {
+	if printed, ok := monsterPrintedXP[m.ID]; ok {
+		if printed != [2]string{m.CR, fmt.Sprint(m.XP)} {
+			return fmt.Errorf("XP %d or CR %s differs from the printed stat block", m.XP, m.CR)
+		}
+	} else if !encounterValidXP(m.CR, int64(m.XP)) {
 		return fmt.Errorf("XP %d does not follow CR %s", m.XP, m.CR)
 	}
 	for _, key := range monsterAbilities {
