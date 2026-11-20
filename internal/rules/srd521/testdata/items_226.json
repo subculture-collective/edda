@@ -1,0 +1,1882 @@
+{
+  "schema_version": 1,
+  "rules_version": "srd-5.2.1",
+  "batch": "data-magic-items-02",
+  "catalogue_issue": 226,
+  "source": {
+    "version": "5.2.1",
+    "language": "en",
+    "landing_url": "https://www.dndbeyond.com/srd",
+    "artifact_url": "https://media.dndbeyond.com/compendium-images/srd/5.2/SRD_CC_v5.2.1.pdf",
+    "sha256": "8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87",
+    "bytes": 6031375,
+    "pages": 364,
+    "retrieved_at": "2026-11-15",
+    "license": "CC-BY-4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/legalcode",
+    "attribution": "This work includes material from the System Reference Document 5.2.1 (“SRD 5.2.1”) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd. The SRD 5.2.1 is licensed under the Creative Commons Attribution 4.0 International License, available at https://creativecommons.org/licenses/by/4.0/legalcode.",
+    "changes": "SRD 5.2.1 pp. 211–213 adapted into twelve versioned magic-item families (Arrow-Catching Shield through Boots of Levitation) with explicit variant identities, structured requirements and typed source values. Names, numeric rules and table rows are adapted into keys; no rules prose is reproduced. Prices are not listed and remain unspecified. Catalogue data grants no inventory, action or gameplay permissions; every record is unavailable."
+  },
+  "families": [
+    {
+      "id": "srd-5.2.1:content/items/arrow-catching-shield",
+      "name": "Arrow-Catching Shield",
+      "kind": "magic",
+      "category": "armor",
+      "base": {
+        "options": [
+          "shield"
+        ],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/arrow-catching-shield",
+          "pages": [
+            211,
+            211
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/arrow-catching-shield/variant/standard",
+          "name": "Arrow-Catching Shield",
+          "rarity": "rare",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wield",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "reaction",
+            "restrictions": [
+              "ranged-attack-roll-against-target-within-5-feet"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              211,
+              211
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "item.wield-shield",
+            "defense.armor-class-bonus-against-ranged-attacks",
+            "reaction.become-target-of-ranged-attack"
+          ],
+          "details": {
+            "arrow_catching": {
+              "condition": "while-wielding",
+              "ac_bonus": 2,
+              "ac_bonus_against": "ranged-attack-rolls",
+              "adds_to_shield_bonus": true,
+              "redirect_action": "reaction",
+              "redirect_trigger": "attacker-makes-ranged-attack-roll-against-target-within-range",
+              "redirect_range_feet": 5,
+              "redirect_effect": "become-target-instead"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/bag-of-beans",
+      "name": "Bag of Beans",
+      "kind": "magic",
+      "category": "wondrous-item",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/bag-of-beans",
+          "pages": [
+            211,
+            211
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/bag-of-beans/variant/standard",
+          "name": "Bag of Beans",
+          "rarity": "rare",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "dump-or-plant",
+            "restrictions": [
+              "dump-one-or-more-beans",
+              "plant-in-dirt-or-sand-then-water"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              211,
+              211
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.contains-3d4-beans",
+            "item.nonmagical-when-empty",
+            "area.sphere-10-foot-radius",
+            "save.dexterity-dc-15-half",
+            "damage.force-5d4",
+            "item.planted-bean-delayed-effect",
+            "item.bean-effect-table"
+          ],
+          "details": {
+            "beans": {
+              "material": "heavy-cloth",
+              "beans_dice": 3,
+              "beans_die_sides": 4,
+              "weight_pounds_numerator": 1,
+              "weight_pounds_denominator": 2,
+              "weight_ignores_contents": true,
+              "when_empty": "becomes-nonmagical",
+              "dump_trigger": "dump-one-or-more-beans",
+              "area_shape": "sphere",
+              "area_radius_feet": 10,
+              "area_center": "dumped-beans",
+              "dumped_beans_destroyed": true,
+              "affects_user": true,
+              "save": "dexterity",
+              "save_dc": 15,
+              "damage": {
+                "dice": 5,
+                "sides": 4,
+                "type": "force"
+              },
+              "save_success": "half-damage",
+              "plant_steps": [
+                "remove-bean-from-bag",
+                "plant-in-dirt-or-sand",
+                "water-it"
+              ],
+              "plant_delay_seconds": 60,
+              "bean_disappears": true,
+              "effect_origin": "ground-where-planted",
+              "effect_selection": [
+                "gm-chooses",
+                "random-table"
+              ],
+              "table_die_sides": 100,
+              "effects": [
+                {
+                  "min": 1,
+                  "max": 1,
+                  "effect": "toadstools-sprout",
+                  "creatures": [],
+                  "quantities": [
+                    {
+                      "label": "toadstools",
+                      "dice": 5,
+                      "sides": 4,
+                      "bonus": 0,
+                      "unit": "count"
+                    },
+                    {
+                      "label": "odd-roll-save-dc",
+                      "dice": 0,
+                      "sides": 0,
+                      "bonus": 15,
+                      "unit": "constitution-save-dc"
+                    },
+                    {
+                      "label": "odd-roll-failed-save-damage",
+                      "dice": 5,
+                      "sides": 6,
+                      "bonus": 0,
+                      "unit": "poison-damage"
+                    },
+                    {
+                      "label": "odd-roll-failed-save-poisoned",
+                      "dice": 0,
+                      "sides": 0,
+                      "bonus": 1,
+                      "unit": "hours"
+                    },
+                    {
+                      "label": "even-roll-temporary-hit-points",
+                      "dice": 5,
+                      "sides": 6,
+                      "bonus": 0,
+                      "unit": "temporary-hit-points"
+                    },
+                    {
+                      "label": "even-roll-temporary-hit-points-duration",
+                      "dice": 0,
+                      "sides": 0,
+                      "bonus": 1,
+                      "unit": "hours"
+                    }
+                  ],
+                  "facts": [
+                    "eater-rolls-any-die",
+                    "odd-roll-save-or-poison-damage-and-poisoned",
+                    "even-roll-gains-temporary-hit-points"
+                  ]
+                },
+                {
+                  "min": 2,
+                  "max": 10,
+                  "effect": "geyser-erupts",
+                  "creatures": [],
+                  "quantities": [
+                    {
+                      "label": "spout-height",
+                      "dice": 0,
+                      "sides": 0,
+                      "bonus": 30,
+                      "unit": "feet"
+                    },
+                    {
+                      "label": "duration",
+                      "dice": 1,
+                      "sides": 4,
+                      "bonus": 0,
+                      "unit": "minutes"
+                    }
+                  ],
+                  "facts": [
+                    "gm-chooses-liquid",
+                    "liquid-water",
+                    "liquid-beer",
+                    "liquid-mayonnaise",
+                    "liquid-tea",
+                    "liquid-vinegar",
+                    "liquid-wine",
+                    "liquid-oil"
+                  ]
+                },
+                {
+                  "min": 11,
+                  "max": 20,
+                  "effect": "treant-sprouts",
+                  "creatures": [
+                    "treant"
+                  ],
+                  "quantities": [
+                    {
+                      "label": "treants",
+                      "dice": 0,
+                      "sides": 0,
+                      "bonus": 1,
+                      "unit": "count"
+                    }
+                  ],
+                  "facts": [
+                    "roll-any-die",
+                    "odd-roll-chaotic-evil",
+                    "even-roll-chaotic-good"
+                  ]
+                },
+                {
+                  "min": 21,
+                  "max": 30,
+                  "effect": "threatening-statue-rises",
+                  "creatures": [],
+                  "quantities": [
+                    {
+                      "label": "becomes-inanimate-after",
+                      "dice": 0,
+                      "sides": 0,
+                      "bonus": 24,
+                      "unit": "hours"
+                    }
+                  ],
+                  "facts": [
+                    "animate-but-immobile-stone-statue-in-user-likeness",
+                    "makes-verbal-threats-against-user",
+                    "if-user-leaves-directs-newcomers-to-find-and-attack-user",
+                    "knows-user-location-on-same-plane"
+                  ]
+                },
+                {
+                  "min": 31,
+                  "max": 40,
+                  "effect": "green-campfire-springs-forth",
+                  "creatures": [],
+                  "quantities": [
+                    {
+                      "label": "burns-for",
+                      "dice": 0,
+                      "sides": 0,
+                      "bonus": 24,
+                      "unit": "hours"
+                    }
+                  ],
+                  "facts": [
+                    "green-flames",
+                    "ends-early-if-extinguished"
+                  ]
+                },
+                {
+                  "min": 41,
+                  "max": 50,
+                  "effect": "shrieker-fungi-sprout",
+                  "creatures": [
+                    "shrieker-fungus"
+                  ],
+                  "quantities": [
+                    {
+                      "label": "shrieker-fungi",
+                      "dice": 0,
+                      "sides": 0,
+                      "bonus": 3,
+                      "unit": "count"
+                    }
+                  ],
+                  "facts": []
+                },
+                {
+                  "min": 51,
+                  "max": 60,
+                  "effect": "bright-pink-toads-crawl-forth",
+                  "creatures": [],
+                  "quantities": [
+                    {
+                      "label": "toads",
+                      "dice": 1,
+                      "sides": 4,
+                      "bonus": 4,
+                      "unit": "count"
+                    },
+                    {
+                      "label": "monster-remains",
+                      "dice": 0,
+                      "sides": 0,
+                      "bonus": 1,
+                      "unit": "minutes"
+                    }
+                  ],
+                  "facts": [
+                    "touched-toad-transforms-into-large-or-smaller-monster-of-gm-choice",
+                    "monster-acts-by-alignment-and-nature",
+                    "monster-disappears-in-bright-pink-smoke"
+                  ]
+                },
+                {
+                  "min": 61,
+                  "max": 70,
+                  "effect": "hungry-bulette-attacks",
+                  "creatures": [
+                    "bulette"
+                  ],
+                  "quantities": [
+                    {
+                      "label": "bulettes",
+                      "dice": 0,
+                      "sides": 0,
+                      "bonus": 1,
+                      "unit": "count"
+                    }
+                  ],
+                  "facts": [
+                    "burrows-up-and-attacks"
+                  ]
+                },
+                {
+                  "min": 71,
+                  "max": 80,
+                  "effect": "fruit-tree-grows",
+                  "creatures": [],
+                  "quantities": [
+                    {
+                      "label": "fruit",
+                      "dice": 1,
+                      "sides": 10,
+                      "bonus": 20,
+                      "unit": "count"
+                    },
+                    {
+                      "label": "potion-fruit",
+                      "dice": 1,
+                      "sides": 8,
+                      "bonus": 0,
+                      "unit": "count"
+                    },
+                    {
+                      "label": "tree-vanishes-after",
+                      "dice": 0,
+                      "sides": 0,
+                      "bonus": 1,
+                      "unit": "hours"
+                    },
+                    {
+                      "label": "picked-fruit-retains-magic",
+                      "dice": 0,
+                      "sides": 0,
+                      "bonus": 30,
+                      "unit": "days"
+                    }
+                  ],
+                  "facts": [
+                    "potion-fruit-act-as-randomly-determined-potions",
+                    "picked-fruit-remains"
+                  ]
+                },
+                {
+                  "min": 81,
+                  "max": 90,
+                  "effect": "rainbow-egg-nest-springs-up",
+                  "creatures": [],
+                  "quantities": [
+                    {
+                      "label": "eggs",
+                      "dice": 1,
+                      "sides": 4,
+                      "bonus": 3,
+                      "unit": "count"
+                    },
+                    {
+                      "label": "eater-save-dc",
+                      "dice": 0,
+                      "sides": 0,
+                      "bonus": 20,
+                      "unit": "constitution-save-dc"
+                    },
+                    {
+                      "label": "successful-save-lowest-ability-score-increase",
+                      "dice": 0,
+                      "sides": 0,
+                      "bonus": 1,
+                      "unit": "ability-score-points"
+                    },
+                    {
+                      "label": "failed-save-damage",
+                      "dice": 10,
+                      "sides": 6,
+                      "bonus": 0,
+                      "unit": "force-damage"
+                    }
+                  ],
+                  "facts": [
+                    "any-creature-that-eats-an-egg-saves",
+                    "increase-is-permanent",
+                    "randomly-choose-among-equally-low-scores",
+                    "failed-save-internal-explosion"
+                  ]
+                },
+                {
+                  "min": 91,
+                  "max": 95,
+                  "effect": "pyramid-bursts-upward",
+                  "creatures": [
+                    "mummy",
+                    "mummy-lord"
+                  ],
+                  "quantities": [
+                    {
+                      "label": "square-base-side",
+                      "dice": 0,
+                      "sides": 0,
+                      "bonus": 60,
+                      "unit": "feet"
+                    }
+                  ],
+                  "facts": [
+                    "burial-chamber-inside",
+                    "contains-mummy-mummy-lord-or-other-undead-of-gm-choice",
+                    "sarcophagus-contains-treasure-of-gm-choice"
+                  ]
+                },
+                {
+                  "min": 96,
+                  "max": 100,
+                  "effect": "giant-beanstalk-sprouts",
+                  "creatures": [],
+                  "quantities": [
+                    {
+                      "label": "beanstalks",
+                      "dice": 0,
+                      "sides": 0,
+                      "bonus": 1,
+                      "unit": "count"
+                    }
+                  ],
+                  "facts": [
+                    "height-of-gm-choice",
+                    "top-leads-where-gm-chooses",
+                    "example-great-view",
+                    "example-cloud-giant-castle",
+                    "example-another-plane-of-existence"
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/bag-of-devouring",
+      "name": "Bag of Devouring",
+      "kind": "magic",
+      "category": "wondrous-item",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/bag-of-devouring",
+          "pages": [
+            212,
+            212
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/bag-of-devouring/variant/standard",
+          "name": "Bag of Devouring",
+          "rarity": "very-rare",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "container",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              212,
+              212
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.extradimensional-creature-orifice",
+            "item.devours-animal-and-vegetable-matter",
+            "chance.pulled-inside-50-percent",
+            "check.strength-athletics-dc-15",
+            "check.strength-athletics-dc-20",
+            "item.devours-creature-at-turn-start",
+            "item.capacity-one-cubic-foot",
+            "item.daily-planar-ejection",
+            "item.destroyed-if-pierced-or-torn",
+            "transport.random-astral-plane-location"
+          ],
+          "details": {
+            "devouring": {
+              "resembles": "bag-of-holding",
+              "nature": "feeding-orifice-of-gigantic-extradimensional-creature",
+              "closes_orifice": "turning-bag-inside-out",
+              "creature_senses": "whatever-is-placed-inside",
+              "devours": [
+                "animal-matter-placed-wholly-inside",
+                "vegetable-matter-placed-wholly-inside"
+              ],
+              "devoured_outcome": "devoured-and-lost-forever",
+              "pull_trigger": "part-of-living-creature-placed-inside",
+              "pull_chance_percent": 50,
+              "escape_action": "action",
+              "escape_check": {
+                "ability": "strength",
+                "skill": "athletics",
+                "dc": 15
+              },
+              "rescue_action": "action",
+              "rescue_check": {
+                "ability": "strength",
+                "skill": "athletics",
+                "dc": 20
+              },
+              "rescue_condition": "puller-not-pulled-inside-first",
+              "turn_start_inside": "creature-devoured-body-destroyed",
+              "stores": "inanimate-objects",
+              "capacity_cubic_feet": 1,
+              "swallow_frequency": "once-each-day",
+              "swallow_effect": "objects-spat-out-into-another-plane-of-existence",
+              "swallow_determined_by": "gm-determines-time-and-plane",
+              "destroyed_by": [
+                "pierced",
+                "torn"
+              ],
+              "destroyed_effect": "contents-transported-to-random-astral-plane-location"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/bag-of-holding",
+      "name": "Bag of Holding",
+      "kind": "magic",
+      "category": "wondrous-item",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/bag-of-holding",
+          "pages": [
+            212,
+            212
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/bag-of-holding/variant/standard",
+          "name": "Bag of Holding",
+          "rarity": "uncommon",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "utilize-action",
+            "restrictions": [
+              "retrieve-item"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              212,
+              212
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.extradimensional-storage",
+            "item.capacity-500-pounds-64-cubic-feet",
+            "item.fixed-weight-5-pounds",
+            "action.utilize",
+            "item.destroyed-if-overloaded-pierced-or-torn",
+            "item.inside-out-spills-contents",
+            "item.air-supply",
+            "item.extradimensional-nesting-opens-astral-gate",
+            "area.sphere-10-foot-radius",
+            "transport.random-astral-plane-location"
+          ],
+          "details": {
+            "holding": {
+              "interior_square_side_feet": 2,
+              "interior_depth_feet": 4,
+              "interior_approximate": true,
+              "capacity_pounds": 500,
+              "capacity_cubic_feet": 64,
+              "weight_pounds": 5,
+              "weight_ignores_contents": true,
+              "retrieve_action": "utilize",
+              "destroyed_by": [
+                "overloaded",
+                "pierced",
+                "torn"
+              ],
+              "destroyed_effect": "contents-scattered-in-astral-plane",
+              "inside_out_effect": "contents-spill-unharmed",
+              "inside_out_reuse": "must-be-put-right-before-reuse",
+              "air_minutes": 10,
+              "air_divided_by": "breathing-creatures-inside",
+              "nesting_spaces": [
+                "handy-haversack",
+                "portable-hole",
+                "similar-item"
+              ],
+              "nesting_effects": [
+                "both-items-destroyed",
+                "gate-to-astral-plane-opens"
+              ],
+              "gate_origin": "where-one-item-was-placed-inside-the-other",
+              "gate_shape": "sphere",
+              "gate_radius_feet": 10,
+              "gate_effect": "creatures-sucked-to-random-astral-plane-location",
+              "gate_closes": true,
+              "gate_one_way": true,
+              "gate_reopenable": false
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/bag-of-tricks",
+      "name": "Bag of Tricks",
+      "kind": "magic",
+      "category": "wondrous-item",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/bag-of-tricks",
+          "pages": [
+            212,
+            212
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/bag-of-tricks/variant/gray",
+          "name": "Gray Bag of Tricks",
+          "rarity": "uncommon",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "magic-action",
+            "restrictions": [
+              "three-objects-until-next-dawn"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              212,
+              212
+            ]
+          },
+          "required_mechanic_keys": [
+            "action.magic",
+            "item.throw-object-20-feet",
+            "item.creature-table-by-color",
+            "summon.creature-until-dawn-or-0-hit-points",
+            "summon.friendly-acts-after-user",
+            "action.bonus-action",
+            "item.three-uses-until-next-dawn"
+          ],
+          "details": {
+            "tricks": {
+              "color": "gray",
+              "cloth_colors": [
+                "gray",
+                "rust",
+                "tan"
+              ],
+              "appearance": "appears-empty",
+              "contents": "small-fuzzy-object",
+              "action": "magic",
+              "throw_feet": 20,
+              "transforms": "on-landing-into-creature-from-color-table",
+              "table_die_sides": 8,
+              "creatures": [
+                {
+                  "roll": 1,
+                  "creature": "weasel"
+                },
+                {
+                  "roll": 2,
+                  "creature": "giant-rat"
+                },
+                {
+                  "roll": 3,
+                  "creature": "badger"
+                },
+                {
+                  "roll": 4,
+                  "creature": "boar"
+                },
+                {
+                  "roll": 5,
+                  "creature": "panther"
+                },
+                {
+                  "roll": 6,
+                  "creature": "giant-badger"
+                },
+                {
+                  "roll": 7,
+                  "creature": "dire-wolf"
+                },
+                {
+                  "roll": 8,
+                  "creature": "giant-elk"
+                }
+              ],
+              "stat_block_source": "monsters",
+              "vanishes": [
+                "next-dawn",
+                "reduced-to-0-hit-points"
+              ],
+              "attitude": "friendly-to-user-and-allies",
+              "initiative": "immediately-after-user",
+              "command_action": "bonus-action",
+              "command_scope": "movement-and-action-on-next-turn",
+              "without_orders": "acts-appropriate-to-nature",
+              "uses": 3,
+              "uses_reset": "next-dawn"
+            }
+          }
+        },
+        {
+          "id": "srd-5.2.1:content/items/bag-of-tricks/variant/rust",
+          "name": "Rust Bag of Tricks",
+          "rarity": "uncommon",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "magic-action",
+            "restrictions": [
+              "three-objects-until-next-dawn"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              212,
+              212
+            ]
+          },
+          "required_mechanic_keys": [
+            "action.magic",
+            "item.throw-object-20-feet",
+            "item.creature-table-by-color",
+            "summon.creature-until-dawn-or-0-hit-points",
+            "summon.friendly-acts-after-user",
+            "action.bonus-action",
+            "item.three-uses-until-next-dawn"
+          ],
+          "details": {
+            "tricks": {
+              "color": "rust",
+              "cloth_colors": [
+                "gray",
+                "rust",
+                "tan"
+              ],
+              "appearance": "appears-empty",
+              "contents": "small-fuzzy-object",
+              "action": "magic",
+              "throw_feet": 20,
+              "transforms": "on-landing-into-creature-from-color-table",
+              "table_die_sides": 8,
+              "creatures": [
+                {
+                  "roll": 1,
+                  "creature": "rat"
+                },
+                {
+                  "roll": 2,
+                  "creature": "owl"
+                },
+                {
+                  "roll": 3,
+                  "creature": "mastiff"
+                },
+                {
+                  "roll": 4,
+                  "creature": "goat"
+                },
+                {
+                  "roll": 5,
+                  "creature": "giant-goat"
+                },
+                {
+                  "roll": 6,
+                  "creature": "giant-boar"
+                },
+                {
+                  "roll": 7,
+                  "creature": "lion"
+                },
+                {
+                  "roll": 8,
+                  "creature": "brown-bear"
+                }
+              ],
+              "stat_block_source": "monsters",
+              "vanishes": [
+                "next-dawn",
+                "reduced-to-0-hit-points"
+              ],
+              "attitude": "friendly-to-user-and-allies",
+              "initiative": "immediately-after-user",
+              "command_action": "bonus-action",
+              "command_scope": "movement-and-action-on-next-turn",
+              "without_orders": "acts-appropriate-to-nature",
+              "uses": 3,
+              "uses_reset": "next-dawn"
+            }
+          }
+        },
+        {
+          "id": "srd-5.2.1:content/items/bag-of-tricks/variant/tan",
+          "name": "Tan Bag of Tricks",
+          "rarity": "uncommon",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "magic-action",
+            "restrictions": [
+              "three-objects-until-next-dawn"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              212,
+              212
+            ]
+          },
+          "required_mechanic_keys": [
+            "action.magic",
+            "item.throw-object-20-feet",
+            "item.creature-table-by-color",
+            "summon.creature-until-dawn-or-0-hit-points",
+            "summon.friendly-acts-after-user",
+            "action.bonus-action",
+            "item.three-uses-until-next-dawn"
+          ],
+          "details": {
+            "tricks": {
+              "color": "tan",
+              "cloth_colors": [
+                "gray",
+                "rust",
+                "tan"
+              ],
+              "appearance": "appears-empty",
+              "contents": "small-fuzzy-object",
+              "action": "magic",
+              "throw_feet": 20,
+              "transforms": "on-landing-into-creature-from-color-table",
+              "table_die_sides": 8,
+              "creatures": [
+                {
+                  "roll": 1,
+                  "creature": "jackal"
+                },
+                {
+                  "roll": 2,
+                  "creature": "ape"
+                },
+                {
+                  "roll": 3,
+                  "creature": "baboon"
+                },
+                {
+                  "roll": 4,
+                  "creature": "axe-beak"
+                },
+                {
+                  "roll": 5,
+                  "creature": "black-bear"
+                },
+                {
+                  "roll": 6,
+                  "creature": "giant-weasel"
+                },
+                {
+                  "roll": 7,
+                  "creature": "giant-hyena"
+                },
+                {
+                  "roll": 8,
+                  "creature": "tiger"
+                }
+              ],
+              "stat_block_source": "monsters",
+              "vanishes": [
+                "next-dawn",
+                "reduced-to-0-hit-points"
+              ],
+              "attitude": "friendly-to-user-and-allies",
+              "initiative": "immediately-after-user",
+              "command_action": "bonus-action",
+              "command_scope": "movement-and-action-on-next-turn",
+              "without_orders": "acts-appropriate-to-nature",
+              "uses": 3,
+              "uses_reset": "next-dawn"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/bead-of-force",
+      "name": "Bead of Force",
+      "kind": "magic",
+      "category": "wondrous-item",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/bead-of-force",
+          "pages": [
+            212,
+            212
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/bead-of-force/variant/standard",
+          "name": "Bead of Force",
+          "rarity": "rare",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "magic-action",
+            "restrictions": [
+              "throw-up-to-60-feet",
+              "bead-destroyed"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              212,
+              212
+            ]
+          },
+          "required_mechanic_keys": [
+            "action.magic",
+            "item.throw-60-feet",
+            "item.destroyed-on-use",
+            "area.sphere-10-foot-radius",
+            "save.dexterity-dc-15",
+            "damage.force-5d4",
+            "effect.force-sphere-one-minute",
+            "effect.trapped-or-pushed-out",
+            "action.utilize"
+          ],
+          "details": {
+            "force": {
+              "source_pages": [
+                212,
+                213
+              ],
+              "appearance": "small-black-sphere",
+              "diameter_inches_numerator": 3,
+              "diameter_inches_denominator": 4,
+              "weight_ounces": 1,
+              "found_dice": 1,
+              "found_die_sides": 4,
+              "found_bonus": 4,
+              "action": "magic",
+              "throw_feet": 60,
+              "area_shape": "sphere",
+              "area_radius_feet": 10,
+              "destroyed_on_impact": true,
+              "save": "dexterity",
+              "save_dc": 15,
+              "damage": {
+                "dice": 5,
+                "sides": 4,
+                "type": "force"
+              },
+              "save_success": "no-damage",
+              "sphere_duration_seconds": 60,
+              "trapped_if_all": [
+                "failed-save",
+                "completely-within-area"
+              ],
+              "pushed_if_any": [
+                "succeeded-on-save",
+                "partially-within-area"
+              ],
+              "push_effect": "pushed-from-center-until-outside",
+              "passes_through": [
+                "breathable-air"
+              ],
+              "blocked": [
+                "attacks",
+                "other-effects"
+              ],
+              "move_action": "utilize",
+              "move_actor": "enclosed-creature",
+              "move_distance": "half-creature-speed",
+              "can_be_picked_up": true,
+              "sphere_weight_pounds": 1,
+              "weight_ignores_creatures": true
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/bead-of-nourishment",
+      "name": "Bead of Nourishment",
+      "kind": "magic",
+      "category": "wondrous-item",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/bead-of-nourishment",
+          "pages": [
+            213,
+            213
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/bead-of-nourishment/variant/standard",
+          "name": "Bead of Nourishment",
+          "rarity": "common",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "consume",
+            "restrictions": [
+              "consume-one"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              213,
+              213
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.consume",
+            "sustenance.one-day-of-rations"
+          ],
+          "details": {
+            "nourishment": {
+              "appearance": "flavorless-gelatinous-bead",
+              "consumed_by": "dissolves-on-tongue",
+              "nourishment_days": 1,
+              "equivalent": "rations"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/belt-of-dwarvenkind",
+      "name": "Belt of Dwarvenkind",
+      "kind": "magic",
+      "category": "wondrous-item",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/belt-of-dwarvenkind",
+          "pages": [
+            213,
+            213
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/belt-of-dwarvenkind/variant/standard",
+          "name": "Belt of Dwarvenkind",
+          "rarity": "rare",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wear",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              213,
+              213
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "item.wear",
+            "language.dwarvish",
+            "check.advantage-persuasion-with-dwarves-and-duergar",
+            "ability.constitution-plus-2-maximum-20",
+            "chance.daily-beard-50-percent",
+            "species.not-dwarf-or-duergar",
+            "senses.darkvision-60-feet",
+            "defense.resistance-poison",
+            "save.advantage-against-poisoned"
+          ],
+          "details": {
+            "dwarvenkind": {
+              "condition": "while-wearing",
+              "benefits": [
+                "dwarvish",
+                "friend-of-dwarvenkind",
+                "toughness"
+              ],
+              "language": "dwarvish",
+              "check_ability": "charisma",
+              "check_skill": "persuasion",
+              "check_audience": [
+                "dwarves",
+                "duergar"
+              ],
+              "constitution_increase": 2,
+              "constitution_maximum": 20,
+              "beard_condition": "while-attuned",
+              "beard_chance_percent": 50,
+              "beard_timing": "each-day-at-dawn",
+              "beard_effects": [
+                "full-beard-if-able-to-grow-one",
+                "thicker-beard-if-already-bearded"
+              ],
+              "additional_condition": "not-dwarf-or-duergar",
+              "additional_benefits": [
+                "darkvision",
+                "resilience"
+              ],
+              "darkvision_feet": 60,
+              "resistance": "poison",
+              "save_advantage": "avoid-or-end-poisoned-condition"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/belt-of-giant-strength",
+      "name": "Belt of Giant Strength",
+      "kind": "magic",
+      "category": "wondrous-item",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/belt-of-giant-strength",
+          "pages": [
+            213,
+            213
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/belt-of-giant-strength/variant/hill",
+          "name": "Belt of Giant Strength (hill)",
+          "rarity": "rare",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wear",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              213,
+              213
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "item.wear",
+            "ability.strength-score-by-giant-type",
+            "ability.no-effect-if-strength-not-lower"
+          ],
+          "details": {
+            "giant_strength": {
+              "condition": "while-wearing",
+              "giant_types": [
+                "hill"
+              ],
+              "ability": "strength",
+              "score": 21,
+              "score_determined_by": "giant-type",
+              "no_effect_if_score_at_least": 21
+            }
+          }
+        },
+        {
+          "id": "srd-5.2.1:content/items/belt-of-giant-strength/variant/frost-or-stone",
+          "name": "Belt of Giant Strength (frost or stone)",
+          "rarity": "very-rare",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wear",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              213,
+              213
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "item.wear",
+            "ability.strength-score-by-giant-type",
+            "ability.no-effect-if-strength-not-lower"
+          ],
+          "details": {
+            "giant_strength": {
+              "condition": "while-wearing",
+              "giant_types": [
+                "frost",
+                "stone"
+              ],
+              "ability": "strength",
+              "score": 23,
+              "score_determined_by": "giant-type",
+              "no_effect_if_score_at_least": 23
+            }
+          }
+        },
+        {
+          "id": "srd-5.2.1:content/items/belt-of-giant-strength/variant/fire",
+          "name": "Belt of Giant Strength (fire)",
+          "rarity": "very-rare",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wear",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              213,
+              213
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "item.wear",
+            "ability.strength-score-by-giant-type",
+            "ability.no-effect-if-strength-not-lower"
+          ],
+          "details": {
+            "giant_strength": {
+              "condition": "while-wearing",
+              "giant_types": [
+                "fire"
+              ],
+              "ability": "strength",
+              "score": 25,
+              "score_determined_by": "giant-type",
+              "no_effect_if_score_at_least": 25
+            }
+          }
+        },
+        {
+          "id": "srd-5.2.1:content/items/belt-of-giant-strength/variant/cloud",
+          "name": "Belt of Giant Strength (cloud)",
+          "rarity": "legendary",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wear",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              213,
+              213
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "item.wear",
+            "ability.strength-score-by-giant-type",
+            "ability.no-effect-if-strength-not-lower"
+          ],
+          "details": {
+            "giant_strength": {
+              "condition": "while-wearing",
+              "giant_types": [
+                "cloud"
+              ],
+              "ability": "strength",
+              "score": 27,
+              "score_determined_by": "giant-type",
+              "no_effect_if_score_at_least": 27
+            }
+          }
+        },
+        {
+          "id": "srd-5.2.1:content/items/belt-of-giant-strength/variant/storm",
+          "name": "Belt of Giant Strength (storm)",
+          "rarity": "legendary",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wear",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              213,
+              213
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "item.wear",
+            "ability.strength-score-by-giant-type",
+            "ability.no-effect-if-strength-not-lower"
+          ],
+          "details": {
+            "giant_strength": {
+              "condition": "while-wearing",
+              "giant_types": [
+                "storm"
+              ],
+              "ability": "strength",
+              "score": 29,
+              "score_determined_by": "giant-type",
+              "no_effect_if_score_at_least": 29
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/berserker-axe",
+      "name": "Berserker Axe",
+      "kind": "magic",
+      "category": "weapon",
+      "base": {
+        "options": [
+          "battleaxe",
+          "greataxe",
+          "halberd"
+        ],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/berserker-axe",
+          "pages": [
+            213,
+            213
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/berserker-axe/variant/standard",
+          "name": "Berserker Axe",
+          "rarity": "rare",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wield",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "weapon-attack",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              213,
+              213
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "item.magic-weapon",
+            "attack.weapon-bonus",
+            "damage.weapon-bonus",
+            "hit-points.maximum-plus-1-per-level",
+            "item.curse",
+            "item.curse-extends-on-attunement",
+            "item.curse-unwilling-to-part",
+            "attack.disadvantage-with-other-weapons",
+            "save.wisdom-dc-15",
+            "condition.berserk-compelled-attack"
+          ],
+          "details": {
+            "berserker": {
+              "attack_bonus": 1,
+              "damage_bonus": 1,
+              "hit_point_maximum_per_level": 1,
+              "hit_point_condition": "while-attuned",
+              "cursed": true,
+              "curse_trigger": "becoming-attuned",
+              "curse_effects": [
+                "unwilling-to-part-with-weapon",
+                "keeps-weapon-within-reach",
+                "disadvantage-on-attack-rolls-with-other-weapons"
+              ],
+              "berserk_trigger": "another-creature-damages-user-while-weapon-in-possession",
+              "berserk_save": "wisdom",
+              "berserk_save_dc": 15,
+              "berserk_save_failure": "go-berserk",
+              "berserk_ends": "start-of-turn-with-no-creatures-in-range-seen-or-heard",
+              "berserk_end_range_feet": 60,
+              "berserk_target": "nearest-creature-seen-or-heard",
+              "berserk_tie_break": "choose-one-at-random",
+              "berserk_compulsion": [
+                "move-as-close-to-target-as-possible",
+                "take-attack-action-targeting-it"
+              ],
+              "berserk_unreachable": "turn-ends-after-all-available-movement-used",
+              "berserk_retarget_triggers": [
+                "target-dies",
+                "target-no-longer-seen-or-heard"
+              ],
+              "berserk_retarget": "next-nearest-creature-seen-or-heard"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/boots-of-elvenkind",
+      "name": "Boots of Elvenkind",
+      "kind": "magic",
+      "category": "wondrous-item",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/boots-of-elvenkind",
+          "pages": [
+            213,
+            213
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/boots-of-elvenkind/variant/standard",
+          "name": "Boots of Elvenkind",
+          "rarity": "uncommon",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wear",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              213,
+              213
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.wear",
+            "movement.silent-steps",
+            "check.advantage-dexterity-stealth"
+          ],
+          "details": {
+            "elvenkind": {
+              "condition": "while-wearing",
+              "silent_steps": true,
+              "any_surface": true,
+              "advantage_ability": "dexterity",
+              "advantage_skill": "stealth"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/boots-of-levitation",
+      "name": "Boots of Levitation",
+      "kind": "magic",
+      "category": "wondrous-item",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/boots-of-levitation",
+          "pages": [
+            213,
+            213
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/boots-of-levitation/variant/standard",
+          "name": "Boots of Levitation",
+          "rarity": "rare",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wear",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "cast-spell",
+            "restrictions": [
+              "levitate",
+              "self-only"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              213,
+              213
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "item.wear",
+            "spell.cast-levitate-on-self"
+          ],
+          "details": {
+            "levitation": {
+              "condition": "while-wearing",
+              "spell": "levitate",
+              "target": "self"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
