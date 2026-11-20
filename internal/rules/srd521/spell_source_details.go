@@ -60,6 +60,18 @@ type SpellSourceDetails struct {
 	Elemental       *SpellElemental    `json:"elemental,omitempty"`
 	Fey             *SpellFey          `json:"fey,omitempty"`
 	Minor           *SpellMinor        `json:"minor,omitempty"`
+	Woodland        *SpellWoodland     `json:"woodland,omitempty"`
+	OtherPlane      *SpellOtherPlane   `json:"other_plane,omitempty"`
+	Contagion       *SpellContagion    `json:"contagion,omitempty"`
+	Contingency     *SpellContingency  `json:"contingency,omitempty"`
+	Flame           *SpellFlame        `json:"flame,omitempty"`
+	WaterControl    *SpellWaterControl `json:"water_control,omitempty"`
+	Weather         *SpellWeather      `json:"weather,omitempty"`
+	Counter         *SpellCounter      `json:"counter,omitempty"`
+	Provisions      *SpellProvisions   `json:"provisions,omitempty"`
+	Undead          *SpellUndead       `json:"undead,omitempty"`
+	WaterCreate     *SpellWaterCreate  `json:"water_create,omitempty"`
+	Creation        *SpellCreation     `json:"creation,omitempty"`
 	CastingSeconds  int                `json:"casting_seconds"`
 	CastingTriggers []string           `json:"casting_triggers"`
 	EndTiming       string             `json:"end_timing"`
@@ -273,7 +285,7 @@ func (s *SpellSourceDetails) UnmarshalJSON(data []byte) error {
 		}
 	}
 	templates := map[string]any{"rays": SpellRays{}, "scrying": SpellScrying{}, "smite": SpellSmite{}, "chest": SpellChest{}, "vision": SpellVision{}, "seeming": SpellSeeming{}, "sending": SpellSending{}, "sequester": SpellSequester{}, "shapechange": SpellShapechange{}, "shatter": SpellShatter{}, "shield": SpellShield{}, "faith": SpellFaith{}}
-	for _, batch := range []map[string]any{spell196Templates(), spell197Templates(), spell198Templates(), spell199Templates(), spell200Templates()} {
+	for _, batch := range []map[string]any{spell196Templates(), spell197Templates(), spell198Templates(), spell199Templates(), spell200Templates(), spell201Templates()} {
 		for key, template := range batch {
 			if raw, ok := fields[key]; ok {
 				if err := requireSpell198Fields(raw, reflect.TypeOf(template)); err != nil {
@@ -362,6 +374,8 @@ func validSpellTarget(t SpellTarget) bool {
 		return t.Count == 0 && t.Eligibility == "creatures-in-wall"
 	case "cone":
 		return t.Count == 0 && (t.Eligibility == "creatures-and-flammable-unattended-objects" || t.Eligibility == "creatures-in-cone")
+	case "cube":
+		return t.Count == 0 && t.Eligibility == "water-in-cube"
 	case "cylinder":
 		return t.Count == 0 && t.Eligibility == "creatures-within-5-feet-of-chosen-point-under-cloud"
 	case "chain":
@@ -369,13 +383,13 @@ func validSpellTarget(t SpellTarget) bool {
 	case "location":
 		return t.Count == 1 && t.Eligibility == "familiar-or-obvious-location-in-range"
 	case "up-to-count":
-		return (t.Count == 3 && t.Eligibility == "creatures-in-range") || (t.Count == 1 && (t.Eligibility == "visible-creatures-in-range" || t.Eligibility == "visible-humanoids-in-range"))
+		return (t.Count == 3 && t.Eligibility == "creatures-in-range") || (t.Count == 1 && (t.Eligibility == "visible-creatures-in-range" || t.Eligibility == "visible-humanoids-in-range")) || (t.Count == 3 && t.Eligibility == "corpses-of-medium-or-small-humanoids-in-range")
 	case "single":
-		return t.Count == 1 && slices.Contains([]string{"target-in-range", "creature-in-range", "conscious-self", "self", "hit-target", "object-or-willing-creature", "chest-and-replica", "willing-creature-touch", "creature-touch", "visible-creature-in-range", "visible-beast-in-range", "visible-tiny-beast-in-range", "target-within-reach", "creature-or-flesh-touch"}, t.Eligibility)
+		return t.Count == 1 && slices.Contains([]string{"target-in-range", "creature-in-range", "conscious-self", "self", "hit-target", "object-or-willing-creature", "chest-and-replica", "willing-creature-touch", "creature-touch", "visible-creature-in-range", "visible-beast-in-range", "visible-tiny-beast-in-range", "target-within-reach", "creature-or-flesh-touch", "object-touch"}, t.Eligibility)
 	case "rays":
 		return t.Count == 3 && t.Eligibility == "targets-in-range"
 	case "choice":
-		return t.Count == 1 && slices.Contains([]string{"same-plane-creature-or-seen-location", "visible-creature-or-nonmagical-noncreature-plant", "door-window-or-area-in-range", "bones-or-corpse-of-medium-or-small-humanoid-in-range"}, t.Eligibility)
+		return t.Count == 1 && slices.Contains([]string{"same-plane-creature-or-seen-location", "visible-creature-or-nonmagical-noncreature-plant", "door-window-or-area-in-range", "bones-or-corpse-of-medium-or-small-humanoid-in-range", "ground-or-containers-in-range", "container-or-cube-in-range"}, t.Eligibility)
 	case "selected-creatures":
 		return t.Count == 0 && slices.Contains([]string{"visible-creatures-in-range", "creatures-in-range", "visible-willing-creatures-in-range"}, t.Eligibility)
 	case "sphere":
@@ -383,7 +397,7 @@ func validSpellTarget(t SpellTarget) bool {
 	case "selected-objects":
 		return t.Count == 0 && t.Eligibility == "eligible-nonmagical-objects-in-range"
 	case "emanation":
-		return t.Count == 0 && (t.Eligibility == "creatures-other-than-constructs-and-undead" || t.Eligibility == "everything-in-aura")
+		return t.Count == 0 && (t.Eligibility == "creatures-other-than-constructs-and-undead" || t.Eligibility == "everything-in-aura" || t.Eligibility == "visible-creatures-in-emanation")
 	default:
 		return false
 	}
@@ -405,12 +419,15 @@ func (s SpellRecord) validateSourceDetails() error {
 	if handled, err := s.validateSpell200(); handled || err != nil {
 		return err
 	}
+	if handled, err := s.validateSpell201(); handled || err != nil {
+		return err
+	}
 	d := s.SourceDetails
 	if d == nil {
 		if s.Scope == "complete-source-record" && slices.Contains([]string{"Scorching Ray", "Scrying", "Searing Smite", "Secret Chest", "See Invisibility", "Seeming", "Sending", "Sequester", "Shapechange", "Shatter", "Shield", "Shield of Faith"}, s.Name) {
 			return fmt.Errorf("batch source details required")
 		}
-		if s.CastingTime == "reaction" || s.CastingTime == "10-minutes" || s.CastingTime == "1-minute" || spell197CastingSeconds[s.CastingTime] != 0 || s.Duration == "until-dispelled" || s.Range.Kind == "unlimited" || s.Target.Shape != "single" {
+		if s.CastingTime == "reaction" || s.CastingTime == "10-minutes" || s.CastingTime == "1-minute" || spell197CastingSeconds[s.CastingTime] != 0 || s.Duration == "until-dispelled" || s.Duration == "special" || s.Range.Kind == "unlimited" || s.Target.Shape != "single" {
 			return fmt.Errorf("source details required for extended shape")
 		}
 		return nil

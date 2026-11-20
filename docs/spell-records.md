@@ -5,7 +5,7 @@ Issue #194 defines `SpellRecords`, decoded by `DecodeSpellRecords(io.Reader)` in
 runtime consumers, action registration, database writes or coverage promotion.
 `testdata/spell_records.json` contains one complete new source record, Acid Arrow,
 and adaptations of the two existing bounded fixtures. Subsequent catalogue
-imports are separately owned; the #218, #198, #196, #199 and #200 batches are described below.
+imports are separately owned; the #218, #198, #196, #199, #200 and #201 batches are described below.
 
 The envelope retains the exact `Source` pin, license, attribution and adaptation
 notice checked by the conformance register. Each record has its own stable
@@ -445,3 +445,61 @@ rtk proxy python3 scripts/verify_srd_spells_200.py /path/to/SRD_CC_v5.2.1.pdf
 
 The same limits as #198 apply: the source check supplements the offline literal
 fixtures and is not an automatic conformance proof.
+
+## Issue #201: Conjure Woodland Beings through Creation
+
+`testdata/spells_201.json` imports the twelve families the issue-80 inventory
+assigns to #201, on PDF pp.118-121: Conjure Woodland Beings, Contact Other
+Plane, Contagion, Contingency, Continual Flame, Control Water, Control Weather,
+Counterspell, Create Food and Water, Create Undead, Create or Destroy Water and
+Creation. Conjure Woodland Beings keeps its p.118 to p.119 continuation and
+Control Water its p.119 to p.120 continuation in explicit `source_pages` lists.
+`spells_201_test.go` checks the family list and pages against the inventory and
+supplies literal source-value fixtures for every header, choice, table row,
+effect, dependency and scaling value.
+
+The typed payloads retain the woodland emanation and its triggers; Contact Other
+Plane's save, five questions, one-word answers and failure; Contagion's
+repeated saves and seven-day duration; Contingency's contingent-spell limits and
+statuette; Continual Flame's light; Control Water's four effects, including the
+flood and whirlpool measurements; Control Weather's delay and three stage
+tables; Counterspell's trigger and wasted costs; the food and water amounts;
+Create Undead's corpses, commands, 24-hour control and per-slot creature
+options; Create or Destroy Water's two choices; and Creation's Materials table.
+
+Schema version 1 gains only shapes present in this batch, on top of #199:
+
+- Duration `special` (Creation). It has `duration_seconds = 0` and is never
+  concentration; the real durations live in the `creation.materials` table and
+  the record requires `duration.special-by-material`.
+- Casting time `reaction` with exactly one entry in `casting_triggers`
+  (Counterspell). Every other record in this batch keeps that list empty.
+- Target shape `cube`, plus labels for `emanation`, `up-to-count`, `single` and
+  `choice` (the water and corpse targets).
+- Scaling kind `slot-increment`, which reads the typed per-slot water and Cube
+  increments, and `slot-creature-table`, which reads Create Undead's rows for
+  slots 7, 8 and 9. Both use zero common dice fields.
+- Conjure Woodland Beings reuses the `slot` scaling kind for its extra 1d8.
+
+Validation pins the printed measurements by equality (the 10-foot emanation,
+DC 15, three saves, seven days, the 1,500 GP statuette, the 20-foot light radii,
+the 100-foot Cube, the whirlpool sizes, the 5-mile weather radius, the 45 pounds
+and 30 gallons, the 150 GP onyx, the 24-hour control and every Creation duration
+row), so a positive but wrong value is rejected.
+
+Composition of the two bounded compatibility fixtures with #196, #218, #198,
+#199 and #201 yields 72 unique records. Every imported record remains
+unavailable: no resolver, action, entitlement, tool, inventory, coverage or Full
+Rules behavior is added.
+
+To recheck the PDF pin, identities, pages, rebuilt headers and source anchors,
+run:
+
+```sh
+rtk proxy python3 scripts/verify_srd_spells_201.py /path/to/SRD_CC_v5.2.1.pdf
+```
+
+The comparator rebuilds each source header from the structured record and
+requires it to equal the PDF text. It supplements the literal offline fixtures
+and is not an automatic conformance proof. The PDF and extracted text are not
+vendored.

@@ -184,11 +184,11 @@ func (s SpellRecord) validate() error {
 			return fmt.Errorf("invalid material")
 		}
 	}
-	if !slices.Contains([]string{"instantaneous", "timed", "until-dispelled"}, s.Duration) || s.DurationSeconds < 0 || (s.Duration == "instantaneous" && (s.DurationSeconds != 0 || *s.Concentration)) || (s.Duration == "timed" && s.DurationSeconds == 0) {
+	if !slices.Contains([]string{"instantaneous", "timed", "until-dispelled", "special"}, s.Duration) || s.DurationSeconds < 0 || (s.Duration == "instantaneous" && (s.DurationSeconds != 0 || *s.Concentration)) || (s.Duration == "timed" && s.DurationSeconds == 0) {
 		return fmt.Errorf("invalid duration")
 	}
-	if s.Duration == "until-dispelled" && (s.DurationSeconds != 0 || *s.Concentration) {
-		return fmt.Errorf("invalid indefinite duration")
+	if (s.Duration == "until-dispelled" || s.Duration == "special") && (s.DurationSeconds != 0 || *s.Concentration) {
+		return fmt.Errorf("invalid indefinite or special duration")
 	}
 	if err := s.validateSourceDetails(); err != nil {
 		return err
@@ -223,6 +223,10 @@ func (s SpellRecord) validate() error {
 	case "cantrip-upgrade", "slot-bonus", "slot-creatures", "slot-dice-by-size":
 		if !s.validSpell196Scaling(effects) {
 			return fmt.Errorf("invalid typed batch 196 scaling")
+		}
+	case "slot-increment", "slot-creature-table":
+		if !s.validSpell201Scaling(effects) {
+			return fmt.Errorf("invalid typed batch 201 scaling")
 		}
 	case "none":
 		if sc.AboveLevel != 0 || sc.DiceCount != 0 || sc.DieSides != 0 || len(sc.EffectIDs) != 0 {
