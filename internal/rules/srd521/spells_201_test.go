@@ -115,8 +115,8 @@ func TestSpells201CompositionBoundaries(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	if len(all.Records) != 72 {
-		t.Fatalf("expected six twelve-family batches, got %d", len(all.Records))
+	if len(all.Records) != 84 {
+		t.Fatalf("expected seven twelve-family batches, got %d", len(all.Records))
 	}
 	seen := map[string]bool{}
 	for _, r := range all.Records {
