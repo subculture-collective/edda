@@ -1,0 +1,2150 @@
+{
+  "schema_version": 1,
+  "source": {
+    "version": "5.2.1",
+    "language": "en",
+    "landing_url": "https://www.dndbeyond.com/srd",
+    "artifact_url": "https://media.dndbeyond.com/compendium-images/srd/5.2/SRD_CC_v5.2.1.pdf",
+    "sha256": "8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87",
+    "bytes": 6031375,
+    "pages": 364,
+    "retrieved_at": "2026-11-15",
+    "license": "CC-BY-4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/legalcode",
+    "attribution": "This work includes material from the System Reference Document 5.2.1 (“SRD 5.2.1”) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd. The SRD 5.2.1 is licensed under the Creative Commons Attribution 4.0 International License, available at https://creativecommons.org/licenses/by/4.0/legalcode.",
+    "changes": "Adapted the twelve stat blocks of issue #153 (Animated Armor, Animated Flying Sword, Animated Rug of Smothering, Ankheg, Ankylosaurus, Ape, Archelon, Archmage, Assassin, Awakened Shrub, Awakened Tree and Axe Beak; PDF pages 259–260, 305 and 344–345) into typed mechanical fields and implementation keys. Trait, action, bonus action and reaction entries keep their source rules text, rejoined across line, column and page breaks; descriptive prose outside the stat blocks is omitted. No playable NPC behavior is granted."
+  },
+  "monsters": [
+    {
+      "id": "srd-5.2.1:content/monsters/animated-armor",
+      "name": "Animated Armor",
+      "source_pages": [
+        259,
+        259
+      ],
+      "sizes": [
+        "medium"
+      ],
+      "type": "construct",
+      "alignment": "Unaligned",
+      "ac": 18,
+      "hp": {
+        "average": 33,
+        "dice": 6,
+        "sides": 8,
+        "modifier": 6
+      },
+      "initiative": {
+        "modifier": 2,
+        "score": 12
+      },
+      "speeds": {
+        "walk": 25
+      },
+      "abilities": {
+        "str": {
+          "score": 14,
+          "modifier": 2,
+          "save": 2
+        },
+        "dex": {
+          "score": 11,
+          "modifier": 0,
+          "save": 0
+        },
+        "con": {
+          "score": 13,
+          "modifier": 1,
+          "save": 1
+        },
+        "int": {
+          "score": 1,
+          "modifier": -5,
+          "save": -5
+        },
+        "wis": {
+          "score": 3,
+          "modifier": -4,
+          "save": -4
+        },
+        "cha": {
+          "score": 1,
+          "modifier": -5,
+          "save": -5
+        }
+      },
+      "senses": {
+        "passive_perception": 6,
+        "special": {
+          "blindsight": 60
+        }
+      },
+      "languages": [],
+      "gear": [],
+      "cr": "1",
+      "xp": 200,
+      "proficiency_bonus": 2,
+      "traits": [],
+      "actions": [
+        {
+          "id": "multiattack",
+          "name": "Multiattack",
+          "text": "Multiattack. The armor makes two Slam attacks.",
+          "key": "action/multiattack",
+          "effects": [
+            {
+              "key": "action/melee-attack",
+              "name": "Attack",
+              "text": "The armor makes two Slam attacks."
+            }
+          ]
+        },
+        {
+          "id": "slam",
+          "name": "Slam",
+          "text": "Slam. Melee Attack Roll: +4, reach 5 ft. Hit: 5 (1d6 + 2) Bludgeoning damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 4,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 5,
+              "dice": 1,
+              "sides": 6,
+              "modifier": 2
+            },
+            "damage_type": "bludgeoning"
+          },
+          "effects": [
+            {
+              "key": "effect/bludgeoning-damage",
+              "name": "Bludgeoning damage",
+              "text": "5 (1d6 + 2) Bludgeoning damage.",
+              "dice": {
+                "average": 5,
+                "dice": 1,
+                "sides": 6,
+                "modifier": 2
+              }
+            }
+          ]
+        }
+      ],
+      "immunities": [
+        "poison",
+        "psychic"
+      ],
+      "condition_immunities": [
+        "charmed",
+        "deafened",
+        "exhaustion",
+        "frightened",
+        "paralyzed",
+        "petrified",
+        "poisoned"
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "defense/damage-immunity",
+        "defense/condition-immunity",
+        "sense/blindsight",
+        "action/multiattack",
+        "action/melee-attack",
+        "effect/bludgeoning-damage"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/animated-flying-sword",
+      "name": "Animated Flying Sword",
+      "source_pages": [
+        259,
+        259
+      ],
+      "sizes": [
+        "small"
+      ],
+      "type": "construct",
+      "alignment": "Unaligned",
+      "ac": 17,
+      "hp": {
+        "average": 14,
+        "dice": 4,
+        "sides": 6,
+        "modifier": 0
+      },
+      "initiative": {
+        "modifier": 4,
+        "score": 14
+      },
+      "speeds": {
+        "walk": 5,
+        "fly": 50
+      },
+      "abilities": {
+        "str": {
+          "score": 12,
+          "modifier": 1,
+          "save": 1
+        },
+        "dex": {
+          "score": 15,
+          "modifier": 2,
+          "save": 4
+        },
+        "con": {
+          "score": 11,
+          "modifier": 0,
+          "save": 0
+        },
+        "int": {
+          "score": 1,
+          "modifier": -5,
+          "save": -5
+        },
+        "wis": {
+          "score": 5,
+          "modifier": -3,
+          "save": -3
+        },
+        "cha": {
+          "score": 1,
+          "modifier": -5,
+          "save": -5
+        }
+      },
+      "senses": {
+        "passive_perception": 7,
+        "special": {
+          "blindsight": 60
+        }
+      },
+      "languages": [],
+      "gear": [],
+      "cr": "1/4",
+      "xp": 50,
+      "proficiency_bonus": 2,
+      "traits": [],
+      "actions": [
+        {
+          "id": "slash",
+          "name": "Slash",
+          "text": "Slash. Melee Attack Roll: +4, reach 5 ft. Hit: 6 (1d8 + 2) Slashing damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 4,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 6,
+              "dice": 1,
+              "sides": 8,
+              "modifier": 2
+            },
+            "damage_type": "slashing"
+          },
+          "effects": [
+            {
+              "key": "effect/slashing-damage",
+              "name": "Slashing damage",
+              "text": "6 (1d8 + 2) Slashing damage.",
+              "dice": {
+                "average": 6,
+                "dice": 1,
+                "sides": 8,
+                "modifier": 2
+              }
+            }
+          ]
+        }
+      ],
+      "immunities": [
+        "poison",
+        "psychic"
+      ],
+      "condition_immunities": [
+        "charmed",
+        "deafened",
+        "exhaustion",
+        "frightened",
+        "paralyzed",
+        "petrified",
+        "poisoned"
+      ],
+      "hover": true,
+      "required_mechanics": [
+        "monster/stat-block",
+        "defense/damage-immunity",
+        "defense/condition-immunity",
+        "movement/fly",
+        "movement/hover",
+        "sense/blindsight",
+        "action/melee-attack",
+        "effect/slashing-damage"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/animated-rug-of-smothering",
+      "name": "Animated Rug of Smothering",
+      "source_pages": [
+        259,
+        259
+      ],
+      "sizes": [
+        "large"
+      ],
+      "type": "construct",
+      "alignment": "Unaligned",
+      "ac": 12,
+      "hp": {
+        "average": 27,
+        "dice": 5,
+        "sides": 10,
+        "modifier": 0
+      },
+      "initiative": {
+        "modifier": 4,
+        "score": 14
+      },
+      "speeds": {
+        "walk": 10
+      },
+      "abilities": {
+        "str": {
+          "score": 17,
+          "modifier": 3,
+          "save": 3
+        },
+        "dex": {
+          "score": 14,
+          "modifier": 2,
+          "save": 2
+        },
+        "con": {
+          "score": 10,
+          "modifier": 0,
+          "save": 0
+        },
+        "int": {
+          "score": 1,
+          "modifier": -5,
+          "save": -5
+        },
+        "wis": {
+          "score": 3,
+          "modifier": -4,
+          "save": -4
+        },
+        "cha": {
+          "score": 1,
+          "modifier": -5,
+          "save": -5
+        }
+      },
+      "senses": {
+        "passive_perception": 6,
+        "special": {
+          "blindsight": 60
+        }
+      },
+      "languages": [],
+      "gear": [],
+      "cr": "2",
+      "xp": 450,
+      "proficiency_bonus": 2,
+      "traits": [],
+      "actions": [
+        {
+          "id": "smother",
+          "name": "Smother",
+          "text": "Smother. Melee Attack Roll: +5, reach 5 ft. Hit: 10 (2d6 + 3) Bludgeoning damage. If the target is a Medium or smaller creature, the rug can give it the Grappled condition (escape DC 13) instead of dealing damage. Until the grapple ends, the target has the Blinded and Restrained conditions, is suffocating, and takes 10 (2d6 + 3) Bludgeoning damage at the start of each of its turns. The rug can smother only one creature at a time. While grappling the target, the rug can’t take this action, the rug halves the damage it takes (round down), and the target takes the same amount of damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 5,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 10,
+              "dice": 2,
+              "sides": 6,
+              "modifier": 3
+            },
+            "damage_type": "bludgeoning"
+          },
+          "effects": [
+            {
+              "key": "effect/bludgeoning-damage",
+              "name": "Bludgeoning damage",
+              "text": "10 (2d6 + 3) Bludgeoning damage.",
+              "dice": {
+                "average": 10,
+                "dice": 2,
+                "sides": 6,
+                "modifier": 3
+              }
+            },
+            {
+              "key": "requirement/target-size",
+              "name": "Target size",
+              "text": "If the target is a Medium or smaller creature, the rug can give it the Grappled condition (escape DC 13) instead of dealing damage."
+            },
+            {
+              "key": "condition/grappled",
+              "name": "Grappled",
+              "text": "If the target is a Medium or smaller creature, the rug can give it the Grappled condition (escape DC 13) instead of dealing damage."
+            },
+            {
+              "key": "effect/condition-instead-of-damage",
+              "name": "Condition instead of damage",
+              "text": "If the target is a Medium or smaller creature, the rug can give it the Grappled condition (escape DC 13) instead of dealing damage."
+            },
+            {
+              "key": "condition/blinded",
+              "name": "Blinded",
+              "text": "Until the grapple ends, the target has the Blinded and Restrained conditions, is suffocating, and takes 10 (2d6 + 3) Bludgeoning damage at the start of each of its turns."
+            },
+            {
+              "key": "condition/restrained",
+              "name": "Restrained",
+              "text": "Until the grapple ends, the target has the Blinded and Restrained conditions, is suffocating, and takes 10 (2d6 + 3) Bludgeoning damage at the start of each of its turns."
+            },
+            {
+              "key": "effect/suffocating",
+              "name": "Suffocating",
+              "text": "Until the grapple ends, the target has the Blinded and Restrained conditions, is suffocating, and takes 10 (2d6 + 3) Bludgeoning damage at the start of each of its turns."
+            },
+            {
+              "key": "effect/start-of-turn-damage",
+              "name": "Start-of-turn damage",
+              "text": "Until the grapple ends, the target has the Blinded and Restrained conditions, is suffocating, and takes 10 (2d6 + 3) Bludgeoning damage at the start of each of its turns.",
+              "dice": {
+                "average": 10,
+                "dice": 2,
+                "sides": 6,
+                "modifier": 3
+              }
+            },
+            {
+              "key": "limit/one-grappled-creature",
+              "name": "One creature at a time",
+              "text": "The rug can smother only one creature at a time."
+            },
+            {
+              "key": "requirement/not-grappling",
+              "name": "Unavailable while grappling",
+              "text": "While grappling the target, the rug can’t take this action, the rug halves the damage it takes (round down), and the target takes the same amount of damage."
+            },
+            {
+              "key": "effect/halve-damage-taken",
+              "name": "Halve damage taken",
+              "text": "While grappling the target, the rug can’t take this action, the rug halves the damage it takes (round down), and the target takes the same amount of damage."
+            },
+            {
+              "key": "effect/share-damage-taken",
+              "name": "Target takes the same damage",
+              "text": "While grappling the target, the rug can’t take this action, the rug halves the damage it takes (round down), and the target takes the same amount of damage."
+            }
+          ]
+        }
+      ],
+      "immunities": [
+        "poison",
+        "psychic"
+      ],
+      "condition_immunities": [
+        "charmed",
+        "deafened",
+        "exhaustion",
+        "frightened",
+        "paralyzed",
+        "petrified",
+        "poisoned"
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "defense/damage-immunity",
+        "defense/condition-immunity",
+        "sense/blindsight",
+        "action/melee-attack",
+        "effect/bludgeoning-damage",
+        "requirement/target-size",
+        "condition/grappled",
+        "effect/condition-instead-of-damage",
+        "condition/blinded",
+        "condition/restrained",
+        "effect/suffocating",
+        "effect/start-of-turn-damage",
+        "limit/one-grappled-creature",
+        "requirement/not-grappling",
+        "effect/halve-damage-taken",
+        "effect/share-damage-taken"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/ankheg",
+      "name": "Ankheg",
+      "source_pages": [
+        259,
+        259
+      ],
+      "sizes": [
+        "large"
+      ],
+      "type": "monstrosity",
+      "alignment": "Unaligned",
+      "ac": 14,
+      "hp": {
+        "average": 45,
+        "dice": 6,
+        "sides": 10,
+        "modifier": 12
+      },
+      "initiative": {
+        "modifier": 0,
+        "score": 10
+      },
+      "speeds": {
+        "walk": 30,
+        "burrow": 10
+      },
+      "abilities": {
+        "str": {
+          "score": 17,
+          "modifier": 3,
+          "save": 3
+        },
+        "dex": {
+          "score": 11,
+          "modifier": 0,
+          "save": 0
+        },
+        "con": {
+          "score": 14,
+          "modifier": 2,
+          "save": 2
+        },
+        "int": {
+          "score": 1,
+          "modifier": -5,
+          "save": -5
+        },
+        "wis": {
+          "score": 13,
+          "modifier": 1,
+          "save": 1
+        },
+        "cha": {
+          "score": 6,
+          "modifier": -2,
+          "save": -2
+        }
+      },
+      "senses": {
+        "passive_perception": 11,
+        "special": {
+          "darkvision": 60,
+          "tremorsense": 60
+        }
+      },
+      "languages": [],
+      "gear": [],
+      "cr": "2",
+      "xp": 450,
+      "proficiency_bonus": 2,
+      "traits": [
+        {
+          "key": "trait/tunneler",
+          "name": "Tunneler",
+          "text": "Tunneler. The ankheg can burrow through solid rock at half its Burrow Speed and leaves a 10-foot-diameter tunnel in its wake.",
+          "requires": [
+            "movement/burrow-through-rock",
+            "movement/half-burrow-speed",
+            "effect/leave-tunnel"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "bite",
+          "name": "Bite",
+          "text": "Bite. Melee Attack Roll: +5 (with Advantage if the target is Grappled by the ankheg), reach 5 ft. Hit: 10 (2d6 + 3) Slashing damage plus 3 (1d6) Acid damage. If the target is a Large or smaller creature, it has the Grappled condition (escape DC 13).",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 5,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 10,
+              "dice": 2,
+              "sides": 6,
+              "modifier": 3
+            },
+            "damage_type": "slashing"
+          },
+          "effects": [
+            {
+              "key": "effect/slashing-damage",
+              "name": "Slashing damage",
+              "text": "10 (2d6 + 3) Slashing damage.",
+              "dice": {
+                "average": 10,
+                "dice": 2,
+                "sides": 6,
+                "modifier": 3
+              }
+            },
+            {
+              "key": "effect/acid-damage",
+              "name": "Acid damage",
+              "text": "3 (1d6) Acid damage.",
+              "dice": {
+                "average": 3,
+                "dice": 1,
+                "sides": 6,
+                "modifier": 0
+              }
+            },
+            {
+              "key": "attack/advantage-against-grappled-target",
+              "name": "Advantage against a target it grapples",
+              "text": "(with Advantage if the target is Grappled by the ankheg)"
+            },
+            {
+              "key": "condition/grappled",
+              "name": "Grappled",
+              "text": "If the target is a Large or smaller creature, it has the Grappled condition (escape DC 13)."
+            },
+            {
+              "key": "requirement/target-size",
+              "name": "Target size",
+              "text": "If the target is a Large or smaller creature, it has the Grappled condition (escape DC 13)."
+            }
+          ]
+        },
+        {
+          "id": "acid-spray",
+          "name": "Acid Spray",
+          "text": "Acid Spray (Recharge 6). Dexterity Saving Throw: DC 12, each creature in a 30-foot-long, 5-foot-wide Line. Failure: 14 (4d6) Acid damage. Success: Half damage.",
+          "key": "action/saving-throw",
+          "save": {
+            "ability": "dex",
+            "dc": 12
+          },
+          "target": {
+            "shape": "line",
+            "size": 30,
+            "width": 5,
+            "range": 0
+          },
+          "uses": {
+            "per_day": 0,
+            "lair_per_day": 0,
+            "recharge": 6
+          },
+          "effects": [
+            {
+              "key": "save/dex",
+              "name": "Dexterity Saving Throw",
+              "text": "Dexterity Saving Throw: DC 12"
+            },
+            {
+              "key": "area/line",
+              "name": "Target",
+              "text": "each creature in a 30-foot-long, 5-foot-wide Line."
+            },
+            {
+              "key": "limit/recharge",
+              "name": "Recharge",
+              "text": "(Recharge 6)"
+            },
+            {
+              "key": "effect/acid-damage",
+              "name": "Acid damage",
+              "text": "14 (4d6) Acid damage.",
+              "dice": {
+                "average": 14,
+                "dice": 4,
+                "sides": 6,
+                "modifier": 0
+              }
+            },
+            {
+              "key": "save/half-damage",
+              "name": "Half damage",
+              "text": "Success: Half damage."
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "movement/burrow",
+        "sense/darkvision",
+        "sense/tremorsense",
+        "trait/tunneler",
+        "movement/burrow-through-rock",
+        "movement/half-burrow-speed",
+        "effect/leave-tunnel",
+        "action/melee-attack",
+        "effect/slashing-damage",
+        "effect/acid-damage",
+        "attack/advantage-against-grappled-target",
+        "condition/grappled",
+        "requirement/target-size",
+        "action/saving-throw",
+        "save/dex",
+        "area/line",
+        "limit/recharge",
+        "save/half-damage"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/animals/ankylosaurus",
+      "name": "Ankylosaurus",
+      "source_pages": [
+        344,
+        344
+      ],
+      "sizes": [
+        "huge"
+      ],
+      "type": "beast",
+      "alignment": "Unaligned",
+      "ac": 15,
+      "hp": {
+        "average": 68,
+        "dice": 8,
+        "sides": 12,
+        "modifier": 16
+      },
+      "initiative": {
+        "modifier": 0,
+        "score": 10
+      },
+      "speeds": {
+        "walk": 30
+      },
+      "abilities": {
+        "str": {
+          "score": 19,
+          "modifier": 4,
+          "save": 6
+        },
+        "dex": {
+          "score": 11,
+          "modifier": 0,
+          "save": 0
+        },
+        "con": {
+          "score": 15,
+          "modifier": 2,
+          "save": 2
+        },
+        "int": {
+          "score": 2,
+          "modifier": -4,
+          "save": -4
+        },
+        "wis": {
+          "score": 12,
+          "modifier": 1,
+          "save": 1
+        },
+        "cha": {
+          "score": 5,
+          "modifier": -3,
+          "save": -3
+        }
+      },
+      "senses": {
+        "passive_perception": 11,
+        "special": {}
+      },
+      "languages": [],
+      "gear": [],
+      "cr": "3",
+      "xp": 700,
+      "proficiency_bonus": 2,
+      "traits": [],
+      "actions": [
+        {
+          "id": "multiattack",
+          "name": "Multiattack",
+          "text": "Multiattack. The ankylosaurus makes two Tail attacks.",
+          "key": "action/multiattack",
+          "effects": [
+            {
+              "key": "action/melee-attack",
+              "name": "Attack",
+              "text": "The ankylosaurus makes two Tail attacks."
+            }
+          ]
+        },
+        {
+          "id": "tail",
+          "name": "Tail",
+          "text": "Tail. Melee Attack Roll: +6, reach 10 ft. Hit: 9 (1d10 + 4) Bludgeoning damage. If the target is a Huge or smaller creature, it has the Prone condition.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 6,
+            "reach": 10,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 9,
+              "dice": 1,
+              "sides": 10,
+              "modifier": 4
+            },
+            "damage_type": "bludgeoning"
+          },
+          "effects": [
+            {
+              "key": "effect/bludgeoning-damage",
+              "name": "Bludgeoning damage",
+              "text": "9 (1d10 + 4) Bludgeoning damage.",
+              "dice": {
+                "average": 9,
+                "dice": 1,
+                "sides": 10,
+                "modifier": 4
+              }
+            },
+            {
+              "key": "condition/prone",
+              "name": "Prone",
+              "text": "If the target is a Huge or smaller creature, it has the Prone condition."
+            },
+            {
+              "key": "requirement/target-size",
+              "name": "Target size",
+              "text": "If the target is a Huge or smaller creature, it has the Prone condition."
+            }
+          ]
+        }
+      ],
+      "tags": [
+        "Dinosaur"
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "action/multiattack",
+        "action/melee-attack",
+        "effect/bludgeoning-damage",
+        "condition/prone",
+        "requirement/target-size"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/animals/ape",
+      "name": "Ape",
+      "source_pages": [
+        344,
+        344
+      ],
+      "sizes": [
+        "medium"
+      ],
+      "type": "beast",
+      "alignment": "Unaligned",
+      "ac": 12,
+      "hp": {
+        "average": 19,
+        "dice": 3,
+        "sides": 8,
+        "modifier": 6
+      },
+      "initiative": {
+        "modifier": 2,
+        "score": 12
+      },
+      "speeds": {
+        "walk": 30,
+        "climb": 30
+      },
+      "abilities": {
+        "str": {
+          "score": 16,
+          "modifier": 3,
+          "save": 3
+        },
+        "dex": {
+          "score": 14,
+          "modifier": 2,
+          "save": 2
+        },
+        "con": {
+          "score": 14,
+          "modifier": 2,
+          "save": 2
+        },
+        "int": {
+          "score": 6,
+          "modifier": -2,
+          "save": -2
+        },
+        "wis": {
+          "score": 12,
+          "modifier": 1,
+          "save": 1
+        },
+        "cha": {
+          "score": 7,
+          "modifier": -2,
+          "save": -2
+        }
+      },
+      "senses": {
+        "passive_perception": 13,
+        "special": {}
+      },
+      "languages": [],
+      "gear": [],
+      "cr": "1/2",
+      "xp": 100,
+      "proficiency_bonus": 2,
+      "traits": [],
+      "actions": [
+        {
+          "id": "multiattack",
+          "name": "Multiattack",
+          "text": "Multiattack. The ape makes two Fist attacks.",
+          "key": "action/multiattack",
+          "effects": [
+            {
+              "key": "action/melee-attack",
+              "name": "Attack",
+              "text": "The ape makes two Fist attacks."
+            }
+          ]
+        },
+        {
+          "id": "fist",
+          "name": "Fist",
+          "text": "Fist. Melee Attack Roll: +5, reach 5 ft. Hit: 5 (1d4 + 3) Bludgeoning damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 5,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 5,
+              "dice": 1,
+              "sides": 4,
+              "modifier": 3
+            },
+            "damage_type": "bludgeoning"
+          },
+          "effects": [
+            {
+              "key": "effect/bludgeoning-damage",
+              "name": "Bludgeoning damage",
+              "text": "5 (1d4 + 3) Bludgeoning damage.",
+              "dice": {
+                "average": 5,
+                "dice": 1,
+                "sides": 4,
+                "modifier": 3
+              }
+            }
+          ]
+        },
+        {
+          "id": "rock",
+          "name": "Rock",
+          "text": "Rock (Recharge 6). Ranged Attack Roll: +5, range 25/50 ft. Hit: 10 (2d6 + 3) Bludgeoning damage.",
+          "key": "action/ranged-attack",
+          "attack": {
+            "kind": "ranged",
+            "bonus": 5,
+            "reach": 0,
+            "range": 25,
+            "long_range": 50,
+            "damage": {
+              "average": 10,
+              "dice": 2,
+              "sides": 6,
+              "modifier": 3
+            },
+            "damage_type": "bludgeoning"
+          },
+          "uses": {
+            "per_day": 0,
+            "lair_per_day": 0,
+            "recharge": 6
+          },
+          "effects": [
+            {
+              "key": "effect/bludgeoning-damage",
+              "name": "Bludgeoning damage",
+              "text": "10 (2d6 + 3) Bludgeoning damage.",
+              "dice": {
+                "average": 10,
+                "dice": 2,
+                "sides": 6,
+                "modifier": 3
+              }
+            },
+            {
+              "key": "limit/recharge",
+              "name": "Recharge",
+              "text": "(Recharge 6)"
+            }
+          ]
+        }
+      ],
+      "skills": {
+        "athletics": 5,
+        "perception": 3
+      },
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/skills",
+        "movement/climb",
+        "action/multiattack",
+        "action/melee-attack",
+        "effect/bludgeoning-damage",
+        "action/ranged-attack",
+        "limit/recharge"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/animals/archelon",
+      "name": "Archelon",
+      "source_pages": [
+        344,
+        345
+      ],
+      "sizes": [
+        "huge"
+      ],
+      "type": "beast",
+      "alignment": "Unaligned",
+      "ac": 17,
+      "hp": {
+        "average": 90,
+        "dice": 12,
+        "sides": 12,
+        "modifier": 12
+      },
+      "initiative": {
+        "modifier": 3,
+        "score": 13
+      },
+      "speeds": {
+        "walk": 20,
+        "swim": 80
+      },
+      "abilities": {
+        "str": {
+          "score": 18,
+          "modifier": 4,
+          "save": 4
+        },
+        "dex": {
+          "score": 16,
+          "modifier": 3,
+          "save": 3
+        },
+        "con": {
+          "score": 13,
+          "modifier": 1,
+          "save": 1
+        },
+        "int": {
+          "score": 4,
+          "modifier": -3,
+          "save": -3
+        },
+        "wis": {
+          "score": 14,
+          "modifier": 2,
+          "save": 2
+        },
+        "cha": {
+          "score": 6,
+          "modifier": -2,
+          "save": -2
+        }
+      },
+      "senses": {
+        "passive_perception": 12,
+        "special": {}
+      },
+      "languages": [],
+      "gear": [],
+      "cr": "4",
+      "xp": 1100,
+      "proficiency_bonus": 2,
+      "traits": [
+        {
+          "key": "trait/amphibious",
+          "name": "Amphibious",
+          "text": "Amphibious. The archelon can breathe air and water."
+        }
+      ],
+      "actions": [
+        {
+          "id": "multiattack",
+          "name": "Multiattack",
+          "text": "Multiattack. The archelon makes two Bite attacks.",
+          "key": "action/multiattack",
+          "effects": [
+            {
+              "key": "action/melee-attack",
+              "name": "Attack",
+              "text": "The archelon makes two Bite attacks."
+            }
+          ]
+        },
+        {
+          "id": "bite",
+          "name": "Bite",
+          "text": "Bite. Melee Attack Roll: +6, reach 5 ft. Hit: 14 (3d6 + 4) Piercing damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 6,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 14,
+              "dice": 3,
+              "sides": 6,
+              "modifier": 4
+            },
+            "damage_type": "piercing"
+          },
+          "effects": [
+            {
+              "key": "effect/piercing-damage",
+              "name": "Piercing damage",
+              "text": "14 (3d6 + 4) Piercing damage.",
+              "dice": {
+                "average": 14,
+                "dice": 3,
+                "sides": 6,
+                "modifier": 4
+              }
+            }
+          ]
+        }
+      ],
+      "tags": [
+        "Dinosaur"
+      ],
+      "skills": {
+        "stealth": 5
+      },
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/skills",
+        "movement/swim",
+        "trait/amphibious",
+        "action/multiattack",
+        "action/melee-attack",
+        "effect/piercing-damage"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/archmage",
+      "name": "Archmage",
+      "source_pages": [
+        305,
+        305
+      ],
+      "sizes": [
+        "medium",
+        "small"
+      ],
+      "type": "humanoid",
+      "alignment": "Neutral",
+      "ac": 17,
+      "hp": {
+        "average": 170,
+        "dice": 31,
+        "sides": 8,
+        "modifier": 31
+      },
+      "initiative": {
+        "modifier": 7,
+        "score": 17
+      },
+      "speeds": {
+        "walk": 30
+      },
+      "abilities": {
+        "str": {
+          "score": 10,
+          "modifier": 0,
+          "save": 0
+        },
+        "dex": {
+          "score": 14,
+          "modifier": 2,
+          "save": 2
+        },
+        "con": {
+          "score": 12,
+          "modifier": 1,
+          "save": 1
+        },
+        "int": {
+          "score": 20,
+          "modifier": 5,
+          "save": 9
+        },
+        "wis": {
+          "score": 15,
+          "modifier": 2,
+          "save": 6
+        },
+        "cha": {
+          "score": 16,
+          "modifier": 3,
+          "save": 3
+        }
+      },
+      "senses": {
+        "passive_perception": 16,
+        "special": {}
+      },
+      "languages": [
+        "Common plus five other languages"
+      ],
+      "gear": [
+        "Wand"
+      ],
+      "cr": "12",
+      "xp": 8000,
+      "proficiency_bonus": 4,
+      "traits": [
+        {
+          "key": "trait/magic-resistance",
+          "name": "Magic Resistance",
+          "text": "Magic Resistance. The archmage has Advantage on saving throws against spells and other magical effects.",
+          "requires": [
+            "save/advantage-against-magic"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "multiattack",
+          "name": "Multiattack",
+          "text": "Multiattack. The archmage makes four Arcane Burst attacks.",
+          "key": "action/multiattack",
+          "effects": [
+            {
+              "key": "action/melee-or-ranged-attack",
+              "name": "Attack",
+              "text": "The archmage makes four Arcane Burst attacks."
+            }
+          ]
+        },
+        {
+          "id": "arcane-burst",
+          "name": "Arcane Burst",
+          "text": "Arcane Burst. Melee or Ranged Attack Roll: +9, reach 5 ft. or range 150 ft. Hit: 27 (4d10 + 5) Force damage.",
+          "key": "action/melee-or-ranged-attack",
+          "effects": [
+            {
+              "key": "effect/force-damage",
+              "name": "Force damage",
+              "text": "27 (4d10 + 5) Force damage.",
+              "dice": {
+                "average": 27,
+                "dice": 4,
+                "sides": 10,
+                "modifier": 5
+              }
+            }
+          ]
+        },
+        {
+          "id": "spellcasting",
+          "name": "Spellcasting",
+          "text": "Spellcasting. The archmage casts one of the following spells, using Intelligence as the spellcasting ability (spell save DC 17): At Will: Detect Magic, Detect Thoughts, Disguise Self, Invisibility, Light, Mage Armor (included in AC), Mage Hand, Prestidigitation 2/Day Each: Fly, Lightning Bolt (level 7 version) 1/Day Each: Cone of Cold (level 9 version), Mind Blank (cast before combat), Scrying, Teleport",
+          "key": "action/spellcasting",
+          "spellcasting": {
+            "ability": "int",
+            "save_dc": 17,
+            "attack_bonus": 0,
+            "at_will": [
+              "Detect Magic",
+              "Detect Thoughts",
+              "Disguise Self",
+              "Invisibility",
+              "Light",
+              "Mage Armor (included in AC)",
+              "Mage Hand",
+              "Prestidigitation"
+            ],
+            "per_day": [
+              {
+                "uses": 2,
+                "spells": [
+                  "Fly",
+                  "Lightning Bolt (level 7 version)"
+                ]
+              },
+              {
+                "uses": 1,
+                "spells": [
+                  "Cone of Cold (level 9 version)",
+                  "Mind Blank (cast before combat)",
+                  "Scrying",
+                  "Teleport"
+                ]
+              }
+            ]
+          },
+          "effects": [
+            {
+              "key": "spell/detect-magic",
+              "name": "Detect Magic",
+              "text": "Detect Magic",
+              "requires": [
+                "spellcasting/at-will"
+              ]
+            },
+            {
+              "key": "spell/detect-thoughts",
+              "name": "Detect Thoughts",
+              "text": "Detect Thoughts",
+              "requires": [
+                "spellcasting/at-will"
+              ]
+            },
+            {
+              "key": "spell/disguise-self",
+              "name": "Disguise Self",
+              "text": "Disguise Self",
+              "requires": [
+                "spellcasting/at-will"
+              ]
+            },
+            {
+              "key": "spell/invisibility",
+              "name": "Invisibility",
+              "text": "Invisibility",
+              "requires": [
+                "spellcasting/at-will"
+              ]
+            },
+            {
+              "key": "spell/light",
+              "name": "Light",
+              "text": "Light",
+              "requires": [
+                "spellcasting/at-will"
+              ]
+            },
+            {
+              "key": "spell/mage-armor",
+              "name": "Mage Armor",
+              "text": "Mage Armor (included in AC)",
+              "requires": [
+                "spellcasting/at-will",
+                "spellcasting/included-in-ac"
+              ]
+            },
+            {
+              "key": "spell/mage-hand",
+              "name": "Mage Hand",
+              "text": "Mage Hand",
+              "requires": [
+                "spellcasting/at-will"
+              ]
+            },
+            {
+              "key": "spell/prestidigitation",
+              "name": "Prestidigitation",
+              "text": "Prestidigitation",
+              "requires": [
+                "spellcasting/at-will"
+              ]
+            },
+            {
+              "key": "spell/fly",
+              "name": "Fly",
+              "text": "Fly",
+              "requires": [
+                "limit/per-day"
+              ]
+            },
+            {
+              "key": "spell/lightning-bolt",
+              "name": "Lightning Bolt",
+              "text": "Lightning Bolt (level 7 version)",
+              "requires": [
+                "limit/per-day",
+                "spellcasting/higher-level-version"
+              ]
+            },
+            {
+              "key": "spell/cone-of-cold",
+              "name": "Cone of Cold",
+              "text": "Cone of Cold (level 9 version)",
+              "requires": [
+                "limit/per-day",
+                "spellcasting/higher-level-version"
+              ]
+            },
+            {
+              "key": "spell/mind-blank",
+              "name": "Mind Blank",
+              "text": "Mind Blank (cast before combat)",
+              "requires": [
+                "limit/per-day",
+                "spellcasting/cast-before-combat",
+                "defense/immunity-with-mind-blank"
+              ]
+            },
+            {
+              "key": "spell/scrying",
+              "name": "Scrying",
+              "text": "Scrying",
+              "requires": [
+                "limit/per-day"
+              ]
+            },
+            {
+              "key": "spell/teleport",
+              "name": "Teleport",
+              "text": "Teleport",
+              "requires": [
+                "limit/per-day"
+              ]
+            }
+          ]
+        }
+      ],
+      "tags": [
+        "Wizard"
+      ],
+      "skills": {
+        "arcana": 13,
+        "history": 9,
+        "perception": 6
+      },
+      "immunities": [
+        "psychic"
+      ],
+      "condition_immunities": [
+        "charmed"
+      ],
+      "bonus_actions": [
+        {
+          "id": "misty-step",
+          "name": "Misty Step",
+          "text": "Misty Step (3/Day). The mage casts Misty Step, using the same spellcasting ability as Spellcasting.",
+          "key": "action/special",
+          "uses": {
+            "per_day": 3,
+            "lair_per_day": 0,
+            "recharge": 0
+          },
+          "effects": [
+            {
+              "key": "action/spellcasting",
+              "name": "Spellcasting",
+              "text": "The mage casts Misty Step, using the same spellcasting ability as Spellcasting."
+            },
+            {
+              "key": "spell/misty-step",
+              "name": "Misty Step",
+              "text": "The mage casts Misty Step, using the same spellcasting ability as Spellcasting."
+            },
+            {
+              "key": "limit/per-day",
+              "name": "Daily uses",
+              "text": "(3/Day)"
+            }
+          ]
+        }
+      ],
+      "reactions": [
+        {
+          "id": "protective-magic",
+          "name": "Protective Magic",
+          "text": "Protective Magic (3/Day). The archmage casts Counterspell or Shield in response to the spell’s trigger, using the same spellcasting ability as Spellcasting.",
+          "key": "action/special",
+          "uses": {
+            "per_day": 3,
+            "lair_per_day": 0,
+            "recharge": 0
+          },
+          "effects": [
+            {
+              "key": "action/spellcasting",
+              "name": "Spellcasting",
+              "text": "The archmage casts Counterspell or Shield in response to the spell’s trigger, using the same spellcasting ability as Spellcasting."
+            },
+            {
+              "key": "spell/counterspell",
+              "name": "Counterspell",
+              "text": "The archmage casts Counterspell or Shield in response to the spell’s trigger, using the same spellcasting ability as Spellcasting."
+            },
+            {
+              "key": "spell/shield",
+              "name": "Shield",
+              "text": "The archmage casts Counterspell or Shield in response to the spell’s trigger, using the same spellcasting ability as Spellcasting."
+            },
+            {
+              "key": "reaction/spell-trigger",
+              "name": "Spell trigger",
+              "text": "The archmage casts Counterspell or Shield in response to the spell’s trigger, using the same spellcasting ability as Spellcasting."
+            },
+            {
+              "key": "limit/per-day",
+              "name": "Daily uses",
+              "text": "(3/Day)"
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/skills",
+        "defense/damage-immunity",
+        "defense/condition-immunity",
+        "trait/magic-resistance",
+        "save/advantage-against-magic",
+        "action/multiattack",
+        "action/melee-or-ranged-attack",
+        "effect/force-damage",
+        "action/spellcasting",
+        "spell/detect-magic",
+        "spellcasting/at-will",
+        "spell/detect-thoughts",
+        "spell/disguise-self",
+        "spell/invisibility",
+        "spell/light",
+        "spell/mage-armor",
+        "spellcasting/included-in-ac",
+        "spell/mage-hand",
+        "spell/prestidigitation",
+        "spell/fly",
+        "limit/per-day",
+        "spell/lightning-bolt",
+        "spellcasting/higher-level-version",
+        "spell/cone-of-cold",
+        "spell/mind-blank",
+        "spellcasting/cast-before-combat",
+        "defense/immunity-with-mind-blank",
+        "spell/scrying",
+        "spell/teleport",
+        "action/bonus-action",
+        "action/special",
+        "spell/misty-step",
+        "action/reaction",
+        "spell/counterspell",
+        "spell/shield",
+        "reaction/spell-trigger"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/assassin",
+      "name": "Assassin",
+      "source_pages": [
+        260,
+        260
+      ],
+      "sizes": [
+        "medium",
+        "small"
+      ],
+      "type": "humanoid",
+      "alignment": "Neutral",
+      "ac": 16,
+      "hp": {
+        "average": 97,
+        "dice": 15,
+        "sides": 8,
+        "modifier": 30
+      },
+      "initiative": {
+        "modifier": 10,
+        "score": 20
+      },
+      "speeds": {
+        "walk": 30
+      },
+      "abilities": {
+        "str": {
+          "score": 11,
+          "modifier": 0,
+          "save": 0
+        },
+        "dex": {
+          "score": 18,
+          "modifier": 4,
+          "save": 7
+        },
+        "con": {
+          "score": 14,
+          "modifier": 2,
+          "save": 2
+        },
+        "int": {
+          "score": 16,
+          "modifier": 3,
+          "save": 6
+        },
+        "wis": {
+          "score": 11,
+          "modifier": 0,
+          "save": 0
+        },
+        "cha": {
+          "score": 10,
+          "modifier": 0,
+          "save": 0
+        }
+      },
+      "senses": {
+        "passive_perception": 16,
+        "special": {}
+      },
+      "languages": [
+        "Common",
+        "Thieves’ Cant"
+      ],
+      "gear": [
+        "Light Crossbow",
+        "Shortsword",
+        "Studded Leather Armor"
+      ],
+      "cr": "8",
+      "xp": 3900,
+      "proficiency_bonus": 3,
+      "traits": [
+        {
+          "key": "trait/evasion",
+          "name": "Evasion",
+          "text": "Evasion. If the assassin is subjected to an effect that allows it to make a Dexterity saving throw to take only half damage, the assassin instead takes no damage if it succeeds on the save and only half damage if it fails. It can’t use this trait if it has the Incapacitated condition.",
+          "requires": [
+            "save/dex",
+            "save/no-damage-on-success",
+            "save/half-damage-on-failure",
+            "requirement/not-incapacitated"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "multiattack",
+          "name": "Multiattack",
+          "text": "Multiattack. The assassin makes three attacks, using Shortsword or Light Crossbow in any combination.",
+          "key": "action/multiattack",
+          "effects": [
+            {
+              "key": "action/melee-attack",
+              "name": "Attack",
+              "text": "The assassin makes three attacks, using Shortsword or Light Crossbow in any combination."
+            },
+            {
+              "key": "action/ranged-attack",
+              "name": "Attack",
+              "text": "The assassin makes three attacks, using Shortsword or Light Crossbow in any combination."
+            },
+            {
+              "key": "multiattack/any-combination",
+              "name": "Any combination",
+              "text": "The assassin makes three attacks, using Shortsword or Light Crossbow in any combination."
+            }
+          ]
+        },
+        {
+          "id": "shortsword",
+          "name": "Shortsword",
+          "text": "Shortsword. Melee Attack Roll: +7, reach 5 ft. Hit: 7 (1d6 + 4) Piercing damage plus 17 (5d6) Poison damage, and the target has the Poisoned condition until the start of the assassin’s next turn.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 7,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 7,
+              "dice": 1,
+              "sides": 6,
+              "modifier": 4
+            },
+            "damage_type": "piercing"
+          },
+          "effects": [
+            {
+              "key": "effect/piercing-damage",
+              "name": "Piercing damage",
+              "text": "7 (1d6 + 4) Piercing damage.",
+              "dice": {
+                "average": 7,
+                "dice": 1,
+                "sides": 6,
+                "modifier": 4
+              }
+            },
+            {
+              "key": "effect/poison-damage",
+              "name": "Poison damage",
+              "text": "17 (5d6) Poison damage.",
+              "dice": {
+                "average": 17,
+                "dice": 5,
+                "sides": 6,
+                "modifier": 0
+              }
+            },
+            {
+              "key": "condition/poisoned",
+              "name": "Poisoned",
+              "text": "the target has the Poisoned condition until the start of the assassin’s next turn."
+            }
+          ]
+        },
+        {
+          "id": "light-crossbow",
+          "name": "Light Crossbow",
+          "text": "Light Crossbow. Ranged Attack Roll: +7, range 80/320 ft. Hit: 8 (1d8 + 4) Piercing damage plus 21 (6d6) Poison damage.",
+          "key": "action/ranged-attack",
+          "attack": {
+            "kind": "ranged",
+            "bonus": 7,
+            "reach": 0,
+            "range": 80,
+            "long_range": 320,
+            "damage": {
+              "average": 8,
+              "dice": 1,
+              "sides": 8,
+              "modifier": 4
+            },
+            "damage_type": "piercing"
+          },
+          "effects": [
+            {
+              "key": "effect/piercing-damage",
+              "name": "Piercing damage",
+              "text": "8 (1d8 + 4) Piercing damage.",
+              "dice": {
+                "average": 8,
+                "dice": 1,
+                "sides": 8,
+                "modifier": 4
+              }
+            },
+            {
+              "key": "effect/poison-damage",
+              "name": "Poison damage",
+              "text": "21 (6d6) Poison damage.",
+              "dice": {
+                "average": 21,
+                "dice": 6,
+                "sides": 6,
+                "modifier": 0
+              }
+            }
+          ]
+        }
+      ],
+      "skills": {
+        "acrobatics": 7,
+        "perception": 6,
+        "stealth": 10
+      },
+      "resistances": [
+        "poison"
+      ],
+      "bonus_actions": [
+        {
+          "id": "cunning-action",
+          "name": "Cunning Action",
+          "text": "Cunning Action. The assassin takes the Dash, Disengage, or Hide action.",
+          "key": "action/special",
+          "effects": [
+            {
+              "key": "action/dash",
+              "name": "Dash",
+              "text": "The assassin takes the Dash, Disengage, or Hide action."
+            },
+            {
+              "key": "action/disengage",
+              "name": "Disengage",
+              "text": "The assassin takes the Dash, Disengage, or Hide action."
+            },
+            {
+              "key": "action/hide",
+              "name": "Hide",
+              "text": "The assassin takes the Dash, Disengage, or Hide action."
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/skills",
+        "defense/damage-resistance",
+        "trait/evasion",
+        "save/dex",
+        "save/no-damage-on-success",
+        "save/half-damage-on-failure",
+        "requirement/not-incapacitated",
+        "action/multiattack",
+        "action/melee-attack",
+        "action/ranged-attack",
+        "multiattack/any-combination",
+        "effect/piercing-damage",
+        "effect/poison-damage",
+        "condition/poisoned",
+        "action/bonus-action",
+        "action/special",
+        "action/dash",
+        "action/disengage",
+        "action/hide"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/awakened-shrub",
+      "name": "Awakened Shrub",
+      "source_pages": [
+        260,
+        260
+      ],
+      "sizes": [
+        "small"
+      ],
+      "type": "plant",
+      "alignment": "Neutral",
+      "ac": 9,
+      "hp": {
+        "average": 10,
+        "dice": 3,
+        "sides": 6,
+        "modifier": 0
+      },
+      "initiative": {
+        "modifier": -1,
+        "score": 9
+      },
+      "speeds": {
+        "walk": 20
+      },
+      "abilities": {
+        "str": {
+          "score": 3,
+          "modifier": -4,
+          "save": -4
+        },
+        "dex": {
+          "score": 8,
+          "modifier": -1,
+          "save": -1
+        },
+        "con": {
+          "score": 11,
+          "modifier": 0,
+          "save": 0
+        },
+        "int": {
+          "score": 10,
+          "modifier": 0,
+          "save": 0
+        },
+        "wis": {
+          "score": 10,
+          "modifier": 0,
+          "save": 0
+        },
+        "cha": {
+          "score": 6,
+          "modifier": -2,
+          "save": -2
+        }
+      },
+      "senses": {
+        "passive_perception": 10,
+        "special": {}
+      },
+      "languages": [
+        "Common plus one other language"
+      ],
+      "gear": [],
+      "cr": "0",
+      "xp": 10,
+      "proficiency_bonus": 2,
+      "traits": [],
+      "actions": [
+        {
+          "id": "rake",
+          "name": "Rake",
+          "text": "Rake. Melee Attack Roll: +1, reach 5 ft. Hit: 1 Slashing damage.",
+          "key": "action/fixed-damage-melee-attack",
+          "effects": [
+            {
+              "key": "effect/slashing-damage",
+              "name": "Slashing damage",
+              "text": "1 Slashing damage."
+            }
+          ]
+        }
+      ],
+      "vulnerabilities": [
+        "fire"
+      ],
+      "resistances": [
+        "piercing"
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "defense/damage-vulnerability",
+        "defense/damage-resistance",
+        "action/fixed-damage-melee-attack",
+        "effect/slashing-damage"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/awakened-tree",
+      "name": "Awakened Tree",
+      "source_pages": [
+        260,
+        260
+      ],
+      "sizes": [
+        "huge"
+      ],
+      "type": "plant",
+      "alignment": "Neutral",
+      "ac": 13,
+      "hp": {
+        "average": 59,
+        "dice": 7,
+        "sides": 12,
+        "modifier": 14
+      },
+      "initiative": {
+        "modifier": -2,
+        "score": 8
+      },
+      "speeds": {
+        "walk": 20
+      },
+      "abilities": {
+        "str": {
+          "score": 19,
+          "modifier": 4,
+          "save": 4
+        },
+        "dex": {
+          "score": 6,
+          "modifier": -2,
+          "save": -2
+        },
+        "con": {
+          "score": 15,
+          "modifier": 2,
+          "save": 2
+        },
+        "int": {
+          "score": 10,
+          "modifier": 0,
+          "save": 0
+        },
+        "wis": {
+          "score": 10,
+          "modifier": 0,
+          "save": 0
+        },
+        "cha": {
+          "score": 7,
+          "modifier": -2,
+          "save": -2
+        }
+      },
+      "senses": {
+        "passive_perception": 10,
+        "special": {}
+      },
+      "languages": [
+        "Common plus one other language"
+      ],
+      "gear": [],
+      "cr": "2",
+      "xp": 450,
+      "proficiency_bonus": 2,
+      "traits": [],
+      "actions": [
+        {
+          "id": "slam",
+          "name": "Slam",
+          "text": "Slam. Melee Attack Roll: +6, reach 10 ft. Hit: 14 (3d6 + 4) Bludgeoning damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 6,
+            "reach": 10,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 14,
+              "dice": 3,
+              "sides": 6,
+              "modifier": 4
+            },
+            "damage_type": "bludgeoning"
+          },
+          "effects": [
+            {
+              "key": "effect/bludgeoning-damage",
+              "name": "Bludgeoning damage",
+              "text": "14 (3d6 + 4) Bludgeoning damage.",
+              "dice": {
+                "average": 14,
+                "dice": 3,
+                "sides": 6,
+                "modifier": 4
+              }
+            }
+          ]
+        }
+      ],
+      "vulnerabilities": [
+        "fire"
+      ],
+      "resistances": [
+        "bludgeoning",
+        "piercing"
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "defense/damage-vulnerability",
+        "defense/damage-resistance",
+        "action/melee-attack",
+        "effect/bludgeoning-damage"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/axe-beak",
+      "name": "Axe Beak",
+      "source_pages": [
+        260,
+        260
+      ],
+      "sizes": [
+        "large"
+      ],
+      "type": "monstrosity",
+      "alignment": "Unaligned",
+      "ac": 11,
+      "hp": {
+        "average": 19,
+        "dice": 3,
+        "sides": 10,
+        "modifier": 3
+      },
+      "initiative": {
+        "modifier": 1,
+        "score": 11
+      },
+      "speeds": {
+        "walk": 50
+      },
+      "abilities": {
+        "str": {
+          "score": 14,
+          "modifier": 2,
+          "save": 2
+        },
+        "dex": {
+          "score": 12,
+          "modifier": 1,
+          "save": 1
+        },
+        "con": {
+          "score": 12,
+          "modifier": 1,
+          "save": 1
+        },
+        "int": {
+          "score": 2,
+          "modifier": -4,
+          "save": -4
+        },
+        "wis": {
+          "score": 10,
+          "modifier": 0,
+          "save": 0
+        },
+        "cha": {
+          "score": 5,
+          "modifier": -3,
+          "save": -3
+        }
+      },
+      "senses": {
+        "passive_perception": 10,
+        "special": {}
+      },
+      "languages": [],
+      "gear": [],
+      "cr": "1/4",
+      "xp": 50,
+      "proficiency_bonus": 2,
+      "traits": [],
+      "actions": [
+        {
+          "id": "beak",
+          "name": "Beak",
+          "text": "Beak. Melee Attack Roll: +4, reach 5 ft. Hit: 6 (1d8 + 2) Slashing damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 4,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 6,
+              "dice": 1,
+              "sides": 8,
+              "modifier": 2
+            },
+            "damage_type": "slashing"
+          },
+          "effects": [
+            {
+              "key": "effect/slashing-damage",
+              "name": "Slashing damage",
+              "text": "6 (1d8 + 2) Slashing damage.",
+              "dice": {
+                "average": 6,
+                "dice": 1,
+                "sides": 8,
+                "modifier": 2
+              }
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "action/melee-attack",
+        "effect/slashing-damage"
+      ]
+    }
+  ]
+}
