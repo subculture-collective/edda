@@ -6,7 +6,9 @@ import (
 	"fmt"
 	"os"
 	"reflect"
+	"regexp"
 	"slices"
+	"strconv"
 	"testing"
 )
 
@@ -73,22 +75,30 @@ func TestSpells199SourceValues(t *testing.T) {
 func TestSpells199CompositionBoundaries(t *testing.T) {
 	legacy := loadSpellRecords(t)
 	batch := loadSpells199(t)
-	all, err := ComposeSpellSourceCatalogue(legacy, loadSpells218(t), loadSpells198(t), batch)
+	// #196 restates Acid Arrow, so the legacy fixture cannot be composed beside it.
+	bounded := legacy
+	bounded.Records = legacy.Records[1:]
+	all, err := ComposeSpellSourceCatalogue(bounded, loadSpells196(t), loadSpells218(t), loadSpells198(t), batch)
 	if err != nil {
 		t.Fatal(err)
 	}
-	if len(all.Records) != 37 {
-		t.Fatal("expected Acid Arrow and three twelve-family batches")
+	if len(all.Records) != 48 {
+		t.Fatalf("expected four twelve-family batches, got %d", len(all.Records))
 	}
+	seen := map[string]bool{}
 	for _, r := range all.Records {
-		if r.Scope != "complete-source-record" || r.MechanicsAvailable() {
-			t.Fatal("source granted availability")
+		if r.Scope != "complete-source-record" || r.MechanicsAvailable() || seen[r.ID] {
+			t.Fatal("source granted availability or repeated")
 		}
+		seen[r.ID] = true
+	}
+	if _, err := ComposeSpellSourceCatalogue(legacy, loadSpells196(t), batch); err == nil {
+		t.Fatal("duplicate Acid Arrow accepted")
 	}
 	if _, err := ComposeSpellSourceCatalogue(batch, batch); err == nil {
 		t.Fatal("duplicate canonical IDs accepted")
 	}
-	for _, r := range legacy.Records[1:] {
+	for _, r := range bounded.Records {
 		if !r.MechanicsAvailable() {
 			t.Fatal("bounded availability changed")
 		}
@@ -394,6 +404,40 @@ func TestSpells199RejectContradictoryTargetScaling(t *testing.T) {
 					t.Error("contradictory target scaling decoded")
 				}
 			})
+		}
+	}
+}
+
+// Each printed measurement is pinned by equality, so a positive but wrong value
+// is rejected by Decode on its own. n selects the occurrence in the fixture.
+func TestSpells199PinnedPrintedValues(t *testing.T) {
+	original, err := os.ReadFile("testdata/spells_199.json")
+	if err != nil {
+		t.Fatal(err)
+	}
+	for _, c := range []struct {
+		key  string
+		n    int
+		want int
+	}{
+		{"cloud_height_feet", 1, 10}, {"cloud_radius_feet", 1, 60}, {"bolt_radius_feet", 1, 5},
+		{"radius_feet", 1, 20}, {"secondary_range_feet", 1, 30}, {"leap_range_feet", 1, 30},
+		{"radius_feet", 2, 60}, {"radius_feet", 3, 20}, {"move_feet", 1, 10},
+		{"cone_feet", 1, 15}, {"growth_days", 1, 120},
+	} {
+		matches := regexp.MustCompile(`"`+c.key+`": (\d+)`).FindAllSubmatchIndex(original, -1)
+		if len(matches) < c.n {
+			t.Fatalf("%s occurrence %d missing", c.key, c.n)
+		}
+		m := matches[c.n-1]
+		if string(original[m[2]:m[3]]) != strconv.Itoa(c.want) {
+			t.Fatalf("%s #%d is not %d", c.key, c.n, c.want)
+		}
+		b := append([]byte{}, original[:m[2]]...)
+		b = append(b, []byte(strconv.Itoa(c.want+1))...)
+		b = append(b, original[m[3]:]...)
+		if _, err := DecodeSpellRecords(bytes.NewReader(b)); err == nil {
+			t.Fatalf("%s #%d accepted %d", c.key, c.n, c.want+1)
 		}
 	}
 }

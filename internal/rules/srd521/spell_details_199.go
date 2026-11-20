@@ -287,7 +287,7 @@ func (s SpellRecord) validateSpell199() (bool, error) {
 	}
 	if d.Lightning != nil {
 		l := d.Lightning
-		if l.CloudShape != "cylinder" || l.CloudHeightFeet <= 0 || l.CloudRadiusFeet <= 0 || l.BoltRadiusFeet <= 0 || l.Save != "dexterity" || !slices.Equal(l.RepeatPointChoices, []string{"same-point", "different-point"}) || l.StormBonusDiceCount <= 0 || l.StormBonusDieSides <= 0 {
+		if l.CloudShape != "cylinder" || l.CloudHeightFeet != 10 || l.CloudRadiusFeet != 60 || l.BoltRadiusFeet != 5 || l.Save != "dexterity" || !slices.Equal(l.RepeatPointChoices, []string{"same-point", "different-point"}) || l.StormBonusDiceCount <= 0 || l.StormBonusDieSides <= 0 {
 			return true, fmt.Errorf("invalid call lightning area, save or storm bonus")
 		}
 	}
@@ -297,13 +297,13 @@ func (s SpellRecord) validateSpell199() (bool, error) {
 		for _, v := range c.Choices {
 			choices = append(choices, v.Choice)
 		}
-		if !slices.Equal(choices, []string{"condition-immunity", "indifference"}) || c.ChooseCount != 1 || !c.ChoicePerCreature || c.RadiusFeet <= 0 || c.Save != "charisma" || c.CreatureType != "humanoid" {
+		if !slices.Equal(choices, []string{"condition-immunity", "indifference"}) || c.ChooseCount != 1 || !c.ChoicePerCreature || c.RadiusFeet != 20 || c.Save != "charisma" || c.CreatureType != "humanoid" {
 			return true, fmt.Errorf("invalid calm emotions choices")
 		}
 	}
 	if d.Chain != nil {
 		c := d.Chain
-		if c.SecondaryBolts != 3 || c.SecondaryRangeFeet <= 0 || c.MaxBoltsPerTarget != 1 || c.Save != "dexterity" || !slices.Equal(c.TargetKinds, []string{"creature", "object"}) {
+		if c.SecondaryBolts != 3 || c.SecondaryRangeFeet != 30 || c.MaxBoltsPerTarget != 1 || c.Save != "dexterity" || !slices.Equal(c.TargetKinds, []string{"creature", "object"}) {
 			return true, fmt.Errorf("invalid chain lightning bolts or targets")
 		}
 	}
@@ -324,11 +324,11 @@ func (s SpellRecord) validateSpell199() (bool, error) {
 	}
 	if d.Orb != nil {
 		o := d.Orb
-		if !slices.Equal(o.DamageTypes, []string{"acid", "cold", "fire", "lightning", "poison", "thunder"}) || o.LeapDieSides != 8 || o.LeapRangeFeet <= 0 || o.BaseSlotLeaps != 1 || o.LeapAgainMinSlot != 2 {
+		if !slices.Equal(o.DamageTypes, []string{"acid", "cold", "fire", "lightning", "poison", "thunder"}) || o.LeapDieSides != 8 || o.LeapRangeFeet != 30 || o.BaseSlotLeaps != 1 || o.LeapAgainMinSlot != 2 {
 			return true, fmt.Errorf("invalid orb damage types or leaps")
 		}
 	}
-	if d.Death != nil && (d.Death.RadiusFeet <= 0 || d.Death.Save != "constitution") {
+	if d.Death != nil && (d.Death.RadiusFeet != 60 || d.Death.Save != "constitution") {
 		return true, fmt.Errorf("invalid circle of death area or save")
 	}
 	if d.Clairvoyance != nil {
@@ -340,17 +340,17 @@ func (s SpellRecord) validateSpell199() (bool, error) {
 	if d.Clone != nil {
 		c := d.Clone
 		m := s.Components.Material
-		if !slices.Equal(c.SourcePages, []int{115, 116}) || !slices.Equal(c.TargetChoices, []string{"creature", "at-least-1-cubic-inch-of-its-flesh"}) || !slices.Equal(c.AgeChoices, []string{"same-age", "younger"}) || c.GrowthDays <= 0 || c.FleshMinimumCubicInches <= 0 || c.DiamondMinimumCostCP <= 0 || c.VesselMinimumCostCP <= 0 || !c.DiamondConsumed || c.VesselConsumed || m == nil || *m.CostCP != c.DiamondMinimumCostCP+c.VesselMinimumCostCP || !*m.Consumed {
+		if !slices.Equal(c.SourcePages, []int{115, 116}) || !slices.Equal(c.TargetChoices, []string{"creature", "at-least-1-cubic-inch-of-its-flesh"}) || !slices.Equal(c.AgeChoices, []string{"same-age", "younger"}) || c.GrowthDays != 120 || c.FleshMinimumCubicInches <= 0 || c.DiamondMinimumCostCP <= 0 || c.VesselMinimumCostCP <= 0 || !c.DiamondConsumed || c.VesselConsumed || m == nil || *m.CostCP != c.DiamondMinimumCostCP+c.VesselMinimumCostCP || !*m.Consumed {
 			return true, fmt.Errorf("invalid clone choices, growth or materials")
 		}
 	}
 	if d.Cloudkill != nil {
 		c := d.Cloudkill
-		if c.RadiusFeet <= 0 || c.SavesPerTurn != 1 || c.MoveFeet <= 0 || c.Save != "constitution" || !slices.Equal(c.SaveTriggers, []string{"on-cast-in-sphere", "sphere-moves-into-space", "enters-sphere", "ends-turn-in-sphere"}) {
+		if c.RadiusFeet != 20 || c.SavesPerTurn != 1 || c.MoveFeet != 10 || c.Save != "constitution" || !slices.Equal(c.SaveTriggers, []string{"on-cast-in-sphere", "sphere-moves-into-space", "enters-sphere", "ends-turn-in-sphere"}) {
 			return true, fmt.Errorf("invalid cloudkill area, movement or frequency")
 		}
 	}
-	if d.Spray != nil && (d.Spray.ConeFeet <= 0 || d.Spray.Save != "constitution" || d.Spray.Condition != "blinded") {
+	if d.Spray != nil && (d.Spray.ConeFeet != 15 || d.Spray.Save != "constitution" || d.Spray.Condition != "blinded") {
 		return true, fmt.Errorf("invalid color spray area, save or condition")
 	}
 	return true, nil
