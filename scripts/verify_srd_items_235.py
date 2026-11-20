@@ -125,7 +125,7 @@ def main():
     b = block["Marvelous Pigments"]
     tied([d["container"]], {"fine-wooden-box": "This fine wooden box"}, b, "pigments box")
     assert roll(d["pots"]) == (1, 4, 0) and has(b, "contains 1d4 pots of pigment and a brush")
-    assert d["brush_and_box_weight_pounds"] == 1 and has(b, "(weighing 1 pound in total)")
+    assert d["pots_and_brush_weight_pounds"] == 1 and has(b, "(weighing 1 pound in total)")
     assert d["pots_expended_per_painting"] == 1 and has(b, "Using the brush and expending 1 pot of pigment")
     assert d["cube_feet"] == 20 and has(b, "confined to a 20-foot Cube")
     assert d["painting_minutes"] == 10 and has(b, "The effort takes 10 minutes")

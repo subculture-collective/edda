@@ -164,7 +164,7 @@
                 "sides": 4,
                 "bonus": 0
               },
-              "brush_and_box_weight_pounds": 1,
+              "pots_and_brush_weight_pounds": 1,
               "pots_expended_per_painting": 1,
               "cube_feet": 20,
               "painting_minutes": 10,

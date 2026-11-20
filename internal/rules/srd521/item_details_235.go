@@ -57,21 +57,21 @@ type ItemManualOfQuickness struct {
 
 // ItemMarvelousPigments retains typed SRD source facts without implementing them.
 type ItemMarvelousPigments struct {
-	Container           string      `json:"container"`
-	Pots                ItemRoll235 `json:"pots"`
-	BrushWeightPounds   int         `json:"brush_and_box_weight_pounds"`
-	PotsExpended        int         `json:"pots_expended_per_painting"`
-	CubeFeet            int         `json:"cube_feet"`
-	PaintingMinutes     int         `json:"painting_minutes"`
-	RequiresConcentrate bool        `json:"requires_concentration"`
-	MustRemainInCube    bool        `json:"must_remain_in_cube"`
-	FailureTriggers     []string    `json:"failure_triggers"`
-	FailureResult       string      `json:"failure_result"`
-	CompletionResult    string      `json:"completion_result"`
-	ObjectMaxValueGP    int         `json:"object_max_value_gp"`
-	TotalMaxValueGP     int         `json:"total_max_value_per_pot_gp"`
-	OverValueResult     string      `json:"over_value_result"`
-	EnergyResult        string      `json:"energy_result"`
+	Container                string      `json:"container"`
+	Pots                     ItemRoll235 `json:"pots"`
+	PotsAndBrushWeightPounds int         `json:"pots_and_brush_weight_pounds"`
+	PotsExpended             int         `json:"pots_expended_per_painting"`
+	CubeFeet                 int         `json:"cube_feet"`
+	PaintingMinutes          int         `json:"painting_minutes"`
+	RequiresConcentrate      bool        `json:"requires_concentration"`
+	MustRemainInCube         bool        `json:"must_remain_in_cube"`
+	FailureTriggers          []string    `json:"failure_triggers"`
+	FailureResult            string      `json:"failure_result"`
+	CompletionResult         string      `json:"completion_result"`
+	ObjectMaxValueGP         int         `json:"object_max_value_gp"`
+	TotalMaxValueGP          int         `json:"total_max_value_per_pot_gp"`
+	OverValueResult          string      `json:"over_value_result"`
+	EnergyResult             string      `json:"energy_result"`
 }
 
 // ItemMedallionOfThoughts retains typed SRD source facts without implementing them.
@@ -423,7 +423,7 @@ func validateItemDetails235(family, variant string, d *ItemDetails235) error {
 		ok = positive(m.StudyHours, m.StudyWithinDays, m.Increase, m.MaxScore, m.RegainsAfterYears) && m.StudyHours == 48 && m.Increase == 2 && m.MaxScore == 30 && m.RegainsAfterYears == 100
 	case "marvelous-pigments":
 		p := d.Pigments
-		ok = roll(p.Pots) && positive(p.BrushWeightPounds, p.PotsExpended, p.CubeFeet, p.PaintingMinutes, p.ObjectMaxValueGP, p.TotalMaxValueGP) && uniqueItemKeys(p.FailureTriggers) &&
+		ok = roll(p.Pots) && positive(p.PotsAndBrushWeightPounds, p.PotsExpended, p.CubeFeet, p.PaintingMinutes, p.ObjectMaxValueGP, p.TotalMaxValueGP) && uniqueItemKeys(p.FailureTriggers) &&
 			p.CubeFeet == 20 && p.ObjectMaxValueGP == 25 && p.TotalMaxValueGP == 500 && p.TotalMaxValueGP > p.ObjectMaxValueGP
 	case "medallion-of-thoughts":
 		m := d.Medallion
