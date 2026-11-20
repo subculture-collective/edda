@@ -1,0 +1,20 @@
+<!-- edda-333:species-orc -->
+Decision #333; roadmap #47. One implementation PR; Task / Size M.
+
+Source: English SRD 5.2.1 PDF86 (Orc); consumed general rules: Instant Death17, Temporary Hit Points18; SHA-256 `8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87`. Retain CC-BY-4.0 attribution and adaptation notice in `docs/srd-5.2.1-conformance.md`. Fixture and ownership decisions are Edda additions.
+
+This task owns only the species identity, its nested choices and the traits named here. Class creation and level applications consume its output and apply each grant once; it grants no class, background or feat. The creation provenance contract stays with #430. Orc is Humanoid, Medium, Speed30. It has no nested choice.
+
+- Adrenaline Rush: can take the Dash action as a Bonus Action; doing so grants Temporary Hit Points equal to the Proficiency Bonus. Uses equal the Proficiency Bonus; all return on a completed Short or Long Rest.
+- Darkvision 120 feet.
+- Relentless Endurance: when reduced to 0 Hit Points but not killed outright, can drop to 1 Hit Point instead. Once used, unavailable until a completed Long Rest.
+
+Consume #780 for Dash, #66 for the Bonus Action, #427/#428 for recovery and #145 for Darkvision. Temporary Hit Points follow PDF18: they do not add together, so an Orc who already has some chooses to keep them or take the new amount; they are lost before Hit Points and end on a completed Long Rest. Relentless Endurance is an optional choice offered inside the damage event that would reduce the Orc to 0, before death saves or Unconscious are applied. Killed outright follows PDF17 Massive Damage: if the damage remaining after reaching 0 equals or exceeds the Hit Point maximum the Orc dies and the trait is not offered. Other zero-HP replacements, such as Relentless Rage #453 or Death Ward #620, keep their own owners; when more than one applies the player confirms which one is used and only that one is spent.
+
+Positive fixtures: PB2 gives two uses; a Bonus Action Dash through #780 grants2 Temporary Hit Points; with5 already held the player keeps5 or takes2, never7. A completed Short Rest restores both uses. HP maximum12, current6, damage17: 11 remains, the Orc may drop to1 and the use is spent. Same state, damage18: 12 remains, the Orc dies and nothing is offered. Declining leaves the Orc at0 with the use unspent. Reject: Adrenaline Rush as an action or with no Bonus Action; a third use at PB2; Temporary Hit Points without the Dash; stacking Temporary Hit Points; Relentless Endurance twice before a Long Rest or restored by a Short Rest; use after the damage event is committed; dropping to more than1; use when killed outright.
+
+Preview is inert: no dice, writes or history. Confirm revalidates campaign, actor, player/GM authority, source version, every choice and the expected revision, then persists choices, injected dice, grants, resource deltas, derived sheet and public history atomically. Fail at each stage and prove full isolated PostgreSQL rollback. Same-ID retry/reload/reconnect returns the saved receipt without reroll, regrant or recharge; a conflicting payload rejects and concurrent confirmations commit once. Shared web and trusted TUI expose only qualified choices and explicit unavailable reasons, with accessible cancel/confirm/reconnect and desktop/phone checks for changed web. Keep private GM facts, hidden actors and private choices out of discovery, preview, errors and public history. Tests use explicit isolated entitlements and grant no production admission.
+
+Native parent #333; directly block #337. Hard prerequisites: #66, #145, #307, #427, #428, #430 and #780. Existing bodies, parents and edges remain unchanged. No new #283 child.
+
+Implementation verification: deterministic source/numeric/choice tests with injectable dice, isolated PostgreSQL atomic rollback/replay/concurrency/reload, shared web/TUI disclosure/confirmation checks, `GOMAXPROCS=2 go test -p 2 -short -race ./...` and `GOMAXPROCS=2 go vet -p 2 ./...`. Short tests do not qualify PostgreSQL or devices. No production grant, deployment or Full Rules promotion.

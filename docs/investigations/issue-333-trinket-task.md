@@ -1,0 +1,16 @@
+<!-- edda-333:trinket -->
+Decision #333; roadmap #47. One implementation PR; Task / Size S.
+
+Source: English SRD 5.2.1 PDF26–27 (Trinkets, table rows01–00); SHA-256 `8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87`. Retain CC-BY-4.0 attribution and adaptation notice in `docs/srd-5.2.1-conformance.md`. Fixture and ownership decisions are Edda additions.
+
+Implement the optional trinket at character creation: the player may roll once on the Trinkets table to gain one Tiny trinket. Encode all 100 rows from PDF26–27 as source-linked identities with stable keys, 01 through 99 and 00 read as 100. Save the injected d100 and the resulting identity once.
+
+The roll is optional and happens at most once per created character; declining grants nothing. The trinket is an inventory identity of size Tiny with its source description. No row executes a mechanic, grants a proficiency, light, sense, magic property or value, and no row is a magic item; descriptive oddities stay narration. Row47 lets the player choose what the can sounds like it holds (liquid, sand, spiders or broken glass); record that choice with the row. The GM's separate use of the table to stock a room or a creature's pockets is world content and is not owned here. Higher-level starting equipment stays with #2053.
+
+Positive fixtures: injected01 gives the mummified goblin hand; 50 gives the whistle made from gold-colored wood; 00 gives the metal urn containing the ashes of a hero; 47 with the choice spiders records both. Declined roll leaves inventory unchanged. Reject: a second roll or reroll; a client-chosen row without a saved die; 0 or 101; row47 without or with an unlisted choice; a row carrying an invented effect, price or weight; a trinket granted after creation is confirmed; duplicate grant on replay.
+
+Preview is inert: no dice, writes or history. Confirm revalidates campaign, actor, player/GM authority, source version, every choice and the expected revision, then persists choices, injected dice, grants, resource deltas, derived sheet and public history atomically. Fail at each stage and prove full isolated PostgreSQL rollback. Same-ID retry/reload/reconnect returns the saved receipt without reroll, regrant or recharge; a conflicting payload rejects and concurrent confirmations commit once. Shared web and trusted TUI expose only qualified choices and explicit unavailable reasons, with accessible cancel/confirm/reconnect and desktop/phone checks for changed web. Keep private GM facts, hidden actors and private choices out of discovery, preview, errors and public history. Tests use explicit isolated entitlements and grant no production admission.
+
+Native parent #333; directly block #337. Hard prerequisites: #195 and #284. Existing bodies, parents and edges remain unchanged. No new #283 child.
+
+Implementation verification: deterministic source/numeric/choice tests with injectable dice, isolated PostgreSQL atomic rollback/replay/concurrency/reload, shared web/TUI disclosure/confirmation checks, `GOMAXPROCS=2 go test -p 2 -short -race ./...` and `GOMAXPROCS=2 go vet -p 2 ./...`. Short tests do not qualify PostgreSQL or devices. No production grant, deployment or Full Rules promotion.

@@ -1,0 +1,25 @@
+<!-- edda-333:species-tiefling -->
+Decision #333; roadmap #47. One implementation PR; Task / Size M.
+
+Source: English SRD 5.2.1 PDF86 (Tiefling and the Fiendish Legacies table); consumed general rule: Resistance187; SHA-256 `8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87`. Retain CC-BY-4.0 attribution and adaptation notice in `docs/srd-5.2.1-conformance.md`. Fixture and ownership decisions are Edda additions.
+
+This task owns only the species identity, its nested choices and the traits named here. Class creation and level applications consume its output and apply each grant once; it grants no class, background or feat. The creation provenance contract stays with #430. Tiefling is Humanoid, Speed30.
+
+- Size: Medium or Small, chosen when the species is selected and fixed afterwards.
+- Darkvision 60 feet.
+- Fiendish Legacy: choose Abyssal, Chthonic or Infernal at creation, and at the same time choose Intelligence, Wisdom or Charisma as the spellcasting ability for this trait's spells.
+  - Abyssal: Resistance to Poison damage; knows Poison Spray. Level3 Ray of Sickness; level5 Hold Person.
+  - Chthonic: Resistance to Necrotic damage; knows Chill Touch. Level3 False Life; level5 Ray of Enfeeblement.
+  - Infernal: Resistance to Fire damage; knows Fire Bolt. Level3 Hellish Rebuke; level5 Darkness.
+  The level3 and level5 spells are gained at those character levels and are always prepared. Each can be cast once without a spell slot, regained on a completed Long Rest, and can also be cast with any slot of the appropriate level the character has.
+- Otherworldly Presence: knows Thaumaturgy; cast through this trait it uses the same ability chosen for Fiendish Legacy.
+
+This task owns eligibility, the per-spell free use and its recovery. Slot versus free-use routing stays with #1448. Each spell executes only through its own effect owner: Poison Spray #1075, Ray of Sickness #695, Hold Person #683, Chill Touch #1264, False Life #1318, Ray of Enfeeblement #1631/#1632, Fire Bolt #678, Hellish Rebuke #1607, Darkness #1282 and Thaumaturgy #959. A grant whose effect owner is not qualified is recorded and stays unavailable. Typed Resistance follows PDF187: halve that damage type, round down, once per damage instance; reuse a typed-resistance projection in the damage pipeline if one has already landed and never add a second store. Consume #145 for Darkvision, #428 for recovery and #968 for the level3/5 thresholds.
+
+Positive fixtures: Infernal level1 halves9 Fire damage to4 and knows Fire Bolt with the chosen ability. At level3 Hellish Rebuke is cast once without a slot in its own Reaction window, then only with a level1 or higher slot until a completed Long Rest. At level5 Darkness has a separate free use and afterwards needs a level2 or higher slot. Thaumaturgy uses the legacy ability, not a class ability. Small Tiefling records size Small. Reject: no legacy or two; ability outside the three, changed later or different for Thaumaturgy; level3 spell at level2; one shared free use across two spells; free use restored by a Short Rest; a legacy spell cast with a slot below its level; a cantrip or resistance from another legacy; no size or a later size change.
+
+Preview is inert: no dice, writes or history. Confirm revalidates campaign, actor, player/GM authority, source version, every choice and the expected revision, then persists choices, injected dice, grants, resource deltas, derived sheet and public history atomically. Fail at each stage and prove full isolated PostgreSQL rollback. Same-ID retry/reload/reconnect returns the saved receipt without reroll, regrant or recharge; a conflicting payload rejects and concurrent confirmations commit once. Shared web and trusted TUI expose only qualified choices and explicit unavailable reasons, with accessible cancel/confirm/reconnect and desktop/phone checks for changed web. Keep private GM facts, hidden actors and private choices out of discovery, preview, errors and public history. Tests use explicit isolated entitlements and grant no production admission.
+
+Native parent #333; directly block #337. Hard prerequisites: #145, #307, #428, #430, #678, #683, #695, #959, #968, #1075, #1264, #1282, #1318, #1448, #1607, #1631 and #1632. Existing bodies, parents and edges remain unchanged. No new #283 child.
+
+Implementation verification: deterministic source/numeric/choice tests with injectable dice, isolated PostgreSQL atomic rollback/replay/concurrency/reload, shared web/TUI disclosure/confirmation checks, `GOMAXPROCS=2 go test -p 2 -short -race ./...` and `GOMAXPROCS=2 go vet -p 2 ./...`. Short tests do not qualify PostgreSQL or devices. No production grant, deployment or Full Rules promotion.

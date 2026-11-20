@@ -1,0 +1,2104 @@
+{
+ "schema_version": 1,
+ "decision": 333,
+ "status": "SOURCE_RECONCILED_PUBLICATION_PENDING",
+ "observed_at": "2026-11-20T07:39:21.551633+00:00",
+ "observed_base": "7b14aba4f4a3f69c138354ed9d2bc3484fa7b84c",
+ "source": {
+  "PDF_SHA256": "8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87",
+  "pages": [
+   8,
+   17,
+   18,
+   19,
+   20,
+   21,
+   22,
+   23,
+   24,
+   25,
+   26,
+   27,
+   83,
+   84,
+   85,
+   86,
+   87,
+   94,
+   178,
+   186,
+   190,
+   192,
+   193
+  ],
+  "issue_cited_pages": "18-27, 83-86, 192",
+  "page_notes": [
+   "PDF18 holds only the end of Playing the Game (Temporary Hit Points); Character Creation starts on PDF19. PDF18 is consumed by the Orc task for Temporary Hit Points.",
+   "Creating a Background starts on PDF192 and steps 2 to 5 are on PDF193.",
+   "Trinkets occupy PDF26-27, rows 01 to 00."
+  ],
+  "catalogues": {
+   "internal/rules/srd521/testdata/character-backgrounds.json": "517b9dd75fc9ec92bff1a765c027b2accf4f8b5bba966be633e6b4d34647456a",
+   "internal/rules/srd521/testdata/character-species.json": "6e579826fdce26aecad6e267ca4545a0367a05174b0eddddd15b60afd50377d3",
+   "internal/rules/srd521/testdata/character-origin-feats.json": "31e457961f27081c10dc85a42c19f947ddb11749d07128a8555ffcee8526ce45"
+  }
+ },
+ "decision_blockers": [
+  {
+   "number": 306,
+   "state": "CLOSED"
+  },
+  {
+   "number": 307,
+   "state": "CLOSED"
+  }
+ ],
+ "runtime_evidence": {
+  "file": "internal/rules/srd521/creation.go",
+  "supported_builds": [
+   "Human Soldier Fighter",
+   "Human Acolyte Cleric"
+  ],
+  "absent": [
+   "species other than Human",
+   "Criminal and Sage",
+   "ability-score generation",
+   "language and alignment choice",
+   "trinkets",
+   "GM-authored backgrounds",
+   "player Passive Perception"
+  ]
+ },
+ "clause_matrix": [
+  {
+   "clause": "Character sheet, Class Overview likes/complexity, Imagine Your Past and Present, Tiers of Play",
+   "pages": [
+    19,
+    20,
+    23,
+    24
+   ],
+   "kind": "non-mechanical",
+   "owners": [],
+   "note": "Narrative guidance with no rule to execute; no owner required.",
+   "witnesses": [
+    {
+     "page": 19,
+     "text": "Choose a Character Sheet"
+    },
+    {
+     "page": 20,
+     "text": "Imagine Your Past and Present"
+    },
+    {
+     "page": 24,
+     "text": "These tiers don't have any rules associated with them"
+    }
+   ]
+  },
+  {
+   "clause": "Step 1 class choice, level and XP, armor training, class proficiencies, level1 class features and choices, class Hit Points and Hit Point Dice",
+   "pages": [
+    19,
+    20,
+    22,
+    23
+   ],
+   "kind": "existing",
+   "owners": [
+    498,
+    501,
+    551,
+    630,
+    728,
+    776,
+    845,
+    970,
+    1093,
+    1475,
+    1758,
+    2036
+   ],
+   "note": "Twelve class qualification outputs and their own first-class trait, creation and HP tasks.",
+   "witnesses": [
+    {
+     "page": 19,
+     "text": "Step 1: Choose Class"
+    },
+    {
+     "page": 22,
+     "text": "Level 1 Hit Points by Class"
+    }
+   ]
+  },
+  {
+   "clause": "Class starting equipment packages",
+   "pages": [
+    20
+   ],
+   "kind": "existing",
+   "owners": [
+    433,
+    508,
+    554,
+    635,
+    730,
+    785,
+    853,
+    982,
+    1101,
+    1177,
+    1480,
+    1762
+   ],
+   "note": "One equipment task per class; item properties stay under #278.",
+   "witnesses": [
+    {
+     "page": 20,
+     "text": "Your background and class both provide starting equipment"
+    }
+   ]
+  },
+  {
+   "clause": "Background choice, Parts of a Background, Acolyte, Criminal, Sage, Soldier: feat, two skills, tool, equipment A or B",
+   "pages": [
+    19,
+    20,
+    83,
+    94
+   ],
+   "kind": "new",
+   "owners": [
+    {
+     "new_task": "backgrounds"
+    },
+    306,
+    384,
+    385,
+    386,
+    387,
+    430
+   ],
+   "note": "No published owner executes any background grant; runtime admits only fixed Human Soldier Fighter and Human Acolyte Cleric.",
+   "witnesses": [
+    {
+     "page": 19,
+     "text": "Choose a Background"
+    },
+    {
+     "page": 20,
+     "text": "Your background gives proficiency in two skills and with one tool"
+    },
+    {
+     "page": 83,
+     "text": "Feat: Magic Initiate (Cleric)"
+    },
+    {
+     "page": 83,
+     "text": "Tool Proficiency: Thieves' Tools"
+    },
+    {
+     "page": 83,
+     "text": "Each background offers a choice between a package of equipment and 50 GP"
+    },
+    {
+     "page": 83,
+     "text": "Feat: Savage Attacker"
+    },
+    {
+     "page": 94,
+     "text": "Variants: Dice (1 SP), dragonchess (1 GP), playing cards (5 SP), three-dragon ante (1 GP)"
+    }
+   ]
+  },
+  {
+   "clause": "Coins gained at creation may be spent on equipment",
+   "pages": [
+    20
+   ],
+   "kind": "existing",
+   "owners": [
+    275
+   ],
+   "note": "Coins are recorded by the background and class equipment tasks; purchases stay with the price owners under #275.",
+   "witnesses": [
+    {
+     "page": 20,
+     "text": "can be immediately spent on equipment"
+    }
+   ]
+  },
+  {
+   "clause": "Languages: Common plus two standard languages rolled or chosen; rare languages only from features",
+   "pages": [
+    20
+   ],
+   "kind": "new",
+   "owners": [
+    {
+     "new_task": "languages-alignment"
+    },
+    430,
+    640,
+    987,
+    1105
+   ],
+   "note": "Feature-granted languages keep their owners.",
+   "witnesses": [
+    {
+     "page": 20,
+     "text": "Common plus two languages you roll or choose from the Standard Languages table"
+    },
+    {
+     "page": 20,
+     "text": "Common Sign Language"
+    },
+    {
+     "page": 20,
+     "text": "Some features let a character learn a rare language"
+    }
+   ]
+  },
+  {
+   "clause": "Step 3 ability scores: Standard Array, Random Generation, Point Cost, assignment, background adjustment, modifier table",
+   "pages": [
+    20,
+    21,
+    83
+   ],
+   "kind": "new",
+   "owners": [
+    {
+     "new_task": "ability-scores"
+    },
+    306,
+    430
+   ],
+   "note": "Later feat increases stay with #384/#389.",
+   "witnesses": [
+    {
+     "page": 21,
+     "text": "15, 14, 13, 12, 10, 8"
+    },
+    {
+     "page": 21,
+     "text": "Roll four d6s and record the total of the highest three dice"
+    },
+    {
+     "page": 21,
+     "text": "You have 27 points to spend"
+    },
+    {
+     "page": 21,
+     "text": "increase one of those scores by 2 and"
+    },
+    {
+     "page": 83,
+     "text": "None of these increases can raise a score above 20"
+    }
+   ]
+  },
+  {
+   "clause": "Step 4 alignment: nine alignments; evil needs a GM check",
+   "pages": [
+    21,
+    22
+   ],
+   "kind": "new",
+   "owners": [
+    {
+     "new_task": "languages-alignment"
+    }
+   ],
+   "note": "Descriptive record only.",
+   "witnesses": [
+    {
+     "page": 21,
+     "text": "Check with your GM before making an evil character"
+    },
+    {
+     "page": 22,
+     "text": "Chaotic Evil (CE)"
+    }
+   ]
+  },
+  {
+   "clause": "Step 5 numbers already derived: saving throws, skills, Hit Points, Hit Point Dice, Initiative, Armor Class, attacks, spell save DC and attack bonus, slots, cantrips and prepared spells",
+   "pages": [
+    22,
+    23
+   ],
+   "kind": "existing",
+   "owners": [
+    61,
+    65,
+    68,
+    498,
+    501,
+    551,
+    630,
+    728,
+    776,
+    845,
+    970,
+    1093,
+    1475,
+    1758,
+    2036
+   ],
+   "note": "internal/rules/srd521/character.go derives these for the supported slice; class tasks own each class's values.",
+   "witnesses": [
+    {
+     "page": 22,
+     "text": "Fill In Numbers"
+    },
+    {
+     "page": 23,
+     "text": "Spell save DC = 8 + spellcasting ability modifier"
+    }
+   ]
+  },
+  {
+   "clause": "Step 5 Passive Perception",
+   "pages": [
+    22,
+    186
+   ],
+   "kind": "new",
+   "owners": [
+    {
+     "new_task": "passive-perception"
+    },
+    61
+   ],
+   "note": "Not present in the derived sheet and named by no issue.",
+   "witnesses": [
+    {
+     "page": 22,
+     "text": "Passive Perception = 10 + Wisdom (Perception) check modifier"
+    },
+    {
+     "page": 186,
+     "text": "increase the score by 5"
+    }
+   ]
+  },
+  {
+   "clause": "Level Advancement table, Gaining a Level, Constitution change",
+   "pages": [
+    23
+   ],
+   "kind": "existing",
+   "owners": [
+    285,
+    429,
+    968,
+    498,
+    501,
+    551,
+    630,
+    728,
+    776,
+    845,
+    970,
+    1093,
+    1475,
+    1758,
+    2036
+   ],
+   "note": "Decision #336.",
+   "witnesses": [
+    {
+     "page": 23,
+     "text": "Character Advancement"
+    },
+    {
+     "page": 23,
+     "text": "Fixed Hit Points by Class"
+    }
+   ]
+  },
+  {
+   "clause": "Bonus Feats at Level 20",
+   "pages": [
+    24
+   ],
+   "kind": "existing",
+   "owners": [
+    2054
+   ],
+   "note": "Decision #336.",
+   "witnesses": [
+    {
+     "page": 24,
+     "text": "30,000 XP"
+    }
+   ]
+  },
+  {
+   "clause": "Starting at Higher Levels, including the subclass note and equipment guide",
+   "pages": [
+    19,
+    24
+   ],
+   "kind": "existing",
+   "owners": [
+    2053
+   ],
+   "note": "Decision #336.",
+   "witnesses": [
+    {
+     "page": 19,
+     "text": "If you start at level 3 or higher, write your chosen subclass"
+    },
+    {
+     "page": 24,
+     "text": "Starting Equipment at Higher Levels"
+    }
+   ]
+  },
+  {
+   "clause": "Multiclassing",
+   "pages": [
+    24,
+    25,
+    26
+   ],
+   "kind": "existing",
+   "owners": [
+    2056
+   ],
+   "note": "Decision #335.",
+   "witnesses": [
+    {
+     "page": 24,
+     "text": "Multiclassing allows you to gain levels in multiple classes"
+    }
+   ]
+  },
+  {
+   "clause": "Trinkets: one optional d100 roll at creation",
+   "pages": [
+    26,
+    27
+   ],
+   "kind": "new",
+   "owners": [
+    {
+     "new_task": "trinket"
+    }
+   ],
+   "note": "#2053 names #333 as owner of trinket choices.",
+   "witnesses": [
+    {
+     "page": 26,
+     "text": "you can roll once on the Trinkets table to gain a Tiny trinket"
+    },
+    {
+     "page": 26,
+     "text": "A mummified goblin hand"
+    },
+    {
+     "page": 27,
+     "text": "A metal urn containing the ashes of a hero"
+    }
+   ]
+  },
+  {
+   "clause": "Parts of a Species: creature type, size, Speed, special traits",
+   "pages": [
+    83,
+    84
+   ],
+   "kind": "new",
+   "owners": [
+    {
+     "new_task": "dragonborn"
+    },
+    {
+     "new_task": "dwarf"
+    },
+    {
+     "new_task": "elf"
+    },
+    {
+     "new_task": "gnome"
+    },
+    {
+     "new_task": "goliath"
+    },
+    {
+     "new_task": "halfling"
+    },
+    {
+     "new_task": "human"
+    },
+    {
+     "new_task": "orc"
+    },
+    {
+     "new_task": "tiefling"
+    },
+    307
+   ],
+   "note": "Each species task records its own type, size and Speed.",
+   "witnesses": [
+    {
+     "page": 83,
+     "text": "Every species in “Character Origins” is Humanoid"
+    },
+    {
+     "page": 84,
+     "text": "your character gets all the special traits listed for it"
+    }
+   ]
+  },
+  {
+   "clause": "Dragonborn: Draconic Ancestry (10), Breath Weapon, Damage Resistance, Darkvision, Draconic Flight",
+   "pages": [
+    84
+   ],
+   "kind": "new",
+   "owners": [
+    {
+     "new_task": "dragonborn"
+    },
+    61,
+    65,
+    66,
+    145,
+    147,
+    428,
+    487,
+    968
+   ],
+   "note": "",
+   "witnesses": [
+    {
+     "page": 84,
+     "text": "DC 8 plus your Constitution modifier and Proficiency Bonus"
+    },
+    {
+     "page": 84,
+     "text": "15-foot Cone or a 30-foot Line that is 5 feet wide"
+    },
+    {
+     "page": 84,
+     "text": "5 (2d10), 11 (3d10), and 17 (4d10)"
+    },
+    {
+     "page": 84,
+     "text": "you have a Fly Speed equal to your Speed"
+    }
+   ]
+  },
+  {
+   "clause": "Dwarf: Darkvision, Dwarven Resilience, Dwarven Toughness, Stonecunning",
+   "pages": [
+    84,
+    190
+   ],
+   "kind": "new",
+   "owners": [
+    {
+     "new_task": "dwarf"
+    },
+    61,
+    66,
+    145,
+    428,
+    504,
+    727,
+    968
+   ],
+   "note": "",
+   "witnesses": [
+    {
+     "page": 84,
+     "text": "it increases by 1 again whenever you gain a level"
+    },
+    {
+     "page": 84,
+     "text": "Tremorsense with a range of 60 feet for 10 minutes"
+    },
+    {
+     "page": 190,
+     "text": "it doesn't count as a form of sight"
+    }
+   ]
+  },
+  {
+   "clause": "Elf: Darkvision, Elven Lineage (Drow, High Elf, Wood Elf, levels 1/3/5, ability choice), Fey Ancestry, Keen Senses, Trance",
+   "pages": [
+    84,
+    85
+   ],
+   "kind": "new",
+   "owners": [
+    {
+     "new_task": "elf"
+    },
+    61,
+    145,
+    265,
+    277,
+    428,
+    430,
+    488,
+    688,
+    906,
+    968,
+    1049,
+    1050,
+    1066,
+    1072,
+    1281,
+    1282,
+    1384,
+    1385,
+    1386,
+    1448
+   ],
+   "note": "Faerie Fire has no published effect owner; its key is still assigned by open splitter #277.",
+   "witnesses": [
+    {
+     "page": 85,
+     "text": "Faerie Fire"
+    },
+    {
+     "page": 85,
+     "text": "Pass without Trace"
+    },
+    {
+     "page": 84,
+     "text": "You can cast it once without a spell slot"
+    },
+    {
+     "page": 85,
+     "text": "You have proficiency in the Insight, Perception, or Survival skill"
+    },
+    {
+     "page": 85,
+     "text": "You can finish a Long Rest in 4 hours"
+    }
+   ]
+  },
+  {
+   "clause": "Gnome: Darkvision, Gnomish Cunning, Gnomish Lineage (Forest Gnome, Rock Gnome, clockwork device)",
+   "pages": [
+    85
+   ],
+   "kind": "new",
+   "owners": [
+    {
+     "new_task": "gnome"
+    },
+    61,
+    66,
+    145,
+    428,
+    700,
+    955,
+    1375,
+    1376,
+    1384,
+    1385,
+    1386,
+    1448
+   ],
+   "note": "",
+   "witnesses": [
+    {
+     "page": 85,
+     "text": "Advantage on Intelligence, Wisdom, and Charisma saving throws"
+    },
+    {
+     "page": 85,
+     "text": "You can have three such devices in existence at a time"
+    },
+    {
+     "page": 85,
+     "text": "a number of times equal to your Proficiency Bonus"
+    }
+   ]
+  },
+  {
+   "clause": "Goliath: Giant Ancestry (six options), Large Form, Powerful Build",
+   "pages": [
+    85,
+    86,
+    178
+   ],
+   "kind": "new",
+   "owners": [
+    {
+     "new_task": "goliath"
+    },
+    61,
+    65,
+    66,
+    81,
+    428,
+    488,
+    778,
+    968
+   ],
+   "note": "",
+   "witnesses": [
+    {
+     "page": 85,
+     "text": "Cloud's Jaunt (Cloud Giant)"
+    },
+    {
+     "page": 85,
+     "text": "Stone's Endurance (Stone Giant)"
+    },
+    {
+     "page": 86,
+     "text": "Storm's Thunder (Storm Giant)"
+    },
+    {
+     "page": 86,
+     "text": "Starting at character level 5, you can change your size to Large"
+    },
+    {
+     "page": 86,
+     "text": "count as one size larger when determining your carrying capacity"
+    },
+    {
+     "page": 178,
+     "text": "Carrying Capacity"
+    }
+   ]
+  },
+  {
+   "clause": "Halfling: Brave, Halfling Nimbleness, Luck, Naturally Stealthy",
+   "pages": [
+    86,
+    8
+   ],
+   "kind": "new",
+   "owners": [
+    {
+     "new_task": "halfling"
+    },
+    61,
+    67,
+    488,
+    1137
+   ],
+   "note": "",
+   "witnesses": [
+    {
+     "page": 86,
+     "text": "When you roll a 1 on the d20 of a D20 Test, you can reroll the die, and you must use the new roll"
+    },
+    {
+     "page": 86,
+     "text": "You can take the Hide action even when you are obscured only by a creature that is at least one size larger than you"
+    },
+    {
+     "page": 8,
+     "text": "you can reroll or replace only one die, not both"
+    }
+   ]
+  },
+  {
+   "clause": "Human: size choice, Resourceful, Skillful, Versatile",
+   "pages": [
+    86,
+    8
+   ],
+   "kind": "new",
+   "owners": [
+    {
+     "new_task": "human"
+    },
+    384,
+    385,
+    386,
+    387,
+    388,
+    428,
+    430,
+    774
+   ],
+   "note": "#774 states the Resourceful gain remains with #333.",
+   "witnesses": [
+    {
+     "page": 86,
+     "text": "You gain Heroic Inspiration whenever you finish a Long Rest"
+    },
+    {
+     "page": 86,
+     "text": "You gain an Origin feat of your choice"
+    },
+    {
+     "page": 8,
+     "text": "you can give it to a player character in your group who lacks it"
+    }
+   ]
+  },
+  {
+   "clause": "Orc: Adrenaline Rush, Darkvision, Relentless Endurance",
+   "pages": [
+    86,
+    17,
+    18
+   ],
+   "kind": "new",
+   "owners": [
+    {
+     "new_task": "orc"
+    },
+    66,
+    145,
+    427,
+    428,
+    780
+   ],
+   "note": "",
+   "witnesses": [
+    {
+     "page": 86,
+     "text": "You can take the Dash action as a Bonus Action"
+    },
+    {
+     "page": 86,
+     "text": "when you finish a Short or Long Rest"
+    },
+    {
+     "page": 86,
+     "text": "reduced to 0 Hit Points but not killed outright"
+    },
+    {
+     "page": 17,
+     "text": "the character dies if the remainder equals or exceeds their Hit Point maximum"
+    },
+    {
+     "page": 18,
+     "text": "Temporary Hit Points can't be added together"
+    }
+   ]
+  },
+  {
+   "clause": "Tiefling: size choice, Darkvision, Fiendish Legacy (Abyssal, Chthonic, Infernal, levels 1/3/5, ability choice), Otherworldly Presence",
+   "pages": [
+    86
+   ],
+   "kind": "new",
+   "owners": [
+    {
+     "new_task": "tiefling"
+    },
+    145,
+    428,
+    678,
+    683,
+    695,
+    959,
+    968,
+    1075,
+    1264,
+    1282,
+    1318,
+    1448,
+    1607,
+    1631,
+    1632
+   ],
+   "note": "",
+   "witnesses": [
+    {
+     "page": 86,
+     "text": "Ray of Enfeeblement"
+    },
+    {
+     "page": 86,
+     "text": "Hellish Rebuke"
+    },
+    {
+     "page": 86,
+     "text": "You know the Thaumaturgy cantrip"
+    }
+   ]
+  },
+  {
+   "clause": "Origin feat effects named by backgrounds and Human Versatile",
+   "pages": [
+    87
+   ],
+   "kind": "existing",
+   "owners": [
+    384,
+    385,
+    386,
+    387,
+    388
+   ],
+   "note": "Decision #334.",
+   "witnesses": [
+    {
+     "page": 87,
+     "text": "Origin Feats"
+    }
+   ]
+  },
+  {
+   "clause": "Creating a Background: five steps",
+   "pages": [
+    19,
+    192,
+    193
+   ],
+   "kind": "new",
+   "owners": [
+    {
+     "new_task": "custom-background"
+    },
+    {
+     "new_task": "ability-scores"
+    },
+    {
+     "new_task": "backgrounds"
+    },
+    301,
+    384,
+    385,
+    386,
+    387,
+    388,
+    430
+   ],
+   "note": "The issue cites p192; steps 2 to 5 continue on p193.",
+   "witnesses": [
+    {
+     "page": 19,
+     "text": "your GM might offer additional backgrounds as options"
+    },
+    {
+     "page": 192,
+     "text": "Creating a Background"
+    },
+    {
+     "page": 193,
+     "text": "Choose one feat from the Origin category"
+    },
+    {
+     "page": 193,
+     "text": "Assemble a package of equipment worth 50 GP (including unspent gold). Don't include Martial weapons or armor"
+    }
+   ]
+  },
+  {
+   "clause": "Creation validation: provenance of species, background and class grants; duplicate proficiencies; unsupported origins",
+   "pages": [
+    19,
+    20,
+    21,
+    22,
+    23
+   ],
+   "kind": "existing",
+   "owners": [
+    430
+   ],
+   "note": "Existing native child of #333; unchanged.",
+   "witnesses": [
+    {
+     "page": 20,
+     "text": "Your class also gives proficiencies"
+    }
+   ]
+  }
+ ],
+ "existing_owners": [
+  {
+   "number": 61,
+   "title": "Resolve SRD checks and saving throws with inspectable dice receipts",
+   "state": "CLOSED",
+   "body_sha256": "40078e957d35bd33b66c06dad6451270817f5fd833a924aa87d631d4a7bd9cd5"
+  },
+  {
+   "number": 65,
+   "title": "Play a martial attack through the interactive character sheet",
+   "state": "CLOSED",
+   "body_sha256": "df81cf102663aba2e71722bb09b793a0866d058a37f2729c3509dc0831a682d3"
+  },
+  {
+   "number": 66,
+   "title": "Track initiative and action economy in narrative combat",
+   "state": "CLOSED",
+   "body_sha256": "1268b0f01bca795849b5401b42b6dce70ae483cd7ce9eeb2870a2d5d0c9b0d12"
+  },
+  {
+   "number": 67,
+   "title": "Validate narrative combat targets, ranges and scene facts",
+   "state": "CLOSED",
+   "body_sha256": "aa7bfb66a1b5d6aafd22ca8dc6f7530ce938d0710ee917867fbb899490376096"
+  },
+  {
+   "number": 68,
+   "title": "Cast a supported spell with explicit targets and slot costs",
+   "state": "CLOSED",
+   "body_sha256": "f86c4f49714b778ab10e0a09f2f13c3ff561add2ef0a4147875458a293eca6ed"
+  },
+  {
+   "number": 81,
+   "title": "Offer explicit reaction choices at the correct combat trigger",
+   "state": "CLOSED",
+   "body_sha256": "f23682ee0d53f8cc92057e9de531d28ea52b43970978c8c1f6604495af3aa015"
+  },
+  {
+   "number": 145,
+   "title": "Adjudicate declared light and Darkvision for narrative target visibility",
+   "state": "OPEN",
+   "body_sha256": "9f63504d26e1574206eb87dca30ba5f2f919bd3a3437da7dde552867d6a72d2c"
+  },
+  {
+   "number": 147,
+   "title": "Resolve one declared fall with inspectable damage and Prone state",
+   "state": "OPEN",
+   "body_sha256": "c31bdc6b1573df92eb9e0845fde0e5a313fab298a615a21375653b175f18fb26"
+  },
+  {
+   "number": 195,
+   "title": "Validate versioned item families and explicit variant identities",
+   "state": "CLOSED",
+   "body_sha256": "554b45122c2a301ffd11b6b8b717b254f44fa54a21f0e623227613ca14464b5a"
+  },
+  {
+   "number": 247,
+   "title": "Catalogue SRD weapons 01: Battleaxe to Hand Crossbow",
+   "state": "OPEN",
+   "body_sha256": "80672ba5d3c4ef15071e87279ff824548b47e1c4ea8f4b532fae1ba1a8008509"
+  },
+  {
+   "number": 249,
+   "title": "Catalogue SRD weapons 03: Pistol to Warhammer",
+   "state": "OPEN",
+   "body_sha256": "1735bcba3d2abdb9bfc734927bb097354ace12a1ecfee831aeb9687db6c7b3d9"
+  },
+  {
+   "number": 253,
+   "title": "Catalogue SRD tools 01: Alchemist’s Supplies to Herbalism Kit",
+   "state": "OPEN",
+   "body_sha256": "b1b8d9839c2911a42a159ae5e83be562a09e1ebed189435bf739f69218dac900"
+  },
+  {
+   "number": 254,
+   "title": "Catalogue SRD tools 02: Jeweler’s Tools to Weaver’s Tools",
+   "state": "OPEN",
+   "body_sha256": "fe8260bac384fd461c4f9f4f99befd1bb1e320dc7749831a353a0541ba55f787"
+  },
+  {
+   "number": 256,
+   "title": "Catalogue SRD adventuring-gear 01: Acid to Blanket",
+   "state": "OPEN",
+   "body_sha256": "1e32b601a2cdbb86374dd76c806482fa86a9781c05463c5e072d228b5f1312dd"
+  },
+  {
+   "number": 257,
+   "title": "Catalogue SRD adventuring-gear 02: Block and Tackle to Climber’s Kit",
+   "state": "OPEN",
+   "body_sha256": "f6398f5af790858a09fb8be5c69a5fe997640ca002f792708a3f7856c55ce5f6"
+  },
+  {
+   "number": 258,
+   "title": "Catalogue SRD adventuring-gear 03: Clothes, Fine to Grappling Hook",
+   "state": "OPEN",
+   "body_sha256": "4ad20c32706cc3ae9064098c405a078827952efbf3b27c3b984603a9cdd590dd"
+  },
+  {
+   "number": 259,
+   "title": "Catalogue SRD adventuring-gear 04: Healer’s Kit to Lock",
+   "state": "OPEN",
+   "body_sha256": "1f9d4451a3c65a0a647762bd9b8d02a0f2da584a88956a810d591a2683c2c12e"
+  },
+  {
+   "number": 260,
+   "title": "Catalogue SRD adventuring-gear 05: Magnifying Glass to Pot, Iron",
+   "state": "OPEN",
+   "body_sha256": "725253f5cf40f4b86fea720402caa8cf116ff39736ae6ce763c7af24bb8a69d7"
+  },
+  {
+   "number": 261,
+   "title": "Catalogue SRD adventuring-gear 06: Potion of Healing to Signal Whistle",
+   "state": "OPEN",
+   "body_sha256": "8b594f815e007dc94282252b07ab61ba95e3f8cf991641642cfc3df27b7d2c59"
+  },
+  {
+   "number": 265,
+   "title": "Confirm Detect Magic from one recorded Magic Initiate free use",
+   "state": "OPEN",
+   "body_sha256": "37c5565a4e32ea1e6c1eecc3282b63b0526a9fd28c7e021de1d80ba4b8f4ebed"
+  },
+  {
+   "number": 275,
+   "title": "Split equipment prices, services and lifestyle consequences",
+   "state": "OPEN",
+   "body_sha256": "6e1f9577bbb77dbb989d27fb927af4ac7c4294baa18149704f3870740ec07456"
+  },
+  {
+   "number": 277,
+   "title": "Assign every remaining spell mechanic key to bounded implementation PRs",
+   "state": "OPEN",
+   "body_sha256": "361146df6f5488415129a6ba04acfd9d0b4730da3c39d8bc99767f79d0669a30"
+  },
+  {
+   "number": 284,
+   "title": "Validate source-linked character choices and fail closed on unsupported features",
+   "state": "CLOSED",
+   "body_sha256": "c2e0625ba521338cc15292e95a622cec05ec1aa7036a007acc3936a0a4290690"
+  },
+  {
+   "number": 285,
+   "title": "Catalogue SRD advancement table source records",
+   "state": "CLOSED",
+   "body_sha256": "b4399fc7ddd28f1223f9bfa105888683e1b1875baeb7796884c67425c08cfc7c"
+  },
+  {
+   "number": 301,
+   "title": "Catalogue SRD feats origin source records",
+   "state": "CLOSED",
+   "body_sha256": "b24cf4fc5d530b72c00fa7f4a8f6c34900b369b678f2329a60999e6e619c7225"
+  },
+  {
+   "number": 306,
+   "title": "Catalogue SRD origins backgrounds source records",
+   "state": "CLOSED",
+   "body_sha256": "bd119c73799a64c8e3efb9ce85ac2dfcb4107c176d511bb53d087ad10593e494"
+  },
+  {
+   "number": 307,
+   "title": "Catalogue SRD origins species source records",
+   "state": "CLOSED",
+   "body_sha256": "1c6b92fa88d9ae7bbca9e76315ee4af0f7cab3f54dd991b1c95704ec9ecf1d87"
+  },
+  {
+   "number": 384,
+   "title": "Validate durable source-linked feat selections without granting class eligibility",
+   "state": "OPEN",
+   "body_sha256": "c8681e833e979fb697871e60b4be810b3a6aec9f2ede444adaecf5079a80268c"
+  },
+  {
+   "number": 385,
+   "title": "Resolve source-exact Alert with durable deterministic fixtures",
+   "state": "OPEN",
+   "body_sha256": "eb8fc9fef8825ca456f53bd3cdbb9df3c6a37562b8fcfa4081d12642b58518df"
+  },
+  {
+   "number": 386,
+   "title": "Resolve source-exact Magic Initiate with durable deterministic fixtures",
+   "state": "OPEN",
+   "body_sha256": "b21e60c27279ecd3eacd22e1123878a99ac5abe2e75e90ede1177a05b473421d"
+  },
+  {
+   "number": 387,
+   "title": "Resolve source-exact Savage Attacker with durable deterministic fixtures",
+   "state": "OPEN",
+   "body_sha256": "2522b01de58e86a5e05a071e1fe7ab67309c98f8b8c46d3c7335929b940c29b7"
+  },
+  {
+   "number": 388,
+   "title": "Resolve source-exact Skilled with durable deterministic fixtures",
+   "state": "OPEN",
+   "body_sha256": "d7c553ea9b4e0e70a1376bbb4155be5d698d51654af669034d47fedadfadc878"
+  },
+  {
+   "number": 427,
+   "title": "Complete source-correct Short Rest and publish recharge events",
+   "state": "OPEN",
+   "body_sha256": "5356cf09ae69c28bac1a08c901ce3fde57fcf877f3bbf619eb29c575cfca3a75"
+  },
+  {
+   "number": 428,
+   "title": "Complete source-correct Long Rest with interruption and recovery receipt",
+   "state": "OPEN",
+   "body_sha256": "6822469be2b3e75b9f37da60335e01fbe3f27bc5d8cb735a44dc4171f1657046"
+  },
+  {
+   "number": 429,
+   "title": "Confirm one source-linked D12 level and derived-stat transition",
+   "state": "OPEN",
+   "body_sha256": "b168c1387ffaaf94c6319af8baf9b81b58c0c00eddd844a998a514dfe10d778b"
+  },
+  {
+   "number": 430,
+   "title": "Confirm creation proficiency provenance for Barbarian consumers",
+   "state": "OPEN",
+   "body_sha256": "f0e1fbd958313a62f62ca120a546abc566ce6b797f3cf075021aae687beb5845"
+  },
+  {
+   "number": 433,
+   "title": "Confirm either Barbarian starting equipment package",
+   "state": "OPEN",
+   "body_sha256": "d06d432ab0df04ce2e4e34fbf6b0ded4efce591f1ca16df974c48b9d71f0dd2e"
+  },
+  {
+   "number": 487,
+   "title": "Resolve shared Incapacitated and Unconscious condition admission",
+   "state": "OPEN",
+   "body_sha256": "74aeead11f2085b6e89b4888f0caee89bb8d73b67733cafb0da66bd701b9912c"
+  },
+  {
+   "number": 488,
+   "title": "Resolve shared Charmed Frightened and Prone condition consumers",
+   "state": "OPEN",
+   "body_sha256": "009a793cf71efa8420190edabdc41aa7790b575e095698ec8710f9a978ca16c5"
+  },
+  {
+   "number": 498,
+   "title": "Qualify exact Barbarian and Berserker class evidence across all twenty levels",
+   "state": "OPEN",
+   "body_sha256": "84a18af3aeca0a7f6348a4f612268405478e4830ce799807e5046e8d6d05cc0d"
+  },
+  {
+   "number": 501,
+   "title": "Qualify every declared Bard and College of Lore feature and level",
+   "state": "OPEN",
+   "body_sha256": "b9e302a4a0d3fa98745c834fb60503fe3cc69e582af4f77c50a2def74b93a2c6"
+  },
+  {
+   "number": 504,
+   "title": "End Paralyzed Poisoned and Stunned through trusted effect events",
+   "state": "OPEN",
+   "body_sha256": "68c7c90e817d4030a11a9ef3bb5730c766357afc9133fdb8186a8ab97fec05b4"
+  },
+  {
+   "number": 508,
+   "title": "Confirm first-class Bard traits skills instruments and equipment",
+   "state": "OPEN",
+   "body_sha256": "8f90cc9008b5ea6ac194df775c79666c732ae9813be087968ab79b553dd4b75c"
+  },
+  {
+   "number": 551,
+   "title": "Qualify exact Cleric and Life Domain evidence across all twenty levels",
+   "state": "OPEN",
+   "body_sha256": "5c6026e7654fc3511ecca3180e8f2b811de8beede5b8652c888082ecd25503d8"
+  },
+  {
+   "number": 554,
+   "title": "Confirm either Cleric starting equipment package",
+   "state": "OPEN",
+   "body_sha256": "18d891d0f774f43ed8a1da6458d8261daabe9da83b3ac9ac6147972f6f0bb09c"
+  },
+  {
+   "number": 630,
+   "title": "Qualify exact Druid and Circle of the Land features and all twenty levels",
+   "state": "OPEN",
+   "body_sha256": "419bb8b3f9333ec27078e8c586e20acc924fa363a39cddd352ef0ca79946896d"
+  },
+  {
+   "number": 635,
+   "title": "Confirm either Druid starting equipment package",
+   "state": "OPEN",
+   "body_sha256": "f243000daa58a503bfbb487537061d16719cc29dd6661988517ffff500eb6796"
+  },
+  {
+   "number": 640,
+   "title": "Resolve Druidic language and concealed messages",
+   "state": "OPEN",
+   "body_sha256": "ef2a3f368a50ce26b76fd49bda6011b98f52c26dde243193819a5962c691b8de"
+  },
+  {
+   "number": 678,
+   "title": "Resolve Fire Bolt exact source effect",
+   "state": "OPEN",
+   "body_sha256": "9c0bf5ce7c8faed6f5853576cf4bbb532c31af322cf358b9a975d5295a6191a0"
+  },
+  {
+   "number": 683,
+   "title": "Resolve Hold Person exact source effect",
+   "state": "OPEN",
+   "body_sha256": "6bb7c55de394def9ab171d41d2792064c0dec54392161cd8581f737e09bd8b98"
+  },
+  {
+   "number": 688,
+   "title": "Resolve Misty Step exact source effect",
+   "state": "OPEN",
+   "body_sha256": "18f9fcda88db889a1ec2ecd897409c4de923a12118a485fbed70b37c86d61c3c"
+  },
+  {
+   "number": 695,
+   "title": "Resolve Ray Of Sickness exact source effect",
+   "state": "OPEN",
+   "body_sha256": "1e2edc93017ce6b489fdc7c2d8c4b76e1ce378026f29d2891e0458ba59334a0d"
+  },
+  {
+   "number": 700,
+   "title": "Resolve Speak With Animals exact source effect",
+   "state": "OPEN",
+   "body_sha256": "c0078f00ba753837d90c50fae2e429d6999bf56510fd341e54bb897f38dd3a7b"
+  },
+  {
+   "number": 727,
+   "title": "Admit exact Paralyzed Poisoned and Restrained condition projections",
+   "state": "OPEN",
+   "body_sha256": "8d739e36d9bb9b00d1808bc022d1dce8d849297d802d7ec2f5c0a19bd805bd92"
+  },
+  {
+   "number": 728,
+   "title": "Qualify exact Fighter and Champion playable fixtures after decision #325",
+   "state": "OPEN",
+   "body_sha256": "26a44cb8eb47ff57d770b7641228c17087f056b703b6f927b7140da731f0844d"
+  },
+  {
+   "number": 730,
+   "title": "Fighter A/B/C starting equipment grants",
+   "state": "OPEN",
+   "body_sha256": "ebc9630e6fa610cf36e90d31a23952ffcce6b193cc0b558fc404cb0f344531ab"
+  },
+  {
+   "number": 774,
+   "title": "Resolve shared Heroic Inspiration through immediate owned typed-die windows",
+   "state": "OPEN",
+   "body_sha256": "cd98408127318546a21cd5c72c5243393066c65f4c94c486cefefb2e5f3d4137"
+  },
+  {
+   "number": 776,
+   "title": "Qualify exact Monk and Open Hand features and all twenty level applications",
+   "state": "OPEN",
+   "body_sha256": "d6a8ad9743eeee8275f890a897a2017ec01e21126913f9513249ee7b92e20bd3"
+  },
+  {
+   "number": 778,
+   "title": "Admit shared Grappled with escape drag and ending",
+   "state": "OPEN",
+   "body_sha256": "57c7c138e1b9457a3cd187d3757298d65f90eeb958f567b739c9cfc62b7ab168"
+  },
+  {
+   "number": 780,
+   "title": "Resolve shared Dash from authoritative modified Speed",
+   "state": "OPEN",
+   "body_sha256": "62ff0ae98546d75db6c6600c88df9f858fd4c696f9f5f84aab094f9f6dc172f8"
+  },
+  {
+   "number": 785,
+   "title": "Confirm exact Monk starting equipment package",
+   "state": "OPEN",
+   "body_sha256": "b7bf40cdc187347235d43c20bd0130299ebe6a02fc206242715a3f83bd6ede01"
+  },
+  {
+   "number": 845,
+   "title": "Qualify exact Paladin and Devotion evidence across all twenty levels",
+   "state": "OPEN",
+   "body_sha256": "b68f68f38fc72999dc08f5d76af6b8ee3791427f34b4743b2f63a8555fdc592f"
+  },
+  {
+   "number": 853,
+   "title": "Confirm either Paladin starting equipment package",
+   "state": "OPEN",
+   "body_sha256": "f5b1828ca761e12d8933cd48cf07f0cfafa4f17b705217c631fdc9ef1d8a175c"
+  },
+  {
+   "number": 906,
+   "title": "Resolve Detect Magic detect extension",
+   "state": "OPEN",
+   "body_sha256": "6341163472e337b9dd5046203244d2e35d5ac15f74b1d1a9948e17dba55037dc"
+  },
+  {
+   "number": 955,
+   "title": "Resolve Mending mending",
+   "state": "OPEN",
+   "body_sha256": "4297ed981c104f38fc543a46413cbad64b7e010f215ee8a3310f149e483f2ea4"
+  },
+  {
+   "number": 959,
+   "title": "Resolve Thaumaturgy thaumaturgy",
+   "state": "OPEN",
+   "body_sha256": "34a660dbf43e357f8a2cd845bfe665cd8b788e136b40e94488c969981fcd8c6f"
+  },
+  {
+   "number": 968,
+   "title": "Qualify shared advancement transaction protocol for class adapters",
+   "state": "OPEN",
+   "body_sha256": "f0832d34ff9023653269409bf10225362ae064776d5cbec67aa8587bc77d2b42"
+  },
+  {
+   "number": 970,
+   "title": "Qualify finite Ranger class gate",
+   "state": "OPEN",
+   "body_sha256": "f2f0e910667dceeefb8dad0903f76b4dfb2cc68225747c120b9c282c41ada4e5"
+  },
+  {
+   "number": 982,
+   "title": "Choose Ranger exact starting equipment",
+   "state": "OPEN",
+   "body_sha256": "a906eb459288429f32a87ab0d866c2dc358870193b2d4f7d4ee1975881451d38"
+  },
+  {
+   "number": 987,
+   "title": "Apply Deft Explorer expertise and languages",
+   "state": "OPEN",
+   "body_sha256": "05ec6dab20316123e2896d44e3d409dcd98c619f83401bbff076dae9e2ab6fcd"
+  },
+  {
+   "number": 1049,
+   "title": "Resolve Druidcraft weather",
+   "state": "OPEN",
+   "body_sha256": "97457f0b7e1f519e4c05ebc81e5cf91e8fc539c1d2b2a4ebaa9238c57cc6c9da"
+  },
+  {
+   "number": 1050,
+   "title": "Resolve Druidcraft nature",
+   "state": "OPEN",
+   "body_sha256": "6172e1e8cc4d99c9f601e598e73b1581e8481755ca69f1beb6c9074668233519"
+  },
+  {
+   "number": 1066,
+   "title": "Resolve Longstrider effect",
+   "state": "OPEN",
+   "body_sha256": "61a2cd926caaf6381b96854031d0be256e87033c490060668eef9b2ecf3c1ee6"
+  },
+  {
+   "number": 1072,
+   "title": "Resolve Pass without Trace effect",
+   "state": "OPEN",
+   "body_sha256": "a991fcc4bc258e23d973041d2738953f8c021cec0bceed785867ed5ac6bcaf95"
+  },
+  {
+   "number": 1075,
+   "title": "Resolve Poison Spray effect",
+   "state": "OPEN",
+   "body_sha256": "55d07b6d73f6542d1dc8f250a6bb81d75b6be5a15cb7b6287609c03c436ddbcc"
+  },
+  {
+   "number": 1093,
+   "title": "Qualify finite Rogue qualification contracts",
+   "state": "OPEN",
+   "body_sha256": "a17fcfdaca68be645597fe2da85ce3cb133eb1c9783f892fb233b2c78ebd4b01"
+  },
+  {
+   "number": 1101,
+   "title": "Rogue: equipment",
+   "state": "OPEN",
+   "body_sha256": "9cf732a20d050c1f12fde33e77d10aab81a535be4e19a464a7d5eba986fa2b0e"
+  },
+  {
+   "number": 1105,
+   "title": "Rogue: languages",
+   "state": "OPEN",
+   "body_sha256": "1559610b288b773f5df1779c18ddb5a7b3f78d2e974eb8c040ef1f85363ab0d9"
+  },
+  {
+   "number": 1137,
+   "title": "Rogue: hide",
+   "state": "OPEN",
+   "body_sha256": "adccd6d7542e2e558211ff96d13b3ba44f22cc00d42ebf087b6fa8d297c88b11"
+  },
+  {
+   "number": 1177,
+   "title": "Starting equipment alternatives",
+   "state": "OPEN",
+   "body_sha256": "1f64653929f3529493dfc7bcbfd5d11d9e48874c0b22f35dabad1661d3fc82e4"
+  },
+  {
+   "number": 1264,
+   "title": "Resolve Chill Touch effect",
+   "state": "OPEN",
+   "body_sha256": "4a628339a8add9528f2d4fe37bef117b2cd276afc446a5290c30451589b2239f"
+  },
+  {
+   "number": 1281,
+   "title": "Resolve Dancing Lights effect",
+   "state": "OPEN",
+   "body_sha256": "6bb2d7df33dc7fb60f1e23d339b68d748fd423ad10938da29a9a963b660d64d7"
+  },
+  {
+   "number": 1282,
+   "title": "Resolve Darkness effect",
+   "state": "OPEN",
+   "body_sha256": "f0473b4ef379393b5a3ddb542b96cf15137d3f630f8a96088e12d695c999d692"
+  },
+  {
+   "number": 1318,
+   "title": "Resolve False Life effect",
+   "state": "OPEN",
+   "body_sha256": "4fa6b49651cab49e36f16ef58cc34df11bd6dda88118f890d4f724917067a8fe"
+  },
+  {
+   "number": 1375,
+   "title": "Resolve Minor Illusion sound",
+   "state": "OPEN",
+   "body_sha256": "c898988a828852694df99071ab5ba8c7c026297e1e6b6798932f0838f1a7af49"
+  },
+  {
+   "number": 1376,
+   "title": "Resolve Minor Illusion image interaction",
+   "state": "OPEN",
+   "body_sha256": "41686432e08d57e620e9b07806a2fb30e863a90706cf099f48d714addae41044"
+  },
+  {
+   "number": 1384,
+   "title": "Resolve Prestidigitation instant sensory clean",
+   "state": "OPEN",
+   "body_sha256": "4f73ca34dcbf0b0d94600c1bedfffe5ff1d3e7a87e2e04388ec2405e79da6597"
+  },
+  {
+   "number": 1385,
+   "title": "Resolve Prestidigitation lasting effect",
+   "state": "OPEN",
+   "body_sha256": "a682b9403271411a6bfc71ef03d36f81f9c0c0221663f332038fae93a8830eda"
+  },
+  {
+   "number": 1386,
+   "title": "Resolve Prestidigitation trinket image",
+   "state": "OPEN",
+   "body_sha256": "bbf9034d267cf24b4cc87b830d556cfa3d5f09910b12707a91f294267105e490"
+  },
+  {
+   "number": 1448,
+   "title": "Resolve bounded cast cost privacy",
+   "state": "OPEN",
+   "body_sha256": "62418a99c58fe8bd31a9ea09941cb45bfa9f415f7d372783305e58b0e7d8b3cd"
+  },
+  {
+   "number": 1475,
+   "title": "Qualify exact Sorcerer class and level execution",
+   "state": "OPEN",
+   "body_sha256": "7e35ef5616a1f72311e675b2b4fef0fafcf859c0dac712f8d7b4bf85f1b1900b"
+  },
+  {
+   "number": 1480,
+   "title": "Implement Warlock equipment",
+   "state": "OPEN",
+   "body_sha256": "3369b7c55c6cbac6df091e4bd97c6ea41694d0a26af5c2ccc4b57709db231801"
+  },
+  {
+   "number": 1607,
+   "title": "Resolve Hellish Rebuke reaction-damage",
+   "state": "OPEN",
+   "body_sha256": "85394a7dac49c62e12663b2c89507b602dd4b2c99679886ba2e78a69d8bfec07"
+  },
+  {
+   "number": 1631,
+   "title": "Resolve Ray of Enfeeblement success",
+   "state": "OPEN",
+   "body_sha256": "bab060bef5786bb273551db4fbc5cbc36899c83d7e3b974ee7b4a8441c25e0ce"
+  },
+  {
+   "number": 1632,
+   "title": "Resolve Ray of Enfeeblement failure-ending",
+   "state": "OPEN",
+   "body_sha256": "3e7dd1b58533475e4e6e4fc0a9f4c872a7b7bd4fe80900facbd9940daa96ad39"
+  },
+  {
+   "number": 1758,
+   "title": "Qualify exact Warlock feature level and shared output paths",
+   "state": "OPEN",
+   "body_sha256": "6d0fda2b9a74d2355deddd072f3c8e14aab7d33bcc681986c4a2954579a57b1f"
+  },
+  {
+   "number": 1762,
+   "title": "Implement Wizard equipment",
+   "state": "OPEN",
+   "body_sha256": "cce28fd93eeaebc59d67a9007e02b2590770bfabb6f18d9cc416dcb9700f7a75"
+  },
+  {
+   "number": 2036,
+   "title": "Qualify Wizard class-gate",
+   "state": "OPEN",
+   "body_sha256": "a00f38e6dbef91a658db628fa1400d36a6b23e4edfefd7da1ca5e06c06bad660"
+  },
+  {
+   "number": 2053,
+   "title": "Confirm source-correct higher-level creation through qualified class outputs",
+   "state": "OPEN",
+   "body_sha256": "33dcb87cf5e7fbf2ce8b188522bc171060043545e958e4212a1f91e8cec135df"
+  },
+  {
+   "number": 2054,
+   "title": "Confirm optional post-level20 feat thresholds without granting level21",
+   "state": "OPEN",
+   "body_sha256": "17cdba010877c7857b53c53e752ad152b267e45ed3d9941b086d6b7781a01f57"
+  },
+  {
+   "number": 2056,
+   "title": "Qualify exact twelve-class multiclass entry and feature compositions",
+   "state": "OPEN",
+   "body_sha256": "d81337dc93faa778f4f78afd627972d2e5a8507fdc53b4c9ea6927bdceb0ce9e"
+  }
+ ],
+ "new_implementation_tasks": [
+  {
+   "number": null,
+   "key": "ability-scores",
+   "marker": "edda-333:ability-scores",
+   "title": "Confirm creation ability scores by Standard Array, 4d6 or 27-point cost",
+   "type": "Task",
+   "size": "M",
+   "parent": 333,
+   "blocked_by": [
+    284,
+    306,
+    430
+   ],
+   "blocked_by_new_tasks": [],
+   "qualifies": [
+    337
+   ],
+   "body_file": "docs/investigations/issue-333-ability-scores-task.md",
+   "body_sha256": "3714cce7f68a12ee63e7e6276a3e57b04e809a9bb079139ebd593bd3c277fe45"
+  },
+  {
+   "number": null,
+   "key": "backgrounds",
+   "marker": "edda-333:backgrounds",
+   "title": "Confirm Acolyte, Criminal, Sage or Soldier grants and equipment choice",
+   "type": "Task",
+   "size": "M",
+   "parent": 333,
+   "blocked_by": [
+    195,
+    247,
+    249,
+    253,
+    254,
+    256,
+    257,
+    258,
+    259,
+    260,
+    261,
+    306,
+    384,
+    385,
+    386,
+    387,
+    430
+   ],
+   "blocked_by_new_tasks": [],
+   "qualifies": [
+    337
+   ],
+   "body_file": "docs/investigations/issue-333-backgrounds-task.md",
+   "body_sha256": "ee1356f83fa490626132215af655848180a164c246c631f861ea4995ad65e3c9"
+  },
+  {
+   "number": null,
+   "key": "languages-alignment",
+   "marker": "edda-333:languages-alignment",
+   "title": "Record creation languages and alignment from the exact source tables",
+   "type": "Task",
+   "size": "S",
+   "parent": 333,
+   "blocked_by": [
+    284,
+    430
+   ],
+   "blocked_by_new_tasks": [],
+   "qualifies": [
+    337
+   ],
+   "body_file": "docs/investigations/issue-333-languages-alignment-task.md",
+   "body_sha256": "6bc9641cf7ccdc01a194fccff67df2f910a9fcc044c71a3279355a33732918cb"
+  },
+  {
+   "number": null,
+   "key": "trinket",
+   "marker": "edda-333:trinket",
+   "title": "Confirm one optional creation trinket roll from the exact d100 table",
+   "type": "Task",
+   "size": "S",
+   "parent": 333,
+   "blocked_by": [
+    195,
+    284
+   ],
+   "blocked_by_new_tasks": [],
+   "qualifies": [
+    337
+   ],
+   "body_file": "docs/investigations/issue-333-trinket-task.md",
+   "body_sha256": "c169db80e6cade6d32b1f41cb7ef54ea002118137d280214d24fcf1274e7c605"
+  },
+  {
+   "number": null,
+   "key": "custom-background",
+   "marker": "edda-333:custom-background",
+   "title": "Confirm one GM-authored background under the five source steps",
+   "type": "Task",
+   "size": "M",
+   "parent": 333,
+   "blocked_by": [
+    301,
+    306,
+    384,
+    385,
+    386,
+    387,
+    388,
+    430
+   ],
+   "blocked_by_new_tasks": [
+    "ability-scores",
+    "backgrounds"
+   ],
+   "qualifies": [
+    337
+   ],
+   "body_file": "docs/investigations/issue-333-custom-background-task.md",
+   "body_sha256": "3ab0eb3707a1abb17ae734799045fbf7fbb751db3b96f20c93bf99fa506dd8a0"
+  },
+  {
+   "number": null,
+   "key": "dragonborn",
+   "marker": "edda-333:species-dragonborn",
+   "title": "Confirm Dragonborn ancestry, Breath Weapon, resistance and level5 flight",
+   "type": "Task",
+   "size": "M",
+   "parent": 333,
+   "blocked_by": [
+    61,
+    65,
+    66,
+    145,
+    147,
+    307,
+    428,
+    430,
+    487,
+    968
+   ],
+   "blocked_by_new_tasks": [],
+   "qualifies": [
+    337
+   ],
+   "body_file": "docs/investigations/issue-333-species-dragonborn-task.md",
+   "body_sha256": "9f7fcc2cb9a45ce388393a47e574a7c2ca20f185f5538b54c816c0f03cd25f09"
+  },
+  {
+   "number": null,
+   "key": "dwarf",
+   "marker": "edda-333:species-dwarf",
+   "title": "Confirm Dwarf resilience, per-level toughness and Stonecunning",
+   "type": "Task",
+   "size": "M",
+   "parent": 333,
+   "blocked_by": [
+    61,
+    66,
+    145,
+    307,
+    428,
+    430,
+    504,
+    727,
+    968
+   ],
+   "blocked_by_new_tasks": [],
+   "qualifies": [
+    337
+   ],
+   "body_file": "docs/investigations/issue-333-species-dwarf-task.md",
+   "body_sha256": "90d1a8d2ec551bfbfaa7f55dbf765e7f6c2c2cfdd7cc95264489766e26a25d4d"
+  },
+  {
+   "number": null,
+   "key": "elf",
+   "marker": "edda-333:species-elf",
+   "title": "Confirm Elf lineage spells, Keen Senses, Fey Ancestry and Trance",
+   "type": "Task",
+   "size": "L",
+   "parent": 333,
+   "blocked_by": [
+    61,
+    145,
+    265,
+    277,
+    307,
+    428,
+    430,
+    488,
+    688,
+    906,
+    968,
+    1049,
+    1050,
+    1066,
+    1072,
+    1281,
+    1282,
+    1384,
+    1385,
+    1386,
+    1448
+   ],
+   "blocked_by_new_tasks": [],
+   "qualifies": [
+    337
+   ],
+   "body_file": "docs/investigations/issue-333-species-elf-task.md",
+   "body_sha256": "f2c24ec37a300a0faa61ff2cf5506747b4f9a7b10c2a4bcdcfea81745046db33"
+  },
+  {
+   "number": null,
+   "key": "gnome",
+   "marker": "edda-333:species-gnome",
+   "title": "Confirm Gnome cunning, lineage spells and Rock Gnome clockwork devices",
+   "type": "Task",
+   "size": "M",
+   "parent": 333,
+   "blocked_by": [
+    61,
+    66,
+    145,
+    307,
+    428,
+    430,
+    700,
+    955,
+    1375,
+    1376,
+    1384,
+    1385,
+    1386,
+    1448
+   ],
+   "blocked_by_new_tasks": [],
+   "qualifies": [
+    337
+   ],
+   "body_file": "docs/investigations/issue-333-species-gnome-task.md",
+   "body_sha256": "2e56da5efab56f2b9bd663987419d22eb90494d89ce0e834c6a1b3daeeda2526"
+  },
+  {
+   "number": null,
+   "key": "goliath",
+   "marker": "edda-333:species-goliath",
+   "title": "Confirm Goliath Giant Ancestry options, Large Form and Powerful Build",
+   "type": "Task",
+   "size": "L",
+   "parent": 333,
+   "blocked_by": [
+    61,
+    65,
+    66,
+    81,
+    307,
+    428,
+    430,
+    488,
+    778,
+    968
+   ],
+   "blocked_by_new_tasks": [],
+   "qualifies": [
+    337
+   ],
+   "body_file": "docs/investigations/issue-333-species-goliath-task.md",
+   "body_sha256": "87121e5babc5eed82a79e00b68c304cc1667e4c815da1c77d567113494ee69af"
+  },
+  {
+   "number": null,
+   "key": "halfling",
+   "marker": "edda-333:species-halfling",
+   "title": "Confirm Halfling Brave, Luck, Nimbleness and Naturally Stealthy",
+   "type": "Task",
+   "size": "M",
+   "parent": 333,
+   "blocked_by": [
+    61,
+    67,
+    307,
+    430,
+    488,
+    1137
+   ],
+   "blocked_by_new_tasks": [],
+   "qualifies": [
+    337
+   ],
+   "body_file": "docs/investigations/issue-333-species-halfling-task.md",
+   "body_sha256": "da0be5ab931cdfeba79c9350f550c803be02909df6fa02ba4a73af14cfde4800"
+  },
+  {
+   "number": null,
+   "key": "human",
+   "marker": "edda-333:species-human",
+   "title": "Confirm Human size, Resourceful, Skillful and Versatile choices",
+   "type": "Task",
+   "size": "S",
+   "parent": 333,
+   "blocked_by": [
+    307,
+    384,
+    385,
+    386,
+    387,
+    388,
+    428,
+    430,
+    774
+   ],
+   "blocked_by_new_tasks": [],
+   "qualifies": [
+    337
+   ],
+   "body_file": "docs/investigations/issue-333-species-human-task.md",
+   "body_sha256": "8b770647d57ba5fe221659c4fe403c9e3512d62240a0320f5f181a8e6a682f35"
+  },
+  {
+   "number": null,
+   "key": "orc",
+   "marker": "edda-333:species-orc",
+   "title": "Confirm Orc Adrenaline Rush and Relentless Endurance",
+   "type": "Task",
+   "size": "M",
+   "parent": 333,
+   "blocked_by": [
+    66,
+    145,
+    307,
+    427,
+    428,
+    430,
+    780
+   ],
+   "blocked_by_new_tasks": [],
+   "qualifies": [
+    337
+   ],
+   "body_file": "docs/investigations/issue-333-species-orc-task.md",
+   "body_sha256": "17a6156b6a199526afe725add9d6dba894b020439b6fbbc0eded9664f9b0fa9c"
+  },
+  {
+   "number": null,
+   "key": "tiefling",
+   "marker": "edda-333:species-tiefling",
+   "title": "Confirm Tiefling size, Fiendish Legacy spells and Otherworldly Presence",
+   "type": "Task",
+   "size": "M",
+   "parent": 333,
+   "blocked_by": [
+    145,
+    307,
+    428,
+    430,
+    678,
+    683,
+    695,
+    959,
+    968,
+    1075,
+    1264,
+    1282,
+    1318,
+    1448,
+    1607,
+    1631,
+    1632
+   ],
+   "blocked_by_new_tasks": [],
+   "qualifies": [
+    337
+   ],
+   "body_file": "docs/investigations/issue-333-species-tiefling-task.md",
+   "body_sha256": "8a2a2fb7a105e67c01c72ba60057acf92fcef96ee15d6c6963b8de1c32053f65"
+  },
+  {
+   "number": null,
+   "key": "passive-perception",
+   "marker": "edda-333:passive-perception",
+   "title": "Project player Passive Perception on the derived sheet",
+   "type": "Task",
+   "size": "S",
+   "parent": 333,
+   "blocked_by": [
+    61,
+    284
+   ],
+   "blocked_by_new_tasks": [],
+   "qualifies": [
+    337
+   ],
+   "body_file": "docs/investigations/issue-333-passive-perception-task.md",
+   "body_sha256": "2b999229bc99d54dfa10a06d7d504e7415b49912c731721aa41a1c70d308be08"
+  }
+ ],
+ "publication_order": [
+  "ability-scores",
+  "backgrounds",
+  "languages-alignment",
+  "trinket",
+  "dragonborn",
+  "dwarf",
+  "elf",
+  "gnome",
+  "goliath",
+  "halfling",
+  "human",
+  "orc",
+  "tiefling",
+  "passive-perception",
+  "custom-background"
+ ],
+ "planned_native_edges": {
+  "sub_issues_of_333": 15,
+  "blocked_by_edges_to_existing": 137,
+  "blocked_by_edges_between_new": 2,
+  "new_blockers_of_337": 15
+ },
+ "caps": {
+  "limit": 100,
+  "issue_337_blocked_by": {
+   "before": 62,
+   "after": 77
+  },
+  "issue_333_sub_issues": {
+   "before": 1,
+   "after": 16
+  },
+  "issue_283_sub_issues": {
+   "before": 95,
+   "after": 95
+  },
+  "largest_new_task_blocked_by": 21,
+  "shared_aggregate_needed": false
+ },
+ "dag_check": {
+  "graph_nodes": 1892,
+  "graph_edges": 10201,
+  "prerequisites_transitively_blocked_by_337": [],
+  "parent_chain_of_333": [
+   333,
+   283,
+   54,
+   47
+  ]
+ },
+ "referenced_neighbours": [
+  {
+   "number": 453,
+   "title": "Confirm Relentless Rage zero HP replacement and DC recovery",
+   "state": "OPEN",
+   "body_sha256": "8fa05238bd71c1788732d3faa24019906f899f409cdfcf8218187bb683034cc8"
+  },
+  {
+   "number": 620,
+   "title": "Resolve Death Ward first-trigger replacement",
+   "state": "OPEN",
+   "body_sha256": "adac7ba2facfbd714803ba5032da54a5919c07918390333c73b039b297a2eb73"
+  },
+  {
+   "number": 389,
+   "title": "Resolve source-exact Ability Score Improvement with durable deterministic fixtures",
+   "state": "OPEN",
+   "body_sha256": "a7c4711b8d4655693f04c1e9b323e9dc29386ea3666f5ee2ba50a0225cce5ccc"
+  },
+  {
+   "number": 273,
+   "title": "Split ritual casting and costly or consumed components",
+   "state": "CLOSED",
+   "body_sha256": "2ee52b1ad4d4c9de6dd7d92bc9ce9d2ef4c4bd01770278e19d86c6f7b3e0ac46"
+  }
+ ],
+ "unchanged": {
+  "existing_bodies": true,
+  "existing_parents": true,
+  "existing_edges": true,
+  "issue_430_remains_child_of_333": true
+ },
+ "runtime_qualified": false
+}

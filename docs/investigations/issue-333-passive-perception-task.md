@@ -1,0 +1,18 @@
+<!-- edda-333:passive-perception -->
+Decision #333; roadmap #47. One implementation PR; Task / Size S.
+
+Source: English SRD 5.2.1 PDF22 (Step 5, Fill In Numbers: Passive Perception) and the Rules Glossary entry on186; SHA-256 `8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87`. Retain CC-BY-4.0 attribution and adaptation notice in `docs/srd-5.2.1-conformance.md`. Fixture and ownership decisions are Edda additions.
+
+Add the one creation number the derived sheet does not yet carry. Saving throws, skills, Hit Points, Hit Point Dice, Initiative, Armor Class, attacks and spellcasting numbers already have owners in the existing derived sheet and the class tasks; this task adds none of them.
+
+Passive Perception = 10 + the character's Wisdom (Perception) check modifier, including every modifier that applies to those checks: the Wisdom modifier, the Proficiency Bonus when proficient in Perception, and any qualified bonus another owner contributes to that check. PDF186 adds 5 when the character has Advantage on Wisdom (Perception) checks and subtracts 5 with Disadvantage. Only an Advantage or Disadvantage source that applies to those checks generally, supplied by its own qualified owner, changes the stored projection; situational sources are applied by the consuming adjudication, never baked into the sheet. Each term carries its source, like the other derived values.
+
+This is a read-only projection. It is recomputed inside every confirmed transaction that changes an input (ability score, proficiency, Proficiency Bonus, a contributing effect) and has no command, cost or dice of its own. The GM-side use of the score to decide whether a character notices something stays with the world and hidden-information owners; this task discloses the character's own score to its player and never reveals a hidden DC, actor or outcome. Monster Passive Perception stays with the stat-block owners.
+
+Positive fixtures: level1, Wisdom15, proficient in Perception gives14 (10+2+2), the source's own example. The same character without proficiency has12. Wisdom8 without proficiency has9. PB rising from2 to3 at level5 moves a proficient14 to15 in the same level transaction. A declared general Advantage source gives +5 and a general Disadvantage source −5; both together give no change. Reject: a client-supplied score; Proficiency Bonus added without Perception proficiency or added twice from two proficiency sources; Advantage adding a second d20 or any die; a stale score after an input changed; a score stored separately from its inputs; Investigation or Insight substituted for Perception.
+
+The projection has no preview or confirmation of its own. It must be identical after reload and reconnect, derived only from committed state, and included in the same atomic write and rollback as the change that caused it; an injected failure of that change leaves the old score. Shared web and trusted TUI show the same score and source terms on the sheet, with desktop/phone checks for changed web. Unknown contributing modifiers stay out of the total and are listed as unavailable, never guessed.
+
+Native parent #333; directly block #337. Hard prerequisites: #61 and #284. Existing bodies, parents and edges remain unchanged. No new #283 child.
+
+Implementation verification: deterministic source/numeric/choice tests with injectable dice, isolated PostgreSQL atomic rollback/replay/concurrency/reload, shared web/TUI disclosure/confirmation checks, `GOMAXPROCS=2 go test -p 2 -short -race ./...` and `GOMAXPROCS=2 go vet -p 2 ./...`. Short tests do not qualify PostgreSQL or devices. No production grant, deployment or Full Rules promotion.
