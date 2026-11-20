@@ -1,0 +1,279 @@
+{
+  "schema_version": 1,
+  "decision": 358,
+  "status": "GATE_REWIRE_PASS",
+  "observed_at": "2026-11-20T16:20:44Z",
+  "corrects": "PR #2060 native plan: terminal #2059 blocked open splitter #277 so that full gate #279 reached it",
+  "standing_gate_policy": [
+    "#279 and #280 are at the native cap of 100 blocked-by entries.",
+    "A closed (or closing-in-this-PR) splitter's own edge on a gate carries no remaining obligation once its terminal qualification child exists.",
+    "When a gate is full, replace that splitter's own gate edge with its terminal qualification child, keeping the count at 100.",
+    "Never remove any other edge, never exceed 100, never make an open splitter blocked by a runtime implementation task, and keep both graphs acyclic."
+  ],
+  "applied_in_order": [
+    "remove #279 blocked-by #358",
+    "add #279 blocked-by #2059",
+    "remove #277 blocked-by #2059"
+  ],
+  "edges_added": [
+    "#279 blocked-by #2059"
+  ],
+  "edges_removed": [
+    "#279 blocked-by #358",
+    "#277 blocked-by #2059"
+  ],
+  "before": {
+    "observed_at": "2026-11-20T16:17:09Z",
+    "nodes": 1951,
+    "dependency_edges": 10562,
+    "parent_edges": 1947,
+    "incoming279": 100,
+    "incoming280": 100,
+    "incoming277": 31,
+    "279_blocked_by_358": true,
+    "277_blocked_by_2059": true,
+    "280_blocked_by_2059": true,
+    "358_state": "CLOSED",
+    "dependency_acyclic": true,
+    "parent_acyclic": true
+  },
+  "after": {
+    "nodes": 1951,
+    "dependency_edges": 10561,
+    "parent_edges": 1947,
+    "incoming279": 100,
+    "incoming280": 100,
+    "incoming277": 30,
+    "outgoing358": 1,
+    "outgoing2059": 2,
+    "max_incoming": 100,
+    "max_outgoing": 100,
+    "max_children": 95,
+    "limit": 100
+  },
+  "graph": {
+    "dependency_acyclic": true,
+    "parent_acyclic": true,
+    "issues_paged": 1951,
+    "blocking_and_sub_issue_counts_match_edge_lists": true
+  },
+  "gate_paths": {
+    "279": {
+      "2059": [
+        279,
+        2059
+      ],
+      "2058": [
+        279,
+        2059,
+        2058
+      ]
+    },
+    "280": {
+      "2059": [
+        280,
+        2059
+      ],
+      "2058": [
+        280,
+        2059,
+        2058
+      ]
+    },
+    "337": {
+      "2059": [
+        337,
+        551,
+        279,
+        2059
+      ],
+      "2058": [
+        337,
+        551,
+        279,
+        2059,
+        2058
+      ]
+    }
+  },
+  "issue_277": {
+    "state": "OPEN",
+    "blocked_by": [
+      80,
+      196,
+      197,
+      198,
+      199,
+      200,
+      201,
+      202,
+      203,
+      204,
+      205,
+      206,
+      207,
+      208,
+      209,
+      210,
+      211,
+      212,
+      213,
+      214,
+      215,
+      216,
+      217,
+      218,
+      219,
+      220,
+      221,
+      222,
+      223,
+      224
+    ],
+    "reaches_2059": false,
+    "note": "Only #80 and catalogue issues #196-#224, the 30 entries held before decision #358."
+  },
+  "issue_279_blocked_by": [
+    181,
+    185,
+    263,
+    264,
+    265,
+    268,
+    269,
+    270,
+    271,
+    272,
+    273,
+    277,
+    351,
+    352,
+    353,
+    354,
+    355,
+    356,
+    359,
+    382,
+    502,
+    503,
+    504,
+    505,
+    506,
+    583,
+    584,
+    585,
+    586,
+    587,
+    588,
+    589,
+    590,
+    591,
+    614,
+    615,
+    616,
+    617,
+    618,
+    619,
+    620,
+    621,
+    622,
+    623,
+    624,
+    625,
+    626,
+    627,
+    676,
+    677,
+    678,
+    679,
+    680,
+    681,
+    682,
+    683,
+    684,
+    685,
+    686,
+    687,
+    688,
+    689,
+    690,
+    691,
+    692,
+    693,
+    694,
+    695,
+    696,
+    697,
+    698,
+    699,
+    700,
+    722,
+    723,
+    724,
+    725,
+    726,
+    727,
+    774,
+    777,
+    778,
+    779,
+    780,
+    781,
+    782,
+    848,
+    849,
+    850,
+    960,
+    961,
+    962,
+    963,
+    964,
+    965,
+    966,
+    973,
+    1096,
+    1477,
+    2059
+  ],
+  "full_tracker_diff": {
+    "blocked_by_changed": {
+      "277": "-2059",
+      "279": "-358 +2059"
+    },
+    "blocking_count_changed": {
+      "358": [
+        2,
+        1
+      ]
+    },
+    "bodies_states_parents_types_changed": [],
+    "issues_added_or_removed": []
+  },
+  "task_bodies_still_match": {
+    "2058": {
+      "task_file": "docs/investigations/issue-358-spirit-guardians-saves-task.md",
+      "live_body_sha256": "e3d83ab01b13e7002beaa146443e543a9aa32f3f86505b9f858753e1c491d553"
+    },
+    "2059": {
+      "task_file": "docs/investigations/issue-358-spirit-guardians-speed-task.md",
+      "live_body_sha256": "71669b0f7c6605c63cd649dbcfa3ab2b0a035a953c571586f6c237b95863b45e"
+    },
+    "note": "Hashes equal those in issue-358-link-verification.json, whose bodies were byte-compared with the task files after placeholder substitution."
+  },
+  "issues_reaching_2059": {
+    "before": 290,
+    "after": 53,
+    "no_longer": 237,
+    "note": "The 237 are #277 and issues that waited on it without passing through #279 or #280. #571, #574, #577, #578, #579, #582 and #656 still reach #2059 through #279."
+  },
+  "left_untouched": [
+    "#280 blocked-by #358 (closed splitter slot on #280; #280 also blocks directly on #2059)",
+    "no #556 edge added although the former cycle through #277 is gone"
+  ],
+  "runtime_qualified": false,
+  "not_run": [
+    "full Go test suite",
+    "PostgreSQL integration tests",
+    "web or TUI checks"
+  ]
+}

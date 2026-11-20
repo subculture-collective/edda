@@ -81,3 +81,31 @@ Heroism's owner #912 keeps its existing path #912 → #848 → #279 and #280.
 The [scope file](issue-358-heroism-guardians-timing-scope.json) records the checked source phrases, the owner body hashes and gate paths, both task templates and hashes, the planned native edges and the cap counts. The [link receipt](issue-358-link-verification.json) records the exact published bodies of #2058 and #2059, which match the committed task files byte for byte, with their parents, blockers, type and Size, the cap and acyclicity checks over every issue, and that #279 and #280 each reach the terminal.
 
 Focused checks for this decision: the PDF hash, the recorded phrases found on their cited pages, every page cited by a task or by this decision present in the checked set, body hashes against a full tracker read, both graph checks and gate reachability. Runtime implementation remains paused. This change contains no runtime files, database migration, UI behavior, production mutation or Full Rules admission. The full Go suite was not run locally; hosted CI applies to this decision, and the implementation tasks keep their own runtime, PostgreSQL and device requirements.
+
+## Addendum, 2026-11-20: the terminal moves from #277 to #279
+
+This addendum corrects one edge of "Native plan and caps". The rest of the decision, both task bodies and the first [link receipt](issue-358-link-verification.json) stand as dated evidence.
+
+The original plan made the terminal #2059 a blocker of the open splitter #277, so that the full gate #279 reached it through #277. That left a splitter blocked by a runtime implementation task: #277 could not close until #2059 was implemented, although assigning keys to owners does not depend on any owner's runtime work. The orchestrator has since set a standing gate policy that forbids this and approves the replacement the original plan left to the owner:
+
+- #279 and #280 are at the native cap of 100 blocked-by entries.
+- A closed splitter's own edge on a gate carries no remaining obligation once its terminal qualification child exists.
+- When a gate is full, that splitter's own gate edge is replaced by its terminal qualification child, so the count stays at 100.
+- No other edge is removed, no issue exceeds 100, no open splitter is blocked by a runtime implementation task, and both graphs stay acyclic.
+
+#358 is closed and its terminal #2059 exists, so its #279 slot was replaced. Three native changes were applied in this order, so that #279 kept a path to #2059 throughout:
+
+1. Removed "#279 blocked-by #358".
+2. Added "#279 blocked-by #2059".
+3. Removed "#277 blocked-by #2059".
+
+Read before the change (2026-11-20T16:17:09Z, 1,951 issues, 10,562 dependency edges): #279 had 100 blockers including closed #358, #277 had 31 including #2059, and #280 had 100 including #2059. Read back after it (2026-11-20T16:20:44Z, 1,951 issues, 10,561 dependency edges): #279 has 100 blockers, #277 has 30 and #280 has 100. The only differences in the whole tracker are those three edges. Every issue body, state and parent is unchanged, and the bodies of #2058 and #2059 still match the committed task files.
+
+The native paths are now #279 → #2059 → #2058 and, as before, #280 → #2059 → #2058. #277 is blocked only by #80 and the catalogue issues #196–#224, its 30 entries from before this decision, and no longer reaches #2059. The seven issues that wait on #279 without reaching #280 (#571, #574, #577, #578, #579, #582, #656) still reach the terminal through #279. The dependency graph and the parent hierarchy are acyclic, and the largest counts are 100 blockers, 100 dependents and 95 children.
+
+Two consequences are recorded and not acted on:
+
+- 237 open issues that waited on the terminal only through #277 (#277 itself, #399, #503, #2111 and their dependents) no longer do. That is the intended effect: they depend on spell-key assignment, not on Spirit Guardians runtime work. 53 issues still reach the terminal.
+- The cycle that kept #556 from being a native prerequisite of #2058 ran through the #277 edge and no longer exists. This change adds no #556 edge; #2058's body and blockers are unchanged.
+
+#358 still holds a blocked-by slot on #280, which also blocks directly on #2059. That edge was outside this correction and is untouched. The [rewire receipt](issue-358-gate-rewire-verification.json) records the edges, counts, paths and graph checks. No runtime file changed and the full Go suite was not run.
