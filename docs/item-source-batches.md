@@ -656,6 +656,52 @@ across their column and page breaks.
 rtk proxy python3 -I scripts/verify_srd_items_236.py /path/to/SRD_CC_v5.2.1.pdf
 ```
 
+## Magic items 13 (#237), pp. 235–236
+
+Twelve families and 16 variants, in planning inventory order. Files:
+`item_details_237.go`, `testdata/items_237.json`, `items_237_test.go` and
+`scripts/verify_srd_items_237.py`. `item_source.go` is unchanged.
+
+| Family | Page | Variants | Typed payload |
+| --- | --- | --- | --- |
+| Potion of Clairvoyance | 235 | `standard` (Rare) | `clairvoyance` |
+| Potion of Climbing | 235 | `standard` (Common) | `climbing` |
+| Potion of Diminution | 235 | `standard` (Rare) | `diminution` |
+| Potion of Flying | 235 | `standard` (Very Rare) | `flying` |
+| Potion of Gaseous Form | 235 | `standard` (Rare) | `gaseous_form` |
+| Potion of Giant Strength | 235 | `hill`, `frost-or-stone`, `fire`, `cloud`, `storm` | `giant_strength`: its table row |
+| Potion of Growth | 235 | `standard` (Uncommon) | `growth` |
+| Potion of Heroism | 236 | `standard` (Rare) | `heroism` |
+| Potion of Invisibility | 236 | `standard` (Rare) | `invisibility` |
+| Potion of Invulnerability | 236 | `standard` (Rare) | `invulnerability` |
+| Potion of Longevity | 236 | `standard` (Very Rare) | `longevity` |
+| Potion of Mind Reading | 236 | `standard` (Rare) | `mind_reading` |
+
+Variant rules used in this batch:
+
+- Potion of Giant Strength prints "Rarity Varies" and a five-row table. Each row is
+  a variant named as printed, with the rarity printed in its row (Uncommon, Rare,
+  Rare, Very Rare, Legendary). The row printed "frost or stone" lists two giants
+  and is one variant; its payload holds both in `giants`.
+- Every potion is category `potion`, uses the `consume` mode with the `drink-one`
+  restriction (as the Elixir of Health in batch 06), and has no attunement, equip
+  restriction, charges or price. The spells and conditions a potion names
+  (Clairvoyance, Enlarge/Reduce, Gaseous Form, Bless, Detect Thoughts, Invisible)
+  are keys, not links to spell or condition records.
+- Heroism, Invisibility, Invulnerability and Longevity are on p. 236, after the
+  Potions of Healing, which belong to the Healing contract fixture and are not
+  part of this batch.
+
+Composing the Healing contract fixture with batches #225 to #231 and this batch yields 97
+families and 139 variants with no shared identity. The Healing fixture,
+`ResolveHealingPotion` and the coverage register are unchanged.
+
+The comparison script reads pp. 235–236 column by column as one text stream.
+
+```sh
+rtk proxy python3 -I scripts/verify_srd_items_237.py /path/to/SRD_CC_v5.2.1.pdf
+```
+
 This work includes material from the System Reference Document 5.2.1 (“SRD
 5.2.1”) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd.
 The SRD 5.2.1 is licensed under the Creative Commons Attribution 4.0 International

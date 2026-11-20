@@ -1,0 +1,1093 @@
+{
+  "schema_version": 1,
+  "rules_version": "srd-5.2.1",
+  "batch": "data-magic-items-13",
+  "catalogue_issue": 237,
+  "source": {
+    "version": "5.2.1",
+    "language": "en",
+    "landing_url": "https://www.dndbeyond.com/srd",
+    "artifact_url": "https://media.dndbeyond.com/compendium-images/srd/5.2/SRD_CC_v5.2.1.pdf",
+    "sha256": "8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87",
+    "bytes": 6031375,
+    "pages": 364,
+    "retrieved_at": "2026-11-15",
+    "license": "CC-BY-4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/legalcode",
+    "attribution": "This work includes material from the System Reference Document 5.2.1 (“SRD 5.2.1”) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd. The SRD 5.2.1 is licensed under the Creative Commons Attribution 4.0 International License, available at https://creativecommons.org/licenses/by/4.0/legalcode.",
+    "changes": "SRD 5.2.1 pp. 235–236 adapted into twelve versioned magic-item families (Potion of Clairvoyance through Potion of Mind Reading) with explicit variant identities, structured requirements and typed source values. Names, numeric rules and key phrases are adapted into keys; no rules prose is reproduced. Prices are not listed and remain unspecified. Catalogue data grants no inventory, action or gameplay permissions; every record is unavailable."
+  },
+  "families": [
+    {
+      "id": "srd-5.2.1:content/items/potion-of-clairvoyance",
+      "name": "Potion of Clairvoyance",
+      "kind": "magic",
+      "category": "potion",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/potion-of-clairvoyance",
+          "pages": [
+            235,
+            235
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/potion-of-clairvoyance/variant/standard",
+          "name": "Potion of Clairvoyance",
+          "rarity": "rare",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "consume",
+            "restrictions": [
+              "drink-one"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              235,
+              235
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.consume",
+            "spell.effect-clairvoyance",
+            "spell.no-concentration"
+          ],
+          "details": {
+            "clairvoyance": {
+              "spell": "clairvoyance",
+              "concentration_required": false,
+              "appearance": "yellowish-liquid-with-bobbing-eyeball-that-vanishes-when-opened"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/potion-of-climbing",
+      "name": "Potion of Climbing",
+      "kind": "magic",
+      "category": "potion",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/potion-of-climbing",
+          "pages": [
+            235,
+            235
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/potion-of-climbing/variant/standard",
+          "name": "Potion of Climbing",
+          "rarity": "common",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "consume",
+            "restrictions": [
+              "drink-one"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              235,
+              235
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.consume",
+            "speed.climb-equal-to-speed",
+            "duration.1-hour",
+            "check.strength-athletics-advantage-climbing"
+          ],
+          "details": {
+            "climbing": {
+              "speed_kind": "climb",
+              "speed_equals": "your-speed",
+              "duration_hours": 1,
+              "check_ability": "strength",
+              "check_skill": "athletics",
+              "check_mode": "advantage",
+              "check_subject": "climbing",
+              "appearance": "brown-silver-gray-layers-like-bands-of-stone-that-shaking-fails-to-mix"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/potion-of-diminution",
+      "name": "Potion of Diminution",
+      "kind": "magic",
+      "category": "potion",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/potion-of-diminution",
+          "pages": [
+            235,
+            235
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/potion-of-diminution/variant/standard",
+          "name": "Potion of Diminution",
+          "rarity": "rare",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "consume",
+            "restrictions": [
+              "drink-one"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              235,
+              235
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.consume",
+            "spell.effect-enlarge-reduce-reduce",
+            "duration.1d4-hours",
+            "spell.no-concentration"
+          ],
+          "details": {
+            "diminution": {
+              "spell": "enlarge-reduce",
+              "spell_effect": "reduce",
+              "duration_dice": 1,
+              "duration_die_sides": 4,
+              "duration_unit": "hours",
+              "concentration_required": false,
+              "appearance": "red-contracts-to-tiny-bead-then-expands-to-color-clear-liquid-shaking-fails-to-interrupt"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/potion-of-flying",
+      "name": "Potion of Flying",
+      "kind": "magic",
+      "category": "potion",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/potion-of-flying",
+          "pages": [
+            235,
+            235
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/potion-of-flying/variant/standard",
+          "name": "Potion of Flying",
+          "rarity": "very-rare",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "consume",
+            "restrictions": [
+              "drink-one"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              235,
+              235
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.consume",
+            "speed.fly-equal-to-speed",
+            "duration.1-hour",
+            "movement.hover",
+            "movement.fall-when-ends-in-air"
+          ],
+          "details": {
+            "flying": {
+              "speed_kind": "fly",
+              "speed_equals": "your-speed",
+              "duration_hours": 1,
+              "can_hover": true,
+              "falls_when_it_ends": "when-in-the-air",
+              "fall_exception": "other-means-of-staying-aloft",
+              "appearance": "clear-liquid-floats-at-top-with-cloudy-white-impurities-drifting"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/potion-of-gaseous-form",
+      "name": "Potion of Gaseous Form",
+      "kind": "magic",
+      "category": "potion",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/potion-of-gaseous-form",
+          "pages": [
+            235,
+            235
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/potion-of-gaseous-form/variant/standard",
+          "name": "Potion of Gaseous Form",
+          "rarity": "rare",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "consume",
+            "restrictions": [
+              "drink-one"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              235,
+              235
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.consume",
+            "spell.effect-gaseous-form",
+            "duration.1-hour",
+            "action.bonus-end-effect",
+            "spell.no-concentration"
+          ],
+          "details": {
+            "gaseous_form": {
+              "spell": "gaseous-form",
+              "duration_hours": 1,
+              "ends_early_action": "bonus",
+              "concentration_required": false,
+              "appearance": "container-seems-to-hold-fog-that-moves-and-pours-like-water"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/potion-of-giant-strength",
+      "name": "Potion of Giant Strength",
+      "kind": "magic",
+      "category": "potion",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/potion-of-giant-strength",
+          "pages": [
+            235,
+            235
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/potion-of-giant-strength/variant/hill",
+          "name": "Potion of Giant Strength (hill)",
+          "rarity": "uncommon",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "consume",
+            "restrictions": [
+              "drink-one"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              235,
+              235
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.consume",
+            "ability.strength-score-set-by-giant-type",
+            "duration.1-hour",
+            "effect.none-at-or-above-score"
+          ],
+          "details": {
+            "giant_strength": {
+              "giants": [
+                "hill"
+              ],
+              "strength_score": 21,
+              "duration_hours": 1,
+              "score_change": "strength-score-becomes-giant-score",
+              "no_effect_at_or_above_score": 21,
+              "appearance": "transparent-liquid-with-floating-sliver-of-light-resembling-giants-fingernail"
+            }
+          }
+        },
+        {
+          "id": "srd-5.2.1:content/items/potion-of-giant-strength/variant/frost-or-stone",
+          "name": "Potion of Giant Strength (frost or stone)",
+          "rarity": "rare",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "consume",
+            "restrictions": [
+              "drink-one"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              235,
+              235
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.consume",
+            "ability.strength-score-set-by-giant-type",
+            "duration.1-hour",
+            "effect.none-at-or-above-score"
+          ],
+          "details": {
+            "giant_strength": {
+              "giants": [
+                "frost",
+                "stone"
+              ],
+              "strength_score": 23,
+              "duration_hours": 1,
+              "score_change": "strength-score-becomes-giant-score",
+              "no_effect_at_or_above_score": 23,
+              "appearance": "transparent-liquid-with-floating-sliver-of-light-resembling-giants-fingernail"
+            }
+          }
+        },
+        {
+          "id": "srd-5.2.1:content/items/potion-of-giant-strength/variant/fire",
+          "name": "Potion of Giant Strength (fire)",
+          "rarity": "rare",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "consume",
+            "restrictions": [
+              "drink-one"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              235,
+              235
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.consume",
+            "ability.strength-score-set-by-giant-type",
+            "duration.1-hour",
+            "effect.none-at-or-above-score"
+          ],
+          "details": {
+            "giant_strength": {
+              "giants": [
+                "fire"
+              ],
+              "strength_score": 25,
+              "duration_hours": 1,
+              "score_change": "strength-score-becomes-giant-score",
+              "no_effect_at_or_above_score": 25,
+              "appearance": "transparent-liquid-with-floating-sliver-of-light-resembling-giants-fingernail"
+            }
+          }
+        },
+        {
+          "id": "srd-5.2.1:content/items/potion-of-giant-strength/variant/cloud",
+          "name": "Potion of Giant Strength (cloud)",
+          "rarity": "very-rare",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "consume",
+            "restrictions": [
+              "drink-one"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              235,
+              235
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.consume",
+            "ability.strength-score-set-by-giant-type",
+            "duration.1-hour",
+            "effect.none-at-or-above-score"
+          ],
+          "details": {
+            "giant_strength": {
+              "giants": [
+                "cloud"
+              ],
+              "strength_score": 27,
+              "duration_hours": 1,
+              "score_change": "strength-score-becomes-giant-score",
+              "no_effect_at_or_above_score": 27,
+              "appearance": "transparent-liquid-with-floating-sliver-of-light-resembling-giants-fingernail"
+            }
+          }
+        },
+        {
+          "id": "srd-5.2.1:content/items/potion-of-giant-strength/variant/storm",
+          "name": "Potion of Giant Strength (storm)",
+          "rarity": "legendary",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "consume",
+            "restrictions": [
+              "drink-one"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              235,
+              235
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.consume",
+            "ability.strength-score-set-by-giant-type",
+            "duration.1-hour",
+            "effect.none-at-or-above-score"
+          ],
+          "details": {
+            "giant_strength": {
+              "giants": [
+                "storm"
+              ],
+              "strength_score": 29,
+              "duration_hours": 1,
+              "score_change": "strength-score-becomes-giant-score",
+              "no_effect_at_or_above_score": 29,
+              "appearance": "transparent-liquid-with-floating-sliver-of-light-resembling-giants-fingernail"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/potion-of-growth",
+      "name": "Potion of Growth",
+      "kind": "magic",
+      "category": "potion",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/potion-of-growth",
+          "pages": [
+            235,
+            235
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/potion-of-growth/variant/standard",
+          "name": "Potion of Growth",
+          "rarity": "uncommon",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "consume",
+            "restrictions": [
+              "drink-one"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              235,
+              235
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.consume",
+            "spell.effect-enlarge-reduce-enlarge",
+            "duration.10-minutes",
+            "spell.no-concentration"
+          ],
+          "details": {
+            "growth": {
+              "spell": "enlarge-reduce",
+              "spell_effect": "enlarge",
+              "duration_minutes": 10,
+              "concentration_required": false,
+              "appearance": "red-expands-from-tiny-bead-to-color-clear-liquid-then-contracts-shaking-fails-to-interrupt"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/potion-of-heroism",
+      "name": "Potion of Heroism",
+      "kind": "magic",
+      "category": "potion",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/potion-of-heroism",
+          "pages": [
+            236,
+            236
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/potion-of-heroism/variant/standard",
+          "name": "Potion of Heroism",
+          "rarity": "rare",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "consume",
+            "restrictions": [
+              "drink-one"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              236,
+              236
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.consume",
+            "hit-points.temporary-10",
+            "duration.1-hour",
+            "spell.effect-bless",
+            "spell.no-concentration"
+          ],
+          "details": {
+            "heroism": {
+              "temporary_hit_points": 10,
+              "duration_hours": 1,
+              "spell": "bless",
+              "spell_duration": "same-as-temporary-hit-points",
+              "concentration_required": false,
+              "appearance": "blue-liquid-bubbles-and-steams-as-if-boiling"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/potion-of-invisibility",
+      "name": "Potion of Invisibility",
+      "kind": "magic",
+      "category": "potion",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/potion-of-invisibility",
+          "pages": [
+            236,
+            236
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/potion-of-invisibility/variant/standard",
+          "name": "Potion of Invisibility",
+          "rarity": "rare",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "consume",
+            "restrictions": [
+              "drink-one"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              236,
+              236
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.consume",
+            "condition.invisible",
+            "duration.1-hour",
+            "effect.ends-early-on-attack-damage-or-spell"
+          ],
+          "details": {
+            "invisibility": {
+              "condition": "invisible",
+              "duration_hours": 1,
+              "ends_early_on": [
+                "make-attack-roll",
+                "deal-damage",
+                "cast-spell"
+              ],
+              "appearance": "container-looks-empty-but-feels-as-though-it-holds-liquid"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/potion-of-invulnerability",
+      "name": "Potion of Invulnerability",
+      "kind": "magic",
+      "category": "potion",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/potion-of-invulnerability",
+          "pages": [
+            236,
+            236
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/potion-of-invulnerability/variant/standard",
+          "name": "Potion of Invulnerability",
+          "rarity": "rare",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "consume",
+            "restrictions": [
+              "drink-one"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              236,
+              236
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.consume",
+            "defense.resistance-all-damage",
+            "duration.1-minute"
+          ],
+          "details": {
+            "invulnerability": {
+              "resistance": "all-damage",
+              "duration_minutes": 1,
+              "appearance": "syrupy-liquid-looks-like-liquefied-iron"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/potion-of-longevity",
+      "name": "Potion of Longevity",
+      "kind": "magic",
+      "category": "potion",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/potion-of-longevity",
+          "pages": [
+            236,
+            236
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/potion-of-longevity/variant/standard",
+          "name": "Potion of Longevity",
+          "rarity": "very-rare",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "consume",
+            "restrictions": [
+              "drink-one"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              236,
+              236
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.consume",
+            "age.reduce-1d6-plus-6-years",
+            "age.minimum-13-years",
+            "age.cumulative-10-percent-chance-to-age-instead"
+          ],
+          "details": {
+            "longevity": {
+              "age_reduction_years": {
+                "dice": 1,
+                "sides": 6,
+                "bonus": 6
+              },
+              "minimum_age_years": 13,
+              "aging_chance_percent": 10,
+              "aging_chance_cumulative": true,
+              "aging_chance_trigger": "each-subsequent-potion-of-longevity",
+              "aging_instead_years": {
+                "dice": 1,
+                "sides": 6,
+                "bonus": 6
+              },
+              "appearance": "amber-liquid-with-suspended-tiny-beating-heart-that-vanishes-when-opened"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/potion-of-mind-reading",
+      "name": "Potion of Mind Reading",
+      "kind": "magic",
+      "category": "potion",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/potion-of-mind-reading",
+          "pages": [
+            236,
+            236
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/potion-of-mind-reading/variant/standard",
+          "name": "Potion of Mind Reading",
+          "rarity": "rare",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "consume",
+            "restrictions": [
+              "drink-one"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              236,
+              236
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.consume",
+            "spell.effect-detect-thoughts",
+            "spell.detect-thoughts-save-dc-13",
+            "duration.10-minutes",
+            "spell.no-concentration"
+          ],
+          "details": {
+            "mind_reading": {
+              "spell": "detect-thoughts",
+              "save_dc": 13,
+              "duration_minutes": 10,
+              "concentration_required": false,
+              "appearance": "dense-purple-liquid-with-floating-ovoid-pink-cloud"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
