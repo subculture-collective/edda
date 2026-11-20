@@ -1,0 +1,1007 @@
+{
+  "schema_version": 1,
+  "decision": 276,
+  "status": "SOURCE_DRAFT_PENDING_NATIVE_PUBLICATION",
+  "observed_at": "2026-11-20T07:34:53.940062+00:00",
+  "source": {
+    "sha256": "8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87",
+    "attribution": "docs/srd-5.2.1-conformance.md",
+    "checked_source_clauses": {
+      "91": [
+        "Light Hammer",
+        "Longbow",
+        "Heavy Crossbow"
+      ],
+      "92": [
+        "Plate Armor",
+        "1,500 GP"
+      ],
+      "93": [
+        "Craft. This entry lists what, if anything, you can craft with the tool",
+        "Craft: Ink, Spell Scroll",
+        "Smith’s Tools (20 GP)"
+      ],
+      "94": [
+        "Any Melee weapon (except Club, Greatclub, Quarterstaff, and Whip), Medium armor (except Hide), Heavy armor",
+        "Ranged weapons (except Pistol, Musket, and Sling)",
+        "Craft: Antitoxin, Candle, Healer’s Kit, Potion of Healing"
+      ],
+      "95": [
+        "Spell Scroll (Cantrip) — 30 GP",
+        "Spell Scroll (Level 1) — 50 GP",
+        "Potion of Healing"
+      ],
+      "99": [
+        "Potion of Healing (50 GP)",
+        "regains 2d4 + 2 Hit Points",
+        "the spell save DC is 13, and the attack bonus is +5"
+      ],
+      "103": [
+        "Crafting Nonmagical Items",
+        "You must use the required tool to make an item and have proficiency with that tool. Anyone who helps you must also have proficiency with it.",
+        "raw materials worth half its purchase cost (round down)",
+        "The GM determines whether appropriate raw materials are available.",
+        "divide its purchase cost in GP by 10 (round a fraction up to a day)",
+        "the days needn’t be consecutive",
+        "Divide the time needed to create an item by the number of characters working on it. Normally, only one other character can assist you, but the GM might allow more assistants.",
+        "Brewing Potions of Healing",
+        "A character who has proficiency with the Herbalism Kit can create a Potion of Healing. Doing so requires using that kit and 25 GP of raw material over the course of 1 day (8 hours of work).",
+        "Scribing Spell Scrolls",
+        "For each day of inscription, you must work for 8 hours.",
+        "you must have proficiency in the Arcana skill or with Calligrapher’s Supplies and have the spell prepared on each day of the inscription",
+        "they are consumed only when you complete the scroll",
+        "The scroll’s spell uses your spell save DC and spell attack bonus.",
+        "the version on the scroll works as if the caster were your level",
+        "Spell Scroll Costs"
+      ],
+      "123": [
+        "Detect Magic"
+      ],
+      "159": [
+        "Sacred Flame Evocation Cantrip (Cleric)",
+        "Sanctuary Level 1 Abjuration (Cleric)",
+        "a shard of glass from a mirror",
+        "a diamond worth 300+ GP, which the spell consumes"
+      ],
+      "206": [
+        "Crafting Magic Items",
+        "“Equipment” contains rules on brewing Potions of Healing and scribing Spell Scrolls.",
+        "To craft a magic item, you and any assistants must have proficiency in the Arcana skill.",
+        "The value of a Spell Scroll is double what it costs to scribe the scroll"
+      ],
+      "207": [
+        "Magic Item Tools",
+        "you must have all those spells prepared every day you spend crafting the item",
+        "The time and cost are halved for a consumable item other than a Spell Scroll",
+        "In a city, there is a 75 percent chance that the materials are available, and in any other settlement, that chance is 25 percent.",
+        "you must wait at least 7 days before checking on the availability again",
+        "you must also pay that entire cost or craft that item using the rules in “Equipment.”",
+        "you must pay 3,500 GP or pay 2,000 GP and craft the armor"
+      ],
+      "210": [
+        "Armor, +1, +2, or +3",
+        "Rare (+1)"
+      ],
+      "236": [
+        "Potion of Resistance Potion, Uncommon"
+      ],
+      "244": [
+        "The level of the spell on the scroll determines the spell’s saving throw DC and attack bonus, as well as the scroll’s rarity"
+      ],
+      "251": [
+        "Wand of Magic Detection Wand, Uncommon",
+        "expend 1 charge to cast Detect Magic from it"
+      ]
+    },
+    "spell_scroll_costs": [
+      {
+        "spell_level": "Cantrip",
+        "days": 1,
+        "cost_gp": 15
+      },
+      {
+        "spell_level": "1",
+        "days": 1,
+        "cost_gp": 25
+      },
+      {
+        "spell_level": "2",
+        "days": 3,
+        "cost_gp": 100
+      },
+      {
+        "spell_level": "3",
+        "days": 5,
+        "cost_gp": 150
+      },
+      {
+        "spell_level": "4",
+        "days": 10,
+        "cost_gp": 1000
+      },
+      {
+        "spell_level": "5",
+        "days": 25,
+        "cost_gp": 1500
+      },
+      {
+        "spell_level": "6",
+        "days": 40,
+        "cost_gp": 10000
+      },
+      {
+        "spell_level": "7",
+        "days": 50,
+        "cost_gp": 12500
+      },
+      {
+        "spell_level": "8",
+        "days": 60,
+        "cost_gp": 15000
+      },
+      {
+        "spell_level": "9",
+        "days": 120,
+        "cost_gp": 50000
+      }
+    ],
+    "magic_item_crafting_time_and_cost": [
+      {
+        "rarity": "Common",
+        "days": 5,
+        "cost_gp": 50
+      },
+      {
+        "rarity": "Uncommon",
+        "days": 10,
+        "cost_gp": 200
+      },
+      {
+        "rarity": "Rare",
+        "days": 50,
+        "cost_gp": 2000
+      },
+      {
+        "rarity": "Very Rare",
+        "days": 125,
+        "cost_gp": 20000
+      },
+      {
+        "rarity": "Legendary",
+        "days": 250,
+        "cost_gp": 100000
+      }
+    ],
+    "magic_item_tools": {
+      "Armor": "Leatherworker’s Tools, Smith’s Tools, or Weaver’s Tools depending on the kind of armor as noted in the tools’ descriptions",
+      "Potion": "Alchemist’s Supplies or Herbalism Kit",
+      "Ring": "Jeweler’s Tools",
+      "Rod": "Woodcarver’s Tools",
+      "Scroll": "Calligrapher’s Supplies",
+      "Staff": "Woodcarver’s Tools",
+      "Wand": "Woodcarver’s Tools",
+      "Weapon": "Leatherworker’s Tools, Smith’s Tools, or Woodcarver’s Tools depending on the kind of weapon as noted in the tools’ descriptions",
+      "Wondrous Item": "Tinker’s Tools or the tool required to make the nonmagical item on which the magic item is based"
+    }
+  },
+  "scopes": [
+    {
+      "scope": "nonmagical crafting",
+      "PDF": [
+        91,
+        92,
+        93,
+        94,
+        103
+      ],
+      "existing_executable_owner": null,
+      "data_owners": [
+        247,
+        248,
+        249,
+        250,
+        251,
+        252,
+        253,
+        254,
+        255,
+        256,
+        257,
+        258,
+        259,
+        260,
+        261,
+        262
+      ],
+      "planned": [
+        "nonmagical-crafting",
+        "crafting-qualification"
+      ]
+    },
+    {
+      "scope": "healing potion brewing",
+      "PDF": [
+        94,
+        99,
+        103
+      ],
+      "existing_executable_owner": null,
+      "data_owners": [
+        253,
+        261
+      ],
+      "adjacent": [
+        266
+      ],
+      "planned": [
+        "potion-brewing"
+      ]
+    },
+    {
+      "scope": "spell scroll scribing",
+      "PDF": [
+        93,
+        99,
+        103,
+        159,
+        206,
+        244
+      ],
+      "existing_executable_owner": null,
+      "data_owners": [
+        217,
+        253,
+        262
+      ],
+      "adjacent": [
+        1142,
+        1770,
+        1726,
+        557
+      ],
+      "planned": [
+        "scroll-scribing"
+      ]
+    },
+    {
+      "scope": "magic item crafting",
+      "PDF": [
+        206,
+        207
+      ],
+      "existing_executable_owner": null,
+      "data_owners": [
+        225,
+        238,
+        245,
+        251,
+        253,
+        254,
+        255
+      ],
+      "adjacent": [
+        557,
+        1140
+      ],
+      "planned": [
+        "magic-item-crafting"
+      ]
+    },
+    {
+      "scope": "cross-procedure roster, routing and composition",
+      "PDF": [
+        91,
+        92,
+        93,
+        94,
+        95,
+        99,
+        103,
+        206,
+        207,
+        244
+      ],
+      "existing_executable_owner": null,
+      "planned": [
+        "crafting-qualification"
+      ]
+    }
+  ],
+  "existing_owners": {
+    "195": {
+      "number": 195,
+      "title": "Validate versioned item families and explicit variant identities",
+      "state": "CLOSED",
+      "parent": 192,
+      "blocked_by": [
+        80
+      ],
+      "blocking_count": 61,
+      "body_sha256": "554b45122c2a301ffd11b6b8b717b254f44fa54a21f0e623227613ca14464b5a"
+    },
+    "217": {
+      "number": 217,
+      "title": "Catalogue SRD spells 22: Ray of Sickness to Sanctuary",
+      "state": "OPEN",
+      "parent": 191,
+      "blocked_by": [
+        194
+      ],
+      "blocking_count": 5,
+      "body_sha256": "b3934ec1d535278b09aaebc05a1954a93b49328dab20795ba7669bb8b7880efb"
+    },
+    "225": {
+      "number": 225,
+      "title": "Catalogue SRD magic-items 01: Adamantine Armor to Armor, +1, +2, or +3",
+      "state": "OPEN",
+      "parent": 192,
+      "blocked_by": [
+        195
+      ],
+      "blocking_count": 1,
+      "body_sha256": "9ad4332f0be68acd7ca6b2d208af3c68a8cc62f2e73bc9d914ecefbe770ef21d"
+    },
+    "238": {
+      "number": 238,
+      "title": "Catalogue SRD magic-items 14: Potion of Poison to Ring of Feather Falling",
+      "state": "OPEN",
+      "parent": 192,
+      "blocked_by": [
+        195
+      ],
+      "blocking_count": 1,
+      "body_sha256": "5833431b10af6e8bc55700bb93de34525b63472fed766e179ac165ecd16c9b76"
+    },
+    "245": {
+      "number": 245,
+      "title": "Catalogue SRD magic-items 21: Wand of Enemy Detection to Wand of the War Mage, +1, +2, or +3",
+      "state": "OPEN",
+      "parent": 192,
+      "blocked_by": [
+        195
+      ],
+      "blocking_count": 1,
+      "body_sha256": "05da5684c97ecde896b0e2dd6530cfce12170e0ade13e58fc42f9585cbb3f3e2"
+    },
+    "247": {
+      "number": 247,
+      "title": "Catalogue SRD weapons 01: Battleaxe to Hand Crossbow",
+      "state": "OPEN",
+      "parent": 192,
+      "blocked_by": [
+        195
+      ],
+      "blocking_count": 13,
+      "body_sha256": "80672ba5d3c4ef15071e87279ff824548b47e1c4ea8f4b532fae1ba1a8008509"
+    },
+    "248": {
+      "number": 248,
+      "title": "Catalogue SRD weapons 02: Handaxe to Pike",
+      "state": "OPEN",
+      "parent": 192,
+      "blocked_by": [
+        195
+      ],
+      "blocking_count": 12,
+      "body_sha256": "748b9dde4f07d45fc9482492b5e19fe3ddf31dd29e6589305fa047d7c3eddbd3"
+    },
+    "249": {
+      "number": 249,
+      "title": "Catalogue SRD weapons 03: Pistol to Warhammer",
+      "state": "OPEN",
+      "parent": 192,
+      "blocked_by": [
+        195
+      ],
+      "blocking_count": 9,
+      "body_sha256": "1735bcba3d2abdb9bfc734927bb097354ace12a1ecfee831aeb9687db6c7b3d9"
+    },
+    "250": {
+      "number": 250,
+      "title": "Catalogue SRD weapons 04: Whip to Whip",
+      "state": "OPEN",
+      "parent": 192,
+      "blocked_by": [
+        195
+      ],
+      "blocking_count": 1,
+      "body_sha256": "235fd52cc186e345c7d81cdf2f29c5d539a0439f31ad7726f82dcf7eccf59a4a"
+    },
+    "251": {
+      "number": 251,
+      "title": "Catalogue SRD armor 01: Breastplate to Splint Armor",
+      "state": "OPEN",
+      "parent": 192,
+      "blocked_by": [
+        195
+      ],
+      "blocking_count": 2,
+      "body_sha256": "6ffdf7edd95812b5a870c5d57bed84d709228980d0037fa4d41d6de7b32a8366"
+    },
+    "252": {
+      "number": 252,
+      "title": "Catalogue SRD armor 02: Studded Leather Armor to Studded Leather Armor",
+      "state": "OPEN",
+      "parent": 192,
+      "blocked_by": [
+        195
+      ],
+      "blocking_count": 2,
+      "body_sha256": "41fe26211b372bf74e5f696d3251c05887ff6df621fb4dafef405ca6f4c3bd1d"
+    },
+    "253": {
+      "number": 253,
+      "title": "Catalogue SRD tools 01: Alchemist’s Supplies to Herbalism Kit",
+      "state": "OPEN",
+      "parent": 192,
+      "blocked_by": [
+        195
+      ],
+      "blocking_count": 1,
+      "body_sha256": "b1b8d9839c2911a42a159ae5e83be562a09e1ebed189435bf739f69218dac900"
+    },
+    "254": {
+      "number": 254,
+      "title": "Catalogue SRD tools 02: Jeweler’s Tools to Weaver’s Tools",
+      "state": "OPEN",
+      "parent": 192,
+      "blocked_by": [
+        195
+      ],
+      "blocking_count": 1,
+      "body_sha256": "fe8260bac384fd461c4f9f4f99befd1bb1e320dc7749831a353a0541ba55f787"
+    },
+    "255": {
+      "number": 255,
+      "title": "Catalogue SRD tools 03: Woodcarver’s Tools to Woodcarver’s Tools",
+      "state": "OPEN",
+      "parent": 192,
+      "blocked_by": [
+        195
+      ],
+      "blocking_count": 1,
+      "body_sha256": "8c2b766a859510c7c7b00243090c0004a942eddadb8dbb954cb3d9833fbbe49f"
+    },
+    "256": {
+      "number": 256,
+      "title": "Catalogue SRD adventuring-gear 01: Acid to Blanket",
+      "state": "OPEN",
+      "parent": 192,
+      "blocked_by": [
+        195
+      ],
+      "blocking_count": 1,
+      "body_sha256": "1e32b601a2cdbb86374dd76c806482fa86a9781c05463c5e072d228b5f1312dd"
+    },
+    "257": {
+      "number": 257,
+      "title": "Catalogue SRD adventuring-gear 02: Block and Tackle to Climber’s Kit",
+      "state": "OPEN",
+      "parent": 192,
+      "blocked_by": [
+        195
+      ],
+      "blocking_count": 1,
+      "body_sha256": "f6398f5af790858a09fb8be5c69a5fe997640ca002f792708a3f7856c55ce5f6"
+    },
+    "258": {
+      "number": 258,
+      "title": "Catalogue SRD adventuring-gear 03: Clothes, Fine to Grappling Hook",
+      "state": "OPEN",
+      "parent": 192,
+      "blocked_by": [
+        195
+      ],
+      "blocking_count": 1,
+      "body_sha256": "4ad20c32706cc3ae9064098c405a078827952efbf3b27c3b984603a9cdd590dd"
+    },
+    "259": {
+      "number": 259,
+      "title": "Catalogue SRD adventuring-gear 04: Healer’s Kit to Lock",
+      "state": "OPEN",
+      "parent": 192,
+      "blocked_by": [
+        195
+      ],
+      "blocking_count": 4,
+      "body_sha256": "1f9d4451a3c65a0a647762bd9b8d02a0f2da584a88956a810d591a2683c2c12e"
+    },
+    "260": {
+      "number": 260,
+      "title": "Catalogue SRD adventuring-gear 05: Magnifying Glass to Pot, Iron",
+      "state": "OPEN",
+      "parent": 192,
+      "blocked_by": [
+        195
+      ],
+      "blocking_count": 1,
+      "body_sha256": "725253f5cf40f4b86fea720402caa8cf116ff39736ae6ce763c7af24bb8a69d7"
+    },
+    "261": {
+      "number": 261,
+      "title": "Catalogue SRD adventuring-gear 06: Potion of Healing to Signal Whistle",
+      "state": "OPEN",
+      "parent": 192,
+      "blocked_by": [
+        195
+      ],
+      "blocking_count": 4,
+      "body_sha256": "8b594f815e007dc94282252b07ab61ba95e3f8cf991641642cfc3df27b7d2c59"
+    },
+    "262": {
+      "number": 262,
+      "title": "Catalogue SRD adventuring-gear 07: Spell Scroll to Waterskin",
+      "state": "OPEN",
+      "parent": 192,
+      "blocked_by": [
+        195
+      ],
+      "blocking_count": 1,
+      "body_sha256": "9ef2163417eb1218c0e5973a346eacecae1ab6d69ca3293b700d9c2e1b0cd713"
+    },
+    "266": {
+      "number": 266,
+      "title": "Administer one basic Potion of Healing to a willing ally",
+      "state": "CLOSED",
+      "parent": 192,
+      "blocked_by": [
+        79,
+        195,
+        263
+      ],
+      "blocking_count": 1,
+      "body_sha256": "a46d14f46153a9327540bbe7d21612e2a981c6ac0fa00b4d46b45902ee74a0fe"
+    },
+    "275": {
+      "number": 275,
+      "title": "Split equipment prices, services and lifestyle consequences",
+      "state": "OPEN",
+      "parent": 193,
+      "blocked_by": [
+        80
+      ],
+      "blocking_count": 1,
+      "body_sha256": "6e1f9577bbb77dbb989d27fb927af4ac7c4294baa18149704f3870740ec07456"
+    },
+    "278": {
+      "number": 278,
+      "title": "Assign every remaining equipment and magic-item key to bounded implementation PRs",
+      "state": "OPEN",
+      "parent": 192,
+      "blocked_by": [
+        80,
+        225,
+        226,
+        227,
+        228,
+        229,
+        230,
+        231,
+        232,
+        233,
+        234,
+        235,
+        236,
+        237,
+        238,
+        239,
+        240,
+        241,
+        242,
+        243,
+        244,
+        245,
+        246,
+        247,
+        248,
+        249,
+        250,
+        251,
+        252,
+        253,
+        254,
+        255,
+        256,
+        257,
+        258,
+        259,
+        260,
+        261,
+        262
+      ],
+      "blocking_count": 4,
+      "body_sha256": "b88e1f565c101b658338ecb8bc0b7da784955da7ff411bcb87bda7a2c27e565b"
+    },
+    "557": {
+      "number": 557,
+      "title": "Confirm Cleric cantrips and prepared-spell changes",
+      "state": "OPEN",
+      "parent": 551,
+      "blocked_by": [
+        428,
+        503,
+        556
+      ],
+      "blocking_count": 24,
+      "body_sha256": "4ce9d2b7119d13f7f3ea9df92fdfe1c7ad1d2014bb4afc8ef80b583a9583a450"
+    },
+    "1140": {
+      "number": 1140,
+      "title": "Rogue: magic item",
+      "state": "OPEN",
+      "parent": 1096,
+      "blocked_by": [
+        195,
+        906,
+        1097
+      ],
+      "blocking_count": 4,
+      "body_sha256": "46496ae1daa0ccf0187353cf3601fc16bdf18efc5164b229817be9edc888d39c"
+    },
+    "1142": {
+      "number": 1142,
+      "title": "Rogue: scroll item",
+      "state": "OPEN",
+      "parent": 1096,
+      "blocked_by": [
+        195,
+        1097
+      ],
+      "blocking_count": 2,
+      "body_sha256": "d2a9bf291bf511a3ab6a84a1ed3bdbe6e8409dae8f837cdf3d3c5f4abe4071af"
+    },
+    "1447": {
+      "number": 1447,
+      "title": "Resolve bounded cast components",
+      "state": "OPEN",
+      "parent": 1469,
+      "blocked_by": [
+        68,
+        273,
+        1457
+      ],
+      "blocking_count": 7,
+      "body_sha256": "3061aa1f96c328eaffff56a289c64544a62e126e8277be1049a0dca6988a19be"
+    },
+    "1726": {
+      "number": 1726,
+      "title": "Resolve bounded Ink, Ink Pen, Parchment",
+      "state": "OPEN",
+      "parent": 1747,
+      "blocked_by": [
+        1734
+      ],
+      "blocking_count": 2,
+      "body_sha256": "ea9c9cacb791226b6a5986740a9d426051931e3de7b6bab6c5b34a08e9d9e565"
+    },
+    "1770": {
+      "number": 1770,
+      "title": "Implement Wizard copy-found",
+      "state": "OPEN",
+      "parent": 2034,
+      "blocked_by": [
+        1764,
+        1767,
+        1773
+      ],
+      "blocking_count": 1,
+      "body_sha256": "dba6ce5e74f1e57a7742af7d4f49eee317447b90ad131a3140453388696aac48"
+    },
+    "1870": {
+      "number": 1870,
+      "title": "Resolve Fabricate materials",
+      "state": "OPEN",
+      "parent": 2010,
+      "blocked_by": [
+        2038,
+        2042
+      ],
+      "blocking_count": 2,
+      "body_sha256": "3481e95a5da694b19d1830cebd67170c327fce7bd6dd404b9edd8714dfa45eed"
+    },
+    "1871": {
+      "number": 1871,
+      "title": "Resolve Fabricate dimensions",
+      "state": "OPEN",
+      "parent": 2010,
+      "blocked_by": [
+        2038,
+        2042
+      ],
+      "blocking_count": 2,
+      "body_sha256": "6310a71029ead32e6ce37c4467a9721e70bfb7adafdbbc31a33f2599213d969b"
+    },
+    "1872": {
+      "number": 1872,
+      "title": "Resolve Fabricate proficiencies",
+      "state": "OPEN",
+      "parent": 2010,
+      "blocked_by": [
+        2038,
+        2042
+      ],
+      "blocking_count": 2,
+      "body_sha256": "312bc7f5d8e0e4098dfc7aff263cf95e2d2a8a19cb498768add489a7e27334ad"
+    }
+  },
+  "search": {
+    "issues_scanned": 1892,
+    "open": 1758,
+    "title_and_body_pattern": "craft|brew|scrib|herbalism|raw material|downtime|workday|Magic Item Tools|Crafting Time|Spell Scroll|Potion of Healing",
+    "executable_owners_found": []
+  },
+  "planned_tasks": [
+    {
+      "key": "nonmagical-crafting",
+      "marker": "edda-276:nonmagical-crafting",
+      "title": "Craft one nonmagical item with a required tool, raw materials and workdays",
+      "type": "Task",
+      "size": "M",
+      "parent": 276,
+      "blocked_by": [
+        195,
+        248,
+        251,
+        254,
+        255
+      ],
+      "blocked_by_planned": [],
+      "blocks": [],
+      "body_file": "docs/investigations/issue-276-nonmagical-crafting-task.md",
+      "body_sha256": "910845f6aaeea112649e9cbda1c6bf3b490465a597b49ed4267371fc461ab3c5",
+      "number": null
+    },
+    {
+      "key": "potion-brewing",
+      "marker": "edda-276:potion-brewing",
+      "title": "Brew one Potion of Healing with a Herbalism Kit",
+      "type": "Task",
+      "size": "S",
+      "parent": 276,
+      "blocked_by": [
+        195,
+        253,
+        261
+      ],
+      "blocked_by_planned": [
+        "nonmagical-crafting"
+      ],
+      "blocks": [],
+      "body_file": "docs/investigations/issue-276-potion-brewing-task.md",
+      "body_sha256": "290035558604db2797839616e6a525acb8c5bb5ed419bad4a3641af768a6abdd",
+      "number": null
+    },
+    {
+      "key": "scroll-scribing",
+      "marker": "edda-276:scroll-scribing",
+      "title": "Scribe one Spell Scroll from a prepared spell",
+      "type": "Task",
+      "size": "M",
+      "parent": 276,
+      "blocked_by": [
+        195,
+        217,
+        253,
+        262,
+        557,
+        1142
+      ],
+      "blocked_by_planned": [
+        "nonmagical-crafting"
+      ],
+      "blocks": [],
+      "body_file": "docs/investigations/issue-276-scroll-scribing-task.md",
+      "body_sha256": "02c9d376a7ede9280a078cdb72f181b7138b2afab607e7733b75b7a9d32f67b2",
+      "number": null
+    },
+    {
+      "key": "magic-item-crafting",
+      "marker": "edda-276:magic-item-crafting",
+      "title": "Craft one magic item by rarity with Arcana, a category tool and prepared spells",
+      "type": "Task",
+      "size": "M",
+      "parent": 276,
+      "blocked_by": [
+        195,
+        225,
+        238,
+        245,
+        251,
+        253,
+        254,
+        255,
+        557
+      ],
+      "blocked_by_planned": [
+        "nonmagical-crafting"
+      ],
+      "blocks": [],
+      "body_file": "docs/investigations/issue-276-magic-item-crafting-task.md",
+      "body_sha256": "47c2a000dc97b781019618701f13be3f55aac2abfb1952985d7a7bd47a402451",
+      "number": null
+    },
+    {
+      "key": "crafting-qualification",
+      "marker": "edda-276:crafting-qualification",
+      "title": "Qualify the finite crafting, brewing and scribing outputs",
+      "type": "Task",
+      "size": "M",
+      "parent": 276,
+      "blocked_by": [
+        247,
+        248,
+        249,
+        250,
+        251,
+        252,
+        253,
+        254,
+        255,
+        256,
+        257,
+        258,
+        259,
+        260,
+        261,
+        262
+      ],
+      "blocked_by_planned": [
+        "nonmagical-crafting",
+        "potion-brewing",
+        "scroll-scribing",
+        "magic-item-crafting"
+      ],
+      "blocks": [
+        280
+      ],
+      "body_file": "docs/investigations/issue-276-crafting-qualification-task.md",
+      "body_sha256": "0142e4e007365938859889b23540692281fc1544b6390e47664861be36034918",
+      "number": null
+    }
+  ],
+  "planned_native_edges": {
+    "sub_issues_of_276": [
+      "nonmagical-crafting",
+      "potion-brewing",
+      "scroll-scribing",
+      "magic-item-crafting",
+      "crafting-qualification"
+    ],
+    "blocked_by": {
+      "nonmagical-crafting": {
+        "existing": [
+          195,
+          248,
+          251,
+          254,
+          255
+        ],
+        "planned": []
+      },
+      "potion-brewing": {
+        "existing": [
+          195,
+          253,
+          261
+        ],
+        "planned": [
+          "nonmagical-crafting"
+        ]
+      },
+      "scroll-scribing": {
+        "existing": [
+          195,
+          217,
+          253,
+          262,
+          557,
+          1142
+        ],
+        "planned": [
+          "nonmagical-crafting"
+        ]
+      },
+      "magic-item-crafting": {
+        "existing": [
+          195,
+          225,
+          238,
+          245,
+          251,
+          253,
+          254,
+          255,
+          557
+        ],
+        "planned": [
+          "nonmagical-crafting"
+        ]
+      },
+      "crafting-qualification": {
+        "existing": [
+          247,
+          248,
+          249,
+          250,
+          251,
+          252,
+          253,
+          254,
+          255,
+          256,
+          257,
+          258,
+          259,
+          260,
+          261,
+          262
+        ],
+        "planned": [
+          "nonmagical-crafting",
+          "potion-brewing",
+          "scroll-scribing",
+          "magic-item-crafting"
+        ]
+      }
+    },
+    "blocks_280": [
+      "crafting-qualification"
+    ]
+  },
+  "caps_observed": {
+    "limit": 100,
+    "blocked_by_280": 96,
+    "blocked_by_280_after": 97,
+    "sub_issues_276": 0,
+    "sub_issues_276_after": 5,
+    "sub_issues_193": 30,
+    "blocked_by_279": 100,
+    "max_planned_blocked_by": 20,
+    "prerequisite_blocking_after": {
+      "195": 65,
+      "217": 6,
+      "225": 2,
+      "238": 2,
+      "245": 2,
+      "247": 14,
+      "248": 14,
+      "249": 10,
+      "250": 2,
+      "251": 5,
+      "252": 3,
+      "253": 5,
+      "254": 4,
+      "255": 4,
+      "256": 2,
+      "257": 2,
+      "258": 2,
+      "259": 5,
+      "260": 2,
+      "261": 6,
+      "262": 3,
+      "557": 26,
+      "1142": 3
+    }
+  },
+  "unknowns": [
+    "PDF103 does not state the denomination used to round half the purchase cost down.",
+    "PDF103 and PDF207 give no rounding for crafting time divided among workers, or halved for a consumable, when the result is not a whole day.",
+    "PDF103 does not say when raw materials are paid; the single debit at project start is an Edda accounting adaptation.",
+    "PDF103 requires a spell prepared for scribing while cantrips are known rather than prepared; the Cantrips clause is read as permitting a known cantrip.",
+    "PDF103 names the basic Potion of Healing only; brewing the stronger PDF236 variants is not stated.",
+    "No source rule covers refunds, abandonment, checks or failure for any of the four procedures."
+  ],
+  "findings_outside_scope": [
+    {
+      "finding": "Heavy Crossbow (PDF91; the PDF103 crafting example) is absent from the #80 weapon inventory of 37 names and from #247–#250.",
+      "owner": "item reconciliation #278 and qualification #280",
+      "action": "reported only; no catalogue child is published from #276"
+    },
+    {
+      "finding": "The Magic Item Rarities and Values table on PDF206 has no executable owner; it is not one of the four #276 scopes.",
+      "owner": "item reconciliation #278 and economy decision #275",
+      "action": "reported only"
+    }
+  ],
+  "runtime_qualified": false
+}
