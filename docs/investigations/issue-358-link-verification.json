@@ -1,0 +1,304 @@
+{
+  "schema_version": 1,
+  "decision": 358,
+  "status": "EXACT_SOURCE_PUBLICATION_PASS",
+  "observed_at": "2026-11-20T08:06:27Z",
+  "new_task_metadata": {
+    "2058": {
+      "id": "I_kwDOSicKg88AAAABg9_F4Q",
+      "databaseId": 6507447777,
+      "number": 2058,
+      "title": "Resolve Spirit Guardians cast, exclusions and once-per-turn Emanation saves",
+      "body": "<!-- edda-358:spirit-guardians-emanation-saves -->\nDecision #358; roadmap #47. One implementation PR; Task / Size M.\n\nSource: English SRD 5.2.1, PDF 5, 16, 21–22, 36, 105–106, 164–165, 177, 179, 181, 187; SHA-256 `8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87`. CC-BY-4.0 attribution and adaptation: `docs/srd-5.2.1-conformance.md`. The deterministic fixtures below are Edda adaptations.\n\n## Bounded outcome\n\nImplement only one source identity: the Spirit Guardians effect, for one isolated, explicitly entitled Cleric fixture. This task owns the creatures designated as unaffected, membership of the caster's 15-foot Emanation, the three source triggers, the once-per-turn Wisdom save and its damage. It does not own the Speed halving (#2059), Cleric casting modes, any other spell, a generic area or start-of-turn scheduler, a same-moment ordering choice, monster spellcasting or production Cleric eligibility.\n\nCast (PDF164): the fixture's explicit isolated entitlement supplies the committed cast operands: the caster, the Magic action, range Self, the spent slot level (three or higher), the bound spell save DC, the caster's alignment and the cast ID. Spend the slot and start Concentration, up to 10 minutes, through the closed slot-casting and Concentration baselines #68 and #77; starting it ends the caster's earlier Concentration through the existing owner. This task does not validate V, S or M, the prayer scroll, a Component Pouch or Spellcasting Focus in its place, the free hand, the one-slot-per-turn rule or the DC derivation (PDF105–106). Those stay with Cleric casting #556, and no production cast exists until it qualifies. A slot below level three or a caster without the entitlement is rejected. The cosmetic angelic, fey or fiendish form has no mechanical effect.\n\nDesignation (PDF164): only when the spell is cast, the caster may designate creatures as unaffected. The source states no number, sight or knowledge limit. As a labelled Edda disclosure adaptation, only creatures already known to the caster's player can be named, because a choice list must not reveal a hidden creature; a hidden creature is therefore affected. Persist the set with the cast. It cannot be extended, reduced or re-chosen later. A creature not designated at cast time is affected, including one that arrives later.\n\nMembership (PDF177, 181): the Emanation extends 15 feet from the caster and moves with the caster. Its origin is not in the area unless its creator decides otherwise. This PR does not offer that choice: including the caster stays unavailable with an explicit reason, as a labelled Edda restriction, so the caster never saves. A creature is inside when its trusted exact distance to the caster is 15 feet or less and no Total Cover blocks every straight line from the caster to it. Unknown distance, sight or cover facts keep the affected action or turn transition unavailable with an explicit reason; never guess a position.\n\nTriggers (PDF164–165): a non-designated creature makes a Wisdom saving throw against the bound spell save DC whenever (1) the caster's movement brings the Emanation onto the creature, (2) the creature enters the Emanation, or (3) the creature ends its own turn inside it. Nothing else triggers the save: not the cast itself for a creature already inside, not the start of any turn, not the caster's turn end, and not staying inside during another creature's turn. On a failed save the creature takes 3d8 damage; on a success, half as much, rounded down (PDF5, 16). Each slot level above three adds 1d8. When one movement step forces two or more creatures to save at the same time, roll the damage once for all of them (PDF16).\n\nDamage type (PDF21–22, 165): Radiant when the caster is good or neutral, Necrotic when the caster is evil. The source states no type for an unaligned caster, so an unaligned or unknown alignment keeps the cast unavailable. No published issue owns a player character's alignment fact. The fixture supplies it explicitly, and a production cast stays unavailable until such an owner exists.\n\nOnce per turn (PDF165): a creature makes this save at most once per turn. Bind the save to the cast ID, the creature ID and the identity of the turn in progress (round, turn owner and turn sequence), not to a round or to wall time. The same creature may save again on a later turn in the same round.\n\nTiming identity: every trigger is a consequence of a committed movement or end-turn action. Preview of that action lists the saves it will force without rolling. Confirm commits the movement or turn end, the membership revision, the save, the damage and the dedup record together. No optional activation is invented for the caster, and no background tick runs between actions.\n\nSimultaneous events (PDF187): when another effect would resolve at the same moment for the same creature, the person whose turn it is decides the order. This PR builds no ordering choice and no scheduler. A movement or turn end that would resolve this save together with another same-moment effect on that creature stays unavailable with an explicit reason until an ordering owner exists. Never default an order.\n\nOverlap (PDF106): the effects of the same spell cast more than once do not combine, and the most potent or most recent cast applies. This PR supports one active Spirit Guardians in an encounter. A second concurrent cast in the same encounter stays unavailable with an explicit reason; general potency ordering remains with residual reconciliation #277.\n\nEnding (PDF179): the Emanation, membership records and pending triggers end with the caster's Concentration through #353 (a failed Constitution save after damage, Incapacitated, death, a new Concentration effect, voluntary end) or at ten minutes. Ending never refunds the slot and never reverses committed damage.\n\n## Deterministic fixtures\n\n- Level-five Cleric entitlement (PDF36: proficiency bonus +3, a level-three slot), WIS +3, good alignment, bound DC 14 (8 + 3 + 3), injected 3d8 = 4, 5, 6: a failed save takes 15 Radiant and a successful save takes 7. An evil caster deals Necrotic.\n- Level-seven Cleric entitlement (PDF36: proficiency bonus +3, a level-four slot), bound DC 14, injected 4d8 = 4, 5, 6, 3: a failed save takes 18 and a successful save takes 9. The level-five entitlement cannot spend a level-four slot.\n- A level-two slot, a caster without the explicit entitlement and a client-supplied DC, damage type or dice are rejected without mutation. An unaligned or unknown alignment is unavailable with its reason.\n- Caster moves from 20 feet to 15 feet of an opponent on the caster's turn: one save on that turn. Stepping away and back on the same turn forces no second save. On the opponent's own turn it stays and ends its turn inside: a second save, on a different turn.\n- An opponent 20 feet away moves to 15 feet on its own turn and ends its turn inside: exactly one save, at entry, and none at turn end. An opponent that starts its turn inside and never leaves saves only at its turn end, not at its turn start.\n- An opponent already at 10 feet when the spell is cast does not save at the cast. At exactly 15 feet a creature is inside; at 20 feet it is outside. Total Cover from the caster keeps a creature within 15 feet outside the area.\n- A creature designated at the cast never saves and takes no damage at any trigger. A request to designate a creature after the cast or to trigger a save at the start of a turn is rejected. A request to name a hidden creature is rejected without revealing it. A request to include the caster in the area is unavailable with the labelled-restriction reason.\n- Two non-designated creatures brought inside by one caster step share one damage roll and make separate saves. Each has its own dedup record.\n- A second Spirit Guardians cast while one is active in the same encounter is unavailable without mutation.\n- Concentration ending between two triggers leaves the committed first result intact and forces no further save. Reload between any two steps restores the cast, designation, membership, dedup records and remaining duration exactly.\n\n## Durable implementation acceptance\n\nPreview is inert: no dice, no writes and no private facts. Confirm locks and revalidates campaign, caster, every affected creature, entitlement, slot, alignment, effect revision, spatial revision, clock and turn cursor. Commit cost, cast, designation, movement or turn end, membership, saves, damage, Concentration consequences for damaged creatures, dedup records and public history in one transaction. Inject a failure after each stage, including the history write, and prove full isolated PostgreSQL rollback. The same action ID and payload after retry, reload or reconnect returns the committed receipt with no extra roll, charge or save; a conflicting payload rejects; racing confirmations commit once. Reject foreign campaign or actor IDs, hidden creatures, forged costs, forged distances and forged turn identities. Public receipts omit private NPC HP, save modifiers the player has not learned, hidden creatures, unobserved spells and tactics. Preserve unrelated JSON and legacy reads. Web and trusted TUI share availability, disabled reasons and confirmation, cancel and reconnect behavior; changed web requires focused build, lint and desktop and phone checks.\n\nEntries in this PR come only from the existing five-foot movement of the caster or of the creature. Forced movement and teleportation stay unavailable as entry sources until their own owners emit trusted position changes; do not infer them. Fixtures with more creatures than the current encounter supports run in the rules layer and in isolated handler state; player availability covers only the actors the encounter can represent.\n\nThe fixtures demonstrate their level-five and level-seven Cleric entitlements explicitly. Imported spell data, catalogue #220, closing #323 or closing #358 grant nothing. Production discovery stays unavailable until the existing Cleric owners supply list membership (#503), Wisdom, component and Holy Symbol casting (#556), preparation (#557), slots (#558) and the level transitions through #597.\n\nHard prerequisites: #220 Spirit Guardians source record, #353 Concentration ending events. Consumed closed baselines without new native edges: #61 saves, #64 confirmation, #66 turn identity and action economy, #67 trusted distance, sight and cover facts, #68 slot casting, #77 Concentration and duration, #351 independent cast identities. Parent: #193. This task is a hard prerequisite of #2059, the terminal. The terminal blocks item qualification #280 directly and blocks residual reconciliation #277, which already blocks spell qualification #279. #279 holds 100 native blockers, the platform maximum; do not add or remove a #279 edge in this PR.\n\nValidation for the implementation PR: focused deterministic rules tests; isolated PostgreSQL rollback, concurrency, replay and reload tests with `-tags=integration`; shared web and TUI confirmation and disclosure fixtures; `GOMAXPROCS=2 go test -p 2 -short -race ./...` and `GOMAXPROCS=2 go vet -p 2 ./...`. Short tests alone do not qualify PostgreSQL or devices. No deployment, source inference or Full Rules promotion.\n",
+      "state": "OPEN",
+      "issueType": {
+        "name": "Task"
+      },
+      "parent": {
+        "number": 193
+      },
+      "blockedBy": {
+        "pageInfo": {
+          "hasNextPage": false
+        },
+        "nodes": [
+          {
+            "number": 353
+          },
+          {
+            "number": 220
+          }
+        ]
+      },
+      "blocking": {
+        "pageInfo": {
+          "hasNextPage": false
+        },
+        "nodes": [
+          {
+            "number": 2059
+          }
+        ]
+      },
+      "projectItems": {
+        "pageInfo": {
+          "hasNextPage": false
+        },
+        "nodes": [
+          {
+            "id": "PVTI_lADODjtmGM4BrFJ2zhKaOEo",
+            "project": {
+              "id": "PVT_kwDODjtmGM4BrFJ2",
+              "title": "edda"
+            },
+            "fieldValueByName": {
+              "name": "M"
+            }
+          }
+        ]
+      }
+    },
+    "2059": {
+      "id": "I_kwDOSicKg88AAAABg9_Guw",
+      "databaseId": 6507447995,
+      "number": 2059,
+      "title": "Halve Speed inside the Spirit Guardians Emanation",
+      "body": "<!-- edda-358:spirit-guardians-speed -->\nDecision #358; roadmap #47. One implementation PR; Task / Size M.\n\nSource: English SRD 5.2.1, PDF 5, 106, 164, 181, 188; SHA-256 `8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87`. CC-BY-4.0 attribution and adaptation: `docs/srd-5.2.1-conformance.md`. The deterministic fixtures below are Edda adaptations.\n\n## Bounded outcome\n\nImplement only one clause of Spirit Guardians (PDF164): the Speed of every creature that the caster did not designate is halved while that creature is in the Emanation. Reuse the committed cast, designation set and membership revision of #2058; do not copy its cast, triggers, saves or damage. No other Speed modifier, Difficult Terrain rule, condition, spell or movement mode is added.\n\nProjection: while a non-designated creature is inside the active Emanation, its Speed is half its otherwise authoritative Speed, rounded down (PDF5). Every special speed it has is halved for the same time (PDF188). The halving is one source-bound modifier tied to the cast ID. It ends the moment the creature is outside, the caster's Concentration ends or the duration expires, and it never changes the stored base Speed. The effects of the same spell cast more than once do not combine (PDF106), so the halving never applies twice; #2058 admits only one active cast per encounter. The caster and every designated creature keep their Speed.\n\nMovement budget: the source states no accounting for a Speed that changes during a move. As a labelled Edda adaptation of the PDF188 switching rule, each five-foot step is checked against the Speed in force in the space the creature is leaving, minus the distance it has already moved this turn. A five-foot step needs at least 5 feet of that result; with less, including zero or a negative result, the creature cannot take the step, and the receipt shows the feet left. Report this adaptation in the receipt's source derivation. Do not present it as source text.\n\nDash and other consumers read the projected Speed from their own owners; this task changes none of them. Unknown base Speed, membership or designation facts keep the movement unavailable with an explicit reason.\n\n## Deterministic fixtures\n\n- A non-designated creature with Speed 30 that starts its turn inside has Speed 15. With Speed 30 and a Fly Speed 40 it has 15 and 20.\n- With Speed 25 it has 12 inside. Staying inside, it takes two steps (10 feet); the third is rejected with 2 feet left.\n- A designated creature and the caster keep Speed 30 inside the area.\n- Starting 25 feet from the caster with Speed 30, a creature moves two steps to 15 feet. The second step is paid at Speed 30 and triggers the entry save owned by #2058. Inside, 15 − 10 leaves 5 feet. A creature that has already moved 20 feet when it enters has 15 − 20, so it cannot move again that turn.\n- A creature that starts inside with Speed 30 and steps from 15 feet to 20 feet pays that step at Speed 15. Outside, 30 − 5 leaves 25 feet.\n- When the caster's Concentration ends during the creature's turn, the next step uses Speed 30 minus the distance already moved.\n- Reject a client-supplied Speed, a halving for a designated creature, a halving after the effect ended, a second halving and any change to the stored base Speed. Reload mid-turn restores the same projected Speed and distance moved.\n\n## Durable implementation acceptance\n\nPreview is inert and shows the projected Speed and remaining movement without writing. Confirm of each movement revalidates campaign, actor, cast ID, designation, membership revision, base Speed, distance moved, clock and turn cursor, then commits the step, the membership change and public history in one transaction. Inject a history-write failure and prove full isolated PostgreSQL rollback. The same action ID and payload after retry, reload or reconnect returns the committed receipt; a conflicting payload rejects; racing confirmations commit once. Reject foreign campaign or actor IDs, hidden creatures, forged distances and forged turn identities. Public receipts omit hidden creatures, private NPC HP and facts, unobserved spells and tactics. Preserve unrelated JSON and legacy reads. Web and trusted TUI share availability, disabled reasons and confirmation, cancel and reconnect behavior; changed web requires focused build, lint and desktop and phone checks.\n\nHard prerequisite: #2058, which supplies the cast, designation and membership and already requires #220 and #353. Consumed closed baselines without new native edges: #58 sheet projection, #64 confirmation, #66 movement budget and turn identity, #67 trusted distance. Parent: #193. This terminal carries #2058 to both gates. It blocks item qualification #280 directly. Spell qualification #279 holds 100 native blockers, the platform maximum, so this terminal blocks residual reconciliation #277, which already blocks #279. Do not add or remove a #279 edge in this PR.\n\nValidation for the implementation PR: focused deterministic rules tests; isolated PostgreSQL rollback, concurrency, replay and reload tests with `-tags=integration`; shared web and TUI movement fixtures; `GOMAXPROCS=2 go test -p 2 -short -race ./...` and `GOMAXPROCS=2 go vet -p 2 ./...`. Short tests alone do not qualify PostgreSQL or devices. The fixture uses explicit isolated entitlement and grants no production eligibility. No deployment, source inference or Full Rules promotion.\n",
+      "state": "OPEN",
+      "issueType": {
+        "name": "Task"
+      },
+      "parent": {
+        "number": 193
+      },
+      "blockedBy": {
+        "pageInfo": {
+          "hasNextPage": false
+        },
+        "nodes": [
+          {
+            "number": 2058
+          }
+        ]
+      },
+      "blocking": {
+        "pageInfo": {
+          "hasNextPage": false
+        },
+        "nodes": [
+          {
+            "number": 277
+          },
+          {
+            "number": 280
+          }
+        ]
+      },
+      "projectItems": {
+        "pageInfo": {
+          "hasNextPage": false
+        },
+        "nodes": [
+          {
+            "id": "PVTI_lADODjtmGM4BrFJ2zhKaOFc",
+            "project": {
+              "id": "PVT_kwDODjtmGM4BrFJ2",
+              "title": "edda"
+            },
+            "fieldValueByName": {
+              "name": "M"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "body_matches_task_file": {
+    "2058": {
+      "task_file": "docs/investigations/issue-358-spirit-guardians-saves-task.md",
+      "sha256": "e3d83ab01b13e7002beaa146443e543a9aa32f3f86505b9f858753e1c491d553",
+      "exact": true
+    },
+    "2059": {
+      "task_file": "docs/investigations/issue-358-spirit-guardians-speed-task.md",
+      "sha256": "71669b0f7c6605c63cd649dbcfa3ab2b0a035a953c571586f6c237b95863b45e",
+      "exact": true
+    }
+  },
+  "edges_added": [
+    "#2058 parent #193",
+    "#2059 parent #193",
+    "#2058 blocked-by #220",
+    "#2058 blocked-by #353",
+    "#2059 blocked-by #2058",
+    "#280 blocked-by #2059",
+    "#277 blocked-by #2059"
+  ],
+  "edges_removed": [],
+  "gate_paths": {
+    "279": {
+      "2059": [
+        279,
+        277,
+        2059
+      ],
+      "2058": [
+        279,
+        277,
+        2059,
+        2058
+      ]
+    },
+    "280": {
+      "2059": [
+        280,
+        2059
+      ],
+      "2058": [
+        280,
+        2059,
+        2058
+      ]
+    },
+    "337": {
+      "2059": [
+        337,
+        399,
+        277,
+        2059
+      ],
+      "2058": [
+        337,
+        399,
+        277,
+        2059,
+        2058
+      ]
+    }
+  },
+  "caps": {
+    "limit": 100,
+    "nodes": 1894,
+    "dependency_edges": 10206,
+    "parent_edges": 1890,
+    "max_incoming": 100,
+    "max_outgoing": 100,
+    "max_children": 95,
+    "incoming279": 100,
+    "incoming280": 97,
+    "incoming277": 31,
+    "children193": 32,
+    "outgoing220": 4,
+    "outgoing353": 77,
+    "outgoing67": 100,
+    "before": {
+      "observed_at": "2026-11-20T08:03:49Z",
+      "nodes": 1892,
+      "dependency_edges": 10201,
+      "parent_edges": 1888,
+      "incoming279": 100,
+      "incoming280": 96,
+      "incoming277": 30,
+      "children193": 30,
+      "outgoing220": 3,
+      "outgoing353": 76,
+      "outgoing67": 100
+    }
+  },
+  "graph": {
+    "dependency_acyclic": true,
+    "parent_acyclic": true,
+    "issues_paged": 1894,
+    "blocking_and_sub_issue_counts_match_edge_lists": true
+  },
+  "all_1892_prior_issues_unchanged_except_one_added_blocker_on_277_and_280": true,
+  "spike": {
+    "number": 358,
+    "state": "OPEN",
+    "blocked_by": [],
+    "parent": 193,
+    "still_blocks_count": 2,
+    "note": "#358's own existing edges, including its #279 slot, are unchanged; the terminal is not a prerequisite or dependent of #358."
+  },
+  "gate_279_note": "#279 holds 100 native blockers. No #279 edge was added or removed. The native path is #279 -> #277 -> #2059 -> #2058, so #277 cannot close before #2059.",
+  "reused_owners_unchanged": {
+    "912": {
+      "title": "Resolve Heroism heroism",
+      "state": "OPEN",
+      "body_sha256": "d4702c1675cad871986496bb43777f7fba4760aba26069026a0c10fe263657f4",
+      "parent": 848
+    },
+    "848": {
+      "title": "Qualify finite Paladin spell cohort 1",
+      "state": "OPEN",
+      "body_sha256": "6ab614ea1e843e8a36e898465cd239a1af85e5ccb486baf24a2fce0d271204cd",
+      "parent": 277
+    },
+    "353": {
+      "title": "End the exact concentration cast on resolved damage and incapacitation events",
+      "state": "OPEN",
+      "body_sha256": "7ef0d64efbb02de3ead64a18f38123fe77ebc619c2589b5aaba7d15699bceb4a",
+      "parent": 193
+    },
+    "220": {
+      "title": "Catalogue SRD spells 25: Speak with Dead to Suggestion",
+      "state": "OPEN",
+      "body_sha256": "87dc993336597e27dbc8eff5f48cfebc7d83d68c47116bba1be8852f58560f46",
+      "parent": 191
+    },
+    "209": {
+      "title": "Catalogue SRD spells 14: Hallucinatory Terrain to Hold Monster",
+      "state": "OPEN",
+      "body_sha256": "8aea722f6794f937a0b04a2c725484c1d2b80019b4f9764bf9ff9e1d955e1f14",
+      "parent": 191
+    },
+    "503": {
+      "title": "Validate Bard Cleric Druid and Wizard spell-list membership",
+      "state": "OPEN",
+      "body_sha256": "4cddacfa9c6e0dea7d0b5867f262eb52fa9f4073a97a37156cd071f94d7703f2",
+      "parent": 191
+    },
+    "556": {
+      "title": "Route Cleric Wisdom and Holy Symbol casts through authoritative receipts",
+      "state": "OPEN",
+      "body_sha256": "f791ffb7790591c4fc401ee073c69cfa33473ded404debaa7165e4dee137d638",
+      "parent": 551
+    },
+    "272": {
+      "title": "Split interrupted rest, recovery and recharge exceptions",
+      "state": "OPEN",
+      "body_sha256": "cb33113ffa00ae6fc9c094f868a0096d1d252b3ffc8dc3fc1aae7f7c23045594",
+      "parent": 193
+    },
+    "277": {
+      "title": "Assign every remaining spell mechanic key to bounded implementation PRs",
+      "state": "OPEN",
+      "body_sha256": "361146df6f5488415129a6ba04acfd9d0b4730da3c39d8bc99767f79d0669a30",
+      "parent": 191
+    },
+    "170": {
+      "title": "Catalogue SRD stat blocks 20: Polar Bear to Red Dragon Wyrmling",
+      "state": "OPEN",
+      "body_sha256": "5ac06699b2e81828bff9f645adf986c7dd608562edba3118cf9735cfd0b64535",
+      "parent": 54
+    },
+    "182": {
+      "title": "Split unimplemented monster mechanic keys into exact fixture PRs",
+      "state": "OPEN",
+      "body_sha256": "69af93107731b8418a429951ab118d37bab27bb48b82303f949983a717ef8ab0",
+      "parent": 54
+    },
+    "488": {
+      "title": "Resolve shared Charmed Frightened and Prone condition consumers",
+      "state": "OPEN",
+      "body_sha256": "009a793cf71efa8420190edabdc41aa7790b575e095698ec8710f9a978ca16c5",
+      "parent": 270
+    }
+  },
+  "runtime_qualified": false,
+  "not_run": [
+    "full Go test suite",
+    "PostgreSQL integration tests",
+    "web or TUI checks"
+  ]
+}

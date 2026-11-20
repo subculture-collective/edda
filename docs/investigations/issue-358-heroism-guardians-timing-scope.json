@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "decision": 358,
-  "status": "SOURCE_PASS_NATIVE_PUBLICATION_PENDING",
+  "status": "SOURCE_PASS_NATIVE_PUBLICATION_VERIFIED",
   "observed_at": "2026-11-20T07:48:54Z",
   "observed_issue_count": 1892,
   "source": {
@@ -291,7 +291,7 @@
     },
     "effect.area.entry-or-target-end.once-per-turn": {
       "status": "planning identifier, unregistered",
-      "owner": "spirit-guardians-saves"
+      "owner": 2058
     }
   },
   "existing_owners": {
@@ -1096,7 +1096,7 @@
     {
       "key": "spirit-guardians-saves",
       "placeholder": "{{ISSUE_SG_SAVES}}",
-      "number": null,
+      "number": 2058,
       "title": "Resolve Spirit Guardians cast, exclusions and once-per-turn Emanation saves",
       "type": "Task",
       "size": "M",
@@ -1106,65 +1106,32 @@
         353
       ],
       "blocks": [
-        "spirit-guardians-speed"
+        2059
       ],
       "task_file": "docs/investigations/issue-358-spirit-guardians-saves-task.md",
-      "template_body_sha256": "b23c441fa0b9b7b834beac8f8a356b464f7ad93038e524adcaa528d862d31149"
+      "template_body_sha256": "b23c441fa0b9b7b834beac8f8a356b464f7ad93038e524adcaa528d862d31149",
+      "published_body_sha256": "e3d83ab01b13e7002beaa146443e543a9aa32f3f86505b9f858753e1c491d553"
     },
     {
       "key": "spirit-guardians-speed",
       "placeholder": "{{ISSUE_SG_SPEED}}",
-      "number": null,
+      "number": 2059,
       "title": "Halve Speed inside the Spirit Guardians Emanation",
       "type": "Task",
       "size": "M",
       "parent": 193,
       "blocked_by": [
-        "spirit-guardians-saves"
+        2058
       ],
       "blocks": [
         280,
         277
       ],
       "task_file": "docs/investigations/issue-358-spirit-guardians-speed-task.md",
-      "template_body_sha256": "853834e9fd98e0ac1e0bbb5fed9e6a67c1df8517a39f0b2da6fcfee669cd3ec9"
+      "template_body_sha256": "853834e9fd98e0ac1e0bbb5fed9e6a67c1df8517a39f0b2da6fcfee669cd3ec9",
+      "published_body_sha256": "71669b0f7c6605c63cd649dbcfa3ab2b0a035a953c571586f6c237b95863b45e"
     }
   ],
-  "planned_native_edges": {
-    "sub_issue": [
-      [
-        193,
-        "spirit-guardians-saves"
-      ],
-      [
-        193,
-        "spirit-guardians-speed"
-      ]
-    ],
-    "blocked_by": [
-      [
-        "spirit-guardians-saves",
-        220
-      ],
-      [
-        "spirit-guardians-saves",
-        353
-      ],
-      [
-        "spirit-guardians-speed",
-        "spirit-guardians-saves"
-      ],
-      [
-        280,
-        "spirit-guardians-speed"
-      ],
-      [
-        277,
-        "spirit-guardians-speed"
-      ]
-    ],
-    "unchanged": "No existing body, parent or edge changes other than one added blocker on #280, one added blocker on #277 and two sub-issues of #193. No edge is removed."
-  },
   "caps": {
     "limit": 100,
     "279": {
@@ -1220,7 +1187,60 @@
       "277_blocked_by": 31,
       "279_blocked_by": 100
     },
-    "279_note": "#279 holds 100 native blockers, the platform maximum, so no direct edge can be added. A #280-only path is insufficient because #279 blocks #280 and not the reverse. No finite aggregate covers this spell: #1477 is fixed to the 245-identity Sorcerer/Warlock/Wizard union and #848-#850/#973/#1096 are finite class rosters. The terminal therefore blocks #277, an existing open direct blocker of #279 that must wire every remaining spell key to the spell gate: #279 -> #277 -> terminal -> saves. #277 cannot close before the terminal qualifies."
+    "279_note": "#279 holds 100 native blockers, the platform maximum, so no direct edge can be added. A #280-only path is insufficient because #279 blocks #280 and not the reverse. No finite aggregate covers this spell: #1477 is fixed to the 245-identity Sorcerer/Warlock/Wizard union and #848-#850/#973/#1096 are finite class rosters. The terminal therefore blocks #277, an existing open direct blocker of #279 that must wire every remaining spell key to the spell gate: #279 -> #277 -> terminal -> saves. #277 cannot close before the terminal qualifies.",
+    "readback": {
+      "279": {
+        "blocked_by": 100,
+        "blocking": 11,
+        "sub_issues": 0
+      },
+      "280": {
+        "blocked_by": 97,
+        "blocking": 3,
+        "sub_issues": 0
+      },
+      "277": {
+        "blocked_by": 31,
+        "blocking": 3,
+        "sub_issues": 31
+      },
+      "193": {
+        "blocked_by": 0,
+        "blocking": 0,
+        "sub_issues": 32
+      },
+      "220": {
+        "blocked_by": 1,
+        "blocking": 4,
+        "sub_issues": 0
+      },
+      "353": {
+        "blocked_by": 1,
+        "blocking": 77,
+        "sub_issues": 0
+      },
+      "67": {
+        "blocked_by": 1,
+        "blocking": 100,
+        "sub_issues": 0
+      },
+      "358": {
+        "blocked_by": 0,
+        "blocking": 2,
+        "sub_issues": 0
+      },
+      "2058": {
+        "blocked_by": 2,
+        "blocking": 1,
+        "sub_issues": 0
+      },
+      "2059": {
+        "blocked_by": 1,
+        "blocking": 2,
+        "sub_issues": 0
+      }
+    },
+    "drafting_note": "Top-level per-issue counts and after_publication are the drafting read of 2026-11-20T07:48:54Z and its forecast; readback holds the counts read after publication, which match the forecast."
   },
   "gate_path_279": {
     "chosen": "terminal blocks #277 (additive; #277 already blocks #279)",
@@ -1255,10 +1275,55 @@
   ],
   "runtime_qualified": false,
   "graph_checks": {
-    "dependency_dag_with_planned_edges": "PASS",
+    "dependency_dag": "PASS",
     "parent_hierarchy": "PASS",
     "gate_279_reaches_both_tasks": "PASS",
     "gate_280_reaches_both_tasks": "PASS",
-    "issues_checked": 1892
+    "issues_checked": 1894,
+    "dependency_edges": 10206,
+    "parent_edges": 1890,
+    "observed_at": "2026-11-20T08:06:27Z"
+  },
+  "published_native_edges": {
+    "sub_issue": [
+      [
+        193,
+        2058
+      ],
+      [
+        193,
+        2059
+      ]
+    ],
+    "blocked_by": [
+      [
+        2058,
+        220
+      ],
+      [
+        2058,
+        353
+      ],
+      [
+        2059,
+        2058
+      ],
+      [
+        280,
+        2059
+      ],
+      [
+        277,
+        2059
+      ]
+    ],
+    "unchanged": "No existing body, parent or edge changes other than one added blocker on #280, one added blocker on #277 and two sub-issues of #193. No edge is removed."
+  },
+  "publication": {
+    "preflight_observed_at": "2026-11-20T08:03:49Z",
+    "readback_observed_at": "2026-11-20T08:06:27Z",
+    "issue_count_before": 1892,
+    "issue_count_after": 1894,
+    "receipt": "docs/investigations/issue-358-link-verification.json"
   }
 }
