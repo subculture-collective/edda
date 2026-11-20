@@ -1,0 +1,1710 @@
+{
+  "schema_version": 1,
+  "decision": 270,
+  "status": "EXACT_SOURCE_PUBLICATION_PASS",
+  "observed_at": "2026-11-20T07:50:23Z",
+  "observed_head": "7b14aba4f4a3f69c138354ed9d2bc3484fa7b84c",
+  "observed_issue_count": 1892,
+  "decision_prerequisites": [
+    {
+      "number": 80,
+      "state": "CLOSED"
+    }
+  ],
+  "source": {
+    "sha256": "8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87",
+    "attribution": "docs/srd-5.2.1-conformance.md",
+    "named_pages": [
+      176,
+      191
+    ],
+    "checked_source_clauses": {
+      "6": [
+        "they come in three kinds: ability checks, saving throws, and attack rolls"
+      ],
+      "7": [
+        "the attack hits regardless of any modifiers or the target’s AC"
+      ],
+      "13": [
+        "they make a Dexterity check that determines their place in the Initiative order"
+      ],
+      "14": [
+        "you can give yourself the Prone condition",
+        "without using an action or any of your Speed, but you can’t do so if your Speed is 0",
+        "Every foot of movement in Difficult Terrain costs 1 extra foot",
+        "If you somehow end a turn in a space with another creature, you have the Prone condition"
+      ],
+      "16": [
+        "you must succeed on a DC 10 Dexterity saving throw or fall off, landing with the Prone condition",
+        "you must make the same save if you’re knocked Prone or the mount is"
+      ],
+      "17": [
+        "Unlike other saving throws, this one isn’t tied to an ability score",
+        "If the roll is 10 or higher, you succeed"
+      ],
+      "18": [
+        "When you roll a 1 on the d20 for a Death Saving Throw, you suffer two failures",
+        "If you roll a 20 on the d20, you regain 1 Hit Point"
+      ],
+      "178": [
+        "As an action, you can extinguish fire on yourself by giving yourself the Prone condition and rolling on the ground"
+      ],
+      "179": [
+        "A condition doesn’t stack with itself",
+        "The Exhaustion condition is an exception to that rule",
+        "each foot of movement costs 1 extra foot (2 extra feet in Difficult Terrain)"
+      ],
+      "180": [
+        "If the creature died with any Exhaustion levels, it returns with 1 fewer level",
+        "If something in the game affects D20 Tests, it affects all three of these rolls"
+      ],
+      "181": [
+        "Each time you receive it, you gain 1 Exhaustion level",
+        "You die if your Exhaustion level is 6",
+        "the roll is reduced by 2 times your Exhaustion level",
+        "Your Speed is reduced by a number of feet equal to 5 times your Exhaustion level",
+        "Finishing a Long Rest removes 1 of your Exhaustion levels",
+        "When your Exhaustion level reaches 0, the condition ends",
+        "Exhaustion caused by dehydration can’t be removed until the creature drinks the full amount of water required for a day",
+        "every foot of movement in that space costs 1 extra foot"
+      ],
+      "182": [
+        "Your Speed is 0 and can’t increase",
+        "You have Disadvantage on attack rolls against any target other than the grappler",
+        "every foot of movement costs it 1 extra foot unless you are Tiny or two or more sizes smaller than it",
+        "One Grapple per Hand",
+        "ending the condition on itself on a success",
+        "The condition also ends if the grappler has the Incapacitated condition",
+        "the grappler can release the target at any time (no action required)",
+        "While flying, you fall if you have the Incapacitated or Prone condition or your Fly Speed is reduced to 0",
+        "You can stay aloft in those circumstances if you can hover",
+        "When the creature lands, it has the Prone condition unless it avoids taking any damage from the fall"
+      ],
+      "183": [
+        "If you have Immunity to a damage type or a condition, it doesn’t affect you in any way",
+        "Hovering while flying prevents you from falling in certain circumstances"
+      ],
+      "184": [
+        "You can’t take any action, Bonus Action, or Reaction"
+      ],
+      "185": [
+        "If you have the Exhaustion condition, its level decreases by 1",
+        "If you land in Difficult Terrain, you must succeed on a DC 10 Dexterity (Acrobatics) check or have the Prone condition",
+        "Exhaustion caused by malnutrition can’t be removed until the creature eats the full amount of food required for a day"
+      ],
+      "186": [
+        "You have Disadvantage on attack rolls and ability checks",
+        "Your weight increases by a factor of ten, and you cease aging",
+        "You have Resistance to all damage",
+        "You have Immunity to the Poisoned condition",
+        "spend an amount of movement equal to half your Speed (round down) to right yourself and thereby end the condition",
+        "If your Speed is 0, you can’t right yourself",
+        "An attack roll against you has Advantage if the attacker is within 5 feet of you",
+        "Otherwise, that attack roll has Disadvantage"
+      ],
+      "187": [
+        "Attack rolls against you have Advantage, and your attack rolls have Disadvantage",
+        "You have Disadvantage on Dexterity saving throws"
+      ],
+      "188": [
+        "any special speed you have increases or decreases by an equal amount for the same duration",
+        "if your Speed is reduced to 0 and you have a Climb Speed, your Climb Speed is also reduced to 0",
+        "Whenever you switch, subtract the distance already moved from the new speed"
+      ],
+      "189": [
+        "it gains 1 Exhaustion level at the end of each of its turns",
+        "it removes all levels of Exhaustion it gained from suffocating"
+      ],
+      "190": [
+        "The target must succeed on a Strength or Dexterity saving throw (it chooses which), or it has the Grappled condition",
+        "you either push it 5 feet away or cause it to have the Prone condition"
+      ],
+      "194": [
+        "The creature gains 1 Exhaustion level, which lasts until the contagion ends on the creature"
+      ],
+      "236": [
+        "it removes any Exhaustion levels you have"
+      ]
+    }
+  },
+  "scopes": [
+    {
+      "scope": "Grappled condition, grappling rules and endings",
+      "PDF": [
+        182
+      ],
+      "owners": [
+        778
+      ],
+      "residual": null
+    },
+    {
+      "scope": "Unarmed Strike Grapple and Shove initiation",
+      "PDF": [
+        190
+      ],
+      "owners": [
+        779
+      ],
+      "residual": null
+    },
+    {
+      "scope": "Restrained projection",
+      "PDF": [
+        187
+      ],
+      "owners": [
+        727
+      ],
+      "residual": null
+    },
+    {
+      "scope": "Poisoned projection and trusted endings",
+      "PDF": [
+        186
+      ],
+      "owners": [
+        727,
+        504,
+        616
+      ],
+      "residual": null
+    },
+    {
+      "scope": "Petrified projection and ending",
+      "PDF": [
+        186
+      ],
+      "owners": [
+        1444,
+        624
+      ],
+      "residual": null
+    },
+    {
+      "scope": "Prone instance, attack consequences and the two movement options as #488 names them",
+      "PDF": [
+        186
+      ],
+      "owners": [
+        488
+      ],
+      "residual": null
+    },
+    {
+      "scope": "Dropping Prone, righting round-down from current Speed, Speed-0 refusal and crawling cost figures",
+      "PDF": [
+        14,
+        179,
+        186
+      ],
+      "owners": [],
+      "residual": "prone-movement",
+      "note": "#488 states \"crawl or spend half Speed to stand\"; the new task consumes that and binds only the clauses #488 does not state. Publisher confirms this reading because #488 cannot be edited."
+    },
+    {
+      "scope": "Flying creature falls when Incapacitated, Prone or at Fly Speed 0 unless it hovers",
+      "PDF": [
+        182,
+        183,
+        188
+      ],
+      "owners": [],
+      "residual": "flying-fall",
+      "note": "#147 excludes flying and keeps the fall; #1336 keeps the Fly spell ending."
+    },
+    {
+      "scope": "Prone source: Unconscious",
+      "PDF": [
+        191
+      ],
+      "owners": [
+        487
+      ],
+      "residual": null
+    },
+    {
+      "scope": "Prone source: Unarmed Strike Shove",
+      "PDF": [
+        190
+      ],
+      "owners": [
+        779
+      ],
+      "residual": null
+    },
+    {
+      "scope": "Prone source: landing after a fall",
+      "PDF": [
+        182
+      ],
+      "owners": [
+        147
+      ],
+      "residual": null
+    },
+    {
+      "scope": "Prone source: Long Jump landing in Difficult Terrain",
+      "PDF": [
+        185
+      ],
+      "owners": [
+        150
+      ],
+      "residual": null,
+      "note": "#150 is an open planning split that names jump; it must publish this task."
+    },
+    {
+      "scope": "Prone source: Burning hazard, action-cost self-Prone to extinguish",
+      "PDF": [
+        178
+      ],
+      "owners": [],
+      "planning_owner": 150,
+      "residual": null,
+      "unowned": true,
+      "note": "No issue names Burning. Nearest open planning owner is the hazard split #150, whose list does not name it. Refused by the prone-movement task; unavailable."
+    },
+    {
+      "scope": "Prone source: ending a turn in another creature's space",
+      "PDF": [
+        14
+      ],
+      "owners": [],
+      "planning_owner": 150,
+      "residual": null,
+      "unowned": true,
+      "note": "No issue names this rule and no published task owns creature positions and space occupancy. Nearest open planning owner is #150 (movement and terrain); unavailable."
+    },
+    {
+      "scope": "Prone source: falling off a mount, and the save when rider or mount is knocked Prone",
+      "PDF": [
+        16
+      ],
+      "owners": [],
+      "planning_owner": 274,
+      "residual": null,
+      "unowned": true,
+      "note": "No issue names this rule. Nearest open planning owner is the mount split #274, whose named pages are PDF100-101; unavailable."
+    },
+    {
+      "scope": "Exhaustion level ledger: cumulative levels 0-6, provenance, immunity, death at 6, ending at 0, removable predicate, revival minus one",
+      "PDF": [
+        179,
+        180,
+        181,
+        183
+      ],
+      "owners": [],
+      "residual": "exhaustion-ledger"
+    },
+    {
+      "scope": "Exhaustion D20 Test and Speed reductions, including special speeds",
+      "PDF": [
+        180,
+        181,
+        188
+      ],
+      "owners": [],
+      "residual": "exhaustion-penalties"
+    },
+    {
+      "scope": "Exhaustion reduction triggers and the shared one-level reduction event",
+      "PDF": [
+        185
+      ],
+      "owners": [
+        428,
+        623,
+        1001
+      ],
+      "residual": null,
+      "note": "#623 keeps the shared reduction event that #1001 consumes; #428 keeps the Long Rest trigger. The ledger supplies the stored level and removable predicate only."
+    },
+    {
+      "scope": "Exhaustion sources named on PDF181/185/189 (dehydration, malnutrition, suffocation)",
+      "PDF": [
+        181,
+        185,
+        189
+      ],
+      "owners": [
+        150
+      ],
+      "residual": null,
+      "note": "#150 is an open planning split; it must publish these source tasks. This decision supplies only the ledger they write to."
+    }
+  ],
+  "released_planning_references": [
+    {
+      "issue": 623,
+      "concrete_owner": [
+        "exhaustion-ledger",
+        "exhaustion-penalties"
+      ],
+      "native_edge": "added by this decision: #623 blocked by exhaustion-penalties"
+    },
+    {
+      "issue": 504,
+      "concrete_owner": [
+        727,
+        777
+      ],
+      "native_edge": "existing: #504 blocks #727 and #777"
+    },
+    {
+      "issue": 488,
+      "concrete_owner": [
+        488
+      ],
+      "native_edge": "is itself the Prone owner"
+    },
+    {
+      "issue": 465,
+      "concrete_owner": [
+        488
+      ],
+      "native_edge": "existing: #488 blocks #465"
+    },
+    {
+      "issue": 463,
+      "concrete_owner": [
+        488
+      ],
+      "native_edge": "existing: #488 blocks #463"
+    },
+    {
+      "issue": 452,
+      "concrete_owner": [],
+      "native_edge": "none needed: owns its own Speed -15 effect and names no bodily condition clause"
+    },
+    {
+      "issue": 390,
+      "concrete_owner": [
+        778,
+        779
+      ],
+      "native_edge": "none added: edges between two existing issues are outside this decision; #390, #778 and #779 each stay mandatory for #337. Known follow-up for the owner."
+    },
+    {
+      "issue": 279,
+      "concrete_owner": [
+        "prone-movement",
+        "flying-fall",
+        "exhaustion-ledger",
+        "exhaustion-penalties"
+      ],
+      "native_edge": "through #623; #279 is at the 100-blocker cap"
+    }
+  ],
+  "existing_owners": {
+    "61": {
+      "number": 61,
+      "title": "Resolve SRD checks and saving throws with inspectable dice receipts",
+      "state": "CLOSED",
+      "parent": 50,
+      "blocked_by": [
+        58
+      ],
+      "body_sha256": "40078e957d35bd33b66c06dad6451270817f5fd833a924aa87d631d4a7bd9cd5",
+      "root_paths": {
+        "279": [
+          279,
+          774,
+          61
+        ],
+        "280": [
+          280,
+          774,
+          61
+        ],
+        "337": [
+          337,
+          61
+        ]
+      }
+    },
+    "64": {
+      "number": 64,
+      "title": "Confirm prepared actions once and reconcile the committed result",
+      "state": "CLOSED",
+      "parent": 50,
+      "blocked_by": [
+        30,
+        62,
+        63
+      ],
+      "body_sha256": "7713ac3e9a9ec4ee8462fad404b5141c7d2347a5e262f48544d6506278258f2d",
+      "root_paths": {
+        "279": [
+          279,
+          774,
+          64
+        ],
+        "280": [
+          280,
+          774,
+          64
+        ],
+        "337": [
+          337,
+          65,
+          64
+        ]
+      }
+    },
+    "65": {
+      "number": 65,
+      "title": "Play a martial attack through the interactive character sheet",
+      "state": "CLOSED",
+      "parent": 50,
+      "blocked_by": [
+        64
+      ],
+      "body_sha256": "df81cf102663aba2e71722bb09b793a0866d058a37f2729c3509dc0831a682d3",
+      "root_paths": {
+        "279": [
+          279,
+          774,
+          65
+        ],
+        "280": [
+          280,
+          774,
+          65
+        ],
+        "337": [
+          337,
+          65
+        ]
+      }
+    },
+    "66": {
+      "number": 66,
+      "title": "Track initiative and action economy in narrative combat",
+      "state": "CLOSED",
+      "parent": 50,
+      "blocked_by": [
+        65
+      ],
+      "body_sha256": "1268b0f01bca795849b5401b42b6dce70ae483cd7ce9eeb2870a2d5d0c9b0d12",
+      "root_paths": {
+        "279": [
+          279,
+          777,
+          66
+        ],
+        "280": [
+          280,
+          777,
+          66
+        ],
+        "337": [
+          337,
+          66
+        ]
+      }
+    },
+    "147": {
+      "number": 147,
+      "title": "Resolve one declared fall with inspectable damage and Prone state",
+      "state": "OPEN",
+      "parent": 54,
+      "blocked_by": [
+        82
+      ],
+      "body_sha256": "c31bdc6b1573df92eb9e0845fde0e5a313fab298a615a21375653b175f18fb26",
+      "root_paths": {
+        "279": [
+          279,
+          623,
+          "exhaustion-penalties",
+          "flying-fall",
+          147
+        ],
+        "280": [
+          280,
+          623,
+          "exhaustion-penalties",
+          "flying-fall",
+          147
+        ],
+        "337": [
+          337,
+          776,
+          147
+        ]
+      }
+    },
+    "150": {
+      "number": 150,
+      "title": "Split the remaining named environmental hazards into bounded rules PRs",
+      "state": "OPEN",
+      "parent": 54,
+      "blocked_by": [
+        144,
+        147
+      ],
+      "body_sha256": "669eb0d197d21f1d3d3194458545b8decb18ed8899d5033e03d2f3574e5208cf",
+      "root_paths": {
+        "279": [
+          279,
+          681,
+          183,
+          150
+        ],
+        "280": [
+          280,
+          681,
+          183,
+          150
+        ],
+        "337": [
+          337,
+          551,
+          183,
+          150
+        ]
+      }
+    },
+    "274": {
+      "number": 274,
+      "title": "Split mount, vehicle and cargo rules into bounded fixtures",
+      "state": "OPEN",
+      "parent": 193,
+      "blocked_by": [
+        80
+      ],
+      "body_sha256": "511b898020e6e6a431e02dde79c8b6a97060aea437e13c197de5eced1fc2fd81",
+      "root_paths": {
+        "280": [
+          280,
+          274
+        ],
+        "337": [
+          337,
+          551,
+          280,
+          274
+        ]
+      }
+    },
+    "390": {
+      "number": 390,
+      "title": "Resolve source-exact Grappler with durable deterministic fixtures",
+      "state": "OPEN",
+      "parent": 283,
+      "blocked_by": [
+        270,
+        384,
+        389
+      ],
+      "body_sha256": "3db34df76670761f3c94998948c48c8bcd1e721f6f0e00949647fd8a746169fc",
+      "root_paths": {
+        "337": [
+          337,
+          390
+        ]
+      }
+    },
+    "428": {
+      "number": 428,
+      "title": "Complete source-correct Long Rest with interruption and recovery receipt",
+      "state": "OPEN",
+      "parent": 272,
+      "blocked_by": [
+        272,
+        286,
+        308,
+        427
+      ],
+      "body_sha256": "6822469be2b3e75b9f37da60335e01fbe3f27bc5d8cb735a44dc4171f1657046",
+      "root_paths": {
+        "279": [
+          279,
+          848,
+          921,
+          428
+        ],
+        "280": [
+          280,
+          848,
+          921,
+          428
+        ],
+        "337": [
+          337,
+          498,
+          428
+        ]
+      }
+    },
+    "487": {
+      "number": 487,
+      "title": "Resolve shared Incapacitated and Unconscious condition admission",
+      "state": "OPEN",
+      "parent": 269,
+      "blocked_by": [
+        269,
+        351,
+        353
+      ],
+      "body_sha256": "74aeead11f2085b6e89b4888f0caee89bb8d73b67733cafb0da66bd701b9912c",
+      "root_paths": {
+        "279": [
+          279,
+          504,
+          487
+        ],
+        "280": [
+          280,
+          504,
+          487
+        ],
+        "337": [
+          337,
+          498,
+          487
+        ]
+      }
+    },
+    "488": {
+      "number": 488,
+      "title": "Resolve shared Charmed Frightened and Prone condition consumers",
+      "state": "OPEN",
+      "parent": 270,
+      "blocked_by": [
+        61,
+        65,
+        67,
+        269,
+        270
+      ],
+      "body_sha256": "009a793cf71efa8420190edabdc41aa7790b575e095698ec8710f9a978ca16c5",
+      "root_paths": {
+        "279": [
+          279,
+          505,
+          488
+        ],
+        "280": [
+          280,
+          505,
+          488
+        ],
+        "337": [
+          337,
+          498,
+          488
+        ]
+      }
+    },
+    "504": {
+      "number": 504,
+      "title": "End Paralyzed Poisoned and Stunned through trusted effect events",
+      "state": "OPEN",
+      "parent": 193,
+      "blocked_by": [
+        269,
+        270,
+        487
+      ],
+      "body_sha256": "68c7c90e817d4030a11a9ef3bb5730c766357afc9133fdb8186a8ab97fec05b4",
+      "root_paths": {
+        "279": [
+          279,
+          504
+        ],
+        "280": [
+          280,
+          504
+        ],
+        "337": [
+          337,
+          501,
+          504
+        ]
+      }
+    },
+    "616": {
+      "number": 616,
+      "title": "Resolve Lesser Restoration one named condition",
+      "state": "OPEN",
+      "parent": 191,
+      "blocked_by": [
+        194,
+        211,
+        268,
+        504
+      ],
+      "body_sha256": "49f116a324a42572530e54f0823619d22c52aa70eab2486d838c084f1de47778",
+      "root_paths": {
+        "279": [
+          279,
+          616
+        ],
+        "280": [
+          280,
+          616
+        ],
+        "337": [
+          337,
+          551,
+          279,
+          616
+        ]
+      }
+    },
+    "618": {
+      "number": 618,
+      "title": "Resolve Revivify one recent death",
+      "state": "OPEN",
+      "parent": 191,
+      "blocked_by": [
+        194,
+        195,
+        217,
+        273
+      ],
+      "body_sha256": "6fe2f210bf55b90248ceacd9203fee22693f6a5cf2cd4a7fe02f5487efe916ae",
+      "root_paths": {
+        "279": [
+          279,
+          618
+        ],
+        "280": [
+          280,
+          618
+        ],
+        "337": [
+          337,
+          551,
+          279,
+          618
+        ]
+      }
+    },
+    "623": {
+      "number": 623,
+      "title": "End Greater Restoration one Exhaustion level",
+      "state": "OPEN",
+      "parent": 193,
+      "blocked_by": [
+        270
+      ],
+      "body_sha256": "7840bd164ad46ecea557bc6a01291d0754d4028d1c28158db1cee93be196d363",
+      "root_paths": {
+        "279": [
+          279,
+          623
+        ],
+        "280": [
+          280,
+          623
+        ],
+        "337": [
+          337,
+          551,
+          279,
+          623
+        ]
+      }
+    },
+    "624": {
+      "number": 624,
+      "title": "End Greater Restoration Charmed or Petrified",
+      "state": "OPEN",
+      "parent": 193,
+      "blocked_by": [
+        269
+      ],
+      "body_sha256": "7007ae2fba935d7b8a5d7acd161fa58bcb32937659793d680aa18fa1d096015d",
+      "root_paths": {
+        "279": [
+          279,
+          624
+        ],
+        "280": [
+          280,
+          624
+        ],
+        "337": [
+          337,
+          551,
+          279,
+          624
+        ]
+      }
+    },
+    "727": {
+      "number": 727,
+      "title": "Admit exact Paralyzed Poisoned and Restrained condition projections",
+      "state": "OPEN",
+      "parent": 270,
+      "blocked_by": [
+        351,
+        353,
+        487,
+        504
+      ],
+      "body_sha256": "8d739e36d9bb9b00d1808bc022d1dce8d849297d802d7ec2f5c0a19bd805bd92",
+      "root_paths": {
+        "279": [
+          279,
+          727
+        ],
+        "280": [
+          280,
+          727
+        ],
+        "337": [
+          337,
+          776,
+          727
+        ]
+      }
+    },
+    "778": {
+      "number": 778,
+      "title": "Admit shared Grappled with escape drag and ending",
+      "state": "OPEN",
+      "parent": 270,
+      "blocked_by": [
+        61,
+        64,
+        66,
+        67,
+        487
+      ],
+      "body_sha256": "57c7c138e1b9457a3cd187d3757298d65f90eeb958f567b739c9cfc62b7ab168",
+      "root_paths": {
+        "279": [
+          279,
+          778
+        ],
+        "280": [
+          280,
+          778
+        ],
+        "337": [
+          337,
+          776,
+          778
+        ]
+      }
+    },
+    "779": {
+      "number": 779,
+      "title": "Confirm player Unarmed Strike damage Grapple or Shove",
+      "state": "OPEN",
+      "parent": 50,
+      "blocked_by": [
+        61,
+        64,
+        65,
+        66,
+        67,
+        488,
+        778
+      ],
+      "body_sha256": "556d1618d1cd2bd9c956fe38861d89e94ee14ff61a505b5d2b6a1fa46d19d150",
+      "root_paths": {
+        "279": [
+          279,
+          779
+        ],
+        "280": [
+          280,
+          779
+        ],
+        "337": [
+          337,
+          776,
+          779
+        ]
+      }
+    },
+    "780": {
+      "number": 780,
+      "title": "Resolve shared Dash from authoritative modified Speed",
+      "state": "OPEN",
+      "parent": 50,
+      "blocked_by": [
+        58,
+        64,
+        65,
+        66,
+        67
+      ],
+      "body_sha256": "62ff0ae98546d75db6c6600c88df9f858fd4c696f9f5f84aab094f9f6dc172f8",
+      "root_paths": {
+        "279": [
+          279,
+          780
+        ],
+        "280": [
+          280,
+          780
+        ],
+        "337": [
+          337,
+          776,
+          780
+        ]
+      }
+    },
+    "947": {
+      "number": 947,
+      "title": "Resolve Raise Dead raise dead",
+      "state": "OPEN",
+      "parent": 850,
+      "blocked_by": [
+        67,
+        273,
+        504,
+        618,
+        922
+      ],
+      "body_sha256": "c7f0a26871e9724d5bf97ed688b54f0460504f3adb56b0685fd23d487a5369c5",
+      "root_paths": {
+        "279": [
+          279,
+          850,
+          947
+        ],
+        "280": [
+          280,
+          850,
+          947
+        ],
+        "337": [
+          337,
+          551,
+          279,
+          850,
+          947
+        ]
+      }
+    },
+    "1001": {
+      "number": 1001,
+      "title": "Resolve Tireless Short Rest Exhaustion reduction",
+      "state": "OPEN",
+      "parent": 971,
+      "blocked_by": [
+        427,
+        623
+      ],
+      "body_sha256": "6071d0b71bfe4121fd37e6dce38a3edb5c401221d0907d4c6d672bae92f487dc",
+      "root_paths": {
+        "337": [
+          337,
+          970,
+          971,
+          1001
+        ]
+      }
+    },
+    "1335": {
+      "number": 1335,
+      "title": "Resolve Fly speed",
+      "state": "OPEN",
+      "parent": 1463,
+      "blocked_by": [
+        1455,
+        1456
+      ],
+      "body_sha256": "6f6cadc84a9236a32343dd41da64f0e3d619e731cf96fe22b436484e04184d87",
+      "root_paths": {
+        "279": [
+          279,
+          1477,
+          1474,
+          1463,
+          1335
+        ],
+        "280": [
+          280,
+          1477,
+          1474,
+          1463,
+          1335
+        ],
+        "337": [
+          337,
+          1475,
+          1472,
+          1202,
+          1335
+        ]
+      }
+    },
+    "1336": {
+      "number": 1336,
+      "title": "Resolve Fly ending fall",
+      "state": "OPEN",
+      "parent": 1463,
+      "blocked_by": [
+        1335,
+        1455,
+        1456
+      ],
+      "body_sha256": "2182d5c430c6e74004f9ab648a48fcb6a3399fdf800a47ceaffb7c2216cbf552",
+      "root_paths": {
+        "279": [
+          279,
+          1477,
+          1474,
+          1463,
+          1336
+        ],
+        "280": [
+          280,
+          1477,
+          1474,
+          1463,
+          1336
+        ],
+        "337": [
+          337,
+          1475,
+          1472,
+          1202,
+          1336
+        ]
+      }
+    },
+    "1444": {
+      "number": 1444,
+      "title": "Resolve bounded condition petrified",
+      "state": "OPEN",
+      "parent": 1469,
+      "blocked_by": [
+        624,
+        727,
+        1452,
+        1457
+      ],
+      "body_sha256": "62a17455ee75069e2f69581ea149ede52710fa2ac7aa9085c7f64d547624b3f8",
+      "root_paths": {
+        "279": [
+          279,
+          1477,
+          1474,
+          1469,
+          1444
+        ],
+        "280": [
+          280,
+          1477,
+          1474,
+          1469,
+          1444
+        ],
+        "337": [
+          337,
+          1475,
+          1474,
+          1469,
+          1444
+        ]
+      }
+    }
+  },
+  "new_tasks": [
+    {
+      "key": "prone-movement",
+      "title": "Resolve dropping Prone, Speed-0 righting refusal and crawl cost",
+      "file": "docs/investigations/issue-270-prone-movement-task.md",
+      "size": "M",
+      "blocked_by": [
+        488,
+        727,
+        778,
+        780
+      ],
+      "blocked_by_keys": [],
+      "blocks": [],
+      "blocks_keys": [
+        "flying-fall",
+        "exhaustion-penalties"
+      ],
+      "PDF": [
+        14,
+        16,
+        178,
+        179,
+        181,
+        182,
+        185,
+        186,
+        187,
+        188
+      ],
+      "marker": "edda-270:prone-movement",
+      "parent": 270,
+      "type": "Task",
+      "number": 2061,
+      "body_sha256": "aa729623c58223eaf0634c7ea74d9d94e8c743354a57d6f1ba65aed4412cbdaa",
+      "body": "<!-- edda-270:prone-movement -->\nDecision #270; roadmap #47. One implementation PR; Task / Size M.\n\nSource: English SRD 5.2.1, PDF 14, 16, 178–179, 181–182, 185–188; SHA-256 `8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87`. CC-BY-4.0 attribution and adaptation: `docs/srd-5.2.1-conformance.md`. The deterministic fixtures below are Edda adaptations.\n\n## Bounded outcome\n\nImplement only the Prone movement clauses that #488 does not state. #488 keeps the Prone instance, its attack consequences and the two movement options as its body names them (\"crawl or spend half Speed to stand\"); this task consumes that output and never keeps a second Prone store or a second righting action. It adds four things: voluntarily dropping Prone (PDF14), the round-down of the righting cost from the current Speed (PDF186), the refusal to right yourself or drop Prone at Speed 0 against actual Speed-0 instances (PDF14, 186), and the crawling cost numbers (PDF179). #487 keeps \"remain Prone when Unconscious ends\"; #779 keeps Shove; #147 keeps falling.\n\nDropping Prone (PDF14): on its own turn a creature can give itself the Prone condition \"without using an action or any of your Speed, but you can’t do so if your Speed is 0.\" The self-applied instance is an ordinary source-bound Prone instance owned by that creature. The source names only the action and Speed; the fixture assertion that the Bonus Action and Reaction are also untouched is an Edda fixture control.\n\nRighting (PDF186): the cost is half the creature's Speed, rounded down. Use the authoritative current Speed that #780 reads, after every qualified increase and reduction, not a printed base value and never a Fly, Climb, Swim or Burrow Speed. Insufficient movement left this turn rejects. If the current Speed is 0, righting is unavailable. A Speed that \"is 0 and can't increase\" from an actual Restrained (#727) or Grappled (#778) instance stays 0 for this check whatever bonus is present; the same holds for any other actual Speed-0 instance supplied by its own owner (#487, #1444). Righting ends the creature's Prone condition, meaning every Prone contribution on it, because PDF186 ends the condition itself; it never ends the Speed-0 condition or any other condition.\n\nCrawling (PDF179): each foot crawled costs 1 extra foot of movement, or 2 extra feet in Difficult Terrain. Crawling does not end Prone. This task owns only those two figures. The general Difficult Terrain cost and the facts that make a space Difficult Terrain (PDF14, 181) belong to the open hazard split #150; until its child exists the terrain fact is an isolated trusted fact and production crawling through Difficult Terrain stays unavailable. A drag cost keeps its own #778 rule and is not combined here unless both facts are authoritative.\n\nMovement spent: no published task owns a general per-turn movement record. This task adds the minimal one its own spends need: the turn's allowance from the authoritative Speed of #780, feet spent by righting and crawling, and replay-safe receipts. It adds no path, position, Opportunity Attack or other movement mode.\n\nNot in this task, and unavailable until an owner exists:\n\n- A flying creature that becomes Prone falls unless it can hover (PDF182). The flying fall task published with this decision (`edda-270:flying-fall`) owns that and consumes this task's drop.\n- Burning (PDF178) lets a creature give itself Prone as an action to put out fire. That is an action-cost self-Prone from a hazard, not the free drop; it is refused here.\n- Prone from a Long Jump landing (PDF185), from ending a turn in another creature's space (PDF14) and from falling off a mount (PDF16) are sources with their own owners.\n- How movement spent on righting counts against a special speed used in the same turn (PDF188 says only to subtract \"the distance already moved\" when switching speeds). Righting in a turn in which the creature also uses a special speed stays unavailable.\n\n## Deterministic fixtures\n\n- Speed 30, Prone, 30 feet of movement left: righting costs 15 and leaves 15. Speed 25 costs 12, not 13. Speed 5 costs 2. After spending 20 of Speed 30, righting (15) rejects with no mutation. Speed 30 with Fly Speed 60 and no movement yet this turn: righting costs 15, not 30.\n- A standing creature Grappled through actual #778, or Restrained through actual #727, has Speed 0 and cannot drop Prone, even with a +10 Speed bonus. A Prone creature with either instance cannot right itself, with or without the bonus. When the Speed-0 instance ends, righting becomes available again at the then-current Speed.\n- Crawling 5 feet costs 10 feet of movement; with a trusted Difficult Terrain fact it costs 15. With 10 feet left, a second 5-foot crawl in Difficult Terrain rejects.\n- A standing creature with Speed 30 on its own turn drops Prone at no cost: 30 feet remain and its action is unspent (Edda control: Bonus Action and Reaction also unspent). Off-turn dropping, dropping another creature, dropping while already Prone, or a Burning-style drop that claims the free path rejects.\n- Reject righting for free, righting with an action instead of movement, a rounded-up, base-Speed or special-speed cost, crawling at normal cost, automatic righting at turn start, clearing Restrained or Grappled by righting, and a client-declared Speed, terrain or movement-left value. Preserve unrelated conditions and the attack consequences of #488 before and after.\n\n## Durable implementation acceptance\n\nPreview is inert: no dice, writes or hidden facts. Confirm revalidates campaign, actor, turn ownership, current Prone and Speed-0 instances, current Speed, movement spent this turn, terrain fact, source version and expected revision. Commit the movement spend, the Prone instance creation or ending, derived sheet and public history atomically. Inject a failure after each stage and prove full isolated PostgreSQL rollback. Same action ID and payload replay after retry, reload or reconnect returns the saved receipt without spending again; a conflicting payload rejects; racing confirmations commit once. Web and trusted TUI share availability, unavailable reasons and confirm/cancel/reconnect behavior. Changed web requires focused build/lint and desktop/phone checks. Private NPC Speed, position and conditions never enter previews, receipts, errors or public history. Preserve legacy reads and unrelated JSON; the legacy `prone` combat flag is not silently upgraded to this contract.\n\nHard prerequisites: #488 actual Prone instance, attack consequences and movement options; #727 Restrained Speed-0 projection; #778 Grappled Speed-0 projection; #780 authoritative modified Speed. Parent: #270. Directly block the flying fall task (`edda-270:flying-fall`), which consumes the drop, and the Exhaustion penalty task (`edda-270:exhaustion-penalties`). #279 is at its 100-blocker cap, so this task takes no direct #279 edge: the edge to the penalty task is its route to #279, #280 and #337 through the existing blocker #623, and that task's composition fixture (righting at a reduced Speed) is the reason the edge is valid. Add no #67 or #429 consumer and alter no existing owner.\n\nValidation for the implementation PR: focused deterministic rules tests; isolated PostgreSQL rollback/concurrency/replay/reload tests; shared web/TUI confirmation and disclosure fixtures; `GOMAXPROCS=2 go test -p 2 -short -race ./...` and `GOMAXPROCS=2 go vet -p 2 ./...`. Short tests alone do not qualify PostgreSQL or devices. Runtime remains unavailable until implementation and its callers qualify. No deployment, source inference or Full Rules promotion.\n",
+      "root_paths_after_publication": {
+        "279": [
+          279,
+          623,
+          "exhaustion-penalties",
+          "prone-movement"
+        ],
+        "280": [
+          280,
+          623,
+          "exhaustion-penalties",
+          "prone-movement"
+        ],
+        "337": [
+          337,
+          551,
+          279,
+          623,
+          "exhaustion-penalties",
+          "prone-movement"
+        ]
+      }
+    },
+    {
+      "key": "flying-fall",
+      "title": "Trigger a flying creature fall from Incapacitated, Prone or Fly Speed 0 unless it hovers",
+      "file": "docs/investigations/issue-270-flying-fall-task.md",
+      "size": "S",
+      "blocked_by": [
+        147,
+        487,
+        727,
+        778
+      ],
+      "blocked_by_keys": [
+        "prone-movement"
+      ],
+      "blocks": [],
+      "blocks_keys": [
+        "exhaustion-penalties"
+      ],
+      "PDF": [
+        182,
+        183,
+        184,
+        186,
+        187,
+        188
+      ],
+      "marker": "edda-270:flying-fall",
+      "parent": 270,
+      "type": "Task",
+      "number": 2062,
+      "body_sha256": "09e3199854124c896ce14b6e7db9a808728e6ee62928b10bad956025c6d258f4",
+      "body": "<!-- edda-270:flying-fall -->\nDecision #270; roadmap #47. One implementation PR; Task / Size S.\n\nSource: English SRD 5.2.1, PDF 182–184, 186–188; SHA-256 `8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87`. CC-BY-4.0 attribution and adaptation: `docs/srd-5.2.1-conformance.md`. The deterministic fixtures below are Edda adaptations.\n\n## Bounded outcome\n\nImplement only the Flying rule of PDF182: \"While flying, you fall if you have the Incapacitated or Prone condition or your Fly Speed is reduced to 0. You can stay aloft in those circumstances if you can hover.\" No published task owns it, and #147 excludes flying. This task decides only whether a fall starts. The fall itself, its damage and the landing Prone stay with #147, which receives one declared fall with the trusted height.\n\nTriggers, each read from its actual owner and never from a client flag:\n\n- Prone: an actual instance from #488, including a voluntary drop through the Prone movement task (`edda-270:prone-movement`).\n- Incapacitated: an actual instance from #487, including the Incapacitated part of Unconscious, Paralyzed, Stunned or Petrified when their owners supply it.\n- Fly Speed reduced to 0: PDF188 says a change to Speed changes every special speed equally and gives the example that Speed reduced to 0 makes a Climb Speed 0. So an actual Grappled (#778) or Restrained (#727) Speed-0 instance makes the Fly Speed 0, and so does any authoritative reduction that reaches 0.\n\nHover (PDF183) is an authoritative creature or effect fact from its own owner, such as a stat block or #1335. With it the creature stays aloft in all three circumstances. Without a known hover fact the creature does not hover.\n\nNo published task owns an authoritative \"currently flying at this height\" state. This task reads it only as an isolated trusted fact and enables no production flight; a fall trigger for a creature whose flying state or height is unknown stays unavailable. Ending of the Fly spell stays #1336. Falling onto another creature and magical fall prevention keep #147's exclusions.\n\n## Deterministic fixtures\n\n- Trusted flying at 30 feet, Fly Speed 60, no hover: gaining Prone from actual #488, or dropping Prone through the Prone movement task, starts one fall of 30 feet handed to #147. The same creature with a trusted hover fact stays aloft and keeps Prone.\n- Flying, no hover, becomes Incapacitated through actual #487: one fall. With hover: none.\n- Flying, no hover, Grappled through actual #778 or Restrained through actual #727: Fly Speed is 0 and it falls once; a +10 Speed bonus changes nothing. With hover: stays aloft with Fly Speed 0.\n- An isolated trusted Speed reduction of 20 on Fly Speed 20 gives 0 and a fall; a reduction of 15 gives Fly Speed 5 and no fall.\n- A creature on the ground, a creature with a Fly Speed that is not flying, or one with unknown height: no fall and an unavailable reason. Two triggers in the same transaction start one fall, not two. Replay starts none.\n- Reject a client-declared flying, hover, height or Fly Speed value, a fall for a hovering creature, a fall that skips #147's damage and landing rules, and ending the triggering condition because the creature landed.\n\n## Durable implementation acceptance\n\nThe trigger is evaluated inside the transaction that commits the triggering condition or Speed change; it adds no optional activation of its own. Preview of the triggering action shows the pending fall only from facts the player may know. Commit the condition or Speed change, the fall start handed to #147, derived sheet and public history atomically. Inject a failure after each stage and prove full isolated PostgreSQL rollback. Same action ID and payload replay after retry, reload or reconnect returns the saved receipt with no second fall; a conflicting payload rejects; racing triggers commit one fall. Web and trusted TUI show the same fall notice and unavailable reasons and share confirm/cancel/reconnect behavior. Changed web requires focused build/lint and desktop/phone checks. A hidden NPC's height, hover fact, Speed and conditions never enter previews, receipts, errors or public history. Preserve legacy reads and unrelated JSON.\n\nHard prerequisites: #147 declared fall; #487 actual Incapacitated instance; #727 Restrained and #778 Grappled Speed-0 projections; the Prone movement task (`edda-270:prone-movement`), which also carries the #488 Prone instance. Parent: #270. Directly block the Exhaustion penalty task (`edda-270:exhaustion-penalties`). #279 is at its 100-blocker cap, so this task takes no direct #279 edge: the edge to the penalty task is its route to #279, #280 and #337 through the existing blocker #623, and that task's composition fixture (a Fly Speed reduced to 0 by Exhaustion) is the reason the edge is valid. Add no #67 or #429 consumer and alter no existing owner.\n\nValidation for the implementation PR: focused deterministic rules tests; isolated PostgreSQL rollback/concurrency/replay/reload tests; shared web/TUI confirmation and disclosure fixtures; `GOMAXPROCS=2 go test -p 2 -short -race ./...` and `GOMAXPROCS=2 go vet -p 2 ./...`. Short tests alone do not qualify PostgreSQL or devices. Runtime remains unavailable until implementation and its callers qualify. No deployment, source inference or Full Rules promotion.\n",
+      "root_paths_after_publication": {
+        "279": [
+          279,
+          623,
+          "exhaustion-penalties",
+          "flying-fall"
+        ],
+        "280": [
+          280,
+          623,
+          "exhaustion-penalties",
+          "flying-fall"
+        ],
+        "337": [
+          337,
+          551,
+          279,
+          623,
+          "exhaustion-penalties",
+          "flying-fall"
+        ]
+      }
+    },
+    {
+      "key": "exhaustion-ledger",
+      "title": "Admit the shared Exhaustion level ledger with death at six and revival reduction",
+      "file": "docs/investigations/issue-270-exhaustion-ledger-task.md",
+      "size": "M",
+      "blocked_by": [
+        64,
+        618
+      ],
+      "blocked_by_keys": [],
+      "blocks": [],
+      "blocks_keys": [
+        "exhaustion-penalties"
+      ],
+      "PDF": [
+        17,
+        18,
+        179,
+        180,
+        181,
+        183,
+        185,
+        189,
+        194,
+        236
+      ],
+      "marker": "edda-270:exhaustion-ledger",
+      "parent": 270,
+      "type": "Task",
+      "number": 2063,
+      "body_sha256": "681afe7c24ab91def6d7b8c22e8276bc7f23a48adb93c2dbab8a1a2f2574924e",
+      "body": "<!-- edda-270:exhaustion-ledger -->\nDecision #270; roadmap #47. One implementation PR; Task / Size M.\n\nSource: English SRD 5.2.1, PDF 17–18, 179–181, 183, 185, 189, 194, 236; SHA-256 `8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87`. CC-BY-4.0 attribution and adaptation: `docs/srd-5.2.1-conformance.md`. The deterministic fixtures below are Edda adaptations.\n\n## Bounded outcome\n\nImplement only the level ledger of the Exhaustion condition (PDF181): one authoritative per-creature level with per-level provenance, gain, Immunity, death at level 6, the ending at level 0, the predicate that says which level may be removed, and the revival reduction. No published task owns these. The two penalties the level causes belong to the Exhaustion penalty task (`edda-270:exhaustion-penalties`) and are not implemented here.\n\nReduction triggers stay where they are. #428 keeps the completed Long Rest trigger (PDF185). #623 keeps the trusted one-level reduction event and its recomputation call, and #1001 consumes that event through #623 as its body says. This task supplies the stored level they lower and the rule for which level is removable; it copies no trigger and keeps no second counter. Sources of Exhaustion (dehydration, malnutrition, suffocation, travel, temperature, contagions, items and stat blocks) stay with their own owners; this task admits a level only from a trusted, source-bound gain event and enables no such source in production.\n\nLevels (PDF179, 181): Exhaustion is the one condition that stacks with itself. Each trusted receipt of the condition adds exactly 1 level and records its source, receipt and order. Valid levels are 0–6. A living creature holds 0–5, and 0 means the condition is absent. Reaching 6 commits the creature's death in the same transaction as a trusted source-bound death record, and the dead creature keeps level 6. No seventh level is ever added. No published task owns a general dead state, 0 Hit Points or Death Saving Throws (PDF17–18); this task adds none of them and does not call the legacy combat death code. The death record it writes is the authoritative death fact that #618 reads.\n\nImmunity to the Exhaustion condition (PDF183) means a gain does not affect the creature at all: no level, no penalty, no history of a hidden level.\n\nRemoval (PDF181): when the level reaches 0 the condition ends. A reduction removes exactly one removable level, never below 0. Levels differ only in provenance; taking the most recently gained removable level first is an Edda ordering, not source text. A source owner may mark its own levels non-removable until its stated fact is met (PDF181 dehydration, PDF185 malnutrition) or remove all levels of its own source (PDF189 suffocation). This task supplies only that provenance and predicate, using isolated trusted facts, and never infers a meal, drink or breath.\n\nRevival (PDF180): \"If the creature died with any Exhaustion levels, it returns with 1 fewer level.\" Apply it to the actual #618 Revivify receipt: a creature that died at level 2 returns at 1, and one that died at level 6 returns at 5. Revival itself, its Hit Points and its other consequences stay with #618. Every other revival owner (#947 Raise Dead and later ones) is a caller of this same output. The ledger fails closed: a dead creature with stored levels can become alive only through a revival receipt that applied this reduction, so a revival owner that has not yet consumed it stays unavailable for such a creature.\n\nNot in this task, and unavailable until the source owner supplies a rule, because the source gives no precedence:\n\n- A level that \"lasts until the contagion ends\" (PDF194) against ordinary reduction.\n- An effect that removes \"any Exhaustion levels you have\" (PDF236 Potion of Vitality) against levels a source made non-removable.\n- The revival reduction when the only remaining levels are non-removable.\n\n## Deterministic fixtures\n\n- Two trusted gains from different sources give level 2 with two provenance rows, not a single flag. A third gain gives 3.\n- At level 5 one more gain commits level 6 and one death record; replay does not kill or add again. A gain on the dead creature, a seventh level, a client-declared level, a multi-level gain without a qualified source, a negative level or a gain on an immune creature rejects without mutation.\n- Ledger primitive, exercised by an isolated test event (the first real callers are #623 and #428): lowering level 1 ends the condition; at level 0 it is a no-op without history. With one non-removable level and one ordinary level it removes the ordinary level; with only the non-removable level it removes nothing. Remove-all-of-source removes only that source's levels.\n- Died at level 2, revived by the actual #618 receipt: level 1. Died at level 6: level 5 and alive. A forged, foreign or replayed revival receipt changes nothing. Marking a dead creature with levels alive without that receipt rejects.\n- Reject remove-all against a non-removable level, a contagion-duration level and revival against only non-removable levels as unavailable, each with a reason and no mutation.\n\n## Durable implementation acceptance\n\nPreview is inert: no dice, writes or hidden facts. Confirm revalidates campaign, actor, trusted source and receipt, immunity, current level, source version and expected revision. Commit the level change, provenance, any death record and public history atomically. Inject a failure after each stage and prove full isolated PostgreSQL rollback. Same action ID and payload replay after retry, reload or reconnect returns the saved receipt with no second level or death; a conflicting payload rejects; racing gains or reductions each commit once in a serial order. Web and trusted TUI show the player's own level, share unavailable reasons and confirm/cancel/reconnect behavior. Changed web requires focused build/lint and desktop/phone checks. An NPC's level and sources never enter previews, receipts, errors or public history. Preserve legacy reads and unrelated JSON: the legacy `exhausted` combat flag and player status carry no level and are never converted into one.\n\nHard prerequisites: #64 confirmation and receipts; #618 actual Revivify receipt and its authoritative death fact. Parent: #270. Directly block the Exhaustion penalty task (`edda-270:exhaustion-penalties`); through it and the existing blocker #623 this task is mandatory for #279, #280 and #337. #279 is at its 100-blocker cap: add no direct #279 edge. Add no #67 or #429 consumer, no edge to #428, #947 or #1001, and change no existing body, parent or prerequisite.\n\nValidation for the implementation PR: focused deterministic rules tests; isolated PostgreSQL rollback/concurrency/replay/reload tests; shared web/TUI confirmation and disclosure fixtures; `GOMAXPROCS=2 go test -p 2 -short -race ./...` and `GOMAXPROCS=2 go vet -p 2 ./...`. Short tests alone do not qualify PostgreSQL or devices. Runtime remains unavailable until implementation and its callers qualify. No deployment, source inference or Full Rules promotion.\n",
+      "root_paths_after_publication": {
+        "279": [
+          279,
+          623,
+          "exhaustion-penalties",
+          "exhaustion-ledger"
+        ],
+        "280": [
+          280,
+          623,
+          "exhaustion-penalties",
+          "exhaustion-ledger"
+        ],
+        "337": [
+          337,
+          551,
+          279,
+          623,
+          "exhaustion-penalties",
+          "exhaustion-ledger"
+        ]
+      }
+    },
+    {
+      "key": "exhaustion-penalties",
+      "title": "Project Exhaustion D20 Test and Speed reductions from the level ledger",
+      "file": "docs/investigations/issue-270-exhaustion-penalties-task.md",
+      "size": "M",
+      "blocked_by": [
+        61,
+        65,
+        66,
+        780
+      ],
+      "blocked_by_keys": [
+        "exhaustion-ledger",
+        "prone-movement",
+        "flying-fall"
+      ],
+      "blocks": [
+        623
+      ],
+      "blocks_keys": [],
+      "PDF": [
+        6,
+        7,
+        13,
+        17,
+        18,
+        180,
+        181,
+        182,
+        188
+      ],
+      "marker": "edda-270:exhaustion-penalties",
+      "parent": 270,
+      "type": "Task",
+      "number": 2064,
+      "body_sha256": "6aeac55e3e1e3a8867e5383da9b0d503f623113b5a67681e50a9c7813c7944fc",
+      "body": "<!-- edda-270:exhaustion-penalties -->\nDecision #270; roadmap #47. One implementation PR; Task / Size M.\n\nSource: English SRD 5.2.1, PDF 6–7, 13, 17–18, 180–182, 188; SHA-256 `8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87`. CC-BY-4.0 attribution and adaptation: `docs/srd-5.2.1-conformance.md`. The deterministic fixtures below are Edda adaptations.\n\n## Bounded outcome\n\nImplement only the two derived penalties of the Exhaustion condition (PDF181), read from the actual level of the Exhaustion ledger task (`edda-270:exhaustion-ledger`). This task stores no level and admits none. #623 \"recompute all derived penalties\" calls this projection after its reduction; #428 and #1001 see the same recomputation through the ledger level.\n\nD20 Tests (PDF6–7, 180–181): \"When you make a D20 Test, the roll is reduced by 2 times your Exhaustion level.\" D20 Tests are ability checks, attack rolls and saving throws. The reduction is a numeric term recorded beside the natural die in the #61 receipt for checks and saves and in the #65 receipt for attack rolls; it is not Disadvantage, and it combines with Advantage, Disadvantage and other modifiers without replacing them. Initiative is a Dexterity check (PDF13) and takes the reduction in the #66 Initiative roll. A hit or miss that the source ties to the number on the d20 (PDF7) keeps using the die face. Damage rolls, DCs the creature sets, AC and passive scores are not D20 Tests and get no invented reduction.\n\nDeath Saving Throws are saving throws (PDF17), so the reduction is defined for them, and PDF18 ties their 1 and 20 results to the die face. No published task owns Death Saving Throws. This task writes no fixture against the legacy combat death-save code; the reduction on a Death Saving Throw stays unavailable until a source-bound owner exists and consumes this projection.\n\nSpeed (PDF181, 188): \"Your Speed is reduced by a number of feet equal to 5 times your Exhaustion level\", and each special speed is reduced by the same amount. The reduction feeds the one authoritative current Speed that #780 reads. A Speed that is 0 and can't increase stays 0. A reduction larger than the Speed yields 0, never a negative stored Speed; this clamp is an Edda adaptation, not source text. When the reduction brings a flying creature's Fly Speed to 0, the flying fall task (`edda-270:flying-fall`) decides the fall; this task only supplies the reduced value.\n\n## Deterministic fixtures\n\n- Level 2: natural 14 with +3 becomes 17 − 4 = 13 on an ability check and on a saving throw, and Speed 30 becomes 20 with Climb Speed 30 also 20. Level 5: −10 and Speed 5. Level 0: no term in the receipt and no reduction.\n- Level 1, attack roll natural 20 through #65: the reduction is recorded and the attack still hits; natural 1 still misses. Level 2 Initiative is reduced by 4. With Advantage the reduction applies once to the kept die.\n- Level 3, Speed 30: Speed 15, Dash through #780 adds 15, and righting from Prone through the Prone movement task costs 7.\n- Level 4, flying with Fly Speed 20 and no hover: Fly Speed 0 and one fall through the flying fall task; with hover it stays aloft. Fly Speed 30 at level 4 is 10 and no fall.\n- Speed 20 at level 5 is 0 and cannot right itself. Speed 0 from actual Grappled #778 stays 0 at every level and returns to the reduced value when the grapple ends.\n- After an actual ledger reduction from level 1 to 0, the roll term and Speed reduction are gone in the same transaction.\n- Reject treating the penalty as Disadvantage, applying it to a damage roll, save DC, AC or passive score, applying it twice, a client-declared level or penalty, and a Death Saving Throw reduction through legacy code.\n\n## Durable implementation acceptance\n\nThe penalty is a projection: it has no activation of its own and is applied inside another owner's roll or movement, in that owner's receipt and transaction. Preview shows the reduced modifier and Speed from facts the player may know. A level change and both recomputed penalties commit atomically with the derived sheet and public history. Inject a failure after each stage and prove full isolated PostgreSQL rollback. Same action ID and payload replay after retry, reload or reconnect returns the saved receipt with the same term and no reroll; a conflicting payload rejects; a roll racing a level change uses one committed level. Web and trusted TUI show the player's own level and both penalties, share unavailable reasons and confirm/cancel/reconnect behavior. Changed web requires focused build/lint and desktop/phone checks. An NPC's level, penalties and private rolls never enter previews, receipts, errors or public history. Preserve legacy reads and unrelated JSON.\n\nHard prerequisites: the Exhaustion ledger task (`edda-270:exhaustion-ledger`); #61 check and save receipts; #65 attack roll; #66 Initiative and turn economy; #780 authoritative modified Speed; the Prone movement task (`edda-270:prone-movement`) and the flying fall task (`edda-270:flying-fall`), whose outputs the composition fixtures above use. Those last two edges also route both tasks to the capped #279. Parent: #270. Directly block #623, the existing direct #279 and #280 blocker that removes one level and recomputes these penalties; that single edge makes all four tasks of this decision mandatory for #279, #280 and, through #551 and #1001, #337. Add no direct #279 edge, no #67 or #429 consumer, no edge to #428 or #1001, and change no existing body, parent or other prerequisite.\n\nValidation for the implementation PR: focused deterministic rules tests; isolated PostgreSQL rollback/concurrency/replay/reload tests; shared web/TUI confirmation and disclosure fixtures; `GOMAXPROCS=2 go test -p 2 -short -race ./...` and `GOMAXPROCS=2 go vet -p 2 ./...`. Short tests alone do not qualify PostgreSQL or devices. Runtime remains unavailable until implementation and its callers qualify. No deployment, source inference or Full Rules promotion.\n",
+      "root_paths_after_publication": {
+        "279": [
+          279,
+          623,
+          "exhaustion-penalties"
+        ],
+        "280": [
+          280,
+          623,
+          "exhaustion-penalties"
+        ],
+        "337": [
+          337,
+          551,
+          279,
+          623,
+          "exhaustion-penalties"
+        ]
+      }
+    }
+  ],
+  "planned_native_edges": {
+    "sub_issue": [
+      {
+        "parent": 270,
+        "child": "prone-movement"
+      },
+      {
+        "parent": 270,
+        "child": "flying-fall"
+      },
+      {
+        "parent": 270,
+        "child": "exhaustion-ledger"
+      },
+      {
+        "parent": 270,
+        "child": "exhaustion-penalties"
+      }
+    ],
+    "blocked_by": [
+      {
+        "issue": "prone-movement",
+        "blocked_by": 488
+      },
+      {
+        "issue": "prone-movement",
+        "blocked_by": 727
+      },
+      {
+        "issue": "prone-movement",
+        "blocked_by": 778
+      },
+      {
+        "issue": "prone-movement",
+        "blocked_by": 780
+      },
+      {
+        "issue": "flying-fall",
+        "blocked_by": 147
+      },
+      {
+        "issue": "flying-fall",
+        "blocked_by": 487
+      },
+      {
+        "issue": "flying-fall",
+        "blocked_by": 727
+      },
+      {
+        "issue": "flying-fall",
+        "blocked_by": 778
+      },
+      {
+        "issue": "flying-fall",
+        "blocked_by": "prone-movement"
+      },
+      {
+        "issue": "exhaustion-ledger",
+        "blocked_by": 64
+      },
+      {
+        "issue": "exhaustion-ledger",
+        "blocked_by": 618
+      },
+      {
+        "issue": "exhaustion-penalties",
+        "blocked_by": 61
+      },
+      {
+        "issue": "exhaustion-penalties",
+        "blocked_by": 65
+      },
+      {
+        "issue": "exhaustion-penalties",
+        "blocked_by": 66
+      },
+      {
+        "issue": "exhaustion-penalties",
+        "blocked_by": 780
+      },
+      {
+        "issue": "exhaustion-penalties",
+        "blocked_by": "exhaustion-ledger"
+      },
+      {
+        "issue": "exhaustion-penalties",
+        "blocked_by": "prone-movement"
+      },
+      {
+        "issue": "exhaustion-penalties",
+        "blocked_by": "flying-fall"
+      },
+      {
+        "issue": 623,
+        "blocked_by": "exhaustion-penalties"
+      }
+    ],
+    "existing_issue_additions": [
+      {
+        "issue": 623,
+        "adds_blocked_by": "exhaustion-penalties",
+        "body_sha256_unchanged": "7840bd164ad46ecea557bc6a01291d0754d4028d1c28158db1cee93be196d363",
+        "reason": "#279 is full; #623 is the existing direct #279/#280 blocker that recomputes the derived penalties",
+        "known_divergence": "#623 body says \"Native prerequisites: #270.\" After publication its native blockers are #270 and exhaustion-penalties; the body is not edited. The link receipt must record this."
+      }
+    ],
+    "cap_routing_edges": [
+      {
+        "issue": "exhaustion-penalties",
+        "blocked_by": "prone-movement",
+        "justification": "composition fixture: righting at Exhaustion-reduced Speed",
+        "also": "only route from prone-movement to the capped #279"
+      },
+      {
+        "issue": "exhaustion-penalties",
+        "blocked_by": "flying-fall",
+        "justification": "composition fixture: Fly Speed reduced to 0 by Exhaustion",
+        "also": "only route from flying-fall to the capped #279"
+      }
+    ],
+    "edges_considered_and_not_added": [
+      {
+        "issue": 428,
+        "blocked_by": "exhaustion-ledger",
+        "acyclic": true,
+        "reason": "would place Long Rest and its 81 consumers behind Revivify #618 and every open prerequisite of the ledger; #428 keeps its Exhaustion clause unavailable until the ledger exists, and the gates stay blocked by the ledger through #623",
+        "open_issues_428_would_wait_on": [
+          217,
+          618
+        ]
+      },
+      {
+        "issue": 1001,
+        "blocked_by": "exhaustion-ledger",
+        "reason": "#1001 already reaches the ledger through its existing blocker #623"
+      },
+      {
+        "issue": 947,
+        "blocked_by": "exhaustion-ledger",
+        "reason": "edges between existing revival owners and the ledger other than #618 are not added; the ledger fails closed for a dead creature with levels"
+      },
+      {
+        "issue": 390,
+        "blocked_by": [
+          778,
+          779
+        ],
+        "reason": "edge between existing issues; follow-up for the owner"
+      }
+    ]
+  },
+  "caps": {
+    "limit": 100,
+    "blocked_by": {
+      "279": {
+        "before": 100,
+        "after": 100
+      },
+      "280": {
+        "before": 97,
+        "after": 97
+      },
+      "337": {
+        "before": 62,
+        "after": 62
+      },
+      "623": {
+        "before": 1,
+        "after": 2
+      }
+    },
+    "blocking": {
+      "61": {
+        "before": 84,
+        "after": 85
+      },
+      "64": {
+        "before": 49,
+        "after": 50
+      },
+      "65": {
+        "before": 73,
+        "after": 74
+      },
+      "66": {
+        "before": 62,
+        "after": 63
+      },
+      "147": {
+        "before": 4,
+        "after": 5
+      },
+      "487": {
+        "before": 87,
+        "after": 88
+      },
+      "488": {
+        "before": 97,
+        "after": 98
+      },
+      "618": {
+        "before": 9,
+        "after": 10
+      },
+      "727": {
+        "before": 33,
+        "after": 35
+      },
+      "778": {
+        "before": 14,
+        "after": 16
+      },
+      "780": {
+        "before": 10,
+        "after": 12
+      }
+    },
+    "sub_issues": {
+      "270": {
+        "before": 4,
+        "after": 8
+      },
+      "193": {
+        "before": 32,
+        "after": 32
+      }
+    },
+    "new_task_blocked_by": {
+      "prone-movement": 4,
+      "flying-fall": 5,
+      "exhaustion-ledger": 2,
+      "exhaustion-penalties": 7
+    },
+    "untouched_full_caps": {
+      "279_blocked_by": 100,
+      "67_blocking": 100,
+      "429_blocking": 100
+    },
+    "at_publication": {
+      "limit": 100,
+      "nodes": 1898,
+      "dependency_edges": 10225,
+      "parent_edges": 1894,
+      "incoming279": 100,
+      "incoming280": 97,
+      "incoming337": 62,
+      "incoming623": 2,
+      "outgoing61": 85,
+      "outgoing64": 50,
+      "outgoing65": 74,
+      "outgoing66": 63,
+      "outgoing147": 5,
+      "outgoing487": 88,
+      "outgoing488": 98,
+      "outgoing618": 10,
+      "outgoing727": 35,
+      "outgoing778": 16,
+      "outgoing780": 12,
+      "outgoing67": 100,
+      "outgoing429": 100,
+      "children270": 8,
+      "max_incoming": 100,
+      "max_outgoing": 100,
+      "max_children": 95,
+      "before": {
+        "observed_at": "2026-11-20T08:11:49Z",
+        "nodes": 1894,
+        "dependency_edges": 10206,
+        "parent_edges": 1890,
+        "incoming279": 100,
+        "incoming280": 97,
+        "incoming337": 62,
+        "incoming623": 1,
+        "outgoing61": 84,
+        "outgoing64": 49,
+        "outgoing65": 73,
+        "outgoing66": 62,
+        "outgoing147": 4,
+        "outgoing487": 87,
+        "outgoing488": 97,
+        "outgoing618": 9,
+        "outgoing727": 33,
+        "outgoing778": 14,
+        "outgoing780": 10,
+        "outgoing67": 100,
+        "outgoing429": 100,
+        "children270": 4
+      }
+    }
+  },
+  "graph_checks": {
+    "blocked_by_acyclic_before": true,
+    "blocked_by_acyclic_after": true,
+    "parent_acyclic_after": true,
+    "root_paths_exclude_closed_decision": 270,
+    "native_readback_dependency_acyclic": true,
+    "native_readback_parent_acyclic": true,
+    "native_readback_issues_paged": 1898
+  },
+  "existing_evidence": {
+    "internal/combat/state.go": "legacy string flags prone, poisoned and exhausted; prone and poisoned give attack disadvantage only; exhausted has no level or effect; no grappled, restrained or petrified flag; RollDeathSavingThrow is legacy and not source-bound",
+    "internal/tools/apply_condition.go": "model-supplied condition name and round duration; not a trusted source-bound admission",
+    "internal/tools/update_player_status.go": "player status list includes poisoned; no bodily condition rules"
+  },
+  "publisher_confirmations": [
+    "Reading of #488: its phrase \"crawl or spend half Speed to stand\" stays with #488; prone-movement consumes it and adds only the unstated clauses. #488 body is not edited.",
+    "Addition of exhaustion-penalties as a blocker of the existing non-gate issue #623, beyond the gate-only additions of the #273/#335/#336 precedents; #623 body prerequisite line and native blockers will differ.",
+    "exhaustion-ledger is ordered after Revivify #618 so the PDF180 revival reduction is tested on a real receipt."
+  ],
+  "follow_ups_for_owner": [
+    "#390 Grappler names #270 for shared grapple rules and has no native edge to #778 or #779; it becomes startable when #270 closes.",
+    "#150 must publish Long Jump landing Prone (PDF185), and should be asked to take Burning (PDF178) and the shared-space Prone rule (PDF14), which no issue names.",
+    "#274 should be asked to take the mounted fall and Prone save (PDF16), which no issue names.",
+    "No published task owns Death Saving Throws, 0 Hit Points and a general dead state (PDF17-18).",
+    "No published task owns an authoritative flying state with height, or general per-turn movement along a path.",
+    "#428 Long Rest has no native edge to the Exhaustion ledger."
+  ],
+  "unknowns": [
+    "Which removable Exhaustion level a reduction removes when levels differ only in provenance: no source rule; recorded Edda ordering.",
+    "Speed below 0 when the Exhaustion reduction exceeds Speed: no source rule; clamped to 0 as an Edda adaptation.",
+    "A level that \"lasts until the contagion ends\" (PDF194) against ordinary reduction: no source precedence; unavailable.",
+    "Removing \"any Exhaustion levels you have\" (PDF236 Potion of Vitality) against levels dehydration or malnutrition made non-removable (PDF181, 185): no source precedence; unavailable.",
+    "Revival minus one (PDF180) when only non-removable levels remain: no source precedence; unavailable.",
+    "Exhaustion reduction on Death Saving Throws: defined by PDF17 and 181, but no source-bound Death Saving Throw or dead-state owner exists; unavailable, and no fixture is written against legacy code.",
+    "Authoritative flying state and height: no published owner; flying-fall reads it only as an isolated trusted fact.",
+    "How movement spent on righting counts against a special speed used in the same turn (PDF188): not stated; that combination is unavailable.",
+    "General per-turn movement along a path, positions and space occupancy: no published owner; prone-movement records only its own spends.",
+    "General Difficult Terrain cost and terrain facts: #150 must publish; crawl in Difficult Terrain uses an isolated trusted fact until then.",
+    "Production sources of Exhaustion outside PDF176-191 (travel PDF192, contagion PDF194, temperature PDF195, items and stat blocks) stay with #150, #278 and their stat-block owners.",
+    "General Restrained and Petrified endings are source-specific; no glossary ending exists to assign."
+  ],
+  "runtime_qualified": false,
+  "published": {
+    "observed_at": "2026-11-20T08:14:40Z",
+    "issue_count": 1898,
+    "numbers": {
+      "prone-movement": 2061,
+      "flying-fall": 2062,
+      "exhaustion-ledger": 2063,
+      "exhaustion-penalties": 2064
+    },
+    "receipt": "docs/investigations/issue-270-link-verification.json",
+    "edges_added": [
+      "#2061 parent #270",
+      "#2062 parent #270",
+      "#2063 parent #270",
+      "#2064 parent #270",
+      "#2061 blocked-by #488",
+      "#2061 blocked-by #727",
+      "#2061 blocked-by #778",
+      "#2061 blocked-by #780",
+      "#2062 blocked-by #147",
+      "#2062 blocked-by #487",
+      "#2062 blocked-by #727",
+      "#2062 blocked-by #778",
+      "#2062 blocked-by #2061",
+      "#2063 blocked-by #64",
+      "#2063 blocked-by #618",
+      "#2064 blocked-by #61",
+      "#2064 blocked-by #65",
+      "#2064 blocked-by #66",
+      "#2064 blocked-by #780",
+      "#2064 blocked-by #2063",
+      "#2064 blocked-by #2061",
+      "#2064 blocked-by #2062",
+      "#623 blocked-by #2064"
+    ],
+    "note": "Keys in planned_native_edges, released_planning_references and root paths resolve through numbers. Counts under caps were taken at observed_at of the draft; #280 had 97 blockers at publication because #358 published #2059 first. This publication did not touch #280."
+  }
+}
