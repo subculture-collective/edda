@@ -535,7 +535,7 @@ Schema version 1 gains only shapes present in this batch, on top of #200:
 Validation pins each record's header, scaling row, effects, material,
 dependency list and typed values by equality with the printed page, so a
 positive but wrong value is rejected. Composition of the bounded fixtures with
-#196, #218, #198, #199, #200 and #202 yields 84 unique records. Every imported record
+#196, #218, #198, #199, #200, #201 and #202 yields 96 unique records. Every imported record
 remains unavailable: no resolver, action, entitlement, tool, inventory,
 coverage or Full Rules behavior is added.
 

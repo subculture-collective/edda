@@ -79,12 +79,12 @@ func TestSpells202CompositionBoundaries(t *testing.T) {
 	// #196 restates Acid Arrow, so the legacy fixture cannot be composed beside it.
 	bounded := legacy
 	bounded.Records = legacy.Records[1:]
-	all, err := ComposeSpellSourceCatalogue(bounded, loadSpells196(t), loadSpells197(t), loadSpells218(t), loadSpells198(t), loadSpells199(t), loadSpells200(t), batch)
+	all, err := ComposeSpellSourceCatalogue(bounded, loadSpells196(t), loadSpells197(t), loadSpells218(t), loadSpells198(t), loadSpells199(t), loadSpells200(t), loadSpells201(t), batch)
 	if err != nil {
 		t.Fatal(err)
 	}
-	if len(all.Records) != 84 {
-		t.Fatalf("expected seven twelve-family batches, got %d", len(all.Records))
+	if len(all.Records) != 96 {
+		t.Fatalf("expected eight twelve-family batches, got %d", len(all.Records))
 	}
 	seen := map[string]bool{}
 	for _, r := range all.Records {
