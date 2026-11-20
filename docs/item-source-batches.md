@@ -48,6 +48,15 @@ unknown fields, duplicate or mixed-case members and trailing data fail. Payload
 strings are lower-case keys, never prose; numbers are non-negative; tables must
 cover their die exactly.
 
+The manifest does not pin payload values. Inside `details` the decoder checks
+shape and internal consistency only: a table covers its die, a rarity variant
+carries its own bonus, a DC or die count is positive. It accepts a
+well-formed payload with a different DC, die, distance or key, so
+`DecodeItems225` does not prove that caller-supplied JSON matches the source.
+The embedded data is pinned by the literal fixtures in
+`TestItems225SourceValues`, and the Python comparison checks its values, table
+rows and keys against the printed text.
+
 No price is inferred from rarity. `unspecified` with zero amount and `none`
 currency means no listed price, never free. A once-per-dawn property is a use
 limit in the payload, not a charge pool.
