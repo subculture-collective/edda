@@ -311,6 +311,14 @@ are a quantity (1d6 + 4), not charges. Attunement restrictions stay empty in the
 shared fields, so the Dwarven Thrower's qualifier is recorded in its payload. The
 shared manifest and validator are unchanged.
 
+The shared manifest stores one presentation page per family, so Dragon Scale
+Mail records p. 218 although its text and table continue onto p. 219. In the
+Efreeti Bottle table, `understands_owner_languages` and `obeys_owner_commands`
+are `false` where the source does not state them (rows 1 and 10); `false` there
+means not stated, not a source claim. The validator checks structure and the
+dragon and gem tables; the literal fixture and the PDF verifier pin the numeric
+values.
+
 Composing the Healing contract fixture with batches #225 to #229 and #230 yields
 73 families and 98 variants with no shared identity. The Healing fixture,
 `ResolveHealingPotion` and the coverage register are unchanged.
