@@ -356,12 +356,14 @@ func validateItemDetails226(family, variant string, d *ItemDetails226) error {
 		}
 		if !itemRollTable(rows, b.TableDieSides) || !uniqueItemKeys(effects) || b.BeansDice <= 0 || b.BeansDieSides <= 0 ||
 			b.WeightPoundsNumerator <= 0 || b.WeightPoundsDenominator <= 0 || b.AreaRadiusFeet <= 0 || b.SaveDC <= 0 || !dice(b.Damage) ||
-			b.PlantDelaySeconds <= 0 || !uniqueItemKeys(b.PlantSteps) || !uniqueItemKeys(b.EffectSelection) {
+			b.PlantDelaySeconds <= 0 || !uniqueItemKeys(b.PlantSteps) || !uniqueItemKeys(b.EffectSelection) ||
+			b.Save != "dexterity" || b.SaveDC != 15 { // p. 211; also named by the family's mechanic key
 			return fmt.Errorf("incomplete bean effect table, save or damage")
 		}
 	case "bag-of-devouring":
 		v := d.Devouring
-		if v.PullChancePercent <= 0 || v.PullChancePercent > 100 || v.EscapeCheck.DC <= 0 || v.RescueCheck.DC <= 0 || v.CapacityCubicFeet <= 0 ||
+		// p. 212: escape is DC 15 and rescue DC 20, as the family's mechanic keys name.
+		if v.PullChancePercent <= 0 || v.PullChancePercent > 100 || v.EscapeCheck.DC != 15 || v.RescueCheck.DC != 20 || v.CapacityCubicFeet <= 0 ||
 			!uniqueItemKeys(v.Devours) || !uniqueItemKeys(v.DestroyedBy) {
 			return fmt.Errorf("invalid chance, checks or capacity")
 		}
@@ -372,6 +374,12 @@ func validateItemDetails226(family, variant string, d *ItemDetails226) error {
 			return fmt.Errorf("invalid dimensions, capacity or gate")
 		}
 	case "bag-of-tricks":
+		// The three 1d8 tables, p. 212: each colour's creatures for rolls 1–8.
+		tables := map[string][]string{
+			"gray": {"weasel", "giant-rat", "badger", "boar", "panther", "giant-badger", "dire-wolf", "giant-elk"},
+			"rust": {"rat", "owl", "mastiff", "goat", "giant-goat", "giant-boar", "lion", "brown-bear"},
+			"tan":  {"jackal", "ape", "baboon", "axe-beak", "black-bear", "giant-weasel", "giant-hyena", "tiger"},
+		}
 		t := d.Tricks
 		creatures := []string{}
 		for i, row := range t.Creatures {
@@ -381,7 +389,7 @@ func validateItemDetails226(family, variant string, d *ItemDetails226) error {
 			creatures = append(creatures, row.Creature)
 		}
 		if t.Color != variant || !slices.Contains(t.ClothColors, variant) || !uniqueItemKeys(t.ClothColors) || len(creatures) != t.TableDieSides ||
-			!uniqueItemKeys(creatures) || t.ThrowFeet <= 0 || t.Uses <= 0 || !uniqueItemKeys(t.Vanishes) {
+			!slices.Equal(creatures, tables[variant]) || t.ThrowFeet <= 0 || t.Uses <= 0 || !uniqueItemKeys(t.Vanishes) {
 			return fmt.Errorf("creature table disagrees with its colour variant or die")
 		}
 	case "bead-of-force":

@@ -478,6 +478,20 @@ func TestItems226RejectInvalidFixtures(t *testing.T) {
 		{"dwarvenkind maximum", func(b *batch) { b.Families[7].Variants[0].Details.Dwarvenkind.ConstitutionMaximum = 31 }},
 		{"dwarvenkind chance", func(b *batch) { b.Families[7].Variants[0].Details.Dwarvenkind.BeardChancePercent = 0 }},
 		{"dwarvenkind duplicate benefit", func(b *batch) { b.Families[7].Variants[0].Details.Dwarvenkind.Benefits[1] = "dwarvish" }},
+		{"beans save ability", func(b *batch) { b.Families[1].Variants[0].Details.Beans.Save = "wisdom" }},
+		{"beans save dc literal", func(b *batch) { b.Families[1].Variants[0].Details.Beans.SaveDC = 20 }},
+		{"devouring escape dc literal", func(b *batch) { b.Families[2].Variants[0].Details.Devouring.EscapeCheck.DC = 20 }},
+		{"devouring rescue dc literal", func(b *batch) { b.Families[2].Variants[0].Details.Devouring.RescueCheck.DC = 25 }},
+		{"tricks gray creature literal", func(b *batch) { b.Families[4].Variants[0].Details.Tricks.Creatures[0].Creature = "rat" }},
+		{"tricks invented creature", func(b *batch) { b.Families[4].Variants[0].Details.Tricks.Creatures[0].Creature = "dragon" }},
+		{"tricks swapped tables", func(b *batch) {
+			rust, tan := b.Families[4].Variants[1].Details.Tricks, b.Families[4].Variants[2].Details.Tricks
+			rust.Creatures, tan.Creatures = tan.Creatures, rust.Creatures
+		}},
+		{"tricks reordered rows", func(b *batch) {
+			c := b.Families[4].Variants[2].Details.Tricks.Creatures
+			c[6].Creature, c[7].Creature = c[7].Creature, c[6].Creature
+		}},
 		{"belt score", func(b *batch) { b.Families[8].Variants[0].Details.GiantStrength.Score = 23 }},
 		{"belt threshold", func(b *batch) { b.Families[8].Variants[4].Details.GiantStrength.NoEffectIfScoreAtLeast = 30 }},
 		{"belt giant types", func(b *batch) { b.Families[8].Variants[1].Details.GiantStrength.GiantTypes = []string{"frost"} }},

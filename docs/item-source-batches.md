@@ -140,6 +140,11 @@ the planning inventory page, 212, and its payload records `source_pages`
 Its row numbers are typed quantities: dice, a flat bonus and a unit. Creature
 names in a row are keys, not links to monster records.
 
+`DecodeItems226` pins a few literals beyond shape: the five belt rows, the three
+Bag of Tricks creature tables, the Bag of Beans DC 15 Dexterity save and the Bag
+of Devouring DC 15 and DC 20 checks. Other payload values are pinned only by
+`TestItems226SourceValues` and the Python comparison, as in batch #225.
+
 Composing the Healing contract fixture, batch #225 and this batch yields 25
 families and 38 variants with no shared identity. The Healing fixture, batch
 #225, `ResolveHealingPotion` and the coverage register are unchanged.
