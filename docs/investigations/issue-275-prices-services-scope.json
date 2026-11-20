@@ -1,0 +1,796 @@
+{
+  "schema_version": 1,
+  "decision": 275,
+  "status": "SOURCE_DRAFT_PENDING_NATIVE_PUBLICATION",
+  "source": {
+    "sha256": "8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87",
+    "attribution": "docs/srd-5.2.1-conformance.md",
+    "checked_source_clauses": {
+      "89": [
+        "Copper Piece (CP)",
+        "Silver Piece (SP)",
+        "Electrum Piece (EP)",
+        "Gold Piece (GP)",
+        "Platinum Piece (PP)",
+        "1/100",
+        "1/10",
+        "1/2",
+        "100 Copper Pieces are worth 1 Gold Piece",
+        "fifty coins weigh a pound",
+        "Equipment fetches half its cost when sold",
+        "retain their full value in the marketplace",
+        "\"Magic Items\" has prices for magic items"
+      ],
+      "91": [
+        "Longsword"
+      ],
+      "95": [
+        "Candle"
+      ],
+      "101": [
+        "At the start of each week or month (GM's choice)",
+        "Lifestyles have no inherent consequences",
+        "Wretched (Free)",
+        "Squalid (1 SP per Day)",
+        "Poor (2 SP per Day)",
+        "Modest (1 GP per Day)",
+        "Comfortable (2 GP per Day)",
+        "Wealthy (4 GP per Day)",
+        "Aristocratic (10 GP per Day)",
+        "Prices for daily lodging and meals are included in your lifestyle's expenses",
+        "Ale (mug)",
+        "Bread (loaf)",
+        "Cheese (wedge)",
+        "Inn Stay per Day",
+        "They cover lodging, food, equipment maintenance, and other necessities"
+      ],
+      "102": [
+        "Wine (bottle)",
+        "The pay shown on the Hirelings table is a minimum",
+        "Skilled hireling",
+        "2 GP per day",
+        "Untrained hireling",
+        "2 SP per day",
+        "Messenger",
+        "2 CP per mile",
+        "If a spell has expensive components, add the cost of those components",
+        "Village, town, or city",
+        "Town or city only",
+        "City only",
+        "100,000 GP",
+        "The higher the level of a desired spell, the harder it is to find someone to cast it"
+      ],
+      "159": [
+        "Revivify",
+        "a diamond worth 300+ GP, which the spell consumes"
+      ],
+      "181": [
+        "Dehydration [Hazard]"
+      ],
+      "185": [
+        "Malnutrition [Hazard]"
+      ],
+      "205": [
+        "If you allow characters to buy and sell magic items in your campaign",
+        "a seller might ask for a service rather than coin as payment"
+      ],
+      "206": [
+        "Magic Item Rarities and Values",
+        "Halve the value for a consumable item other than a Spell Scroll",
+        "5,500 GP",
+        "Priceless"
+      ]
+    },
+    "tables": {
+      "coin_values_cp": {
+        "CP": 1,
+        "SP": 10,
+        "EP": 50,
+        "GP": 100,
+        "PP": 1000
+      },
+      "coins_per_pound": 50,
+      "lifestyle_cp_per_day": {
+        "Wretched": 0,
+        "Squalid": 10,
+        "Poor": 20,
+        "Modest": 100,
+        "Comfortable": 200,
+        "Wealthy": 400,
+        "Aristocratic": 1000
+      },
+      "food_drink_lodging_cp": {
+        "Ale (mug)": 4,
+        "Bread (loaf)": 2,
+        "Cheese (wedge)": 10,
+        "Inn Stay per Day": {
+          "Squalid": 7,
+          "Poor": 10,
+          "Modest": 50,
+          "Comfortable": 80,
+          "Wealthy": 200,
+          "Aristocratic": 400
+        },
+        "Meal": {
+          "Squalid": 1,
+          "Poor": 2,
+          "Modest": 10,
+          "Comfortable": 20,
+          "Wealthy": 30,
+          "Aristocratic": 60
+        },
+        "Wine (bottle)": {
+          "Common": 20,
+          "Fine": 1000
+        }
+      },
+      "hirelings_minimum_cp": {
+        "Skilled hireling per day": 200,
+        "Untrained hireling per day": 20,
+        "Messenger per mile": 2
+      },
+      "spellcasting_services": [
+        {
+          "spell_level": "Cantrip",
+          "availability": "Village, town, or city",
+          "cost_gp": 30
+        },
+        {
+          "spell_level": "1",
+          "availability": "Village, town, or city",
+          "cost_gp": 50
+        },
+        {
+          "spell_level": "2",
+          "availability": "Village, town, or city",
+          "cost_gp": 200
+        },
+        {
+          "spell_level": "3",
+          "availability": "Town or city only",
+          "cost_gp": 300
+        },
+        {
+          "spell_level": "4-5",
+          "availability": "Town or city only",
+          "cost_gp": 2000
+        },
+        {
+          "spell_level": "6-8",
+          "availability": "City only",
+          "cost_gp": 20000
+        },
+        {
+          "spell_level": "9",
+          "availability": "City only",
+          "cost_gp": 100000
+        }
+      ],
+      "magic_item_value_guide_gp": {
+        "Common": 100,
+        "Uncommon": 400,
+        "Rare": 4000,
+        "Very Rare": 40000,
+        "Legendary": 200000,
+        "Artifact": null
+      }
+    }
+  },
+  "scopes": [
+    {
+      "scope": "coins/selling",
+      "PDF": [
+        89,
+        91,
+        95,
+        205,
+        206
+      ],
+      "existing_owners": [],
+      "residual_task": "edda-275:coin-payment-sale"
+    },
+    {
+      "scope": "lifestyle",
+      "PDF": [
+        101
+      ],
+      "existing_owners": [],
+      "residual_task": "edda-275:lifestyle-lodging"
+    },
+    {
+      "scope": "food/drink/lodging",
+      "PDF": [
+        101,
+        102
+      ],
+      "existing_owners": [],
+      "residual_task": "edda-275:lifestyle-lodging"
+    },
+    {
+      "scope": "hirelings",
+      "PDF": [
+        102
+      ],
+      "existing_owners": [],
+      "residual_task": "edda-275:hired-services"
+    },
+    {
+      "scope": "spellcasting services",
+      "PDF": [
+        102,
+        159
+      ],
+      "existing_owners": [],
+      "residual_task": "edda-275:hired-services",
+      "consumed_effect_owner": 618
+    },
+    {
+      "scope": "composition and single #280 path",
+      "PDF": [
+        89,
+        101,
+        102
+      ],
+      "existing_owners": [],
+      "residual_task": "edda-275:economy-qualification"
+    }
+  ],
+  "owner_search": {
+    "observed_issue_count": 1892,
+    "highest_issue": 2056,
+    "method": "regular expression over every open and closed issue title and body; candidate bodies read whole",
+    "matches": {
+      "(?i)lifestyle": [
+        47,
+        54,
+        193,
+        275
+      ],
+      "(?i)hireling": [
+        275
+      ],
+      "(?i)spellcasting services?": [
+        275
+      ],
+      "(?i)\\bsell(ing|s)?\\b|\\bsold\\b": [
+        275,
+        933
+      ],
+      "(?i)electrum|\\bcoins?\\b": [
+        275,
+        2053
+      ],
+      "(?i)inn stay|lodging|food, drink": [
+        275
+      ],
+      "(?i)\\bmessenger\\b": [
+        196,
+        974,
+        978,
+        984,
+        1037,
+        1038,
+        1590,
+        1591,
+        1592,
+        1732,
+        1734,
+        1739,
+        1752,
+        2023,
+        2024
+      ],
+      "(?i)trade goods|art objects?": [],
+      "(?i)\\bbuy|purchas": [
+        730,
+        1480,
+        1724,
+        2053
+      ],
+      "(?i)marketplace|merchant|\\bshop": [
+        47,
+        68
+      ],
+      "(?i)magic item (rarit|value)|by rarity": [],
+      "(?i)malnutrition|dehydration": [
+        1001
+      ],
+      "(?i)carrying capacity": []
+    },
+    "result": "No existing issue owns any of the five named scopes. Every match is #275 itself, a roadmap list that names #275, an unrelated spell, or a boundary mention recorded under adjacent_issues."
+  },
+  "adjacent_issues": {
+    "80": {
+      "number": 80,
+      "title": "Split remaining SRD spells, items and effects into PR-sized batches",
+      "state": "CLOSED",
+      "parent": 54,
+      "blocked_by": [
+        77,
+        79
+      ],
+      "body_sha256": "d5bbfa4e85aee825ecfe9d527c5e4ac1c0c4967773d291d7a0045a7be313b4d6",
+      "role": "closed hard prerequisite of #275; batch decision that left these sections unindexed"
+    },
+    "193": {
+      "number": 193,
+      "title": "Resolve remaining spell and item effect interactions",
+      "state": "OPEN",
+      "parent": 54,
+      "blocked_by": [],
+      "body_sha256": "38c1f17d9428b3bfc6e71292c35f517be0240a7b20cc91945e8af619205851c7",
+      "role": "native parent of #275; unchanged"
+    },
+    "195": {
+      "number": 195,
+      "title": "Validate versioned item families and explicit variant identities",
+      "state": "CLOSED",
+      "parent": 192,
+      "blocked_by": [
+        80
+      ],
+      "body_sha256": "554b45122c2a301ffd11b6b8b717b254f44fa54a21f0e623227613ca14464b5a",
+      "role": "closed item contract; supplies listed cost; prerequisite of the coin task"
+    },
+    "248": {
+      "number": 248,
+      "title": "Catalogue SRD weapons 02: Handaxe to Pike",
+      "state": "OPEN",
+      "parent": 192,
+      "blocked_by": [
+        195
+      ],
+      "body_sha256": "748b9dde4f07d45fc9482492b5e19fe3ddf31dd29e6589305fa047d7c3eddbd3",
+      "role": "Longsword catalogue record (PDF91, 15 GP); prerequisite of the coin task"
+    },
+    "274": {
+      "number": 274,
+      "title": "Split mount, vehicle and cargo rules into bounded fixtures",
+      "state": "OPEN",
+      "parent": 193,
+      "blocked_by": [
+        80
+      ],
+      "body_sha256": "511b898020e6e6a431e02dde79c8b6a97060aea437e13c197de5eced1fc2fd81",
+      "role": "sibling decision: mount, vehicle, cargo, crew, passenger and repair prices (PDF100-101)"
+    },
+    "276": {
+      "number": 276,
+      "title": "Split nonmagical crafting, potion brewing and scroll scribing",
+      "state": "OPEN",
+      "parent": 193,
+      "blocked_by": [
+        80
+      ],
+      "body_sha256": "5111907a572781444c22bb721f3085893983d7975499aa2cecf133f939dd7658",
+      "role": "sibling decision: crafting, brewing and scribing costs (PDF103, 206-207)"
+    },
+    "278": {
+      "number": 278,
+      "title": "Assign every remaining equipment and magic-item key to bounded implementation PRs",
+      "state": "OPEN",
+      "parent": 192,
+      "blocked_by": [
+        80,
+        225,
+        226,
+        227,
+        228,
+        229,
+        230,
+        231,
+        232,
+        233,
+        234,
+        235,
+        236,
+        237,
+        238,
+        239,
+        240,
+        241,
+        242,
+        243,
+        244,
+        245,
+        246,
+        247,
+        248,
+        249,
+        250,
+        251,
+        252,
+        253,
+        254,
+        255,
+        256,
+        257,
+        258,
+        259,
+        260,
+        261,
+        262
+      ],
+      "body_sha256": "b88e1f565c101b658338ecb8bc0b7da784955da7ff411bcb87bda7a2c27e565b",
+      "role": "residual item mechanic-key reconciliation; unchanged"
+    },
+    "280": {
+      "number": 280,
+      "title": "Qualify declared SRD item families and variants before full coverage claims",
+      "state": "OPEN",
+      "parent": 192,
+      "blocked_by": [
+        266,
+        267,
+        274,
+        275,
+        276,
+        278,
+        279,
+        351,
+        352,
+        353,
+        354,
+        355,
+        356,
+        358,
+        359,
+        382,
+        502,
+        503,
+        504,
+        505,
+        506,
+        583,
+        584,
+        585,
+        586,
+        587,
+        588,
+        589,
+        590,
+        591,
+        614,
+        615,
+        616,
+        617,
+        618,
+        619,
+        620,
+        621,
+        622,
+        623,
+        624,
+        625,
+        626,
+        627,
+        676,
+        677,
+        678,
+        679,
+        680,
+        681,
+        682,
+        683,
+        684,
+        685,
+        686,
+        687,
+        688,
+        689,
+        690,
+        691,
+        692,
+        693,
+        694,
+        695,
+        696,
+        697,
+        698,
+        699,
+        700,
+        722,
+        723,
+        724,
+        725,
+        726,
+        727,
+        774,
+        777,
+        778,
+        779,
+        780,
+        781,
+        782,
+        848,
+        849,
+        850,
+        960,
+        961,
+        962,
+        963,
+        964,
+        965,
+        966,
+        973,
+        1096,
+        1477,
+        2051
+      ],
+      "body_sha256": "c37cc3230c1bc904f00471030569dacd6b60f02c1b0a7f3b3c9d675308e9a808",
+      "role": "item qualification gate; gains one blocker"
+    },
+    "427": {
+      "number": 427,
+      "title": "Complete source-correct Short Rest and publish recharge events",
+      "state": "OPEN",
+      "parent": 272,
+      "blocked_by": [
+        272,
+        286,
+        308
+      ],
+      "body_sha256": "5356cf09ae69c28bac1a08c901ce3fde57fcf877f3bbf619eb29c575cfca3a75",
+      "role": "Short Rest owner; an inn stay grants no rest"
+    },
+    "428": {
+      "number": 428,
+      "title": "Complete source-correct Long Rest with interruption and recovery receipt",
+      "state": "OPEN",
+      "parent": 272,
+      "blocked_by": [
+        272,
+        286,
+        308,
+        427
+      ],
+      "body_sha256": "6822469be2b3e75b9f37da60335e01fbe3f27bc5d8cb735a44dc4171f1657046",
+      "role": "Long Rest owner; an inn stay grants no rest"
+    },
+    "433": {
+      "number": 433,
+      "title": "Confirm either Barbarian starting equipment package",
+      "state": "OPEN",
+      "parent": 283,
+      "blocked_by": [
+        247,
+        248,
+        267,
+        286,
+        308
+      ],
+      "body_sha256": "d06d432ab0df04ce2e4e34fbf6b0ded4efce591f1ca16df974c48b9d71f0dd2e",
+      "role": "example class starting-equipment coin grant; unchanged"
+    },
+    "618": {
+      "number": 618,
+      "title": "Resolve Revivify one recent death",
+      "state": "OPEN",
+      "parent": 191,
+      "blocked_by": [
+        194,
+        195,
+        217,
+        273
+      ],
+      "body_sha256": "6fe2f210bf55b90248ceacd9203fee22693f6a5cf2cd4a7fe02f5487efe916ae",
+      "role": "Revivify resolver; prerequisite of the service task"
+    },
+    "730": {
+      "number": 730,
+      "title": "Fighter A/B/C starting equipment grants",
+      "state": "OPEN",
+      "parent": 728,
+      "blocked_by": [
+        333,
+        430
+      ],
+      "body_sha256": "ebc9630e6fa610cf36e90d31a23952ffcce6b193cc0b558fc404cb0f344531ab",
+      "role": "example class starting-equipment coin grant; unchanged"
+    },
+    "1001": {
+      "number": 1001,
+      "title": "Resolve Tireless Short Rest Exhaustion reduction",
+      "state": "OPEN",
+      "parent": 971,
+      "blocked_by": [
+        427,
+        623
+      ],
+      "body_sha256": "6071d0b71bfe4121fd37e6dce38a3edb5c401221d0907d4c6d672bae92f487dc",
+      "role": "only existing mention of Malnutrition; hazard not owned here"
+    },
+    "1447": {
+      "number": 1447,
+      "title": "Resolve bounded cast components",
+      "state": "OPEN",
+      "parent": 1469,
+      "blocked_by": [
+        68,
+        273,
+        1457
+      ],
+      "body_sha256": "3061aa1f96c328eaffff56a289c64544a62e126e8277be1049a0dca6988a19be",
+      "role": "player caster's costly and consumed materials; unchanged"
+    },
+    "2053": {
+      "number": 2053,
+      "title": "Confirm source-correct higher-level creation through qualified class outputs",
+      "state": "OPEN",
+      "parent": 336,
+      "blocked_by": [
+        195,
+        285,
+        384,
+        430,
+        498,
+        501,
+        551,
+        630,
+        728,
+        776,
+        845,
+        968,
+        970,
+        1093,
+        1475,
+        1758,
+        2036
+      ],
+      "body_sha256": "33dcb87cf5e7fbf2ce8b188522bc171060043545e958e4212a1f91e8cec135df",
+      "role": "optional higher-level starting money guide; unchanged"
+    }
+  },
+  "new_tasks": [
+    {
+      "key": "edda-275:coin-payment-sale",
+      "number": null,
+      "title": "Confirm coin holdings, listed-price payment and equipment sale",
+      "type": "Task",
+      "size": "L",
+      "parent": 275,
+      "blocked_by_existing": [
+        195,
+        248
+      ],
+      "blocked_by_new": [],
+      "blocks_new": [
+        "edda-275:lifestyle-lodging",
+        "edda-275:hired-services",
+        "edda-275:economy-qualification"
+      ],
+      "blocks_existing": [],
+      "body_file": "docs/investigations/issue-275-coin-payment-task.md",
+      "body_sha256": "0378441d3b44afc3ed3698e063be51784a708e71b7ccdca33ac4fe839f1d3be6"
+    },
+    {
+      "key": "edda-275:lifestyle-lodging",
+      "number": null,
+      "title": "Confirm lifestyle expenses and Food, Drink, and Lodging purchases",
+      "type": "Task",
+      "size": "M",
+      "parent": 275,
+      "blocked_by_existing": [],
+      "blocked_by_new": [
+        "edda-275:coin-payment-sale"
+      ],
+      "blocks_new": [
+        "edda-275:economy-qualification"
+      ],
+      "blocks_existing": [],
+      "body_file": "docs/investigations/issue-275-lifestyle-lodging-task.md",
+      "body_sha256": "76b5097f64bb7b63874150687440cb4ef41e6dc49dec7bbd05174428dd11fde0"
+    },
+    {
+      "key": "edda-275:hired-services",
+      "number": null,
+      "title": "Confirm hireling, messenger and spellcasting service payments",
+      "type": "Task",
+      "size": "M",
+      "parent": 275,
+      "blocked_by_existing": [
+        618
+      ],
+      "blocked_by_new": [
+        "edda-275:coin-payment-sale"
+      ],
+      "blocks_new": [
+        "edda-275:economy-qualification"
+      ],
+      "blocks_existing": [],
+      "body_file": "docs/investigations/issue-275-hired-services-task.md",
+      "body_sha256": "447bd861542a64a8ede642560e0013106fa4f6ac225a60979446b88fb69b2562"
+    },
+    {
+      "key": "edda-275:economy-qualification",
+      "number": null,
+      "title": "Qualify coin, lifestyle and service payments for item coverage",
+      "type": "Task",
+      "size": "M",
+      "parent": 275,
+      "blocked_by_existing": [],
+      "blocked_by_new": [
+        "edda-275:coin-payment-sale",
+        "edda-275:lifestyle-lodging",
+        "edda-275:hired-services"
+      ],
+      "blocks_new": [],
+      "blocks_existing": [
+        280
+      ],
+      "body_file": "docs/investigations/issue-275-economy-qualification-task.md",
+      "body_sha256": "3939394f3941293777fd4649da038b5fca58895137911180efe1e19725bb8a13"
+    }
+  ],
+  "planned_native_edges": {
+    "sub_issues_of_275": [
+      "edda-275:coin-payment-sale",
+      "edda-275:lifestyle-lodging",
+      "edda-275:hired-services",
+      "edda-275:economy-qualification"
+    ],
+    "blocked_by": {
+      "edda-275:coin-payment-sale": [
+        195,
+        248
+      ],
+      "edda-275:lifestyle-lodging": [
+        "edda-275:coin-payment-sale"
+      ],
+      "edda-275:hired-services": [
+        618,
+        "edda-275:coin-payment-sale"
+      ],
+      "edda-275:economy-qualification": [
+        "edda-275:coin-payment-sale",
+        "edda-275:lifestyle-lodging",
+        "edda-275:hired-services"
+      ]
+    },
+    "gate_edges": [
+      {
+        "gate": 280,
+        "blocked_by": "edda-275:economy-qualification"
+      }
+    ]
+  },
+  "caps_before_publication": {
+    "observed_from": "GraphQL issue dump",
+    "280_blocked_by": 96,
+    "279_blocked_by": 100,
+    "275_sub_issues": 0,
+    "193_sub_issues": 30,
+    "195_blocking": 61,
+    "248_blocking": 12,
+    "618_blocking": 9
+  },
+  "caps_after_publication_planned": {
+    "280_blocked_by": 97,
+    "275_sub_issues": 4,
+    "195_blocking": 62,
+    "248_blocking": 13,
+    "618_blocking": 10
+  },
+  "graph_checks": {
+    "dependency_DAG_with_planned_edges": "PASS",
+    "parent_chain_from_275": [
+      47,
+      54,
+      193,
+      275
+    ],
+    "275_blocked_by_all_closed": true
+  },
+  "exclusions": [
+    "shop stock, haggling, banking and debt",
+    "treasure generation",
+    "carrying-capacity enforcement",
+    "Malnutrition and Dehydration hazards",
+    "rest benefits from lodging",
+    "hireling stat blocks, control and crew automation",
+    "spell effects without their own qualified resolver",
+    "mount, vehicle and passenger prices (#274)",
+    "crafting and scribing costs (#276)"
+  ],
+  "runtime_qualified": false
+}
