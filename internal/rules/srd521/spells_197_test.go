@@ -278,6 +278,66 @@ func TestSpells197InvalidTypedVariants(t *testing.T) {
 	}
 }
 
+// Values a record stores twice, or that its required mechanics depend on,
+// must agree; PDF pp.109-111 literals are in TestSpells197SourceValues.
+func TestSpells197RejectInconsistentDuplicates(t *testing.T) {
+	dropMechanic := func(s *SpellRecord, key string) {
+		s.RequiredMechanics = slices.DeleteFunc(slices.Clone(s.RequiredMechanics), func(m string) bool { return m == key })
+	}
+	for _, tc := range []struct {
+		name   string
+		index  int
+		change func(*SpellRecord)
+	}{
+		{"hand clenched fist option dice", 2, func(s *SpellRecord) { s.SourceDetails.Hand.Options[0].DiceCount = 6 }},
+		{"hand clenched fist effect dice", 2, func(s *SpellRecord) { s.Effects[0].DiceCount = 6 }},
+		{"hand clenched fist option damage type", 2, func(s *SpellRecord) { s.SourceDetails.Hand.Options[0].DamageType = "bludgeoning" }},
+		{"hand grasping option sides", 2, func(s *SpellRecord) { s.SourceDetails.Hand.Options[2].DieSides = 8 }},
+		{"hand grasping option modifier", 2, func(s *SpellRecord) { s.SourceDetails.Hand.Options[2].AddCastingModifier = false }},
+		{"bane effect die", 10, func(s *SpellRecord) { s.Effects[0].DieSides = 6 }},
+		{"bane effect dice count", 10, func(s *SpellRecord) { s.Effects[0].DiceCount = 2 }},
+		{"lock unconsumed", 3, func(s *SpellRecord) { *s.Components.Material.Consumed = false }},
+		{"lock free material", 3, func(s *SpellRecord) { *s.Components.Material.CostCP = 0 }},
+		{"lock priced mechanic dropped", 3, func(s *SpellRecord) { dropMechanic(s, "components.priced-consumed-material") }},
+		{"sword free material", 4, func(s *SpellRecord) { *s.Components.Material.CostCP = 0 }},
+		{"sword consumed", 4, func(s *SpellRecord) { *s.Components.Material.Consumed = true }},
+		{"awaken free material", 9, func(s *SpellRecord) { *s.Components.Material.CostCP = 0 }},
+		{"eye priced material", 1, func(s *SpellRecord) { *s.Components.Material.CostCP = 100 }},
+		{"lock timed duration", 3, func(s *SpellRecord) { s.Duration, s.DurationSeconds = "timed", 60 }},
+		{"lock duration mechanic dropped", 3, func(s *SpellRecord) { dropMechanic(s, "duration.until-dispelled") }},
+		{"eye until dispelled", 1, func(s *SpellRecord) {
+			s.Duration, s.DurationSeconds, *s.Concentration = "until-dispelled", 0, false
+		}},
+		{"eye darkvision", 1, func(s *SpellRecord) { s.SourceDetails.Eye.DarkvisionFeet = 0 }},
+		{"eye move", 1, func(s *SpellRecord) { s.SourceDetails.Eye.MoveFeet = 0 }},
+		{"eye opening", 1, func(s *SpellRecord) { s.SourceDetails.Eye.MinimumOpeningInches = 0 }},
+		{"sword move", 4, func(s *SpellRecord) { s.SourceDetails.Sword.MoveFeet = 0 }},
+		{"sword reach", 4, func(s *SpellRecord) { s.SourceDetails.Sword.ReachFeet = 0 }},
+		{"eye slot levels", 1, func(s *SpellRecord) { s.SlotLevels = []int{4, 5} }},
+		{"astral level", 6, func(s *SpellRecord) { s.Level, s.SlotLevels = 8, []int{8, 9} }},
+		{"bane target count", 10, func(s *SpellRecord) { s.Target.Count = 1 }},
+		{"lock target from another record", 3, func(s *SpellRecord) {
+			s.Target = SpellTarget{Shape: "created-effect", Count: 1, Eligibility: "point-in-range"}
+		}},
+		{"life target", 8, func(s *SpellRecord) { s.Target = SpellTarget{Shape: "single", Count: 1, Eligibility: "self"} }},
+	} {
+		t.Run(tc.name, func(t *testing.T) {
+			r := loadSpells197(t)
+			tc.change(&r.Records[tc.index])
+			if r.Validate() == nil {
+				t.Fatal("inconsistent record validated")
+			}
+			b, err := json.Marshal(r)
+			if err != nil {
+				t.Fatal(err)
+			}
+			if _, err := DecodeSpellRecords(bytes.NewReader(b)); err == nil {
+				t.Fatal("inconsistent record decoded")
+			}
+		})
+	}
+}
+
 // Earlier batches cannot adopt a long casting time without its exact length.
 func TestSpells197CastingTimeOnEarlierBatch(t *testing.T) {
 	r := loadSpells198(t)

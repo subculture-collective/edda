@@ -304,6 +304,87 @@ func (s SpellRecord) validateSpell197EffectDice(effects map[string]bool) error {
 	return nil
 }
 
+// spell197Identity pins the source level and target description of each batch
+// record, so a batch record cannot adopt another spell's level or target.
+var spell197Identity = map[string]struct {
+	Level  int
+	Target SpellTarget
+}{
+	"antipathy":  {8, SpellTarget{"choice", 1, "huge-or-smaller-creature-or-object-in-range"}},
+	"eye":        {4, SpellTarget{"created-effect", 1, "point-in-range"}},
+	"hand":       {5, SpellTarget{"created-effect", 1, "visible-unoccupied-space-in-range"}},
+	"lock":       {2, SpellTarget{"single", 1, "closed-door-window-gate-container-or-hatch-touch"}},
+	"sword":      {7, SpellTarget{"created-effect", 1, "point-in-range"}},
+	"magic_aura": {2, SpellTarget{"choice", 1, "willing-creature-or-unattended-object-touch"}},
+	"astral":     {9, SpellTarget{"self-and-up-to-count", 8, "willing-creatures-in-range"}},
+	"augury":     {2, SpellTarget{"single", 1, "self"}},
+	"life":       {4, SpellTarget{"emanation", 0, "self-and-allies-in-aura"}},
+	"awaken":     {5, SpellTarget{"choice", 1, "low-intelligence-beast-or-plant-creature-or-natural-plant-touch"}},
+	"bane":       {1, SpellTarget{"up-to-count", 3, "visible-creatures-in-range"}},
+	"banishment": {4, SpellTarget{"up-to-count", 1, "visible-creatures-in-range"}},
+}
+
+// validateSpell197Consistency rejects a batch record whose duplicated or
+// dependent values disagree: identity, slot levels, material and duration
+// mechanic keys, and dice the typed payload repeats from the effect graph.
+func (s SpellRecord) validateSpell197Consistency(key string) error {
+	d := s.SourceDetails
+	id := spell197Identity[key]
+	if s.Level != id.Level || s.Target != id.Target {
+		return fmt.Errorf("batch 197 level or target differs from source")
+	}
+	slots := []int{}
+	for level := s.Level; level <= 9; level++ {
+		slots = append(slots, level)
+	}
+	if !slices.Equal(s.SlotLevels, slots) {
+		return fmt.Errorf("batch 197 slot levels must run from spell level to 9")
+	}
+	priced := ""
+	if m := s.Components.Material; m != nil && m.CostCP != nil && *m.CostCP > 0 {
+		switch {
+		case m.Consumed == nil || !*m.Consumed:
+			priced = "components.priced-material"
+		case d.Astral != nil:
+			priced = "components.priced-consumed-material-per-target"
+		default:
+			priced = "components.priced-consumed-material"
+		}
+	}
+	for _, mechanic := range []string{"components.priced-material", "components.priced-consumed-material", "components.priced-consumed-material-per-target"} {
+		if slices.Contains(s.RequiredMechanics, mechanic) != (mechanic == priced) {
+			return fmt.Errorf("material cost or consumption differs from required mechanics")
+		}
+	}
+	if slices.Contains(s.RequiredMechanics, "duration.until-dispelled") != (s.Duration == "until-dispelled") {
+		return fmt.Errorf("duration differs from required mechanics")
+	}
+	effects := map[string]SpellEffect{}
+	for _, e := range s.Effects {
+		effects[e.ID] = e
+	}
+	if e := d.Eye; e != nil && (e.DarkvisionFeet <= 0 || e.MoveFeet <= 0 || e.MinimumOpeningInches <= 0) {
+		return fmt.Errorf("invalid arcane eye distances")
+	}
+	if w := d.Sword; w != nil && (w.MoveFeet <= 0 || w.ReachFeet <= 0) {
+		return fmt.Errorf("invalid arcane sword distances")
+	}
+	if h := d.Hand; h != nil {
+		for option, effectID := range map[int]string{0: "clenched-fist", 2: "grasping-crush"} {
+			o, e := h.Options[option], effects[effectID]
+			if e.AddCastingModifier == nil || o.DiceCount != e.DiceCount || o.DieSides != e.DieSides || o.DamageType != e.DamageType || o.AddCastingModifier != *e.AddCastingModifier {
+				return fmt.Errorf("hand option dice differ from effect %s", effectID)
+			}
+		}
+	}
+	if b := d.Bane; b != nil {
+		if e := effects["penalty"]; e.DiceCount != 1 || e.DieSides != b.DieSides {
+			return fmt.Errorf("bane penalty die differs from effect")
+		}
+	}
+	return nil
+}
+
 func (s SpellRecord) validateSpell197() (bool, error) {
 	names := map[string]string{"antipathy": "antipathy-sympathy", "eye": "arcane-eye", "hand": "arcane-hand", "lock": "arcane-lock", "sword": "arcane-sword", "magic_aura": "arcanists-magic-aura", "astral": "astral-projection", "augury": "augury", "life": "aura-of-life", "awaken": "awaken", "bane": "bane", "banishment": "banishment"}
 	expected := ""
@@ -370,6 +451,9 @@ func (s SpellRecord) validateSpell197() (bool, error) {
 	}
 	if d.CastingSeconds != spell197CastingSeconds[s.CastingTime] {
 		return true, fmt.Errorf("casting seconds differ from casting time")
+	}
+	if err := s.validateSpell197Consistency(expected); err != nil {
+		return true, err
 	}
 	if a := d.Antipathy; a != nil {
 		if !slices.Equal(a.SourcePages, []int{109, 110}) || len(a.Modes) != 2 || a.Modes[0].Choice != "antipathy" || a.Modes[1].Choice != "sympathy" || a.ChooseCount != 1 || !slices.Equal(a.TargetChoices, []string{"creature", "object"}) || a.Save != "wisdom" || a.SaveDistanceFeet <= 0 || a.EndSaveDistanceFeet <= 0 || a.ImmunitySeconds <= 0 {
