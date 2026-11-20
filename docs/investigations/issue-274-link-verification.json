@@ -1,0 +1,1421 @@
+{
+  "schema_version": 1,
+  "decision": 274,
+  "status": "EXACT_SOURCE_PUBLICATION_PASS",
+  "observed_at": "2026-11-20T15:11:54Z",
+  "new_task_metadata": {
+    "2074": {
+      "id": "I_kwDOSicKg88AAAABhEV5cg",
+      "databaseId": 6514112882,
+      "number": 2074,
+      "title": "Catalogue SRD mount, tack, drawn-vehicle and large-vehicle table records",
+      "body": "<!-- edda-274:table-records -->\nDecision #274; roadmap #47. One data-only PR; Task / Size M.\n\nSource: English SRD 5.2.1, PDF 100–101; SHA-256 `8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87`. CC-BY-4.0 attribution and adaptation: `docs/srd-5.2.1-conformance.md`. The deterministic fixtures below are Edda adaptations.\n\n## Bounded outcome\n\nAdd source-linked records for the three equipment tables that the #80 inventory left outside its 753 indexed families. Use the #195 versioned item-record contract: stable ID, per-record page, pin, attribution and explicit required mechanic keys. This PR adds data and offline validation only. It adds no purchase flow, inventory grant, creature record, travel rule or resolver, and a record's presence makes nothing playable.\n\nMounts and Other Animals, PDF100, eight rows as carrying capacity / cost: Camel 450 lb. / 50 GP; Elephant 1,320 lb. / 200 GP; Horse, Draft 540 lb. / 50 GP; Horse, Riding 480 lb. / 75 GP; Mastiff 195 lb. / 25 GP; Mule 420 lb. / 8 GP; Pony 225 lb. / 30 GP; Warhorse 540 lb. / 400 GP. Each row carries an opaque reference to its stat-block source key. The stat blocks stay with the monster catalogue batches #156 Camel, #158 Draft Horse, #159 Elephant, #167 Mastiff, #168 Mule, #170 Pony, #171 Riding Horse and #176 Warhorse. Do not copy ability scores, size, Speed or traits here and do not recompute a capacity from them.\n\nTack, Harness, and Drawn Vehicles, PDF100, ten priced rows as weight / cost: Carriage 600 lb. / 100 GP; Cart 200 lb. / 15 GP; Chariot 100 lb. / 250 GP; Feed per day 10 lb. / 5 CP; Saddle, Exotic 40 lb. / 60 GP; Saddle, Military 30 lb. / 20 GP; Saddle, Riding 25 lb. / 10 GP; Sled 300 lb. / 20 GP; Stabling per day no weight / 5 SP; Wagon 400 lb. / 35 GP. Saddle is one family with exactly three explicit variants. A saddle includes its bit, bridle and reins; do not create those as separate records.\n\nAirborne and Waterborne Vehicles, PDF101, seven rows as speed / crew / passengers / cargo tons / AC / HP / damage threshold / cost: Airship 8 mph / 10 / 20 / 1 / 13 / 300 / none / 40,000 GP; Galley 4 mph / 80 / none / 150 / 15 / 500 / 20 / 30,000 GP; Keelboat 1 mph / 1 / 6 / 1/2 / 15 / 100 / 10 / 3,000 GP; Longship 3 mph / 40 / 150 / 10 / 15 / 300 / 15 / 10,000 GP; Rowboat 1½ mph / 1 / 3 / none / 11 / 50 / none / 50 GP; Sailing Ship 2 mph / 20 / 20 / 100 / 15 / 300 / 15 / 10,000 GP; Warship 2½ mph / 60 / 60 / 200 / 15 / 500 / 20 / 25,000 GP. Store speeds and cargo as exact rationals. A source dash is an explicit absent value, never zero. PDF100 also gives the Rowboat a carried weight of 100 pounds; record it on that row only.\n\nRecord the two usual passenger prices on PDF101 as source notes marked as usual and variable: a hammock 5 SP per day and a small private cabin 2 GP per day. Record the required mechanic keys that later tasks own: table carrying capacity, drawn-vehicle pull, barding derivation, saddle benefit and requirement, vessel speed, crew, passengers, cargo, damage threshold and ship repair. Every key stays unavailable in this PR.\n\n## Deterministic fixtures\n\n- Positive: exactly 8 mount rows, 10 tack and vehicle rows in 8 families with 3 saddle variants, and 7 large-vehicle rows; every value above matches the page it cites; IDs are unique and stable; each mount row names one stat-block key.\n- Negative, each violated independently: a missing or extra row; a fourth saddle variant; a transposed value such as Draft Horse 480 lb. or Riding Horse 540 lb.; 5 SP for Feed or 5 CP for Stabling; a dash stored as 0; Rowboat speed stored as 1 or 2 instead of 1½; Keelboat cargo stored as 0 or 1; Galley passengers stored as 0; a Rowboat or Airship damage threshold; a weight for Stabling; a carried weight for any ship other than the Rowboat; a record without page, pin or attribution; a duplicate ID.\n- A capacity derived from a stat block, a ton converted to pounds, a price converted between coins, a default wind or current, and a passenger price stored as a fixed fare are all rejected. The source gives none of them as a table value.\n\n## Acceptance\n\nValidation runs offline against the committed data with no model call, network or production data. The catalogue loader fails closed on unknown fields, units and mechanic keys. No runtime entitlement, shop, starting-equipment grant, coverage promotion or UI affordance changes; web and trusted TUI continue to show these families as unavailable. Compare every row with its cited PDF page before closing.\n\nHard prerequisite: #195 item-record contract. Parent: #274. The cohort qualification #2080 requires this task and is the direct blocker of item qualification #280 and exploration qualification #183; add no gate edge here. Buying, selling and coin handling stay with the #275 economy split, and creature statistics stay with the monster catalogue and #182.\n\nValidation for the implementation PR: offline source, schema, name, variant and value fixtures; `GOMAXPROCS=2 go test -p 2 -short -race ./...` and `GOMAXPROCS=2 go vet -p 2 ./...`. No deployment, source inference or Full Rules promotion.\n",
+      "state": "OPEN",
+      "issueType": {
+        "name": "Task"
+      },
+      "parent": {
+        "number": 274
+      },
+      "blockedBy": {
+        "totalCount": 1,
+        "pageInfo": {
+          "hasNextPage": false
+        },
+        "nodes": [
+          {
+            "number": 195
+          }
+        ]
+      },
+      "blocking": {
+        "totalCount": 6,
+        "pageInfo": {
+          "hasNextPage": false
+        },
+        "nodes": [
+          {
+            "number": 2080
+          },
+          {
+            "number": 2079
+          },
+          {
+            "number": 2078
+          },
+          {
+            "number": 2077
+          },
+          {
+            "number": 2076
+          },
+          {
+            "number": 2075
+          }
+        ]
+      },
+      "projectItems": {
+        "pageInfo": {
+          "hasNextPage": false
+        },
+        "nodes": [
+          {
+            "id": "PVTI_lADODjtmGM4BrFJ2zhKgdrE",
+            "project": {
+              "id": "PVT_kwDODjtmGM4BrFJ2",
+              "title": "edda"
+            },
+            "fieldValueByName": {
+              "name": "M"
+            }
+          }
+        ]
+      }
+    },
+    "2075": {
+      "id": "I_kwDOSicKg88AAAABhEV63w",
+      "databaseId": 6514113247,
+      "number": 2075,
+      "title": "Load pack animals and hitched drawn vehicles within table carrying capacity",
+      "body": "<!-- edda-274:load-pull -->\nDecision #274; roadmap #47. One implementation PR; Task / Size M.\n\nSource: English SRD 5.2.1, PDF 92, 100; SHA-256 `8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87`. CC-BY-4.0 attribution and adaptation: `docs/srd-5.2.1-conformance.md`. The deterministic fixtures below are Edda adaptations.\n\n## Bounded outcome\n\nImplement three PDF100 rules for the eight animals in the Mounts and Other Animals table, using the records from #2074: carried load against table carrying capacity, the Mounts and Cargo pull limit for a carriage, cart, chariot, sled or wagon, and the Barding cost and weight derivation. No other creature, vehicle or load rule is enabled.\n\nState ownership: this task owns the persisted owned-animal instance and drawn-vehicle instance for the #274 cohort: campaign, identity, the #2074 row, the owner, and the committed load or hitch arrangement. An animal or drawn vehicle enters a campaign only as an explicit isolated or GM-declared fact. Buying one stays unavailable until the #275 split publishes a payment owner. This instance is not an encounter participant; the mounted state in #2076 is separate, and joining the two is not stated by any published task and stays unavailable.\n\nCarried load: an owned animal identified by one of the eight table rows can carry gear whose total authoritative weight does not exceed that row's carrying capacity. Use the table value as written. Do not derive a capacity from Strength, size or the Mule's Beast of Burden trait; the general Carrying Capacity rule on PDF178 is not owned here. An item, rider or creature without an authoritative weight cannot be loaded. A load above capacity is unavailable; the source gives this table no overload penalty, so invent none.\n\nPull: an animal pulling one of the five drawn vehicles can move weight up to five times its table carrying capacity, and that weight includes the vehicle's own weight. When several animals pull the same vehicle, add their carrying capacities first and then multiply by five. An animal is either carrying or hitched in one committed arrangement; the source does not say how a pack load combines with pulling, so that combination is unavailable. Team size limits, harness items and terrain are not in the source and are not invented. The PDF12 rule that travelers in land vehicles choose a pace as normal, and the doubled mounted distance, are travel-pace variants that stay with #150.\n\nBarding: for a qualified Light, Medium or Heavy armor record from the PDF92 Armor table (#251, #252), the barding variant costs four times the armor's cost and weighs twice its weight. This task derives the priced, weighted variant and counts its weight as carried load. It does not apply an Armor Class, Strength or Stealth entry, training requirement or don/doff time to a mount; the source states none for mounts, so wearing barding stays unavailable. Shield barding is not adjudicated and stays unavailable. Purchase is not committed here.\n\n## Deterministic fixtures\n\n- Mule, capacity 420 lb.: 420 lb. of known-weight gear commits; 421 lb. is unavailable; an item of unknown weight is unavailable. The Mule's 420 lb. is used as written and is not recomputed from its stat block or its Beast of Burden trait.\n- One Draft Horse (540 lb.) hitched to a Wagon (400 lb.): limit 2,700 lb. including the wagon, so 2,300 lb. of cargo commits and 2,301 lb. is unavailable. Two Draft Horses: (540 + 540) × 5 = 5,400 lb., so 5,000 lb. of cargo commits and 5,001 lb. is unavailable. A Mule and a Pony on one Cart (200 lb.): (420 + 225) × 5 = 3,225 lb. including the cart.\n- Negative, each violated independently: multiplying each animal by five and also adding a bonus; excluding the vehicle's weight; applying the pull limit to a pack load or to a Rowboat; hitching an animal that is not one of the eight rows; hitching one animal to two vehicles; a foreign or unowned animal or vehicle; an animal or vehicle that appears through purchase; an owned animal used as an encounter mount; a stale load revision.\n- Chain Mail (75 GP, 55 lb.) derives barding at 300 GP and 110 lb. Leather Armor (10 GP, 10 lb.) derives 40 GP and 20 lb. A Warhorse (540 lb.) carrying Chain Mail barding has 430 lb. of capacity left. Reject barding at the base cost or weight, a doubled cost, a quadrupled weight, Shield barding, an AC change on the mount and barding from an armor record that is not qualified.\n- A Rowboat counts as 100 lb. of carried load from its record.\n\n## Durable implementation acceptance\n\nPreview is inert and never rolls, writes or reveals private facts. Confirm revalidates campaign, actor, ownership of each animal, vehicle and item, source version, every weight and expected revisions. Commit the load or hitch arrangement, derived totals and public history atomically. Inject failures after each stage and prove full isolated PostgreSQL rollback. Same action ID and payload replay after retry, reload or reconnect returns the same receipt; a conflicting payload rejects; racing confirmations commit once. Web and trusted TUI share availability, unavailable reasons and confirmation/cancel/reconnect behavior. Changed web requires focused build/lint and desktop/phone checks. Public history omits private item facts.\n\nHard prerequisites: #2074 table records, #251 and #252 Armor-table records. It adds no #67 or #429 edge. Parent: #274. The cohort qualification #2080 requires this task and is the direct blocker of #280 and #183; add no gate edge here. Do not alter #1725 Backpack capacity or any existing owner.\n\nValidation for the implementation PR: focused deterministic rules tests; isolated PostgreSQL rollback/concurrency/replay/reload tests; shared web/TUI confirmation and disclosure fixtures; `GOMAXPROCS=2 go test -p 2 -short -race ./...` and `GOMAXPROCS=2 go vet -p 2 ./...`. Short tests alone do not qualify PostgreSQL or devices. Runtime remains unavailable until implementation and its callers qualify. No deployment, source inference or Full Rules promotion.\n",
+      "state": "OPEN",
+      "issueType": {
+        "name": "Task"
+      },
+      "parent": {
+        "number": 274
+      },
+      "blockedBy": {
+        "totalCount": 3,
+        "pageInfo": {
+          "hasNextPage": false
+        },
+        "nodes": [
+          {
+            "number": 2074
+          },
+          {
+            "number": 252
+          },
+          {
+            "number": 251
+          }
+        ]
+      },
+      "blocking": {
+        "totalCount": 1,
+        "pageInfo": {
+          "hasNextPage": false
+        },
+        "nodes": [
+          {
+            "number": 2080
+          }
+        ]
+      },
+      "projectItems": {
+        "pageInfo": {
+          "hasNextPage": false
+        },
+        "nodes": [
+          {
+            "id": "PVTI_lADODjtmGM4BrFJ2zhKgduM",
+            "project": {
+              "id": "PVT_kwDODjtmGM4BrFJ2",
+              "title": "edda"
+            },
+            "fieldValueByName": {
+              "name": "M"
+            }
+          }
+        ]
+      }
+    },
+    "2076": {
+      "id": "I_kwDOSicKg88AAAABhEV8uw",
+      "databaseId": 6514113723,
+      "number": 2076,
+      "title": "Mount, dismount and control one trained Riding Horse",
+      "body": "<!-- edda-274:riding -->\nDecision #274; roadmap #47. One implementation PR; Task / Size M.\n\nSource: English SRD 5.2.1, PDF 15–16, 100, 360; SHA-256 `8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87`. CC-BY-4.0 attribution and adaptation: `docs/srd-5.2.1-conformance.md`. The deterministic fixtures below are Edda adaptations.\n\n## Bounded outcome\n\nImplement the mounted state for one fixture mount, the Riding Horse, under three PDF15–16 Mounted Combat rules: eligibility, mounting and dismounting, and controlling a mount. The Riding Horse acts with the executable statistics owned by #1999 (PDF360: Large Beast, Speed 60 ft., Initiative +1); #171 owns its catalogue record. This task adds no stat block and makes no other creature an acting mount. Falling off and the two saddle rules belong to #2077. Purchase, travel pace, carried load, barding and the Lance stay outside.\n\nState ownership: this task owns the mounted relation between a rider and a mount that are both participants in one encounter. The mount enters the encounter as an explicit isolated or GM-declared creature. This task does not create an owned-animal instance and does not link one to the encounter mount; #2075 owns the owned-animal instance, and joining the two is not stated by any published task and stays unavailable. #920 (Find Steed) and #1931 (Phantom Steed) specify control and dismounting for their own steeds and are not changed. No native edge joins them to this task because their bodies list exact prerequisites and cannot be edited. If either has merged a mounted or controlled-mount state first, extend that state here and do not add a second one.\n\nEligibility: a willing creature at least one size larger than the rider, with an appropriate anatomy, can serve as a mount. Size comes from qualified statistics; willingness and anatomy are authoritative facts, and an unknown fact leaves the action unavailable.\n\nMounting and dismounting: during the rider's own move, mount a creature within 5 feet or dismount. Either costs movement equal to half the rider's Speed, rounded down as PDF15 states. Use the rider's current authoritative Speed. No action, Bonus Action or check is charged.\n\nControl: a mount can be controlled only if it has been trained to accept a rider. PDF16 says \"Domesticated horses, mules, and similar creatures have such training.\" The source does not list the similar creatures. Of the PDF100 table animals, this task reads Horse, Draft; Horse, Riding; Warhorse; and Mule as domesticated horses and mules. Camel, Elephant, Mastiff, Pony and every other creature are trained only by an authoritative fact. Only the Riding Horse has executable statistics here, so the reading enables no other mount. When a rider mounts a controlled mount, its Initiative changes to match the rider's. It moves on the rider's turn as directed and has only three action options on that turn: Dash, Disengage and Dodge, resolved by #780, #781 and #782. It can move and act on the turn it is mounted. An independent mount keeps its own place in the Initiative order and acts through its own existing turn owner; rider-directed actions for it reject.\n\n## Deterministic fixtures\n\n- A Medium rider with Speed 30 mounts an adjacent willing Riding Horse for 15 feet of movement. Speed 25 costs 12. With 14 feet of movement left at Speed 30 the mount is unavailable. Dismounting costs the same. A mount 10 feet away, an unwilling creature, an unknown anatomy, an action or Bonus Action charge, and mounting on another creature's turn are rejected independently.\n- Size, with isolated fixture creatures: a Medium rider cannot mount a Medium creature. A Small rider can when the other facts hold. A willing creature with no recorded training can be ridden only as an independent mount.\n- Control: on mounting, the horse's Initiative becomes the rider's. On that turn it may Dash, Disengage or Dodge and move 60 feet as directed. Reject an attack or any fourth action option for a controlled mount, rider-directed movement of an independent mount, and a Speed other than the 60 feet from #1999.\n- Negative: a second mounted state beside one already merged for a Find Steed or Phantom Steed; a catalogue record alone used as an acting mount; an owned animal from #2075 treated as the encounter mount.\n\n## Durable implementation acceptance\n\nPreview is inert and never rolls, writes or reveals private facts. Confirm revalidates campaign, encounter, actor, mount identity, size, willingness, training, positions, remaining movement, source version and expected revisions. Commit the mounted state, movement cost, Initiative change and public history atomically. Inject failures after each stage and prove full isolated PostgreSQL rollback. Same action ID and payload replay after retry, reload or reconnect returns the same receipt; a conflicting payload rejects; racing confirmations commit once. The mounted state survives reload. Web and trusted TUI share availability, unavailable reasons and confirmation/cancel/reconnect behavior. Changed web requires focused build/lint and desktop/phone checks. Public history omits hidden creatures and private mount facts.\n\nHard prerequisites: #2074 mount-table row for the Riding Horse, #66 initiative and movement economy, #171 Riding Horse record, #1999 executable Riding Horse statistics, #780 Dash, #781 Disengage, #782 Dodge. It consumes the merged #67 scene facts for distance and adds no #67 edge, because #67 is at the 100-consumer cap. Parent: #274. The cohort qualification #2080 requires this task and is the direct blocker of #280 and #183; add no gate edge here.\n\nValidation for the implementation PR: focused deterministic rules tests; isolated PostgreSQL rollback/concurrency/replay/reload tests; shared web/TUI confirmation and disclosure fixtures; `GOMAXPROCS=2 go test -p 2 -short -race ./...` and `GOMAXPROCS=2 go vet -p 2 ./...`. Short tests alone do not qualify PostgreSQL or devices. Runtime remains unavailable until implementation and its callers qualify. No deployment, source inference or Full Rules promotion.\n",
+      "state": "OPEN",
+      "issueType": {
+        "name": "Task"
+      },
+      "parent": {
+        "number": 274
+      },
+      "blockedBy": {
+        "totalCount": 7,
+        "pageInfo": {
+          "hasNextPage": false
+        },
+        "nodes": [
+          {
+            "number": 2074
+          },
+          {
+            "number": 1999
+          },
+          {
+            "number": 782
+          },
+          {
+            "number": 781
+          },
+          {
+            "number": 780
+          },
+          {
+            "number": 171
+          },
+          {
+            "number": 66
+          }
+        ]
+      },
+      "blocking": {
+        "totalCount": 2,
+        "pageInfo": {
+          "hasNextPage": false
+        },
+        "nodes": [
+          {
+            "number": 2080
+          },
+          {
+            "number": 2077
+          }
+        ]
+      },
+      "projectItems": {
+        "pageInfo": {
+          "hasNextPage": false
+        },
+        "nodes": [
+          {
+            "id": "PVTI_lADODjtmGM4BrFJ2zhKgdvk",
+            "project": {
+              "id": "PVT_kwDODjtmGM4BrFJ2",
+              "title": "edda"
+            },
+            "fieldValueByName": {
+              "name": "M"
+            }
+          }
+        ]
+      }
+    },
+    "2077": {
+      "id": "I_kwDOSicKg88AAAABhEV_Vg",
+      "databaseId": 6514114390,
+      "number": 2077,
+      "title": "Resolve falling off a mount and the Military and Exotic Saddle rules",
+      "body": "<!-- edda-274:saddle-fall -->\nDecision #274; roadmap #47. One implementation PR; Task / Size M.\n\nSource: English SRD 5.2.1, PDF 15–16, 100; SHA-256 `8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87`. CC-BY-4.0 attribution and adaptation: `docs/srd-5.2.1-conformance.md`. The deterministic fixtures below are Edda adaptations.\n\n## Bounded outcome\n\nOn top of the mounted state from #2076, implement the PDF16 Falling Off rule and the two PDF100 saddle rules for the same Riding Horse fixture. This task adds no mounting, control, stat block, purchase or barding rule and does not change #920 or #1931.\n\nState ownership: this task adds one fact to the mounted relation that #2076 owns: which saddle variant from the #2074 records, if any, is fitted on the mount. The fitted saddle is an explicit isolated or GM-declared fact. Buying a saddle stays unavailable until the #275 split publishes a payment owner, and a saddle that is only carried is not fitted.\n\nFalling off: when an effect is about to move the mount against its will while the rider is on it, the rider makes a DC 10 Dexterity saving throw through #61. On a failure the rider falls off, the mounted state ends, and the rider lands with the Prone condition (#488) in an unoccupied space within 5 feet of the mount. The rider makes the same save when knocked Prone while mounted and when the mount is knocked Prone. The landing space must be an authoritative unoccupied space; with none known, the outcome needs GM adjudication and is not auto-placed.\n\nSaddles: a Military Saddle gives Advantage on any ability check the rider makes to remain mounted. The falling-off roll is a saving throw, so the Military Saddle does not affect it. An Exotic Saddle is required to ride an aquatic or flying mount; whether a mount is aquatic or flying is an authoritative fact. The source requires no saddle for any other mount, so do not require a Riding Saddle to ride a horse.\n\n## Deterministic fixtures\n\n- Falling off with injected dice: an effect moving the mount against its will with a save total of 9 leaves the rider Prone and dismounted in a known unoccupied space within 5 feet; a total of 10 keeps the rider mounted. The same save is called when the rider is knocked Prone while mounted and when the mount is knocked Prone. Willing movement of the mount calls no save. With no known unoccupied space within 5 feet the failure is not auto-placed.\n- Military Saddle: a GM-called ability check to remain mounted rolls with Advantage; the same check without that saddle, with a Riding Saddle or with the saddle carried but not fitted rolls normally. A Military Saddle adds no Advantage to the falling-off save.\n- Exotic Saddle, with an isolated fixture mount: a mount recorded as flying or aquatic cannot be ridden with no saddle, a Riding Saddle or a Military Saddle and can with an Exotic Saddle. A Riding Horse can be ridden bareback. A mount whose aquatic or flying status is unknown is unavailable.\n- Negative, each violated independently: a save for a rider who is not mounted; a DC other than 10; a Strength or ability-check roll in place of the Dexterity save; the rider left mounted after a failure; a landing more than 5 feet away or in an occupied space; a purchased or free saddle appearing without the declared fact.\n\n## Durable implementation acceptance\n\nPreview is inert and never rolls, writes or reveals private facts. Confirm revalidates campaign, encounter, rider, mount, mounted state, fitted saddle, positions, source version and expected revisions. Commit injected dice, the end of the mounted state, the condition, position and public history atomically. A forced save belongs to its triggering event, with no invented optional activation. Inject failures after each stage and prove full isolated PostgreSQL rollback. Same action ID and payload replay after retry, reload or reconnect returns the same receipt without rerolling; a conflicting payload rejects; racing confirmations commit once. The fitted saddle survives reload. Web and trusted TUI share availability, unavailable reasons and confirmation/cancel/reconnect behavior. Changed web requires focused build/lint and desktop/phone checks. Public history omits private checks, hidden creatures and private mount facts.\n\nHard prerequisites: #2076 mounted state, #2074 saddle records, #61 checks and saves, #488 Prone. It consumes the merged #67 scene facts for occupancy and adds no #67 edge, because #67 is at the 100-consumer cap. Parent: #274. The cohort qualification #2080 requires this task and is the direct blocker of #280 and #183; add no gate edge here.\n\nValidation for the implementation PR: focused deterministic rules tests; isolated PostgreSQL rollback/concurrency/replay/reload tests; shared web/TUI confirmation and disclosure fixtures; `GOMAXPROCS=2 go test -p 2 -short -race ./...` and `GOMAXPROCS=2 go vet -p 2 ./...`. Short tests alone do not qualify PostgreSQL or devices. Runtime remains unavailable until implementation and its callers qualify. No deployment, source inference or Full Rules promotion.\n",
+      "state": "OPEN",
+      "issueType": {
+        "name": "Task"
+      },
+      "parent": {
+        "number": 274
+      },
+      "blockedBy": {
+        "totalCount": 4,
+        "pageInfo": {
+          "hasNextPage": false
+        },
+        "nodes": [
+          {
+            "number": 2076
+          },
+          {
+            "number": 2074
+          },
+          {
+            "number": 488
+          },
+          {
+            "number": 61
+          }
+        ]
+      },
+      "blocking": {
+        "totalCount": 1,
+        "pageInfo": {
+          "hasNextPage": false
+        },
+        "nodes": [
+          {
+            "number": 2080
+          }
+        ]
+      },
+      "projectItems": {
+        "pageInfo": {
+          "hasNextPage": false
+        },
+        "nodes": [
+          {
+            "id": "PVTI_lADODjtmGM4BrFJ2zhKgdw4",
+            "project": {
+              "id": "PVT_kwDODjtmGM4BrFJ2",
+              "title": "edda"
+            },
+            "fieldValueByName": {
+              "name": "M"
+            }
+          }
+        ]
+      }
+    },
+    "2078": {
+      "id": "I_kwDOSicKg88AAAABhEWBrA",
+      "databaseId": 6514114988,
+      "number": 2078,
+      "title": "Apply ship damage thresholds and berthed repair to one vessel instance",
+      "body": "<!-- edda-274:hull-repair -->\nDecision #274; roadmap #47. One implementation PR; Task / Size M.\n\nSource: English SRD 5.2.1, PDF 5, 12, 16, 101, 180; SHA-256 `8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87`. CC-BY-4.0 attribution and adaptation: `docs/srd-5.2.1-conformance.md`. The deterministic fixtures below are Edda adaptations.\n\n## Bounded outcome\n\nImplement two PDF101 rules for the seven large vehicles recorded by #2074: the Damage Threshold note, using the PDF180 glossary rule, and Ship Repair. This task resolves no attack against a vessel's AC, no travel, no crew rule and no purchase.\n\nState ownership: this task owns the persisted vessel instance for the #274 cohort: campaign, identity, the #2074 row it instantiates, the owning party or character, and current Hit Points up to the table maximum. #2079 reads this instance and must not create its own. A vessel enters a campaign only as an explicit isolated or GM-declared fact. Buying a vessel stays unavailable until the #275 split publishes a payment owner, and no task states any other way to acquire one.\n\nDamage threshold: this task consumes one already-resolved damage instance from a single attack or effect, with its amount and type. A vessel with a damage threshold takes the whole instance when the amount equals or exceeds the threshold and takes nothing when it is lower. Compare each instance separately; never add instances together to reach the threshold. A vessel whose threshold entry is absent takes every instance in full. Hit Points do not go below 0 (PDF16). PDF12 says a vehicle is not an object, so the Poison and Psychic immunity of objects is not applied by inference; an instance of either type against a vessel is unavailable without an authoritative ruling. PDF100–101 states no consequence for a vessel at 0 Hit Points, so record the value and invent no sinking, crew or cargo effect.\n\nShip repair: repairs can be made only while the vessel is berthed, an authoritative fact. Repairing 1 Hit Point takes 1 day and costs 20 GP for materials and labor. Where supplies and skilled labor are abundant, such as a city shipyard, also an authoritative fact, the time and cost are halved: half a day and 10 GP per Hit Point. The halved time is kept exact and the PDF5 Round Down rule is not applied to it: rounding half a day down would make a 1 Hit Point shipyard repair take no time, which is not a halved repair time, so 15 Hit Points take 7½ days, not 7. The halved cost is a whole 10 GP. Confirm an explicit whole number of Hit Points, no more than the missing amount. Commit only completed units: clock advance, GP cost and restored Hit Points together. The GP cost is paid through the coin output that the #275 economy split assigns; until that output is qualified, repair stays unavailable, and a free or unpaid repair never commits. The native #275 edge is satisfied when that planning issue closes, so before it closes its split must add its coin-payment child as a native blocker of this task. No ability check, tool, crew or separate hireling wage is added.\n\n## Deterministic fixtures\n\n- Sailing Ship, 300 HP, threshold 15: an instance of 14 leaves 300; an instance of 15 leaves 285; two instances of 10 in one turn leave 300. Keelboat, threshold 10: 9 leaves 100 and 11 leaves 89. Rowboat, 50 HP, no threshold: an instance of 1 leaves 49. An Airship takes an instance of 1 in full.\n- Negative, each violated independently: treating an instance equal to the threshold as superficial; subtracting the threshold from the damage; summing instances; a threshold on the Rowboat or Airship; HP below 0; an automatic sinking at 0; Poison or Psychic damage reduced to 0 by assumption.\n- Repair: a berthed Sailing Ship at 285 of 300 repairs 15 HP for 15 days and 300 GP. In a shipyard the same repair takes 7½ days and 150 GP. Repairing 1 HP in a shipyard takes half a day and 10 GP. Reject a repair at sea or with an unknown berth, 16 HP when 15 are missing, a fractional Hit Point, a payer with 299 GP for the 300 GP repair, halving only the time or only the cost, a shipyard halving without the authoritative abundance fact, a 15 HP shipyard repair rounded down to 7 days, and a 1 HP shipyard repair rounded down to 0 days.\n- Instance: a declared Sailing Ship instance starts at 300 of 300 HP and survives reload. Reject a second instance with the same identity, a foreign campaign's vessel, an instance whose row is not one of the seven records, and a vessel that appears through purchase.\n\n## Durable implementation acceptance\n\nPreview is inert and never rolls, writes or reveals private facts. Confirm revalidates campaign, vessel identity and record, current Hit Points, the damage instance or the berth, shipyard, payer and balance, clock, source version and expected revisions. Commit Hit Points, cost, clock and public history atomically. A damage application belongs to its triggering event, with no invented optional activation. Inject failures after each stage and prove full isolated PostgreSQL rollback. Same action ID and payload replay after retry, reload or reconnect returns the same receipt and never repeats damage, payment or repair; a conflicting payload rejects; racing confirmations commit once. Web and trusted TUI share availability, unavailable reasons and confirmation/cancel/reconnect behavior. Changed web requires focused build/lint and desktop/phone checks. Public history omits private balances and hidden attackers.\n\nHard prerequisites: #2074 vessel records, #275 for the coin-payment output its split assigns. Parent: #274. The cohort qualification #2080 requires this task and is the direct blocker of #280 and #183; add no gate edge here. Other damage-threshold users, such as the PDF201 rolling stone inside #150's page range, are not owned here.\n\nValidation for the implementation PR: focused deterministic rules tests; isolated PostgreSQL rollback/concurrency/replay/reload tests; shared web/TUI confirmation and disclosure fixtures; `GOMAXPROCS=2 go test -p 2 -short -race ./...` and `GOMAXPROCS=2 go vet -p 2 ./...`. Short tests alone do not qualify PostgreSQL or devices. Runtime remains unavailable until implementation and its callers qualify. No deployment, source inference or Full Rules promotion.\n",
+      "state": "OPEN",
+      "issueType": {
+        "name": "Task"
+      },
+      "parent": {
+        "number": 274
+      },
+      "blockedBy": {
+        "totalCount": 2,
+        "pageInfo": {
+          "hasNextPage": false
+        },
+        "nodes": [
+          {
+            "number": 2074
+          },
+          {
+            "number": 275
+          }
+        ]
+      },
+      "blocking": {
+        "totalCount": 2,
+        "pageInfo": {
+          "hasNextPage": false
+        },
+        "nodes": [
+          {
+            "number": 2080
+          },
+          {
+            "number": 2079
+          }
+        ]
+      },
+      "projectItems": {
+        "pageInfo": {
+          "hasNextPage": false
+        },
+        "nodes": [
+          {
+            "id": "PVTI_lADODjtmGM4BrFJ2zhKgdzQ",
+            "project": {
+              "id": "PVT_kwDODjtmGM4BrFJ2",
+              "title": "edda"
+            },
+            "fieldValueByName": {
+              "name": "M"
+            }
+          }
+        ]
+      }
+    },
+    "2079": {
+      "id": "I_kwDOSicKg88AAAABhEWC_Q",
+      "databaseId": 6514115325,
+      "number": 2079,
+      "title": "Sail one large-vehicle hour with crew, wind, current, passenger and cargo limits",
+      "body": "<!-- edda-274:vessel-hour -->\nDecision #274; roadmap #47. One implementation PR; Task / Size L.\n\nSource: English SRD 5.2.1, PDF 5, 12, 100–102, 192; SHA-256 `8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87`. CC-BY-4.0 attribution and adaptation: `docs/srd-5.2.1-conformance.md`. The deterministic fixtures below are Edda adaptations.\n\n## Bounded outcome\n\nImplement one committed hour of travel aboard one of the seven large vehicles recorded by #2074, on top of the #144 one-hour travel segment. This task owns the PDF100–101 Large Vehicles notes on speed, crew, passengers and cargo. For the seven table vehicles it also owns two sentences that lie inside the page range of the open #150 split (PDF12–13, 192–201): the PDF12 sentence that characters in a waterborne vessel are limited to the vessel's speed and choose no pace, and the PDF192 Vehicles paragraph that sends travelers to the vehicle's speed in \"Equipment\". Decision #274 records this carve-out; #150's split must not publish a second owner for them. Land-vehicle pace and the doubled mounted distance stay with #150. The vessel instance, with its identity, ownership and current Hit Points, is owned by #2078; this task reads it and adds position, crew roster, passengers and cargo for the hour. Damage and repair belong to #2078. Hiring and paying a crew belong to the #275 economy split.\n\nSpeed: travelers aboard use the vessel's table speed in miles per hour and do not choose a travel pace, so no pace modifier applies. Speeds and distances are exact rationals. The PDF5 Round Down rule is not applied to a vessel speed: the PDF101 table itself prints 1½ and 2½ miles per hour, so a vessel speed is not a whole-number quantity, and the rounded value would change with the unit. A halved Warship speed is 1¼ miles per hour, not 1. Keelboats and Rowboats are used on lakes and rivers. For those two, going downstream adds the current's speed; the current must be a declared authoritative fact, and the typical 3 miles per hour is offered only as an explicit GM choice. They cannot be rowed against any significant current. The source attaches the current rule to those two vessels, so a current on any other vessel is unavailable. Being pulled upstream by draft animals has no source speed and stays unavailable.\n\nWind and propulsion: PDF100 says \"A ship sailing against a strong wind moves at half speed\" and \"In a dead calm (no wind), waterborne ships can't move under sail and must be rowed.\" The source does not say which of the seven rows sail. Whether a vessel is under sail or rowed for the hour is therefore an authoritative declared fact, needed only when the declared wind is strong and against, or a dead calm. Under sail against a strong wind, any waterborne vessel moves at exactly half its table speed. The source treats the Keelboat and Rowboat as rowed vessels (\"These vehicles can't be rowed against any significant current\"), so a rowed Keelboat or Rowboat hour uses its table speed, is not halved by wind and is available in a dead calm. The source gives no rowed speed for the Galley, Longship, Sailing Ship or Warship, so a rowed hour for those four, and therefore any dead-calm hour, is unavailable. Under a strong opposing wind with no declared propulsion the hour is unavailable. The Airship is not waterborne and the source does not say whether it sails; an Airship hour against a strong wind or in a dead calm is unavailable, and with neither declared it moves 8 miles.\n\nCrew: a ship larger than a Keelboat or Rowboat needs at least its table number of skilled hirelings to function. Count only authoritative crew members recorded as skilled hirelings through the output that the #275 split assigns; until that output is qualified, the five crewed ships stay unavailable. The native #275 edge is satisfied when that planning issue closes, so before it closes its split must add its skilled-hireling child as a native blocker of this task. The Keelboat and Rowboat need their crew of one and no hireling.\n\nPassengers: the table number is Small and Medium passengers in hammocks. A ship outfitted with private accommodations carries one-fifth as many, rounded down (PDF5), because passengers are counted whole. The outfitting is an authoritative ship fact. The usual 5 SP hammock and 2 GP cabin prices are records only; no fare is charged here.\n\nCargo: the table gives cargo in tons. Declared cargo must be an authoritative amount in tons. The source does not define a ton in pounds, so converting item weights to tons is unavailable.\n\nHours: PDF12 says ships might be able to travel up to 24 hours per day depending on the vessel and crew. Hours beyond the campaign's ordinary travel day need an explicit GM-declared continuous-sailing fact, and a 25th hour in one day always rejects.\n\n## Deterministic fixtures\n\n- Sailing Ship, 20 skilled hirelings, no adverse wind: one hour moves 2 miles and offers no pace. Declared under sail against a strong wind it moves 1 mile; with no declared propulsion that hour is unavailable. In a dead calm the hour is unavailable, with the missing rowed speed named as the reason. With 19 skilled hirelings, or 20 crew of whom one is untrained, it cannot sail.\n- Warship: 2½ miles, and exactly 1¼ miles under sail against a strong wind; a result of 1 mile from rounding down is rejected. Longship under sail against a strong wind: 1½ miles. Galley: 80 crew required; 79 rejects; any passenger rejects because its passenger entry is absent.\n- Keelboat, crew 1, declared 3 mph current downstream: 4 miles. With no declared current the downstream hour is unavailable and never assumes 3. Upstream against a significant current rejects. Rowboat, crew 1, still water: 1½ miles.\n- Rowboat, rowed: 1½ miles against a strong wind and 1½ miles in a dead calm. Rowboat declared under sail: ¾ mile against a strong wind and rejected in a dead calm. Keelboat, rowed, dead calm: 1 mile. Airship against a strong wind or in a dead calm: unavailable; with neither declared, 8 miles.\n- Passengers: Longship 150 in hammocks, 151 rejects; with private accommodations 30, and 31 rejects. Sailing Ship 20 and 4. Keelboat 6 and 1. Rowboat 3 and 0.\n- Cargo: Sailing Ship 100 tons commits and 100½ rejects. Keelboat ½ ton commits. Rowboat and any declared cargo tonnage rejects because its cargo entry is absent. Cargo given only in pounds is unavailable.\n- Negative, each violated independently: a Fast or Slow pace aboard; a pace Disadvantage or Advantage aboard; halving for a wind that is not strong or not against; halving a rowed Keelboat or Rowboat; a rowed hour for the Galley, Longship, Sailing Ship or Warship; a mounted or land-vehicle segment routed through this task; an unknown route distance; a foreign vessel; a vessel instance created by this task instead of read from #2078; a stale clock or route revision.\n\n## Durable implementation acceptance\n\nPreview is inert and never rolls, writes or reveals private facts. Confirm revalidates campaign, vessel identity and record, crew roster, passenger and cargo counts, declared wind, propulsion and current, route, clock, source version and expected revisions. Commit position, clock, distance and public history once in the #144 travel transaction. Inject failures after each stage and prove full isolated PostgreSQL rollback. Same action ID and payload replay after retry, reload or reconnect returns the same receipt; a conflicting payload rejects; racing confirmations commit once. Web and trusted TUI share availability, unavailable reasons and confirmation/cancel/reconnect behavior. Changed web requires focused build/lint and desktop/phone checks. Public history omits hidden route facts and private crew or cargo facts.\n\nHard prerequisites: #2074 vessel records, #2078 vessel instance, #144 travel segment, #275 for the skilled-hireling crew output its split assigns. Parent: #274. The cohort qualification #2080 requires this task and is the direct blocker of #280 and #183; add no gate edge here. Do not alter #144 or #150.\n\nValidation for the implementation PR: focused deterministic rules tests; isolated PostgreSQL rollback/concurrency/replay/reload tests; shared web/TUI confirmation and disclosure fixtures; `GOMAXPROCS=2 go test -p 2 -short -race ./...` and `GOMAXPROCS=2 go vet -p 2 ./...`. Short tests alone do not qualify PostgreSQL or devices. Runtime remains unavailable until implementation and its callers qualify. No deployment, source inference or Full Rules promotion.\n",
+      "state": "OPEN",
+      "issueType": {
+        "name": "Task"
+      },
+      "parent": {
+        "number": 274
+      },
+      "blockedBy": {
+        "totalCount": 4,
+        "pageInfo": {
+          "hasNextPage": false
+        },
+        "nodes": [
+          {
+            "number": 2078
+          },
+          {
+            "number": 2074
+          },
+          {
+            "number": 275
+          },
+          {
+            "number": 144
+          }
+        ]
+      },
+      "blocking": {
+        "totalCount": 1,
+        "pageInfo": {
+          "hasNextPage": false
+        },
+        "nodes": [
+          {
+            "number": 2080
+          }
+        ]
+      },
+      "projectItems": {
+        "pageInfo": {
+          "hasNextPage": false
+        },
+        "nodes": [
+          {
+            "id": "PVTI_lADODjtmGM4BrFJ2zhKgdzs",
+            "project": {
+              "id": "PVT_kwDODjtmGM4BrFJ2",
+              "title": "edda"
+            },
+            "fieldValueByName": {
+              "name": "L"
+            }
+          }
+        ]
+      }
+    },
+    "2080": {
+      "id": "I_kwDOSicKg88AAAABhEWEag",
+      "databaseId": 6514115690,
+      "number": 2080,
+      "title": "Qualify the mount, drawn-vehicle and ship fixture cohort",
+      "body": "<!-- edda-274:cohort-qualification -->\nDecision #274; roadmap #47. One qualification PR; Task / Size M.\n\nSource: English SRD 5.2.1, PDF 5, 12, 15–16, 92, 100–102, 180, 192, 360; SHA-256 `8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87`. CC-BY-4.0 attribution and adaptation: `docs/srd-5.2.1-conformance.md`. The deterministic fixtures below are Edda adaptations.\n\nQualify the six #274 outputs as one cohort for the item gate and the exploration gate. This task owns qualification only. It adds no record, rule, resolver, purchase flow or production grant, and it copies nothing from its inputs. Item qualification #280 had 96 of 100 blocked-by entries when #274 was decided, with other splitters still to publish, so this single task carries the whole cohort to #280 on one edge. It also blocks exploration qualification #183, whose page range (PDF11–18, 176–203) contains the PDF15–16 Mounted Combat rules and the PDF12 and PDF192 vessel-speed sentences that this cohort implements.\n\nExact roster: #2074 table records; #2075 carried load, pull limit and barding derivation; #2076 mounting, dismounting and control; #2077 falling off and saddles; #2078 vessel instance, damage threshold and ship repair; #2079 large-vehicle travel hour. Each input must have merged and passed its own acceptance. A closed planning issue, a catalogue record or a published task is not evidence.\n\nRequired witnesses, run through the actual rules, game, engine and handler callers with isolated explicit entitlements:\n\n- Records: the 8 mount rows, 10 tack and vehicle rows and 7 large-vehicle rows still match PDF100–101, and every mechanic key they declare has a qualified resolver from this roster or is reported as unavailable with its named reason.\n- Land: two Draft Horses pull a Wagon with 5,000 lb. of cargo and reject 5,001 lb.; a Warhorse carrying Chain Mail barding (300 GP, 110 lb.) has 430 lb. of capacity left.\n- Riding: a Medium rider with Speed 30 mounts a Riding Horse (Speed 60 from #1999) for 15 feet and directs a Dash. Then, through #2077, the rider fails a DC 10 Dexterity save with a total of 9 and lands Prone and dismounted; a fitted Military Saddle does not change that save.\n- Water: one declared Sailing Ship instance, shared by both tasks, with 20 skilled hirelings moves 2 miles in an hour and 1 mile under sail against a strong wind; it takes nothing from a 14-damage instance and 15 from a 15-damage instance; berthed in a shipyard it repairs 15 HP for exactly 7½ days and 150 GP. A Warship under sail against a strong wind moves exactly 1¼ miles. The rounded results of 7 days and 1 mile are rejected.\n- Limits stay unavailable and are reported as such: overload penalties, barding worn by a mount, Shield barding, rowed speeds for the four larger ships, towed speeds, a strong opposing wind with no declared propulsion, an Airship against a strong wind or in a dead calm, training of similar creatures without a declared fact, an owned animal used as an encounter mount, pounds-to-tons conversion, Poison or Psychic damage to a vessel, any consequence at 0 Hit Points, fares, and purchase or any other acquisition of a mount, vehicle or ship beyond a declared fact.\n\nReport data completeness separately from mechanical support for the mounts and vehicles section that #280 names. Preview is inert. Confirmation revalidates actor, campaign, source version, ownership, authoritative facts and expected revisions. Inject each failure for full isolated PostgreSQL rollback; same-ID retry, reload and reconnect return the saved receipt without rerolling or charging again; conflicts reject; racing confirmations commit once. Web and trusted TUI must agree on supported choices, unavailable reasons and cancel/confirm/reconnect. Changed web requires focused build/lint and desktop/phone fixtures. Do not expose hidden or private state.\n\nNative parent #274; directly block #280 and #183. Exact prerequisites: #2074, #2075, #2076, #2077, #2078, #2079. Preserve every existing body, parent and prerequisite. Add no #279, #67 or #429 edge. The #275 crew and coin outputs reach this cohort through #2079 and #2078; qualification fails if either still depends only on the closed planning issue. Closing #274 removes none of these obligations. Qualification must run focused source and contrary tests, isolated PostgreSQL replay/rollback/concurrency, shared web/TUI fixtures, `GOMAXPROCS=2 go test -p 2 -short -race ./...` and `GOMAXPROCS=2 go vet -p 2 ./...`; short tests alone do not qualify database or devices. No deployment, production grant or Full Rules promotion.\n",
+      "state": "OPEN",
+      "issueType": {
+        "name": "Task"
+      },
+      "parent": {
+        "number": 274
+      },
+      "blockedBy": {
+        "totalCount": 6,
+        "pageInfo": {
+          "hasNextPage": false
+        },
+        "nodes": [
+          {
+            "number": 2079
+          },
+          {
+            "number": 2078
+          },
+          {
+            "number": 2077
+          },
+          {
+            "number": 2076
+          },
+          {
+            "number": 2075
+          },
+          {
+            "number": 2074
+          }
+        ]
+      },
+      "blocking": {
+        "totalCount": 2,
+        "pageInfo": {
+          "hasNextPage": false
+        },
+        "nodes": [
+          {
+            "number": 183
+          },
+          {
+            "number": 280
+          }
+        ]
+      },
+      "projectItems": {
+        "pageInfo": {
+          "hasNextPage": false
+        },
+        "nodes": [
+          {
+            "id": "PVTI_lADODjtmGM4BrFJ2zhKgd2c",
+            "project": {
+              "id": "PVT_kwDODjtmGM4BrFJ2",
+              "title": "edda"
+            },
+            "fieldValueByName": {
+              "name": "M"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "body_matches_task_file": {
+    "2074": {
+      "key": "records",
+      "task_file": "docs/investigations/issue-274-table-records-task.md",
+      "template_sha256": "dc8fbb7755d67b838cc89d2db3fbcd05ebcfebd7cc339362fa4ebe54dab8cac9",
+      "sha256": "add771da994fcbfb760e16a07925721ca4baaf99550913b7f8644347e7cd297f",
+      "exact": true
+    },
+    "2075": {
+      "key": "load",
+      "task_file": "docs/investigations/issue-274-load-pull-task.md",
+      "template_sha256": "14a1c38e1e4bef07e6c01e5aac4b5eb0814c92b66c173e3d43b8d9877733fe83",
+      "sha256": "cf58fa0b144fe4c8cac43987f3c8b1271127229a54c1c96b858b9c8c04feb74d",
+      "exact": true
+    },
+    "2076": {
+      "key": "ride",
+      "task_file": "docs/investigations/issue-274-riding-task.md",
+      "template_sha256": "727e21797706f001c66c211b4b80dffa5e49dbf8f9e301036283865f02bca557",
+      "sha256": "78505c5e54d6dd0eef8649be9cfebdf67a3f61fb75514b17e4c9b431beb981e2",
+      "exact": true
+    },
+    "2077": {
+      "key": "unseat",
+      "task_file": "docs/investigations/issue-274-saddle-fall-task.md",
+      "template_sha256": "c4793b2c72749ff0731ed0fadcccc74ef1f72ba0dbcf35067a8552d0aef97103",
+      "sha256": "7ea448e4e03162823768ea6b2f904cedb53fd597461bde3b8bf97efa0d60807b",
+      "exact": true
+    },
+    "2078": {
+      "key": "hull",
+      "task_file": "docs/investigations/issue-274-hull-repair-task.md",
+      "template_sha256": "80c78656321d3f8ea6529509e824001bb8e8629dd54fad7904d86390f1055c52",
+      "sha256": "3ea12a724ff3cd26ced33736dd0dc1a11b4a1946cd2fc951a67b1df0cb85952f",
+      "exact": true
+    },
+    "2079": {
+      "key": "voyage",
+      "task_file": "docs/investigations/issue-274-vessel-hour-task.md",
+      "template_sha256": "1cd2a89a23062fada8c05b0e0b5cec880b5b41f19e267ff7479750b591113fa9",
+      "sha256": "56df6640a0469cb91fb13f6f58f10cbf39434740a683dd53b42c57fd91a54045",
+      "exact": true
+    },
+    "2080": {
+      "key": "cohort",
+      "task_file": "docs/investigations/issue-274-cohort-qualification-task.md",
+      "template_sha256": "9a7611c47f8ff9decb855491e40b4e7c4d955507210cad88b9797d307ee48572",
+      "sha256": "bf3e2a28cd7883ac9132e4da698603ab382fc446face29ae361b375a8639998a",
+      "exact": true
+    }
+  },
+  "placeholder_resolution": {
+    "numbers": {
+      "records": 2074,
+      "load": 2075,
+      "ride": 2076,
+      "unseat": 2077,
+      "hull": 2078,
+      "voyage": 2079,
+      "cohort": 2080
+    },
+    "method": "The issue numbers were predicted from the last used number (#2073) and asserted after creation; every issue was created once with its final body and no body was edited afterwards."
+  },
+  "readback_checks": {
+    "2074": {
+      "body_exact": true,
+      "no_placeholder": true,
+      "title": true,
+      "open": true,
+      "type_task": true,
+      "parent_274": true,
+      "blocked_by": true,
+      "blocking": true,
+      "project_size": true
+    },
+    "2075": {
+      "body_exact": true,
+      "no_placeholder": true,
+      "title": true,
+      "open": true,
+      "type_task": true,
+      "parent_274": true,
+      "blocked_by": true,
+      "blocking": true,
+      "project_size": true
+    },
+    "2076": {
+      "body_exact": true,
+      "no_placeholder": true,
+      "title": true,
+      "open": true,
+      "type_task": true,
+      "parent_274": true,
+      "blocked_by": true,
+      "blocking": true,
+      "project_size": true
+    },
+    "2077": {
+      "body_exact": true,
+      "no_placeholder": true,
+      "title": true,
+      "open": true,
+      "type_task": true,
+      "parent_274": true,
+      "blocked_by": true,
+      "blocking": true,
+      "project_size": true
+    },
+    "2078": {
+      "body_exact": true,
+      "no_placeholder": true,
+      "title": true,
+      "open": true,
+      "type_task": true,
+      "parent_274": true,
+      "blocked_by": true,
+      "blocking": true,
+      "project_size": true
+    },
+    "2079": {
+      "body_exact": true,
+      "no_placeholder": true,
+      "title": true,
+      "open": true,
+      "type_task": true,
+      "parent_274": true,
+      "blocked_by": true,
+      "blocking": true,
+      "project_size": true
+    },
+    "2080": {
+      "body_exact": true,
+      "no_placeholder": true,
+      "title": true,
+      "open": true,
+      "type_task": true,
+      "parent_274": true,
+      "blocked_by": true,
+      "blocking": true,
+      "project_size": true
+    }
+  },
+  "edges_added": [
+    "#2074 parent #274",
+    "#2075 parent #274",
+    "#2076 parent #274",
+    "#2077 parent #274",
+    "#2078 parent #274",
+    "#2079 parent #274",
+    "#2080 parent #274",
+    "#2074 blocked-by #195",
+    "#2075 blocked-by #251",
+    "#2075 blocked-by #252",
+    "#2075 blocked-by #2074",
+    "#2076 blocked-by #66",
+    "#2076 blocked-by #171",
+    "#2076 blocked-by #780",
+    "#2076 blocked-by #781",
+    "#2076 blocked-by #782",
+    "#2076 blocked-by #1999",
+    "#2076 blocked-by #2074",
+    "#2077 blocked-by #61",
+    "#2077 blocked-by #488",
+    "#2077 blocked-by #2074",
+    "#2077 blocked-by #2076",
+    "#2078 blocked-by #275",
+    "#2078 blocked-by #2074",
+    "#2079 blocked-by #144",
+    "#2079 blocked-by #275",
+    "#2079 blocked-by #2074",
+    "#2079 blocked-by #2078",
+    "#2080 blocked-by #2074",
+    "#2080 blocked-by #2075",
+    "#2080 blocked-by #2076",
+    "#2080 blocked-by #2077",
+    "#2080 blocked-by #2078",
+    "#2080 blocked-by #2079",
+    "#280 blocked-by #2080",
+    "#183 blocked-by #2080"
+  ],
+  "edges_added_counts": {
+    "parent": 7,
+    "blocked_by": 27,
+    "gate_additions": 2
+  },
+  "edges_removed": [],
+  "cap_rereads_before_each_edge": [
+    {
+      "edge": "2074-blockedby-195",
+      "issue": 2074,
+      "blocker": 195,
+      "issue_blocked_by_before": 0,
+      "blocker_blocking_before": 62,
+      "at": "2026-11-20T15:10:51Z"
+    },
+    {
+      "edge": "2075-blockedby-251",
+      "issue": 2075,
+      "blocker": 251,
+      "issue_blocked_by_before": 0,
+      "blocker_blocking_before": 2,
+      "at": "2026-11-20T15:10:52Z"
+    },
+    {
+      "edge": "2075-blockedby-252",
+      "issue": 2075,
+      "blocker": 252,
+      "issue_blocked_by_before": 1,
+      "blocker_blocking_before": 2,
+      "at": "2026-11-20T15:10:54Z"
+    },
+    {
+      "edge": "2075-blockedby-2074",
+      "issue": 2075,
+      "blocker": 2074,
+      "issue_blocked_by_before": 2,
+      "blocker_blocking_before": 0,
+      "at": "2026-11-20T15:10:55Z"
+    },
+    {
+      "edge": "2076-blockedby-66",
+      "issue": 2076,
+      "blocker": 66,
+      "issue_blocked_by_before": 0,
+      "blocker_blocking_before": 63,
+      "at": "2026-11-20T15:10:57Z"
+    },
+    {
+      "edge": "2076-blockedby-171",
+      "issue": 2076,
+      "blocker": 171,
+      "issue_blocked_by_before": 1,
+      "blocker_blocking_before": 1,
+      "at": "2026-11-20T15:10:59Z"
+    },
+    {
+      "edge": "2076-blockedby-780",
+      "issue": 2076,
+      "blocker": 780,
+      "issue_blocked_by_before": 2,
+      "blocker_blocking_before": 12,
+      "at": "2026-11-20T15:11:00Z"
+    },
+    {
+      "edge": "2076-blockedby-781",
+      "issue": 2076,
+      "blocker": 781,
+      "issue_blocked_by_before": 3,
+      "blocker_blocking_before": 9,
+      "at": "2026-11-20T15:11:01Z"
+    },
+    {
+      "edge": "2076-blockedby-782",
+      "issue": 2076,
+      "blocker": 782,
+      "issue_blocked_by_before": 4,
+      "blocker_blocking_before": 7,
+      "at": "2026-11-20T15:11:03Z"
+    },
+    {
+      "edge": "2076-blockedby-1999",
+      "issue": 2076,
+      "blocker": 1999,
+      "issue_blocked_by_before": 5,
+      "blocker_blocking_before": 4,
+      "at": "2026-11-20T15:11:05Z"
+    },
+    {
+      "edge": "2076-blockedby-2074",
+      "issue": 2076,
+      "blocker": 2074,
+      "issue_blocked_by_before": 6,
+      "blocker_blocking_before": 1,
+      "at": "2026-11-20T15:11:06Z"
+    },
+    {
+      "edge": "2077-blockedby-61",
+      "issue": 2077,
+      "blocker": 61,
+      "issue_blocked_by_before": 0,
+      "blocker_blocking_before": 86,
+      "at": "2026-11-20T15:11:08Z"
+    },
+    {
+      "edge": "2077-blockedby-488",
+      "issue": 2077,
+      "blocker": 488,
+      "issue_blocked_by_before": 1,
+      "blocker_blocking_before": 98,
+      "at": "2026-11-20T15:11:09Z"
+    },
+    {
+      "edge": "2077-blockedby-2074",
+      "issue": 2077,
+      "blocker": 2074,
+      "issue_blocked_by_before": 2,
+      "blocker_blocking_before": 2,
+      "at": "2026-11-20T15:11:11Z"
+    },
+    {
+      "edge": "2077-blockedby-2076",
+      "issue": 2077,
+      "blocker": 2076,
+      "issue_blocked_by_before": 3,
+      "blocker_blocking_before": 0,
+      "at": "2026-11-20T15:11:12Z"
+    },
+    {
+      "edge": "2078-blockedby-275",
+      "issue": 2078,
+      "blocker": 275,
+      "issue_blocked_by_before": 0,
+      "blocker_blocking_before": 1,
+      "at": "2026-11-20T15:11:13Z"
+    },
+    {
+      "edge": "2078-blockedby-2074",
+      "issue": 2078,
+      "blocker": 2074,
+      "issue_blocked_by_before": 1,
+      "blocker_blocking_before": 3,
+      "at": "2026-11-20T15:11:15Z"
+    },
+    {
+      "edge": "2079-blockedby-144",
+      "issue": 2079,
+      "blocker": 144,
+      "issue_blocked_by_before": 0,
+      "blocker_blocking_before": 1,
+      "at": "2026-11-20T15:11:16Z"
+    },
+    {
+      "edge": "2079-blockedby-275",
+      "issue": 2079,
+      "blocker": 275,
+      "issue_blocked_by_before": 1,
+      "blocker_blocking_before": 2,
+      "at": "2026-11-20T15:11:18Z"
+    },
+    {
+      "edge": "2079-blockedby-2074",
+      "issue": 2079,
+      "blocker": 2074,
+      "issue_blocked_by_before": 2,
+      "blocker_blocking_before": 4,
+      "at": "2026-11-20T15:11:19Z"
+    },
+    {
+      "edge": "2079-blockedby-2078",
+      "issue": 2079,
+      "blocker": 2078,
+      "issue_blocked_by_before": 3,
+      "blocker_blocking_before": 0,
+      "at": "2026-11-20T15:11:20Z"
+    },
+    {
+      "edge": "2080-blockedby-2074",
+      "issue": 2080,
+      "blocker": 2074,
+      "issue_blocked_by_before": 0,
+      "blocker_blocking_before": 5,
+      "at": "2026-11-20T15:11:22Z"
+    },
+    {
+      "edge": "2080-blockedby-2075",
+      "issue": 2080,
+      "blocker": 2075,
+      "issue_blocked_by_before": 1,
+      "blocker_blocking_before": 0,
+      "at": "2026-11-20T15:11:23Z"
+    },
+    {
+      "edge": "2080-blockedby-2076",
+      "issue": 2080,
+      "blocker": 2076,
+      "issue_blocked_by_before": 2,
+      "blocker_blocking_before": 1,
+      "at": "2026-11-20T15:11:24Z"
+    },
+    {
+      "edge": "2080-blockedby-2077",
+      "issue": 2080,
+      "blocker": 2077,
+      "issue_blocked_by_before": 3,
+      "blocker_blocking_before": 0,
+      "at": "2026-11-20T15:11:25Z"
+    },
+    {
+      "edge": "2080-blockedby-2078",
+      "issue": 2080,
+      "blocker": 2078,
+      "issue_blocked_by_before": 4,
+      "blocker_blocking_before": 1,
+      "at": "2026-11-20T15:11:27Z"
+    },
+    {
+      "edge": "2080-blockedby-2079",
+      "issue": 2080,
+      "blocker": 2079,
+      "issue_blocked_by_before": 5,
+      "blocker_blocking_before": 0,
+      "at": "2026-11-20T15:11:28Z"
+    },
+    {
+      "edge": "280-blockedby-2080",
+      "issue": 280,
+      "blocker": 2080,
+      "issue_blocked_by_before": 98,
+      "blocker_blocking_before": 0,
+      "at": "2026-11-20T15:11:42Z"
+    },
+    {
+      "edge": "183-blockedby-2080",
+      "issue": 183,
+      "blocker": 2080,
+      "issue_blocked_by_before": 13,
+      "blocker_blocking_before": 1,
+      "at": "2026-11-20T15:11:43Z"
+    }
+  ],
+  "gate_additions": [
+    {
+      "gate": 280,
+      "added_blocked_by": 2080,
+      "blocked_by_count_immediately_before": 98,
+      "rechecked_at": "2026-11-20T15:11:42Z",
+      "blocked_by_count_after": 99,
+      "free_slots_after": 1,
+      "body_unchanged": true
+    },
+    {
+      "gate": 183,
+      "added_blocked_by": 2080,
+      "blocked_by_count_immediately_before": 13,
+      "rechecked_at": "2026-11-20T15:11:43Z",
+      "blocked_by_count_after": 14,
+      "free_slots_after": 86,
+      "body_unchanged": true
+    }
+  ],
+  "gate_paths_with_274_skipped": {
+    "280": {
+      "2074": [
+        280,
+        2080,
+        2074
+      ],
+      "2075": [
+        280,
+        2080,
+        2075
+      ],
+      "2076": [
+        280,
+        2080,
+        2076
+      ],
+      "2077": [
+        280,
+        2080,
+        2077
+      ],
+      "2078": [
+        280,
+        2080,
+        2078
+      ],
+      "2079": [
+        280,
+        2080,
+        2079
+      ],
+      "2080": [
+        280,
+        2080
+      ]
+    },
+    "183": {
+      "2074": [
+        183,
+        2080,
+        2074
+      ],
+      "2075": [
+        183,
+        2080,
+        2075
+      ],
+      "2076": [
+        183,
+        2080,
+        2076
+      ],
+      "2077": [
+        183,
+        2080,
+        2077
+      ],
+      "2078": [
+        183,
+        2080,
+        2078
+      ],
+      "2079": [
+        183,
+        2080,
+        2079
+      ],
+      "2080": [
+        183,
+        2080
+      ]
+    },
+    "337": {
+      "2074": [
+        337,
+        551,
+        183,
+        2080,
+        2074
+      ],
+      "2075": [
+        337,
+        551,
+        183,
+        2080,
+        2075
+      ],
+      "2076": [
+        337,
+        551,
+        183,
+        2080,
+        2076
+      ],
+      "2077": [
+        337,
+        551,
+        183,
+        2080,
+        2077
+      ],
+      "2078": [
+        337,
+        551,
+        183,
+        2080,
+        2078
+      ],
+      "2079": [
+        337,
+        551,
+        183,
+        2080,
+        2079
+      ],
+      "2080": [
+        337,
+        551,
+        183,
+        2080
+      ]
+    }
+  },
+  "implementation_tasks_reach_280_and_183_only_through_cohort_task": {
+    "2074": true,
+    "2075": true,
+    "2076": true,
+    "2077": true,
+    "2078": true,
+    "2079": true
+  },
+  "gate_279": {
+    "native_blockers": 100,
+    "edge_added": false,
+    "direct_edge_to_new_task": false,
+    "transitive_path_with_274_skipped": {
+      "2074": [
+        279,
+        681,
+        183,
+        2080,
+        2074
+      ],
+      "2075": [
+        279,
+        681,
+        183,
+        2080,
+        2075
+      ],
+      "2076": [
+        279,
+        681,
+        183,
+        2080,
+        2076
+      ],
+      "2077": [
+        279,
+        681,
+        183,
+        2080,
+        2077
+      ],
+      "2078": [
+        279,
+        681,
+        183,
+        2080,
+        2078
+      ],
+      "2079": [
+        279,
+        681,
+        183,
+        2080,
+        2079
+      ],
+      "2080": [
+        279,
+        681,
+        183,
+        2080
+      ]
+    },
+    "path_without_183": null,
+    "note": "#279 holds 100 native blockers. No #279 edge was added; nothing in this decision is a spell effect. #279 already depended on exploration qualification #183 through Wall of Stone #681, so the planned #183 edge also puts the cohort task behind #279 on that existing path. With #183 skipped no new task is reached from #279."
+  },
+  "caps": {
+    "limit": 100,
+    "nodes": 1912,
+    "dependency_edges": 10281,
+    "parent_edges": 1908,
+    "incoming279": 100,
+    "incoming280": 99,
+    "incoming183": 14,
+    "incoming337": 62,
+    "outgoing488": 99,
+    "outgoing61": 87,
+    "outgoing66": 64,
+    "outgoing195": 63,
+    "outgoing1999": 5,
+    "outgoing275": 3,
+    "outgoing144": 2,
+    "outgoing171": 2,
+    "outgoing251": 3,
+    "outgoing252": 3,
+    "outgoing780": 13,
+    "outgoing781": 10,
+    "outgoing782": 8,
+    "outgoing67": 100,
+    "outgoing429": 100,
+    "children274": 7,
+    "children193": 32,
+    "max_incoming": 100,
+    "max_outgoing": 100,
+    "max_children": 95,
+    "before": {
+      "observed_at": "2026-11-20T15:08:00Z",
+      "nodes": 1905,
+      "dependency_edges": 10252,
+      "parent_edges": 1901,
+      "incoming279": 100,
+      "incoming280": 98,
+      "incoming183": 13,
+      "incoming337": 62,
+      "outgoing488": 98,
+      "outgoing61": 86,
+      "outgoing66": 63,
+      "outgoing195": 62,
+      "outgoing1999": 4,
+      "outgoing275": 1,
+      "outgoing144": 1,
+      "outgoing171": 1,
+      "outgoing251": 2,
+      "outgoing252": 2,
+      "outgoing780": 12,
+      "outgoing781": 9,
+      "outgoing782": 7,
+      "outgoing67": 100,
+      "outgoing429": 100,
+      "children274": 0,
+      "children193": 32
+    }
+  },
+  "graph": {
+    "dependency_acyclic": true,
+    "parent_acyclic": true,
+    "issues_paged": 1912,
+    "parent_chain": [
+      274,
+      193,
+      54,
+      47
+    ],
+    "blocking_and_sub_issue_counts_match_edge_lists": true
+  },
+  "all_1905_prior_issues_unchanged_except_one_added_blocker_on_280_and_183": true,
+  "prior_issue_differences_between_reads": [
+    "#280 and #183 each gained blocker #2080 (this publication)",
+    "#274 went from 0 to 7 sub-issues (this publication)",
+    "blocking counts of #61, #66, #144, #171, #195, #251, #252, #275, #488, #780, #781, #782 and #1999 rose by the planned edges only",
+    "no title, type, parent or body hash of an earlier issue changed"
+  ],
+  "drift_since_review": [
+    "The review read of 2026-11-20T07:49:40Z showed #280 at 96 blockers and #488 at 97 consumers. Splitters #270 and #272 published in between, so the edges here took #280 from 98 to 99 and #488 from 98 to 99. Each leaves one free slot.",
+    "#280 gained blockers [2059, 2072] from earlier splitter publications between the review read and this publication"
+  ],
+  "decision_issue": {
+    "number": 274,
+    "state": "OPEN",
+    "parent": 193,
+    "blocked_by": [
+      80
+    ],
+    "blocked_by_all_closed": true,
+    "sub_issues": [
+      2074,
+      2075,
+      2076,
+      2077,
+      2078,
+      2079,
+      2080
+    ],
+    "still_blocks": [
+      280
+    ],
+    "body_unchanged": true
+  },
+  "reused_owners_unchanged": {
+    "61": {
+      "title": "Resolve SRD checks and saving throws with inspectable dice receipts",
+      "state": "CLOSED",
+      "body_sha256": "40078e957d35bd33b66c06dad6451270817f5fd833a924aa87d631d4a7bd9cd5",
+      "parent": 50
+    },
+    "66": {
+      "title": "Track initiative and action economy in narrative combat",
+      "state": "CLOSED",
+      "body_sha256": "1268b0f01bca795849b5401b42b6dce70ae483cd7ce9eeb2870a2d5d0c9b0d12",
+      "parent": 50
+    },
+    "67": {
+      "title": "Validate narrative combat targets, ranges and scene facts",
+      "state": "CLOSED",
+      "body_sha256": "aa7bfb66a1b5d6aafd22ca8dc6f7530ce938d0710ee917867fbb899490376096",
+      "parent": 50
+    },
+    "143": {
+      "title": "Validate versioned SRD monster records and fail closed on unsupported mechanics",
+      "state": "CLOSED",
+      "body_sha256": "0c0eab9479c7fda9d318882df9897986db1a507ad552c636e957be62c8785ac8",
+      "parent": 54
+    },
+    "144": {
+      "title": "Prepare and commit a one-hour SRD travel segment with explicit pace",
+      "state": "OPEN",
+      "body_sha256": "d4fe913120b5c4c723d5f107b0b3e02218e96406e79dbe23c3c00efcb2cafa64",
+      "parent": 54
+    },
+    "148": {
+      "title": "Run a Bandit attack from its pinned stat block through durable encounters",
+      "state": "CLOSED",
+      "body_sha256": "b004a40ef1df9002d307150eed19e810465f7eb81b84125bc5e929f449df3f00",
+      "parent": 54
+    },
+    "150": {
+      "title": "Split the remaining named environmental hazards into bounded rules PRs",
+      "state": "OPEN",
+      "body_sha256": "669eb0d197d21f1d3d3194458545b8decb18ed8899d5033e03d2f3574e5208cf",
+      "parent": 54
+    },
+    "156": {
+      "title": "Catalogue SRD stat blocks 06: Bugbear Warrior to Cockatrice",
+      "state": "OPEN",
+      "body_sha256": "f56fd0758b178f0f89d7759ab37386a81eba66e42b2c96e3dc4a6dd814d89ea5",
+      "parent": 54
+    },
+    "158": {
+      "title": "Catalogue SRD stat blocks 08: Dire Wolf to Earth Elemental",
+      "state": "OPEN",
+      "body_sha256": "4c0b9d9daa2168e3abfa8794658c59381f15b682279d63d2b3d95a2168671fa4",
+      "parent": 54
+    },
+    "159": {
+      "title": "Catalogue SRD stat blocks 09: Efreeti to Frost Giant",
+      "state": "OPEN",
+      "body_sha256": "102536763787d9cabc470e4c8b8de7994a02007c09fe30ceeb82cec060241b05",
+      "parent": 54
+    },
+    "167": {
+      "title": "Catalogue SRD stat blocks 17: Magma Mephit to Minotaur of Baphomet",
+      "state": "OPEN",
+      "body_sha256": "cecda1c8093099213b119c120c09b31649f9e600e7d9aeaa44ba8cc3acd67fc6",
+      "parent": 54
+    },
+    "168": {
+      "title": "Catalogue SRD stat blocks 18: Mule to Oni",
+      "state": "OPEN",
+      "body_sha256": "808b46c6cd7daa0758dac7dfbc4ae54d83a3e57e991e36e2b80edda3981c913e",
+      "parent": 54
+    },
+    "170": {
+      "title": "Catalogue SRD stat blocks 20: Polar Bear to Red Dragon Wyrmling",
+      "state": "OPEN",
+      "body_sha256": "5ac06699b2e81828bff9f645adf986c7dd608562edba3118cf9735cfd0b64535",
+      "parent": 54
+    },
+    "171": {
+      "title": "Catalogue SRD stat blocks 21: Reef Shark to Scorpion",
+      "state": "OPEN",
+      "body_sha256": "621ed08ff62012dd3ed0fe9826922ef40b86626e675370a3c17de79baf6e814e",
+      "parent": 54
+    },
+    "176": {
+      "title": "Catalogue SRD stat blocks 26: Warhorse to White Dragon Wyrmling",
+      "state": "OPEN",
+      "body_sha256": "369295c2456d2fa070de1d01852aa67e46987b051efee62b6d69c9e3d3c1b27e",
+      "parent": 54
+    },
+    "182": {
+      "title": "Split unimplemented monster mechanic keys into exact fixture PRs",
+      "state": "OPEN",
+      "body_sha256": "69af93107731b8418a429951ab118d37bab27bb48b82303f949983a717ef8ab0",
+      "parent": 54
+    },
+    "183": {
+      "title": "Qualify complete monster and exploration coverage before advertising full support",
+      "state": "OPEN",
+      "body_sha256": "dfcd77e1cce70f649b4e5acd3f5a5291ebca05bf777063de1a4f6e5e4b627a43",
+      "parent": 54
+    },
+    "195": {
+      "title": "Validate versioned item families and explicit variant identities",
+      "state": "CLOSED",
+      "body_sha256": "554b45122c2a301ffd11b6b8b717b254f44fa54a21f0e623227613ca14464b5a",
+      "parent": 192
+    },
+    "248": {
+      "title": "Catalogue SRD weapons 02: Handaxe to Pike",
+      "state": "OPEN",
+      "body_sha256": "748b9dde4f07d45fc9482492b5e19fe3ddf31dd29e6589305fa047d7c3eddbd3",
+      "parent": 192
+    },
+    "251": {
+      "title": "Catalogue SRD armor 01: Breastplate to Splint Armor",
+      "state": "OPEN",
+      "body_sha256": "6ffdf7edd95812b5a870c5d57bed84d709228980d0037fa4d41d6de7b32a8366",
+      "parent": 192
+    },
+    "252": {
+      "title": "Catalogue SRD armor 02: Studded Leather Armor to Studded Leather Armor",
+      "state": "OPEN",
+      "body_sha256": "41fe26211b372bf74e5f696d3251c05887ff6df621fb4dafef405ca6f4c3bd1d",
+      "parent": 192
+    },
+    "275": {
+      "title": "Split equipment prices, services and lifestyle consequences",
+      "state": "OPEN",
+      "body_sha256": "6e1f9577bbb77dbb989d27fb927af4ac7c4294baa18149704f3870740ec07456",
+      "parent": 193
+    },
+    "278": {
+      "title": "Assign every remaining equipment and magic-item key to bounded implementation PRs",
+      "state": "OPEN",
+      "body_sha256": "b88e1f565c101b658338ecb8bc0b7da784955da7ff411bcb87bda7a2c27e565b",
+      "parent": 192
+    },
+    "280": {
+      "title": "Qualify declared SRD item families and variants before full coverage claims",
+      "state": "OPEN",
+      "body_sha256": "c37cc3230c1bc904f00471030569dacd6b60f02c1b0a7f3b3c9d675308e9a808",
+      "parent": 192
+    },
+    "488": {
+      "title": "Resolve shared Charmed Frightened and Prone condition consumers",
+      "state": "OPEN",
+      "body_sha256": "009a793cf71efa8420190edabdc41aa7790b575e095698ec8710f9a978ca16c5",
+      "parent": 270
+    },
+    "780": {
+      "title": "Resolve shared Dash from authoritative modified Speed",
+      "state": "OPEN",
+      "body_sha256": "62ff0ae98546d75db6c6600c88df9f858fd4c696f9f5f84aab094f9f6dc172f8",
+      "parent": 50
+    },
+    "781": {
+      "title": "Resolve shared Disengage through current turn",
+      "state": "OPEN",
+      "body_sha256": "c48fc21f520690d900c8eb274ae732cea6ef5afb5213737413b6cdbc9bd05a67",
+      "parent": 50
+    },
+    "782": {
+      "title": "Resolve shared Dodge visibility and ending predicates",
+      "state": "OPEN",
+      "body_sha256": "4a07aaaab2a87acd6a8a35eb42dc04f3afb3e81b685dcd101cac24285d986314",
+      "parent": 50
+    },
+    "920": {
+      "title": "Resolve Find Steed steed control",
+      "state": "OPEN",
+      "body_sha256": "bbada5c034b4d804b6eff57cd99083a660042e47c530abfb4aad6781a9f7daf4",
+      "parent": 848
+    },
+    "1725": {
+      "title": "Resolve bounded Backpack",
+      "state": "OPEN",
+      "body_sha256": "0a80e05c3e50d2841fe2d171f9e327abd7a0436de0ea1395a049394378ce7cf9",
+      "parent": 1747
+    },
+    "1931": {
+      "title": "Resolve Phantom Steed ride-ending",
+      "state": "OPEN",
+      "body_sha256": "99ba9071ae0a1ec981d6bdfaae681aeca6b79bf9cc79c3e8ce66536bb1a425dc",
+      "parent": 2011
+    },
+    "1999": {
+      "title": "Resolve Wizard consumed Riding Horse form-riding-horse-statistics",
+      "state": "OPEN",
+      "body_sha256": "1758b6e068b481c58799760ea1d72b7019262ac0817cf1c88af6d49ca1c3f8d7",
+      "parent": 2007
+    }
+  },
+  "follow_up_obligations": [
+    {
+      "for": 275,
+      "obligation": "Before #275 closes, its split must add its skilled-hireling child as a native blocker of the voyage task and its coin-payment child as a native blocker of the hull task. The planned #275 edges are satisfied by planning closure alone."
+    },
+    {
+      "for": 150,
+      "obligation": "#274 owns, for the seven table vehicles, the PDF12 waterborne-vessel sentence and the PDF192 Vehicles paragraph. #150's split must not publish a second owner for them; it keeps the doubled mounted distance and land-vehicle pace on PDF12 and the PDF201 rolling-stone damage threshold."
+    },
+    {
+      "for": [
+        920,
+        1931
+      ],
+      "obligation": "No native edge is added because both bodies list exact prerequisites. Whichever of #920, #1931 and the riding task merges second must extend the mounted or controlled-mount state the first one merged."
+    },
+    {
+      "for": 278,
+      "obligation": "The Lance 'unless mounted' key (record #248, PDF91) needs an execution owner that consumes the riding task's mounted state."
+    }
+  ],
+  "mutation_journal": {
+    "steps": 57,
+    "sha256": "5dfce57c0fc79437c64ed5ca65fc23ce9a0c1a72772fd2ffce5f35aa5f5a77b3"
+  },
+  "runtime_qualified": false,
+  "not_run": [
+    "full Go test suite",
+    "race and vet",
+    "PostgreSQL integration",
+    "web and TUI checks",
+    "source phrase recheck at publication (done during review against the pinned PDF)"
+  ]
+}
