@@ -269,3 +269,75 @@ rtk proxy python3 scripts/verify_srd_spells_196.py /path/to/SRD_CC_v5.2.1.pdf
 
 The same limits as #198 apply: the source check supplements the offline literal
 fixtures and is not an automatic conformance proof.
+
+## Issue #197: Antipathy/Sympathy through Banishment
+
+`testdata/spells_197.json` imports the exact twelve families the issue-80
+inventory assigns to catalogue issue #197, on PDF pp.109–112: Antipathy/Sympathy,
+Arcane Eye, Arcane Hand, Arcane Lock, Arcane Sword, Arcanist’s Magic Aura, Astral
+Projection, Augury, Aura of Life, Awaken, Bane and Banishment. Antipathy/Sympathy
+continues onto p.110, Arcanist’s Magic Aura onto p.111 and Awaken onto p.112;
+their payloads keep explicit `source_pages` lists. `spells_197_test.go` holds
+literal source-value fixtures for every header, choice, effect, dependency and
+scaling value, and compares the identities and first pages with the inventory.
+
+The typed payloads retain:
+
+- Antipathy/Sympathy's two modes with their conditions and movement rules, the
+  creature-or-object target, caster-specified creature kind, 120-foot Wisdom
+  saves, the Sympathy 5-foot restriction and damage save, and the one-minute
+  immunity after a successful save.
+- Arcane Eye's Invisible, invulnerable sensor, 30-foot Darkvision, 30-foot Bonus
+  Action movement and one-inch opening.
+- Arcane Hand's Large AC 20 object, Hit Points, 60-foot movement and all four
+  options: Clenched Fist, Forceful Hand, Grasping Hand and Interposing Hand.
+- Arcane Lock's five eligible closed objects, bypass list and password.
+- Arcane Sword's melee spell attack, 4d12 Force damage plus modifier and 30-foot
+  Bonus Action movement.
+- Arcanist's Magic Aura's Mask (creature) and False Aura (object) variants,
+  the three False Aura choices and the 30-day until-dispelled rule.
+- Astral Projection's caster plus up to eight willing targets, both per-target
+  consumed components, suspended body, silver cord, plane exit and endings.
+- Augury's four-row Omens table, 30-minute window and cumulative 25 percent
+  chance of no answer.
+- Aura of Life's 30-foot Emanation, Necrotic Resistance, protected Hit Point
+  maximum and 1 Hit Point recovery.
+- Awaken's three target kinds, Intelligence 3 limit and Intelligence 10 result,
+  language, natural-plant changes and 30-day Charmed condition.
+- Bane's three visible targets, Charisma save, 1d4 subtraction and target scaling.
+- Banishment's Charisma save, demiplane, Incapacitated condition, return space,
+  five creature types that do not return and target scaling.
+
+This batch extends schema version 1 with three casting times, `1-minute`,
+`1-hour` and `8-hours`. Their `casting_seconds` must be 60, 3,600 and 28,800;
+other casting times in this batch keep zero. Augury is a one-minute cast with
+`ritual=true`. New target shapes are `created-effect`, `emanation` and
+`self-and-up-to-count`, plus further `choice`, `single` and `up-to-count`
+eligibilities. `slot-targets` now also reads Bane's and Banishment's typed
+counts. The new `slot-effect-dice` scaling kind uses zero common dice fields and
+one typed `hand.slot_dice` row per referenced effect, in order: 2d8 for
+Clenched Fist and 2d6 for the Grasping Hand crush.
+
+Priced materials are in copper pieces: Arcane Lock 2,500 (consumed), Arcane
+Sword 25,000, Augury 2,500 and Awaken 100,000 (consumed). Astral Projection's
+common field records the 110,000 per-target minimum; the typed fields keep the
+100,000 jacinth and 10,000 silver bar separately. A record accepts exactly one
+typed payload across all batches, and it must be the payload for that spell.
+
+Composition of #194, #218, #198 and #197 yields 37 unique complete source
+records and excludes both bounded fixtures, whose availability checks are
+unchanged. Every imported record remains unavailable. No runtime, inventory,
+tool, action, coverage or Full Rules behavior is added. The JSON retains the
+pinned source, CC-BY-4.0 attribution and an adaptation notice.
+
+To recheck the PDF pin, inventory identities and pages, verbatim source headers
+and edition-specific anchors, run:
+
+```sh
+rtk proxy python3 scripts/verify_srd_spells_197.py /path/to/SRD_CC_v5.2.1.pdf
+```
+
+The comparator rebuilds each source header from the structured record and
+requires it to equal the PDF text. It supplements the literal offline fixtures
+and is not an automatic conformance proof. The PDF and extracted text are not
+vendored.

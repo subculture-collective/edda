@@ -87,7 +87,8 @@ type SpellMaterial struct {
 }
 
 // SpellScaling identifies per-slot dice additions or references a typed ray
-// count increment in SourceDetails.Rays.
+// count increment in SourceDetails.Rays. Kind slot-effect-dice references the
+// per-effect dice rows in SourceDetails.Hand.SlotDice.
 // Bounded fixtures use none; their higher-slot catalogue data belongs elsewhere.
 type SpellScaling struct {
 	Kind       string   `json:"kind"`
@@ -172,7 +173,7 @@ func (s SpellRecord) validate() error {
 			return fmt.Errorf("invalid spell list")
 		}
 	}
-	if !slices.Contains([]string{"action", "bonus-action", "reaction", "1-minute", "10-minutes"}, s.CastingTime) || !slices.Contains([]string{"feet", "touch", "self", "unlimited"}, s.Range.Kind) || s.Range.Feet < 0 || (s.Range.Kind == "feet" && s.Range.Feet == 0) || (s.Range.Kind != "feet" && s.Range.Feet != 0) || !validSpellTarget(s.Target) {
+	if !slices.Contains([]string{"action", "bonus-action", "reaction", "1-minute", "10-minutes", "1-hour", "8-hours"}, s.CastingTime) || !slices.Contains([]string{"feet", "touch", "self", "unlimited"}, s.Range.Kind) || s.Range.Feet < 0 || (s.Range.Kind == "feet" && s.Range.Feet == 0) || (s.Range.Kind != "feet" && s.Range.Feet != 0) || !validSpellTarget(s.Target) {
 		return fmt.Errorf("invalid casting, range or target shape")
 	}
 	if s.Components.Verbal == nil || s.Components.Somatic == nil || s.Ritual == nil || s.Concentration == nil {
@@ -240,6 +241,8 @@ func (s SpellRecord) validate() error {
 				base, additional = d.Blindness.BaseTargets, d.Blindness.AdditionalTargetsPerSlot
 			} else if d.Friendship != nil {
 				base, additional = d.Friendship.BaseTargets, d.Friendship.AdditionalTargetsPerSlot
+			} else if b, a, ok := spell197TargetScaling(d); ok {
+				base, additional = b, a
 			}
 			if base != s.Target.Count || additional <= 0 || !slices.Contains(s.RequiredMechanics, "scaling.targets-per-slot") {
 				return fmt.Errorf("target scaling requires consistent base and positive increment")
@@ -254,6 +257,10 @@ func (s SpellRecord) validate() error {
 			if !effects[id] {
 				return fmt.Errorf("unknown scaling effect")
 			}
+		}
+	case "slot-effect-dice":
+		if err := s.validateSpell197EffectDice(effects); err != nil {
+			return err
 		}
 	case "slot-count":
 		if sc.AboveLevel != s.Level || sc.DiceCount != 0 || sc.DieSides != 0 || s.SourceDetails == nil || s.SourceDetails.Rays == nil || s.SourceDetails.Rays.AdditionalPerSlot <= 0 || len(sc.EffectIDs) != 1 || !effects[sc.EffectIDs[0]] || !slices.Contains(s.RequiredMechanics, "scaling.per-slot-ray") {

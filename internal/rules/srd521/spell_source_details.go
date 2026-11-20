@@ -12,6 +12,18 @@ import (
 // SpellSourceDetails retains the batch's additional source shapes as offline
 // metadata. These fields never select or implement a runtime resolver.
 type SpellSourceDetails struct {
+	Antipathy       *SpellAntipathy    `json:"antipathy,omitempty"`
+	Eye             *SpellEye          `json:"eye,omitempty"`
+	Hand            *SpellHand         `json:"hand,omitempty"`
+	Lock            *SpellLock         `json:"lock,omitempty"`
+	Sword           *SpellSword        `json:"sword,omitempty"`
+	MagicAura       *SpellMagicAura    `json:"magic_aura,omitempty"`
+	Astral          *SpellAstral       `json:"astral,omitempty"`
+	Augury          *SpellAugury       `json:"augury,omitempty"`
+	Life            *SpellLife         `json:"life,omitempty"`
+	Awaken          *SpellAwaken       `json:"awaken,omitempty"`
+	Bane            *SpellBane         `json:"bane,omitempty"`
+	Banishment      *SpellBanishment   `json:"banishment,omitempty"`
 	Barkskin        *SpellBarkskin     `json:"barkskin,omitempty"`
 	Beacon          *SpellBeacon       `json:"beacon,omitempty"`
 	Befuddlement    *SpellBefuddlement `json:"befuddlement,omitempty"`
@@ -237,7 +249,7 @@ func (s *SpellSourceDetails) UnmarshalJSON(data []byte) error {
 		}
 	}
 	templates := map[string]any{"rays": SpellRays{}, "scrying": SpellScrying{}, "smite": SpellSmite{}, "chest": SpellChest{}, "vision": SpellVision{}, "seeming": SpellSeeming{}, "sending": SpellSending{}, "sequester": SpellSequester{}, "shapechange": SpellShapechange{}, "shatter": SpellShatter{}, "shield": SpellShield{}, "faith": SpellFaith{}}
-	for _, batch := range []map[string]any{spell196Templates(), spell198Templates()} {
+	for _, batch := range []map[string]any{spell196Templates(), spell197Templates(), spell198Templates()} {
 		for key, template := range batch {
 			if raw, ok := fields[key]; ok {
 				if err := requireSpell198Fields(raw, reflect.TypeOf(template)); err != nil {
@@ -316,6 +328,9 @@ func (s *SpellSourceDetails) UnmarshalJSON(data []byte) error {
 }
 
 func validSpellTarget(t SpellTarget) bool {
+	if validSpell197Target(t) {
+		return true
+	}
 	switch t.Shape {
 	case "square":
 		return t.Count == 0 && t.Eligibility == "creatures-in-visible-ground-area"
@@ -348,6 +363,9 @@ func (s SpellRecord) validateSourceDetails() error {
 	if handled, err := s.validateSpell196(); handled || err != nil {
 		return err
 	}
+	if handled, err := s.validateSpell197(); handled || err != nil {
+		return err
+	}
 	if handled, err := s.validateSpell198(); handled || err != nil {
 		return err
 	}
@@ -356,7 +374,7 @@ func (s SpellRecord) validateSourceDetails() error {
 		if s.Scope == "complete-source-record" && slices.Contains([]string{"Scorching Ray", "Scrying", "Searing Smite", "Secret Chest", "See Invisibility", "Seeming", "Sending", "Sequester", "Shapechange", "Shatter", "Shield", "Shield of Faith"}, s.Name) {
 			return fmt.Errorf("batch source details required")
 		}
-		if s.CastingTime == "reaction" || s.CastingTime == "10-minutes" || s.CastingTime == "1-minute" || s.Duration == "until-dispelled" || s.Range.Kind == "unlimited" || s.Target.Shape != "single" {
+		if s.CastingTime == "reaction" || s.CastingTime == "10-minutes" || s.CastingTime == "1-minute" || spell197CastingSeconds[s.CastingTime] != 0 || s.Duration == "until-dispelled" || s.Range.Kind == "unlimited" || s.Target.Shape != "single" {
 			return fmt.Errorf("source details required for extended shape")
 		}
 		return nil
