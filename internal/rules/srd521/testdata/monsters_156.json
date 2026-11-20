@@ -1,0 +1,2804 @@
+{
+  "schema_version": 1,
+  "source": {
+    "version": "5.2.1",
+    "language": "en",
+    "landing_url": "https://www.dndbeyond.com/srd",
+    "artifact_url": "https://media.dndbeyond.com/compendium-images/srd/5.2/SRD_CC_v5.2.1.pdf",
+    "sha256": "8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87",
+    "bytes": 6031375,
+    "pages": 364,
+    "retrieved_at": "2026-11-15",
+    "license": "CC-BY-4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/legalcode",
+    "attribution": "This work includes material from the System Reference Document 5.2.1 (“SRD 5.2.1”) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd. The SRD 5.2.1 is licensed under the Creative Commons Attribution 4.0 International License, available at https://creativecommons.org/licenses/by/4.0/legalcode.",
+    "changes": "Adapted the twelve stat blocks of issue #156 (Bugbear Warrior, Bulette, Camel, Cat, Centaur Trooper, Chain Devil, Chimera, Chuul, Clay Golem, Cloaker, Cloud Giant and Cockatrice; PDF pages 272–275 and 346) into typed mechanical fields and implementation keys. Trait, action, bonus action and reaction entries keep their source rules text, rejoined across line, column and page breaks; descriptive prose outside the stat blocks is omitted. A ranged attack printed with one range repeats it as its long range, and a hit printed without dice keeps explicit zero dice. No playable NPC behavior is granted."
+  },
+  "monsters": [
+    {
+      "id": "srd-5.2.1:content/monsters/bugbear-warrior",
+      "name": "Bugbear Warrior",
+      "source_pages": [
+        272,
+        272
+      ],
+      "sizes": [
+        "medium"
+      ],
+      "type": "fey",
+      "alignment": "Chaotic Evil",
+      "ac": 14,
+      "hp": {
+        "average": 33,
+        "dice": 6,
+        "sides": 8,
+        "modifier": 6
+      },
+      "initiative": {
+        "modifier": 2,
+        "score": 12
+      },
+      "speeds": {
+        "walk": 30
+      },
+      "abilities": {
+        "str": {
+          "score": 15,
+          "modifier": 2,
+          "save": 2
+        },
+        "dex": {
+          "score": 14,
+          "modifier": 2,
+          "save": 2
+        },
+        "con": {
+          "score": 13,
+          "modifier": 1,
+          "save": 1
+        },
+        "int": {
+          "score": 8,
+          "modifier": -1,
+          "save": -1
+        },
+        "wis": {
+          "score": 11,
+          "modifier": 0,
+          "save": 0
+        },
+        "cha": {
+          "score": 9,
+          "modifier": -1,
+          "save": -1
+        }
+      },
+      "senses": {
+        "passive_perception": 10,
+        "special": {
+          "darkvision": 60
+        }
+      },
+      "languages": [
+        "Common",
+        "Goblin"
+      ],
+      "gear": [
+        "Hide Armor",
+        "Light Hammers (3)"
+      ],
+      "cr": "1",
+      "xp": 200,
+      "proficiency_bonus": 2,
+      "traits": [
+        {
+          "key": "trait/abduct",
+          "name": "Abduct",
+          "text": "Abduct. The bugbear needn’t spend extra movement to move a creature it is grappling.",
+          "requires": [
+            "movement/no-extra-cost-moving-grappled"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "grab",
+          "name": "Grab",
+          "text": "Grab. Melee Attack Roll: +4, reach 10 ft. Hit: 9 (2d6 + 2) Bludgeoning damage. If the target is a Medium or smaller creature, it has the Grappled condition (escape DC 12).",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 4,
+            "reach": 10,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 9,
+              "dice": 2,
+              "sides": 6,
+              "modifier": 2
+            },
+            "damage_type": "bludgeoning"
+          },
+          "effects": [
+            {
+              "key": "effect/bludgeoning-damage",
+              "name": "Bludgeoning damage",
+              "text": "9 (2d6 + 2) Bludgeoning damage.",
+              "dice": {
+                "average": 9,
+                "dice": 2,
+                "sides": 6,
+                "modifier": 2
+              }
+            },
+            {
+              "key": "condition/grappled",
+              "name": "Grappled",
+              "text": "If the target is a Medium or smaller creature, it has the Grappled condition (escape DC 12)."
+            },
+            {
+              "key": "requirement/target-size",
+              "name": "Target size",
+              "text": "If the target is a Medium or smaller creature, it has the Grappled condition (escape DC 12)."
+            }
+          ]
+        },
+        {
+          "id": "light-hammer",
+          "name": "Light Hammer",
+          "text": "Light Hammer. Melee or Ranged Attack Roll: +4 (with Advantage if the target is Grappled by the bugbear), reach 10 ft. or range 20/60 ft. Hit: 9 (3d4 + 2) Bludgeoning damage.",
+          "key": "action/melee-or-ranged-attack",
+          "effects": [
+            {
+              "key": "effect/bludgeoning-damage",
+              "name": "Bludgeoning damage",
+              "text": "9 (3d4 + 2) Bludgeoning damage.",
+              "dice": {
+                "average": 9,
+                "dice": 3,
+                "sides": 4,
+                "modifier": 2
+              }
+            },
+            {
+              "key": "attack/advantage-against-grappled-target",
+              "name": "Advantage against a target it grapples",
+              "text": "(with Advantage if the target is Grappled by the bugbear)"
+            }
+          ]
+        }
+      ],
+      "tags": [
+        "Goblinoid"
+      ],
+      "skills": {
+        "stealth": 6,
+        "survival": 2
+      },
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/skills",
+        "sense/darkvision",
+        "trait/abduct",
+        "movement/no-extra-cost-moving-grappled",
+        "action/melee-attack",
+        "effect/bludgeoning-damage",
+        "condition/grappled",
+        "requirement/target-size",
+        "action/melee-or-ranged-attack",
+        "attack/advantage-against-grappled-target"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/bulette",
+      "name": "Bulette",
+      "source_pages": [
+        272,
+        272
+      ],
+      "sizes": [
+        "large"
+      ],
+      "type": "monstrosity",
+      "alignment": "Unaligned",
+      "ac": 17,
+      "hp": {
+        "average": 94,
+        "dice": 9,
+        "sides": 10,
+        "modifier": 45
+      },
+      "initiative": {
+        "modifier": 0,
+        "score": 10
+      },
+      "speeds": {
+        "walk": 40,
+        "burrow": 40
+      },
+      "abilities": {
+        "str": {
+          "score": 19,
+          "modifier": 4,
+          "save": 4
+        },
+        "dex": {
+          "score": 11,
+          "modifier": 0,
+          "save": 0
+        },
+        "con": {
+          "score": 21,
+          "modifier": 5,
+          "save": 5
+        },
+        "int": {
+          "score": 2,
+          "modifier": -4,
+          "save": -4
+        },
+        "wis": {
+          "score": 10,
+          "modifier": 0,
+          "save": 0
+        },
+        "cha": {
+          "score": 5,
+          "modifier": -3,
+          "save": -3
+        }
+      },
+      "senses": {
+        "passive_perception": 16,
+        "special": {
+          "darkvision": 60,
+          "tremorsense": 120
+        }
+      },
+      "languages": [],
+      "gear": [],
+      "cr": "5",
+      "xp": 1800,
+      "proficiency_bonus": 3,
+      "traits": [],
+      "actions": [
+        {
+          "id": "multiattack",
+          "name": "Multiattack",
+          "text": "Multiattack. The bulette makes two Bite attacks.",
+          "key": "action/multiattack",
+          "effects": [
+            {
+              "key": "action/melee-attack",
+              "name": "Attack",
+              "text": "The bulette makes two Bite attacks."
+            }
+          ]
+        },
+        {
+          "id": "bite",
+          "name": "Bite",
+          "text": "Bite. Melee Attack Roll: +7, reach 5 ft. Hit: 17 (2d12 + 4) Piercing damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 7,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 17,
+              "dice": 2,
+              "sides": 12,
+              "modifier": 4
+            },
+            "damage_type": "piercing"
+          },
+          "effects": [
+            {
+              "key": "effect/piercing-damage",
+              "name": "Piercing damage",
+              "text": "17 (2d12 + 4) Piercing damage.",
+              "dice": {
+                "average": 17,
+                "dice": 2,
+                "sides": 12,
+                "modifier": 4
+              }
+            }
+          ]
+        },
+        {
+          "id": "deadly-leap",
+          "name": "Deadly Leap",
+          "text": "Deadly Leap. The bulette spends 5 feet of movement to jump to a space within 15 feet that contains one or more Large or smaller creatures. Dexterity Saving Throw: DC 15, each creature in the bulette’s destination space. Failure: 19 (3d12) Bludgeoning damage, and the target has the Prone condition. Success: Half damage, and the target is pushed 5 feet straight away from the bulette.",
+          "key": "action/saving-throw",
+          "save": {
+            "ability": "dex",
+            "dc": 15
+          },
+          "effects": [
+            {
+              "key": "effect/jump",
+              "name": "Jump",
+              "text": "The bulette spends 5 feet of movement to jump to a space within 15 feet that contains one or more Large or smaller creatures."
+            },
+            {
+              "key": "requirement/target-size",
+              "name": "Target size",
+              "text": "The bulette spends 5 feet of movement to jump to a space within 15 feet that contains one or more Large or smaller creatures."
+            },
+            {
+              "key": "save/dex",
+              "name": "Dexterity Saving Throw",
+              "text": "Dexterity Saving Throw: DC 15"
+            },
+            {
+              "key": "target/creatures-in-destination-space",
+              "name": "Target",
+              "text": "each creature in the bulette’s destination space."
+            },
+            {
+              "key": "effect/bludgeoning-damage",
+              "name": "Bludgeoning damage",
+              "text": "19 (3d12) Bludgeoning damage.",
+              "dice": {
+                "average": 19,
+                "dice": 3,
+                "sides": 12,
+                "modifier": 0
+              }
+            },
+            {
+              "key": "condition/prone",
+              "name": "Prone",
+              "text": "the target has the Prone condition."
+            },
+            {
+              "key": "save/half-damage",
+              "name": "Half damage",
+              "text": "Success: Half damage, and the target is pushed 5 feet straight away from the bulette."
+            },
+            {
+              "key": "effect/push",
+              "name": "Push",
+              "text": "the target is pushed 5 feet straight away from the bulette."
+            }
+          ]
+        }
+      ],
+      "skills": {
+        "perception": 6
+      },
+      "bonus_actions": [
+        {
+          "id": "leap",
+          "name": "Leap",
+          "text": "Leap. The bulette jumps up to 30 feet by spending 10 feet of movement.",
+          "key": "action/special",
+          "effects": [
+            {
+              "key": "effect/jump",
+              "name": "Jump",
+              "text": "The bulette jumps up to 30 feet by spending 10 feet of movement."
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/skills",
+        "movement/burrow",
+        "sense/darkvision",
+        "sense/tremorsense",
+        "action/bonus-action",
+        "action/multiattack",
+        "action/melee-attack",
+        "effect/piercing-damage",
+        "action/saving-throw",
+        "effect/jump",
+        "requirement/target-size",
+        "save/dex",
+        "target/creatures-in-destination-space",
+        "effect/bludgeoning-damage",
+        "condition/prone",
+        "save/half-damage",
+        "effect/push",
+        "action/special"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/animals/camel",
+      "name": "Camel",
+      "source_pages": [
+        346,
+        346
+      ],
+      "sizes": [
+        "large"
+      ],
+      "type": "beast",
+      "alignment": "Unaligned",
+      "ac": 10,
+      "hp": {
+        "average": 17,
+        "dice": 2,
+        "sides": 10,
+        "modifier": 6
+      },
+      "initiative": {
+        "modifier": -1,
+        "score": 9
+      },
+      "speeds": {
+        "walk": 50
+      },
+      "abilities": {
+        "str": {
+          "score": 15,
+          "modifier": 2,
+          "save": 2
+        },
+        "dex": {
+          "score": 8,
+          "modifier": -1,
+          "save": -1
+        },
+        "con": {
+          "score": 17,
+          "modifier": 3,
+          "save": 5
+        },
+        "int": {
+          "score": 2,
+          "modifier": -4,
+          "save": -4
+        },
+        "wis": {
+          "score": 11,
+          "modifier": 0,
+          "save": 0
+        },
+        "cha": {
+          "score": 5,
+          "modifier": -3,
+          "save": -3
+        }
+      },
+      "senses": {
+        "passive_perception": 10,
+        "special": {
+          "darkvision": 60
+        }
+      },
+      "languages": [],
+      "gear": [],
+      "cr": "1/8",
+      "xp": 25,
+      "proficiency_bonus": 2,
+      "traits": [],
+      "actions": [
+        {
+          "id": "bite",
+          "name": "Bite",
+          "text": "Bite. Melee Attack Roll: +4, reach 5 ft. Hit: 4 (1d4 + 2) Bludgeoning damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 4,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 4,
+              "dice": 1,
+              "sides": 4,
+              "modifier": 2
+            },
+            "damage_type": "bludgeoning"
+          },
+          "effects": [
+            {
+              "key": "effect/bludgeoning-damage",
+              "name": "Bludgeoning damage",
+              "text": "4 (1d4 + 2) Bludgeoning damage.",
+              "dice": {
+                "average": 4,
+                "dice": 1,
+                "sides": 4,
+                "modifier": 2
+              }
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "sense/darkvision",
+        "action/melee-attack",
+        "effect/bludgeoning-damage"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/animals/cat",
+      "name": "Cat",
+      "source_pages": [
+        346,
+        346
+      ],
+      "sizes": [
+        "tiny"
+      ],
+      "type": "beast",
+      "alignment": "Unaligned",
+      "ac": 12,
+      "hp": {
+        "average": 2,
+        "dice": 1,
+        "sides": 4,
+        "modifier": 0
+      },
+      "initiative": {
+        "modifier": 2,
+        "score": 12
+      },
+      "speeds": {
+        "walk": 40,
+        "climb": 40
+      },
+      "abilities": {
+        "str": {
+          "score": 3,
+          "modifier": -4,
+          "save": -4
+        },
+        "dex": {
+          "score": 15,
+          "modifier": 2,
+          "save": 4
+        },
+        "con": {
+          "score": 10,
+          "modifier": 0,
+          "save": 0
+        },
+        "int": {
+          "score": 3,
+          "modifier": -4,
+          "save": -4
+        },
+        "wis": {
+          "score": 12,
+          "modifier": 1,
+          "save": 1
+        },
+        "cha": {
+          "score": 7,
+          "modifier": -2,
+          "save": -2
+        }
+      },
+      "senses": {
+        "passive_perception": 13,
+        "special": {
+          "darkvision": 60
+        }
+      },
+      "languages": [],
+      "gear": [],
+      "cr": "0",
+      "xp": 10,
+      "proficiency_bonus": 2,
+      "traits": [
+        {
+          "key": "trait/jumper",
+          "name": "Jumper",
+          "text": "Jumper. The cat’s jump distance is determined using its Dexterity rather than its Strength.",
+          "requires": [
+            "movement/jump-uses-dexterity"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "scratch",
+          "name": "Scratch",
+          "text": "Scratch. Melee Attack Roll: +4, reach 5 ft. Hit: 1 Slashing damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 4,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 1,
+              "dice": 0,
+              "sides": 0,
+              "modifier": 0
+            },
+            "damage_type": "slashing"
+          },
+          "effects": [
+            {
+              "key": "effect/slashing-damage",
+              "name": "Slashing damage",
+              "text": "1 Slashing damage.",
+              "requires": [
+                "damage/fixed"
+              ]
+            }
+          ]
+        }
+      ],
+      "skills": {
+        "perception": 3,
+        "stealth": 4
+      },
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/skills",
+        "movement/climb",
+        "sense/darkvision",
+        "trait/jumper",
+        "movement/jump-uses-dexterity",
+        "action/melee-attack",
+        "effect/slashing-damage",
+        "damage/fixed"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/centaur-trooper",
+      "name": "Centaur Trooper",
+      "source_pages": [
+        272,
+        272
+      ],
+      "sizes": [
+        "large"
+      ],
+      "type": "fey",
+      "alignment": "Neutral Good",
+      "ac": 16,
+      "hp": {
+        "average": 45,
+        "dice": 6,
+        "sides": 10,
+        "modifier": 12
+      },
+      "initiative": {
+        "modifier": 2,
+        "score": 12
+      },
+      "speeds": {
+        "walk": 50
+      },
+      "abilities": {
+        "str": {
+          "score": 18,
+          "modifier": 4,
+          "save": 4
+        },
+        "dex": {
+          "score": 14,
+          "modifier": 2,
+          "save": 2
+        },
+        "con": {
+          "score": 14,
+          "modifier": 2,
+          "save": 2
+        },
+        "int": {
+          "score": 9,
+          "modifier": -1,
+          "save": -1
+        },
+        "wis": {
+          "score": 13,
+          "modifier": 1,
+          "save": 1
+        },
+        "cha": {
+          "score": 11,
+          "modifier": 0,
+          "save": 0
+        }
+      },
+      "senses": {
+        "passive_perception": 13,
+        "special": {}
+      },
+      "languages": [
+        "Elvish",
+        "Sylvan"
+      ],
+      "gear": [
+        "Breastplate",
+        "Longbow",
+        "Pike"
+      ],
+      "cr": "2",
+      "xp": 450,
+      "proficiency_bonus": 2,
+      "traits": [],
+      "actions": [
+        {
+          "id": "multiattack",
+          "name": "Multiattack",
+          "text": "Multiattack. The centaur makes two attacks, using Pike or Longbow in any combination.",
+          "key": "action/multiattack",
+          "effects": [
+            {
+              "key": "action/melee-attack",
+              "name": "Melee attack",
+              "text": "The centaur makes two attacks, using Pike or Longbow in any combination."
+            },
+            {
+              "key": "action/ranged-attack",
+              "name": "Ranged attack",
+              "text": "The centaur makes two attacks, using Pike or Longbow in any combination."
+            },
+            {
+              "key": "multiattack/any-combination",
+              "name": "Any combination",
+              "text": "in any combination."
+            }
+          ]
+        },
+        {
+          "id": "pike",
+          "name": "Pike",
+          "text": "Pike. Melee Attack Roll: +6, reach 10 ft. Hit: 9 (1d10 + 4) Piercing damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 6,
+            "reach": 10,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 9,
+              "dice": 1,
+              "sides": 10,
+              "modifier": 4
+            },
+            "damage_type": "piercing"
+          },
+          "effects": [
+            {
+              "key": "effect/piercing-damage",
+              "name": "Piercing damage",
+              "text": "9 (1d10 + 4) Piercing damage.",
+              "dice": {
+                "average": 9,
+                "dice": 1,
+                "sides": 10,
+                "modifier": 4
+              }
+            }
+          ]
+        },
+        {
+          "id": "longbow",
+          "name": "Longbow",
+          "text": "Longbow. Ranged Attack Roll: +4, range 150/600 ft. Hit: 6 (1d8 + 2) Piercing damage.",
+          "key": "action/ranged-attack",
+          "attack": {
+            "kind": "ranged",
+            "bonus": 4,
+            "reach": 0,
+            "range": 150,
+            "long_range": 600,
+            "damage": {
+              "average": 6,
+              "dice": 1,
+              "sides": 8,
+              "modifier": 2
+            },
+            "damage_type": "piercing"
+          },
+          "effects": [
+            {
+              "key": "effect/piercing-damage",
+              "name": "Piercing damage",
+              "text": "6 (1d8 + 2) Piercing damage.",
+              "dice": {
+                "average": 6,
+                "dice": 1,
+                "sides": 8,
+                "modifier": 2
+              }
+            }
+          ]
+        }
+      ],
+      "skills": {
+        "athletics": 6,
+        "perception": 3
+      },
+      "bonus_actions": [
+        {
+          "id": "trampling-charge",
+          "name": "Trampling Charge",
+          "text": "Trampling Charge (Recharge 5–6). The centaur moves up to its Speed without provoking Opportunity Attacks and can move through the spaces of Medium or smaller creatures. Each creature whose space the centaur enters is targeted once by the following effect. Strength Saving Throw: DC 14. Failure: 7 (1d6 + 4) Bludgeoning damage, and the target has the Prone condition.",
+          "key": "action/saving-throw",
+          "uses": {
+            "per_day": 0,
+            "lair_per_day": 0,
+            "recharge": 5
+          },
+          "save": {
+            "ability": "str",
+            "dc": 14
+          },
+          "effects": [
+            {
+              "key": "limit/recharge",
+              "name": "Recharge",
+              "text": "(Recharge 5–6)"
+            },
+            {
+              "key": "effect/move-without-opportunity-attacks",
+              "name": "Move without Opportunity Attacks",
+              "text": "The centaur moves up to its Speed without provoking Opportunity Attacks and can move through the spaces of Medium or smaller creatures."
+            },
+            {
+              "key": "movement/through-creature-spaces",
+              "name": "Move through creature spaces",
+              "text": "The centaur moves up to its Speed without provoking Opportunity Attacks and can move through the spaces of Medium or smaller creatures."
+            },
+            {
+              "key": "target/creatures-entered-spaces",
+              "name": "Target",
+              "text": "Each creature whose space the centaur enters is targeted once by the following effect."
+            },
+            {
+              "key": "save/str",
+              "name": "Strength Saving Throw",
+              "text": "Strength Saving Throw: DC 14"
+            },
+            {
+              "key": "effect/bludgeoning-damage",
+              "name": "Bludgeoning damage",
+              "text": "7 (1d6 + 4) Bludgeoning damage.",
+              "dice": {
+                "average": 7,
+                "dice": 1,
+                "sides": 6,
+                "modifier": 4
+              }
+            },
+            {
+              "key": "condition/prone",
+              "name": "Prone",
+              "text": "the target has the Prone condition."
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/skills",
+        "action/bonus-action",
+        "action/multiattack",
+        "action/melee-attack",
+        "action/ranged-attack",
+        "multiattack/any-combination",
+        "effect/piercing-damage",
+        "action/saving-throw",
+        "limit/recharge",
+        "effect/move-without-opportunity-attacks",
+        "movement/through-creature-spaces",
+        "target/creatures-entered-spaces",
+        "save/str",
+        "effect/bludgeoning-damage",
+        "condition/prone"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/chain-devil",
+      "name": "Chain Devil",
+      "source_pages": [
+        272,
+        273
+      ],
+      "sizes": [
+        "medium"
+      ],
+      "type": "fiend",
+      "alignment": "Lawful Evil",
+      "ac": 15,
+      "hp": {
+        "average": 85,
+        "dice": 10,
+        "sides": 8,
+        "modifier": 40
+      },
+      "initiative": {
+        "modifier": 5,
+        "score": 15
+      },
+      "speeds": {
+        "walk": 30
+      },
+      "abilities": {
+        "str": {
+          "score": 18,
+          "modifier": 4,
+          "save": 4
+        },
+        "dex": {
+          "score": 15,
+          "modifier": 2,
+          "save": 2
+        },
+        "con": {
+          "score": 18,
+          "modifier": 4,
+          "save": 7
+        },
+        "int": {
+          "score": 11,
+          "modifier": 0,
+          "save": 0
+        },
+        "wis": {
+          "score": 12,
+          "modifier": 1,
+          "save": 4
+        },
+        "cha": {
+          "score": 14,
+          "modifier": 2,
+          "save": 2
+        }
+      },
+      "senses": {
+        "passive_perception": 11,
+        "special": {
+          "darkvision": 120
+        },
+        "notes": {
+          "darkvision": "unimpeded by magical Darkness"
+        }
+      },
+      "languages": [
+        "Infernal"
+      ],
+      "gear": [],
+      "cr": "8",
+      "xp": 3900,
+      "proficiency_bonus": 3,
+      "traits": [
+        {
+          "key": "trait/diabolical-restoration",
+          "name": "Diabolical Restoration",
+          "text": "Diabolical Restoration. If the devil dies outside the Nine Hells, its body disappears in sulfurous smoke, and it gains a new body instantly, reviving with all its Hit Points somewhere in the Nine Hells.",
+          "requires": [
+            "effect/revive"
+          ]
+        },
+        {
+          "key": "trait/magic-resistance",
+          "name": "Magic Resistance",
+          "text": "Magic Resistance. The devil has Advantage on saving throws against spells and other magical effects.",
+          "requires": [
+            "save/advantage-against-magic"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "multiattack",
+          "name": "Multiattack",
+          "text": "Multiattack. The devil makes two Chain attacks and uses Conjure Infernal Chain.",
+          "key": "action/multiattack",
+          "effects": [
+            {
+              "key": "action/melee-attack",
+              "name": "Attack",
+              "text": "The devil makes two Chain attacks and uses Conjure Infernal Chain."
+            },
+            {
+              "key": "multiattack/additional-action",
+              "name": "Additional action",
+              "text": "The devil makes two Chain attacks and uses Conjure Infernal Chain."
+            }
+          ]
+        },
+        {
+          "id": "chain",
+          "name": "Chain",
+          "text": "Chain. Melee Attack Roll: +7, reach 10 ft. Hit: 11 (2d6 + 4) Slashing damage. If the target is a Large or smaller creature, it has the Grappled condition (escape DC 14) from one of two chains, and it has the Restrained condition until the grapple ends.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 7,
+            "reach": 10,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 11,
+              "dice": 2,
+              "sides": 6,
+              "modifier": 4
+            },
+            "damage_type": "slashing"
+          },
+          "effects": [
+            {
+              "key": "effect/slashing-damage",
+              "name": "Slashing damage",
+              "text": "11 (2d6 + 4) Slashing damage.",
+              "dice": {
+                "average": 11,
+                "dice": 2,
+                "sides": 6,
+                "modifier": 4
+              }
+            },
+            {
+              "key": "condition/grappled",
+              "name": "Grappled",
+              "text": "If the target is a Large or smaller creature, it has the Grappled condition (escape DC 14) from one of two chains, and it has the Restrained condition until the grapple ends."
+            },
+            {
+              "key": "condition/restrained",
+              "name": "Restrained",
+              "text": "If the target is a Large or smaller creature, it has the Grappled condition (escape DC 14) from one of two chains, and it has the Restrained condition until the grapple ends."
+            },
+            {
+              "key": "requirement/target-size",
+              "name": "Target size",
+              "text": "If the target is a Large or smaller creature, it has the Grappled condition (escape DC 14) from one of two chains, and it has the Restrained condition until the grapple ends."
+            }
+          ]
+        },
+        {
+          "id": "conjure-infernal-chain",
+          "name": "Conjure Infernal Chain",
+          "text": "Conjure Infernal Chain. The devil conjures a fiery chain to bind a creature. Dexterity Saving Throw: DC 15, one creature the devil can see within 60 feet. Failure: 9 (2d4 + 4) Fire damage, and the target has the Restrained condition until the end of the devil’s next turn, at which point the chain disappears. If the target is Large or smaller, the devil moves the target up to 30 feet straight toward itself. Success: The chain disappears.",
+          "key": "action/saving-throw",
+          "save": {
+            "ability": "dex",
+            "dc": 15
+          },
+          "target": {
+            "shape": "creature",
+            "size": 0,
+            "width": 0,
+            "range": 60
+          },
+          "effects": [
+            {
+              "key": "effect/conjure-chain",
+              "name": "Conjure chain",
+              "text": "The devil conjures a fiery chain to bind a creature."
+            },
+            {
+              "key": "save/dex",
+              "name": "Dexterity Saving Throw",
+              "text": "Dexterity Saving Throw: DC 15"
+            },
+            {
+              "key": "target/creature",
+              "name": "Target",
+              "text": "one creature the devil can see within 60 feet."
+            },
+            {
+              "key": "effect/fire-damage",
+              "name": "Fire damage",
+              "text": "9 (2d4 + 4) Fire damage,",
+              "dice": {
+                "average": 9,
+                "dice": 2,
+                "sides": 4,
+                "modifier": 4
+              }
+            },
+            {
+              "key": "condition/restrained",
+              "name": "Restrained",
+              "text": "the target has the Restrained condition until the end of the devil’s next turn, at which point the chain disappears."
+            },
+            {
+              "key": "requirement/target-size",
+              "name": "Target size",
+              "text": "If the target is Large or smaller, the devil moves the target up to 30 feet straight toward itself."
+            },
+            {
+              "key": "effect/pull",
+              "name": "Pull",
+              "text": "the devil moves the target up to 30 feet straight toward itself."
+            },
+            {
+              "key": "effect/chain-disappears",
+              "name": "Chain disappears",
+              "text": "Success: The chain disappears."
+            }
+          ]
+        }
+      ],
+      "tags": [
+        "Devil"
+      ],
+      "resistances": [
+        "bludgeoning",
+        "cold",
+        "piercing",
+        "slashing"
+      ],
+      "immunities": [
+        "fire",
+        "poison"
+      ],
+      "condition_immunities": [
+        "poisoned"
+      ],
+      "telepathy": 120,
+      "reactions": [
+        {
+          "id": "unnerving-gaze",
+          "name": "Unnerving Gaze",
+          "text": "Unnerving Gaze. Trigger: A creature the devil can see starts its turn within 30 feet of the devil and can see the devil. Response—Wisdom Saving Throw: DC 15, the triggering creature. Failure: The target has the Frightened condition until the end of its turn. Success: The target is immune to this devil’s Unnerving Gaze for 24 hours.",
+          "key": "action/saving-throw",
+          "save": {
+            "ability": "wis",
+            "dc": 15
+          },
+          "effects": [
+            {
+              "key": "reaction/trigger",
+              "name": "Trigger",
+              "text": "Trigger: A creature the devil can see starts its turn within 30 feet of the devil and can see the devil."
+            },
+            {
+              "key": "save/wis",
+              "name": "Wisdom Saving Throw",
+              "text": "Wisdom Saving Throw: DC 15"
+            },
+            {
+              "key": "target/triggering-creature",
+              "name": "Target",
+              "text": "the triggering creature."
+            },
+            {
+              "key": "condition/frightened",
+              "name": "Frightened",
+              "text": "The target has the Frightened condition until the end of its turn."
+            },
+            {
+              "key": "save/success-immunity",
+              "name": "Success immunity",
+              "text": "Success: The target is immune to this devil’s Unnerving Gaze for 24 hours."
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "defense/damage-resistance",
+        "defense/damage-immunity",
+        "defense/condition-immunity",
+        "sense/darkvision",
+        "sense/darkvision-unimpeded-by-magical-darkness",
+        "language/telepathy",
+        "action/reaction",
+        "trait/diabolical-restoration",
+        "effect/revive",
+        "trait/magic-resistance",
+        "save/advantage-against-magic",
+        "action/multiattack",
+        "action/melee-attack",
+        "multiattack/additional-action",
+        "effect/slashing-damage",
+        "condition/grappled",
+        "condition/restrained",
+        "requirement/target-size",
+        "action/saving-throw",
+        "effect/conjure-chain",
+        "save/dex",
+        "target/creature",
+        "effect/fire-damage",
+        "effect/pull",
+        "effect/chain-disappears",
+        "reaction/trigger",
+        "save/wis",
+        "target/triggering-creature",
+        "condition/frightened",
+        "save/success-immunity"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/chimera",
+      "name": "Chimera",
+      "source_pages": [
+        273,
+        273
+      ],
+      "sizes": [
+        "large"
+      ],
+      "type": "monstrosity",
+      "alignment": "Chaotic Evil",
+      "ac": 14,
+      "hp": {
+        "average": 114,
+        "dice": 12,
+        "sides": 10,
+        "modifier": 48
+      },
+      "initiative": {
+        "modifier": 0,
+        "score": 10
+      },
+      "speeds": {
+        "walk": 30,
+        "fly": 60
+      },
+      "abilities": {
+        "str": {
+          "score": 19,
+          "modifier": 4,
+          "save": 4
+        },
+        "dex": {
+          "score": 11,
+          "modifier": 0,
+          "save": 0
+        },
+        "con": {
+          "score": 19,
+          "modifier": 4,
+          "save": 4
+        },
+        "int": {
+          "score": 3,
+          "modifier": -4,
+          "save": -4
+        },
+        "wis": {
+          "score": 14,
+          "modifier": 2,
+          "save": 2
+        },
+        "cha": {
+          "score": 10,
+          "modifier": 0,
+          "save": 0
+        }
+      },
+      "senses": {
+        "passive_perception": 18,
+        "special": {
+          "darkvision": 60
+        }
+      },
+      "languages": [
+        "Understands Draconic but can’t speak"
+      ],
+      "gear": [],
+      "cr": "6",
+      "xp": 2300,
+      "proficiency_bonus": 3,
+      "traits": [],
+      "actions": [
+        {
+          "id": "multiattack",
+          "name": "Multiattack",
+          "text": "Multiattack. The chimera makes one Ram attack, one Bite attack, and one Claw attack. It can replace the Claw attack with a use of Fire Breath if available.",
+          "key": "action/multiattack",
+          "effects": [
+            {
+              "key": "action/melee-attack",
+              "name": "Attack",
+              "text": "The chimera makes one Ram attack, one Bite attack, and one Claw attack."
+            },
+            {
+              "key": "multiattack/replace-attack",
+              "name": "Replace attack",
+              "text": "It can replace the Claw attack with a use of Fire Breath if available."
+            }
+          ]
+        },
+        {
+          "id": "bite",
+          "name": "Bite",
+          "text": "Bite. Melee Attack Roll: +7, reach 5 ft. Hit: 11 (2d6 + 4) Piercing damage, or 18 (4d6 + 4) Piercing damage if the chimera had Advantage on the attack roll.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 7,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 11,
+              "dice": 2,
+              "sides": 6,
+              "modifier": 4
+            },
+            "damage_type": "piercing"
+          },
+          "effects": [
+            {
+              "key": "effect/piercing-damage",
+              "name": "Piercing damage",
+              "text": "11 (2d6 + 4) Piercing damage.",
+              "dice": {
+                "average": 11,
+                "dice": 2,
+                "sides": 6,
+                "modifier": 4
+              }
+            },
+            {
+              "key": "effect/piercing-damage-with-advantage",
+              "name": "Piercing damage with Advantage",
+              "text": "18 (4d6 + 4) Piercing damage if the chimera had Advantage on the attack roll.",
+              "dice": {
+                "average": 18,
+                "dice": 4,
+                "sides": 6,
+                "modifier": 4
+              }
+            }
+          ]
+        },
+        {
+          "id": "claw",
+          "name": "Claw",
+          "text": "Claw. Melee Attack Roll: +7, reach 5 ft. Hit: 7 (1d6 + 4) Slashing damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 7,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 7,
+              "dice": 1,
+              "sides": 6,
+              "modifier": 4
+            },
+            "damage_type": "slashing"
+          },
+          "effects": [
+            {
+              "key": "effect/slashing-damage",
+              "name": "Slashing damage",
+              "text": "7 (1d6 + 4) Slashing damage.",
+              "dice": {
+                "average": 7,
+                "dice": 1,
+                "sides": 6,
+                "modifier": 4
+              }
+            }
+          ]
+        },
+        {
+          "id": "ram",
+          "name": "Ram",
+          "text": "Ram. Melee Attack Roll: +7, reach 5 ft. Hit: 10 (1d12 + 4) Bludgeoning damage. If the target is a Medium or smaller creature, it has the Prone condition.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 7,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 10,
+              "dice": 1,
+              "sides": 12,
+              "modifier": 4
+            },
+            "damage_type": "bludgeoning"
+          },
+          "effects": [
+            {
+              "key": "effect/bludgeoning-damage",
+              "name": "Bludgeoning damage",
+              "text": "10 (1d12 + 4) Bludgeoning damage.",
+              "dice": {
+                "average": 10,
+                "dice": 1,
+                "sides": 12,
+                "modifier": 4
+              }
+            },
+            {
+              "key": "condition/prone",
+              "name": "Prone",
+              "text": "If the target is a Medium or smaller creature, it has the Prone condition."
+            },
+            {
+              "key": "requirement/target-size",
+              "name": "Target size",
+              "text": "If the target is a Medium or smaller creature, it has the Prone condition."
+            }
+          ]
+        },
+        {
+          "id": "fire-breath",
+          "name": "Fire Breath",
+          "text": "Fire Breath (Recharge 5–6). Dexterity Saving Throw: DC 15, each creature in a 15-foot Cone. Failure: 31 (7d8) Fire damage. Success: Half damage.",
+          "key": "action/saving-throw",
+          "uses": {
+            "per_day": 0,
+            "lair_per_day": 0,
+            "recharge": 5
+          },
+          "save": {
+            "ability": "dex",
+            "dc": 15
+          },
+          "target": {
+            "shape": "cone",
+            "size": 15,
+            "width": 0,
+            "range": 0
+          },
+          "effects": [
+            {
+              "key": "save/dex",
+              "name": "Dexterity Saving Throw",
+              "text": "Dexterity Saving Throw: DC 15"
+            },
+            {
+              "key": "area/cone",
+              "name": "Target",
+              "text": "each creature in a 15-foot Cone."
+            },
+            {
+              "key": "limit/recharge",
+              "name": "Recharge",
+              "text": "(Recharge 5–6)"
+            },
+            {
+              "key": "effect/fire-damage",
+              "name": "Fire damage",
+              "text": "31 (7d8) Fire damage.",
+              "dice": {
+                "average": 31,
+                "dice": 7,
+                "sides": 8,
+                "modifier": 0
+              }
+            },
+            {
+              "key": "save/half-damage",
+              "name": "Half damage",
+              "text": "Success: Half damage."
+            }
+          ]
+        }
+      ],
+      "skills": {
+        "perception": 8
+      },
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/skills",
+        "movement/fly",
+        "sense/darkvision",
+        "action/multiattack",
+        "action/melee-attack",
+        "multiattack/replace-attack",
+        "effect/piercing-damage",
+        "effect/piercing-damage-with-advantage",
+        "effect/slashing-damage",
+        "effect/bludgeoning-damage",
+        "condition/prone",
+        "requirement/target-size",
+        "action/saving-throw",
+        "save/dex",
+        "area/cone",
+        "limit/recharge",
+        "effect/fire-damage",
+        "save/half-damage"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/chuul",
+      "name": "Chuul",
+      "source_pages": [
+        273,
+        274
+      ],
+      "sizes": [
+        "large"
+      ],
+      "type": "aberration",
+      "alignment": "Chaotic Evil",
+      "ac": 16,
+      "hp": {
+        "average": 76,
+        "dice": 9,
+        "sides": 10,
+        "modifier": 27
+      },
+      "initiative": {
+        "modifier": 0,
+        "score": 10
+      },
+      "speeds": {
+        "walk": 30,
+        "swim": 30
+      },
+      "abilities": {
+        "str": {
+          "score": 19,
+          "modifier": 4,
+          "save": 4
+        },
+        "dex": {
+          "score": 10,
+          "modifier": 0,
+          "save": 0
+        },
+        "con": {
+          "score": 16,
+          "modifier": 3,
+          "save": 3
+        },
+        "int": {
+          "score": 5,
+          "modifier": -3,
+          "save": -3
+        },
+        "wis": {
+          "score": 11,
+          "modifier": 0,
+          "save": 0
+        },
+        "cha": {
+          "score": 5,
+          "modifier": -3,
+          "save": -3
+        }
+      },
+      "senses": {
+        "passive_perception": 14,
+        "special": {
+          "darkvision": 60
+        }
+      },
+      "languages": [
+        "Understands Deep Speech but can’t speak"
+      ],
+      "gear": [],
+      "cr": "4",
+      "xp": 1100,
+      "proficiency_bonus": 2,
+      "traits": [
+        {
+          "key": "trait/amphibious",
+          "name": "Amphibious",
+          "text": "Amphibious. The chuul can breathe air and water.",
+          "requires": [
+            "effect/breathe-air-and-water"
+          ]
+        },
+        {
+          "key": "trait/sense-magic",
+          "name": "Sense Magic",
+          "text": "Sense Magic. The chuul senses magic within 120 feet of itself. This trait otherwise works like the Detect Magic spell but isn’t itself magical.",
+          "requires": [
+            "effect/sense-magic",
+            "spell/detect-magic"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "multiattack",
+          "name": "Multiattack",
+          "text": "Multiattack. The chuul makes two Pincer attacks and uses Paralyzing Tentacles.",
+          "key": "action/multiattack",
+          "effects": [
+            {
+              "key": "action/melee-attack",
+              "name": "Attack",
+              "text": "The chuul makes two Pincer attacks and uses Paralyzing Tentacles."
+            },
+            {
+              "key": "multiattack/additional-action",
+              "name": "Additional action",
+              "text": "The chuul makes two Pincer attacks and uses Paralyzing Tentacles."
+            }
+          ]
+        },
+        {
+          "id": "pincer",
+          "name": "Pincer",
+          "text": "Pincer. Melee Attack Roll: +6, reach 10 ft. Hit: 9 (1d10 + 4) Bludgeoning damage. If the target is a Large or smaller creature, it has the Grappled condition (escape DC 14) from one of two pincers.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 6,
+            "reach": 10,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 9,
+              "dice": 1,
+              "sides": 10,
+              "modifier": 4
+            },
+            "damage_type": "bludgeoning"
+          },
+          "effects": [
+            {
+              "key": "effect/bludgeoning-damage",
+              "name": "Bludgeoning damage",
+              "text": "9 (1d10 + 4) Bludgeoning damage.",
+              "dice": {
+                "average": 9,
+                "dice": 1,
+                "sides": 10,
+                "modifier": 4
+              }
+            },
+            {
+              "key": "condition/grappled",
+              "name": "Grappled",
+              "text": "If the target is a Large or smaller creature, it has the Grappled condition (escape DC 14) from one of two pincers."
+            },
+            {
+              "key": "requirement/target-size",
+              "name": "Target size",
+              "text": "If the target is a Large or smaller creature, it has the Grappled condition (escape DC 14) from one of two pincers."
+            }
+          ]
+        },
+        {
+          "id": "paralyzing-tentacles",
+          "name": "Paralyzing Tentacles",
+          "text": "Paralyzing Tentacles. Constitution Saving Throw: DC 13, one creature Grappled by the chuul. Failure: The target has the Poisoned condition and repeats the save at the end of each of its turns, ending the effect on itself on a success. After 1 minute, it succeeds automatically. While Poisoned, the target has the Paralyzed condition.",
+          "key": "action/saving-throw",
+          "save": {
+            "ability": "con",
+            "dc": 13
+          },
+          "target": {
+            "shape": "creature",
+            "size": 0,
+            "width": 0,
+            "range": 0
+          },
+          "effects": [
+            {
+              "key": "save/con",
+              "name": "Constitution Saving Throw",
+              "text": "Constitution Saving Throw: DC 13"
+            },
+            {
+              "key": "target/creature",
+              "name": "Target",
+              "text": "one creature Grappled by the chuul."
+            },
+            {
+              "key": "requirement/grappled-creature",
+              "name": "Grappled creature",
+              "text": "one creature Grappled by the chuul."
+            },
+            {
+              "key": "condition/poisoned",
+              "name": "Poisoned",
+              "text": "Failure: The target has the Poisoned condition and repeats the save at the end of each of its turns, ending the effect on itself on a success."
+            },
+            {
+              "key": "save/repeat",
+              "name": "Repeated save",
+              "text": "Failure: The target has the Poisoned condition and repeats the save at the end of each of its turns, ending the effect on itself on a success."
+            },
+            {
+              "key": "save/automatic-success",
+              "name": "Automatic success",
+              "text": "After 1 minute, it succeeds automatically."
+            },
+            {
+              "key": "condition/paralyzed",
+              "name": "Paralyzed",
+              "text": "While Poisoned, the target has the Paralyzed condition."
+            }
+          ]
+        }
+      ],
+      "skills": {
+        "perception": 4
+      },
+      "immunities": [
+        "poison"
+      ],
+      "condition_immunities": [
+        "poisoned"
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/skills",
+        "defense/damage-immunity",
+        "defense/condition-immunity",
+        "movement/swim",
+        "sense/darkvision",
+        "trait/amphibious",
+        "effect/breathe-air-and-water",
+        "trait/sense-magic",
+        "effect/sense-magic",
+        "spell/detect-magic",
+        "action/multiattack",
+        "action/melee-attack",
+        "multiattack/additional-action",
+        "effect/bludgeoning-damage",
+        "condition/grappled",
+        "requirement/target-size",
+        "action/saving-throw",
+        "save/con",
+        "target/creature",
+        "requirement/grappled-creature",
+        "condition/poisoned",
+        "save/repeat",
+        "save/automatic-success",
+        "condition/paralyzed"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/clay-golem",
+      "name": "Clay Golem",
+      "source_pages": [
+        274,
+        274
+      ],
+      "sizes": [
+        "large"
+      ],
+      "type": "construct",
+      "alignment": "Unaligned",
+      "ac": 14,
+      "hp": {
+        "average": 123,
+        "dice": 13,
+        "sides": 10,
+        "modifier": 52
+      },
+      "initiative": {
+        "modifier": 3,
+        "score": 13
+      },
+      "speeds": {
+        "walk": 30
+      },
+      "abilities": {
+        "str": {
+          "score": 20,
+          "modifier": 5,
+          "save": 5
+        },
+        "dex": {
+          "score": 9,
+          "modifier": -1,
+          "save": -1
+        },
+        "con": {
+          "score": 18,
+          "modifier": 4,
+          "save": 4
+        },
+        "int": {
+          "score": 3,
+          "modifier": -4,
+          "save": -4
+        },
+        "wis": {
+          "score": 8,
+          "modifier": -1,
+          "save": -1
+        },
+        "cha": {
+          "score": 1,
+          "modifier": -5,
+          "save": -5
+        }
+      },
+      "senses": {
+        "passive_perception": 9,
+        "special": {
+          "darkvision": 60
+        }
+      },
+      "languages": [
+        "Common plus one other language"
+      ],
+      "gear": [],
+      "cr": "9",
+      "xp": 5000,
+      "proficiency_bonus": 4,
+      "traits": [
+        {
+          "key": "trait/acid-absorption",
+          "name": "Acid Absorption",
+          "text": "Acid Absorption. Whenever the golem is subjected to Acid damage, it takes no damage and instead regains a number of Hit Points equal to the Acid damage dealt.",
+          "requires": [
+            "effect/absorb-acid-damage"
+          ]
+        },
+        {
+          "key": "trait/berserk",
+          "name": "Berserk",
+          "text": "Berserk. Whenever the golem starts its turn Bloodied, roll 1d6. On a 6, the golem goes berserk. On each of its turns while berserk, the golem attacks the nearest creature it can see. If no creature is near enough to move to and attack, the golem attacks an object. Once the golem goes berserk, it continues to be berserk until it is destroyed or it is no longer Bloodied.",
+          "requires": [
+            "requirement/bloodied",
+            "effect/berserk-roll",
+            "effect/berserk"
+          ]
+        },
+        {
+          "key": "trait/immutable-form",
+          "name": "Immutable Form",
+          "text": "Immutable Form. The golem can’t shape-shift.",
+          "requires": [
+            "effect/no-shape-shift"
+          ]
+        },
+        {
+          "key": "trait/magic-resistance",
+          "name": "Magic Resistance",
+          "text": "Magic Resistance. The golem has Advantage on saving throws against spells and other magical effects.",
+          "requires": [
+            "save/advantage-against-magic"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "multiattack",
+          "name": "Multiattack",
+          "text": "Multiattack. The golem makes two Slam attacks, or it makes three Slam attacks if it used Hasten this turn.",
+          "key": "action/multiattack",
+          "effects": [
+            {
+              "key": "action/melee-attack",
+              "name": "Attack",
+              "text": "The golem makes two Slam attacks, or it makes three Slam attacks if it used Hasten this turn."
+            },
+            {
+              "key": "multiattack/conditional-extra-attack",
+              "name": "Extra attack after Hasten",
+              "text": "or it makes three Slam attacks if it used Hasten this turn."
+            }
+          ]
+        },
+        {
+          "id": "slam",
+          "name": "Slam",
+          "text": "Slam. Melee Attack Roll: +9, reach 5 ft. Hit: 10 (1d10 + 5) Bludgeoning damage plus 6 (1d12) Acid damage, and the target’s Hit Point maximum decreases by an amount equal to the Acid damage taken.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 9,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 10,
+              "dice": 1,
+              "sides": 10,
+              "modifier": 5
+            },
+            "damage_type": "bludgeoning"
+          },
+          "effects": [
+            {
+              "key": "effect/bludgeoning-damage",
+              "name": "Bludgeoning damage",
+              "text": "10 (1d10 + 5) Bludgeoning damage.",
+              "dice": {
+                "average": 10,
+                "dice": 1,
+                "sides": 10,
+                "modifier": 5
+              }
+            },
+            {
+              "key": "effect/acid-damage",
+              "name": "Acid damage",
+              "text": "6 (1d12) Acid damage,",
+              "dice": {
+                "average": 6,
+                "dice": 1,
+                "sides": 12,
+                "modifier": 0
+              }
+            },
+            {
+              "key": "effect/hit-point-maximum-reduction",
+              "name": "Hit Point maximum reduction",
+              "text": "the target’s Hit Point maximum decreases by an amount equal to the Acid damage taken."
+            }
+          ]
+        }
+      ],
+      "resistances": [
+        "bludgeoning",
+        "piercing",
+        "slashing"
+      ],
+      "immunities": [
+        "acid",
+        "poison",
+        "psychic"
+      ],
+      "condition_immunities": [
+        "charmed",
+        "exhaustion",
+        "frightened",
+        "paralyzed",
+        "petrified",
+        "poisoned"
+      ],
+      "bonus_actions": [
+        {
+          "id": "hasten",
+          "name": "Hasten",
+          "text": "Hasten (Recharge 5–6). The golem takes the Dash and Disengage actions.",
+          "key": "action/special",
+          "uses": {
+            "per_day": 0,
+            "lair_per_day": 0,
+            "recharge": 5
+          },
+          "effects": [
+            {
+              "key": "limit/recharge",
+              "name": "Recharge",
+              "text": "(Recharge 5–6)"
+            },
+            {
+              "key": "action/dash",
+              "name": "Dash",
+              "text": "The golem takes the Dash and Disengage actions."
+            },
+            {
+              "key": "action/disengage",
+              "name": "Disengage",
+              "text": "The golem takes the Dash and Disengage actions."
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "defense/damage-resistance",
+        "defense/damage-immunity",
+        "defense/condition-immunity",
+        "sense/darkvision",
+        "action/bonus-action",
+        "trait/acid-absorption",
+        "effect/absorb-acid-damage",
+        "trait/berserk",
+        "requirement/bloodied",
+        "effect/berserk-roll",
+        "effect/berserk",
+        "trait/immutable-form",
+        "effect/no-shape-shift",
+        "trait/magic-resistance",
+        "save/advantage-against-magic",
+        "action/multiattack",
+        "action/melee-attack",
+        "multiattack/conditional-extra-attack",
+        "effect/bludgeoning-damage",
+        "effect/acid-damage",
+        "effect/hit-point-maximum-reduction",
+        "action/special",
+        "limit/recharge",
+        "action/dash",
+        "action/disengage"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/cloaker",
+      "name": "Cloaker",
+      "source_pages": [
+        274,
+        274
+      ],
+      "sizes": [
+        "large"
+      ],
+      "type": "aberration",
+      "alignment": "Chaotic Neutral",
+      "ac": 14,
+      "hp": {
+        "average": 91,
+        "dice": 14,
+        "sides": 10,
+        "modifier": 14
+      },
+      "initiative": {
+        "modifier": 5,
+        "score": 15
+      },
+      "speeds": {
+        "walk": 10,
+        "fly": 40
+      },
+      "abilities": {
+        "str": {
+          "score": 17,
+          "modifier": 3,
+          "save": 3
+        },
+        "dex": {
+          "score": 15,
+          "modifier": 2,
+          "save": 2
+        },
+        "con": {
+          "score": 12,
+          "modifier": 1,
+          "save": 1
+        },
+        "int": {
+          "score": 13,
+          "modifier": 1,
+          "save": 1
+        },
+        "wis": {
+          "score": 14,
+          "modifier": 2,
+          "save": 2
+        },
+        "cha": {
+          "score": 7,
+          "modifier": -2,
+          "save": -2
+        }
+      },
+      "senses": {
+        "passive_perception": 12,
+        "special": {
+          "darkvision": 120
+        }
+      },
+      "languages": [
+        "Deep Speech",
+        "Undercommon"
+      ],
+      "gear": [],
+      "cr": "8",
+      "xp": 3900,
+      "proficiency_bonus": 3,
+      "traits": [
+        {
+          "key": "trait/light-sensitivity",
+          "name": "Light Sensitivity",
+          "text": "Light Sensitivity. While in Bright Light, the cloaker has Disadvantage on attack rolls.",
+          "requires": [
+            "requirement/in-bright-light",
+            "attack/disadvantage"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "multiattack",
+          "name": "Multiattack",
+          "text": "Multiattack. The cloaker makes one Attach attack and two Tail attacks.",
+          "key": "action/multiattack",
+          "effects": [
+            {
+              "key": "action/melee-attack",
+              "name": "Attack",
+              "text": "The cloaker makes one Attach attack and two Tail attacks."
+            }
+          ]
+        },
+        {
+          "id": "attach",
+          "name": "Attach",
+          "text": "Attach. Melee Attack Roll: +6, reach 5 ft. Hit: 13 (3d6 + 3) Piercing damage. If the target is a Large or smaller creature, the cloaker attaches to it. While the cloaker is attached, the target has the Blinded condition, and the cloaker can’t make Attach attacks against other targets. In addition, the cloaker halves the damage it takes (round down), and the target takes the same amount of damage. The cloaker can detach itself by spending 5 feet of movement. The target or a creature within 5 feet of it can take an action to try to detach the cloaker, doing so by succeeding on a DC 14 Strength (Athletics) check.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 6,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 13,
+              "dice": 3,
+              "sides": 6,
+              "modifier": 3
+            },
+            "damage_type": "piercing"
+          },
+          "effects": [
+            {
+              "key": "effect/piercing-damage",
+              "name": "Piercing damage",
+              "text": "13 (3d6 + 3) Piercing damage.",
+              "dice": {
+                "average": 13,
+                "dice": 3,
+                "sides": 6,
+                "modifier": 3
+              }
+            },
+            {
+              "key": "requirement/target-size",
+              "name": "Target size",
+              "text": "If the target is a Large or smaller creature, the cloaker attaches to it."
+            },
+            {
+              "key": "effect/attach",
+              "name": "Attach",
+              "text": "the cloaker attaches to it."
+            },
+            {
+              "key": "condition/blinded",
+              "name": "Blinded",
+              "text": "While the cloaker is attached, the target has the Blinded condition,"
+            },
+            {
+              "key": "limit/one-attached-target",
+              "name": "One attached target",
+              "text": "the cloaker can’t make Attach attacks against other targets."
+            },
+            {
+              "key": "effect/halve-damage-taken",
+              "name": "Halve damage taken",
+              "text": "the cloaker halves the damage it takes (round down),"
+            },
+            {
+              "key": "effect/share-damage-taken",
+              "name": "Share damage taken",
+              "text": "the target takes the same amount of damage."
+            },
+            {
+              "key": "effect/detach",
+              "name": "Detach",
+              "text": "The cloaker can detach itself by spending 5 feet of movement."
+            },
+            {
+              "key": "check/str-athletics",
+              "name": "Strength (Athletics) check",
+              "text": "doing so by succeeding on a DC 14 Strength (Athletics) check."
+            }
+          ]
+        },
+        {
+          "id": "tail",
+          "name": "Tail",
+          "text": "Tail. Melee Attack Roll: +6, reach 10 ft. Hit: 8 (1d10 + 3) Slashing damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 6,
+            "reach": 10,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 8,
+              "dice": 1,
+              "sides": 10,
+              "modifier": 3
+            },
+            "damage_type": "slashing"
+          },
+          "effects": [
+            {
+              "key": "effect/slashing-damage",
+              "name": "Slashing damage",
+              "text": "8 (1d10 + 3) Slashing damage.",
+              "dice": {
+                "average": 8,
+                "dice": 1,
+                "sides": 10,
+                "modifier": 3
+              }
+            }
+          ]
+        }
+      ],
+      "skills": {
+        "stealth": 5
+      },
+      "condition_immunities": [
+        "frightened"
+      ],
+      "bonus_actions": [
+        {
+          "id": "moan",
+          "name": "Moan",
+          "text": "Moan. Wisdom Saving Throw: DC 13, each creature in a 60-foot Emanation originating from the cloaker. Failure: The target has the Frightened condition until the end of the cloaker’s next turn. Success: The target is immune to this cloaker’s Moan for the next 24 hours.",
+          "key": "action/saving-throw",
+          "save": {
+            "ability": "wis",
+            "dc": 13
+          },
+          "target": {
+            "shape": "emanation",
+            "size": 60,
+            "width": 0,
+            "range": 0
+          },
+          "effects": [
+            {
+              "key": "save/wis",
+              "name": "Wisdom Saving Throw",
+              "text": "Wisdom Saving Throw: DC 13"
+            },
+            {
+              "key": "area/emanation",
+              "name": "Target",
+              "text": "each creature in a 60-foot Emanation originating from the cloaker."
+            },
+            {
+              "key": "condition/frightened",
+              "name": "Frightened",
+              "text": "Failure: The target has the Frightened condition until the end of the cloaker’s next turn."
+            },
+            {
+              "key": "save/success-immunity",
+              "name": "Success immunity",
+              "text": "Success: The target is immune to this cloaker’s Moan for the next 24 hours."
+            }
+          ]
+        },
+        {
+          "id": "phantasms",
+          "name": "Phantasms",
+          "text": "Phantasms (Recharge after a Short or Long Rest). The cloaker casts the Mirror Image spell, requiring no spell components and using Wisdom as the spellcasting ability. The spell ends early if the cloaker starts or ends its turn in Bright Light.",
+          "key": "action/special",
+          "effects": [
+            {
+              "key": "limit/recharge-after-rest",
+              "name": "Recharge after a rest",
+              "text": "(Recharge after a Short or Long Rest)"
+            },
+            {
+              "key": "action/spellcasting",
+              "name": "Spellcasting",
+              "text": "The cloaker casts the Mirror Image spell, requiring no spell components and using Wisdom as the spellcasting ability."
+            },
+            {
+              "key": "spell/mirror-image",
+              "name": "Mirror Image",
+              "text": "The cloaker casts the Mirror Image spell,"
+            },
+            {
+              "key": "spellcasting/no-components",
+              "name": "No spell components",
+              "text": "requiring no spell components"
+            },
+            {
+              "key": "effect/spell-ends-in-bright-light",
+              "name": "Spell ends in Bright Light",
+              "text": "The spell ends early if the cloaker starts or ends its turn in Bright Light."
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/skills",
+        "defense/condition-immunity",
+        "movement/fly",
+        "sense/darkvision",
+        "action/bonus-action",
+        "trait/light-sensitivity",
+        "requirement/in-bright-light",
+        "attack/disadvantage",
+        "action/multiattack",
+        "action/melee-attack",
+        "effect/piercing-damage",
+        "requirement/target-size",
+        "effect/attach",
+        "condition/blinded",
+        "limit/one-attached-target",
+        "effect/halve-damage-taken",
+        "effect/share-damage-taken",
+        "effect/detach",
+        "check/str-athletics",
+        "effect/slashing-damage",
+        "action/saving-throw",
+        "save/wis",
+        "area/emanation",
+        "condition/frightened",
+        "save/success-immunity",
+        "action/special",
+        "limit/recharge-after-rest",
+        "action/spellcasting",
+        "spell/mirror-image",
+        "spellcasting/no-components",
+        "effect/spell-ends-in-bright-light"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/cloud-giant",
+      "name": "Cloud Giant",
+      "source_pages": [
+        275,
+        275
+      ],
+      "sizes": [
+        "huge"
+      ],
+      "type": "giant",
+      "alignment": "Neutral",
+      "ac": 14,
+      "hp": {
+        "average": 200,
+        "dice": 16,
+        "sides": 12,
+        "modifier": 96
+      },
+      "initiative": {
+        "modifier": 4,
+        "score": 14
+      },
+      "speeds": {
+        "walk": 40,
+        "fly": 20
+      },
+      "abilities": {
+        "str": {
+          "score": 27,
+          "modifier": 8,
+          "save": 8
+        },
+        "dex": {
+          "score": 10,
+          "modifier": 0,
+          "save": 0
+        },
+        "con": {
+          "score": 22,
+          "modifier": 6,
+          "save": 10
+        },
+        "int": {
+          "score": 12,
+          "modifier": 1,
+          "save": 1
+        },
+        "wis": {
+          "score": 16,
+          "modifier": 3,
+          "save": 7
+        },
+        "cha": {
+          "score": 16,
+          "modifier": 3,
+          "save": 3
+        }
+      },
+      "senses": {
+        "passive_perception": 21,
+        "special": {}
+      },
+      "languages": [
+        "Common",
+        "Giant"
+      ],
+      "gear": [],
+      "cr": "9",
+      "xp": 5000,
+      "proficiency_bonus": 4,
+      "traits": [],
+      "actions": [
+        {
+          "id": "multiattack",
+          "name": "Multiattack",
+          "text": "Multiattack. The giant makes two attacks, using Thunderous Mace or Thundercloud in any combination. It can replace one attack with a use of Spellcasting to cast Fog Cloud.",
+          "key": "action/multiattack",
+          "effects": [
+            {
+              "key": "action/melee-attack",
+              "name": "Melee attack",
+              "text": "The giant makes two attacks, using Thunderous Mace or Thundercloud in any combination."
+            },
+            {
+              "key": "action/ranged-attack",
+              "name": "Ranged attack",
+              "text": "The giant makes two attacks, using Thunderous Mace or Thundercloud in any combination."
+            },
+            {
+              "key": "multiattack/any-combination",
+              "name": "Any combination",
+              "text": "in any combination."
+            },
+            {
+              "key": "multiattack/replace-attack",
+              "name": "Replace attack",
+              "text": "It can replace one attack with a use of Spellcasting to cast Fog Cloud."
+            },
+            {
+              "key": "action/spellcasting",
+              "name": "Spellcasting",
+              "text": "It can replace one attack with a use of Spellcasting to cast Fog Cloud."
+            }
+          ]
+        },
+        {
+          "id": "thunderous-mace",
+          "name": "Thunderous Mace",
+          "text": "Thunderous Mace. Melee Attack Roll: +12, reach 10 ft. Hit: 21 (3d8 + 8) Bludgeoning damage plus 7 (2d6) Thunder damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 12,
+            "reach": 10,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 21,
+              "dice": 3,
+              "sides": 8,
+              "modifier": 8
+            },
+            "damage_type": "bludgeoning"
+          },
+          "effects": [
+            {
+              "key": "effect/bludgeoning-damage",
+              "name": "Bludgeoning damage",
+              "text": "21 (3d8 + 8) Bludgeoning damage.",
+              "dice": {
+                "average": 21,
+                "dice": 3,
+                "sides": 8,
+                "modifier": 8
+              }
+            },
+            {
+              "key": "effect/thunder-damage",
+              "name": "Thunder damage",
+              "text": "7 (2d6) Thunder damage.",
+              "dice": {
+                "average": 7,
+                "dice": 2,
+                "sides": 6,
+                "modifier": 0
+              }
+            }
+          ]
+        },
+        {
+          "id": "thundercloud",
+          "name": "Thundercloud",
+          "text": "Thundercloud. Ranged Attack Roll: +12, range 240 ft. Hit: 18 (3d6 + 8) Thunder damage, and the target has the Incapacitated condition until the end of its next turn.",
+          "key": "action/ranged-attack",
+          "attack": {
+            "kind": "ranged",
+            "bonus": 12,
+            "reach": 0,
+            "range": 240,
+            "long_range": 240,
+            "damage": {
+              "average": 18,
+              "dice": 3,
+              "sides": 6,
+              "modifier": 8
+            },
+            "damage_type": "thunder"
+          },
+          "effects": [
+            {
+              "key": "effect/thunder-damage",
+              "name": "Thunder damage",
+              "text": "18 (3d6 + 8) Thunder damage.",
+              "dice": {
+                "average": 18,
+                "dice": 3,
+                "sides": 6,
+                "modifier": 8
+              }
+            },
+            {
+              "key": "condition/incapacitated",
+              "name": "Incapacitated",
+              "text": "the target has the Incapacitated condition until the end of its next turn."
+            }
+          ]
+        },
+        {
+          "id": "spellcasting",
+          "name": "Spellcasting",
+          "text": "Spellcasting. The giant casts one of the following spells, requiring no Material components and using Charisma as the spellcasting ability (spell save DC 15): At Will: Detect Magic, Fog Cloud, Light 1/Day Each: Control Weather, Gaseous Form, Telekinesis",
+          "key": "action/spellcasting",
+          "spellcasting": {
+            "ability": "cha",
+            "save_dc": 15,
+            "attack_bonus": 0,
+            "at_will": [
+              "Detect Magic",
+              "Fog Cloud",
+              "Light"
+            ],
+            "per_day": [
+              {
+                "uses": 1,
+                "spells": [
+                  "Control Weather",
+                  "Gaseous Form",
+                  "Telekinesis"
+                ]
+              }
+            ]
+          },
+          "effects": [
+            {
+              "key": "spellcasting/no-material-components",
+              "name": "No Material components",
+              "text": "requiring no Material components"
+            },
+            {
+              "key": "spell/detect-magic",
+              "name": "Detect Magic",
+              "text": "Detect Magic",
+              "requires": [
+                "spellcasting/at-will"
+              ]
+            },
+            {
+              "key": "spell/fog-cloud",
+              "name": "Fog Cloud",
+              "text": "Fog Cloud",
+              "requires": [
+                "spellcasting/at-will"
+              ]
+            },
+            {
+              "key": "spell/light",
+              "name": "Light",
+              "text": "Light",
+              "requires": [
+                "spellcasting/at-will"
+              ]
+            },
+            {
+              "key": "spell/control-weather",
+              "name": "Control Weather",
+              "text": "Control Weather",
+              "requires": [
+                "limit/per-day"
+              ]
+            },
+            {
+              "key": "spell/gaseous-form",
+              "name": "Gaseous Form",
+              "text": "Gaseous Form",
+              "requires": [
+                "limit/per-day"
+              ]
+            },
+            {
+              "key": "spell/telekinesis",
+              "name": "Telekinesis",
+              "text": "Telekinesis",
+              "requires": [
+                "limit/per-day"
+              ]
+            }
+          ]
+        }
+      ],
+      "skills": {
+        "insight": 7,
+        "perception": 11
+      },
+      "hover": true,
+      "bonus_actions": [
+        {
+          "id": "misty-step",
+          "name": "Misty Step",
+          "text": "Misty Step. The giant casts the Misty Step spell, using the same spellcasting ability as Spellcasting.",
+          "key": "action/special",
+          "effects": [
+            {
+              "key": "action/spellcasting",
+              "name": "Spellcasting",
+              "text": "The giant casts the Misty Step spell, using the same spellcasting ability as Spellcasting."
+            },
+            {
+              "key": "spell/misty-step",
+              "name": "Misty Step",
+              "text": "The giant casts the Misty Step spell, using the same spellcasting ability as Spellcasting."
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/skills",
+        "movement/fly",
+        "movement/hover",
+        "action/bonus-action",
+        "action/multiattack",
+        "action/melee-attack",
+        "action/ranged-attack",
+        "multiattack/any-combination",
+        "multiattack/replace-attack",
+        "action/spellcasting",
+        "effect/bludgeoning-damage",
+        "effect/thunder-damage",
+        "condition/incapacitated",
+        "spellcasting/no-material-components",
+        "spell/detect-magic",
+        "spellcasting/at-will",
+        "spell/fog-cloud",
+        "spell/light",
+        "spell/control-weather",
+        "limit/per-day",
+        "spell/gaseous-form",
+        "spell/telekinesis",
+        "action/special",
+        "spell/misty-step"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/cockatrice",
+      "name": "Cockatrice",
+      "source_pages": [
+        275,
+        275
+      ],
+      "sizes": [
+        "small"
+      ],
+      "type": "monstrosity",
+      "alignment": "Unaligned",
+      "ac": 11,
+      "hp": {
+        "average": 22,
+        "dice": 5,
+        "sides": 6,
+        "modifier": 5
+      },
+      "initiative": {
+        "modifier": 1,
+        "score": 11
+      },
+      "speeds": {
+        "walk": 20,
+        "fly": 40
+      },
+      "abilities": {
+        "str": {
+          "score": 6,
+          "modifier": -2,
+          "save": -2
+        },
+        "dex": {
+          "score": 12,
+          "modifier": 1,
+          "save": 1
+        },
+        "con": {
+          "score": 12,
+          "modifier": 1,
+          "save": 1
+        },
+        "int": {
+          "score": 2,
+          "modifier": -4,
+          "save": -4
+        },
+        "wis": {
+          "score": 13,
+          "modifier": 1,
+          "save": 1
+        },
+        "cha": {
+          "score": 5,
+          "modifier": -3,
+          "save": -3
+        }
+      },
+      "senses": {
+        "passive_perception": 11,
+        "special": {
+          "darkvision": 60
+        }
+      },
+      "languages": [],
+      "gear": [],
+      "cr": "1/2",
+      "xp": 100,
+      "proficiency_bonus": 2,
+      "traits": [],
+      "actions": [
+        {
+          "id": "petrifying-bite",
+          "name": "Petrifying Bite",
+          "text": "Petrifying Bite. Melee Attack Roll: +3, reach 5 ft. Hit: 3 (1d4 + 1) Piercing damage. If the target is a creature, it is subjected to the following effect. Constitution Saving Throw: DC 11. First Failure: The target has the Restrained condition. The target repeats the save at the end of its next turn if it is still Restrained, ending the effect on itself on a success. Second Failure: The target has the Petrified condition, instead of the Restrained condition, for 24 hours.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 3,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 3,
+              "dice": 1,
+              "sides": 4,
+              "modifier": 1
+            },
+            "damage_type": "piercing"
+          },
+          "save": {
+            "ability": "con",
+            "dc": 11
+          },
+          "effects": [
+            {
+              "key": "effect/piercing-damage",
+              "name": "Piercing damage",
+              "text": "3 (1d4 + 1) Piercing damage.",
+              "dice": {
+                "average": 3,
+                "dice": 1,
+                "sides": 4,
+                "modifier": 1
+              }
+            },
+            {
+              "key": "requirement/target-creature",
+              "name": "Target is a creature",
+              "text": "If the target is a creature, it is subjected to the following effect."
+            },
+            {
+              "key": "save/con",
+              "name": "Constitution Saving Throw",
+              "text": "Constitution Saving Throw: DC 11"
+            },
+            {
+              "key": "condition/restrained",
+              "name": "Restrained",
+              "text": "First Failure: The target has the Restrained condition."
+            },
+            {
+              "key": "save/repeat",
+              "name": "Repeated save",
+              "text": "The target repeats the save at the end of its next turn if it is still Restrained, ending the effect on itself on a success."
+            },
+            {
+              "key": "condition/petrified",
+              "name": "Petrified",
+              "text": "Second Failure: The target has the Petrified condition, instead of the Restrained condition, for 24 hours."
+            },
+            {
+              "key": "save/second-failure",
+              "name": "Second failure",
+              "text": "Second Failure: The target has the Petrified condition, instead of the Restrained condition, for 24 hours."
+            }
+          ]
+        }
+      ],
+      "condition_immunities": [
+        "petrified"
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "defense/condition-immunity",
+        "movement/fly",
+        "sense/darkvision",
+        "action/melee-attack",
+        "effect/piercing-damage",
+        "requirement/target-creature",
+        "save/con",
+        "condition/restrained",
+        "save/repeat",
+        "condition/petrified",
+        "save/second-failure"
+      ]
+    }
+  ]
+}
