@@ -196,8 +196,8 @@ of the bowl, brazier and cape are use limits in the payload, not charge pools.
 The Bowl and Brazier share the `ItemBowlBrazierSummon` type because the source
 prints the same summoning property for both.
 
-Composing the Healing contract fixture, magic items 01 and this batch yields 25
-families and 32 variants with no shared identity. The Healing fixture,
+Composing the Healing contract fixture, magic items 01 and 02 and this batch
+yields 37 families and 50 variants with no shared identity. The Healing fixture,
 `ResolveHealingPotion` and the coverage register are unchanged.
 
 To recheck the PDF pin, inventory identities and pages, printed category and

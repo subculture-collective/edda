@@ -214,7 +214,7 @@ func TestItems227SourceValues(t *testing.T) {
 }
 
 // Earlier catalogues are the Healing contract fixture from #195 and magic items
-// 01 from #225. Batches are composed in merge order, not page order.
+// 01 from #225 and 02 from #226. Batches are composed in merge order, not page order.
 func TestItems227CompositionWithEarlierBatches(t *testing.T) {
 	batch := loadItems227(t)
 	contract, err := LoadItemCatalogue()
@@ -225,7 +225,11 @@ func TestItems227CompositionWithEarlierBatches(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	composed, err := ComposeItemSourceIdentities(contract.SourceIdentities(), first.SourceIdentities(), batch.SourceIdentities())
+	second, err := LoadItems226()
+	if err != nil {
+		t.Fatal(err)
+	}
+	composed, err := ComposeItemSourceIdentities(contract.SourceIdentities(), first.SourceIdentities(), second.SourceIdentities(), batch.SourceIdentities())
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -233,8 +237,8 @@ func TestItems227CompositionWithEarlierBatches(t *testing.T) {
 	for _, f := range composed {
 		variants += len(f.VariantIDs)
 	}
-	if len(composed) != 25 || variants != 32 || composed[0].Name != "Potion of Healing" || composed[1].Name != "Adamantine Armor" || composed[12].Name != "Armor, +1, +2, or +3" || composed[13].Name != "Boots of Speed" || composed[24].Name != "Carpet of Flying" {
-		t.Fatal("expected Potion of Healing, the twelve #225 families and the exact twelve #227 families with 32 variants")
+	if len(composed) != 37 || variants != 50 || composed[0].Name != "Potion of Healing" || composed[1].Name != "Adamantine Armor" || composed[12].Name != "Armor, +1, +2, or +3" || composed[13].Name != second.Families[0].Name || composed[25].Name != "Boots of Speed" || composed[36].Name != "Carpet of Flying" {
+		t.Fatal("expected Potion of Healing, the twelve #225 and #226 families and the exact twelve #227 families with 50 variants")
 	}
 	earlier := 0
 	for _, f := range first.Families {
