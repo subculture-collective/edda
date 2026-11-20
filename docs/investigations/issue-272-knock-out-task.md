@@ -1,0 +1,28 @@
+<!-- edda-272:knock-out-short-rest -->
+Decision #272; roadmap #47. One implementation PR; Task / Size M.
+
+Source: English SRD 5.2.1, PDF 17, 184, 187, 191; SHA-256 `8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87`. CC-BY-4.0 attribution and adaptation: `docs/srd-5.2.1-conformance.md`. The deterministic fixtures below are Edda adaptations.
+
+## Bounded outcome
+
+Implement only the general Knocking Out a Creature rule. When a confirmed melee attack hit would reduce a creature that has at least 1 Hit Point to 0 Hit Points, the attacker may choose, in that same confirmation, to reduce it to 1 Hit Point instead. The creature then has the Unconscious condition and starts a Short Rest. No other attack option, damage type, class feature or monster trait is enabled. Rogue Knock Out #1120 is a different Cunning Strike effect and is not consumed, widened or replaced.
+
+The choice belongs to the attacker and exists only for a melee attack. Without the choice, the ordinary 0 Hit Point flow applies unchanged. With it, the target is at exactly 1 Hit Point: the remaining damage is discarded, and no Death Saving Throw, instant-death or monster-death evaluation occurs for that hit. Consume the shared Unconscious output #487 for one source-bound instance; do not copy its Incapacitated, Prone, dropped-object, Speed, attack, save or critical-hit consequences. Start the canonical Short Rest #427 at the authoritative clock; do not create a second rest model or a fabricated elapsed hour.
+
+The condition ends in exactly these source ways. PDF17: when that Short Rest finishes, as part of the completed #427 rest. PDF17/184: early, when the creature regains any Hit Points, or when another creature takes an action to administer first aid and succeeds on a DC 10 Wisdom (Medicine) check through the existing check receipt #61. A failed check spends the action and changes nothing. Ending the instance leaves the creature Prone, as #487 already states. Receiving healing is not one of the three Short Rest interruptions; the rest continues or stops only under #427's own predicates. If the rest is interrupted, it confers no benefits and the rest-end ending is no longer available for that rest: the creature remains Unconscious until it regains Hit Points or receives successful first aid. The source states no timer, no automatic wake and no ending by a later rest; none is invented. Any other ending requires an explicit trusted GM ruling event and is otherwise unavailable.
+
+## Deterministic fixtures
+
+- Target at 5 of 12 Hit Points takes a confirmed 9-damage melee hit with the option chosen: Hit Points 1, one knock-out Unconscious instance, one Short Rest started at T0. At T0 + 1 hour without interruption the rest completes through #427, the instance ends and the creature remains Prone.
+- Healing 1 Hit Point at T0 + 10 minutes ends the instance at once (Hit Points 2); the rest record is not stopped by the healing itself.
+- First aid with Wisdom +2: injected d20 7 totals 9 and fails, spending the action; injected d20 8 totals 10 and ends the instance.
+- Initiative rolled at T0 + 20 minutes stops the rest with no benefits; the creature stays Unconscious, and a later uninterrupted hour does not end the instance by inference.
+- Reject the option for a ranged attack, a saving-throw or area effect, hazard or ongoing damage, a hit that leaves the target above 0, a target already at 0, a non-attacker's request, a choice made after the damage committed, and a client-declared attack kind. Reject an invented nonlethal damage type, Stable status, 1d4-hour recovery, automatic waking, Temporary Hit Points counting as regained Hit Points, a second Short Rest record, removal of a foreign Unconscious instance, or first aid by the unconscious creature itself.
+
+## Durable implementation acceptance
+
+Preview is inert and never rolls, writes or reveals private facts. Confirm revalidates campaign, actor, source version, clock, targets, attack kind, pre-hit Hit Points, the attacker option and expected revisions. Commit the damage replacement, Hit Points, condition instance, rest start, or the check/ending, and public history atomically. Inject a failure after each stage and prove full isolated PostgreSQL rollback. The same action ID and payload after retry, reload or reconnect returns the same receipt with no reroll; a conflicting payload rejects; racing confirmations commit once. A source-triggered ending belongs to its triggering event (rest completion, healing or the first-aid check), with no optional activation. Web and trusted TUI share availability, unavailable reasons and confirm/cancel/reconnect behavior. Changed web requires a focused build, lint and desktop/phone checks. Public history omits private HP, hidden actors, private checks and undisclosed item facts.
+
+Hard prerequisites: #61 check receipts, #65 melee attack resolution, #427 canonical Short Rest, #487 shared Unconscious output. Parent: #272. Block the rest/recovery qualification task published with this decision; that task blocks #280 and #337. Do not add a direct #279, #280, #67 or #429 edge and do not alter any existing owner. An existing Temporary Hit Point pool is resolved by its own owner before this predicate; this task adds no pool rule.
+
+Validation for the implementation PR: focused deterministic rules tests; isolated PostgreSQL rollback/concurrency/replay/reload tests; shared web/TUI confirmation and disclosure fixtures; `GOMAXPROCS=2 go test -p 2 -short -race ./...` and `GOMAXPROCS=2 go vet -p 2 ./...`. Short tests alone do not qualify PostgreSQL or devices. Runtime remains unavailable until this task and its callers qualify. No deployment, source inference or Full Rules promotion.

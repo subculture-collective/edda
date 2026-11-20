@@ -1,0 +1,1569 @@
+{
+  "schema_version": 1,
+  "decision": 272,
+  "status": "SOURCE_PASS_NATIVE_PUBLICATION_PENDING",
+  "observed_at": "2026-11-20T07:26:45Z",
+  "source": {
+    "sha256": "8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87",
+    "attribution": "docs/srd-5.2.1-conformance.md",
+    "checked_source_clauses": {
+      "17": [
+        "Your Hit Points can’t exceed your Hit Point maximum",
+        "Knocking Out a Creature",
+        "you can instead reduce the creature to 1 Hit Point and give it the Unconscious condition",
+        "It then starts a Short Rest, at the end of which that condition ends on it",
+        "successful DC 10 Wisdom (Medicine) check",
+        "A creature dies if its Hit Point maximum reaches 0"
+      ],
+      "18": [
+        "Lose Temporary Hit Points First",
+        "Temporary Hit Points last until they’re depleted or you finish a Long Rest",
+        "Temporary Hit Points can’t be added together",
+        "healing can’t restore them",
+        "receiving Temporary Hit Points doesn’t restore you to consciousness"
+      ],
+      "85": [
+        "You can finish a Long Rest in 4 hours"
+      ],
+      "102": [
+        "If the Short Rest is interrupted, the Attunement attempt fails"
+      ],
+      "129": [
+        "You gain 2d4 + 4 Temporary Hit Points"
+      ],
+      "146": [
+        "You create three glowing darts of magical force",
+        "The spell creates one more dart for each spell slot level above 1"
+      ],
+      "181": [
+        "Finishing a Long Rest removes 1 of your Exhaustion levels"
+      ],
+      "183": [
+        "A creature can spend Hit Dice during a Short Rest to regain Hit Points"
+      ],
+      "184": [
+        "The creature then has the Unconscious condition and starts a Short Rest",
+        "The creature remains Unconscious until it regains any Hit Points or until someone uses an action to administer first aid"
+      ],
+      "185": [
+        "at least 8 hours",
+        "you sleep for at least 6 hours and perform no more than 2 hours of light activity",
+        "During sleep, you have the Unconscious condition",
+        "you must wait at least 16 hours before starting another one",
+        "To start a Long Rest, you must have at least 1 Hit Point",
+        "You regain all lost Hit Points and all spent Hit Point Dice. If your Hit Point maximum was reduced, it returns to normal",
+        "If any of your ability scores were reduced, they return to normal",
+        "its level decreases by 1",
+        "Rolling Initiative",
+        "Casting a spell other than a cantrip",
+        "Taking any damage",
+        "1 hour of walking or other physical exertion",
+        "If you rested at least 1 hour before the interruption, you gain the benefits of a Short Rest",
+        "the rest requires 1 additional hour per interruption to finish",
+        "Exhaustion caused by malnutrition can’t be removed until the creature eats the full amount of food required for a day"
+      ],
+      "186": [
+        "you must finish a Long Rest to use it again after you run out of uses"
+      ],
+      "187": [
+        "A Short Rest is a 1-hour period of downtime",
+        "To start a Short Rest, you must have at least 1 Hit Point",
+        "You regain Hit Points equal to the total (minimum of 1 Hit Point)",
+        "You can decide to spend an additional Hit Point Die after each roll",
+        "Some features are recharged by a Short Rest",
+        "An interrupted Short Rest confers no benefits"
+      ],
+      "190": [
+        "Temporary Hit Points are granted by certain effects and act as a buffer against losing real Hit Points"
+      ],
+      "191": [
+        "You have the Incapacitated and Prone conditions, and you drop whatever you’re holding. When this condition ends, you remain Prone"
+      ],
+      "206": [
+        "Once used, a consumable item loses its magic",
+        "doesn’t expend any of the user’s spell slots, and requires no components",
+        "Some magic items have charges that must be expended to activate their properties",
+        "revealed when the Identify spell is cast on it",
+        "A creature attuned to an item knows how many charges the item has and how many it regains",
+        "recharge at the next dawn or some other specified time",
+        "the GM determines when the item recharges",
+        "Most magic items, other than Potions and Scrolls, have Resistance to all damage"
+      ],
+      "208": [
+        "the item can’t use this power again until the next dawn"
+      ],
+      "251": [
+        "This wand has 3 charges. While holding it, you can expend 1 charge to cast Detect Magic from it. The wand regains 1d3 expended charges daily at dawn",
+        "This wand has 7 charges. While holding it, you can expend no more than 3 charges to cast Magic Missile from it",
+        "The wand regains 1d6 + 1 expended charges daily at dawn. If you expend the wand’s last charge, roll 1d20. On a 1, the wand crumbles into ashes and is destroyed"
+      ],
+      "257": [
+        "a monster must finish a Long Rest to regain expended uses"
+      ]
+    },
+    "absent_clause_checks": {
+      "187": "The Short Rest entry contains no resumption rule; only the Long Rest entry (PDF185) permits resuming."
+    }
+  },
+  "decision_blockers": [
+    {
+      "number": 80,
+      "state": "CLOSED"
+    }
+  ],
+  "scopes": [
+    {
+      "scope": "Short Rest eligibility, Hit Point Dice, interruption and no resumption",
+      "PDF": [
+        17,
+        183,
+        187
+      ],
+      "owners": [
+        427
+      ],
+      "residual": []
+    },
+    {
+      "scope": "Short Rest consumers: attunement, spell-granted rest, class and feature recharge",
+      "PDF": [
+        102,
+        187
+      ],
+      "owners": [
+        427,
+        926,
+        1001,
+        1141,
+        2051
+      ],
+      "residual": []
+    },
+    {
+      "scope": "Knocking Out a Creature starts a Short Rest",
+      "PDF": [
+        17,
+        184,
+        187,
+        191
+      ],
+      "owners": [],
+      "residual": [
+        "knock-out"
+      ]
+    },
+    {
+      "scope": "Long Rest eligibility, 16-hour wait, interruption, Short Rest fallback, resumption and recovery",
+      "PDF": [
+        181,
+        185
+      ],
+      "owners": [
+        428
+      ],
+      "residual": []
+    },
+    {
+      "scope": "Unconscious during Long Rest sleep",
+      "PDF": [
+        185,
+        191
+      ],
+      "owners": [],
+      "residual": [
+        "long-rest-sleep"
+      ]
+    },
+    {
+      "scope": "Per Day and X/Day uses recover on a completed Long Rest",
+      "PDF": [
+        186,
+        257
+      ],
+      "owners": [
+        428,
+        1681,
+        1688,
+        1717
+      ],
+      "residual": []
+    },
+    {
+      "scope": "Dawn recharge and worlds without dawn",
+      "PDF": [
+        206,
+        251
+      ],
+      "owners": [
+        1148
+      ],
+      "residual": [
+        "wand-charges"
+      ]
+    },
+    {
+      "scope": "Charge expenditure and what a creature knows about charges",
+      "PDF": [
+        206,
+        251
+      ],
+      "owners": [
+        1132,
+        1140,
+        1613
+      ],
+      "residual": [
+        "wand-charges"
+      ]
+    },
+    {
+      "scope": "Last-charge depletion and destruction",
+      "PDF": [
+        206,
+        251
+      ],
+      "owners": [],
+      "residual": [
+        "wand-charges"
+      ]
+    },
+    {
+      "scope": "Consumable items lose their magic once used",
+      "PDF": [
+        206
+      ],
+      "owners": [
+        79,
+        266,
+        1142
+      ],
+      "residual": []
+    },
+    {
+      "scope": "Hit Point maximum: healing cap, Long Rest restoration and other restoration",
+      "PDF": [
+        17,
+        185
+      ],
+      "owners": [
+        427,
+        428,
+        627
+      ],
+      "residual": []
+    },
+    {
+      "scope": "Temporary Hit Points: damage order, no stacking, not healing, duration to Long Rest",
+      "PDF": [
+        18,
+        190
+      ],
+      "owners": [],
+      "residual": [
+        "temporary-hit-points"
+      ],
+      "source_grant_owners": [
+        645,
+        725,
+        807,
+        1000,
+        1318,
+        1969
+      ]
+    },
+    {
+      "scope": "Exhaustion reduction on rest and its malnutrition exception",
+      "PDF": [
+        181,
+        185
+      ],
+      "owners": [
+        428,
+        623,
+        1001
+      ],
+      "retained_planning_owner": [
+        150,
+        270
+      ],
+      "residual": []
+    }
+  ],
+  "retained_wider_scope": [
+    {
+      "scope": "Every other charged, dawn-recharging or last-charge item, item resilience, Artifact destruction and sentient-item dawn limits (PDF206, 208–253)",
+      "owner": 278
+    },
+    {
+      "scope": "Attuned-creature charge knowledge for a charged item that requires Attunement (PDF206)",
+      "owner": 278
+    },
+    {
+      "scope": "Elf Trance four-hour Long Rest without sleep (PDF85)",
+      "owner": 333
+    },
+    {
+      "scope": "Malnutrition, dehydration and other named hazards that add or hold Exhaustion (PDF185, 192–201)",
+      "owner": 150
+    },
+    {
+      "scope": "Exhaustion condition effects (PDF181)",
+      "owner": 270
+    },
+    {
+      "scope": "Monster Recharge X–Y at turn start (PDF257)",
+      "owner": 182
+    }
+  ],
+  "existing_owners": {
+    "61": {
+      "number": 61,
+      "title": "Resolve SRD checks and saving throws with inspectable dice receipts",
+      "state": "CLOSED",
+      "parent": 50,
+      "blocked_by": [
+        58
+      ],
+      "body_sha256": "40078e957d35bd33b66c06dad6451270817f5fd833a924aa87d631d4a7bd9cd5"
+    },
+    "65": {
+      "number": 65,
+      "title": "Play a martial attack through the interactive character sheet",
+      "state": "CLOSED",
+      "parent": 50,
+      "blocked_by": [
+        64
+      ],
+      "body_sha256": "df81cf102663aba2e71722bb09b793a0866d058a37f2729c3509dc0831a682d3"
+    },
+    "79": {
+      "number": 79,
+      "title": "Use a consumable from the sheet with one durable cost",
+      "state": "CLOSED",
+      "parent": 50,
+      "blocked_by": [
+        64
+      ],
+      "body_sha256": "c4ad4ea5477e2686ace7b9f0effad65ff8108c39ad62e8bef64f629e12a86979"
+    },
+    "150": {
+      "number": 150,
+      "title": "Split the remaining named environmental hazards into bounded rules PRs",
+      "state": "OPEN",
+      "parent": 54,
+      "blocked_by": [
+        144,
+        147
+      ],
+      "body_sha256": "669eb0d197d21f1d3d3194458545b8decb18ed8899d5033e03d2f3574e5208cf",
+      "root_paths": {
+        "279": [
+          279,
+          681,
+          183,
+          150
+        ],
+        "280": [
+          280,
+          681,
+          183,
+          150
+        ],
+        "337": [
+          337,
+          551,
+          183,
+          150
+        ]
+      }
+    },
+    "182": {
+      "number": 182,
+      "title": "Split unimplemented monster mechanic keys into exact fixture PRs",
+      "state": "OPEN",
+      "parent": 54,
+      "blocked_by": [
+        151,
+        152,
+        153,
+        154,
+        155,
+        156,
+        157,
+        158,
+        159,
+        160,
+        161,
+        162,
+        163,
+        164,
+        165,
+        166,
+        167,
+        168,
+        169,
+        170,
+        171,
+        172,
+        173,
+        174,
+        175,
+        176,
+        177,
+        178,
+        184
+      ],
+      "body_sha256": "69af93107731b8418a429951ab118d37bab27bb48b82303f949983a717ef8ab0",
+      "root_paths": {
+        "279": [
+          279,
+          681,
+          183,
+          182
+        ],
+        "280": [
+          280,
+          681,
+          183,
+          182
+        ],
+        "337": [
+          337,
+          551,
+          183,
+          182
+        ]
+      }
+    },
+    "195": {
+      "number": 195,
+      "title": "Validate versioned item families and explicit variant identities",
+      "state": "CLOSED",
+      "parent": 192,
+      "blocked_by": [
+        80
+      ],
+      "body_sha256": "554b45122c2a301ffd11b6b8b717b254f44fa54a21f0e623227613ca14464b5a"
+    },
+    "266": {
+      "number": 266,
+      "title": "Administer one basic Potion of Healing to a willing ally",
+      "state": "CLOSED",
+      "parent": 192,
+      "blocked_by": [
+        79,
+        195,
+        263
+      ],
+      "body_sha256": "a46d14f46153a9327540bbe7d21612e2a981c6ac0fa00b4d46b45902ee74a0fe"
+    },
+    "278": {
+      "number": 278,
+      "title": "Assign every remaining equipment and magic-item key to bounded implementation PRs",
+      "state": "OPEN",
+      "parent": 192,
+      "blocked_by": [
+        80,
+        225,
+        226,
+        227,
+        228,
+        229,
+        230,
+        231,
+        232,
+        233,
+        234,
+        235,
+        236,
+        237,
+        238,
+        239,
+        240,
+        241,
+        242,
+        243,
+        244,
+        245,
+        246,
+        247,
+        248,
+        249,
+        250,
+        251,
+        252,
+        253,
+        254,
+        255,
+        256,
+        257,
+        258,
+        259,
+        260,
+        261,
+        262
+      ],
+      "body_sha256": "b88e1f565c101b658338ecb8bc0b7da784955da7ff411bcb87bda7a2c27e565b",
+      "root_paths": {
+        "279": [
+          279,
+          625,
+          278
+        ],
+        "280": [
+          280,
+          278
+        ],
+        "337": [
+          337,
+          501,
+          508,
+          278
+        ]
+      }
+    },
+    "333": {
+      "number": 333,
+      "title": "Split remaining origin and creation choices into exact playable fixtures",
+      "state": "OPEN",
+      "parent": 283,
+      "blocked_by": [
+        306,
+        307
+      ],
+      "body_sha256": "94abc0e367616f161cef0ccd1294218acea5b3e8e10c4c77e3cdfb2da54f4a3f",
+      "root_paths": {
+        "279": [
+          279,
+          1096,
+          1138,
+          430,
+          333
+        ],
+        "280": [
+          280,
+          1096,
+          1138,
+          430,
+          333
+        ],
+        "337": [
+          337,
+          333
+        ]
+      }
+    },
+    "427": {
+      "number": 427,
+      "title": "Complete source-correct Short Rest and publish recharge events",
+      "state": "OPEN",
+      "parent": 272,
+      "blocked_by": [
+        272,
+        286,
+        308
+      ],
+      "body_sha256": "5356cf09ae69c28bac1a08c901ce3fde57fcf877f3bbf619eb29c575cfca3a75",
+      "root_paths": {
+        "279": [
+          279,
+          849,
+          926,
+          427
+        ],
+        "280": [
+          280,
+          2051,
+          427
+        ],
+        "337": [
+          337,
+          498,
+          427
+        ]
+      }
+    },
+    "428": {
+      "number": 428,
+      "title": "Complete source-correct Long Rest with interruption and recovery receipt",
+      "state": "OPEN",
+      "parent": 272,
+      "blocked_by": [
+        272,
+        286,
+        308,
+        427
+      ],
+      "body_sha256": "6822469be2b3e75b9f37da60335e01fbe3f27bc5d8cb735a44dc4171f1657046",
+      "root_paths": {
+        "279": [
+          279,
+          848,
+          921,
+          428
+        ],
+        "280": [
+          280,
+          848,
+          921,
+          428
+        ],
+        "337": [
+          337,
+          498,
+          428
+        ]
+      }
+    },
+    "487": {
+      "number": 487,
+      "title": "Resolve shared Incapacitated and Unconscious condition admission",
+      "state": "OPEN",
+      "parent": 269,
+      "blocked_by": [
+        269,
+        351,
+        353
+      ],
+      "body_sha256": "74aeead11f2085b6e89b4888f0caee89bb8d73b67733cafb0da66bd701b9912c",
+      "root_paths": {
+        "279": [
+          279,
+          504,
+          487
+        ],
+        "280": [
+          280,
+          504,
+          487
+        ],
+        "337": [
+          337,
+          498,
+          487
+        ]
+      }
+    },
+    "623": {
+      "number": 623,
+      "title": "End Greater Restoration one Exhaustion level",
+      "state": "OPEN",
+      "parent": 193,
+      "blocked_by": [
+        270
+      ],
+      "body_sha256": "7840bd164ad46ecea557bc6a01291d0754d4028d1c28158db1cee93be196d363",
+      "root_paths": {
+        "279": [
+          279,
+          623
+        ],
+        "280": [
+          280,
+          623
+        ],
+        "337": [
+          337,
+          551,
+          279,
+          623
+        ]
+      }
+    },
+    "627": {
+      "number": 627,
+      "title": "End Greater Restoration one maximum-HP reduction",
+      "state": "OPEN",
+      "parent": 193,
+      "blocked_by": [
+        353
+      ],
+      "body_sha256": "46c8c3a903ce37f713d30115758d1b7913a851fb3484ea7225b7cb0611d45cc6",
+      "root_paths": {
+        "279": [
+          279,
+          627
+        ],
+        "280": [
+          280,
+          627
+        ],
+        "337": [
+          337,
+          551,
+          279,
+          627
+        ]
+      }
+    },
+    "645": {
+      "number": 645,
+      "title": "Confirm Wild Shape Bonus Action and temporary HP",
+      "state": "OPEN",
+      "parent": 630,
+      "blocked_by": [
+        353,
+        644
+      ],
+      "body_sha256": "d3abdc0aaff762bad4f082fe8db58e3d3f4566a75217e4a40d1dd33d4c4d6f52",
+      "root_paths": {
+        "337": [
+          337,
+          630,
+          631,
+          645
+        ]
+      }
+    },
+    "725": {
+      "number": 725,
+      "title": "Resolve Polymorph temporary HP and exact ending",
+      "state": "OPEN",
+      "parent": 191,
+      "blocked_by": [
+        183,
+        194,
+        215,
+        351,
+        353,
+        487,
+        488,
+        504,
+        698
+      ],
+      "body_sha256": "72f562caf94d45edac83326037cfa9b475a1efd445de48dc249623ecffffe3d5",
+      "root_paths": {
+        "279": [
+          279,
+          725
+        ],
+        "280": [
+          280,
+          725
+        ],
+        "337": [
+          337,
+          551,
+          279,
+          725
+        ]
+      }
+    },
+    "807": {
+      "number": 807,
+      "title": "Enhance paid Patient Defense with two Martial Arts dice tempHP",
+      "state": "OPEN",
+      "parent": 776,
+      "blocked_by": [
+        61,
+        64,
+        786,
+        792
+      ],
+      "body_sha256": "41d09de4208a7ede59370f50869ebc189bb04aeb9c015f1978c4ed7bcca1c959",
+      "root_paths": {
+        "337": [
+          337,
+          776,
+          807
+        ]
+      }
+    },
+    "926": {
+      "number": 926,
+      "title": "Resolve Prayer of Healing prayer rest",
+      "state": "OPEN",
+      "parent": 849,
+      "blocked_by": [
+        427,
+        428,
+        925
+      ],
+      "body_sha256": "401e3b34bc751d7bb89410840b81f644ca94750cc2524bf8a83fee8fdcbf9324",
+      "root_paths": {
+        "279": [
+          279,
+          849,
+          926
+        ],
+        "280": [
+          280,
+          849,
+          926
+        ],
+        "337": [
+          337,
+          551,
+          279,
+          849,
+          926
+        ]
+      }
+    },
+    "1000": {
+      "number": 1000,
+      "title": "Resolve Tireless Magic action temporary HP",
+      "state": "OPEN",
+      "parent": 971,
+      "blocked_by": [
+        428,
+        978
+      ],
+      "body_sha256": "d364e57ada2c6247de2656eebfdce5f97328784e3fcb05e4b2a9930e68d2e743",
+      "root_paths": {
+        "337": [
+          337,
+          970,
+          971,
+          1000
+        ]
+      }
+    },
+    "1001": {
+      "number": 1001,
+      "title": "Resolve Tireless Short Rest Exhaustion reduction",
+      "state": "OPEN",
+      "parent": 971,
+      "blocked_by": [
+        427,
+        623
+      ],
+      "body_sha256": "6071d0b71bfe4121fd37e6dce38a3edb5c401221d0907d4c6d672bae92f487dc",
+      "root_paths": {
+        "337": [
+          337,
+          970,
+          971,
+          1001
+        ]
+      }
+    },
+    "1132": {
+      "number": 1132,
+      "title": "Rogue: charges",
+      "state": "OPEN",
+      "parent": 1094,
+      "blocked_by": [
+        1097,
+        1108,
+        1140
+      ],
+      "body_sha256": "8fbcb45b144f95768e6877034744df300f7bbef670de6fd5c7d3e24fcc850b8f",
+      "root_paths": {
+        "337": [
+          337,
+          1093,
+          1094,
+          1132
+        ]
+      }
+    },
+    "1140": {
+      "number": 1140,
+      "title": "Rogue: magic item",
+      "state": "OPEN",
+      "parent": 1096,
+      "blocked_by": [
+        195,
+        906,
+        1097
+      ],
+      "body_sha256": "46496ae1daa0ccf0187353cf3601fc16bdf18efc5164b229817be9edc888d39c",
+      "root_paths": {
+        "279": [
+          279,
+          1096,
+          1140
+        ],
+        "280": [
+          280,
+          1096,
+          1140
+        ],
+        "337": [
+          337,
+          1093,
+          1096,
+          1140
+        ]
+      }
+    },
+    "1141": {
+      "number": 1141,
+      "title": "Rogue: attune item",
+      "state": "OPEN",
+      "parent": 1096,
+      "blocked_by": [
+        195,
+        427,
+        1097
+      ],
+      "body_sha256": "5732827ef7ef8a78e64f5fdf463a56892e2e2d0df8dd2bcd9e1f809a7c0ebb8d",
+      "root_paths": {
+        "279": [
+          279,
+          1096,
+          1141
+        ],
+        "280": [
+          280,
+          1096,
+          1141
+        ],
+        "337": [
+          337,
+          1093,
+          1096,
+          1141
+        ]
+      }
+    },
+    "1142": {
+      "number": 1142,
+      "title": "Rogue: scroll item",
+      "state": "OPEN",
+      "parent": 1096,
+      "blocked_by": [
+        195,
+        1097
+      ],
+      "body_sha256": "d2a9bf291bf511a3ab6a84a1ed3bdbe6e8409dae8f837cdf3d3c5f4abe4071af",
+      "root_paths": {
+        "279": [
+          279,
+          1096,
+          1142
+        ],
+        "280": [
+          280,
+          1096,
+          1142
+        ],
+        "337": [
+          337,
+          1093,
+          1096,
+          1142
+        ]
+      }
+    },
+    "1148": {
+      "number": 1148,
+      "title": "Rogue: wand dawn",
+      "state": "OPEN",
+      "parent": 1096,
+      "blocked_by": [
+        195,
+        1097,
+        1140
+      ],
+      "body_sha256": "f9dfb55ccdb250dc47bccf54edc6a448869dc8f3aa6653e32067e590e3623574",
+      "root_paths": {
+        "279": [
+          279,
+          1096,
+          1148
+        ],
+        "280": [
+          280,
+          1096,
+          1148
+        ],
+        "337": [
+          337,
+          1093,
+          1096,
+          1148
+        ]
+      }
+    },
+    "1318": {
+      "number": 1318,
+      "title": "Resolve False Life effect",
+      "state": "OPEN",
+      "parent": 1462,
+      "blocked_by": [
+        1453,
+        1454
+      ],
+      "body_sha256": "4fa6b49651cab49e36f16ef58cc34df11bd6dda88118f890d4f724917067a8fe",
+      "root_paths": {
+        "279": [
+          279,
+          1477,
+          1474,
+          1462,
+          1318
+        ],
+        "280": [
+          280,
+          1477,
+          1474,
+          1462,
+          1318
+        ],
+        "337": [
+          337,
+          1475,
+          1474,
+          1462,
+          1318
+        ]
+      }
+    },
+    "1368": {
+      "number": 1368,
+      "title": "Resolve Magic Missile effect",
+      "state": "OPEN",
+      "parent": 1465,
+      "blocked_by": [
+        1455,
+        1456
+      ],
+      "body_sha256": "82597bfb042a35736e6ec044d1eb72b863110dd6579c7bfa9972d47d36fc906b",
+      "root_paths": {
+        "279": [
+          279,
+          1477,
+          1474,
+          1465,
+          1368
+        ],
+        "280": [
+          280,
+          1477,
+          1474,
+          1465,
+          1368
+        ],
+        "337": [
+          337,
+          1475,
+          1474,
+          1465,
+          1368
+        ]
+      }
+    },
+    "1613": {
+      "number": 1613,
+      "title": "Resolve Identify object",
+      "state": "OPEN",
+      "parent": 1740,
+      "blocked_by": [
+        1735,
+        1737
+      ],
+      "body_sha256": "c12f57ba0a09a91ecf7baa4176b0b121b5f8a2e73e4934b64d9effc01aae05c1",
+      "root_paths": {
+        "279": [
+          279,
+          1477,
+          1757,
+          1740,
+          1613
+        ],
+        "280": [
+          280,
+          1477,
+          1757,
+          1740,
+          1613
+        ],
+        "337": [
+          337,
+          1758,
+          1757,
+          1740,
+          1613
+        ]
+      }
+    },
+    "1681": {
+      "number": 1681,
+      "title": "Resolve Quasit scare",
+      "state": "OPEN",
+      "parent": 1744,
+      "blocked_by": [
+        428,
+        1733
+      ],
+      "body_sha256": "c15a43e8e1057855569d97d88fc8179a31963e2efa778edab576ed52aca6a3e1",
+      "root_paths": {
+        "279": [
+          279,
+          1477,
+          1757,
+          1744,
+          1681
+        ],
+        "280": [
+          280,
+          1477,
+          1757,
+          1744,
+          1681
+        ],
+        "337": [
+          337,
+          1758,
+          1748,
+          1534,
+          1681
+        ]
+      }
+    },
+    "1688": {
+      "number": 1688,
+      "title": "Resolve Sphinx of Wonder burst-ingenuity",
+      "state": "OPEN",
+      "parent": 1745,
+      "blocked_by": [
+        428,
+        1733
+      ],
+      "body_sha256": "8b8fda56c36994bee72fffb773b4ce854d9b7083af74b9e52639ffd7fde0c57a",
+      "root_paths": {
+        "279": [
+          279,
+          1477,
+          1757,
+          1745,
+          1688
+        ],
+        "280": [
+          280,
+          1477,
+          1757,
+          1745,
+          1688
+        ],
+        "337": [
+          337,
+          1758,
+          1748,
+          1534,
+          1688
+        ]
+      }
+    },
+    "1717": {
+      "number": 1717,
+      "title": "Resolve Octopus octopus-ink",
+      "state": "OPEN",
+      "parent": 1746,
+      "blocked_by": [
+        428,
+        1733
+      ],
+      "body_sha256": "0e8d413183dcc4031e95d9a89c72624ff21cdae729deaf7eaf1a3b0067394c6e",
+      "root_paths": {
+        "279": [
+          279,
+          1477,
+          1757,
+          1746,
+          1717
+        ],
+        "280": [
+          280,
+          1477,
+          1757,
+          1746,
+          1717
+        ],
+        "337": [
+          337,
+          1758,
+          1748,
+          1534,
+          1717
+        ]
+      }
+    },
+    "1969": {
+      "number": 1969,
+      "title": "Resolve Shapechange temporary-hp",
+      "state": "OPEN",
+      "parent": 2011,
+      "blocked_by": [
+        2006,
+        2039,
+        2044
+      ],
+      "body_sha256": "128d49b7b4a8b7d3b7e07e887bca6e4f8cac38bb3e25f4c0f95e116bb3b1796e",
+      "root_paths": {
+        "279": [
+          279,
+          1477,
+          2033,
+          2011,
+          1969
+        ],
+        "280": [
+          280,
+          1477,
+          2033,
+          2011,
+          1969
+        ],
+        "337": [
+          337,
+          2036,
+          2033,
+          2011,
+          1969
+        ]
+      }
+    },
+    "2051": {
+      "number": 2051,
+      "title": "Cast Disguise Self from an attuned Hat of Disguise",
+      "state": "OPEN",
+      "parent": 273,
+      "blocked_by": [
+        195,
+        427,
+        1293,
+        1450
+      ],
+      "body_sha256": "1a30e77f82c28374eb6e8c26e4f20a69d8a45006e38fa23ddd5c02c82ba4037e",
+      "root_paths": {
+        "280": [
+          280,
+          2051
+        ],
+        "337": [
+          337,
+          551,
+          280,
+          2051
+        ]
+      }
+    }
+  },
+  "new_tasks": [
+    {
+      "key": "knock-out",
+      "task_file": "docs/investigations/issue-272-knock-out-task.md",
+      "number": null,
+      "title": "Knock out a creature with a melee attack and start its Short Rest",
+      "type": "Task",
+      "size": "M",
+      "parent": 272,
+      "blocked_by": [
+        61,
+        65,
+        427,
+        487
+      ],
+      "blocks": [
+        "recovery-qualification"
+      ],
+      "body_sha256": "37b863be1d6586eae801ffb705fc64314adca07ecef046c4bb99a8f319dd446f",
+      "body": "<!-- edda-272:knock-out-short-rest -->\nDecision #272; roadmap #47. One implementation PR; Task / Size M.\n\nSource: English SRD 5.2.1, PDF 17, 184, 187, 191; SHA-256 `8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87`. CC-BY-4.0 attribution and adaptation: `docs/srd-5.2.1-conformance.md`. The deterministic fixtures below are Edda adaptations.\n\n## Bounded outcome\n\nImplement only the general Knocking Out a Creature rule. When a confirmed melee attack hit would reduce a creature that has at least 1 Hit Point to 0 Hit Points, the attacker may choose, in that same confirmation, to reduce it to 1 Hit Point instead. The creature then has the Unconscious condition and starts a Short Rest. No other attack option, damage type, class feature or monster trait is enabled. Rogue Knock Out #1120 is a different Cunning Strike effect and is not consumed, widened or replaced.\n\nThe choice belongs to the attacker and exists only for a melee attack. Without the choice, the ordinary 0 Hit Point flow applies unchanged. With it, the target is at exactly 1 Hit Point: the remaining damage is discarded, and no Death Saving Throw, instant-death or monster-death evaluation occurs for that hit. Consume the shared Unconscious output #487 for one source-bound instance; do not copy its Incapacitated, Prone, dropped-object, Speed, attack, save or critical-hit consequences. Start the canonical Short Rest #427 at the authoritative clock; do not create a second rest model or a fabricated elapsed hour.\n\nThe condition ends in exactly these source ways. PDF17: when that Short Rest finishes, as part of the completed #427 rest. PDF17/184: early, when the creature regains any Hit Points, or when another creature takes an action to administer first aid and succeeds on a DC 10 Wisdom (Medicine) check through the existing check receipt #61. A failed check spends the action and changes nothing. Ending the instance leaves the creature Prone, as #487 already states. Receiving healing is not one of the three Short Rest interruptions; the rest continues or stops only under #427's own predicates. If the rest is interrupted, it confers no benefits and the rest-end ending is no longer available for that rest: the creature remains Unconscious until it regains Hit Points or receives successful first aid. The source states no timer, no automatic wake and no ending by a later rest; none is invented. Any other ending requires an explicit trusted GM ruling event and is otherwise unavailable.\n\n## Deterministic fixtures\n\n- Target at 5 of 12 Hit Points takes a confirmed 9-damage melee hit with the option chosen: Hit Points 1, one knock-out Unconscious instance, one Short Rest started at T0. At T0 + 1 hour without interruption the rest completes through #427, the instance ends and the creature remains Prone.\n- Healing 1 Hit Point at T0 + 10 minutes ends the instance at once (Hit Points 2); the rest record is not stopped by the healing itself.\n- First aid with Wisdom +2: injected d20 7 totals 9 and fails, spending the action; injected d20 8 totals 10 and ends the instance.\n- Initiative rolled at T0 + 20 minutes stops the rest with no benefits; the creature stays Unconscious, and a later uninterrupted hour does not end the instance by inference.\n- Reject the option for a ranged attack, a saving-throw or area effect, hazard or ongoing damage, a hit that leaves the target above 0, a target already at 0, a non-attacker's request, a choice made after the damage committed, and a client-declared attack kind. Reject an invented nonlethal damage type, Stable status, 1d4-hour recovery, automatic waking, Temporary Hit Points counting as regained Hit Points, a second Short Rest record, removal of a foreign Unconscious instance, or first aid by the unconscious creature itself.\n\n## Durable implementation acceptance\n\nPreview is inert and never rolls, writes or reveals private facts. Confirm revalidates campaign, actor, source version, clock, targets, attack kind, pre-hit Hit Points, the attacker option and expected revisions. Commit the damage replacement, Hit Points, condition instance, rest start, or the check/ending, and public history atomically. Inject a failure after each stage and prove full isolated PostgreSQL rollback. The same action ID and payload after retry, reload or reconnect returns the same receipt with no reroll; a conflicting payload rejects; racing confirmations commit once. A source-triggered ending belongs to its triggering event (rest completion, healing or the first-aid check), with no optional activation. Web and trusted TUI share availability, unavailable reasons and confirm/cancel/reconnect behavior. Changed web requires a focused build, lint and desktop/phone checks. Public history omits private HP, hidden actors, private checks and undisclosed item facts.\n\nHard prerequisites: #61 check receipts, #65 melee attack resolution, #427 canonical Short Rest, #487 shared Unconscious output. Parent: #272. Block the rest/recovery qualification task published with this decision; that task blocks #280 and #337. Do not add a direct #279, #280, #67 or #429 edge and do not alter any existing owner. An existing Temporary Hit Point pool is resolved by its own owner before this predicate; this task adds no pool rule.\n\nValidation for the implementation PR: focused deterministic rules tests; isolated PostgreSQL rollback/concurrency/replay/reload tests; shared web/TUI confirmation and disclosure fixtures; `GOMAXPROCS=2 go test -p 2 -short -race ./...` and `GOMAXPROCS=2 go vet -p 2 ./...`. Short tests alone do not qualify PostgreSQL or devices. Runtime remains unavailable until this task and its callers qualify. No deployment, source inference or Full Rules promotion.\n"
+    },
+    {
+      "key": "temporary-hit-points",
+      "task_file": "docs/investigations/issue-272-temporary-hit-points-task.md",
+      "number": null,
+      "title": "Resolve the shared Temporary Hit Point pool and its Long Rest ending",
+      "type": "Task",
+      "size": "M",
+      "parent": 272,
+      "blocked_by": [
+        428,
+        1318
+      ],
+      "blocks": [
+        "recovery-qualification"
+      ],
+      "body_sha256": "71fb75b5566a136eb2f71710187d2d771b49359496b5231073396716e89baa22",
+      "body": "<!-- edda-272:temporary-hit-point-pool -->\nDecision #272; roadmap #47. One implementation PR; Task / Size M.\n\nSource: English SRD 5.2.1, PDF 17–18, 129, 185, 190; SHA-256 `8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87`. CC-BY-4.0 attribution and adaptation: `docs/srd-5.2.1-conformance.md`. The deterministic fixtures below are Edda adaptations.\n\n## Bounded outcome\n\nImplement the shared Temporary Hit Point pool boundaries of PDF18 once, with one actual grant as the witness: False Life through its existing resolver #1318. Do not copy that spell's dice, slot scaling or components. This task owns only the cross-source pool rules below and the Long Rest ending; every grant keeps its own amount, trigger, eligibility and any earlier ending its source states (for example the Polymorph, Shapechange, Wild Shape and Heroism owners). No new grant source, healing effect or class feature is enabled.\n\nTemporary Hit Points are a buffer separate from Hit Points. Damage removes them first and only the leftover reduces Hit Points. They cannot be added together: a creature that already has some and receives more decides whether to keep the old amount or take the new one, and that decision is an explicit recorded choice, never a sum and never a silent default. They are not Hit Points and not healing: healing cannot restore them, receiving them triggers nothing that depends on healing or on regaining Hit Points, and a creature at full Hit Points can receive them. The Hit Point maximum does not cap the pool, and healing stays capped at the maximum (PDF17) regardless of the pool. A creature at 0 Hit Points that receives them stays at 0 with its existing Unconscious or dying state.\n\nThey last until depleted or until the creature finishes a Long Rest. Consume the canonical completed Long Rest #428: its completion removes any remaining pool in the same atomic receipt. An interrupted Long Rest, including one that grants Short Rest benefits after at least 1 hour, and a completed Short Rest do not remove the pool. Temporary Hit Points granted after the completion remain.\n\n## Deterministic fixtures\n\n- False Life with injected 2d4 = 5 gives 9. Taking 7 damage leaves 2 and unchanged Hit Points; taking 5 more leaves 0 and reduces Hit Points by 3. PDF18 example: 5 Temporary Hit Points and 7 damage lose the pool and 2 Hit Points.\n- Holding 10 and receiving 12: the recorded choice yields 12 or 10; reject 22 and reject an unrecorded automatic replacement.\n- At 14 of 20 Hit Points with a pool of 2, healing 8 gives 20 Hit Points and the pool stays 2; healing never refills the pool.\n- A completed Long Rest with a pool of 2 ends with a pool of 0 in the #428 receipt. A Long Rest interrupted in hour 3 yields Short Rest benefits and keeps the pool; a completed Short Rest keeps it.\n- At 0 Hit Points a grant of 9 leaves the creature at 0 and Unconscious, with unchanged Death Saving Throw counters.\n- Reject pool removal at Long Rest start, at dawn or on a client clock; a duplicate removal on receipt replay; conversion of the pool into Hit Points; a pool capped at the Hit Point maximum; a healing trigger fired by a grant; removing another creature's pool; and any ending for a source-owned pool other than the one its source states.\n\n## Durable implementation acceptance\n\nPreview is inert and never rolls, writes or reveals private facts. Confirm revalidates campaign, actor, source version, clock, targets, the current pool, the grant source, the recorded keep/replace choice and expected revisions. Commit the pool change, Hit Point change, recorded choice or rest-completion removal, and public history atomically. Inject a failure after each stage and prove full isolated PostgreSQL rollback. The same action ID and payload after retry, reload or reconnect returns the same receipt with no reroll; a conflicting payload rejects; racing confirmations commit once. Depletion and the Long Rest removal belong to their triggering confirmed event (the damage or the #428 completion), with no optional activation. Web and trusted TUI share availability, unavailable reasons and confirm/cancel/reconnect behavior. Changed web requires a focused build, lint and desktop/phone checks. Public history omits private HP, hidden actors, private checks and undisclosed item facts.\n\nHard prerequisites: #428 completed Long Rest output, #1318 actual False Life grant. Parent: #272. Block the rest/recovery qualification task published with this decision; that task blocks #280 and #337. Spell qualification #279 already requires the unchanged #1318 through the accepted finite shared aggregate; do not add a direct #279, #280, #67 or #429 edge and do not alter any existing grant owner.\n\nValidation for the implementation PR: focused deterministic rules tests; isolated PostgreSQL rollback/concurrency/replay/reload tests; shared web/TUI confirmation and disclosure fixtures; `GOMAXPROCS=2 go test -p 2 -short -race ./...` and `GOMAXPROCS=2 go vet -p 2 ./...`. Short tests alone do not qualify PostgreSQL or devices. Runtime remains unavailable until this task and its callers qualify. No deployment, source inference or Full Rules promotion.\n"
+    },
+    {
+      "key": "long-rest-sleep",
+      "task_file": "docs/investigations/issue-272-long-rest-sleep-task.md",
+      "number": null,
+      "title": "Apply the Unconscious condition during Long Rest sleep",
+      "type": "Task",
+      "size": "S",
+      "parent": 272,
+      "blocked_by": [
+        428,
+        487
+      ],
+      "blocks": [
+        "recovery-qualification"
+      ],
+      "body_sha256": "0ad14bb2221cf3d97e011fffc60f2009de52783347715ae5399586e87f579979",
+      "body": "<!-- edda-272:long-rest-sleep-unconscious -->\nDecision #272; roadmap #47. One implementation PR; Task / Size S.\n\nSource: English SRD 5.2.1, PDF 185, 191; SHA-256 `8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87`. CC-BY-4.0 attribution and adaptation: `docs/srd-5.2.1-conformance.md`. The deterministic fixtures below are Edda adaptations.\n\n## Bounded outcome\n\nImplement only this Long Rest clause: during sleep, the resting creature has the Unconscious condition. The canonical Long Rest #428 already owns the 8-hour minimum, at least 6 hours of sleep, at most 2 hours of light activity, eligibility, interruption, resumption and recovery. This task binds each recorded sleep interval of that rest to one source-bound Unconscious instance from the shared output #487. It copies neither contract.\n\nWhile a sleep interval of an active Long Rest is in effect, the creature has one Unconscious instance whose source is that rest. Light-activity intervals, such as standing watch, carry none. The consequences are exactly #487's output, including Incapacitated, Prone, Speed 0, attack and saving-throw effects, critical hits from within 5 feet, being unaware, and the Concentration ending that Incapacitated already causes. Ending the instance leaves the creature Prone.\n\nThe instance ends when the authoritative rest record ends that sleep interval: at the recorded end of sleep, at completion of the rest, or when a confirmed #428 interruption or stop event records that the sleeper woke. The source names no waking trigger. Noise, an attack or damage therefore do not by themselves remove the instance; the attack resolves against an Unconscious creature, and #428 decides whether the rest is interrupted. A waking fact must be explicit and trusted; otherwise it is unavailable. A Short Rest applies no sleep instance. A feature that replaces sleep, such as Elf Trance (PDF85), and magical sleep keep their own owners and instances.\n\n## Deterministic fixtures\n\n- A Long Rest from T0 with sleep recorded T0 to T0 + 6 hours and watch for the final 2 hours: at T0 + 3 hours the creature has exactly one rest-sourced Unconscious instance; at T0 + 7 hours it has none and is Prone until it stands; at T0 + 8 hours #428 completes unchanged.\n- At T0 + 3 hours a melee hit from within 5 feet uses #487's Advantage and critical-hit output; the damage is a #428 interruption. The instance ends only with the recorded waking fact of that confirmed interruption.\n- A sleeper concentrating on a spell loses Concentration through the existing #487/#353 output when the sleep interval begins; no separate rule is added here.\n- Reject an Unconscious instance during a watch interval or a Short Rest; a rest that completes with less recorded sleep than #428 requires; automatic waking from noise, damage or a client message; a Perception penalty or other effect that #487 does not output; removal of a Sleep-spell, knock-out or 0 Hit Point Unconscious instance when the sleeper wakes; a duplicate instance on replay; and treating Trance or another sleep replacement as sleep.\n\n## Durable implementation acceptance\n\nPreview is inert and never rolls, writes or reveals private facts. Confirm revalidates campaign, actor, source version, clock, targets, the rest record, its sleep intervals, the waking fact and expected revisions. Commit the sleep interval, the condition instance or its ending, derived state and public history atomically. Inject a failure after each stage and prove full isolated PostgreSQL rollback. The same action ID and payload after retry, reload or reconnect returns the same receipt with no reroll; a conflicting payload rejects; racing confirmations commit once. Applying and ending the instance belong to the triggering confirmed rest event, with no optional activation. Web and trusted TUI share availability, unavailable reasons and confirm/cancel/reconnect behavior. Changed web requires a focused build, lint and desktop/phone checks. Public history omits private HP, hidden actors, private checks and undisclosed item facts.\n\nHard prerequisites: #428 canonical Long Rest, #487 shared Unconscious output. Parent: #272. Block the rest/recovery qualification task published with this decision; that task blocks #280 and #337. Do not add a direct #279, #280, #67 or #429 edge and do not alter any existing owner.\n\nValidation for the implementation PR: focused deterministic rules tests; isolated PostgreSQL rollback/concurrency/replay/reload tests; shared web/TUI confirmation and disclosure fixtures; `GOMAXPROCS=2 go test -p 2 -short -race ./...` and `GOMAXPROCS=2 go vet -p 2 ./...`. Short tests alone do not qualify PostgreSQL or devices. Runtime remains unavailable until this task and its callers qualify. No deployment, source inference or Full Rules promotion.\n"
+    },
+    {
+      "key": "wand-charges",
+      "task_file": "docs/investigations/issue-272-wand-charges-task.md",
+      "number": null,
+      "title": "Spend, recharge and destroy a Wand of Magic Missiles by its charges",
+      "type": "Task",
+      "size": "M",
+      "parent": 272,
+      "blocked_by": [
+        195,
+        1140,
+        1148,
+        1368
+      ],
+      "blocks": [
+        "recovery-qualification"
+      ],
+      "body_sha256": "61a515f771ce8153bffcc1c9a5188427acf1783902725f9f6d0ee978aded46c8",
+      "body": "<!-- edda-272:wand-of-magic-missiles-charges -->\nDecision #272; roadmap #47. One implementation PR; Task / Size M.\n\nSource: English SRD 5.2.1, PDF 146, 206, 251; SHA-256 `8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87`. CC-BY-4.0 attribution and adaptation: `docs/srd-5.2.1-conformance.md`. The deterministic fixtures below are Edda adaptations.\n\n## Bounded outcome\n\nImplement only one source identity: Wand of Magic Missiles, an Uncommon wand that needs no Attunement. It has 7 charges. While holding it, the user can expend no more than 3 charges to cast Magic Missile from it: 1 charge casts the level 1 version and each additional charge raises the spell's level by 1. Reuse the actual Magic Missile output #1368 for the darts, targets and damage; do not copy it. This adapter owns the wand's charge costs, its dawn recharge and its last-charge destruction. No other item, learned spell, class admission or unrestricted spell dispatch is enabled.\n\nPDF206 supplies the item-casting channel: no user spell slot, no components, the spell's normal casting time, range and duration. Magic Missile has no attack roll, saving throw or Concentration, so no spellcasting ability, save DC or Concentration is invented. Reuse the charge-spend seam of #1140 and the authoritative dawn event of #1148; those tasks stay limited to the Wand of Magic Detection and are not widened. The wand regains 1d6 + 1 expended charges daily at dawn, never above 7. On a world or plane where dawn does not occur, the GM determines the recharge: require a trusted explicit GM recharge event and never fabricate time.\n\nIf an expenditure removes the wand's last charge, roll 1d20 once after the charges are spent. On a 1 the wand crumbles into ashes and is destroyed; the source does not cancel the cast that spent the charge, so it still resolves. On 2–20 the wand remains with 0 charges and recharges at a later dawn. A destroyed wand is no longer a usable or rechargeable item. An expenditure that leaves at least 1 charge never rolls. If a separately qualified effect prevents the expenditure, as Thief #1132 does for its own entitled user, no last charge was expended and no roll occurs; this task does not implement that hook.\n\nPDF206 also governs what a creature knows. This wand has no Attunement, so the attuned-creature knowledge clause never applies to it. Disclose the remaining count only from an authoritative identification or disclosure fact, such as the Identify output #1613 or a trusted GM disclosure. Possession alone reveals nothing, and an unaffordable confirmation rejects without revealing the count.\n\n## Deterministic fixtures\n\n- At 7 charges, spending 3 casts the level 3 version: #1368 resolves 5 darts, and 4 charges remain. Spending 1 casts the level 1 version with 3 darts.\n- At 2 charges, spending 2 leaves 0 and rolls one d20: an injected 1 destroys the wand after the 4-dart cast resolves; an injected 2 keeps the wand at 0 charges.\n- Dawn at 0 charges with injected d6 = 3 gives 4. Dawn at 5 with d6 = 6 gives 7, not 12. Dawn at 7 stays 7.\n- Reject 4 charges in one cast, a cast at 0 charges, a spend above the remaining count, a wand not held, a foreign actor or wand, a slot or component cost, an Attunement requirement, an attack roll or save DC, a d20 when charges remain, two d20 rolls for one expenditure, a cast or recharge from a destroyed wand, recharge on a rest, a client clock, a duplicate dawn, a reroll, and a fabricated dawn on a plane without one.\n\n## Durable implementation acceptance\n\nPreview is inert and never rolls, writes or reveals private facts. Confirm revalidates campaign, actor, source version, clock, targets, item ownership, holding, charges, the chosen charge count, source-bound #1368 availability and expected revisions. Commit the charge spend, the cast and its effect, the last-charge roll and destruction, or the dawn event, die and recharge, and public history atomically. Inject a failure after each stage and prove full isolated PostgreSQL rollback. The same action ID and payload after retry, reload or reconnect returns the same receipt with no reroll; a conflicting payload rejects; racing confirmations commit once. The last-charge roll and the dawn recharge belong to their triggering confirmed event, with no optional activation. Dice are injectable. Web and trusted TUI share availability, unavailable reasons and confirm/cancel/reconnect behavior. Changed web requires a focused build, lint and desktop/phone checks. Public history omits private HP, hidden actors, private checks and undisclosed item facts.\n\nHard prerequisites: #195 item contract, #1140 charge-spend seam, #1148 authoritative dawn recharge event, #1368 actual Magic Missile resolver. Parent: #272. Block the rest/recovery qualification task published with this decision; that task blocks #280. Spell qualification #279 already requires the unchanged #1368 through the accepted finite shared aggregate; do not add a direct #279, #280, #67 or #429 edge and do not alter any existing owner.\n\nValidation for the implementation PR: focused deterministic rules tests; isolated PostgreSQL rollback/concurrency/replay/reload tests; shared web/TUI confirmation and disclosure fixtures; `GOMAXPROCS=2 go test -p 2 -short -race ./...` and `GOMAXPROCS=2 go vet -p 2 ./...`. Short tests alone do not qualify PostgreSQL or devices. Runtime remains unavailable until this task and its callers qualify. No deployment, source inference or Full Rules promotion.\n"
+    },
+    {
+      "key": "recovery-qualification",
+      "task_file": "docs/investigations/issue-272-recovery-qualification-task.md",
+      "number": null,
+      "title": "Qualify the rest, recovery and recharge exception outputs",
+      "type": "Task",
+      "size": "M",
+      "parent": 272,
+      "blocked_by": [
+        427,
+        428,
+        "knock-out",
+        "temporary-hit-points",
+        "long-rest-sleep",
+        "wand-charges"
+      ],
+      "blocks": [
+        280,
+        337
+      ],
+      "body_sha256": "7f6d63a7f90eb1804df15692164ded50f4638553aa4da51c0186c7114a209b55",
+      "body": "<!-- edda-272:rest-recovery-recharge-qualification -->\nDecision #272; roadmap #47. One qualification PR; Task / Size M.\n\nSource: English SRD 5.2.1, PDF 17–18, 184–187, 190–191, 206, 251; SHA-256 `8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87`. CC-BY-4.0 attribution and adaptation: `docs/srd-5.2.1-conformance.md`. The deterministic fixtures below are Edda adaptations.\n\nQualify the finite composition of the #272 rest, recovery and recharge outputs. This task owns qualification only: no rest transaction, condition, pool, item effect, class recovery or production grant. It is the one shared head through which the six outputs below reach item qualification #280 and character qualification #337, because spell qualification #279 already has 100 native blockers and #280 has few free slots. A published task or a closed decision is not execution evidence.\n\nExact inputs: the canonical Short Rest #427 and Long Rest #428, and the four tasks published with this decision for the knocked-out Short Rest, the shared Temporary Hit Point pool and its Long Rest ending, Unconscious during Long Rest sleep, and the Wand of Magic Missiles charges. Each input keeps its own body, fixtures and prerequisites. Class and feature recoveries keep their own owners and class gates.\n\nRequired deterministic composition witnesses, run through the actual qualified rules/game/engine/handler callers with isolated explicit entitlements:\n\n- A creature knocked out at T0 completes its Short Rest at T0 + 1 hour: the knock-out instance ends, exactly one #427 recharge event is emitted and Hit Point Dice spending follows #427. The same creature can then start a Long Rest only under #428's own predicates.\n- A Long Rest with 6 recorded hours of sleep, a pool of 9 Temporary Hit Points and a held Wand of Magic Missiles at 2 charges: the sleeper has one rest-sourced Unconscious instance while asleep; completion applies #428's recovery, removes the pool in the same receipt and leaves the wand at 2 charges. Only an authoritative dawn event changes the wand, whether it falls inside or outside the rest.\n- A melee hit for 12 on that sleeper in hour 3: #487's output applies, 9 damage is absorbed by the pool and 3 reduces Hit Points, and #428 records the interruption. Having rested at least 1 hour, the creature gains Short Rest benefits at the interruption. If it resumes at once, the rest needs 1 additional hour, and Long Rest recovery applies only on completion.\n- An interrupted Short Rest confers nothing: no recharge event, no Hit Point Dice healing, no knock-out ending and no pool removal. The source gives a Short Rest no resumption rule; a later Short Rest is a new rest.\n- A second Long Rest started less than 16 hours after a completed one rejects, and neither the pool removal nor the sleep instance is applied by the rejected request.\n\nRun every witness with contrary controls: each input's negative fixtures still reject when composed, and removing any one input makes the corresponding witness unavailable rather than silently passing. Preview is inert. Confirmation revalidates actor, campaign, source version, clock and expected revisions. Injected dice, choices, resources, conditions, derived state and public history persist atomically in isolated PostgreSQL; inject each failure for full rollback; the same action ID after retry, reload or reconnect returns the saved receipt without reroll, recharge or regrant; conflicting payloads reject and racing confirmations commit once. Web and trusted TUI agree on supported choices, unavailable reasons and confirm/cancel/reconnect; changed web requires a focused build, lint and desktop/phone fixtures. No private Hit Points, hidden actors or undisclosed charge counts are exposed.\n\nNative parent #272. Directly block #280 and #337. Exact prerequisites: #427, #428 and the four tasks published with this decision. Preserve every old body, parent and prerequisite. Add no direct #279, #67 or #429 edge. Qualification must run focused source and contrary tests, isolated PostgreSQL replay/rollback/concurrency, shared web/TUI fixtures, `GOMAXPROCS=2 go test -p 2 -short -race ./...` and `GOMAXPROCS=2 go vet -p 2 ./...`; short tests alone do not qualify database or devices. No deployment, production grant or Full Rules promotion.\n"
+    }
+  ],
+  "planned_native_edges": {
+    "parent": [
+      [
+        "knock-out",
+        272
+      ],
+      [
+        "temporary-hit-points",
+        272
+      ],
+      [
+        "long-rest-sleep",
+        272
+      ],
+      [
+        "wand-charges",
+        272
+      ],
+      [
+        "recovery-qualification",
+        272
+      ]
+    ],
+    "blocked_by": [
+      [
+        "knock-out",
+        61
+      ],
+      [
+        "knock-out",
+        65
+      ],
+      [
+        "knock-out",
+        427
+      ],
+      [
+        "knock-out",
+        487
+      ],
+      [
+        "temporary-hit-points",
+        428
+      ],
+      [
+        "temporary-hit-points",
+        1318
+      ],
+      [
+        "long-rest-sleep",
+        428
+      ],
+      [
+        "long-rest-sleep",
+        487
+      ],
+      [
+        "wand-charges",
+        195
+      ],
+      [
+        "wand-charges",
+        1140
+      ],
+      [
+        "wand-charges",
+        1148
+      ],
+      [
+        "wand-charges",
+        1368
+      ],
+      [
+        "recovery-qualification",
+        427
+      ],
+      [
+        "recovery-qualification",
+        428
+      ],
+      [
+        "recovery-qualification",
+        "knock-out"
+      ],
+      [
+        "recovery-qualification",
+        "temporary-hit-points"
+      ],
+      [
+        "recovery-qualification",
+        "long-rest-sleep"
+      ],
+      [
+        "recovery-qualification",
+        "wand-charges"
+      ]
+    ],
+    "gate_additions": [
+      [
+        280,
+        "recovery-qualification"
+      ],
+      [
+        337,
+        "recovery-qualification"
+      ]
+    ],
+    "existing_issue_bodies_changed": [],
+    "existing_edges_removed": []
+  },
+  "planned_mandatory_paths_with_272_closed": {
+    "knock-out": {
+      "280": [
+        280,
+        "recovery-qualification",
+        "knock-out"
+      ],
+      "337": [
+        337,
+        "recovery-qualification",
+        "knock-out"
+      ]
+    },
+    "temporary-hit-points": {
+      "280": [
+        280,
+        "recovery-qualification",
+        "temporary-hit-points"
+      ],
+      "337": [
+        337,
+        "recovery-qualification",
+        "temporary-hit-points"
+      ]
+    },
+    "long-rest-sleep": {
+      "280": [
+        280,
+        "recovery-qualification",
+        "long-rest-sleep"
+      ],
+      "337": [
+        337,
+        "recovery-qualification",
+        "long-rest-sleep"
+      ]
+    },
+    "wand-charges": {
+      "280": [
+        280,
+        "recovery-qualification",
+        "wand-charges"
+      ],
+      "337": [
+        337,
+        "recovery-qualification",
+        "wand-charges"
+      ]
+    },
+    "recovery-qualification": {
+      "280": [
+        280,
+        "recovery-qualification"
+      ],
+      "337": [
+        337,
+        "recovery-qualification"
+      ]
+    }
+  },
+  "caps": {
+    "nodes": 1892,
+    "limit": 100,
+    "current": {
+      "incoming279": 100,
+      "incoming280": 96,
+      "incoming337": 62,
+      "children272": 2,
+      "children193": 30,
+      "outgoing427": 34,
+      "outgoing428": 81,
+      "outgoing487": 87,
+      "outgoing61": 84,
+      "outgoing65": 73,
+      "outgoing195": 61,
+      "outgoing1140": 4,
+      "outgoing1148": 1,
+      "outgoing1318": 4,
+      "outgoing1368": 2,
+      "outgoing67": 100,
+      "outgoing429": 100
+    },
+    "planned": {
+      "incoming279": 100,
+      "incoming280": 97,
+      "incoming337": 63,
+      "children272": 7,
+      "children193": 30,
+      "outgoing427": 36,
+      "outgoing428": 84,
+      "outgoing487": 89,
+      "outgoing61": 85,
+      "outgoing65": 74,
+      "outgoing195": 62,
+      "outgoing1140": 5,
+      "outgoing1148": 2,
+      "outgoing1318": 5,
+      "outgoing1368": 3,
+      "outgoing67": 100,
+      "outgoing429": 100,
+      "max_incoming": 100,
+      "max_outgoing": 100,
+      "max_children": 95
+    },
+    "dependency_graph_acyclic_after_plan": true,
+    "parent_chain_from_272": [
+      272,
+      193,
+      54,
+      47
+    ]
+  },
+  "runtime_qualified": false
+}
