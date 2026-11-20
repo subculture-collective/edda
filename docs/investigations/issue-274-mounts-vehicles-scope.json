@@ -7,7 +7,7 @@
     "attribution": "docs/srd-5.2.1-conformance.md",
     "checked_source_clauses": {
       "5": [
-        "round down if you end up with a fraction"
+        "Whenever you divide or multiply a number in the game, round down if you end up with a fraction, even if the fraction is one-half or greater"
       ],
       "12": [
         "It isn’t a building or a vehicle",
@@ -22,10 +22,15 @@
       ],
       "16": [
         "You can control a mount only if it has been trained to accept a rider",
+        "Domesticated horses, mules, and similar creatures have such training",
+        "The Initiative of a controlled mount changes to match yours when you mount it",
         "it has only three action options during that turn: Dash, Disengage, and Dodge",
         "you must succeed on a DC 10 Dexterity saving throw or fall off",
         "While mounted, you must make the same save if you’re knocked Prone or the mount is",
         "down to 0, which is the lowest Hit Points can go"
+      ],
+      "91": [
+        "Lance 1d10 Piercing Heavy, Reach, Two-Handed (unless mounted) Topple"
       ],
       "92": [
         "Chain Mail 16 Str 13 Disadvantage 55 lb. 75 GP",
@@ -42,7 +47,9 @@
         "waterborne ships can’t move under sail and must be rowed",
         "add the speed of the current (typically 3 miles per hour) to the speed of the vehicle",
         "they can be pulled upstream by draft animals on the shores",
-        "A Rowboat can be carried and weighs 100 pounds"
+        "A Rowboat can be carried and weighs 100 pounds",
+        "These vehicles can’t be rowed against any significant current",
+        "These vehicles can’t be rowed against any significant current"
       ],
       "101": [
         "A ship larger than a Keelboat or Rowboat needs a crew of skilled hirelings",
@@ -61,10 +68,15 @@
         "equal to or greater than its damage threshold, in which case it takes that entire instance of damage"
       ],
       "192": [
-        "Characters traveling in a vehicle use the vehicle’s speed in miles per hour"
+        "Characters traveling in a vehicle use the vehicle’s speed in miles per hour (as shown in “Equipment”) to determine their rate of travel, and they don’t choose a travel pace"
+      ],
+      "201": [
+        "The stone is a Large object that has AC 17, HP 100, a Damage Threshold of 10"
       ],
       "360": [
-        "Riding Horse"
+        "Riding Horse",
+        "Large Beast, Unaligned AC 11 HP 13 (2d10 + 2) Speed 60 ft.",
+        "Initiative +1 (11)"
       ]
     },
     "checked_tables": {
@@ -300,6 +312,7 @@
     "runtime": "No mount, vehicle, carried-weight, damage-threshold or coin-spend resolver exists under internal/. Starting gold is stored as a Coin Pouch equipment entry with no spend flow.",
     "inventory": "docs/investigations/issue-80-spell-item-inventory.json lists PDF100-101 as unindexed section mounts-vehicles owned by decision #274; none of the 753 indexed families covers these tables."
   },
+  "acceptance_deviation": "#274 says to inspect only its named PDF100-101 scopes and keep wider scope as named spikes. The two riding tasks implement PDF15-16 Mounted Combat as implementation children, not a spike, because the two PDF100 saddle rules cannot be tested without a mounted state and a whole-body search of all issues for 'Mounted Combat', 'Controlling a Mount' and 'dismount' found only #920 and #1931, which cover their own steeds.",
   "scopes": [
     {
       "scope": "Mounts and Other Animals table rows",
@@ -334,7 +347,17 @@
       "mechanic_key_owner": 182
     },
     {
-      "scope": "Table carrying capacity, Mounts and Cargo pull limit, Barding cost and weight",
+      "scope": "Executable Riding Horse statistics",
+      "PDF": [
+        360
+      ],
+      "owners": [
+        1999
+      ],
+      "note": "Existing owner of ordinary Riding Horse statistics; the riding task consumes it and no other table animal can act as a mount."
+    },
+    {
+      "scope": "Table carrying capacity, Mounts and Cargo pull limit, Barding cost and weight; owned-animal and drawn-vehicle instance",
       "PDF": [
         92,
         100
@@ -348,9 +371,8 @@
       ]
     },
     {
-      "scope": "Saddles and Mounted Combat",
+      "scope": "Mounted Combat eligibility, mounting, dismounting and control; mounted relation",
       "PDF": [
-        5,
         15,
         16,
         100,
@@ -360,13 +382,31 @@
         "ride"
       ],
       "consumes": [
-        61,
         66,
         171,
-        488,
         780,
         781,
-        782
+        782,
+        1999
+      ],
+      "shares_state_without_edge": [
+        920,
+        1931
+      ]
+    },
+    {
+      "scope": "Mounted Combat falling off; Military and Exotic Saddle rules; fitted-saddle fact",
+      "PDF": [
+        15,
+        16,
+        100
+      ],
+      "owners": [
+        "unseat"
+      ],
+      "consumes": [
+        61,
+        488
       ]
     },
     {
@@ -389,7 +429,23 @@
       ]
     },
     {
-      "scope": "Large-vehicle speed, crew, passengers and cargo",
+      "scope": "Damage threshold and Ship Repair; vessel instance",
+      "PDF": [
+        5,
+        12,
+        16,
+        101,
+        180
+      ],
+      "owners": [
+        "hull"
+      ],
+      "consumes": [
+        275
+      ]
+    },
+    {
+      "scope": "Large-vehicle speed, crew, passengers and cargo, with the PDF12 waterborne-vessel sentence and the PDF192 Vehicles paragraph for the seven table vehicles",
       "PDF": [
         5,
         12,
@@ -404,22 +460,8 @@
       "consumes": [
         144,
         275
-      ]
-    },
-    {
-      "scope": "Damage threshold and Ship Repair",
-      "PDF": [
-        12,
-        16,
-        101,
-        180
       ],
-      "owners": [
-        "hull"
-      ],
-      "consumes": [
-        275
-      ]
+      "carve_out_from": 150
     },
     {
       "scope": "Mounted doubled travel distance and land-vehicle pace",
@@ -429,7 +471,7 @@
       "owners": [
         150
       ],
-      "note": "Existing planning owner for remaining travel pace variants; outside PDF100-101."
+      "note": "Inferred owner: #150 names neither mounts nor vehicles; its ownership is read from 'remaining travel pace variants' on PDF12-13."
     },
     {
       "scope": "Hireling hire and pay; coins, buying and selling",
@@ -443,7 +485,7 @@
       "note": "Existing planning owner; outside the #274 named scopes."
     },
     {
-      "scope": "Cohort qualification for the item gate",
+      "scope": "Cohort qualification for the item and exploration gates",
       "PDF": [
         5,
         12,
@@ -454,27 +496,72 @@
         101,
         102,
         180,
-        192
+        192,
+        360
       ],
       "owners": [
         "cohort"
       ],
-      "gate": 280
+      "gates": [
+        280,
+        183
+      ]
     }
+  ],
+  "fixed_readings": [
+    "Military Saddle Advantage applies to ability checks to remain mounted, not to the DC 10 Dexterity saving throw for falling off (PDF16, PDF100).",
+    "A damage instance equal to the damage threshold is taken in full (PDF180 'equal to or greater than').",
+    "PDF5 Round Down is applied where the source counts whole things or says so: mounting cost (PDF15 'round down') and private-accommodation passengers (PDF101). It is not applied to a halved vessel speed or a halved repair time: the PDF101 table prints 1½ and 2½ mph, and a rounded 1 Hit Point shipyard repair would take 0 days. Rejected results: Warship 1 mile, 15 HP in 7 days, 1 HP in 0 days.",
+    "Under sail or rowed is a declared fact for each affected vessel hour. A rowed Keelboat or Rowboat uses its table speed (PDF100 'can’t be rowed against any significant current'); no other row has a rowed speed.",
+    "Of the PDF100 table animals, Horse, Draft; Horse, Riding; Warhorse and Mule are read as domesticated horses and mules (PDF16). Camel, Elephant, Mastiff and Pony are 'similar creatures' only by authoritative fact."
   ],
   "unknowns_kept_unavailable": [
     "Overload penalty for a table mount or drawn vehicle",
     "Combining a pack load with pulling",
     "Armor Class, training and don/doff for barding worn by a mount; Shield barding",
-    "Rowed speed of any ship and towed upstream speed",
-    "Whether the Airship sails for the strong-wind rule",
+    "Rowed speed of the Galley, Longship, Sailing Ship and Warship, so any dead-calm hour for them; towed upstream speed",
+    "Whether a vessel is under sail when no propulsion is declared against a strong wind",
+    "Whether the Airship sails; an Airship hour against a strong wind or in a dead calm",
     "A current applied to vessels other than Keelboat and Rowboat",
     "Pounds per ton for cargo",
     "Poison and Psychic damage against a vessel, since PDF12 says a vehicle is not an object",
     "Any consequence of a vessel at 0 Hit Points",
     "Feeding or stabling requirements beyond the listed prices",
-    "General creature Carrying Capacity on PDF178 and Lance handling while mounted on PDF91 have no published owner and lie outside the #274 named scopes"
+    "Which creatures are 'similar creatures' trained to accept a rider (PDF16), beyond a declared fact",
+    "How a campaign acquires a mount, drawn vehicle, saddle or ship other than by an explicit isolated or GM-declared fact; purchase waits for the #275 payment owner",
+    "Using an owned table animal as an encounter mount: no published task joins the load instance to an acting creature, and only the Riding Horse has executable statistics (#1999)",
+    "General creature Carrying Capacity on PDF178 has no published owner and lies outside the #274 named scopes",
+    "The Lance record is owned by #248 and its 'unless mounted' key is for the #278 reconciler; no execution task exists yet. The riding task's mounted state is the fact that key will consume",
+    "Other damage-threshold users such as the PDF201 rolling stone, inside the unsplit #150 page range"
   ],
+  "follow_up_obligations": [
+    {
+      "for": 275,
+      "obligation": "Before #275 closes, its split must add its skilled-hireling child as a native blocker of the voyage task and its coin-payment child as a native blocker of the hull task. The planned #275 edges are satisfied by planning closure alone."
+    },
+    {
+      "for": 150,
+      "obligation": "#274 owns, for the seven table vehicles, the PDF12 waterborne-vessel sentence and the PDF192 Vehicles paragraph. #150's split must not publish a second owner for them; it keeps the doubled mounted distance and land-vehicle pace on PDF12 and the PDF201 rolling-stone damage threshold."
+    },
+    {
+      "for": [
+        920,
+        1931
+      ],
+      "obligation": "No native edge is added because both bodies list exact prerequisites. Whichever of #920, #1931 and the riding task merges second must extend the mounted or controlled-mount state the first one merged."
+    },
+    {
+      "for": 278,
+      "obligation": "The Lance 'unless mounted' key (record #248, PDF91) needs an execution owner that consumes the riding task's mounted state."
+    }
+  ],
+  "instance_owners": {
+    "vessel": "hull",
+    "owned_animal_and_drawn_vehicle": "load",
+    "mounted_relation": "ride",
+    "fitted_saddle": "unseat",
+    "acquisition": "explicit isolated or GM-declared fact only"
+  },
   "existing_owners": {
     "61": {
       "number": 61,
@@ -506,6 +593,16 @@
       ],
       "body_sha256": "aa7bfb66a1b5d6aafd22ca8dc6f7530ce938d0710ee917867fbb899490376096"
     },
+    "143": {
+      "number": 143,
+      "title": "Validate versioned SRD monster records and fail closed on unsupported mechanics",
+      "state": "CLOSED",
+      "parent": 54,
+      "blocked_by": [
+        82
+      ],
+      "body_sha256": "0c0eab9479c7fda9d318882df9897986db1a507ad552c636e957be62c8785ac8"
+    },
     "144": {
       "number": 144,
       "title": "Prepare and commit a one-hour SRD travel segment with explicit pace",
@@ -515,6 +612,16 @@
         82
       ],
       "body_sha256": "d4fe913120b5c4c723d5f107b0b3e02218e96406e79dbe23c3c00efcb2cafa64"
+    },
+    "148": {
+      "number": 148,
+      "title": "Run a Bandit attack from its pinned stat block through durable encounters",
+      "state": "CLOSED",
+      "parent": 54,
+      "blocked_by": [
+        143
+      ],
+      "body_sha256": "b004a40ef1df9002d307150eed19e810465f7eb81b84125bc5e929f449df3f00"
     },
     "150": {
       "number": 150,
@@ -676,6 +783,16 @@
         80
       ],
       "body_sha256": "554b45122c2a301ffd11b6b8b717b254f44fa54a21f0e623227613ca14464b5a"
+    },
+    "248": {
+      "number": 248,
+      "title": "Catalogue SRD weapons 02: Handaxe to Pike",
+      "state": "OPEN",
+      "parent": 192,
+      "blocked_by": [
+        195
+      ],
+      "body_sha256": "748b9dde4f07d45fc9482492b5e19fe3ddf31dd29e6589305fa047d7c3eddbd3"
     },
     "251": {
       "number": 251,
@@ -953,6 +1070,16 @@
         2043
       ],
       "body_sha256": "99ba9071ae0a1ec981d6bdfaae681aeca6b79bf9cc79c3e8ce66536bb1a425dc"
+    },
+    "1999": {
+      "number": 1999,
+      "title": "Resolve Wizard consumed Riding Horse form-riding-horse-statistics",
+      "state": "OPEN",
+      "parent": 2007,
+      "blocked_by": [
+        2042
+      ],
+      "body_sha256": "1758b6e068b481c58799760ea1d72b7019262ac0817cf1c88af6d49ca1c3f8d7"
     }
   },
   "planned_children": [
@@ -968,7 +1095,7 @@
       "type": "Task",
       "blocks": [],
       "body_file": "docs/investigations/issue-274-table-records-task.md",
-      "body_template_sha256": "5cd2c3d3b7f574ddffa0557da860cfec4d85570e57b29b1c66332a67651e0837",
+      "body_template_sha256": "dc8fbb7755d67b838cc89d2db3fbcd05ebcfebd7cc339362fa4ebe54dab8cac9",
       "placeholders": [
         "cohort"
       ]
@@ -988,24 +1115,24 @@
       "type": "Task",
       "blocks": [],
       "body_file": "docs/investigations/issue-274-load-pull-task.md",
-      "body_template_sha256": "55e3674df4c2f507dc28183c868865d998b301e0a08b5a29b103862ae182a073",
+      "body_template_sha256": "14a1c38e1e4bef07e6c01e5aac4b5eb0814c92b66c173e3d43b8d9877733fe83",
       "placeholders": [
         "cohort",
-        "records"
+        "records",
+        "ride"
       ]
     },
     {
       "key": "ride",
-      "title": "Ride one trained mount with mounting cost, control, falling off and saddle rules",
-      "size": "L",
+      "title": "Mount, dismount and control one trained Riding Horse",
+      "size": "M",
       "blocked_by": [
-        61,
         66,
         171,
-        488,
         780,
         781,
-        782
+        782,
+        1999
       ],
       "blocked_by_keys": [
         "records"
@@ -1014,37 +1141,40 @@
       "type": "Task",
       "blocks": [],
       "body_file": "docs/investigations/issue-274-riding-task.md",
-      "body_template_sha256": "4faf3ae4754be4a5576136f3cd9cb80bb16ae574892db7d217675739fe6fc9de",
+      "body_template_sha256": "727e21797706f001c66c211b4b80dffa5e49dbf8f9e301036283865f02bca557",
       "placeholders": [
         "cohort",
-        "records"
+        "load",
+        "records",
+        "unseat"
       ]
     },
     {
-      "key": "voyage",
-      "title": "Sail one large-vehicle hour with crew, wind, current, passenger and cargo limits",
-      "size": "L",
+      "key": "unseat",
+      "title": "Resolve falling off a mount and the Military and Exotic Saddle rules",
+      "size": "M",
       "blocked_by": [
-        144,
-        275
+        61,
+        488
       ],
       "blocked_by_keys": [
-        "records"
+        "records",
+        "ride"
       ],
       "parent": 274,
       "type": "Task",
       "blocks": [],
-      "body_file": "docs/investigations/issue-274-vessel-hour-task.md",
-      "body_template_sha256": "cbeada40e850a7f240c48d3aa0940e2db6faea8d0d7720ed390bf7c520549c38",
+      "body_file": "docs/investigations/issue-274-saddle-fall-task.md",
+      "body_template_sha256": "c4793b2c72749ff0731ed0fadcccc74ef1f72ba0dbcf35067a8552d0aef97103",
       "placeholders": [
         "cohort",
-        "hull",
-        "records"
+        "records",
+        "ride"
       ]
     },
     {
       "key": "hull",
-      "title": "Apply ship damage thresholds and berthed repair by the day",
+      "title": "Apply ship damage thresholds and berthed repair to one vessel instance",
       "size": "M",
       "blocked_by": [
         275
@@ -1056,9 +1186,33 @@
       "type": "Task",
       "blocks": [],
       "body_file": "docs/investigations/issue-274-hull-repair-task.md",
-      "body_template_sha256": "3cc6f5274d2d6cc0d1138c5e4c4f8ebafd499e9678dc21f30814f71efe9df82f",
+      "body_template_sha256": "80c78656321d3f8ea6529509e824001bb8e8629dd54fad7904d86390f1055c52",
       "placeholders": [
         "cohort",
+        "records",
+        "voyage"
+      ]
+    },
+    {
+      "key": "voyage",
+      "title": "Sail one large-vehicle hour with crew, wind, current, passenger and cargo limits",
+      "size": "L",
+      "blocked_by": [
+        144,
+        275
+      ],
+      "blocked_by_keys": [
+        "records",
+        "hull"
+      ],
+      "parent": 274,
+      "type": "Task",
+      "blocks": [],
+      "body_file": "docs/investigations/issue-274-vessel-hour-task.md",
+      "body_template_sha256": "1cd2a89a23062fada8c05b0e0b5cec880b5b41f19e267ff7479750b591113fa9",
+      "placeholders": [
+        "cohort",
+        "hull",
         "records"
       ]
     },
@@ -1071,21 +1225,24 @@
         "records",
         "load",
         "ride",
-        "voyage",
-        "hull"
+        "unseat",
+        "hull",
+        "voyage"
       ],
       "blocks": [
-        280
+        280,
+        183
       ],
       "parent": 274,
       "type": "Task",
       "body_file": "docs/investigations/issue-274-cohort-qualification-task.md",
-      "body_template_sha256": "c2c154f2ebb90eb2be648eb2e72b8df4634d6453023928ccc767b66c8b7a940b",
+      "body_template_sha256": "9a7611c47f8ff9decb855491e40b4e7c4d955507210cad88b9797d307ee48572",
       "placeholders": [
         "hull",
         "load",
         "records",
         "ride",
+        "unseat",
         "voyage"
       ]
     }
@@ -1095,8 +1252,9 @@
       "records",
       "load",
       "ride",
-      "voyage",
+      "unseat",
       "hull",
+      "voyage",
       "cohort"
     ],
     "blocked_by": {
@@ -1109,35 +1267,46 @@
         "records"
       ],
       "ride": [
-        61,
         66,
         171,
-        488,
         780,
         781,
         782,
+        1999,
         "records"
       ],
-      "voyage": [
-        144,
-        275,
-        "records"
+      "unseat": [
+        61,
+        488,
+        "records",
+        "ride"
       ],
       "hull": [
         275,
         "records"
       ],
+      "voyage": [
+        144,
+        275,
+        "records",
+        "hull"
+      ],
       "cohort": [
         "records",
         "load",
         "ride",
-        "voyage",
-        "hull"
+        "unseat",
+        "hull",
+        "voyage"
       ]
     },
     "gate_edges": [
       {
         "gate": 280,
+        "blocker": "cohort"
+      },
+      {
+        "gate": 183,
         "blocker": "cohort"
       }
     ],
@@ -1145,17 +1314,22 @@
       "records",
       "load",
       "ride",
-      "voyage",
+      "unseat",
       "hull",
+      "voyage",
       "cohort"
     ],
-    "placeholder_format": "{{274:<key>}} is replaced by #<issue number> after all six issues exist; final body hashes are recorded in issue-274-link-verification.json at publication."
+    "placeholder_format": "{{274:<key>}} is replaced by #<issue number> after all seven issues exist; final body hashes are recorded in issue-274-link-verification.json at publication."
   },
   "caps": {
-    "observed_at": "2026-11-20T07:34:19Z",
+    "observed_at": "2026-11-20T07:49:40Z",
     "issues_in_graph": 1892,
     "limit": 100,
     "blocked_by": {
+      "183": {
+        "before": 13,
+        "after": 14
+      },
       "280": {
         "before": 96,
         "after": 97
@@ -1164,7 +1338,7 @@
     "sub_issues": {
       "274": {
         "before": 0,
-        "after": 6
+        "after": 7
       }
     },
     "blocking": {
@@ -1215,6 +1389,10 @@
       "782": {
         "before": 7,
         "after": 8
+      },
+      "1999": {
+        "before": 4,
+        "after": 5
       }
     },
     "untouched_full_caps": {
@@ -1231,11 +1409,13 @@
     "new_child_blocked_by": {
       "records": 1,
       "load": 3,
-      "ride": 8,
-      "voyage": 3,
+      "ride": 7,
+      "unseat": 4,
       "hull": 2,
-      "cohort": 5
-    }
+      "voyage": 4,
+      "cohort": 6
+    },
+    "publication_rule": "Immediately before each native edge is added, re-read the blocked-by count of #280 and #183 and the consumer count of #488, #61, #66, #195 and #1999. Stop if any is at 100 and use the shared-aggregate route instead of exceeding the cap. Write the re-read values into issue-274-link-verification.json."
   },
   "graph_checks": {
     "dependency_dag_with_planned_edges": "PASS",
