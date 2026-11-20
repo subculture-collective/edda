@@ -101,6 +101,7 @@ var (
 	monsterConditions  = strings.Fields("blinded charmed deafened exhaustion frightened grappled incapacitated invisible paralyzed petrified poisoned prone restrained stunned unconscious")
 	monsterSkills      = strings.Fields("acrobatics animal-handling arcana athletics deception history insight intimidation investigation medicine nature perception performance persuasion religion sleight-of-hand stealth survival")
 	monsterAbilities   = strings.Fields("str dex con int wis cha")
+	monsterAbilityName = map[string]string{"str": "Strength", "dex": "Dexterity", "con": "Constitution", "int": "Intelligence", "wis": "Wisdom", "cha": "Charisma"}
 	monsterShapes      = strings.Fields("creature line cone sphere emanation")
 	monsterSpellNote   = regexp.MustCompile(` \(.*\)$`)
 	monsterSlugGap     = regexp.MustCompile(`[^a-z0-9]+`)
@@ -120,8 +121,19 @@ func (m Monster) allActions() []MonsterAction {
 }
 
 // validateStatBlock checks the optional stat-block fields. Each present field
-// must name its dependency key, which keeps the whole block unavailable.
+// must name its dependency key, which keeps the whole block unavailable. It also
+// rejects numbers that contradict the source's own rules: XP must follow CR
+// (PDF p. 256), a saving throw is the ability modifier with or without the
+// Proficiency Bonus, and a typed save must be printed in its own entry.
 func (m Monster) validateStatBlock() error {
+	if !encounterValidXP(m.CR, int64(m.XP)) {
+		return fmt.Errorf("XP %d does not follow CR %s", m.XP, m.CR)
+	}
+	for _, key := range monsterAbilities {
+		if a := m.Abilities[key]; a.Save != a.Modifier && a.Save != a.Modifier+m.ProficiencyBonus {
+			return fmt.Errorf("%s save is not the modifier with optional proficiency", key)
+		}
+	}
 	need := func(present bool, key string) error {
 		if present && !slices.Contains(m.RequiredMechanics, key) {
 			return fmt.Errorf("stat-block field requires mechanic %q", key)
@@ -221,6 +233,9 @@ func (m Monster) validateStatBlock() error {
 			if !slices.Contains(monsterAbilities, s.Ability) || s.DC < 1 || s.DC > 30 {
 				return fmt.Errorf("invalid save for %q", x.Name)
 			}
+			if !strings.Contains(x.Text, fmt.Sprintf("%s Saving Throw: DC %d", monsterAbilityName[s.Ability], s.DC)) {
+				return fmt.Errorf("typed save for %q is not printed in its entry", x.Name)
+			}
 			if err := need(true, "save/"+s.Ability); err != nil {
 				return err
 			}
@@ -260,7 +275,7 @@ func (m Monster) validateStatBlock() error {
 		}
 	}
 	for _, a := range m.allActions() {
-		if err := mechanic(MonsterMechanic{Name: a.Name, Uses: a.Uses, Save: a.Save, Target: a.Target}); err != nil {
+		if err := mechanic(MonsterMechanic{Name: a.Name, Text: a.Text, Uses: a.Uses, Save: a.Save, Target: a.Target}); err != nil {
 			return err
 		}
 		for _, effect := range a.Effects {

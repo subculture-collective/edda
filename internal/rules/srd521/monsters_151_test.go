@@ -583,6 +583,10 @@ func TestMonsters151MalformedFixtures(t *testing.T) {
 		{"lair daily uses", func(c *MonsterCatalogue) { c.Monsters[1].Traits[1].Uses.LairPerDay = 3 }},
 		{"save ability", func(c *MonsterCatalogue) { c.Monsters[1].Actions[2].Save.Ability = "luck" }},
 		{"save DC", func(c *MonsterCatalogue) { c.Monsters[1].Actions[2].Save.DC = 0 }},
+		// Reviewer mutations that decoded before Validate checked derived numbers.
+		{"XP off CR", func(c *MonsterCatalogue) { c.Monsters[1].XP = 11501 }},
+		{"save off modifier", func(c *MonsterCatalogue) { c.Monsters[1].Abilities["dex"] = MonsterAbility{14, 2, 9} }},
+		{"save DC off entry text", func(c *MonsterCatalogue) { c.Monsters[1].Actions[2].Save.DC = 19 }},
 		{"target shape", func(c *MonsterCatalogue) { c.Monsters[1].Actions[2].Target.Shape = "cube" }},
 		{"line width", func(c *MonsterCatalogue) { c.Monsters[1].Actions[2].Target.Width = 0 }},
 		{"creature size", func(c *MonsterCatalogue) { c.Monsters[1].LegendaryActions[0].Target.Size = 5 }},
