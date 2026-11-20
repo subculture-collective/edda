@@ -504,7 +504,27 @@
                 "name": "Vitriolic Sphere spell",
                 "text": "Vitriolic Sphere (level 5 version)"
               }
-            ]
+            ],
+            "spellcasting": {
+              "ability": "cha",
+              "save_dc": 21,
+              "attack_bonus": 13,
+              "at_will": [
+                "Acid Arrow (level 4 version)",
+                "Detect Magic",
+                "Fear"
+              ],
+              "per_day": [
+                {
+                  "uses": 1,
+                  "spells": [
+                    "Create Undead",
+                    "Speak with Dead",
+                    "Vitriolic Sphere (level 5 version)"
+                  ]
+                }
+              ]
+            }
           },
           {
             "id": "cloud-of-insects",
@@ -633,7 +653,15 @@
           "legendary-action/frightful-presence",
           "effect/spellcasting-use",
           "legendary-action/pounce",
-          "effect/half-speed-movement"
+          "effect/half-speed-movement",
+          "movement/fly",
+          "movement/swim",
+          "spell/acid-arrow",
+          "spell/detect-magic",
+          "spell/fear",
+          "spell/create-undead",
+          "spell/speak-with-dead",
+          "spell/vitriolic-sphere"
         ]
       },
       "tags": [
@@ -1144,7 +1172,27 @@
                 "name": "Sending spell",
                 "text": "Sending"
               }
-            ]
+            ],
+            "spellcasting": {
+              "ability": "cha",
+              "save_dc": 22,
+              "attack_bonus": 0,
+              "at_will": [
+                "Detect Magic",
+                "Invisibility",
+                "Mage Hand",
+                "Shatter (level 3 version)"
+              ],
+              "per_day": [
+                {
+                  "uses": 1,
+                  "spells": [
+                    "Scrying",
+                    "Sending"
+                  ]
+                }
+              ]
+            }
           },
           {
             "id": "cloaked-flight",
@@ -1258,7 +1306,15 @@
           "effect/half-fly-speed-movement",
           "effect/once-per-turn-cycle",
           "legendary-action/sonic-boom",
-          "legendary-action/tail-swipe"
+          "legendary-action/tail-swipe",
+          "movement/burrow",
+          "movement/fly",
+          "spell/detect-magic",
+          "spell/invisibility",
+          "spell/mage-hand",
+          "spell/shatter",
+          "spell/scrying",
+          "spell/sending"
         ]
       },
       "tags": [
@@ -1825,7 +1881,28 @@
                 "name": "Detect Thoughts spell",
                 "text": "Detect Thoughts"
               }
-            ]
+            ],
+            "spellcasting": {
+              "ability": "cha",
+              "save_dc": 20,
+              "attack_bonus": 0,
+              "at_will": [
+                "Detect Magic",
+                "Minor Illusion",
+                "Scorching Ray (level 3 version)",
+                "Shapechange (Beast or Humanoid form only, no Temporary Hit Points gained from the spell, and no Concentration or Temporary Hit Points required to maintain the spell)",
+                "Speak with Animals"
+              ],
+              "per_day": [
+                {
+                  "uses": 1,
+                  "spells": [
+                    "Control Weather",
+                    "Detect Thoughts"
+                  ]
+                }
+              ]
+            }
           },
           {
             "id": "blazing-light",
@@ -1957,7 +2034,16 @@
           "legendary-action/scorching-sands",
           "effect/single-target-in-range",
           "effect/speed-halved",
-          "effect/once-per-turn-cycle"
+          "effect/once-per-turn-cycle",
+          "movement/burrow",
+          "movement/fly",
+          "spell/detect-magic",
+          "spell/minor-illusion",
+          "spell/scorching-ray",
+          "spell/shapechange",
+          "spell/speak-with-animals",
+          "spell/control-weather",
+          "spell/detect-thoughts"
         ]
       },
       "tags": [
@@ -2570,7 +2656,30 @@
                 "name": "Water Breathing spell",
                 "text": "Water Breathing"
               }
-            ]
+            ],
+            "spellcasting": {
+              "ability": "cha",
+              "save_dc": 22,
+              "attack_bonus": 14,
+              "at_will": [
+                "Detect Magic",
+                "Guiding Bolt (level 2 version)",
+                "Shapechange (Beast or Humanoid form only, no Temporary Hit Points gained from the spell, and no Concentration or Temporary Hit Points required to maintain the spell)",
+                "Speak with Animals",
+                "Thaumaturgy"
+              ],
+              "per_day": [
+                {
+                  "uses": 1,
+                  "spells": [
+                    "Detect Thoughts",
+                    "Control Water",
+                    "Scrying",
+                    "Water Breathing"
+                  ]
+                }
+              ]
+            }
           },
           {
             "id": "guiding-light",
@@ -2697,7 +2806,18 @@
           "effect/sphere-area",
           "effect/thunder-damage",
           "effect/deafened-condition",
-          "effect/duration"
+          "effect/duration",
+          "movement/fly",
+          "movement/swim",
+          "spell/detect-magic",
+          "spell/guiding-bolt",
+          "spell/shapechange",
+          "spell/speak-with-animals",
+          "spell/thaumaturgy",
+          "spell/detect-thoughts",
+          "spell/control-water",
+          "spell/scrying",
+          "spell/water-breathing"
         ]
       },
       "tags": [
@@ -3317,7 +3437,28 @@
                 "name": "Project Image spell",
                 "text": "Project Image"
               }
-            ]
+            ],
+            "spellcasting": {
+              "ability": "cha",
+              "save_dc": 21,
+              "attack_bonus": 0,
+              "at_will": [
+                "Detect Magic",
+                "Mind Spike (level 5 version)",
+                "Minor Illusion",
+                "Shapechange (Beast or Humanoid form only, no Temporary Hit Points gained from the spell, and no Concentration or Temporary Hit Points required to maintain the spell)"
+              ],
+              "per_day": [
+                {
+                  "uses": 1,
+                  "spells": [
+                    "Greater Restoration",
+                    "Major Image",
+                    "Project Image"
+                  ]
+                }
+              ]
+            }
           },
           {
             "id": "giggling-magic",
@@ -3452,7 +3593,16 @@
           "legendary-action/mind-jolt",
           "effect/spellcasting-use",
           "legendary-action/pounce",
-          "effect/half-speed-movement"
+          "effect/half-speed-movement",
+          "movement/climb",
+          "movement/fly",
+          "spell/detect-magic",
+          "spell/mind-spike",
+          "spell/minor-illusion",
+          "spell/shapechange",
+          "spell/greater-restoration",
+          "spell/major-image",
+          "spell/project-image"
         ]
       },
       "tags": [
@@ -4026,7 +4176,27 @@
                 "name": "Zone of Truth spell",
                 "text": "Zone of Truth"
               }
-            ]
+            ],
+            "spellcasting": {
+              "ability": "cha",
+              "save_dc": 24,
+              "attack_bonus": 16,
+              "at_will": [
+                "Detect Magic",
+                "Guiding Bolt (level 4 version)",
+                "Shapechange (Beast or Humanoid form only, no Temporary Hit Points gained from the spell, and no Concentration or Temporary Hit Points required to maintain the spell)"
+              ],
+              "per_day": [
+                {
+                  "uses": 1,
+                  "spells": [
+                    "Flame Strike (level 6 version)",
+                    "Word of Recall",
+                    "Zone of Truth"
+                  ]
+                }
+              ]
+            }
           },
           {
             "id": "weakening-breath",
@@ -4220,7 +4390,15 @@
           "legendary-action/guiding-light",
           "effect/spellcasting-use",
           "legendary-action/pounce",
-          "effect/half-speed-movement"
+          "effect/half-speed-movement",
+          "movement/fly",
+          "movement/swim",
+          "spell/detect-magic",
+          "spell/guiding-bolt",
+          "spell/shapechange",
+          "spell/flame-strike",
+          "spell/word-of-recall",
+          "spell/zone-of-truth"
         ]
       },
       "tags": [
@@ -4771,7 +4949,25 @@
                 "name": "Modify Memory spell",
                 "text": "Modify Memory"
               }
-            ]
+            ],
+            "spellcasting": {
+              "ability": "cha",
+              "save_dc": 21,
+              "attack_bonus": 0,
+              "at_will": [
+                "Detect Magic",
+                "Mind Spike (level 5 version)"
+              ],
+              "per_day": [
+                {
+                  "uses": 1,
+                  "spells": [
+                    "Geas",
+                    "Modify Memory"
+                  ]
+                }
+              ]
+            }
           },
           {
             "id": "mind-invasion",
@@ -4894,7 +5090,13 @@
           "effect/duration",
           "effect/once-per-turn-cycle",
           "legendary-action/pounce",
-          "effect/half-speed-movement"
+          "effect/half-speed-movement",
+          "movement/fly",
+          "movement/swim",
+          "spell/detect-magic",
+          "spell/mind-spike",
+          "spell/geas",
+          "spell/modify-memory"
         ]
       },
       "tags": [
@@ -5410,7 +5612,26 @@
                 "name": "Scrying spell",
                 "text": "Scrying"
               }
-            ]
+            ],
+            "spellcasting": {
+              "ability": "cha",
+              "save_dc": 23,
+              "attack_bonus": 15,
+              "at_will": [
+                "Command (level 2 version)",
+                "Detect Magic",
+                "Scorching Ray (level 3 version)"
+              ],
+              "per_day": [
+                {
+                  "uses": 1,
+                  "spells": [
+                    "Fireball (level 6 version)",
+                    "Scrying"
+                  ]
+                }
+              ]
+            }
           },
           {
             "id": "commanding-presence",
@@ -5518,7 +5739,14 @@
           "effect/once-per-turn-cycle",
           "legendary-action/fiery-rays",
           "legendary-action/pounce",
-          "effect/half-speed-movement"
+          "effect/half-speed-movement",
+          "movement/climb",
+          "movement/fly",
+          "spell/command",
+          "spell/detect-magic",
+          "spell/scorching-ray",
+          "spell/fireball",
+          "spell/scrying"
         ]
       },
       "tags": [
@@ -6093,7 +6321,29 @@
                 "name": "Zone of Truth spell",
                 "text": "Zone of Truth"
               }
-            ]
+            ],
+            "spellcasting": {
+              "ability": "cha",
+              "save_dc": 23,
+              "attack_bonus": 15,
+              "at_will": [
+                "Detect Magic",
+                "Hold Monster",
+                "Ice Knife (level 2 version)",
+                "Shapechange (Beast or Humanoid form only, no Temporary Hit Points gained from the spell, and no Concentration or Temporary Hit Points required to maintain the spell)"
+              ],
+              "per_day": [
+                {
+                  "uses": 1,
+                  "spells": [
+                    "Control Weather",
+                    "Ice Storm (level 7 version)",
+                    "Teleport",
+                    "Zone of Truth"
+                  ]
+                }
+              ]
+            }
           },
           {
             "id": "chill",
@@ -6230,7 +6480,16 @@
           "effect/line-area",
           "effect/forced-movement",
           "legendary-action/pounce",
-          "effect/half-speed-movement"
+          "effect/half-speed-movement",
+          "movement/fly",
+          "spell/detect-magic",
+          "spell/hold-monster",
+          "spell/ice-knife",
+          "spell/shapechange",
+          "spell/control-weather",
+          "spell/ice-storm",
+          "spell/teleport",
+          "spell/zone-of-truth"
         ]
       },
       "tags": [
@@ -6856,7 +7115,10 @@
           "effect/charisma-spellcasting-ability",
           "effect/spell-save-dc",
           "legendary-action/pounce",
-          "effect/half-speed-movement"
+          "effect/half-speed-movement",
+          "movement/burrow",
+          "movement/fly",
+          "movement/swim"
         ]
       },
       "tags": [

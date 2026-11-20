@@ -499,7 +499,7 @@ func TestMonsterBatch02MechanicKeysStayUnavailable(t *testing.T) {
 		}
 		for key := range listed {
 			family := strings.SplitN(key, "/", 2)[0]
-			if !slices.Contains(used, key) && !slices.Contains([]string{"speed", "skill", "immunity", "sense", "monster"}, family) {
+			if !slices.Contains(used, key) && !slices.Contains([]string{"speed", "movement", "spell", "skill", "immunity", "sense", "monster"}, family) {
 				t.Fatalf("%s lists unused key %s", m.Name, key)
 			}
 		}
@@ -509,7 +509,7 @@ func TestMonsterBatch02MechanicKeysStayUnavailable(t *testing.T) {
 		}
 		counts = append(counts, len(m.RequiredMechanics))
 	}
-	if !reflect.DeepEqual(counts, []int{9, 47, 42, 55, 55, 53, 59, 46, 41, 55, 36}) || len(union) != 152 {
+	if !reflect.DeepEqual(counts, []int{9, 55, 50, 64, 66, 62, 67, 52, 48, 64, 39}) || len(union) != 192 {
 		t.Fatalf("required key counts = %v, union = %d", counts, len(union))
 	}
 	// Composition with the earlier Bandit record and the #151 batch: disjoint

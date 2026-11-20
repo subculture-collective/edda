@@ -168,6 +168,13 @@ def spell_list(text):
     return spells
 
 
+def spell_items(text, label, stop=None):
+    part = text.split(label)[1]
+    if stop:
+        part = part.split(stop)[0]
+    return [i.strip() for i in re.split(r', (?![^(]*\))', part.strip())]
+
+
 def action(name, text, section, spells):
     body = text[text.index('. ') + 2:]
     effects, spans = [], []
@@ -259,6 +266,11 @@ def action(name, text, section, spells):
         m = re.search(r'using Charisma as the spellcasting ability \(spell save DC (\d+)(?:, \+(\d+) to hit with spell attacks)?\)', body)
         detail['spellcasting'] = dict(ability='cha', save_dc=int(m[1]), attack_bonus=int(m[2]) if m[2] else None,
                                       spells=spell_list(body) if name == 'Spellcasting' else [])
+    if name == 'Spellcasting':
+        m = re.search(r'\(spell save DC (\d+)(?:, \+(\d+) to hit with spell attacks)?\)', body)
+        record['spellcasting'] = dict(ability='cha', save_dc=int(m[1]), attack_bonus=int(m[2] or 0),
+                                      at_will=spell_items(body, 'At Will:', '1/Day Each:'),
+                                      per_day=[dict(uses=1, spells=spell_items(body, '1/Day Each:'))])
     return record, detail
 
 
@@ -332,6 +344,9 @@ def parse(pdf, ident, name, pages, trait_names, action_names, legendary_names):
         required += ['monster/legendary-actions', 'monster/lair-legendary-uses']
     for item in traits + actions:
         required += [item['key']] + [e['key'] for e in item.get('effects', [])]
+    required += ['movement/' + k for k in speeds if k != 'walk']
+    if 'Spellcasting' in action_names:
+        required += ['spell/' + slug(s['name']) for s in spells]
     monster = dict(
         id='srd-5.2.1:content/' + ident, name=lines[0], source_pages=list(pages), sizes=[head[1].lower()], type=head[2].lower(),
         alignment=head[4], ac=int(m[1]), hp=dict(average=int(hp[1]), dice=int(hp[2]), sides=int(hp[3]), modifier=int(hp[4] or 0)),
