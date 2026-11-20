@@ -710,9 +710,17 @@ func TestMonsters153ComposesWithEarlierBatches(t *testing.T) {
 	}
 	firstSource, source := first.Source, batch.Source
 	firstSource.Changes, source.Changes = "", ""
-	all := MonsterCatalogue{SchemaVersion: 1, Source: batch.Source, Monsters: slices.Concat(base.Monsters, first.Monsters, batch.Monsters)}
-	if err := all.Validate(); err != nil || len(all.Monsters) != 25 || firstSource != source {
-		t.Fatal("batch must compose with the Bandit and #151 records under one source pin:", err)
+	b02, err := LoadMonsterBatch02()
+	if err != nil {
+		t.Fatal(err)
+	}
+	var second []Monster
+	for _, sb := range b02.StatBlocks {
+		second = append(second, sb.Monster)
+	}
+	all := MonsterCatalogue{SchemaVersion: 1, Source: batch.Source, Monsters: slices.Concat(base.Monsters, first.Monsters, second, batch.Monsters)}
+	if err := all.Validate(); err != nil || len(all.Monsters) != 25+len(second) || firstSource != source {
+		t.Fatal("batch must compose with the Bandit, #151 and #152 records under one source pin:", err)
 	}
 	all.Monsters = append(all.Monsters, first.Monsters[0])
 	if all.Validate() == nil {
