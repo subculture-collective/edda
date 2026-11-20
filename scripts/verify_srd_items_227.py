@@ -188,7 +188,7 @@ def main():
     assert d["snuff_early"] is True and "You can snuff it out early for use at a later time" in block
     assert f"Deduct the time it burned in increments of {SECONDS[d['burn_deduction_increment_seconds']]} from its total burn time" in block
     assert f"While lit, the candle sheds {d['light'].title()} Light in a {d['light_radius_feet']}-foot radius" in block
-    tied([d["attuned_in_light"]], {"advantage-on-d20-tests": "While you are within that light, you have Advantage on D20 Tests"}, block, "candle advantage")
+    tied([d["you_in_light"]], {"advantage-on-d20-tests": "While you are within that light, you have Advantage on D20 Tests"}, block, "candle advantage")
     casters = " or ".join(c.title() for c in d["free_casters"])
     assert f"a {casters} in the light can cast level {d['free_cast_spell_level']} spells they have prepared without expending spell slots" in block
     assert (d["free_cast_requirement"], d["free_cast_cost"]) == ("prepared", "no-spell-slot")

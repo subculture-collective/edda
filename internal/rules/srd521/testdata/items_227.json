@@ -808,7 +808,7 @@
               "burn_deduction_increment_seconds": 60,
               "light": "dim",
               "light_radius_feet": 30,
-              "attuned_in_light": "advantage-on-d20-tests",
+              "you_in_light": "advantage-on-d20-tests",
               "free_casters": [
                 "cleric",
                 "druid"

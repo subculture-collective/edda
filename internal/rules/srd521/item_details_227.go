@@ -167,7 +167,7 @@ type ItemCandleInvocation struct {
 	BurnDeductionIncrementSeconds int               `json:"burn_deduction_increment_seconds"`
 	Light                         string            `json:"light"`
 	LightRadiusFeet               int               `json:"light_radius_feet"`
-	AttunedInLight                string            `json:"attuned_in_light"`
+	YouInLight                    string            `json:"you_in_light"`
 	FreeCasters                   []string          `json:"free_casters"`
 	FreeCastSpellLevel            int               `json:"free_cast_spell_level"`
 	FreeCastRequirement           string            `json:"free_cast_requirement"`
