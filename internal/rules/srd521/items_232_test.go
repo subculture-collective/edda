@@ -467,6 +467,12 @@ func TestItems232RejectInvalidFixtures(t *testing.T) {
 		{"hat rarity table", func(b *batch) { v(b, spells).Details.HatManySpells.FailureTable[10].Outcomes[2].Max = 5 }},
 		{"hat duplicate fact", func(b *batch) { v(b, spells).Details.HatManySpells.FailureTable[2].Facts[1].Key = "cube-size" }},
 		{"hat duplicate trait", func(b *batch) { v(b, spells).Details.HatManySpells.FailureTable[8].Traits[1] = "flies-out-of-hat" }},
+		{"hat fact amount zero", func(b *batch) { v(b, spells).Details.HatManySpells.FailureTable[2].Facts[0].Amount = 0 }},
+		{"hat duplicate sub-roll result", func(b *batch) {
+			o := v(b, spells).Details.HatManySpells.FailureTable[3].Outcomes
+			o[1].Result = o[0].Result
+		}},
+		{"hat attunement class", func(b *batch) { v(b, spells).Details.HatManySpells.AttunementClass = "cleric" }},
 		{"headband score", func(b *batch) { v(b, headband).Details.Headband.Score = 20 }},
 		{"headband threshold", func(b *batch) { v(b, headband).Details.Headband.NoEffectAtOrAbove = 0 }},
 	}

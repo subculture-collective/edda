@@ -26,7 +26,7 @@ type ItemDetails232 struct {
 	Headband       *ItemHeadbandOfIntellect      `json:"headband_of_intellect,omitempty"`
 }
 
-// ItemFact232 is one numeric source fact: a key, a non-negative amount and the
+// ItemFact232 is one numeric source fact: a key, a positive amount and the
 // unit it is printed in.
 type ItemFact232 struct {
 	Key    string `json:"key"`
@@ -360,14 +360,17 @@ func validateItemDetails232(family, variant string, d *ItemDetails232) error {
 	case "hat-of-many-spells":
 		h := d.HatManySpells
 		u := h.Unknown
-		ok = slices.Equal(h.SourcePages, []int{224, 225}) && positive(u.MinLevel, u.MaterialCostLimitGP, u.CheckDCBase, u.TableDieSides) && u.TableDieSides == 100 && u.CheckDCBase == 10 && len(h.FailureTable) == 11
+		ok = slices.Equal(h.SourcePages, []int{224, 225}) && h.AttunementClass == "wizard" && positive(u.MinLevel, u.MaterialCostLimitGP, u.CheckDCBase, u.TableDieSides) && u.TableDieSides == 100 && u.CheckDCBase == 10 && len(h.FailureTable) == 11
 		rows := [][2]int{}
 		for _, r := range h.FailureTable {
 			rows = append(rows, [2]int{r.Min, r.Max})
 			sub := [][2]int{}
+			results := []string{}
 			for _, o := range r.Outcomes {
 				sub = append(sub, [2]int{o.Min, o.Max})
+				results = append(results, o.Result)
 			}
+			ok = ok && (len(results) == 0 || uniqueItemKeys(results))
 			// A row either has no further roll or a table covering its die exactly.
 			ok = ok && (r.SubDieSides == 0 && len(r.Outcomes) == 0 || itemRollTable(sub, r.SubDieSides)) && validateItemFacts232(r.Facts) && (len(r.Traits) == 0 || uniqueItemKeys(r.Traits))
 		}
@@ -385,6 +388,9 @@ func validateItemDetails232(family, variant string, d *ItemDetails232) error {
 func validateItemFacts232(facts []ItemFact232) bool {
 	keys := []string{}
 	for _, f := range facts {
+		if f.Amount <= 0 {
+			return false
+		}
 		keys = append(keys, f.Key)
 	}
 	return len(keys) == 0 || uniqueItemKeys(keys)
