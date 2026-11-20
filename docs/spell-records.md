@@ -708,3 +708,55 @@ rtk proxy python3 scripts/verify_srd_spells_205.py /path/to/SRD_CC_v5.2.1.pdf
 
 The same limits as #198 apply: the source check supplements the offline literal
 fixtures and is not an automatic conformance proof.
+
+## Issue #206: Find the Path through Fly
+
+`testdata/spells_206.json` imports the twelve families the issue-80 inventory
+assigns to #206, on PDF pp.131-133: Find the Path, Finger of Death, Fire Bolt,
+Fire Shield, Fire Storm, Fireball, Flame Blade, Flame Strike, Flaming Sphere,
+Flesh to Stone, Floating Disk and Fly. Find Traps, Fog Cloud and Forbiddance
+share these pages but belong to other batches and are not imported here. Every
+family sits on a single page, so no `source_pages` continuation lists are used.
+`spells_206_test.go` supplies literal source-value fixtures for every header,
+variant, effect and scaling value, and checks the family list and pages against
+the decision inventory.
+
+The typed payloads retain Find the Path's route, invalid destinations and
+known information; Finger of Death's damage, flat bonus and Zombie; Fire Bolt's
+attack, ignition and three cantrip tiers; Fire Shield's two shield choices,
+resistances and retaliation; Fire Storm's ten contiguous cubes; Fireball's
+sphere and per-slot dice; Flame Blade's blade, attack and light; Flame Strike's
+cylinder with separate Fire and Radiant dice; Flaming Sphere's damage,
+movement, barriers and light; Flesh to Stone's repeating save and its
+three-of-a-kind counts; Floating Disk's size, capacity, following and ending
+distances; and Fly's speed, hover and per-slot target increase. The Fireball
+payload is `fireball_burst` because `fireball` already names the Delayed Blast
+Fireball payload.
+
+Schema version 1 gains only shapes present in this batch, on top of #202:
+
+- Target shapes `choice` (a creature or object in range), `cubes` (up to ten
+  contiguous 10-foot Cubes), `cylinder` and `created-effect` (an unoccupied
+  ground space in range).
+- Find the Path uses `casting_time = 1-minute` with `casting_seconds = 60` and
+  a one-day (86,400 second) concentration duration; Flame Blade uses
+  `bonus-action`; Floating Disk uses `action` with `ritual = true`.
+- Fire Bolt uses `cantrip-upgrade` scaling and Fly uses `slot-targets` scaling,
+  each tied to its own typed payload.
+
+Validation pins each record's header, scaling row, effects, material,
+dependency list and typed values by equality with the printed page, so a
+positive but wrong value is rejected. Composition of the bounded fixtures with
+#196, #218, #198, #199, #200, #201, #202 and #206 yields 108 unique records.
+Every imported record remains unavailable: no resolver, action, entitlement,
+tool, inventory, coverage or Full Rules behavior is added.
+
+To recheck the PDF pin, identities, pages, printed headers and source anchors,
+run:
+
+```sh
+rtk proxy python3 scripts/verify_srd_spells_206.py /path/to/SRD_CC_v5.2.1.pdf
+```
+
+The same limits as #198 apply: the source check supplements the offline literal
+fixtures and is not an automatic conformance proof.

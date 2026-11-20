@@ -267,6 +267,15 @@ func (s SpellRecord) validate() error {
 			} else if d.Person != nil {
 				base, additional = d.Person.BaseTargets, d.Person.AdditionalTargetsPerSlot
 			} else if d.Enhance != nil {
+			} else if d.Fly != nil {
+				base, additional = d.Fly.BaseTargets, d.Fly.AdditionalTargetsPerSlot
+			} else if d.Command != nil {
+				base, additional = d.Command.BaseTargets, d.Command.AdditionalTargetsPerSlot
+			} else if d.Monster != nil {
+				base, additional = d.Monster.BaseTargets, d.Monster.AdditionalTargetsPerSlot
+			} else if d.Person != nil {
+				base, additional = d.Person.BaseTargets, d.Person.AdditionalTargetsPerSlot
+			} else if d.Enhance != nil {
 				base, additional = d.Enhance.BaseTargets, d.Enhance.AdditionalTargetsPerSlot
 			}
 			if base != s.Target.Count || additional <= 0 || !slices.Contains(s.RequiredMechanics, "scaling.targets-per-slot") {
