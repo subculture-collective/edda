@@ -119,21 +119,21 @@ type SpellWaterRedirect struct {
 
 // SpellWaterWhirlpool retains Control Water's Whirlpool effect.
 type SpellWaterWhirlpool struct {
-	MinimumAreaSquareFeet int      `json:"minimum_area_square_feet"`
-	MinimumDepthFeet      int      `json:"minimum_depth_feet"`
-	Location              string   `json:"location"`
-	BaseWidthFeet         int      `json:"base_width_feet"`
-	TopWidthFeet          int      `json:"top_width_feet"`
-	HeightFeet            int      `json:"height_feet"`
-	PullRadiusFeet        int      `json:"pull_radius_feet"`
-	PullSubjects          string   `json:"pull_subjects"`
-	PullFeet              int      `json:"pull_feet"`
-	SaveTriggers          []string `json:"save_triggers"`
-	Save                  string   `json:"save"`
-	SaveSuccess           string   `json:"save_success"`
-	EscapeAction          string   `json:"escape_action"`
-	EscapeCheck           string   `json:"escape_check"`
-	Lasts                 string   `json:"lasts"`
+	MinimumAreaSideFeet int      `json:"minimum_area_side_feet"`
+	MinimumDepthFeet    int      `json:"minimum_depth_feet"`
+	Location            string   `json:"location"`
+	BaseWidthFeet       int      `json:"base_width_feet"`
+	TopWidthFeet        int      `json:"top_width_feet"`
+	HeightFeet          int      `json:"height_feet"`
+	PullRadiusFeet      int      `json:"pull_radius_feet"`
+	PullSubjects        string   `json:"pull_subjects"`
+	PullFeet            int      `json:"pull_feet"`
+	SaveTriggers        []string `json:"save_triggers"`
+	Save                string   `json:"save"`
+	SaveSuccess         string   `json:"save_success"`
+	EscapeAction        string   `json:"escape_action"`
+	EscapeCheck         string   `json:"escape_check"`
+	Lasts               string   `json:"lasts"`
 }
 
 // SpellWaterControl retains Control Water's typed SRD source facts without implementing them.
@@ -405,7 +405,7 @@ func (s SpellRecord) validateSpell201() (bool, error) {
 	}
 	if w := d.WaterControl; w != nil {
 		f, l := w.Flood, w.Whirlpool
-		if !slices.Equal(w.SourcePages, []int{119, 120}) || w.CubeMaxFeet != 100 || w.RepeatAction != "magic" || !slices.Equal(w.RepeatChoices, []string{"same-effect", "different-effect"}) || !slices.Equal(w.EffectChoices, []string{"flood", "part-water", "redirect-flow", "whirlpool"}) || f.StandingWaterRiseFeet != 20 || f.WaveHeightFeet != 20 || f.CapsizePercent != 25 || l.MinimumAreaSquareFeet != 50 || l.MinimumDepthFeet != 25 || l.BaseWidthFeet != 5 || l.TopWidthFeet != 50 || l.HeightFeet != 25 || l.PullRadiusFeet != 25 || l.PullFeet != 10 || l.Save != "strength" || !slices.Equal(l.SaveTriggers, []string{"first-entry-on-turn", "ends-turn-in-whirlpool"}) || s.Range != (SpellRange{"feet", 300}) {
+		if !slices.Equal(w.SourcePages, []int{119, 120}) || w.CubeMaxFeet != 100 || w.RepeatAction != "magic" || !slices.Equal(w.RepeatChoices, []string{"same-effect", "different-effect"}) || !slices.Equal(w.EffectChoices, []string{"flood", "part-water", "redirect-flow", "whirlpool"}) || f.StandingWaterRiseFeet != 20 || f.WaveHeightFeet != 20 || f.CapsizePercent != 25 || l.MinimumAreaSideFeet != 50 || l.MinimumDepthFeet != 25 || l.BaseWidthFeet != 5 || l.TopWidthFeet != 50 || l.HeightFeet != 25 || l.PullRadiusFeet != 25 || l.PullFeet != 10 || l.Save != "strength" || !slices.Equal(l.SaveTriggers, []string{"first-entry-on-turn", "ends-turn-in-whirlpool"}) || s.Range != (SpellRange{"feet", 300}) {
 			return true, fmt.Errorf("invalid control water cube, flood or whirlpool")
 		}
 	}

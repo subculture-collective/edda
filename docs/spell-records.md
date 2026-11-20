@@ -471,7 +471,7 @@ Schema version 1 gains only shapes present in this batch, on top of #199:
 
 - Duration `special` (Creation). It has `duration_seconds = 0` and is never
   concentration; the real durations live in the `creation.materials` table and
-  the record requires `duration.special-by-material`.
+  the record requires `duration.special-by-material`. The shared validator rejects `special` unless typed Creation details are present.
 - Casting time `reaction` with exactly one entry in `casting_triggers`
   (Counterspell). Every other record in this batch keeps that list empty.
 - Target shape `cube`, plus labels for `emanation`, `up-to-count`, `single` and

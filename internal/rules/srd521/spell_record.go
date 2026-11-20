@@ -190,6 +190,9 @@ func (s SpellRecord) validate() error {
 	if (s.Duration == "until-dispelled" || s.Duration == "special") && (s.DurationSeconds != 0 || *s.Concentration) {
 		return fmt.Errorf("invalid indefinite or special duration")
 	}
+	if s.Duration == "special" && (s.SourceDetails == nil || s.SourceDetails.Creation == nil) {
+		return fmt.Errorf("special duration requires typed Creation source details")
+	}
 	if err := s.validateSourceDetails(); err != nil {
 		return err
 	}

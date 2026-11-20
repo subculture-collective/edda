@@ -731,7 +731,7 @@
             "lasts": "until-spell-ends-or-different-effect"
           },
           "whirlpool": {
-            "minimum_area_square_feet": 50,
+            "minimum_area_side_feet": 50,
             "minimum_depth_feet": 25,
             "location": "center-of-area",
             "base_width_feet": 5,
