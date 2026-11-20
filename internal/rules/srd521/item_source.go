@@ -178,6 +178,7 @@ type itemSourceManifestFamily struct {
 	Attunement      string
 	Equip, Use      string
 	UseRestrictions string
+	Charges         *ItemCharges // nil: the family has no charge pool
 	Keys            string
 	Payload         string
 	Variants        []itemSourceManifestVariant
@@ -264,7 +265,11 @@ func validateItemSourceBatch[D any](b ItemSourceBatch[D], m itemSourceManifest, 
 			if v.Attunement == nil || v.Attunement.Mode != want.Attunement || !slices.Contains(strings.Split(itemAttunements, "|"), v.Attunement.Mode) || !sameItemKeys(v.Attunement.Restrictions, "") {
 				return fmt.Errorf("%s: attunement disagrees with source", v.Name)
 			}
-			if v.Charges == nil || *v.Charges != (ItemCharges{Mode: "none", Recharge: "none"}) {
+			wantCharges := ItemCharges{Mode: "none", Recharge: "none"}
+			if want.Charges != nil {
+				wantCharges = *want.Charges
+			}
+			if v.Charges == nil || *v.Charges != wantCharges {
 				return fmt.Errorf("%s: unreviewed charges/recharge", v.Name)
 			}
 			if v.Equip == nil || v.Equip.Mode != want.Equip || !sameItemKeys(v.Equip.Restrictions, "") {
