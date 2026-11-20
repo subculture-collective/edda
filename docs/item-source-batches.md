@@ -100,6 +100,66 @@ rtk proxy python3 -I scripts/verify_srd_items_225.py /path/to/SRD_CC_v5.2.1.pdf
 The comparison supplements the offline literal fixtures; it is not an automatic
 conformance proof. The PDF and extracted text are not vendored.
 
+## Magic items 02 (#226), pp. 211–213
+
+Twelve families and eighteen variants, in planning inventory order:
+
+| Family | Page | Variants | Typed payload |
+| --- | --- | --- | --- |
+| Arrow-Catching Shield | 211 | `standard` (Rare) | `arrow_catching` |
+| Bag of Beans | 211 | `standard` (Rare) | `beans`: bag, explosion save and damage, and the 12-row 1d100 effect table |
+| Bag of Devouring | 212 | `standard` (Very Rare) | `devouring`: pull chance, both checks, capacity and destruction |
+| Bag of Holding | 212 | `standard` (Uncommon) | `holding`: dimensions, capacity, air and the Astral gate |
+| Bag of Tricks | 212 | `gray`, `rust`, `tan` (all Uncommon) | `tricks`: that colour's 8-row 1d8 creature table |
+| Bead of Force | 212 | `standard` (Rare) | `force`: save, damage and the force sphere |
+| Bead of Nourishment | 213 | `standard` (Common) | `nourishment` |
+| Belt of Dwarvenkind | 213 | `standard` (Rare) | `dwarvenkind`: three benefits, the beard chance and two further benefits |
+| Belt of Giant Strength | 213 | `hill` (Rare), `frost-or-stone` (Very Rare), `fire` (Very Rare), `cloud` (Legendary), `storm` (Legendary) | `giant_strength`: giant types and Strength score |
+| Berserker Axe | 213 | `standard` (Rare) | `berserker`, including the curse |
+| Boots of Elvenkind | 213 | `standard` (Uncommon) | `elvenkind` |
+| Boots of Levitation | 213 | `standard` (Rare) | `levitation` |
+
+Variant rules used in this batch:
+
+- Bag of Tricks prints one rarity and three tables, "Gray Bag of Tricks", "Rust
+  Bag of Tricks" and "Tan Bag of Tricks". Each is a variant with its own table.
+- Belt of Giant Strength prints "Rarity Varies" and a five-row table. Each row
+  is a variant, named as printed. The "frost or stone" row stays one variant
+  that lists both giant types; splitting it would invent two names.
+- Berserker Axe's Battleaxe, Greataxe and Halberd are base item options, like
+  the armor types of batch #225, not variants.
+
+Arrow-Catching Shield, Belt of Dwarvenkind, Belt of Giant Strength, Berserker
+Axe and Boots of Levitation require attunement. None of the twelve lists a price
+or has charges. Bag of Tricks' three uses before the next dawn are a use limit
+in the payload, not a charge pool.
+
+Bead of Force starts on p. 212 and continues on p. 213. Its presentation keeps
+the planning inventory page, 212, and its payload records `source_pages`
+`[212, 213]`. The Bag of Beans table row printed as 96–00 is recorded as 96–100.
+Its row numbers are typed quantities: dice, a flat bonus and a unit. Creature
+names in a row are keys, not links to monster records.
+
+`DecodeItems226` pins a few literals beyond shape: the five belt rows, the three
+Bag of Tricks creature tables, the Bag of Beans DC 15 Dexterity save and the Bag
+of Devouring DC 15 and DC 20 checks. Other payload values are pinned only by
+`TestItems226SourceValues` and the Python comparison, as in batch #225.
+
+Composing the Healing contract fixture, batch #225 and this batch yields 25
+families and 38 variants with no shared identity. The Healing fixture, batch
+#225, `ResolveHealingPotion` and the coverage register are unchanged.
+
+To recheck the PDF pin, inventory identities and pages, printed category and
+rarity lines, every table row and the source values, run:
+
+```sh
+rtk proxy python3 -I scripts/verify_srd_items_226.py /path/to/SRD_CC_v5.2.1.pdf
+```
+
+The comparison ties every payload key to its printed phrase and fails when a
+payload gains a key it does not map. It supplements the offline literal fixtures
+in `TestItems226SourceValues`; it is not an automatic conformance proof.
+
 This work includes material from the System Reference Document 5.2.1 (“SRD
 5.2.1”) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd.
 The SRD 5.2.1 is licensed under the Creative Commons Attribution 4.0 International
