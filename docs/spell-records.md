@@ -5,7 +5,7 @@ Issue #194 defines `SpellRecords`, decoded by `DecodeSpellRecords(io.Reader)` in
 runtime consumers, action registration, database writes or coverage promotion.
 `testdata/spell_records.json` contains one complete new source record, Acid Arrow,
 and adaptations of the two existing bounded fixtures. Subsequent catalogue
-imports are separately owned; the #218, #198, #196, #199, #200, #201 and #202 batches are described below.
+imports are separately owned; the #218, #198, #196, #199, #200, #201, #202 and #203 batches are described below.
 
 The envelope retains the exact `Source` pin, license, attribution and adaptation
 notice checked by the conformance register. Each record has its own stable
@@ -544,6 +544,55 @@ run:
 
 ```sh
 rtk proxy python3 scripts/verify_srd_spells_202.py /path/to/SRD_CC_v5.2.1.pdf
+```
+
+The same limits as #198 apply: the source check supplements the offline literal
+fixtures and is not an automatic conformance proof.
+
+## Issue #203: Dimension Door through Dominate Monster
+
+`testdata/spells_203.json` imports the twelve families the issue-80 inventory
+assigns to #203, on PDF pp.123-125: Dimension Door, Disguise Self, Disintegrate,
+Dispel Evil and Good, Dispel Magic, Dissonant Whispers, Divination, Divine Favor,
+Divine Smite, Divine Word, Dominate Beast and Dominate Monster. Dimension Door
+keeps its p.123 to p.124 continuation and Dominate Monster its p.125 to p.126
+continuation in explicit `source_pages` lists. `spells_203_test.go` supplies
+literal source-value fixtures for every header, variant, effect and scaling value,
+and checks the family list and pages against the decision inventory.
+
+The typed payloads retain Dimension Door's destination choices, companion rule and
+collision damage; Disguise Self's appearance limits and Study check; Disintegrate's
+failed-save damage, dust and object rules; Dispel Evil and Good's two special
+functions; Dispel Magic's automatic and checked endings; Dissonant Whispers' damage
+and forced move; Divination's question and cumulative no-answer chance; Divine
+Favor's and Divine Smite's extra damage and triggers; Divine Word's hit-point table
+and banishment; and the shared Dominate shape with each spell's slot-duration table.
+
+Schema version 1 gains only shapes present in this batch, on top of #202:
+
+- Target shape `choice` with the eligibilities `destination-in-range`,
+  `visible-creature-nonmagical-object-or-force-creation-in-range` and
+  `creature-object-or-magical-effect-in-range`.
+- Scaling kind `slot-auto-end` (Dispel Magic), which requires the typed Dispel Magic
+  payload and `scaling.auto-end-by-slot-level`; and `slot-duration-table`
+  (Dominate Beast and Dominate Monster), which requires a typed slot-duration table
+  and `scaling.duration-by-slot-table`.
+- Disintegrate's printed +40 is the effect `bonus`; Divine Smite keeps its printed
+  hit trigger in `casting_triggers`; Divination uses `casting_time = action` with
+  `ritual = true` and a consumed 25 GP material.
+
+Validation pins each record's header, scaling row, effects, material, trigger list,
+dependency list and typed values by equality with the printed page, so a positive
+but wrong value is rejected. Composition of the bounded fixtures with #196, #218,
+#198, #199, #200, #201, #202 and #203 yields 108 unique records. Every imported
+record remains unavailable: no resolver, action, entitlement, tool, inventory,
+coverage or Full Rules behavior is added.
+
+To recheck the PDF pin, identities, pages, printed headers and source anchors,
+run:
+
+```sh
+rtk proxy python3 scripts/verify_srd_spells_203.py /path/to/SRD_CC_v5.2.1.pdf
 ```
 
 The same limits as #198 apply: the source check supplements the offline literal

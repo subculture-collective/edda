@@ -231,6 +231,10 @@ func (s SpellRecord) validate() error {
 		if !s.validSpell201Scaling(effects) {
 			return fmt.Errorf("invalid typed batch 201 scaling")
 		}
+	case "slot-auto-end", "slot-duration-table":
+		if !s.validSpell203Scaling(effects) {
+			return fmt.Errorf("invalid typed batch 203 scaling")
+		}
 	case "none":
 		if sc.AboveLevel != 0 || sc.DiceCount != 0 || sc.DieSides != 0 || len(sc.EffectIDs) != 0 {
 			return fmt.Errorf("unexpected scaling payload")
