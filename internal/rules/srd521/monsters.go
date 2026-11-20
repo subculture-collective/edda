@@ -254,7 +254,8 @@ func (c MonsterCatalogue) Validate() error {
 
 // Validate checks a single block without claiming that its rules are implemented.
 func (m Monster) Validate() error {
-	if !strings.HasPrefix(m.ID, "srd-5.2.1:content/monsters/") || !contentID.MatchString(m.ID) || strings.TrimSpace(m.Name) == "" {
+	// The #82 inventory files indexed animal blocks under content/animals.
+	if !(strings.HasPrefix(m.ID, "srd-5.2.1:content/monsters/") || strings.HasPrefix(m.ID, "srd-5.2.1:content/animals/")) || !contentID.MatchString(m.ID) || strings.TrimSpace(m.Name) == "" {
 		return fmt.Errorf("invalid monster ID or name")
 	}
 	if len(m.SourcePages) != 2 || m.SourcePages[0] < 1 || m.SourcePages[0] > m.SourcePages[1] || m.SourcePages[1] > 364 {
