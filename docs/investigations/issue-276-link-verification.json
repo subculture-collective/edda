@@ -1,0 +1,2349 @@
+{
+  "schema_version": 1,
+  "decision": 276,
+  "status": "EXACT_SOURCE_PUBLICATION_PASS",
+  "observed_at": "2026-11-20T16:12:54Z",
+  "full_graph_read_completed_at": "2026-11-20T16:15:32Z",
+  "new_task_metadata": {
+    "2114": {
+      "id": "I_kwDOSicKg88AAAABhFR0cg",
+      "number": 2114,
+      "title": "Record one crafting project: start, 8-hour workdays, payment and completion",
+      "state": "OPEN",
+      "body": "<!-- edda-276:crafting-project-ledger -->\nDecision #276; roadmap #47. One implementation PR; Task / Size M.\n\nSource: English SRD 5.2.1, PDF 103 and 206–207; SHA-256 `8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87`. CC-BY-4.0 attribution and adaptation: `docs/srd-5.2.1-conformance.md`. The project record, the payment point and the fixtures below are Edda adaptations, not SRD text.\n\n## Bounded outcome\n\nImplement the one durable crafting-project record that the four #276 procedures reuse: nonmagical crafting (marker `edda-276:nonmagical-crafting`), potion brewing (`edda-276:potion-brewing`), scroll scribing (`edda-276:scroll-scribing`) and magic-item crafting (`edda-276:magic-item-crafting`). This task executes no SRD procedure. It owns no formula, table, tool, proficiency, preparation or product rule; each procedure supplies an already validated project descriptor. Until a procedure task qualifies, no player can start a project.\n\nProject record: one start, a fixed required day count, recorded workdays, one completion. The start saves the procedure kind, product identity, participants, required day count and cost. PDF103 and PDF207 both set a working day at 8 hours and say the days need not be consecutive. A workday records 8 hours for every participant on a campaign day the existing authoritative campaign clock has already reached. This task reads that clock and never advances it. The last required workday creates exactly one item instance through the #195 item contract, and creating it grants no use.\n\nPayment: the source gives each procedure a cost but does not say when it is paid. Edda adaptation: the cost is paid once, in the transaction that starts the project. The payment is the single coin payment that decision #275 assigns: #2083, Confirm coin holdings and exact listed-price payment (marker `edda-275:coin-holdings-payment`). This task owns no coin ledger, denomination, conversion or change rule and reads no `srd521_gold` value itself. Amounts are exact Copper Piece counts supplied by the procedure. When that payment output is not published and qualified, every crafting project is unavailable. Do not add a second debit path.\n\nRecorded GM rulings: no published issue owns one. This task stores a typed ruling on a project: its kind, value, the GM actor who made it, and whether it is disclosed. The procedures name the kinds they accept (raw-material availability, assigned tool, raw-material amount, day count, extra assistants, workday without components). The ledger stores and replays rulings and infers none. A ruling made by a non-GM actor rejects.\n\nEdda conservative bounds, not SRD text: a participant records at most one 8-hour workday per campaign day across all projects, because the source defines a working day as 8 hours and says nothing about two in one day. The source defines no refund, abandonment, partial product, check or failure, so none exists: a project stays open until completed.\n\n## Deterministic fixtures\n\nUse a test-only procedure descriptor; it grants no production availability.\n\n- A 1-day, 25 GP project: start pays 2,500 CP once; one workday completes it and creates one item.\n- A 5-day, 150 GP project: record days 1–2, let the clock pass unrelated days, then record days 3–5. The item appears only with day 5.\n- A 2-participant project records 8 hours for both participants on each workday.\n- A saved GM day-count ruling is returned unchanged after reload and is hidden from public history until disclosed.\n- Reject independently: coins that cannot cover the cost (no project is opened); a 7-hour day; a workday beyond the required count; a second workday for one participant on the same campaign day; a workday on a campaign day the clock has not reached; a workday by a non-participant; a second completion; a ruling from a non-GM actor; a foreign campaign or actor; a descriptor from an unqualified procedure.\n- Reject an invented refund, partial item, progress percentage, check, failure roll or time advance.\n\n## Durable implementation acceptance\n\nPreview is inert: it never rolls, writes, spends or reveals private facts. Confirm revalidates campaign, actor, source version, tool and material ownership, proficiency entitlement, authoritative campaign clock and expected revisions. Commit each project start, workday, payment, completion and created item with public history atomically. Inject a failure after each stage and prove full isolated PostgreSQL rollback. The same action ID and payload after retry, reload or reconnect returns the saved receipt without a second payment, workday or item; a conflicting payload rejects; racing confirmations commit once. Web and trusted TUI share availability, explicit unavailable reasons and confirm/cancel/reconnect behavior. Changed web requires focused build/lint and desktop/phone checks. Public history omits private inventory, GM rulings not yet disclosed and hidden facts.\n\nHard prerequisites: #195 item contract; #2083 for the coin payment (marker `edda-275:coin-holdings-payment`), a native blocker of this task; decision #275, which assigned it. Parent: #276. This task reaches item qualification #280 through the #276 crafting qualification task (marker `edda-276:crafting-qualification`), which holds the one direct #280 edge. Add no #279, #67 or #429 edge and alter no existing owner.\n\nValidation for the implementation PR: focused deterministic rules tests; isolated PostgreSQL rollback/concurrency/replay/reload tests; shared web/TUI confirmation and disclosure fixtures; `GOMAXPROCS=2 go test -p 2 -short -race ./...` and `GOMAXPROCS=2 go vet -p 2 ./...`. Short tests alone do not qualify PostgreSQL or devices. Runtime remains unavailable until this implementation and its callers qualify. No deployment, source inference or Full Rules promotion.\n",
+      "issueType": {
+        "name": "Task"
+      },
+      "parent": {
+        "number": 276
+      },
+      "labels": {
+        "nodes": []
+      },
+      "blockedBy": {
+        "totalCount": 3,
+        "pageInfo": {
+          "hasNextPage": false
+        },
+        "nodes": [
+          {
+            "number": 2083,
+            "state": "OPEN"
+          },
+          {
+            "number": 275,
+            "state": "CLOSED"
+          },
+          {
+            "number": 195,
+            "state": "CLOSED"
+          }
+        ]
+      },
+      "blocking": {
+        "totalCount": 6,
+        "pageInfo": {
+          "hasNextPage": false
+        },
+        "nodes": [
+          {
+            "number": 2124
+          },
+          {
+            "number": 2120
+          },
+          {
+            "number": 2119
+          },
+          {
+            "number": 2117
+          },
+          {
+            "number": 2116
+          },
+          {
+            "number": 2115
+          }
+        ]
+      },
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "projectItems": {
+        "pageInfo": {
+          "hasNextPage": false
+        },
+        "nodes": [
+          {
+            "project": {
+              "title": "edda"
+            },
+            "fieldValueByName": {
+              "name": "M"
+            }
+          }
+        ]
+      }
+    },
+    "2115": {
+      "id": "I_kwDOSicKg88AAAABhFR4LQ",
+      "number": 2115,
+      "title": "Craft one nonmagical item with a required tool, raw materials and workdays",
+      "state": "OPEN",
+      "body": "<!-- edda-276:nonmagical-crafting -->\nDecision #276; roadmap #47. One implementation PR; Task / Size M.\n\nSource: English SRD 5.2.1, PDF 91–94 and 103; SHA-256 `8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87`. CC-BY-4.0 attribution and adaptation: `docs/srd-5.2.1-conformance.md`. The deterministic fixtures and the choices marked as Edda adaptations below are not SRD text.\n\n## Bounded outcome\n\nImplement the \"Crafting Nonmagical Items\" procedure on PDF103 for three named products: Light Hammer and Longbow from #248 and Plate Armor from #251, with Smith's Tools from #254 and Woodcarver's Tools from #255. A catalogue record, a tool's Craft entry or this task's closure never makes another item craftable. Every other Craft entry belongs to the #276 Craft roster spike (marker `edda-276:craft-roster-spike`) and stays unavailable with that reason.\n\nTools (PDF93–94, 103): the crafter must use the required tool and have proficiency with it. The required tool comes from the tool's own Craft entry. Smith's Tools: any Melee weapon except Club, Greatclub, Quarterstaff and Whip; Medium armor except Hide; Heavy armor. Woodcarver's Tools: Ranged weapons except Pistol, Musket and Sling. The #254 and #255 issue bodies do not say their records carry the Craft entry. If the records lack it, this task adds those two entries as procedure data with their PDF94 text, limited to the class entries above; it adds no catalogue record and no other tool's entry. Require the actual tool in the crafter's authoritative inventory. Anyone who helps must also have proficiency with that tool; the source does not say a helper needs a second copy, so do not require or invent one.\n\nFor an item no Craft entry lists, PDF103 says the GM assigns the tool. Without a recorded GM assignment the item is unavailable. The source does not say what happens when two tools list one product; none of the three products is listed twice, and such products stay with the roster spike.\n\nRaw materials (PDF103): worth half the purchase cost, rounded down. The GM determines whether appropriate raw materials are available; require that recorded ruling and never infer it. The three fixtures halve exactly (1 GP, 25 GP, 750 GP). The source does not name the unit the rounding uses. A half that is an exact number of Copper Pieces needs no rounding. A price whose half is not a whole number of Copper Pieces stays unavailable until a GM ruling records the amount.\n\nTime (PDF103): days of 8 working hours equal the purchase cost in GP divided by 10, with a fraction rounded up to a day. Days need not be consecutive. Characters can combine efforts: divide the time by the number of characters working. Normally only one other character can assist; more assistants need a recorded GM allowance. The source gives no rounding for a shared time that is not a whole day; such a project stays unavailable until a GM ruling records the day count.\n\nCompletion (PDF103): when every requirement is met the crafter makes the item and can use it. Selling it at the normal price belongs to decision #275.\n\nProject, workdays, payment and rulings: reuse the #276 crafting project ledger task (marker `edda-276:crafting-project-ledger`). This task supplies the validated descriptor (product, tool, participants, day count, raw-material amount) and adds no second project record or debit.\n\n## Deterministic fixtures\n\n- Light Hammer, 2 GP, Smith's Tools: raw materials 1 GP; 2 / 10 = 0.2 rounds up to 1 day.\n- Longbow, 50 GP, Woodcarver's Tools: raw materials 25 GP; 5 days. Record days 1–2, an unrelated gap, then days 3–5; the item appears only on day 5.\n- Plate Armor, 1,500 GP, Smith's Tools: raw materials 750 GP; 150 days alone, 75 days with one proficient assistant.\n- The source's own Heavy Crossbow example (50 GP, 5 days) is checked as arithmetic only. Heavy Crossbow has no catalogue identity in the #80 inventory, so it is not craftable here.\n- Reject independently: no proficiency; tool absent; a tool whose Craft entry excludes the item (Hide Armor with Smith's Tools, Musket with Woodcarver's Tools); Shield, which no Craft entry lists, without a GM tool assignment; an unproficient assistant; a second assistant without GM allowance; 24 GP for the Longbow; missing GM material ruling; Longbow with one assistant (2.5 days) without a day-count ruling; any other product, with the roster spike named as the reason.\n- Reject an invented ability check, quality roll, masterwork bonus, Fabricate shortcut or tool granted by the project.\n\n## Durable implementation acceptance\n\nPreview is inert: it never rolls, writes, spends or reveals private facts. Confirm revalidates campaign, actor, source version, tool and material ownership, proficiency entitlement, authoritative campaign clock and expected revisions. Commit each project start, workday, payment, completion and created item with public history atomically. Inject a failure after each stage and prove full isolated PostgreSQL rollback. The same action ID and payload after retry, reload or reconnect returns the saved receipt without a second payment, workday or item; a conflicting payload rejects; racing confirmations commit once. Web and trusted TUI share availability, explicit unavailable reasons and confirm/cancel/reconnect behavior. Changed web requires focused build/lint and desktop/phone checks. Public history omits private inventory, GM rulings not yet disclosed and hidden facts.\n\nHard prerequisites: #195 item contract; #248 Light Hammer, Longbow and Musket records; #251 Plate Armor, Hide Armor and Shield records; #254 Smith's Tools record; #255 Woodcarver's Tools record; the #276 crafting project ledger task (marker `edda-276:crafting-project-ledger`). Parent: #276. This task reaches item qualification #280 through the #276 crafting qualification task (marker `edda-276:crafting-qualification`), which holds the one direct #280 edge. Add no #279, #67 or #429 edge and alter no existing owner.\n\nValidation for the implementation PR: focused deterministic rules tests; isolated PostgreSQL rollback/concurrency/replay/reload tests; shared web/TUI confirmation and disclosure fixtures; `GOMAXPROCS=2 go test -p 2 -short -race ./...` and `GOMAXPROCS=2 go vet -p 2 ./...`. Short tests alone do not qualify PostgreSQL or devices. Runtime remains unavailable until this implementation and its callers qualify. No deployment, source inference or Full Rules promotion.\n",
+      "issueType": {
+        "name": "Task"
+      },
+      "parent": {
+        "number": 276
+      },
+      "labels": {
+        "nodes": []
+      },
+      "blockedBy": {
+        "totalCount": 6,
+        "pageInfo": {
+          "hasNextPage": false
+        },
+        "nodes": [
+          {
+            "number": 2114,
+            "state": "OPEN"
+          },
+          {
+            "number": 255,
+            "state": "OPEN"
+          },
+          {
+            "number": 254,
+            "state": "OPEN"
+          },
+          {
+            "number": 251,
+            "state": "OPEN"
+          },
+          {
+            "number": 248,
+            "state": "OPEN"
+          },
+          {
+            "number": 195,
+            "state": "CLOSED"
+          }
+        ]
+      },
+      "blocking": {
+        "totalCount": 2,
+        "pageInfo": {
+          "hasNextPage": false
+        },
+        "nodes": [
+          {
+            "number": 2124
+          },
+          {
+            "number": 2119
+          }
+        ]
+      },
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "projectItems": {
+        "pageInfo": {
+          "hasNextPage": false
+        },
+        "nodes": [
+          {
+            "project": {
+              "title": "edda"
+            },
+            "fieldValueByName": {
+              "name": "M"
+            }
+          }
+        ]
+      }
+    },
+    "2116": {
+      "id": "I_kwDOSicKg88AAAABhFR7FA",
+      "number": 2116,
+      "title": "Brew one Potion of Healing with a Herbalism Kit",
+      "state": "OPEN",
+      "body": "<!-- edda-276:potion-brewing -->\nDecision #276; roadmap #47. One implementation PR; Task / Size M.\n\nSource: English SRD 5.2.1, PDF 94, 99, 103, 206–207 and 236; SHA-256 `8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87`. CC-BY-4.0 attribution and adaptation: `docs/srd-5.2.1-conformance.md`. The deterministic fixtures below are Edda adaptations.\n\n## Bounded outcome\n\nImplement only \"Brewing Potions of Healing\" on PDF103. A character who has proficiency with the Herbalism Kit creates one Potion of Healing by using that kit and 25 GP of raw material over the course of 1 day (8 hours of work). The product is the basic Potion of Healing on PDF99 (50 GP, 2d4 + 2). Its drinking and administering stay with the existing potion fixtures, including #266; this task adds no healing resolver.\n\nReuse the #276 crafting project ledger task (marker `edda-276:crafting-project-ledger`): one project, one payment of 25 GP, one 8-hour workday, one created potion. The brewing clause is specific and replaces the general formula. Do not derive 5 days from 50 GP / 10. The brewing clause names no assistant rule, no availability ruling and no check; add none. Require the actual Herbalism Kit in the brewer's authoritative inventory and the brewer's own proficiency with it.\n\nThe Herbalism Kit's other Craft entries (Antitoxin, Candle, Healer's Kit) are nonmagical items under the general procedure and belong to the #276 Craft roster spike (marker `edda-276:craft-roster-spike`). The Magic Item Tools table on PDF207 lists Alchemist's Supplies or Herbalism Kit for Potions made under the magic-item rules; PDF206 sends Potion of Healing brewing to the Equipment rule, which names only the Herbalism Kit. Greater, superior and supreme Potions of Healing (PDF236) are not this product: the brewing rule does not name them, and they stay unavailable.\n\n## Deterministic fixtures\n\n- Proficient brewer with a Herbalism Kit and 25 GP: after one confirmed 8-hour workday, the brewer has paid 25 GP once and inventory gains exactly one basic Potion of Healing.\n- Two separate projects on two days cost 50 GP and yield two potions; one project never yields two.\n- Reject independently: no Herbalism Kit proficiency; kit absent; 24 GP; Alchemist's Supplies substituted for the kit; the 5-day general formula; an assistant halving the day; a greater Potion of Healing; a foreign actor or inventory.\n- Reject an invented check, failure chance, ingredient search roll or batch brewing.\n\n## Durable implementation acceptance\n\nPreview is inert: it never rolls, writes, spends or reveals private facts. Confirm revalidates campaign, actor, source version, tool and material ownership, proficiency entitlement, authoritative campaign clock and expected revisions. Commit each project start, workday, payment, completion and created item with public history atomically. Inject a failure after each stage and prove full isolated PostgreSQL rollback. The same action ID and payload after retry, reload or reconnect returns the saved receipt without a second payment, workday or item; a conflicting payload rejects; racing confirmations commit once. Web and trusted TUI share availability, explicit unavailable reasons and confirm/cancel/reconnect behavior. Changed web requires focused build/lint and desktop/phone checks. Public history omits private inventory, GM rulings not yet disclosed and hidden facts.\n\nHard prerequisites: #195 item contract; #253 Herbalism Kit and Alchemist's Supplies records; #261 Potion of Healing record; the #276 crafting project ledger task (marker `edda-276:crafting-project-ledger`). Parent: #276. This task reaches item qualification #280 through the #276 crafting qualification task (marker `edda-276:crafting-qualification`), which holds the one direct #280 edge. Add no #279, #67 or #429 edge and alter no existing owner.\n\nValidation for the implementation PR: focused deterministic rules tests; isolated PostgreSQL rollback/concurrency/replay/reload tests; shared web/TUI confirmation and disclosure fixtures; `GOMAXPROCS=2 go test -p 2 -short -race ./...` and `GOMAXPROCS=2 go vet -p 2 ./...`. Short tests alone do not qualify PostgreSQL or devices. Runtime remains unavailable until this implementation and its callers qualify. No deployment, source inference or Full Rules promotion.\n",
+      "issueType": {
+        "name": "Task"
+      },
+      "parent": {
+        "number": 276
+      },
+      "labels": {
+        "nodes": []
+      },
+      "blockedBy": {
+        "totalCount": 4,
+        "pageInfo": {
+          "hasNextPage": false
+        },
+        "nodes": [
+          {
+            "number": 2114,
+            "state": "OPEN"
+          },
+          {
+            "number": 261,
+            "state": "OPEN"
+          },
+          {
+            "number": 253,
+            "state": "OPEN"
+          },
+          {
+            "number": 195,
+            "state": "CLOSED"
+          }
+        ]
+      },
+      "blocking": {
+        "totalCount": 1,
+        "pageInfo": {
+          "hasNextPage": false
+        },
+        "nodes": [
+          {
+            "number": 2124
+          }
+        ]
+      },
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "projectItems": {
+        "pageInfo": {
+          "hasNextPage": false
+        },
+        "nodes": [
+          {
+            "project": {
+              "title": "edda"
+            },
+            "fieldValueByName": {
+              "name": "M"
+            }
+          }
+        ]
+      }
+    },
+    "2117": {
+      "id": "I_kwDOSicKg88AAAABhFR9WA",
+      "number": 2117,
+      "title": "Scribe one Spell Scroll from a prepared Cleric spell",
+      "state": "OPEN",
+      "body": "<!-- edda-276:scroll-scribing -->\nDecision #276; roadmap #47. One implementation PR; Task / Size M.\n\nSource: English SRD 5.2.1, PDF 93, 99, 103, 159, 206–207 and 244; SHA-256 `8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87`. CC-BY-4.0 attribution and adaptation: `docs/srd-5.2.1-conformance.md`. The deterministic fixtures and the choices marked as Edda bounds below are not SRD text.\n\n## Bounded outcome\n\nImplement only \"Scribing Spell Scrolls\" on PDF103 for one single-class Cleric scribe and three named spells from #217: Sacred Flame (cantrip), Sanctuary (level 1) and Revivify (level 3). The created item is the canonical Spell Scroll identity that #1142 validates. Its records are #262 for the PDF99 Spell Scroll (Cantrip) and Spell Scroll (Level 1), and #242 for the PDF244 Spell Scroll family that the level 3 scroll needs. This task owns the scribing project and the scribe values saved on the created scroll. It adds no spell effect and no class grant. Reading a scribed scroll with its saved values belongs to the #276 scribed scroll reading task (marker `edda-276:scribed-scroll-reading`).\n\nTime and cost (PDF103, all ten rows retained as data): cantrip 1 day 15 GP; level 1 1 day 25 GP; level 2 3 days 100 GP; level 3 5 days 150 GP; level 4 10 days 1,000 GP; level 5 25 days 1,500 GP; level 6 40 days 10,000 GP; level 7 50 days 12,500 GP; level 8 60 days 15,000 GP; level 9 120 days 50,000 GP. Each day of inscription is 8 hours of work; days need not be consecutive. Only the cantrip, level 1 and level 3 rows execute. Levels 2 and 4–9, other classes' preparation and multiclass scribes belong to the #276 scribing coverage spike (marker `edda-276:scribing-coverage-spike`) and stay unavailable with that reason. PDF207 keeps Spell Scrolls out of the magic-item consumable halving. The scribing rule names no assistants and no raw-material availability ruling; add neither. Reuse the #276 crafting project ledger task (marker `edda-276:crafting-project-ledger`).\n\nPrerequisites for the scribe (PDF103): \"you must have proficiency in the Arcana skill or with Calligrapher's Supplies and have the spell prepared on each day of the inscription.\" Use the actual Cleric preparation output #557. A day on which the spell is not prepared cannot be recorded. A cantrip is known, not prepared; accept it only when it is among the scribe's own qualified Cleric cantrips on that day (Edda reading of the Cantrips clause).\n\nCalligrapher's Supplies: PDF93 lists Spell Scroll under that tool's Craft entry, and PDF103 names only proficiency. The source does not say whether a scribe who qualifies through the supplies must hold them. A scribe with Arcana proficiency needs no tool. A scribe who qualifies only through Calligrapher's Supplies proficiency must have the supplies in inventory, or a recorded GM ruling; this is an Edda conservative bound.\n\nMaterial components (PDF103): \"You must also have at hand any Material components required by the spell; if the spell consumes its Material components, they are consumed only when you complete the scroll.\" The source ties \"each day\" to preparation only and gives no timing for the components. The one fixed point is completion: require every component in the completing transaction and consume a consumed component there and nowhere else. A workday other than the last on which a component is absent is unavailable without a recorded GM ruling; this is an Edda conservative bound, not SRD text. The source does not say a Component Pouch or Spellcasting Focus can stand in for a component during scribing, so neither does. Validate and consume owned priced materials through the #1447 material model; #618 owns the Revivify diamond check. #1447's cast boundary does not list Sanctuary or Revivify, so reuse its ownership validation only and no cast admission.\n\nScribe values (PDF103): \"The scroll's spell uses your spell save DC and spell attack bonus.\" For a cantrip, \"the version on the scroll works as if the caster were your level\": save the scribe's total character level, the quantity cantrip upgrades use (#957 scales Sacred Flame by total character level). Save these values on the created scroll instance at completion, with the class that supplied the preparation. They never change afterwards. PDF99 and PDF244 give fixed values by spell level; #1142 implements those and its body, parent and edges stay untouched.\n\nThe scroll bears the spell at its own level. The source gives no rule for scribing at a higher level, from an item, from a ritual book entry or from another caster's preparation; all stay unavailable. Copying a scroll into a spellbook remains #1770.\n\n## Deterministic fixtures\n\n- A level-5 Cleric with Arcana proficiency, Sanctuary prepared and a mirror shard in inventory: 1 day, 25 GP, one level-1 scroll saving the scribe's own DC and attack bonus (for WIS +3 and PB +3: DC 14, +6). The shard is not consumed.\n- The same Cleric with Calligrapher's Supplies proficiency and the supplies, without Arcana, scribes Sacred Flame: 1 day, 15 GP, saved caster level 5.\n- Revivify: 5 days, 150 GP, a diamond worth 300+ GP. Record days 1–3, unprepare the spell, and day 4 rejects; prepare it again and days 4–5 complete. The diamond leaves inventory only in the completing transaction, and day 5 rejects without it.\n- Reject independently: neither proficiency; Calligrapher's Supplies proficiency without the supplies and without a ruling; spell not prepared; another class's or another character's preparation; a diamond worth 299 GP; a Component Pouch for the shard; a component absent on an earlier day without a ruling; diamond consumed at start; 24 GP for level 1; a sixth day; an assistant dividing the time; a level-2 scroll of Sanctuary; a level-2 or level-4 spell, with the coverage spike named as the reason; a multiclass scribe; an unknown spell identity; rewriting saved values after the scribe levels up.\n- Reject an invented Arcana check, failure or mishap roll, ink or parchment consumption, slot expenditure or sale.\n\n## Durable implementation acceptance\n\nPreview is inert: it never rolls, writes, spends or reveals private facts. Confirm revalidates campaign, actor, source version, tool and material ownership, proficiency entitlement, authoritative campaign clock and expected revisions. Commit each project start, workday, payment, completion and created item with public history atomically. Inject a failure after each stage and prove full isolated PostgreSQL rollback. The same action ID and payload after retry, reload or reconnect returns the saved receipt without a second payment, workday or item; a conflicting payload rejects; racing confirmations commit once. Web and trusted TUI share availability, explicit unavailable reasons and confirm/cancel/reconnect behavior. Changed web requires focused build/lint and desktop/phone checks. Public history omits private inventory, GM rulings not yet disclosed and hidden facts.\n\nHard prerequisites: #195 item contract; #217 Sacred Flame, Sanctuary and Revivify records; #242 Spell Scroll family record (PDF244); #253 Calligrapher's Supplies record; #262 Spell Scroll (Cantrip) and (Level 1) record; #557 Cleric preparation output; #618 Revivify diamond check; #1142 scroll identity; #1447 owned priced and consumed materials; the #276 crafting project ledger task (marker `edda-276:crafting-project-ledger`). Parent: #276. It adds an item-creation mode, not a spell effect. This task reaches item qualification #280 through the #276 crafting qualification task (marker `edda-276:crafting-qualification`), which holds the one direct #280 edge. Add no #279, #67 or #429 edge and alter no existing owner.\n\nValidation for the implementation PR: focused deterministic rules tests; isolated PostgreSQL rollback/concurrency/replay/reload tests; shared web/TUI confirmation and disclosure fixtures; `GOMAXPROCS=2 go test -p 2 -short -race ./...` and `GOMAXPROCS=2 go vet -p 2 ./...`. Short tests alone do not qualify PostgreSQL or devices. Runtime remains unavailable until this implementation and its callers qualify. No deployment, source inference or Full Rules promotion.\n",
+      "issueType": {
+        "name": "Task"
+      },
+      "parent": {
+        "number": 276
+      },
+      "labels": {
+        "nodes": []
+      },
+      "blockedBy": {
+        "totalCount": 10,
+        "pageInfo": {
+          "hasNextPage": false
+        },
+        "nodes": [
+          {
+            "number": 2114,
+            "state": "OPEN"
+          },
+          {
+            "number": 1447,
+            "state": "OPEN"
+          },
+          {
+            "number": 1142,
+            "state": "OPEN"
+          },
+          {
+            "number": 618,
+            "state": "OPEN"
+          },
+          {
+            "number": 557,
+            "state": "OPEN"
+          },
+          {
+            "number": 262,
+            "state": "OPEN"
+          },
+          {
+            "number": 253,
+            "state": "OPEN"
+          },
+          {
+            "number": 242,
+            "state": "OPEN"
+          },
+          {
+            "number": 217,
+            "state": "OPEN"
+          },
+          {
+            "number": 195,
+            "state": "CLOSED"
+          }
+        ]
+      },
+      "blocking": {
+        "totalCount": 2,
+        "pageInfo": {
+          "hasNextPage": false
+        },
+        "nodes": [
+          {
+            "number": 2124
+          },
+          {
+            "number": 2118
+          }
+        ]
+      },
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "projectItems": {
+        "pageInfo": {
+          "hasNextPage": false
+        },
+        "nodes": [
+          {
+            "project": {
+              "title": "edda"
+            },
+            "fieldValueByName": {
+              "name": "M"
+            }
+          }
+        ]
+      }
+    },
+    "2118": {
+      "id": "I_kwDOSicKg88AAAABhFR_2Q",
+      "number": 2118,
+      "title": "Read one scribed Spell Scroll with its saved scribe values",
+      "state": "OPEN",
+      "body": "<!-- edda-276:scribed-scroll-reading -->\nDecision #276; roadmap #47. One implementation PR; Task / Size M.\n\nSource: English SRD 5.2.1, PDF 99, 103, 159 and 244; SHA-256 `8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87`. CC-BY-4.0 attribution and adaptation: `docs/srd-5.2.1-conformance.md`. The deterministic fixtures below are Edda adaptations.\n\n## Bounded outcome\n\nImplement one step for reading a Spell Scroll created by the #276 scroll scribing task (marker `edda-276:scroll-scribing`). PDF103 says a scribed scroll's spell uses the scribe's spell save DC and spell attack bonus, and a scribed cantrip works as if the caster were the scribe's level. PDF99 and PDF244 fix those values by spell level, and #1142 implements that table for every scroll.\n\nThis task owns the choice between the two. For a scroll instance that carries saved scribe values, use the saved DC, attack bonus and cantrip caster level in place of #1142's fixed table. For every other scroll, #1142's table applies unchanged. This lands after #1142 and calls its read path; it does not edit #1142's issue body, parent or edges, and it changes nothing else #1142 owns: identity, class-list permission, the Thief override, the higher-level ability check (DC 10 + spell level), casting time, interruption and consumption. It adds no spell effect. Effect dispatch still needs a qualified owner; a spell without one stays unavailable before any cost.\n\nThe saved values are read only from the scroll instance. Never take them from the client payload, the reader's sheet or the scribe's current sheet.\n\n## Deterministic fixtures\n\n- Sacred Flame scribed by a level-5 Cleric (WIS +3, PB +3) and read by a level-1 Cleric: Dexterity save DC 14 and 2d8 Radiant through the #957 resolver.\n- A found Sacred Flame scroll without saved values, same reader: the #1142 fixed DC 13 and the unchanged #1142 and #957 behavior.\n- A scribed Sanctuary scroll presents DC 14 and attack bonus +6 to dispatch. No Sanctuary effect owner is published, so the read is unavailable before consumption; the saved values stay on the scroll.\n- The scribe later reaches level 11 and Wisdom 20: the scroll still reads at DC 14 and caster level 5.\n- Reject independently: a scribed scroll falling back to DC 13 or +5; a found scroll using any scribe value; the reader's own DC, attack bonus or level; values supplied by the client; changed saved values; saved values applied to the DC 10 + level check; a foreign inventory.\n- Reject an invented upcast, slot use, ritual read or permission that the saved values grant.\n\n## Durable implementation acceptance\n\nPreview is inert: it never rolls, writes, spends or reveals private facts. Confirm revalidates campaign, actor, source version, tool and material ownership, proficiency entitlement, authoritative campaign clock and expected revisions. Commit each project start, workday, payment, completion and created item with public history atomically. Inject a failure after each stage and prove full isolated PostgreSQL rollback. The same action ID and payload after retry, reload or reconnect returns the saved receipt without a second payment, workday or item; a conflicting payload rejects; racing confirmations commit once. Web and trusted TUI share availability, explicit unavailable reasons and confirm/cancel/reconnect behavior. Changed web requires focused build/lint and desktop/phone checks. Public history omits private inventory, GM rulings not yet disclosed and hidden facts.\n\nHard prerequisites: #1142 scroll read and consumption protocol; #957 Sacred Flame resolver; the #276 scroll scribing task for scroll instances with saved values. Parent: #276. This task reaches item qualification #280 through the #276 crafting qualification task (marker `edda-276:crafting-qualification`), which holds the one direct #280 edge. Add no #279, #67 or #429 edge and alter no existing owner.\n\nValidation for the implementation PR: focused deterministic rules tests; isolated PostgreSQL rollback/concurrency/replay/reload tests; shared web/TUI confirmation and disclosure fixtures; `GOMAXPROCS=2 go test -p 2 -short -race ./...` and `GOMAXPROCS=2 go vet -p 2 ./...`. Short tests alone do not qualify PostgreSQL or devices. Runtime remains unavailable until this implementation and its callers qualify. No deployment, source inference or Full Rules promotion.\n",
+      "issueType": {
+        "name": "Task"
+      },
+      "parent": {
+        "number": 276
+      },
+      "labels": {
+        "nodes": []
+      },
+      "blockedBy": {
+        "totalCount": 3,
+        "pageInfo": {
+          "hasNextPage": false
+        },
+        "nodes": [
+          {
+            "number": 2117,
+            "state": "OPEN"
+          },
+          {
+            "number": 1142,
+            "state": "OPEN"
+          },
+          {
+            "number": 957,
+            "state": "OPEN"
+          }
+        ]
+      },
+      "blocking": {
+        "totalCount": 1,
+        "pageInfo": {
+          "hasNextPage": false
+        },
+        "nodes": [
+          {
+            "number": 2124
+          }
+        ]
+      },
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "projectItems": {
+        "pageInfo": {
+          "hasNextPage": false
+        },
+        "nodes": [
+          {
+            "project": {
+              "title": "edda"
+            },
+            "fieldValueByName": {
+              "name": "M"
+            }
+          }
+        ]
+      }
+    },
+    "2119": {
+      "id": "I_kwDOSicKg88AAAABhFSCUA",
+      "number": 2119,
+      "title": "Craft one magic item by rarity with Arcana, a category tool and prepared spells",
+      "state": "OPEN",
+      "body": "<!-- edda-276:magic-item-crafting -->\nDecision #276; roadmap #47. One implementation PR; Task / Size M.\n\nSource: English SRD 5.2.1, PDF 92–94, 103, 123, 206–207, 210, 236 and 251; SHA-256 `8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87`. CC-BY-4.0 attribution and adaptation: `docs/srd-5.2.1-conformance.md`. The deterministic fixtures below are Edda adaptations.\n\n## Bounded outcome\n\nImplement \"Crafting Magic Items\" on PDF206–207 for three named products: Armor, +1 (Plate Armor) from #225 and #251; Potion of Resistance from #238; Wand of Magic Detection from #245. Creating the item grants no use: wearing, drinking, charges, attunement and casting remain with their own owners. PDF206 sends Potion of Healing brewing and Spell Scroll scribing to the Equipment rules; route both to their #276 tasks and never through the rarity table. Every other magic item, category, rarity and crafter class belongs to the #276 magic-item coverage spike (marker `edda-276:magic-item-coverage-spike`) and stays unavailable with that reason.\n\nArcana (PDF206): the crafter and any assistants must have proficiency in the Arcana skill.\n\nTools (PDF206–207): use the tool the Magic Item Tools table requires for the item's category, and have proficiency with it; assistants need that proficiency too. Armor: Leatherworker's, Smith's or Weaver's Tools by kind of armor as the tools' descriptions note. Potion: Alchemist's Supplies or Herbalism Kit. Ring: Jeweler's Tools. Rod, Staff, Wand: Woodcarver's Tools. Scroll: Calligrapher's Supplies. Weapon: Leatherworker's, Smith's or Woodcarver's Tools by kind of weapon. Wondrous Item: Tinker's Tools or the tool required to make the nonmagical item on which the magic item is based. Retain all nine rows as data; execute only the three fixtures' rows. Require the actual tool in the crafter's inventory.\n\nSpells (PDF207): if the item lets its user cast any spells from it, the crafter must have all those spells prepared every day spent crafting. The Wand of Magic Detection casts Detect Magic (PDF251); use the #202 Detect Magic record and the actual Cleric preparation output #557.\n\nTime and cost (PDF207, all five rows retained): Common 5 days 50 GP; Uncommon 10 days 200 GP; Rare 50 days 2,000 GP; Very Rare 125 days 20,000 GP; Legendary 250 days 100,000 GP. Halve time and cost for a consumable item other than a Spell Scroll. Artifacts have no row and stay unavailable. Each day is 8 hours of work; days need not be consecutive. Assistants divide the time by the number of characters working; normally one other character, more only with a recorded GM allowance. The source gives no rounding for a result that is not a whole day; such a project stays unavailable until a GM ruling records the day count.\n\nRaw materials (PDF207): the table cost is the raw materials, and the GM determines whether they are available. Require a recorded GM availability ruling before the project starts and never infer it. The settlement percentages and the 7-day wait belong to the #276 material availability task (marker `edda-276:magic-item-material-availability`), which supplies that ruling from a roll; this task accepts the ruling from either source.\n\nIncorporated item (PDF207): if the magic item incorporates an item that has a purchase cost, also pay that entire cost or craft that item under the Equipment rules. For the craft path, consume one actual Plate Armor produced by the #276 nonmagical crafting task (marker `edda-276:nonmagical-crafting`). Reuse the #276 crafting project ledger task (marker `edda-276:crafting-project-ledger`) for the project, payment, workdays and rulings.\n\nSentient item traits on PDF207 describe a GM-created persona and are not a crafting procedure here.\n\n## Deterministic fixtures\n\n- Armor, +1 (Plate Armor), Rare, Smith's Tools: 50 days and 2,000 GP, plus either 1,500 GP for the armor (3,500 GP in total, the source's own example) or one Plate Armor already crafted under the Equipment rules. One Arcana- and Smith's-proficient assistant makes it 25 days.\n- Potion of Resistance, Uncommon consumable, Herbalism Kit or Alchemist's Supplies: 5 days and 100 GP. It casts no spell, so no preparation is required.\n- Wand of Magic Detection, Uncommon, Woodcarver's Tools: 10 days and 200 GP, Detect Magic prepared on each recorded day. A day without it prepared rejects; later days resume.\n- Reject independently: no Arcana; no tool proficiency; tool absent; wrong category tool (Smith's Tools for the wand); assistant without Arcana or without the tool proficiency; second assistant without GM allowance; missing availability ruling; 1,999 GP; neither paying for nor supplying the Plate Armor; charging for the armor on both paths; halving the wand; not halving the potion; Potion of Healing or Spell Scroll through this table; an Artifact; any other item, with the coverage spike named as the reason.\n- Reject an invented crafting check, formula or recipe requirement, exotic ingredient quest, failure or curse roll, attunement grant or sale value.\n\n## Durable implementation acceptance\n\nPreview is inert: it never rolls, writes, spends or reveals private facts. Confirm revalidates campaign, actor, source version, tool and material ownership, proficiency entitlement, authoritative campaign clock and expected revisions. Commit each project start, workday, payment, completion and created item with public history atomically. Inject a failure after each stage and prove full isolated PostgreSQL rollback. The same action ID and payload after retry, reload or reconnect returns the saved receipt without a second payment, workday or item; a conflicting payload rejects; racing confirmations commit once. Web and trusted TUI share availability, explicit unavailable reasons and confirm/cancel/reconnect behavior. Changed web requires focused build/lint and desktop/phone checks. Public history omits private inventory, GM rulings not yet disclosed and hidden facts.\n\nHard prerequisites: #195 item contract; #202 Detect Magic record; #225 Armor, +1 record; #238 Potion of Resistance record; #245 Wand of Magic Detection record; #251 Plate Armor record; #253 Alchemist's Supplies and Herbalism Kit records; #254 Smith's Tools record; #255 Woodcarver's Tools record; #557 Cleric preparation output; the #276 nonmagical crafting task for the crafted Plate Armor; the #276 crafting project ledger task (marker `edda-276:crafting-project-ledger`). Parent: #276. This task reaches item qualification #280 through the #276 crafting qualification task (marker `edda-276:crafting-qualification`), which holds the one direct #280 edge. Add no #279, #67 or #429 edge and alter no existing owner.\n\nValidation for the implementation PR: focused deterministic rules tests; isolated PostgreSQL rollback/concurrency/replay/reload tests; shared web/TUI confirmation and disclosure fixtures; `GOMAXPROCS=2 go test -p 2 -short -race ./...` and `GOMAXPROCS=2 go vet -p 2 ./...`. Short tests alone do not qualify PostgreSQL or devices. Runtime remains unavailable until this implementation and its callers qualify. No deployment, source inference or Full Rules promotion.\n",
+      "issueType": {
+        "name": "Task"
+      },
+      "parent": {
+        "number": 276
+      },
+      "labels": {
+        "nodes": []
+      },
+      "blockedBy": {
+        "totalCount": 12,
+        "pageInfo": {
+          "hasNextPage": false
+        },
+        "nodes": [
+          {
+            "number": 2115,
+            "state": "OPEN"
+          },
+          {
+            "number": 2114,
+            "state": "OPEN"
+          },
+          {
+            "number": 557,
+            "state": "OPEN"
+          },
+          {
+            "number": 255,
+            "state": "OPEN"
+          },
+          {
+            "number": 254,
+            "state": "OPEN"
+          },
+          {
+            "number": 253,
+            "state": "OPEN"
+          },
+          {
+            "number": 251,
+            "state": "OPEN"
+          },
+          {
+            "number": 245,
+            "state": "OPEN"
+          },
+          {
+            "number": 238,
+            "state": "OPEN"
+          },
+          {
+            "number": 225,
+            "state": "CLOSED"
+          },
+          {
+            "number": 202,
+            "state": "OPEN"
+          },
+          {
+            "number": 195,
+            "state": "CLOSED"
+          }
+        ]
+      },
+      "blocking": {
+        "totalCount": 2,
+        "pageInfo": {
+          "hasNextPage": false
+        },
+        "nodes": [
+          {
+            "number": 2124
+          },
+          {
+            "number": 2120
+          }
+        ]
+      },
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "projectItems": {
+        "pageInfo": {
+          "hasNextPage": false
+        },
+        "nodes": [
+          {
+            "project": {
+              "title": "edda"
+            },
+            "fieldValueByName": {
+              "name": "M"
+            }
+          }
+        ]
+      }
+    },
+    "2120": {
+      "id": "I_kwDOSicKg88AAAABhFSEkg",
+      "number": 2120,
+      "title": "Check magic-item raw material availability by settlement",
+      "state": "OPEN",
+      "body": "<!-- edda-276:magic-item-material-availability -->\nDecision #276; roadmap #47. One implementation PR; Task / Size M.\n\nSource: English SRD 5.2.1, PDF 207; SHA-256 `8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87`. CC-BY-4.0 attribution and adaptation: `docs/srd-5.2.1-conformance.md`. The percentile mapping and the fixtures below are Edda adaptations.\n\n## Bounded outcome\n\nImplement only the raw-material availability check in \"Crafting Magic Items\" on PDF207: \"The GM determines whether appropriate raw materials are available. In a city, there is a 75 percent chance that the materials are available, and in any other settlement, that chance is 25 percent. If materials aren't available, you must wait at least 7 days before checking on the availability again.\"\n\nThe check produces the availability ruling that the #276 magic-item crafting task (marker `edda-276:magic-item-crafting`) requires before a project starts. It owns no cost, tool, proficiency, workday or product rule.\n\nThe GM records a settlement fact for the crafter's location: city, or other settlement. The source names no chance outside a settlement, so no settlement fact means no check; the GM can still record a direct ruling under the crafting task. The GM may decide the outcome directly, or roll. For a roll, use one injected percentile and save it once (Edda adaptation: 1–75 succeeds in a city, 1–25 in another settlement). After a failed check for one crafter and item, a new check is allowed only when the authoritative campaign clock is at least 7 days later. The source does not say whether the wait is per item, per settlement or per crafter; the per-crafter-and-item scope is an Edda conservative bound, and a recorded GM ruling may replace it.\n\nNonmagical crafting on PDF103 has no percentage or wait; do not apply this check there.\n\n## Deterministic fixtures\n\n- City: injected 75 succeeds and 76 fails. Other settlement: 25 succeeds and 26 fails.\n- After a failure on day 10, a recheck on day 16 rejects and one on day 17 is allowed.\n- A success for the Wand of Magic Detection lets that project start; it grants nothing for another item.\n- A GM direct ruling of \"available\" with no roll is saved as a ruling and consumes no dice.\n- Reject independently: no settlement fact; a settlement fact from a non-GM actor; a second roll replacing a saved one; a client-supplied roll; a recheck inside 7 days; the check applied to a nonmagical item, a Potion of Healing or a Spell Scroll.\n- Reject an invented price increase, bribe, travel shortcut, partial availability or Arcana check.\n\n## Durable implementation acceptance\n\nPreview is inert: it never rolls, writes, spends or reveals private facts. Confirm revalidates campaign, actor, source version, tool and material ownership, proficiency entitlement, authoritative campaign clock and expected revisions. Commit each project start, workday, payment, completion and created item with public history atomically. Inject a failure after each stage and prove full isolated PostgreSQL rollback. The same action ID and payload after retry, reload or reconnect returns the saved receipt without a second payment, workday or item; a conflicting payload rejects; racing confirmations commit once. Web and trusted TUI share availability, explicit unavailable reasons and confirm/cancel/reconnect behavior. Changed web requires focused build/lint and desktop/phone checks. Public history omits private inventory, GM rulings not yet disclosed and hidden facts.\n\nHard prerequisites: the #276 magic-item crafting task; the #276 crafting project ledger task (marker `edda-276:crafting-project-ledger`) for the saved ruling. Parent: #276. This task reaches item qualification #280 through the #276 crafting qualification task (marker `edda-276:crafting-qualification`), which holds the one direct #280 edge. Add no #279, #67 or #429 edge and alter no existing owner.\n\nValidation for the implementation PR: focused deterministic rules tests; isolated PostgreSQL rollback/concurrency/replay/reload tests; shared web/TUI confirmation and disclosure fixtures; `GOMAXPROCS=2 go test -p 2 -short -race ./...` and `GOMAXPROCS=2 go vet -p 2 ./...`. Short tests alone do not qualify PostgreSQL or devices. Runtime remains unavailable until this implementation and its callers qualify. No deployment, source inference or Full Rules promotion.\n",
+      "issueType": {
+        "name": "Task"
+      },
+      "parent": {
+        "number": 276
+      },
+      "labels": {
+        "nodes": []
+      },
+      "blockedBy": {
+        "totalCount": 2,
+        "pageInfo": {
+          "hasNextPage": false
+        },
+        "nodes": [
+          {
+            "number": 2119,
+            "state": "OPEN"
+          },
+          {
+            "number": 2114,
+            "state": "OPEN"
+          }
+        ]
+      },
+      "blocking": {
+        "totalCount": 1,
+        "pageInfo": {
+          "hasNextPage": false
+        },
+        "nodes": [
+          {
+            "number": 2124
+          }
+        ]
+      },
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "projectItems": {
+        "pageInfo": {
+          "hasNextPage": false
+        },
+        "nodes": [
+          {
+            "project": {
+              "title": "edda"
+            },
+            "fieldValueByName": {
+              "name": "M"
+            }
+          }
+        ]
+      }
+    },
+    "2121": {
+      "id": "I_kwDOSicKg88AAAABhFSHNA",
+      "number": 2121,
+      "title": "Split the remaining tool Craft entries into bounded crafting PRs",
+      "state": "OPEN",
+      "body": "<!-- edda-276:craft-roster-spike -->\nDecision #276; roadmap #47. Planning spike: one decision PR plus published bounded follow-ups; Task / Size M; label Planning/Spike.\n\nSource: English SRD 5.2.1, PDF 91–100 and 103; SHA-256 `8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87`. CC-BY-4.0 attribution and adaptation: `docs/srd-5.2.1-conformance.md`.\n\n## Named scope\n\nEvery tool Craft entry on PDF93–94 other than the three products of the #276 nonmagical crafting task (marker `edda-276:nonmagical-crafting`: Light Hammer, Longbow, Plate Armor). That is the named products and class entries of Alchemist's, Brewer's, Calligrapher's (Ink only), Carpenter's, Cartographer's, Cobbler's, Cook's, Glassblower's, Jeweler's, Leatherworker's, Mason's, Painter's, Potter's, Smith's, Tinker's, Weaver's and Woodcarver's tools, the Disguise Kit, the Herbalism Kit (Antitoxin, Candle, Healer's Kit) and the Poisoner's Kit, resolved against catalogue records #247–#262.\n\nKnown open points to settle from the source, not by inference: whether the tool records #253–#255 carry structured Craft entries; products listed under two tools (Club, Greatclub, Quarterstaff; Antitoxin; Holy Symbol; Arcane Focus; Druidic Focus), for which PDF103 says only \"You must use the required tool\"; variable-price entries (Arcane Focus, Druidic Focus, Holy Symbol, Ammunition); prices whose half is not a whole number of Copper Pieces; GM-assigned tools for unlisted items; and Heavy Crossbow, which is on PDF91 but absent from the #80 inventory and #247–#250. Forgery Kit, Gaming Set, Musical Instrument, Navigator's Tools and Thieves' Tools have no Craft entry and grant nothing.\n\n## Acceptance criteria\n\n- [ ] Inspect only the named scope: the tool Craft entries on PDF93–94 that the #276 nonmagical crafting task does not execute. Record exact source rules, existing owners and unknowns from the pinned PDF pages; do not guess production mechanics.\n- [ ] Search open and closed issue titles and bodies for an existing owner of each clause. Publish a one-PR Task only for an unowned, source-backed residual, with a named fixture, source pages, costs and timing, durable/replay/disclosure tests, exclusions and hard prerequisites. Split by tool, class or category so each child is one reviewable PR.\n- [ ] Attach each child under this spike. Before closing, add every child as a native blocker of the #276 crafting qualification task (marker `edda-276:crafting-qualification`), or of one aggregate task that blocks it if its 100-entry limit would be exceeded. Read back every child, parent and edge.\n- [ ] Keep each source unknown unavailable and name the GM ruling it needs.\n\nHard prerequisites: none. The children extend the #276 procedure task named above and are blocked by it. Parent: #276. This spike directly blocks the #276 crafting qualification task, so item qualification #280 stays blocked until its children exist and qualify. Closing this spike is not implementation evidence. Add no #279, #67 or #429 edge and alter no existing owner. No runtime, migration, UI or deployment change.\n",
+      "issueType": {
+        "name": "Task"
+      },
+      "parent": {
+        "number": 276
+      },
+      "labels": {
+        "nodes": [
+          {
+            "name": "Planning/Spike"
+          }
+        ]
+      },
+      "blockedBy": {
+        "totalCount": 0,
+        "pageInfo": {
+          "hasNextPage": false
+        },
+        "nodes": []
+      },
+      "blocking": {
+        "totalCount": 1,
+        "pageInfo": {
+          "hasNextPage": false
+        },
+        "nodes": [
+          {
+            "number": 2124
+          }
+        ]
+      },
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "projectItems": {
+        "pageInfo": {
+          "hasNextPage": false
+        },
+        "nodes": [
+          {
+            "project": {
+              "title": "edda"
+            },
+            "fieldValueByName": {
+              "name": "M"
+            }
+          }
+        ]
+      }
+    },
+    "2122": {
+      "id": "I_kwDOSicKg88AAAABhFSJsA",
+      "number": 2122,
+      "title": "Split Spell Scroll scribing for other classes and spell levels",
+      "state": "OPEN",
+      "body": "<!-- edda-276:scribing-coverage-spike -->\nDecision #276; roadmap #47. Planning spike: one decision PR plus published bounded follow-ups; Task / Size M; label Planning/Spike.\n\nSource: English SRD 5.2.1, PDF 103 and 244; SHA-256 `8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87`. CC-BY-4.0 attribution and adaptation: `docs/srd-5.2.1-conformance.md`.\n\n## Named scope\n\n\"Scribing Spell Scrolls\" on PDF103 beyond the #276 scroll scribing task (marker `edda-276:scroll-scribing`): the level 2 and level 4–9 rows of the Spell Scroll Costs table; scribes whose preparation comes from Bard, Druid, Paladin, Ranger, Sorcerer, Warlock or Wizard outputs; multiclass scribes, including which level \"your level\" means for a scribed cantrip; and cantrips known from a source other than the scribe's own class. PDF103 says \"A spellcaster can transfer a spell to a scroll\", so each class needs its actual preparation owner, as #557 is for the Cleric. Reading stays with #1142 and the #276 scribed scroll reading task.\n\n## Acceptance criteria\n\n- [ ] Inspect only the named scope: Spell Scroll scribing beyond a single-class Cleric's cantrip, level 1 and level 3 scrolls. Record exact source rules, existing owners and unknowns from the pinned PDF pages; do not guess production mechanics.\n- [ ] Search open and closed issue titles and bodies for an existing owner of each clause. Publish a one-PR Task only for an unowned, source-backed residual, with a named fixture, source pages, costs and timing, durable/replay/disclosure tests, exclusions and hard prerequisites. Split by tool, class or category so each child is one reviewable PR.\n- [ ] Attach each child under this spike. Before closing, add every child as a native blocker of the #276 crafting qualification task (marker `edda-276:crafting-qualification`), or of one aggregate task that blocks it if its 100-entry limit would be exceeded. Read back every child, parent and edge.\n- [ ] Keep each source unknown unavailable and name the GM ruling it needs.\n\nHard prerequisites: none. The children extend the #276 procedure task named above and are blocked by it. Parent: #276. This spike directly blocks the #276 crafting qualification task, so item qualification #280 stays blocked until its children exist and qualify. Closing this spike is not implementation evidence. Add no #279, #67 or #429 edge and alter no existing owner. No runtime, migration, UI or deployment change.\n",
+      "issueType": {
+        "name": "Task"
+      },
+      "parent": {
+        "number": 276
+      },
+      "labels": {
+        "nodes": [
+          {
+            "name": "Planning/Spike"
+          }
+        ]
+      },
+      "blockedBy": {
+        "totalCount": 0,
+        "pageInfo": {
+          "hasNextPage": false
+        },
+        "nodes": []
+      },
+      "blocking": {
+        "totalCount": 1,
+        "pageInfo": {
+          "hasNextPage": false
+        },
+        "nodes": [
+          {
+            "number": 2124
+          }
+        ]
+      },
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "projectItems": {
+        "pageInfo": {
+          "hasNextPage": false
+        },
+        "nodes": [
+          {
+            "project": {
+              "title": "edda"
+            },
+            "fieldValueByName": {
+              "name": "M"
+            }
+          }
+        ]
+      }
+    },
+    "2123": {
+      "id": "I_kwDOSicKg88AAAABhFSL6Q",
+      "number": 2123,
+      "title": "Split magic-item crafting for the remaining categories and rarities",
+      "state": "OPEN",
+      "body": "<!-- edda-276:magic-item-coverage-spike -->\nDecision #276; roadmap #47. Planning spike: one decision PR plus published bounded follow-ups; Task / Size M; label Planning/Spike.\n\nSource: English SRD 5.2.1, PDF 206–207; SHA-256 `8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87`. CC-BY-4.0 attribution and adaptation: `docs/srd-5.2.1-conformance.md`.\n\n## Named scope\n\n\"Crafting Magic Items\" on PDF206–207 beyond the #276 magic-item crafting task (marker `edda-276:magic-item-crafting`), over the catalogue records #225–#246: the Ring, Rod, Staff, Weapon and Wondrous Item rows of the Magic Item Tools table and the Scroll row for scrolls other than Spell Scrolls; armor made with Leatherworker's or Weaver's Tools; the Common, Very Rare and Legendary rows; items that cast spells prepared through a class other than Cleric; incorporated items other than Plate Armor; and \"the tool required to make the nonmagical item on which the magic item is based\". Artifacts have no row and stay unavailable. Halved or shared times that are not whole days stay unavailable without a GM day-count ruling.\n\n## Acceptance criteria\n\n- [ ] Inspect only the named scope: magic-item crafting beyond Armor, +1 (Plate Armor), Potion of Resistance and Wand of Magic Detection. Record exact source rules, existing owners and unknowns from the pinned PDF pages; do not guess production mechanics.\n- [ ] Search open and closed issue titles and bodies for an existing owner of each clause. Publish a one-PR Task only for an unowned, source-backed residual, with a named fixture, source pages, costs and timing, durable/replay/disclosure tests, exclusions and hard prerequisites. Split by tool, class or category so each child is one reviewable PR.\n- [ ] Attach each child under this spike. Before closing, add every child as a native blocker of the #276 crafting qualification task (marker `edda-276:crafting-qualification`), or of one aggregate task that blocks it if its 100-entry limit would be exceeded. Read back every child, parent and edge.\n- [ ] Keep each source unknown unavailable and name the GM ruling it needs.\n\nHard prerequisites: none. The children extend the #276 procedure task named above and are blocked by it. Parent: #276. This spike directly blocks the #276 crafting qualification task, so item qualification #280 stays blocked until its children exist and qualify. Closing this spike is not implementation evidence. Add no #279, #67 or #429 edge and alter no existing owner. No runtime, migration, UI or deployment change.\n",
+      "issueType": {
+        "name": "Task"
+      },
+      "parent": {
+        "number": 276
+      },
+      "labels": {
+        "nodes": [
+          {
+            "name": "Planning/Spike"
+          }
+        ]
+      },
+      "blockedBy": {
+        "totalCount": 0,
+        "pageInfo": {
+          "hasNextPage": false
+        },
+        "nodes": []
+      },
+      "blocking": {
+        "totalCount": 1,
+        "pageInfo": {
+          "hasNextPage": false
+        },
+        "nodes": [
+          {
+            "number": 2124
+          }
+        ]
+      },
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "projectItems": {
+        "pageInfo": {
+          "hasNextPage": false
+        },
+        "nodes": [
+          {
+            "project": {
+              "title": "edda"
+            },
+            "fieldValueByName": {
+              "name": "M"
+            }
+          }
+        ]
+      }
+    },
+    "2124": {
+      "id": "I_kwDOSicKg88AAAABhFSOMA",
+      "number": 2124,
+      "title": "Qualify the finite crafting, brewing and scribing outputs",
+      "state": "OPEN",
+      "body": "<!-- edda-276:crafting-qualification -->\nDecision #276; roadmap #47. One qualification PR; Task / Size M.\n\nSource: English SRD 5.2.1, PDF 91–95, 99, 103, 206–207 and 244; SHA-256 `8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87`. CC-BY-4.0 attribution and adaptation: `docs/srd-5.2.1-conformance.md`.\n\nQualify the finite composition of the #276 crafting outputs: the project ledger (marker `edda-276:crafting-project-ledger`), nonmagical crafting (`edda-276:nonmagical-crafting`), potion brewing (`edda-276:potion-brewing`), scroll scribing (`edda-276:scroll-scribing`), scribed scroll reading (`edda-276:scribed-scroll-reading`), magic-item crafting (`edda-276:magic-item-crafting`) and material availability (`edda-276:magic-item-material-availability`), plus every task published by the three #276 coverage spikes (`edda-276:craft-roster-spike`, `edda-276:scribing-coverage-spike`, `edda-276:magic-item-coverage-spike`). Own no second crafting formula, project record, payment, item effect or catalogue record. The native prerequisite set is a build and qualification roster, never a runtime requirement on a character.\n\nRequired reconciliation and controls:\n\n- Supported set. A product is supported only when a qualified #276 task or spike child executes it by name. Catalogue presence, a tool's Craft entry, a table row and decision or spike closure are not execution evidence. Everything else is reported unavailable with one reason: the spike or task that owns it, the missing GM ruling, or the missing catalogue identity.\n- Craft-entry roster. List every Craft entry on PDF93–94 and each member of a class entry such as \"Any Melee weapon (except Club, Greatclub, Quarterstaff, and Whip)\", \"Medium armor (except Hide)\", \"Heavy armor\" or \"Ranged weapons (except Pistol, Musket, and Sling)\". Report each tool and product pair as supported, unavailable with its reason, or absent data. A Craft entry that the tool records #253–#255 and the qualified tasks do not carry is absent data, never supported. Tools without a Craft entry (Forgery Kit, Gaming Set, Musical Instrument, Navigator's Tools and Thieves' Tools) grant nothing.\n- Fail closed on catalogue gaps. Heavy Crossbow (PDF91, 50 GP, the source's own crafting example on PDF103) has no identity in the #80 inventory or in #247–#250. It and any other unresolved product stay unavailable and are reported; this task adds no catalogue record.\n- Source unknowns stay unavailable without their recorded GM ruling: a half cost that is not a whole number of Copper Pieces, a shared or halved time that is not a whole day, a second assistant, a tool for an unlisted item, and a scribing workday without the components.\n- Composition: Armor, +1 (Plate Armor) through the craft path equals 2,000 GP and 50 days for the magic item plus 750 GP and 150 days for the armor; through the pay path 3,500 GP and 50 days. Neither path charges the armor twice.\n- Scroll value witness (PDF206): the value of a Spell Scroll is double its scribing cost. Cantrip 15 GP and level 1 25 GP double to the 30 GP and 50 GP prices on PDF95 and PDF99. Buying and selling remain with #275.\n- Payment: every crafting cost is paid once through the #275 coin payment that the project ledger calls. No #276 task holds a second debit.\n- A brewed Potion of Healing is consumed through the unchanged existing potion output. A scribed scroll reads with its saved scribe values through the scribed scroll reading task; a found scroll keeps the #1142 fixed values.\n- Routing: Potion of Healing never uses the general formula or the rarity table; a Spell Scroll never uses the rarity table or its halving; no magic item uses the nonmagical formula except as an incorporated base item; the settlement availability check never applies to a nonmagical item.\n- Report data completeness separately from mechanical support.\n\nRun these witnesses through the actual qualified rules, game, engine and handler callers with isolated explicit entitlements. Preview is inert. Confirmation revalidates actor, campaign, source, proficiencies, tools, materials, preparation, clock and expected revisions. Inject each failure for full isolated PostgreSQL rollback; same-ID retry, reload and reconnect return the saved receipt without a second payment, workday or item; conflicts reject and racing confirmations commit once. Web and trusted TUI agree on supported products, unavailable reasons and cancel/confirm/reconnect. Changed web requires focused build/lint and desktop/phone fixtures. Do not expose hidden or private state.\n\nNative parent #276; directly block item qualification #280. Exact prerequisites: the seven #276 tasks and three #276 spikes named above; tool records #253, #254 and #255; product records #242, #247, #248, #249, #250, #251, #252, #256, #257, #258, #259, #260, #261 and #262. Each spike adds its children to this list before it closes. Preserve every old body, parent and prerequisite. Add no #279, #67 or #429 edge. Qualification must run focused source and contrary tests, isolated PostgreSQL replay/rollback/concurrency, shared web/TUI fixtures, `GOMAXPROCS=2 go test -p 2 -short -race ./...` and `GOMAXPROCS=2 go vet -p 2 ./...`; short tests alone do not qualify database or devices. No deployment, production grant or Full Rules promotion.\n",
+      "issueType": {
+        "name": "Task"
+      },
+      "parent": {
+        "number": 276
+      },
+      "labels": {
+        "nodes": []
+      },
+      "blockedBy": {
+        "totalCount": 27,
+        "pageInfo": {
+          "hasNextPage": false
+        },
+        "nodes": [
+          {
+            "number": 2123,
+            "state": "OPEN"
+          },
+          {
+            "number": 2122,
+            "state": "OPEN"
+          },
+          {
+            "number": 2121,
+            "state": "OPEN"
+          },
+          {
+            "number": 2120,
+            "state": "OPEN"
+          },
+          {
+            "number": 2119,
+            "state": "OPEN"
+          },
+          {
+            "number": 2118,
+            "state": "OPEN"
+          },
+          {
+            "number": 2117,
+            "state": "OPEN"
+          },
+          {
+            "number": 2116,
+            "state": "OPEN"
+          },
+          {
+            "number": 2115,
+            "state": "OPEN"
+          },
+          {
+            "number": 2114,
+            "state": "OPEN"
+          },
+          {
+            "number": 262,
+            "state": "OPEN"
+          },
+          {
+            "number": 261,
+            "state": "OPEN"
+          },
+          {
+            "number": 260,
+            "state": "OPEN"
+          },
+          {
+            "number": 259,
+            "state": "OPEN"
+          },
+          {
+            "number": 258,
+            "state": "OPEN"
+          },
+          {
+            "number": 257,
+            "state": "OPEN"
+          },
+          {
+            "number": 256,
+            "state": "OPEN"
+          },
+          {
+            "number": 255,
+            "state": "OPEN"
+          },
+          {
+            "number": 254,
+            "state": "OPEN"
+          },
+          {
+            "number": 253,
+            "state": "OPEN"
+          },
+          {
+            "number": 252,
+            "state": "OPEN"
+          },
+          {
+            "number": 251,
+            "state": "OPEN"
+          },
+          {
+            "number": 250,
+            "state": "OPEN"
+          },
+          {
+            "number": 249,
+            "state": "OPEN"
+          },
+          {
+            "number": 248,
+            "state": "OPEN"
+          },
+          {
+            "number": 247,
+            "state": "OPEN"
+          },
+          {
+            "number": 242,
+            "state": "OPEN"
+          }
+        ]
+      },
+      "blocking": {
+        "totalCount": 1,
+        "pageInfo": {
+          "hasNextPage": false
+        },
+        "nodes": [
+          {
+            "number": 280
+          }
+        ]
+      },
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "projectItems": {
+        "pageInfo": {
+          "hasNextPage": false
+        },
+        "nodes": [
+          {
+            "project": {
+              "title": "edda"
+            },
+            "fieldValueByName": {
+              "name": "M"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "body_matches_task_file": {
+    "2114": {
+      "key": "crafting-project-ledger",
+      "marker": "edda-276:crafting-project-ledger",
+      "task_file": "docs/investigations/issue-276-crafting-project-ledger-task.md",
+      "sha256": "a14462f350cda2ebf05e446d4c026cd0f032062fc76901270c9ed4550a23ea9b",
+      "exact": true
+    },
+    "2115": {
+      "key": "nonmagical-crafting",
+      "marker": "edda-276:nonmagical-crafting",
+      "task_file": "docs/investigations/issue-276-nonmagical-crafting-task.md",
+      "sha256": "183362f6c5ffc07f472b8d32cae8e67354e5a4d4e6ff57ec6c9d29ac5c5f4e85",
+      "exact": true
+    },
+    "2116": {
+      "key": "potion-brewing",
+      "marker": "edda-276:potion-brewing",
+      "task_file": "docs/investigations/issue-276-potion-brewing-task.md",
+      "sha256": "25989ad20d67f21c46552fa4db1b1e424fa7587bb750d82916282b1d3fcfb502",
+      "exact": true
+    },
+    "2117": {
+      "key": "scroll-scribing",
+      "marker": "edda-276:scroll-scribing",
+      "task_file": "docs/investigations/issue-276-scroll-scribing-task.md",
+      "sha256": "9fc7304fe8063596b3744a159c34f6d1e970047e78f890b2c5ca6253b136366d",
+      "exact": true
+    },
+    "2118": {
+      "key": "scribed-scroll-reading",
+      "marker": "edda-276:scribed-scroll-reading",
+      "task_file": "docs/investigations/issue-276-scribed-scroll-reading-task.md",
+      "sha256": "4cc6a1d1c8869bcfb0b3a5589115042f66123359818d883a66d8a401a5b70bdd",
+      "exact": true
+    },
+    "2119": {
+      "key": "magic-item-crafting",
+      "marker": "edda-276:magic-item-crafting",
+      "task_file": "docs/investigations/issue-276-magic-item-crafting-task.md",
+      "sha256": "064a61d35bcbc2a68cbdaa5abf1dae1af753690131d65ae9e2d630eaed3a87d7",
+      "exact": true
+    },
+    "2120": {
+      "key": "magic-item-material-availability",
+      "marker": "edda-276:magic-item-material-availability",
+      "task_file": "docs/investigations/issue-276-material-availability-task.md",
+      "sha256": "579dc120444963212bfe9394baee32c538bfa12be22f9385fd142295de194315",
+      "exact": true
+    },
+    "2121": {
+      "key": "craft-roster-spike",
+      "marker": "edda-276:craft-roster-spike",
+      "task_file": "docs/investigations/issue-276-craft-roster-spike.md",
+      "sha256": "33a188b56caec9f5a4e5d7cb9cab98a75cad19181b50803431bf5428826e6957",
+      "exact": true
+    },
+    "2122": {
+      "key": "scribing-coverage-spike",
+      "marker": "edda-276:scribing-coverage-spike",
+      "task_file": "docs/investigations/issue-276-scribing-coverage-spike.md",
+      "sha256": "9bdc172c631d136d6fdb4a3cf14137fc3a9605ec246c7e5def942b7435f09fea",
+      "exact": true
+    },
+    "2123": {
+      "key": "magic-item-coverage-spike",
+      "marker": "edda-276:magic-item-coverage-spike",
+      "task_file": "docs/investigations/issue-276-magic-item-coverage-spike.md",
+      "sha256": "3d1d18972f4602b0e1ee826231d3e2b70dce41ebf9db4a645b20035782e071af",
+      "exact": true
+    },
+    "2124": {
+      "key": "crafting-qualification",
+      "marker": "edda-276:crafting-qualification",
+      "task_file": "docs/investigations/issue-276-crafting-qualification-task.md",
+      "sha256": "6de4aa8157f95ade9d7352a60d735d96e1de1cdd21711d08ee6f78c4874e66e4",
+      "exact": true
+    }
+  },
+  "numbers": {
+    "crafting-project-ledger": 2114,
+    "nonmagical-crafting": 2115,
+    "potion-brewing": 2116,
+    "scroll-scribing": 2117,
+    "scribed-scroll-reading": 2118,
+    "magic-item-crafting": 2119,
+    "magic-item-material-availability": 2120,
+    "craft-roster-spike": 2121,
+    "scribing-coverage-spike": 2122,
+    "magic-item-coverage-spike": 2123,
+    "crafting-qualification": 2124
+  },
+  "readback_checks": {
+    "2114": {
+      "body_exact": true,
+      "title": true,
+      "open": true,
+      "type_task": true,
+      "parent_276": true,
+      "labels": true,
+      "blocked_by": true,
+      "blocking": true,
+      "no_children": true,
+      "project_size": true
+    },
+    "2115": {
+      "body_exact": true,
+      "title": true,
+      "open": true,
+      "type_task": true,
+      "parent_276": true,
+      "labels": true,
+      "blocked_by": true,
+      "blocking": true,
+      "no_children": true,
+      "project_size": true
+    },
+    "2116": {
+      "body_exact": true,
+      "title": true,
+      "open": true,
+      "type_task": true,
+      "parent_276": true,
+      "labels": true,
+      "blocked_by": true,
+      "blocking": true,
+      "no_children": true,
+      "project_size": true
+    },
+    "2117": {
+      "body_exact": true,
+      "title": true,
+      "open": true,
+      "type_task": true,
+      "parent_276": true,
+      "labels": true,
+      "blocked_by": true,
+      "blocking": true,
+      "no_children": true,
+      "project_size": true
+    },
+    "2118": {
+      "body_exact": true,
+      "title": true,
+      "open": true,
+      "type_task": true,
+      "parent_276": true,
+      "labels": true,
+      "blocked_by": true,
+      "blocking": true,
+      "no_children": true,
+      "project_size": true
+    },
+    "2119": {
+      "body_exact": true,
+      "title": true,
+      "open": true,
+      "type_task": true,
+      "parent_276": true,
+      "labels": true,
+      "blocked_by": true,
+      "blocking": true,
+      "no_children": true,
+      "project_size": true
+    },
+    "2120": {
+      "body_exact": true,
+      "title": true,
+      "open": true,
+      "type_task": true,
+      "parent_276": true,
+      "labels": true,
+      "blocked_by": true,
+      "blocking": true,
+      "no_children": true,
+      "project_size": true
+    },
+    "2121": {
+      "body_exact": true,
+      "title": true,
+      "open": true,
+      "type_task": true,
+      "parent_276": true,
+      "labels": true,
+      "blocked_by": true,
+      "blocking": true,
+      "no_children": true,
+      "project_size": true
+    },
+    "2122": {
+      "body_exact": true,
+      "title": true,
+      "open": true,
+      "type_task": true,
+      "parent_276": true,
+      "labels": true,
+      "blocked_by": true,
+      "blocking": true,
+      "no_children": true,
+      "project_size": true
+    },
+    "2123": {
+      "body_exact": true,
+      "title": true,
+      "open": true,
+      "type_task": true,
+      "parent_276": true,
+      "labels": true,
+      "blocked_by": true,
+      "blocking": true,
+      "no_children": true,
+      "project_size": true
+    },
+    "2124": {
+      "body_exact": true,
+      "title": true,
+      "open": true,
+      "type_task": true,
+      "parent_276": true,
+      "labels": true,
+      "blocked_by": true,
+      "blocking": true,
+      "no_children": true,
+      "project_size": true
+    }
+  },
+  "edges_added": [
+    "#2114 parent #276",
+    "#2115 parent #276",
+    "#2116 parent #276",
+    "#2117 parent #276",
+    "#2118 parent #276",
+    "#2119 parent #276",
+    "#2120 parent #276",
+    "#2121 parent #276",
+    "#2122 parent #276",
+    "#2123 parent #276",
+    "#2124 parent #276",
+    "#2114 blocked-by #195",
+    "#2114 blocked-by #275",
+    "#2114 blocked-by #2083",
+    "#2115 blocked-by #195",
+    "#2115 blocked-by #248",
+    "#2115 blocked-by #251",
+    "#2115 blocked-by #254",
+    "#2115 blocked-by #255",
+    "#2115 blocked-by #2114",
+    "#2116 blocked-by #195",
+    "#2116 blocked-by #253",
+    "#2116 blocked-by #261",
+    "#2116 blocked-by #2114",
+    "#2117 blocked-by #195",
+    "#2117 blocked-by #217",
+    "#2117 blocked-by #242",
+    "#2117 blocked-by #253",
+    "#2117 blocked-by #262",
+    "#2117 blocked-by #557",
+    "#2117 blocked-by #618",
+    "#2117 blocked-by #1142",
+    "#2117 blocked-by #1447",
+    "#2117 blocked-by #2114",
+    "#2118 blocked-by #957",
+    "#2118 blocked-by #1142",
+    "#2118 blocked-by #2117",
+    "#2119 blocked-by #195",
+    "#2119 blocked-by #202",
+    "#2119 blocked-by #225",
+    "#2119 blocked-by #238",
+    "#2119 blocked-by #245",
+    "#2119 blocked-by #251",
+    "#2119 blocked-by #253",
+    "#2119 blocked-by #254",
+    "#2119 blocked-by #255",
+    "#2119 blocked-by #557",
+    "#2119 blocked-by #2114",
+    "#2119 blocked-by #2115",
+    "#2120 blocked-by #2114",
+    "#2120 blocked-by #2119",
+    "#2124 blocked-by #242",
+    "#2124 blocked-by #247",
+    "#2124 blocked-by #248",
+    "#2124 blocked-by #249",
+    "#2124 blocked-by #250",
+    "#2124 blocked-by #251",
+    "#2124 blocked-by #252",
+    "#2124 blocked-by #253",
+    "#2124 blocked-by #254",
+    "#2124 blocked-by #255",
+    "#2124 blocked-by #256",
+    "#2124 blocked-by #257",
+    "#2124 blocked-by #258",
+    "#2124 blocked-by #259",
+    "#2124 blocked-by #260",
+    "#2124 blocked-by #261",
+    "#2124 blocked-by #262",
+    "#2124 blocked-by #2114",
+    "#2124 blocked-by #2115",
+    "#2124 blocked-by #2116",
+    "#2124 blocked-by #2117",
+    "#2124 blocked-by #2118",
+    "#2124 blocked-by #2119",
+    "#2124 blocked-by #2120",
+    "#2124 blocked-by #2121",
+    "#2124 blocked-by #2122",
+    "#2124 blocked-by #2123",
+    "#280 blocked-by #2124"
+  ],
+  "edges_added_counts": {
+    "parent": 11,
+    "blocked_by_planned": 67,
+    "gate_additions": 1
+  },
+  "edges_removed": [
+    "#280 blocked-by #276"
+  ],
+  "cap_rereads_before_each_edge": [
+    {
+      "edge": "2114-blockedby-195",
+      "issue": 2114,
+      "blocker": 195,
+      "issue_blocked_by_before": 0,
+      "blocker_blocking_before": 68,
+      "at": "2026-11-20T16:08:24Z"
+    },
+    {
+      "edge": "2114-blockedby-275",
+      "issue": 2114,
+      "blocker": 275,
+      "issue_blocked_by_before": 1,
+      "blocker_blocking_before": 3,
+      "at": "2026-11-20T16:08:28Z"
+    },
+    {
+      "edge": "2114-blockedby-2083",
+      "issue": 2114,
+      "blocker": 2083,
+      "issue_blocked_by_before": 2,
+      "blocker_blocking_before": 5,
+      "at": "2026-11-20T16:08:31Z"
+    },
+    {
+      "edge": "2115-blockedby-195",
+      "issue": 2115,
+      "blocker": 195,
+      "issue_blocked_by_before": 0,
+      "blocker_blocking_before": 69,
+      "at": "2026-11-20T16:08:35Z"
+    },
+    {
+      "edge": "2115-blockedby-248",
+      "issue": 2115,
+      "blocker": 248,
+      "issue_blocked_by_before": 1,
+      "blocker_blocking_before": 14,
+      "at": "2026-11-20T16:08:39Z"
+    },
+    {
+      "edge": "2115-blockedby-251",
+      "issue": 2115,
+      "blocker": 251,
+      "issue_blocked_by_before": 2,
+      "blocker_blocking_before": 5,
+      "at": "2026-11-20T16:08:42Z"
+    },
+    {
+      "edge": "2115-blockedby-254",
+      "issue": 2115,
+      "blocker": 254,
+      "issue_blocked_by_before": 3,
+      "blocker_blocking_before": 3,
+      "at": "2026-11-20T16:08:46Z"
+    },
+    {
+      "edge": "2115-blockedby-255",
+      "issue": 2115,
+      "blocker": 255,
+      "issue_blocked_by_before": 4,
+      "blocker_blocking_before": 2,
+      "at": "2026-11-20T16:08:49Z"
+    },
+    {
+      "edge": "2115-blockedby-2114",
+      "issue": 2115,
+      "blocker": 2114,
+      "issue_blocked_by_before": 5,
+      "blocker_blocking_before": 0,
+      "at": "2026-11-20T16:08:52Z"
+    },
+    {
+      "edge": "2116-blockedby-195",
+      "issue": 2116,
+      "blocker": 195,
+      "issue_blocked_by_before": 0,
+      "blocker_blocking_before": 70,
+      "at": "2026-11-20T16:08:55Z"
+    },
+    {
+      "edge": "2116-blockedby-253",
+      "issue": 2116,
+      "blocker": 253,
+      "issue_blocked_by_before": 1,
+      "blocker_blocking_before": 3,
+      "at": "2026-11-20T16:09:00Z"
+    },
+    {
+      "edge": "2116-blockedby-261",
+      "issue": 2116,
+      "blocker": 261,
+      "issue_blocked_by_before": 2,
+      "blocker_blocking_before": 8,
+      "at": "2026-11-20T16:09:03Z"
+    },
+    {
+      "edge": "2116-blockedby-2114",
+      "issue": 2116,
+      "blocker": 2114,
+      "issue_blocked_by_before": 3,
+      "blocker_blocking_before": 1,
+      "at": "2026-11-20T16:09:06Z"
+    },
+    {
+      "edge": "2117-blockedby-195",
+      "issue": 2117,
+      "blocker": 195,
+      "issue_blocked_by_before": 0,
+      "blocker_blocking_before": 71,
+      "at": "2026-11-20T16:09:10Z"
+    },
+    {
+      "edge": "2117-blockedby-217",
+      "issue": 2117,
+      "blocker": 217,
+      "issue_blocked_by_before": 1,
+      "blocker_blocking_before": 5,
+      "at": "2026-11-20T16:09:14Z"
+    },
+    {
+      "edge": "2117-blockedby-242",
+      "issue": 2117,
+      "blocker": 242,
+      "issue_blocked_by_before": 2,
+      "blocker_blocking_before": 1,
+      "at": "2026-11-20T16:09:18Z"
+    },
+    {
+      "edge": "2117-blockedby-253",
+      "issue": 2117,
+      "blocker": 253,
+      "issue_blocked_by_before": 3,
+      "blocker_blocking_before": 4,
+      "at": "2026-11-20T16:09:21Z"
+    },
+    {
+      "edge": "2117-blockedby-262",
+      "issue": 2117,
+      "blocker": 262,
+      "issue_blocked_by_before": 4,
+      "blocker_blocking_before": 2,
+      "at": "2026-11-20T16:09:24Z"
+    },
+    {
+      "edge": "2117-blockedby-557",
+      "issue": 2117,
+      "blocker": 557,
+      "issue_blocked_by_before": 5,
+      "blocker_blocking_before": 24,
+      "at": "2026-11-20T16:09:27Z"
+    },
+    {
+      "edge": "2117-blockedby-618",
+      "issue": 2117,
+      "blocker": 618,
+      "issue_blocked_by_before": 6,
+      "blocker_blocking_before": 11,
+      "at": "2026-11-20T16:09:30Z"
+    },
+    {
+      "edge": "2117-blockedby-1142",
+      "issue": 2117,
+      "blocker": 1142,
+      "issue_blocked_by_before": 7,
+      "blocker_blocking_before": 2,
+      "at": "2026-11-20T16:09:33Z"
+    },
+    {
+      "edge": "2117-blockedby-1447",
+      "issue": 2117,
+      "blocker": 1447,
+      "issue_blocked_by_before": 8,
+      "blocker_blocking_before": 7,
+      "at": "2026-11-20T16:09:36Z"
+    },
+    {
+      "edge": "2117-blockedby-2114",
+      "issue": 2117,
+      "blocker": 2114,
+      "issue_blocked_by_before": 9,
+      "blocker_blocking_before": 2,
+      "at": "2026-11-20T16:09:40Z"
+    },
+    {
+      "edge": "2118-blockedby-957",
+      "issue": 2118,
+      "blocker": 957,
+      "issue_blocked_by_before": 0,
+      "blocker_blocking_before": 4,
+      "at": "2026-11-20T16:09:45Z"
+    },
+    {
+      "edge": "2118-blockedby-1142",
+      "issue": 2118,
+      "blocker": 1142,
+      "issue_blocked_by_before": 1,
+      "blocker_blocking_before": 3,
+      "at": "2026-11-20T16:09:49Z"
+    },
+    {
+      "edge": "2118-blockedby-2117",
+      "issue": 2118,
+      "blocker": 2117,
+      "issue_blocked_by_before": 2,
+      "blocker_blocking_before": 0,
+      "at": "2026-11-20T16:09:52Z"
+    },
+    {
+      "edge": "2119-blockedby-195",
+      "issue": 2119,
+      "blocker": 195,
+      "issue_blocked_by_before": 0,
+      "blocker_blocking_before": 72,
+      "at": "2026-11-20T16:09:55Z"
+    },
+    {
+      "edge": "2119-blockedby-202",
+      "issue": 2119,
+      "blocker": 202,
+      "issue_blocked_by_before": 1,
+      "blocker_blocking_before": 5,
+      "at": "2026-11-20T16:09:58Z"
+    },
+    {
+      "edge": "2119-blockedby-225",
+      "issue": 2119,
+      "blocker": 225,
+      "issue_blocked_by_before": 2,
+      "blocker_blocking_before": 2,
+      "at": "2026-11-20T16:10:01Z"
+    },
+    {
+      "edge": "2119-blockedby-238",
+      "issue": 2119,
+      "blocker": 238,
+      "issue_blocked_by_before": 3,
+      "blocker_blocking_before": 2,
+      "at": "2026-11-20T16:10:05Z"
+    },
+    {
+      "edge": "2119-blockedby-245",
+      "issue": 2119,
+      "blocker": 245,
+      "issue_blocked_by_before": 4,
+      "blocker_blocking_before": 1,
+      "at": "2026-11-20T16:10:08Z"
+    },
+    {
+      "edge": "2119-blockedby-251",
+      "issue": 2119,
+      "blocker": 251,
+      "issue_blocked_by_before": 5,
+      "blocker_blocking_before": 6,
+      "at": "2026-11-20T16:10:12Z"
+    },
+    {
+      "edge": "2119-blockedby-253",
+      "issue": 2119,
+      "blocker": 253,
+      "issue_blocked_by_before": 6,
+      "blocker_blocking_before": 5,
+      "at": "2026-11-20T16:10:15Z"
+    },
+    {
+      "edge": "2119-blockedby-254",
+      "issue": 2119,
+      "blocker": 254,
+      "issue_blocked_by_before": 7,
+      "blocker_blocking_before": 4,
+      "at": "2026-11-20T16:10:18Z"
+    },
+    {
+      "edge": "2119-blockedby-255",
+      "issue": 2119,
+      "blocker": 255,
+      "issue_blocked_by_before": 8,
+      "blocker_blocking_before": 3,
+      "at": "2026-11-20T16:10:21Z"
+    },
+    {
+      "edge": "2119-blockedby-557",
+      "issue": 2119,
+      "blocker": 557,
+      "issue_blocked_by_before": 9,
+      "blocker_blocking_before": 25,
+      "at": "2026-11-20T16:10:24Z"
+    },
+    {
+      "edge": "2119-blockedby-2114",
+      "issue": 2119,
+      "blocker": 2114,
+      "issue_blocked_by_before": 10,
+      "blocker_blocking_before": 3,
+      "at": "2026-11-20T16:10:26Z"
+    },
+    {
+      "edge": "2119-blockedby-2115",
+      "issue": 2119,
+      "blocker": 2115,
+      "issue_blocked_by_before": 11,
+      "blocker_blocking_before": 0,
+      "at": "2026-11-20T16:10:29Z"
+    },
+    {
+      "edge": "2120-blockedby-2114",
+      "issue": 2120,
+      "blocker": 2114,
+      "issue_blocked_by_before": 0,
+      "blocker_blocking_before": 4,
+      "at": "2026-11-20T16:10:31Z"
+    },
+    {
+      "edge": "2120-blockedby-2119",
+      "issue": 2120,
+      "blocker": 2119,
+      "issue_blocked_by_before": 1,
+      "blocker_blocking_before": 0,
+      "at": "2026-11-20T16:10:34Z"
+    },
+    {
+      "edge": "2124-blockedby-242",
+      "issue": 2124,
+      "blocker": 242,
+      "issue_blocked_by_before": 0,
+      "blocker_blocking_before": 2,
+      "at": "2026-11-20T16:10:37Z"
+    },
+    {
+      "edge": "2124-blockedby-247",
+      "issue": 2124,
+      "blocker": 247,
+      "issue_blocked_by_before": 1,
+      "blocker_blocking_before": 15,
+      "at": "2026-11-20T16:10:40Z"
+    },
+    {
+      "edge": "2124-blockedby-248",
+      "issue": 2124,
+      "blocker": 248,
+      "issue_blocked_by_before": 2,
+      "blocker_blocking_before": 15,
+      "at": "2026-11-20T16:10:42Z"
+    },
+    {
+      "edge": "2124-blockedby-249",
+      "issue": 2124,
+      "blocker": 249,
+      "issue_blocked_by_before": 3,
+      "blocker_blocking_before": 11,
+      "at": "2026-11-20T16:10:45Z"
+    },
+    {
+      "edge": "2124-blockedby-250",
+      "issue": 2124,
+      "blocker": 250,
+      "issue_blocked_by_before": 4,
+      "blocker_blocking_before": 2,
+      "at": "2026-11-20T16:10:48Z"
+    },
+    {
+      "edge": "2124-blockedby-251",
+      "issue": 2124,
+      "blocker": 251,
+      "issue_blocked_by_before": 5,
+      "blocker_blocking_before": 7,
+      "at": "2026-11-20T16:10:51Z"
+    },
+    {
+      "edge": "2124-blockedby-252",
+      "issue": 2124,
+      "blocker": 252,
+      "issue_blocked_by_before": 6,
+      "blocker_blocking_before": 4,
+      "at": "2026-11-20T16:10:54Z"
+    },
+    {
+      "edge": "2124-blockedby-253",
+      "issue": 2124,
+      "blocker": 253,
+      "issue_blocked_by_before": 7,
+      "blocker_blocking_before": 6,
+      "at": "2026-11-20T16:10:57Z"
+    },
+    {
+      "edge": "2124-blockedby-254",
+      "issue": 2124,
+      "blocker": 254,
+      "issue_blocked_by_before": 8,
+      "blocker_blocking_before": 5,
+      "at": "2026-11-20T16:10:59Z"
+    },
+    {
+      "edge": "2124-blockedby-255",
+      "issue": 2124,
+      "blocker": 255,
+      "issue_blocked_by_before": 9,
+      "blocker_blocking_before": 4,
+      "at": "2026-11-20T16:11:02Z"
+    },
+    {
+      "edge": "2124-blockedby-256",
+      "issue": 2124,
+      "blocker": 256,
+      "issue_blocked_by_before": 10,
+      "blocker_blocking_before": 3,
+      "at": "2026-11-20T16:11:05Z"
+    },
+    {
+      "edge": "2124-blockedby-257",
+      "issue": 2124,
+      "blocker": 257,
+      "issue_blocked_by_before": 11,
+      "blocker_blocking_before": 4,
+      "at": "2026-11-20T16:11:08Z"
+    },
+    {
+      "edge": "2124-blockedby-258",
+      "issue": 2124,
+      "blocker": 258,
+      "issue_blocked_by_before": 12,
+      "blocker_blocking_before": 3,
+      "at": "2026-11-20T16:11:10Z"
+    },
+    {
+      "edge": "2124-blockedby-259",
+      "issue": 2124,
+      "blocker": 259,
+      "issue_blocked_by_before": 13,
+      "blocker_blocking_before": 6,
+      "at": "2026-11-20T16:11:14Z"
+    },
+    {
+      "edge": "2124-blockedby-260",
+      "issue": 2124,
+      "blocker": 260,
+      "issue_blocked_by_before": 14,
+      "blocker_blocking_before": 3,
+      "at": "2026-11-20T16:11:17Z"
+    },
+    {
+      "edge": "2124-blockedby-261",
+      "issue": 2124,
+      "blocker": 261,
+      "issue_blocked_by_before": 15,
+      "blocker_blocking_before": 9,
+      "at": "2026-11-20T16:11:19Z"
+    },
+    {
+      "edge": "2124-blockedby-262",
+      "issue": 2124,
+      "blocker": 262,
+      "issue_blocked_by_before": 16,
+      "blocker_blocking_before": 3,
+      "at": "2026-11-20T16:11:22Z"
+    },
+    {
+      "edge": "2124-blockedby-2114",
+      "issue": 2124,
+      "blocker": 2114,
+      "issue_blocked_by_before": 17,
+      "blocker_blocking_before": 5,
+      "at": "2026-11-20T16:11:25Z"
+    },
+    {
+      "edge": "2124-blockedby-2115",
+      "issue": 2124,
+      "blocker": 2115,
+      "issue_blocked_by_before": 18,
+      "blocker_blocking_before": 1,
+      "at": "2026-11-20T16:11:28Z"
+    },
+    {
+      "edge": "2124-blockedby-2116",
+      "issue": 2124,
+      "blocker": 2116,
+      "issue_blocked_by_before": 19,
+      "blocker_blocking_before": 0,
+      "at": "2026-11-20T16:11:31Z"
+    },
+    {
+      "edge": "2124-blockedby-2117",
+      "issue": 2124,
+      "blocker": 2117,
+      "issue_blocked_by_before": 20,
+      "blocker_blocking_before": 1,
+      "at": "2026-11-20T16:11:33Z"
+    },
+    {
+      "edge": "2124-blockedby-2118",
+      "issue": 2124,
+      "blocker": 2118,
+      "issue_blocked_by_before": 21,
+      "blocker_blocking_before": 0,
+      "at": "2026-11-20T16:11:36Z"
+    },
+    {
+      "edge": "2124-blockedby-2119",
+      "issue": 2124,
+      "blocker": 2119,
+      "issue_blocked_by_before": 22,
+      "blocker_blocking_before": 1,
+      "at": "2026-11-20T16:11:38Z"
+    },
+    {
+      "edge": "2124-blockedby-2120",
+      "issue": 2124,
+      "blocker": 2120,
+      "issue_blocked_by_before": 23,
+      "blocker_blocking_before": 0,
+      "at": "2026-11-20T16:11:41Z"
+    },
+    {
+      "edge": "2124-blockedby-2121",
+      "issue": 2124,
+      "blocker": 2121,
+      "issue_blocked_by_before": 24,
+      "blocker_blocking_before": 0,
+      "at": "2026-11-20T16:11:44Z"
+    },
+    {
+      "edge": "2124-blockedby-2122",
+      "issue": 2124,
+      "blocker": 2122,
+      "issue_blocked_by_before": 25,
+      "blocker_blocking_before": 0,
+      "at": "2026-11-20T16:11:46Z"
+    },
+    {
+      "edge": "2124-blockedby-2123",
+      "issue": 2124,
+      "blocker": 2123,
+      "issue_blocked_by_before": 26,
+      "blocker_blocking_before": 0,
+      "at": "2026-11-20T16:11:49Z"
+    }
+  ],
+  "gate_swap": {
+    "gate": 280,
+    "policy": "Standing gate policy set by the orchestrator: when a qualification gate (#279 or #280) is at the native cap of 100 blocked-by entries, the closed or closing splitter's own edge on the gate is replaced by the splitter's terminal qualification child. The splitter's edge carries no remaining obligation once that child exists. No other edge is removed, the count never exceeds 100, no open splitter is made blocked by a runtime implementation task, and both graphs stay acyclic.",
+    "removed_blocked_by": 276,
+    "added_blocked_by": 2124,
+    "removal": {
+      "gate": 280,
+      "removed_blocker": 276,
+      "blocked_by_before": 100,
+      "blocked_by_after": 99,
+      "others_unchanged": true,
+      "at": "2026-11-20T16:12:41Z"
+    },
+    "addition": {
+      "gate": 280,
+      "added_blocker": 2124,
+      "blocked_by_before": 99,
+      "blocked_by_after": 100,
+      "at": "2026-11-20T16:12:44Z"
+    },
+    "blocked_by_count_before": 100,
+    "blocked_by_count_between_the_two_calls": 99,
+    "blocked_by_count_after": 100,
+    "other_99_blockers_unchanged": true,
+    "gate_reaches_276_after": false,
+    "gate_body_unchanged": true,
+    "gate_body_note": "The #280 body still lists #276 in its own \"Blocked by\" text. The body was not edited; the native edge now points at #2124, which is a child of #276."
+  },
+  "coin_payment_edge": {
+    "issue": 2114,
+    "blocked_by": 2083,
+    "marker": "edda-275:coin-holdings-payment",
+    "title": "Confirm coin holdings and exact listed-price payment",
+    "state": "OPEN",
+    "body_unchanged": true,
+    "pending": false
+  },
+  "gate_paths_with_276_skipped": {
+    "280": {
+      "2114": [
+        280,
+        2124,
+        2114
+      ],
+      "2115": [
+        280,
+        2124,
+        2115
+      ],
+      "2116": [
+        280,
+        2124,
+        2116
+      ],
+      "2117": [
+        280,
+        2124,
+        2117
+      ],
+      "2118": [
+        280,
+        2124,
+        2118
+      ],
+      "2119": [
+        280,
+        2124,
+        2119
+      ],
+      "2120": [
+        280,
+        2124,
+        2120
+      ],
+      "2121": [
+        280,
+        2124,
+        2121
+      ],
+      "2122": [
+        280,
+        2124,
+        2122
+      ],
+      "2123": [
+        280,
+        2124,
+        2123
+      ],
+      "2124": [
+        280,
+        2124
+      ]
+    },
+    "337": {
+      "2114": [
+        337,
+        551,
+        280,
+        2124,
+        2114
+      ],
+      "2115": [
+        337,
+        551,
+        280,
+        2124,
+        2115
+      ],
+      "2116": [
+        337,
+        551,
+        280,
+        2124,
+        2116
+      ],
+      "2117": [
+        337,
+        551,
+        280,
+        2124,
+        2117
+      ],
+      "2118": [
+        337,
+        551,
+        280,
+        2124,
+        2118
+      ],
+      "2119": [
+        337,
+        551,
+        280,
+        2124,
+        2119
+      ],
+      "2120": [
+        337,
+        551,
+        280,
+        2124,
+        2120
+      ],
+      "2121": [
+        337,
+        551,
+        280,
+        2124,
+        2121
+      ],
+      "2122": [
+        337,
+        551,
+        280,
+        2124,
+        2122
+      ],
+      "2123": [
+        337,
+        551,
+        280,
+        2124,
+        2123
+      ],
+      "2124": [
+        337,
+        551,
+        280,
+        2124
+      ]
+    }
+  },
+  "tasks_reach_280_only_through_qualification_task": {
+    "2114": true,
+    "2115": true,
+    "2116": true,
+    "2117": true,
+    "2118": true,
+    "2119": true,
+    "2120": true,
+    "2121": true,
+    "2122": true,
+    "2123": true
+  },
+  "gate_279": {
+    "native_blockers": 100,
+    "edge_added": false,
+    "paths_from_279": {
+      "2114": null,
+      "2115": null,
+      "2116": null,
+      "2117": null,
+      "2118": null,
+      "2119": null,
+      "2120": null,
+      "2121": null,
+      "2122": null,
+      "2123": null,
+      "2124": null
+    },
+    "note": "Any path from #279 to a new task runs through an existing prerequisite chain, not through a new #279 edge."
+  },
+  "caps": {
+    "limit": 100,
+    "nodes": 1951,
+    "dependency_edges": 10562,
+    "parent_edges": 1947,
+    "incoming279": 100,
+    "incoming280": 100,
+    "incoming337": 84,
+    "outgoing": {
+      "195": 73,
+      "202": 6,
+      "217": 6,
+      "225": 3,
+      "238": 3,
+      "242": 3,
+      "245": 2,
+      "247": 16,
+      "248": 16,
+      "249": 12,
+      "250": 3,
+      "251": 8,
+      "252": 5,
+      "253": 7,
+      "254": 6,
+      "255": 5,
+      "256": 4,
+      "257": 5,
+      "258": 4,
+      "259": 7,
+      "260": 4,
+      "261": 10,
+      "262": 4,
+      "275": 4,
+      "557": 26,
+      "618": 12,
+      "957": 5,
+      "1142": 4,
+      "1447": 8,
+      "2083": 6
+    },
+    "children276": 11,
+    "children193": 32,
+    "max_incoming": 100,
+    "max_outgoing": 100,
+    "max_children": 95,
+    "before": {
+      "observed_at": "2026-11-20T16:04:32Z",
+      "nodes": 1940,
+      "dependency_edges": 10495,
+      "parent_edges": 1936,
+      "incoming279": 100,
+      "incoming280": 100,
+      "incoming337": 84,
+      "outgoing": {
+        "195": 68,
+        "202": 5,
+        "217": 5,
+        "225": 2,
+        "238": 2,
+        "242": 1,
+        "245": 1,
+        "247": 15,
+        "248": 14,
+        "249": 11,
+        "250": 2,
+        "251": 5,
+        "252": 4,
+        "253": 3,
+        "254": 3,
+        "255": 2,
+        "256": 3,
+        "257": 4,
+        "258": 3,
+        "259": 6,
+        "260": 3,
+        "261": 8,
+        "262": 2,
+        "275": 3,
+        "557": 24,
+        "618": 11,
+        "957": 4,
+        "1142": 2,
+        "1447": 7,
+        "2083": 5
+      },
+      "children276": 0,
+      "children193": 32
+    }
+  },
+  "graph": {
+    "dependency_acyclic": true,
+    "parent_acyclic": true,
+    "issues_paged": 1951,
+    "parent_chain": [
+      276,
+      193,
+      54,
+      47
+    ],
+    "blocking_and_sub_issue_counts_match_edge_lists": true,
+    "before": {
+      "observed_at": "2026-11-20T16:04:32Z",
+      "issues_paged": 1940,
+      "dependency_acyclic": true,
+      "parent_acyclic": true,
+      "max_incoming": 100,
+      "max_outgoing": 100,
+      "max_children": 95
+    }
+  },
+  "prior_issue_differences_between_reads": [
+    "#280 lost blocker #276 and gained blocker #2124 (this publication); its count stayed at 100",
+    "#276 went from 0 to 11 sub-issues and from 1 dependent to 0 (this publication)",
+    "dependent counts of the 30 prerequisite issues rose by the planned edges only",
+    "no title, type, parent or body hash of an earlier issue changed"
+  ],
+  "drift_since_review": [
+    "The review read showed 1,892 issues and #280 at 96 blockers. Splitters #270, #272, #274, #275 and #333 published in between. At publication there were 1940 issues before the eleven new ones and #280 was full at 100.",
+    "The reviewed draft kept the #276 edge on #280 and added the qualification task as a 97th blocker. With #280 full that was not possible, so the standing gate policy replaced the #276 edge instead.",
+    "The reviewed draft named the marker edda-275:coin-payment-sale for a task with no number. Decision #275 published that task as #2083 with the marker edda-275:coin-holdings-payment. The ledger body and the plan were corrected before publication and the edge was added as a planned edge.",
+    "#225 state differs from the review read (OPEN then, CLOSED at readback); not caused by this publication",
+    "#275 state differs from the review read (OPEN then, CLOSED at readback); not caused by this publication"
+  ],
+  "decision_issue": {
+    "number": 276,
+    "state": "OPEN",
+    "parent": 193,
+    "blocked_by": [
+      80
+    ],
+    "blocked_by_all_closed": true,
+    "sub_issues": [
+      2114,
+      2115,
+      2116,
+      2117,
+      2118,
+      2119,
+      2120,
+      2121,
+      2122,
+      2123,
+      2124
+    ],
+    "still_blocks": [],
+    "body_unchanged": true
+  },
+  "existing_owners_unchanged": {
+    "34": {
+      "title": "Report failures when campaign rules, clock or starting abilities cannot be initialized",
+      "state": "CLOSED",
+      "body_sha256": "85a50225d84167a8d423efbd95c5ed22841cb1c9d1ccd47f4c6184d2e62c1cc0",
+      "parent": 51
+    },
+    "195": {
+      "title": "Validate versioned item families and explicit variant identities",
+      "state": "CLOSED",
+      "body_sha256": "554b45122c2a301ffd11b6b8b717b254f44fa54a21f0e623227613ca14464b5a",
+      "parent": 192
+    },
+    "202": {
+      "title": "Catalogue SRD spells 07: Cure Wounds to Detect Thoughts",
+      "state": "OPEN",
+      "body_sha256": "3a426970d65f8bf0cd06e32faa4782c5caf93b635a35b09458a1b8c0c72b3ffc",
+      "parent": 191
+    },
+    "217": {
+      "title": "Catalogue SRD spells 22: Ray of Sickness to Sanctuary",
+      "state": "OPEN",
+      "body_sha256": "b3934ec1d535278b09aaebc05a1954a93b49328dab20795ba7669bb8b7880efb",
+      "parent": 191
+    },
+    "225": {
+      "title": "Catalogue SRD magic-items 01: Adamantine Armor to Armor, +1, +2, or +3",
+      "state": "CLOSED",
+      "body_sha256": "9ad4332f0be68acd7ca6b2d208af3c68a8cc62f2e73bc9d914ecefbe770ef21d",
+      "parent": 192
+    },
+    "238": {
+      "title": "Catalogue SRD magic-items 14: Potion of Poison to Ring of Feather Falling",
+      "state": "OPEN",
+      "body_sha256": "5833431b10af6e8bc55700bb93de34525b63472fed766e179ac165ecd16c9b76",
+      "parent": 192
+    },
+    "242": {
+      "title": "Catalogue SRD magic-items 18: Shield, +1, +2, or +3 to Staff of Striking",
+      "state": "OPEN",
+      "body_sha256": "889010aa37fb8e76c5735ff28f4ead2b7f9bdda21f20e67289f329da1d1a1495",
+      "parent": 192
+    },
+    "245": {
+      "title": "Catalogue SRD magic-items 21: Wand of Enemy Detection to Wand of the War Mage, +1, +2, or +3",
+      "state": "OPEN",
+      "body_sha256": "05da5684c97ecde896b0e2dd6530cfce12170e0ade13e58fc42f9585cbb3f3e2",
+      "parent": 192
+    },
+    "247": {
+      "title": "Catalogue SRD weapons 01: Battleaxe to Hand Crossbow",
+      "state": "OPEN",
+      "body_sha256": "80672ba5d3c4ef15071e87279ff824548b47e1c4ea8f4b532fae1ba1a8008509",
+      "parent": 192
+    },
+    "248": {
+      "title": "Catalogue SRD weapons 02: Handaxe to Pike",
+      "state": "OPEN",
+      "body_sha256": "748b9dde4f07d45fc9482492b5e19fe3ddf31dd29e6589305fa047d7c3eddbd3",
+      "parent": 192
+    },
+    "249": {
+      "title": "Catalogue SRD weapons 03: Pistol to Warhammer",
+      "state": "OPEN",
+      "body_sha256": "1735bcba3d2abdb9bfc734927bb097354ace12a1ecfee831aeb9687db6c7b3d9",
+      "parent": 192
+    },
+    "250": {
+      "title": "Catalogue SRD weapons 04: Whip to Whip",
+      "state": "OPEN",
+      "body_sha256": "235fd52cc186e345c7d81cdf2f29c5d539a0439f31ad7726f82dcf7eccf59a4a",
+      "parent": 192
+    },
+    "251": {
+      "title": "Catalogue SRD armor 01: Breastplate to Splint Armor",
+      "state": "OPEN",
+      "body_sha256": "6ffdf7edd95812b5a870c5d57bed84d709228980d0037fa4d41d6de7b32a8366",
+      "parent": 192
+    },
+    "252": {
+      "title": "Catalogue SRD armor 02: Studded Leather Armor to Studded Leather Armor",
+      "state": "OPEN",
+      "body_sha256": "41fe26211b372bf74e5f696d3251c05887ff6df621fb4dafef405ca6f4c3bd1d",
+      "parent": 192
+    },
+    "253": {
+      "title": "Catalogue SRD tools 01: Alchemist’s Supplies to Herbalism Kit",
+      "state": "OPEN",
+      "body_sha256": "b1b8d9839c2911a42a159ae5e83be562a09e1ebed189435bf739f69218dac900",
+      "parent": 192
+    },
+    "254": {
+      "title": "Catalogue SRD tools 02: Jeweler’s Tools to Weaver’s Tools",
+      "state": "OPEN",
+      "body_sha256": "fe8260bac384fd461c4f9f4f99befd1bb1e320dc7749831a353a0541ba55f787",
+      "parent": 192
+    },
+    "255": {
+      "title": "Catalogue SRD tools 03: Woodcarver’s Tools to Woodcarver’s Tools",
+      "state": "OPEN",
+      "body_sha256": "8c2b766a859510c7c7b00243090c0004a942eddadb8dbb954cb3d9833fbbe49f",
+      "parent": 192
+    },
+    "256": {
+      "title": "Catalogue SRD adventuring-gear 01: Acid to Blanket",
+      "state": "OPEN",
+      "body_sha256": "1e32b601a2cdbb86374dd76c806482fa86a9781c05463c5e072d228b5f1312dd",
+      "parent": 192
+    },
+    "257": {
+      "title": "Catalogue SRD adventuring-gear 02: Block and Tackle to Climber’s Kit",
+      "state": "OPEN",
+      "body_sha256": "f6398f5af790858a09fb8be5c69a5fe997640ca002f792708a3f7856c55ce5f6",
+      "parent": 192
+    },
+    "258": {
+      "title": "Catalogue SRD adventuring-gear 03: Clothes, Fine to Grappling Hook",
+      "state": "OPEN",
+      "body_sha256": "4ad20c32706cc3ae9064098c405a078827952efbf3b27c3b984603a9cdd590dd",
+      "parent": 192
+    },
+    "259": {
+      "title": "Catalogue SRD adventuring-gear 04: Healer’s Kit to Lock",
+      "state": "OPEN",
+      "body_sha256": "1f9d4451a3c65a0a647762bd9b8d02a0f2da584a88956a810d591a2683c2c12e",
+      "parent": 192
+    },
+    "260": {
+      "title": "Catalogue SRD adventuring-gear 05: Magnifying Glass to Pot, Iron",
+      "state": "OPEN",
+      "body_sha256": "725253f5cf40f4b86fea720402caa8cf116ff39736ae6ce763c7af24bb8a69d7",
+      "parent": 192
+    },
+    "261": {
+      "title": "Catalogue SRD adventuring-gear 06: Potion of Healing to Signal Whistle",
+      "state": "OPEN",
+      "body_sha256": "8b594f815e007dc94282252b07ab61ba95e3f8cf991641642cfc3df27b7d2c59",
+      "parent": 192
+    },
+    "262": {
+      "title": "Catalogue SRD adventuring-gear 07: Spell Scroll to Waterskin",
+      "state": "OPEN",
+      "body_sha256": "9ef2163417eb1218c0e5973a346eacecae1ab6d69ca3293b700d9c2e1b0cd713",
+      "parent": 192
+    },
+    "266": {
+      "title": "Administer one basic Potion of Healing to a willing ally",
+      "state": "CLOSED",
+      "body_sha256": "a46d14f46153a9327540bbe7d21612e2a981c6ac0fa00b4d46b45902ee74a0fe",
+      "parent": 192
+    },
+    "275": {
+      "title": "Split equipment prices, services and lifestyle consequences",
+      "state": "CLOSED",
+      "body_sha256": "6e1f9577bbb77dbb989d27fb927af4ac7c4294baa18149704f3870740ec07456",
+      "parent": 193
+    },
+    "278": {
+      "title": "Assign every remaining equipment and magic-item key to bounded implementation PRs",
+      "state": "OPEN",
+      "body_sha256": "b88e1f565c101b658338ecb8bc0b7da784955da7ff411bcb87bda7a2c27e565b",
+      "parent": 192
+    },
+    "557": {
+      "title": "Confirm Cleric cantrips and prepared-spell changes",
+      "state": "OPEN",
+      "body_sha256": "4ce9d2b7119d13f7f3ea9df92fdfe1c7ad1d2014bb4afc8ef80b583a9583a450",
+      "parent": 551
+    },
+    "618": {
+      "title": "Resolve Revivify one recent death",
+      "state": "OPEN",
+      "body_sha256": "6fe2f210bf55b90248ceacd9203fee22693f6a5cf2cd4a7fe02f5487efe916ae",
+      "parent": 191
+    },
+    "957": {
+      "title": "Resolve Sacred Flame sacred flame",
+      "state": "OPEN",
+      "body_sha256": "ce5e5d3db7debfccc8a3a9bca745e6104989e74d6b1e13c9d8f9a46224f84190",
+      "parent": 850
+    },
+    "1140": {
+      "title": "Rogue: magic item",
+      "state": "OPEN",
+      "body_sha256": "46496ae1daa0ccf0187353cf3601fc16bdf18efc5164b229817be9edc888d39c",
+      "parent": 1096
+    },
+    "1142": {
+      "title": "Rogue: scroll item",
+      "state": "OPEN",
+      "body_sha256": "d2a9bf291bf511a3ab6a84a1ed3bdbe6e8409dae8f837cdf3d3c5f4abe4071af",
+      "parent": 1096
+    },
+    "1447": {
+      "title": "Resolve bounded cast components",
+      "state": "OPEN",
+      "body_sha256": "3061aa1f96c328eaffff56a289c64544a62e126e8277be1049a0dca6988a19be",
+      "parent": 1469
+    },
+    "1726": {
+      "title": "Resolve bounded Ink, Ink Pen, Parchment",
+      "state": "OPEN",
+      "body_sha256": "ea9c9cacb791226b6a5986740a9d426051931e3de7b6bab6c5b34a08e9d9e565",
+      "parent": 1747
+    },
+    "1770": {
+      "title": "Implement Wizard copy-found",
+      "state": "OPEN",
+      "body_sha256": "dba6ce5e74f1e57a7742af7d4f49eee317447b90ad131a3140453388696aac48",
+      "parent": 2034
+    },
+    "1870": {
+      "title": "Resolve Fabricate materials",
+      "state": "OPEN",
+      "body_sha256": "3481e95a5da694b19d1830cebd67170c327fce7bd6dd404b9edd8714dfa45eed",
+      "parent": 2010
+    },
+    "1871": {
+      "title": "Resolve Fabricate dimensions",
+      "state": "OPEN",
+      "body_sha256": "6310a71029ead32e6ce37c4467a9721e70bfb7adafdbbc31a33f2599213d969b",
+      "parent": 2010
+    },
+    "1872": {
+      "title": "Resolve Fabricate proficiencies",
+      "state": "OPEN",
+      "body_sha256": "312bc7f5d8e0e4098dfc7aff263cf95e2d2a8a19cb498768add489a7e27334ad",
+      "parent": 2010
+    }
+  },
+  "mutation_journal": {
+    "steps": 113,
+    "sha256": "f7629aa87e46204b6c3b9fa725a997c3983d443e0ba7cb7494c5640c845b5918"
+  },
+  "runtime_qualified": false,
+  "not_run": [
+    "full Go test suite",
+    "race and vet",
+    "PostgreSQL integration",
+    "web and TUI checks",
+    "source phrase recheck at publication (done during review against the pinned PDF)"
+  ]
+}

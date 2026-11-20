@@ -1,6 +1,6 @@
 # Nonmagical crafting, potion brewing, scroll scribing and magic-item crafting (#276)
 
-No published issue executes any of the four named crafting procedures. A title-and-body search of all 1,892 issues found catalogue data owners for the tools and products and adjacent item owners, but no task that spends raw materials, counts workdays or creates an item. This decision plans eleven children under #276: seven bounded implementation tasks, three named coverage spikes for the wider scope, and one qualification task that carries the single new edge to item qualification #280. The children are drafted here and are not yet published; the native numbers, readback and receipt are added at publication.
+No published issue executes any of the four named crafting procedures. A title-and-body search of all 1,892 issues found catalogue data owners for the tools and products and adjacent item owners, but no task that spends raw materials, counts workdays or creates an item. This decision publishes eleven children under #276, #2114–#2124: seven bounded implementation tasks, three named coverage spikes for the wider scope, and one qualification task, #2124, that carries the edge to item qualification #280. #280 was full at 100 blockers, so #2124 took the place of #276's own edge there; see Native edges and limits. The readback is in [the link verification](issue-276-link-verification.json).
 
 ## Source
 
@@ -21,7 +21,7 @@ Adjacent issues that mention crafting words do not own these rules. #1726 resolv
 
 | Clause or need | Owner | Why |
 |---|---|---|
-| Paying a crafting cost | The coin payment that decision #275 assigns (marker `edda-275:coin-payment-sale`), called once by `crafting-project-ledger` | No published issue debits coins. The runtime stores `srd521_gold` on a Coin Pouch row and nothing spends it. #275 plans the only coin ledger, so #276 adds no second debit |
+| Paying a crafting cost | #2083, Confirm coin holdings and exact listed-price payment (decision #275, marker `edda-275:coin-holdings-payment`), called once by `crafting-project-ledger` | The runtime stores `srd521_gold` on a Coin Pouch row and nothing spends it. #2083 is the only published coin ledger, so #276 adds no second debit |
 | Recorded GM rulings | `crafting-project-ledger` | A search for "GM ruling", "recorded GM" and "GM allowance" over all issue bodies found no owner |
 | Tool Craft entries as data | `nonmagical-crafting` for Smith's and Woodcarver's Tools; `craft-roster-spike` for the rest | The #253–#255 bodies do not say their records carry Craft entries. The qualification task reports a missing entry as absent data |
 | Spell Scroll record for levels 2–9 | #242 (PDF244 family) | #262 transcribes only the PDF99 entry, which the source defines as Spell Scroll (Cantrip) or (Level 1) |
@@ -30,21 +30,21 @@ Adjacent issues that mention crafting words do not own these rules. #1726 resolv
 | Detect Magic record for the wand | #202 | #245 and #557 do not carry the spell record |
 | Wider coverage | The three spikes | #276 asks to keep wider scope as explicitly named bounded spikes |
 
-## Planned children
+## Published children
 
-| Key | Title | Size | Existing prerequisites | Planned prerequisites | Blocks |
-|---|---|---|---|---|---|
-| `crafting-project-ledger` | Record one crafting project: start, 8-hour workdays, payment and completion | M | #195, #275 | — | — |
-| `nonmagical-crafting` | Craft one nonmagical item with a required tool, raw materials and workdays | M | #195, #248, #251, #254, #255 | `crafting-project-ledger` | — |
-| `potion-brewing` | Brew one Potion of Healing with a Herbalism Kit | M | #195, #253, #261 | `crafting-project-ledger` | — |
-| `scroll-scribing` | Scribe one Spell Scroll from a prepared Cleric spell | M | #195, #217, #242, #253, #262, #557, #618, #1142, #1447 | `crafting-project-ledger` | — |
-| `scribed-scroll-reading` | Read one scribed Spell Scroll with its saved scribe values | M | #957, #1142 | `scroll-scribing` | — |
-| `magic-item-crafting` | Craft one magic item by rarity with Arcana, a category tool and prepared spells | M | #195, #202, #225, #238, #245, #251, #253, #254, #255, #557 | `crafting-project-ledger`, `nonmagical-crafting` | — |
-| `magic-item-material-availability` | Check magic-item raw material availability by settlement | M | — | `crafting-project-ledger`, `magic-item-crafting` | — |
-| `craft-roster-spike` | Split the remaining tool Craft entries into bounded crafting PRs | M | — | — | — |
-| `scribing-coverage-spike` | Split Spell Scroll scribing for other classes and spell levels | M | — | — | — |
-| `magic-item-coverage-spike` | Split magic-item crafting for the remaining categories and rarities | M | — | — | — |
-| `crafting-qualification` | Qualify the finite crafting, brewing and scribing outputs | M | #242, #247–#262 | the ten children above | #280 |
+| Issue | Key | Title | Size | Existing prerequisites | Planned prerequisites | Blocks |
+|---|---|---|---|---|---|---|
+| #2114 | `crafting-project-ledger` | Record one crafting project: start, 8-hour workdays, payment and completion | M | #195, #275, #2083 | — | — |
+| #2115 | `nonmagical-crafting` | Craft one nonmagical item with a required tool, raw materials and workdays | M | #195, #248, #251, #254, #255 | `crafting-project-ledger` | — |
+| #2116 | `potion-brewing` | Brew one Potion of Healing with a Herbalism Kit | M | #195, #253, #261 | `crafting-project-ledger` | — |
+| #2117 | `scroll-scribing` | Scribe one Spell Scroll from a prepared Cleric spell | M | #195, #217, #242, #253, #262, #557, #618, #1142, #1447 | `crafting-project-ledger` | — |
+| #2118 | `scribed-scroll-reading` | Read one scribed Spell Scroll with its saved scribe values | M | #957, #1142 | `scroll-scribing` | — |
+| #2119 | `magic-item-crafting` | Craft one magic item by rarity with Arcana, a category tool and prepared spells | M | #195, #202, #225, #238, #245, #251, #253, #254, #255, #557 | `crafting-project-ledger`, `nonmagical-crafting` | — |
+| #2120 | `magic-item-material-availability` | Check magic-item raw material availability by settlement | M | — | `crafting-project-ledger`, `magic-item-crafting` | — |
+| #2121 | `craft-roster-spike` | Split the remaining tool Craft entries into bounded crafting PRs | M | — | — | — |
+| #2122 | `scribing-coverage-spike` | Split Spell Scroll scribing for other classes and spell levels | M | — | — | — |
+| #2123 | `magic-item-coverage-spike` | Split magic-item crafting for the remaining categories and rarities | M | — | — | — |
+| #2124 | `crafting-qualification` | Qualify the finite crafting, brewing and scribing outputs | M | #242, #247–#262 | the ten children above | #280 |
 
 All eleven are Task issues and native children of #276. The three spikes also take the Planning/Spike label, as #276 has. Each body is the exact text of its `issue-276-*` file; the scope file records each SHA-256. The bodies name their siblings by marker, so they need no edit after numbers are assigned. Every child is Size M, the size all published children and #276 itself carry.
 
@@ -71,10 +71,22 @@ Two findings fall outside the four named scopes and are reported without a new t
 
 ## Native edges and limits
 
-Observed 2026-11-20: #280 has 96 of 100 blocked-by entries. #276, #274 and #275 are already three of those 96; the existing #276 edge is left in place and is not replaced. The sibling decisions #274 and #275 still have to add their children. The ten other children therefore reach #280 through the one qualification task, the accepted shared-aggregate pattern, which takes #280 to 97. #276 goes from 0 to 11 sub-issues. The largest planned blocked-by list is 27. #195 goes from 61 to 66 dependents, #557 from 24 to 26 and #1142 from 2 to 4; no prerequisite approaches 100. Spell qualification #279 is full at 100 and receives no edge: scribing creates an item and adds no spell effect. No child adds a #67 or #429 consumer.
+**Standing gate policy.** The qualification gates #279 and #280 are at the native cap of 100 blocked-by entries. The orchestrator decided the following for every splitter. A closed splitter's own edge on a gate, or the edge of one that closes in the publishing PR, carries no remaining obligation once its terminal qualification child exists. When a gate is full, that edge is replaced by the terminal qualification child: remove "gate blocked-by splitter", add "gate blocked-by terminal", and the count stays at 100. No other edge is removed, the count never exceeds 100, no open splitter is made blocked by a runtime implementation task, and both graphs stay acyclic.
 
-One edge cannot be drawn yet. The ledger task depends on the coin payment task that decision #275 plans, which has no native number. The ledger task is blocked by #275 now. At publication the coin task is found by its marker and added as a blocker of the ledger task; if it is still unpublished, the edge is recorded as pending in the link verification and added when the number exists. Closing #275 alone does not supply a payment, and the ledger body says every project is unavailable until that payment output qualifies.
+**Applied to #280.** The review read had #280 at 96 blockers, and the draft kept the #276 edge and added the qualification task as a 97th. Decisions #270, #272, #274 and #275 published first and filled #280. This publication therefore removed "#280 blocked-by #276" and added "#280 blocked-by #2124" in consecutive calls, after every other write had succeeded. #280 was at 99 only between those two calls and is at 100 again; its other 99 blockers are unchanged. #276 closes with this PR, and its acceptance criteria ask for exact implementation blockers on item qualification: #2124 is that blocker, and the ten other children reach #280 only through it. The #280 body still lists #276 in its own text and was not edited.
 
-No planned prerequisite is downstream of #276 or #280, whose live downstream set is #337, #551, #630, #1093, #2053, #2054 and #2056, so the dependency graph stays acyclic. #618 and #275 already block #280 and #557 already blocks #551; the new paths through the qualification task run the same way. The planned edges among the eleven children follow one order, ledger first and qualification last. The children are leaves of the parent hierarchy until a spike publishes its own. Caps and both graphs must be read again at publication, because the sibling decisions may publish first.
+#276 goes from 0 to 11 sub-issues and no longer blocks anything. The largest blocked-by list is 27, on #2124. #195 goes from 68 to 73 dependents, #557 from 24 to 26 and #1142 from 2 to 4; no prerequisite approaches 100. Spell qualification #279 is full at 100 and receives no edge: scribing creates an item and adds no spell effect. No child adds a #67 or #429 consumer.
 
-Closing #276 supplies no crafting runtime. Removing the qualification task's #280 edge would lose the mandatory path for all eleven children. This change contains no runtime file, migration, UI behavior, production mutation or Full Rules admission. Focused source checks and hosted CI apply to this decision; the implementation tasks keep their own PostgreSQL, web, TUI and device requirements.
+**The coin payment edge.** The reviewed draft named a marker, `edda-275:coin-payment-sale`, for a coin task with no native number, and treated the edge as pending. Decision #275 published that task as #2083, Confirm coin holdings and exact listed-price payment, with the marker `edda-275:coin-holdings-payment`. The ledger body and the plan were corrected before publication, and #2114 is blocked by #2083 as an ordinary edge. #2114 also keeps its #275 edge, which is satisfied because #275 is closed. The ledger body says every project is unavailable until the payment output qualifies.
+
+No prerequisite of the eleven children is downstream of #280, whose live downstream set is #337, #551, #630, #1093, #2053, #2054 and #2056, so the dependency graph stays acyclic. #618 already blocks #280 and #557 already blocks #551; the new paths through the qualification task run the same way. The planned edges among the eleven children follow one order, ledger first and qualification last. The children are leaves of the parent hierarchy until a spike publishes its own. Both graphs were read in full before and after publication.
+
+Closing #276 supplies no crafting runtime. Removing #2124's #280 edge would lose the mandatory path for all eleven children. This change contains no runtime file, migration, UI behavior, production mutation or Full Rules admission. Focused source checks and hosted CI apply to this decision; the implementation tasks keep their own PostgreSQL, web, TUI and device requirements.
+
+## Publication
+
+Published 2026-11-20, read back at 16:12:54Z. The eleven issues are #2114–#2124 in the order of the table above. Each body matches its task file byte for byte, and each is an open Task of Size M on the edda Project with #276 as parent; #2121, #2122 and #2123 carry the Planning/Spike label. The publication added 11 parent links and 68 blocked-by edges (67 planned, 1 on the gate) and removed one edge, "#280 blocked-by #276". Both ends of every added edge were re-read immediately before it was added.
+
+A full page-through of 1,951 issues after publication shows the dependency graph (10,562 edges) and the parent hierarchy (1,947 edges) acyclic, with no issue above 100 blockers, dependents or children. The read taken just before publication showed 1,940 issues and 10,495 edges, also acyclic. Between the two reads no earlier issue changed title, type, parent or body, and the only edge changes are the ones listed here. #225 and #275 closed between the review read and publication; both stay native blockers and are satisfied.
+
+The search figure of 1,892 issues is the review read. Source clauses were checked against the pinned PDF during review, not again at publication. The receipt is [issue-276-link-verification.json](issue-276-link-verification.json).

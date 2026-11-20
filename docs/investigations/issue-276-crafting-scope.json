@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "decision": 276,
-  "status": "SOURCE_DRAFT_PENDING_NATIVE_PUBLICATION",
+  "status": "EXACT_SOURCE_PUBLICATION_PASS",
   "observed_at": "2026-11-20T07:49:20.071220+00:00",
   "source": {
     "sha256": "8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87",
@@ -381,7 +381,7 @@
       "blocked_by": [
         80
       ],
-      "blocking_count": 61,
+      "blocking_count": 73,
       "body_sha256": "554b45122c2a301ffd11b6b8b717b254f44fa54a21f0e623227613ca14464b5a"
     },
     "202": {
@@ -392,7 +392,7 @@
       "blocked_by": [
         194
       ],
-      "blocking_count": 5,
+      "blocking_count": 6,
       "body_sha256": "3a426970d65f8bf0cd06e32faa4782c5caf93b635a35b09458a1b8c0c72b3ffc"
     },
     "217": {
@@ -403,18 +403,18 @@
       "blocked_by": [
         194
       ],
-      "blocking_count": 5,
+      "blocking_count": 6,
       "body_sha256": "b3934ec1d535278b09aaebc05a1954a93b49328dab20795ba7669bb8b7880efb"
     },
     "225": {
       "number": 225,
       "title": "Catalogue SRD magic-items 01: Adamantine Armor to Armor, +1, +2, or +3",
-      "state": "OPEN",
+      "state": "CLOSED",
       "parent": 192,
       "blocked_by": [
         195
       ],
-      "blocking_count": 1,
+      "blocking_count": 3,
       "body_sha256": "9ad4332f0be68acd7ca6b2d208af3c68a8cc62f2e73bc9d914ecefbe770ef21d"
     },
     "238": {
@@ -425,7 +425,7 @@
       "blocked_by": [
         195
       ],
-      "blocking_count": 1,
+      "blocking_count": 3,
       "body_sha256": "5833431b10af6e8bc55700bb93de34525b63472fed766e179ac165ecd16c9b76"
     },
     "242": {
@@ -436,7 +436,7 @@
       "blocked_by": [
         195
       ],
-      "blocking_count": 1,
+      "blocking_count": 3,
       "body_sha256": "889010aa37fb8e76c5735ff28f4ead2b7f9bdda21f20e67289f329da1d1a1495"
     },
     "245": {
@@ -447,7 +447,7 @@
       "blocked_by": [
         195
       ],
-      "blocking_count": 1,
+      "blocking_count": 2,
       "body_sha256": "05da5684c97ecde896b0e2dd6530cfce12170e0ade13e58fc42f9585cbb3f3e2"
     },
     "247": {
@@ -458,7 +458,7 @@
       "blocked_by": [
         195
       ],
-      "blocking_count": 13,
+      "blocking_count": 16,
       "body_sha256": "80672ba5d3c4ef15071e87279ff824548b47e1c4ea8f4b532fae1ba1a8008509"
     },
     "248": {
@@ -469,7 +469,7 @@
       "blocked_by": [
         195
       ],
-      "blocking_count": 12,
+      "blocking_count": 16,
       "body_sha256": "748b9dde4f07d45fc9482492b5e19fe3ddf31dd29e6589305fa047d7c3eddbd3"
     },
     "249": {
@@ -480,7 +480,7 @@
       "blocked_by": [
         195
       ],
-      "blocking_count": 9,
+      "blocking_count": 12,
       "body_sha256": "1735bcba3d2abdb9bfc734927bb097354ace12a1ecfee831aeb9687db6c7b3d9"
     },
     "250": {
@@ -491,7 +491,7 @@
       "blocked_by": [
         195
       ],
-      "blocking_count": 1,
+      "blocking_count": 3,
       "body_sha256": "235fd52cc186e345c7d81cdf2f29c5d539a0439f31ad7726f82dcf7eccf59a4a"
     },
     "251": {
@@ -502,7 +502,7 @@
       "blocked_by": [
         195
       ],
-      "blocking_count": 2,
+      "blocking_count": 8,
       "body_sha256": "6ffdf7edd95812b5a870c5d57bed84d709228980d0037fa4d41d6de7b32a8366"
     },
     "252": {
@@ -513,7 +513,7 @@
       "blocked_by": [
         195
       ],
-      "blocking_count": 2,
+      "blocking_count": 5,
       "body_sha256": "41fe26211b372bf74e5f696d3251c05887ff6df621fb4dafef405ca6f4c3bd1d"
     },
     "253": {
@@ -524,7 +524,7 @@
       "blocked_by": [
         195
       ],
-      "blocking_count": 1,
+      "blocking_count": 7,
       "body_sha256": "b1b8d9839c2911a42a159ae5e83be562a09e1ebed189435bf739f69218dac900"
     },
     "254": {
@@ -535,7 +535,7 @@
       "blocked_by": [
         195
       ],
-      "blocking_count": 1,
+      "blocking_count": 6,
       "body_sha256": "fe8260bac384fd461c4f9f4f99befd1bb1e320dc7749831a353a0541ba55f787"
     },
     "255": {
@@ -546,7 +546,7 @@
       "blocked_by": [
         195
       ],
-      "blocking_count": 1,
+      "blocking_count": 5,
       "body_sha256": "8c2b766a859510c7c7b00243090c0004a942eddadb8dbb954cb3d9833fbbe49f"
     },
     "256": {
@@ -557,7 +557,7 @@
       "blocked_by": [
         195
       ],
-      "blocking_count": 1,
+      "blocking_count": 4,
       "body_sha256": "1e32b601a2cdbb86374dd76c806482fa86a9781c05463c5e072d228b5f1312dd"
     },
     "257": {
@@ -568,7 +568,7 @@
       "blocked_by": [
         195
       ],
-      "blocking_count": 1,
+      "blocking_count": 5,
       "body_sha256": "f6398f5af790858a09fb8be5c69a5fe997640ca002f792708a3f7856c55ce5f6"
     },
     "258": {
@@ -579,7 +579,7 @@
       "blocked_by": [
         195
       ],
-      "blocking_count": 1,
+      "blocking_count": 4,
       "body_sha256": "4ad20c32706cc3ae9064098c405a078827952efbf3b27c3b984603a9cdd590dd"
     },
     "259": {
@@ -590,7 +590,7 @@
       "blocked_by": [
         195
       ],
-      "blocking_count": 4,
+      "blocking_count": 7,
       "body_sha256": "1f9d4451a3c65a0a647762bd9b8d02a0f2da584a88956a810d591a2683c2c12e"
     },
     "260": {
@@ -601,7 +601,7 @@
       "blocked_by": [
         195
       ],
-      "blocking_count": 1,
+      "blocking_count": 4,
       "body_sha256": "725253f5cf40f4b86fea720402caa8cf116ff39736ae6ce763c7af24bb8a69d7"
     },
     "261": {
@@ -612,7 +612,7 @@
       "blocked_by": [
         195
       ],
-      "blocking_count": 4,
+      "blocking_count": 10,
       "body_sha256": "8b594f815e007dc94282252b07ab61ba95e3f8cf991641642cfc3df27b7d2c59"
     },
     "262": {
@@ -623,7 +623,7 @@
       "blocked_by": [
         195
       ],
-      "blocking_count": 1,
+      "blocking_count": 4,
       "body_sha256": "9ef2163417eb1218c0e5973a346eacecae1ab6d69ca3293b700d9c2e1b0cd713"
     },
     "266": {
@@ -636,18 +636,18 @@
         195,
         263
       ],
-      "blocking_count": 1,
+      "blocking_count": 2,
       "body_sha256": "a46d14f46153a9327540bbe7d21612e2a981c6ac0fa00b4d46b45902ee74a0fe"
     },
     "275": {
       "number": 275,
       "title": "Split equipment prices, services and lifestyle consequences",
-      "state": "OPEN",
+      "state": "CLOSED",
       "parent": 193,
       "blocked_by": [
         80
       ],
-      "blocking_count": 1,
+      "blocking_count": 4,
       "body_sha256": "6e1f9577bbb77dbb989d27fb927af4ac7c4294baa18149704f3870740ec07456"
     },
     "278": {
@@ -709,7 +709,7 @@
         503,
         556
       ],
-      "blocking_count": 24,
+      "blocking_count": 26,
       "body_sha256": "4ce9d2b7119d13f7f3ea9df92fdfe1c7ad1d2014bb4afc8ef80b583a9583a450"
     },
     "618": {
@@ -723,7 +723,7 @@
         217,
         273
       ],
-      "blocking_count": 9,
+      "blocking_count": 12,
       "body_sha256": "6fe2f210bf55b90248ceacd9203fee22693f6a5cf2cd4a7fe02f5487efe916ae"
     },
     "957": {
@@ -735,7 +735,7 @@
         61,
         67
       ],
-      "blocking_count": 4,
+      "blocking_count": 5,
       "body_sha256": "ce5e5d3db7debfccc8a3a9bca745e6104989e74d6b1e13c9d8f9a46224f84190"
     },
     "1140": {
@@ -748,7 +748,7 @@
         906,
         1097
       ],
-      "blocking_count": 4,
+      "blocking_count": 5,
       "body_sha256": "46496ae1daa0ccf0187353cf3601fc16bdf18efc5164b229817be9edc888d39c"
     },
     "1142": {
@@ -760,7 +760,7 @@
         195,
         1097
       ],
-      "blocking_count": 2,
+      "blocking_count": 4,
       "body_sha256": "d2a9bf291bf511a3ab6a84a1ed3bdbe6e8409dae8f837cdf3d3c5f4abe4071af"
     },
     "1447": {
@@ -773,7 +773,7 @@
         273,
         1457
       ],
-      "blocking_count": 7,
+      "blocking_count": 8,
       "body_sha256": "3061aa1f96c328eaffff56a289c64544a62e126e8277be1049a0dca6988a19be"
     },
     "1726": {
@@ -859,13 +859,14 @@
       "parent": 276,
       "blocked_by": [
         195,
-        275
+        275,
+        2083
       ],
       "blocked_by_planned": [],
       "blocks": [],
       "body_file": "docs/investigations/issue-276-crafting-project-ledger-task.md",
-      "body_sha256": "d7fd57ac334b323bd23b9d8d1ad1c78ecf141e3b184c0c3c4f9cb4fba6350528",
-      "number": null
+      "body_sha256": "a14462f350cda2ebf05e446d4c026cd0f032062fc76901270c9ed4550a23ea9b",
+      "number": 2114
     },
     {
       "key": "nonmagical-crafting",
@@ -895,7 +896,7 @@
       "blocks": [],
       "body_file": "docs/investigations/issue-276-nonmagical-crafting-task.md",
       "body_sha256": "183362f6c5ffc07f472b8d32cae8e67354e5a4d4e6ff57ec6c9d29ac5c5f4e85",
-      "number": null
+      "number": 2115
     },
     {
       "key": "potion-brewing",
@@ -924,7 +925,7 @@
       "blocks": [],
       "body_file": "docs/investigations/issue-276-potion-brewing-task.md",
       "body_sha256": "25989ad20d67f21c46552fa4db1b1e424fa7587bb750d82916282b1d3fcfb502",
-      "number": null
+      "number": 2116
     },
     {
       "key": "scroll-scribing",
@@ -960,7 +961,7 @@
       "blocks": [],
       "body_file": "docs/investigations/issue-276-scroll-scribing-task.md",
       "body_sha256": "9fc7304fe8063596b3744a159c34f6d1e970047e78f890b2c5ca6253b136366d",
-      "number": null
+      "number": 2117
     },
     {
       "key": "scribed-scroll-reading",
@@ -986,7 +987,7 @@
       "blocks": [],
       "body_file": "docs/investigations/issue-276-scribed-scroll-reading-task.md",
       "body_sha256": "4cc6a1d1c8869bcfb0b3a5589115042f66123359818d883a66d8a401a5b70bdd",
-      "number": null
+      "number": 2118
     },
     {
       "key": "magic-item-crafting",
@@ -1027,7 +1028,7 @@
       "blocks": [],
       "body_file": "docs/investigations/issue-276-magic-item-crafting-task.md",
       "body_sha256": "064a61d35bcbc2a68cbdaa5abf1dae1af753690131d65ae9e2d630eaed3a87d7",
-      "number": null
+      "number": 2119
     },
     {
       "key": "magic-item-material-availability",
@@ -1048,7 +1049,7 @@
       "blocks": [],
       "body_file": "docs/investigations/issue-276-material-availability-task.md",
       "body_sha256": "579dc120444963212bfe9394baee32c538bfa12be22f9385fd142295de194315",
-      "number": null
+      "number": 2120
     },
     {
       "key": "craft-roster-spike",
@@ -1078,7 +1079,7 @@
       "blocks": [],
       "body_file": "docs/investigations/issue-276-craft-roster-spike.md",
       "body_sha256": "33a188b56caec9f5a4e5d7cb9cab98a75cad19181b50803431bf5428826e6957",
-      "number": null
+      "number": 2121
     },
     {
       "key": "scribing-coverage-spike",
@@ -1099,7 +1100,7 @@
       "blocks": [],
       "body_file": "docs/investigations/issue-276-scribing-coverage-spike.md",
       "body_sha256": "9bdc172c631d136d6fdb4a3cf14137fc3a9605ec246c7e5def942b7435f09fea",
-      "number": null
+      "number": 2122
     },
     {
       "key": "magic-item-coverage-spike",
@@ -1120,7 +1121,7 @@
       "blocks": [],
       "body_file": "docs/investigations/issue-276-magic-item-coverage-spike.md",
       "body_sha256": "3d1d18972f4602b0e1ee826231d3e2b70dce41ebf9db4a645b20035782e071af",
-      "number": null
+      "number": 2123
     },
     {
       "key": "crafting-qualification",
@@ -1178,7 +1179,7 @@
       ],
       "body_file": "docs/investigations/issue-276-crafting-qualification-task.md",
       "body_sha256": "6de4aa8157f95ade9d7352a60d735d96e1de1cdd21711d08ee6f78c4874e66e4",
-      "number": null
+      "number": 2124
     }
   ],
   "planned_native_edges": {
@@ -1199,7 +1200,8 @@
       "crafting-project-ledger": {
         "existing": [
           195,
-          275
+          275,
+          2083
         ],
         "planned": []
       },
@@ -1324,21 +1326,23 @@
     "blocks_280": [
       "crafting-qualification"
     ],
-    "pending_external": [
+    "resolved_external": [
       {
         "task": "crafting-project-ledger",
-        "blocked_by_marker": "edda-275:coin-payment-sale",
+        "blocked_by": 2083,
+        "marker": "edda-275:coin-holdings-payment",
         "decision": 275,
-        "rule": "Resolve the marker to its native number at publication and add it as a blocker of the ledger task. Until it exists the ledger task stays blocked by #275 and the edge is recorded as pending in the link verification."
+        "note": "The reviewed draft named a marker that decision #275 never published (edda-275:coin-payment-sale) and treated the edge as pending. Decision #275 published the coin task as #2083, Confirm coin holdings and exact listed-price payment. The ledger body now names #2083 and the edge is an ordinary planned edge."
       }
     ],
-    "existing_edges_kept": [
-      {
-        "issue": 276,
-        "blocks": 280,
-        "note": "#276, #274 and #275 are already among the 96 blockers of #280; this edge is not removed or replaced."
-      }
-    ]
+    "gate_swap": {
+      "gate": 280,
+      "remove_blocked_by": 276,
+      "add_blocked_by": "crafting-qualification",
+      "policy": "Standing gate policy set by the orchestrator: when a qualification gate (#279 or #280) is at the native cap of 100 blocked-by entries, the closed or closing splitter's own edge on the gate is replaced by the splitter's terminal qualification child. The splitter's edge carries no remaining obligation once that child exists. No other edge is removed, the count never exceeds 100, no open splitter is made blocked by a runtime implementation task, and both graphs stay acyclic.",
+      "why": "#280 reached 100 blockers when decision #275 published #2088. #276 is one of the 100 and closes with this PR. Its acceptance criteria ask for exact implementation blockers on item qualification; the qualification child is that blocker and the ten other children reach #280 only through it.",
+      "order": "The #276 edge is removed and the qualification child added in consecutive calls after every other write has succeeded, so #280 is at 99 only between those two calls."
+    }
   },
   "caps_observed": {
     "limit": 100,
@@ -1384,7 +1388,8 @@
       "957": 5,
       "1142": 4,
       "1447": 8
-    }
+    },
+    "note": "Review read of 2026-11-20T07:49Z. blocked_by_280_after (97) was not reached: #280 was full at publication and the gate swap kept it at 100."
   },
   "unknowns": [
     "PDF103 does not name the unit used to round half the purchase cost down. A half that is an exact number of Copper Pieces needs no rounding; any other price needs a recorded GM amount.",
@@ -1422,5 +1427,202 @@
       "action": "reported only"
     }
   ],
-  "runtime_qualified": false
+  "runtime_qualified": false,
+  "published": {
+    "observed_at": "2026-11-20T16:12:54Z",
+    "issue_count": 1951,
+    "numbers": {
+      "crafting-project-ledger": 2114,
+      "nonmagical-crafting": 2115,
+      "potion-brewing": 2116,
+      "scroll-scribing": 2117,
+      "scribed-scroll-reading": 2118,
+      "magic-item-crafting": 2119,
+      "magic-item-material-availability": 2120,
+      "craft-roster-spike": 2121,
+      "scribing-coverage-spike": 2122,
+      "magic-item-coverage-spike": 2123,
+      "crafting-qualification": 2124
+    },
+    "receipt": "docs/investigations/issue-276-link-verification.json",
+    "edges_added": [
+      "#2114 parent #276",
+      "#2115 parent #276",
+      "#2116 parent #276",
+      "#2117 parent #276",
+      "#2118 parent #276",
+      "#2119 parent #276",
+      "#2120 parent #276",
+      "#2121 parent #276",
+      "#2122 parent #276",
+      "#2123 parent #276",
+      "#2124 parent #276",
+      "#2114 blocked-by #195",
+      "#2114 blocked-by #275",
+      "#2114 blocked-by #2083",
+      "#2115 blocked-by #195",
+      "#2115 blocked-by #248",
+      "#2115 blocked-by #251",
+      "#2115 blocked-by #254",
+      "#2115 blocked-by #255",
+      "#2115 blocked-by #2114",
+      "#2116 blocked-by #195",
+      "#2116 blocked-by #253",
+      "#2116 blocked-by #261",
+      "#2116 blocked-by #2114",
+      "#2117 blocked-by #195",
+      "#2117 blocked-by #217",
+      "#2117 blocked-by #242",
+      "#2117 blocked-by #253",
+      "#2117 blocked-by #262",
+      "#2117 blocked-by #557",
+      "#2117 blocked-by #618",
+      "#2117 blocked-by #1142",
+      "#2117 blocked-by #1447",
+      "#2117 blocked-by #2114",
+      "#2118 blocked-by #957",
+      "#2118 blocked-by #1142",
+      "#2118 blocked-by #2117",
+      "#2119 blocked-by #195",
+      "#2119 blocked-by #202",
+      "#2119 blocked-by #225",
+      "#2119 blocked-by #238",
+      "#2119 blocked-by #245",
+      "#2119 blocked-by #251",
+      "#2119 blocked-by #253",
+      "#2119 blocked-by #254",
+      "#2119 blocked-by #255",
+      "#2119 blocked-by #557",
+      "#2119 blocked-by #2114",
+      "#2119 blocked-by #2115",
+      "#2120 blocked-by #2114",
+      "#2120 blocked-by #2119",
+      "#2124 blocked-by #242",
+      "#2124 blocked-by #247",
+      "#2124 blocked-by #248",
+      "#2124 blocked-by #249",
+      "#2124 blocked-by #250",
+      "#2124 blocked-by #251",
+      "#2124 blocked-by #252",
+      "#2124 blocked-by #253",
+      "#2124 blocked-by #254",
+      "#2124 blocked-by #255",
+      "#2124 blocked-by #256",
+      "#2124 blocked-by #257",
+      "#2124 blocked-by #258",
+      "#2124 blocked-by #259",
+      "#2124 blocked-by #260",
+      "#2124 blocked-by #261",
+      "#2124 blocked-by #262",
+      "#2124 blocked-by #2114",
+      "#2124 blocked-by #2115",
+      "#2124 blocked-by #2116",
+      "#2124 blocked-by #2117",
+      "#2124 blocked-by #2118",
+      "#2124 blocked-by #2119",
+      "#2124 blocked-by #2120",
+      "#2124 blocked-by #2121",
+      "#2124 blocked-by #2122",
+      "#2124 blocked-by #2123",
+      "#280 blocked-by #2124"
+    ],
+    "edges_removed": [
+      "#280 blocked-by #276"
+    ],
+    "note": "Task keys in planned_tasks and planned_native_edges resolve through numbers. search and caps_observed hold the review read; the counts at publication are under caps_at_publication."
+  },
+  "caps_at_publication": {
+    "limit": 100,
+    "nodes": 1951,
+    "dependency_edges": 10562,
+    "parent_edges": 1947,
+    "incoming279": 100,
+    "incoming280": 100,
+    "incoming337": 84,
+    "outgoing": {
+      "195": 73,
+      "202": 6,
+      "217": 6,
+      "225": 3,
+      "238": 3,
+      "242": 3,
+      "245": 2,
+      "247": 16,
+      "248": 16,
+      "249": 12,
+      "250": 3,
+      "251": 8,
+      "252": 5,
+      "253": 7,
+      "254": 6,
+      "255": 5,
+      "256": 4,
+      "257": 5,
+      "258": 4,
+      "259": 7,
+      "260": 4,
+      "261": 10,
+      "262": 4,
+      "275": 4,
+      "557": 26,
+      "618": 12,
+      "957": 5,
+      "1142": 4,
+      "1447": 8,
+      "2083": 6
+    },
+    "children276": 11,
+    "children193": 32,
+    "max_incoming": 100,
+    "max_outgoing": 100,
+    "max_children": 95,
+    "before": {
+      "observed_at": "2026-11-20T16:04:32Z",
+      "nodes": 1940,
+      "dependency_edges": 10495,
+      "parent_edges": 1936,
+      "incoming279": 100,
+      "incoming280": 100,
+      "incoming337": 84,
+      "outgoing": {
+        "195": 68,
+        "202": 5,
+        "217": 5,
+        "225": 2,
+        "238": 2,
+        "242": 1,
+        "245": 1,
+        "247": 15,
+        "248": 14,
+        "249": 11,
+        "250": 2,
+        "251": 5,
+        "252": 4,
+        "253": 3,
+        "254": 3,
+        "255": 2,
+        "256": 3,
+        "257": 4,
+        "258": 3,
+        "259": 6,
+        "260": 3,
+        "261": 8,
+        "262": 2,
+        "275": 3,
+        "557": 24,
+        "618": 11,
+        "957": 4,
+        "1142": 2,
+        "1447": 7,
+        "2083": 5
+      },
+      "children276": 0,
+      "children193": 32
+    }
+  },
+  "graph_checks": {
+    "native_readback_dependency_acyclic": true,
+    "native_readback_parent_acyclic": true,
+    "native_readback_issues_paged": 1951
+  }
 }
