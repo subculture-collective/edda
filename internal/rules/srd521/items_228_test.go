@@ -192,7 +192,15 @@ func TestItems228CompositionWithEarlierBatches(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	composed, err := ComposeItemSourceIdentities(contract.SourceIdentities(), first.SourceIdentities(), batch.SourceIdentities())
+	second, err := LoadItems226()
+	if err != nil {
+		t.Fatal(err)
+	}
+	third, err := LoadItems227()
+	if err != nil {
+		t.Fatal(err)
+	}
+	composed, err := ComposeItemSourceIdentities(contract.SourceIdentities(), first.SourceIdentities(), second.SourceIdentities(), third.SourceIdentities(), batch.SourceIdentities())
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -200,7 +208,7 @@ func TestItems228CompositionWithEarlierBatches(t *testing.T) {
 	for _, f := range composed {
 		variants += len(f.VariantIDs)
 	}
-	if len(composed) != 25 || variants != 32 || composed[0].Name != "Potion of Healing" || composed[13].Name != "Censer of Controlling Air Elementals" || composed[24].Name != "Crystal Ball of Mind Reading" {
+	if len(composed) != 49 || variants != 62 || composed[0].Name != "Potion of Healing" || composed[37].Name != "Censer of Controlling Air Elementals" || composed[48].Name != "Crystal Ball of Mind Reading" {
 		t.Fatal("expected Potion of Healing, the #225 families and exactly the twelve families of #228")
 	}
 	if _, err := ComposeItemSourceIdentities(batch.SourceIdentities(), batch.SourceIdentities()); err == nil {
