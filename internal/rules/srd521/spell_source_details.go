@@ -361,6 +361,8 @@ func validSpellTarget(t SpellTarget) bool {
 
 func (s SpellRecord) validateSourceDetails() error {
 	if handled, err := s.validateSpell196(); handled || err != nil {
+		return err
+	}
 	if handled, err := s.validateSpell197(); handled || err != nil {
 		return err
 	}
