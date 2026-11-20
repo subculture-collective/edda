@@ -43,6 +43,23 @@ type Monster struct {
 	Traits            []MonsterMechanic         `json:"traits"`
 	Actions           []MonsterAction           `json:"actions"`
 	RequiredMechanics []string                  `json:"required_mechanics"`
+
+	// Optional stat-block fields. Absent fields keep earlier record revisions
+	// byte-identical; monster_stat_block.go validates each one and requires its
+	// dependency key, so retained source data can never become available silently.
+	Tags                []string          `json:"tags,omitempty"`
+	Skills              map[string]int    `json:"skills,omitempty"`
+	Vulnerabilities     []string          `json:"vulnerabilities,omitempty"`
+	Resistances         []string          `json:"resistances,omitempty"`
+	Immunities          []string          `json:"immunities,omitempty"`
+	ConditionImmunities []string          `json:"condition_immunities,omitempty"`
+	Hover               bool              `json:"hover,omitempty"`
+	Telepathy           int               `json:"telepathy,omitempty"`
+	LairXP              int               `json:"lair_xp,omitempty"`
+	BonusActions        []MonsterAction   `json:"bonus_actions,omitempty"`
+	Reactions           []MonsterAction   `json:"reactions,omitempty"`
+	LegendaryActions    []MonsterAction   `json:"legendary_actions,omitempty"`
+	Legendary           *MonsterLegendary `json:"legendary,omitempty"`
 }
 
 // MonsterHP retains both the fixed HP and its source dice expression.
@@ -78,6 +95,12 @@ type MonsterMechanic struct {
 	Key  string `json:"key"`
 	Name string `json:"name"`
 	Text string `json:"text"`
+
+	Uses     *MonsterUses   `json:"uses,omitempty"`
+	Save     *MonsterSave   `json:"save,omitempty"`
+	Target   *MonsterTarget `json:"target,omitempty"`
+	Dice     *MonsterHP     `json:"dice,omitempty"`
+	Requires []string       `json:"requires,omitempty"`
 }
 
 // MonsterAction has a stable local ID and retains all effects. Attack is present
@@ -89,6 +112,11 @@ type MonsterAction struct {
 	Text    string            `json:"text"`
 	Attack  *MonsterAttack    `json:"attack,omitempty"`
 	Effects []MonsterMechanic `json:"effects"`
+
+	Uses         *MonsterUses         `json:"uses,omitempty"`
+	Save         *MonsterSave         `json:"save,omitempty"`
+	Target       *MonsterTarget       `json:"target,omitempty"`
+	Spellcasting *MonsterSpellcasting `json:"spellcasting,omitempty"`
 }
 
 // MonsterAttack describes the source weapon attack, without resolving it.
@@ -298,7 +326,7 @@ func (m Monster) Validate() error {
 	}
 	actions := map[string]bool{}
 	actionNames := map[string]bool{}
-	for _, a := range m.Actions {
+	for _, a := range m.allActions() {
 		if !familyName.MatchString(a.ID) || actions[a.ID] || actionNames[strings.ToLower(a.Name)] {
 			return fmt.Errorf("invalid or duplicate action %q", a.ID)
 		}
@@ -340,7 +368,7 @@ func (m Monster) Validate() error {
 			}
 		}
 	}
-	return nil
+	return m.validateStatBlock()
 }
 
 func validMonsterDice(d MonsterHP) bool {

@@ -1,0 +1,5240 @@
+{
+  "schema_version": 1,
+  "source": {
+    "version": "5.2.1",
+    "language": "en",
+    "landing_url": "https://www.dndbeyond.com/srd",
+    "artifact_url": "https://media.dndbeyond.com/compendium-images/srd/5.2/SRD_CC_v5.2.1.pdf",
+    "sha256": "8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87",
+    "bytes": 6031375,
+    "pages": 364,
+    "retrieved_at": "2026-11-15",
+    "license": "CC-BY-4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/legalcode",
+    "attribution": "This work includes material from the System Reference Document 5.2.1 (“SRD 5.2.1”) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd. The SRD 5.2.1 is licensed under the Creative Commons Attribution 4.0 International License, available at https://creativecommons.org/licenses/by/4.0/legalcode.",
+    "changes": "Adapted the twelve stat blocks of issue #151 (Aboleth, the ten Adult dragons and Air Elemental; PDF pages 258–259, 264, 266–271, 276–277, 291–292, 294, 318–319, 324–325 and 340) into typed mechanical fields and implementation keys. Trait, action and legendary action entries keep their source rules text, rejoined across line, column and page breaks; descriptive prose outside the stat blocks is omitted. No playable NPC behavior is granted."
+  },
+  "monsters": [
+    {
+      "id": "srd-5.2.1:content/monsters/aboleth",
+      "name": "Aboleth",
+      "source_pages": [
+        258,
+        258
+      ],
+      "sizes": [
+        "large"
+      ],
+      "type": "aberration",
+      "alignment": "Lawful Evil",
+      "ac": 17,
+      "hp": {
+        "average": 150,
+        "dice": 20,
+        "sides": 10,
+        "modifier": 40
+      },
+      "initiative": {
+        "modifier": 7,
+        "score": 17
+      },
+      "speeds": {
+        "walk": 10,
+        "swim": 40
+      },
+      "abilities": {
+        "str": {
+          "score": 21,
+          "modifier": 5,
+          "save": 5
+        },
+        "dex": {
+          "score": 9,
+          "modifier": -1,
+          "save": 3
+        },
+        "con": {
+          "score": 15,
+          "modifier": 2,
+          "save": 6
+        },
+        "int": {
+          "score": 18,
+          "modifier": 4,
+          "save": 8
+        },
+        "wis": {
+          "score": 15,
+          "modifier": 2,
+          "save": 6
+        },
+        "cha": {
+          "score": 18,
+          "modifier": 4,
+          "save": 4
+        }
+      },
+      "senses": {
+        "passive_perception": 20,
+        "special": {
+          "darkvision": 120
+        }
+      },
+      "languages": [
+        "Deep Speech"
+      ],
+      "gear": [],
+      "cr": "10",
+      "xp": 5900,
+      "proficiency_bonus": 4,
+      "traits": [
+        {
+          "key": "trait/amphibious",
+          "name": "Amphibious",
+          "text": "Amphibious. The aboleth can breathe air and water."
+        },
+        {
+          "key": "trait/eldritch-restoration",
+          "name": "Eldritch Restoration",
+          "text": "Eldritch Restoration. If destroyed, the aboleth gains a new body in 5d10 days, reviving with all its Hit Points in the Far Realm or another location chosen by the GM.",
+          "requires": [
+            "effect/revive"
+          ]
+        },
+        {
+          "key": "trait/legendary-resistance",
+          "name": "Legendary Resistance",
+          "text": "Legendary Resistance (3/Day, or 4/Day in Lair). If the aboleth fails a saving throw, it can choose to succeed instead.",
+          "uses": {
+            "per_day": 3,
+            "lair_per_day": 4,
+            "recharge": 0
+          },
+          "requires": [
+            "limit/per-day",
+            "lair/uses",
+            "save/choose-success"
+          ]
+        },
+        {
+          "key": "trait/mucus-cloud",
+          "name": "Mucus Cloud",
+          "text": "Mucus Cloud. While underwater, the aboleth is surrounded by mucus. Constitution Saving Throw: DC 14, each creature in a 5-foot Emanation originating from the aboleth at the end of the aboleth’s turn. Failure: The target is cursed. Until the curse ends, the target’s skin becomes slimy, the target can breathe air and water, and it can’t regain Hit Points unless it is underwater. While the cursed creature is outside a body of water, the creature takes 6 (1d12) Acid damage at the end of every 10 minutes unless moisture is applied to its skin before those minutes have passed.",
+          "save": {
+            "ability": "con",
+            "dc": 14
+          },
+          "target": {
+            "shape": "emanation",
+            "size": 5,
+            "width": 0,
+            "range": 0
+          },
+          "dice": {
+            "average": 6,
+            "dice": 1,
+            "sides": 12,
+            "modifier": 0
+          },
+          "requires": [
+            "save/con",
+            "area/emanation",
+            "effect/acid-damage",
+            "effect/curse",
+            "effect/no-hit-point-recovery"
+          ]
+        },
+        {
+          "key": "trait/probing-telepathy",
+          "name": "Probing Telepathy",
+          "text": "Probing Telepathy. If a creature the aboleth can see communicates telepathically with the aboleth, the aboleth learns the creature’s greatest desires.",
+          "requires": [
+            "effect/learn-desires"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "multiattack",
+          "name": "Multiattack",
+          "text": "Multiattack. The aboleth makes two Tentacle attacks and uses either Consume Memories or Dominate Mind if available.",
+          "key": "action/multiattack",
+          "effects": [
+            {
+              "key": "action/melee-attack",
+              "name": "Attack",
+              "text": "The aboleth makes two Tentacle attacks and uses either Consume Memories or Dominate Mind if available."
+            },
+            {
+              "key": "multiattack/additional-action",
+              "name": "Additional action",
+              "text": "The aboleth makes two Tentacle attacks and uses either Consume Memories or Dominate Mind if available."
+            }
+          ]
+        },
+        {
+          "id": "tentacle",
+          "name": "Tentacle",
+          "text": "Tentacle. Melee Attack Roll: +9, reach 15 ft. Hit: 12 (2d6 + 5) Bludgeoning damage. If the target is a Large or smaller creature, it has the Grappled condition (escape DC 14) from one of four tentacles.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 9,
+            "reach": 15,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 12,
+              "dice": 2,
+              "sides": 6,
+              "modifier": 5
+            },
+            "damage_type": "bludgeoning"
+          },
+          "effects": [
+            {
+              "key": "effect/bludgeoning-damage",
+              "name": "Bludgeoning damage",
+              "text": "12 (2d6 + 5) Bludgeoning damage.",
+              "dice": {
+                "average": 12,
+                "dice": 2,
+                "sides": 6,
+                "modifier": 5
+              }
+            },
+            {
+              "key": "condition/grappled",
+              "name": "Grappled",
+              "text": "If the target is a Large or smaller creature, it has the Grappled condition (escape DC 14) from one of four tentacles."
+            },
+            {
+              "key": "requirement/target-size",
+              "name": "Target size",
+              "text": "If the target is a Large or smaller creature, it has the Grappled condition (escape DC 14) from one of four tentacles."
+            }
+          ]
+        },
+        {
+          "id": "consume-memories",
+          "name": "Consume Memories",
+          "text": "Consume Memories. Intelligence Saving Throw: DC 16, one creature within 30 feet that is Charmed or Grappled by the aboleth. Failure: 10 (3d6) Psychic damage. Success: Half damage. Failure or Success: The aboleth gains the target’s memories if the target is a Humanoid and is reduced to 0 Hit Points by this action.",
+          "key": "action/saving-throw",
+          "save": {
+            "ability": "int",
+            "dc": 16
+          },
+          "target": {
+            "shape": "creature",
+            "size": 0,
+            "width": 0,
+            "range": 30
+          },
+          "effects": [
+            {
+              "key": "save/int",
+              "name": "Intelligence Saving Throw",
+              "text": "Intelligence Saving Throw: DC 16"
+            },
+            {
+              "key": "target/creature",
+              "name": "Target",
+              "text": "one creature within 30 feet that is Charmed or Grappled by the aboleth."
+            },
+            {
+              "key": "requirement/charmed-or-grappled-creature",
+              "name": "Charmed or Grappled creature",
+              "text": "Intelligence Saving Throw: DC 16, one creature within 30 feet that is Charmed or Grappled by the aboleth."
+            },
+            {
+              "key": "effect/psychic-damage",
+              "name": "Psychic damage",
+              "text": "10 (3d6) Psychic damage.",
+              "dice": {
+                "average": 10,
+                "dice": 3,
+                "sides": 6,
+                "modifier": 0
+              }
+            },
+            {
+              "key": "save/half-damage",
+              "name": "Half damage",
+              "text": "Success: Half damage."
+            },
+            {
+              "key": "effect/gain-memories",
+              "name": "Gain memories",
+              "text": "Failure or Success: The aboleth gains the target’s memories if the target is a Humanoid and is reduced to 0 Hit Points by this action."
+            }
+          ]
+        },
+        {
+          "id": "dominate-mind",
+          "name": "Dominate Mind",
+          "text": "Dominate Mind (2/Day). Wisdom Saving Throw: DC 16, one creature the aboleth can see within 30 feet. Failure: The target has the Charmed condition until the aboleth dies or is on a different plane of existence from the target. While Charmed, the target acts as an ally to the aboleth and is under its control while within 60 feet of it. In addition, the aboleth and the target can communicate telepathically with each other over any distance. The target repeats the save whenever it takes damage as well as after every 24 hours it spends at least 1 mile away from the aboleth, ending the effect on itself on a success.",
+          "key": "action/saving-throw",
+          "save": {
+            "ability": "wis",
+            "dc": 16
+          },
+          "target": {
+            "shape": "creature",
+            "size": 0,
+            "width": 0,
+            "range": 30
+          },
+          "uses": {
+            "per_day": 2,
+            "lair_per_day": 0,
+            "recharge": 0
+          },
+          "effects": [
+            {
+              "key": "save/wis",
+              "name": "Wisdom Saving Throw",
+              "text": "Wisdom Saving Throw: DC 16"
+            },
+            {
+              "key": "target/creature",
+              "name": "Target",
+              "text": "one creature the aboleth can see within 30 feet."
+            },
+            {
+              "key": "limit/per-day",
+              "name": "Daily uses",
+              "text": "(2/Day)"
+            },
+            {
+              "key": "condition/charmed",
+              "name": "Charmed",
+              "text": "Failure: The target has the Charmed condition until the aboleth dies or is on a different plane of existence from the target."
+            },
+            {
+              "key": "effect/control-charmed-creature",
+              "name": "Control",
+              "text": "While Charmed, the target acts as an ally to the aboleth and is under its control while within 60 feet of it."
+            },
+            {
+              "key": "effect/telepathic-link",
+              "name": "Telepathic link",
+              "text": "In addition, the aboleth and the target can communicate telepathically with each other over any distance."
+            },
+            {
+              "key": "save/repeat",
+              "name": "Repeated save",
+              "text": "The target repeats the save whenever it takes damage as well as after every 24 hours it spends at least 1 mile away from the aboleth, ending the effect on itself on a success."
+            }
+          ]
+        }
+      ],
+      "skills": {
+        "history": 12,
+        "perception": 10
+      },
+      "telepathy": 120,
+      "lair_xp": 7200,
+      "legendary_actions": [
+        {
+          "id": "lash",
+          "name": "Lash",
+          "text": "Lash. The aboleth makes one Tentacle attack.",
+          "key": "action/special",
+          "effects": [
+            {
+              "key": "action/melee-attack",
+              "name": "Attack",
+              "text": "The aboleth makes one Tentacle attack."
+            }
+          ]
+        },
+        {
+          "id": "psychic-drain",
+          "name": "Psychic Drain",
+          "text": "Psychic Drain. If the aboleth has at least one creature Charmed or Grappled, it uses Consume Memories and regains 5 (1d10) Hit Points.",
+          "key": "action/special",
+          "effects": [
+            {
+              "key": "effect/regain-hit-points",
+              "name": "Regain Hit Points",
+              "text": "If the aboleth has at least one creature Charmed or Grappled, it uses Consume Memories and regains 5 (1d10) Hit Points.",
+              "dice": {
+                "average": 5,
+                "dice": 1,
+                "sides": 10,
+                "modifier": 0
+              }
+            },
+            {
+              "key": "action/consume-memories",
+              "name": "Consume Memories",
+              "text": "If the aboleth has at least one creature Charmed or Grappled, it uses Consume Memories and regains 5 (1d10) Hit Points."
+            },
+            {
+              "key": "requirement/charmed-or-grappled-creature",
+              "name": "Charmed or Grappled creature",
+              "text": "If the aboleth has at least one creature Charmed or Grappled, it uses Consume Memories and regains 5 (1d10) Hit Points."
+            }
+          ]
+        }
+      ],
+      "legendary": {
+        "uses": 3,
+        "lair_uses": 4,
+        "text": "Legendary Action Uses: 3 (4 in Lair). Immediately after another creature’s turn, the aboleth can expend a use to take one of the following actions. The aboleth regains all expended uses at the start of each of its turns."
+      },
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/skills",
+        "movement/swim",
+        "sense/darkvision",
+        "language/telepathy",
+        "lair/xp",
+        "legendary/actions",
+        "lair/uses",
+        "trait/amphibious",
+        "trait/eldritch-restoration",
+        "effect/revive",
+        "trait/legendary-resistance",
+        "limit/per-day",
+        "save/choose-success",
+        "trait/mucus-cloud",
+        "save/con",
+        "area/emanation",
+        "effect/acid-damage",
+        "effect/curse",
+        "effect/no-hit-point-recovery",
+        "trait/probing-telepathy",
+        "effect/learn-desires",
+        "action/multiattack",
+        "action/melee-attack",
+        "multiattack/additional-action",
+        "effect/bludgeoning-damage",
+        "condition/grappled",
+        "requirement/target-size",
+        "action/saving-throw",
+        "save/int",
+        "target/creature",
+        "requirement/charmed-or-grappled-creature",
+        "effect/psychic-damage",
+        "save/half-damage",
+        "effect/gain-memories",
+        "save/wis",
+        "condition/charmed",
+        "effect/control-charmed-creature",
+        "effect/telepathic-link",
+        "save/repeat",
+        "action/special",
+        "effect/regain-hit-points",
+        "action/consume-memories"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/adult-black-dragon",
+      "name": "Adult Black Dragon",
+      "source_pages": [
+        264,
+        264
+      ],
+      "sizes": [
+        "huge"
+      ],
+      "type": "dragon",
+      "alignment": "Chaotic Evil",
+      "ac": 19,
+      "hp": {
+        "average": 195,
+        "dice": 17,
+        "sides": 12,
+        "modifier": 85
+      },
+      "initiative": {
+        "modifier": 12,
+        "score": 22
+      },
+      "speeds": {
+        "walk": 40,
+        "fly": 80,
+        "swim": 40
+      },
+      "abilities": {
+        "str": {
+          "score": 23,
+          "modifier": 6,
+          "save": 6
+        },
+        "dex": {
+          "score": 14,
+          "modifier": 2,
+          "save": 7
+        },
+        "con": {
+          "score": 21,
+          "modifier": 5,
+          "save": 5
+        },
+        "int": {
+          "score": 14,
+          "modifier": 2,
+          "save": 2
+        },
+        "wis": {
+          "score": 13,
+          "modifier": 1,
+          "save": 6
+        },
+        "cha": {
+          "score": 19,
+          "modifier": 4,
+          "save": 4
+        }
+      },
+      "senses": {
+        "passive_perception": 21,
+        "special": {
+          "blindsight": 60,
+          "darkvision": 120
+        }
+      },
+      "languages": [
+        "Common",
+        "Draconic"
+      ],
+      "gear": [],
+      "cr": "14",
+      "xp": 11500,
+      "proficiency_bonus": 5,
+      "traits": [
+        {
+          "key": "trait/amphibious",
+          "name": "Amphibious",
+          "text": "Amphibious. The dragon can breathe air and water."
+        },
+        {
+          "key": "trait/legendary-resistance",
+          "name": "Legendary Resistance",
+          "text": "Legendary Resistance (3/Day, or 4/Day in Lair). If the dragon fails a saving throw, it can choose to succeed instead.",
+          "uses": {
+            "per_day": 3,
+            "lair_per_day": 4,
+            "recharge": 0
+          },
+          "requires": [
+            "limit/per-day",
+            "lair/uses",
+            "save/choose-success"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "multiattack",
+          "name": "Multiattack",
+          "text": "Multiattack. The dragon makes three Rend attacks. It can replace one attack with a use of Spellcasting to cast Acid Arrow (level 3 version).",
+          "key": "action/multiattack",
+          "effects": [
+            {
+              "key": "action/melee-attack",
+              "name": "Attack",
+              "text": "The dragon makes three Rend attacks."
+            },
+            {
+              "key": "multiattack/replace-attack",
+              "name": "Replace one attack",
+              "text": "It can replace one attack with a use of Spellcasting to cast Acid Arrow (level 3 version)."
+            },
+            {
+              "key": "spell/acid-arrow",
+              "name": "Acid Arrow (level 3 version)",
+              "text": "It can replace one attack with a use of Spellcasting to cast Acid Arrow (level 3 version)."
+            }
+          ]
+        },
+        {
+          "id": "rend",
+          "name": "Rend",
+          "text": "Rend. Melee Attack Roll: +11, reach 10 ft. Hit: 13 (2d6 + 6) Slashing damage plus 4 (1d8) Acid damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 11,
+            "reach": 10,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 13,
+              "dice": 2,
+              "sides": 6,
+              "modifier": 6
+            },
+            "damage_type": "slashing"
+          },
+          "effects": [
+            {
+              "key": "effect/slashing-damage",
+              "name": "Slashing damage",
+              "text": "13 (2d6 + 6) Slashing damage.",
+              "dice": {
+                "average": 13,
+                "dice": 2,
+                "sides": 6,
+                "modifier": 6
+              }
+            },
+            {
+              "key": "effect/acid-damage",
+              "name": "Acid damage",
+              "text": "4 (1d8) Acid damage.",
+              "dice": {
+                "average": 4,
+                "dice": 1,
+                "sides": 8,
+                "modifier": 0
+              }
+            }
+          ]
+        },
+        {
+          "id": "acid-breath",
+          "name": "Acid Breath",
+          "text": "Acid Breath (Recharge 5–6). Dexterity Saving Throw: DC 18, each creature in a 60-foot-long, 5-foot-wide Line. Failure: 54 (12d8) Acid damage. Success: Half damage.",
+          "key": "action/saving-throw",
+          "save": {
+            "ability": "dex",
+            "dc": 18
+          },
+          "target": {
+            "shape": "line",
+            "size": 60,
+            "width": 5,
+            "range": 0
+          },
+          "uses": {
+            "per_day": 0,
+            "lair_per_day": 0,
+            "recharge": 5
+          },
+          "effects": [
+            {
+              "key": "save/dex",
+              "name": "Dexterity Saving Throw",
+              "text": "Dexterity Saving Throw: DC 18"
+            },
+            {
+              "key": "area/line",
+              "name": "Target",
+              "text": "each creature in a 60-foot-long, 5-foot-wide Line."
+            },
+            {
+              "key": "limit/recharge",
+              "name": "Recharge",
+              "text": "(Recharge 5–6)"
+            },
+            {
+              "key": "effect/acid-damage",
+              "name": "Acid damage",
+              "text": "54 (12d8) Acid damage.",
+              "dice": {
+                "average": 54,
+                "dice": 12,
+                "sides": 8,
+                "modifier": 0
+              }
+            },
+            {
+              "key": "save/half-damage",
+              "name": "Half damage",
+              "text": "Success: Half damage."
+            }
+          ]
+        },
+        {
+          "id": "spellcasting",
+          "name": "Spellcasting",
+          "text": "Spellcasting. The dragon casts one of the following spells, requiring no Material components and using Charisma as the spellcasting ability (spell save DC 17, +9 to hit with spell attacks): At Will: Acid Arrow (level 3 version), Detect Magic, Fear 1/Day Each: Speak with Dead, Vitriolic Sphere",
+          "key": "action/spellcasting",
+          "spellcasting": {
+            "ability": "cha",
+            "save_dc": 17,
+            "attack_bonus": 9,
+            "at_will": [
+              "Acid Arrow (level 3 version)",
+              "Detect Magic",
+              "Fear"
+            ],
+            "per_day": [
+              {
+                "uses": 1,
+                "spells": [
+                  "Speak with Dead",
+                  "Vitriolic Sphere"
+                ]
+              }
+            ]
+          },
+          "effects": [
+            {
+              "key": "spellcasting/no-material-components",
+              "name": "No Material components",
+              "text": "The dragon casts one of the following spells, requiring no Material components and using Charisma as the spellcasting ability (spell save DC 17, +9 to hit with spell attacks):"
+            },
+            {
+              "key": "spell/acid-arrow",
+              "name": "Acid Arrow",
+              "text": "Acid Arrow (level 3 version)",
+              "requires": [
+                "spellcasting/at-will"
+              ]
+            },
+            {
+              "key": "spell/detect-magic",
+              "name": "Detect Magic",
+              "text": "Detect Magic",
+              "requires": [
+                "spellcasting/at-will"
+              ]
+            },
+            {
+              "key": "spell/fear",
+              "name": "Fear",
+              "text": "Fear",
+              "requires": [
+                "spellcasting/at-will"
+              ]
+            },
+            {
+              "key": "spell/speak-with-dead",
+              "name": "Speak with Dead",
+              "text": "Speak with Dead",
+              "requires": [
+                "limit/per-day"
+              ]
+            },
+            {
+              "key": "spell/vitriolic-sphere",
+              "name": "Vitriolic Sphere",
+              "text": "Vitriolic Sphere",
+              "requires": [
+                "limit/per-day"
+              ]
+            }
+          ]
+        }
+      ],
+      "tags": [
+        "Chromatic"
+      ],
+      "skills": {
+        "perception": 11,
+        "stealth": 7
+      },
+      "immunities": [
+        "acid"
+      ],
+      "lair_xp": 13000,
+      "legendary_actions": [
+        {
+          "id": "cloud-of-insects",
+          "name": "Cloud of Insects",
+          "text": "Cloud of Insects. Dexterity Saving Throw: DC 17, one creature the dragon can see within 120 feet. Failure: 22 (4d10) Poison damage, and the target has Disadvantage on saving throws to maintain Concentration until the end of its next turn. Failure or Success: The dragon can’t take this action again until the start of its next turn.",
+          "key": "action/saving-throw",
+          "save": {
+            "ability": "dex",
+            "dc": 17
+          },
+          "target": {
+            "shape": "creature",
+            "size": 0,
+            "width": 0,
+            "range": 120
+          },
+          "effects": [
+            {
+              "key": "save/dex",
+              "name": "Dexterity Saving Throw",
+              "text": "Dexterity Saving Throw: DC 17"
+            },
+            {
+              "key": "target/creature",
+              "name": "Target",
+              "text": "one creature the dragon can see within 120 feet."
+            },
+            {
+              "key": "effect/poison-damage",
+              "name": "Poison damage",
+              "text": "22 (4d10) Poison damage.",
+              "dice": {
+                "average": 22,
+                "dice": 4,
+                "sides": 10,
+                "modifier": 0
+              }
+            },
+            {
+              "key": "effect/concentration-save-disadvantage",
+              "name": "Concentration save Disadvantage",
+              "text": "Failure: 22 (4d10) Poison damage, and the target has Disadvantage on saving throws to maintain Concentration until the end of its next turn."
+            },
+            {
+              "key": "limit/once-per-round",
+              "name": "Once per round",
+              "text": "Failure or Success: The dragon can’t take this action again until the start of its next turn."
+            }
+          ]
+        },
+        {
+          "id": "frightful-presence",
+          "name": "Frightful Presence",
+          "text": "Frightful Presence. The dragon uses Spellcasting to cast Fear. The dragon can’t take this action again until the start of its next turn.",
+          "key": "action/special",
+          "effects": [
+            {
+              "key": "action/spellcasting",
+              "name": "Spellcasting",
+              "text": "The dragon uses Spellcasting to cast Fear."
+            },
+            {
+              "key": "spell/fear",
+              "name": "Fear",
+              "text": "The dragon uses Spellcasting to cast Fear."
+            },
+            {
+              "key": "limit/once-per-round",
+              "name": "Once per round",
+              "text": "The dragon can’t take this action again until the start of its next turn."
+            }
+          ]
+        },
+        {
+          "id": "pounce",
+          "name": "Pounce",
+          "text": "Pounce. The dragon moves up to half its Speed, and it makes one Rend attack.",
+          "key": "action/special",
+          "effects": [
+            {
+              "key": "movement/half-speed",
+              "name": "Move half Speed",
+              "text": "The dragon moves up to half its Speed, and it makes one Rend attack."
+            },
+            {
+              "key": "action/melee-attack",
+              "name": "Attack",
+              "text": "The dragon moves up to half its Speed, and it makes one Rend attack."
+            }
+          ]
+        }
+      ],
+      "legendary": {
+        "uses": 3,
+        "lair_uses": 4,
+        "text": "Legendary Action Uses: 3 (4 in Lair). Immediately after another creature’s turn, the dragon can expend a use to take one of the following actions. The dragon regains all expended uses at the start of each of its turns."
+      },
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/skills",
+        "defense/damage-immunity",
+        "movement/fly",
+        "movement/swim",
+        "sense/blindsight",
+        "sense/darkvision",
+        "lair/xp",
+        "legendary/actions",
+        "lair/uses",
+        "trait/amphibious",
+        "trait/legendary-resistance",
+        "limit/per-day",
+        "save/choose-success",
+        "action/multiattack",
+        "action/melee-attack",
+        "multiattack/replace-attack",
+        "spell/acid-arrow",
+        "effect/slashing-damage",
+        "effect/acid-damage",
+        "action/saving-throw",
+        "save/dex",
+        "area/line",
+        "limit/recharge",
+        "save/half-damage",
+        "action/spellcasting",
+        "spellcasting/no-material-components",
+        "spellcasting/at-will",
+        "spell/detect-magic",
+        "spell/fear",
+        "spell/speak-with-dead",
+        "spell/vitriolic-sphere",
+        "target/creature",
+        "effect/poison-damage",
+        "effect/concentration-save-disadvantage",
+        "limit/once-per-round",
+        "action/special",
+        "movement/half-speed"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/adult-blue-dragon",
+      "name": "Adult Blue Dragon",
+      "source_pages": [
+        266,
+        267
+      ],
+      "sizes": [
+        "huge"
+      ],
+      "type": "dragon",
+      "alignment": "Lawful Evil",
+      "ac": 19,
+      "hp": {
+        "average": 212,
+        "dice": 17,
+        "sides": 12,
+        "modifier": 102
+      },
+      "initiative": {
+        "modifier": 10,
+        "score": 20
+      },
+      "speeds": {
+        "walk": 40,
+        "burrow": 30,
+        "fly": 80
+      },
+      "abilities": {
+        "str": {
+          "score": 25,
+          "modifier": 7,
+          "save": 7
+        },
+        "dex": {
+          "score": 10,
+          "modifier": 0,
+          "save": 5
+        },
+        "con": {
+          "score": 23,
+          "modifier": 6,
+          "save": 6
+        },
+        "int": {
+          "score": 16,
+          "modifier": 3,
+          "save": 3
+        },
+        "wis": {
+          "score": 15,
+          "modifier": 2,
+          "save": 7
+        },
+        "cha": {
+          "score": 20,
+          "modifier": 5,
+          "save": 5
+        }
+      },
+      "senses": {
+        "passive_perception": 22,
+        "special": {
+          "blindsight": 60,
+          "darkvision": 120
+        }
+      },
+      "languages": [
+        "Common",
+        "Draconic"
+      ],
+      "gear": [],
+      "cr": "16",
+      "xp": 15000,
+      "proficiency_bonus": 5,
+      "traits": [
+        {
+          "key": "trait/legendary-resistance",
+          "name": "Legendary Resistance",
+          "text": "Legendary Resistance (3/Day, or 4/Day in Lair). If the dragon fails a saving throw, it can choose to succeed instead.",
+          "uses": {
+            "per_day": 3,
+            "lair_per_day": 4,
+            "recharge": 0
+          },
+          "requires": [
+            "limit/per-day",
+            "lair/uses",
+            "save/choose-success"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "multiattack",
+          "name": "Multiattack",
+          "text": "Multiattack. The dragon makes three Rend attacks. It can replace one attack with a use of Spellcasting to cast Shatter.",
+          "key": "action/multiattack",
+          "effects": [
+            {
+              "key": "action/melee-attack",
+              "name": "Attack",
+              "text": "The dragon makes three Rend attacks."
+            },
+            {
+              "key": "multiattack/replace-attack",
+              "name": "Replace one attack",
+              "text": "It can replace one attack with a use of Spellcasting to cast Shatter."
+            },
+            {
+              "key": "spell/shatter",
+              "name": "Shatter",
+              "text": "It can replace one attack with a use of Spellcasting to cast Shatter."
+            }
+          ]
+        },
+        {
+          "id": "rend",
+          "name": "Rend",
+          "text": "Rend. Melee Attack Roll: +12, reach 10 ft. Hit: 16 (2d8 + 7) Slashing damage plus 5 (1d10) Lightning damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 12,
+            "reach": 10,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 16,
+              "dice": 2,
+              "sides": 8,
+              "modifier": 7
+            },
+            "damage_type": "slashing"
+          },
+          "effects": [
+            {
+              "key": "effect/slashing-damage",
+              "name": "Slashing damage",
+              "text": "16 (2d8 + 7) Slashing damage.",
+              "dice": {
+                "average": 16,
+                "dice": 2,
+                "sides": 8,
+                "modifier": 7
+              }
+            },
+            {
+              "key": "effect/lightning-damage",
+              "name": "Lightning damage",
+              "text": "5 (1d10) Lightning damage.",
+              "dice": {
+                "average": 5,
+                "dice": 1,
+                "sides": 10,
+                "modifier": 0
+              }
+            }
+          ]
+        },
+        {
+          "id": "lightning-breath",
+          "name": "Lightning Breath",
+          "text": "Lightning Breath (Recharge 5–6). Dexterity Saving Throw: DC 19, each creature in a 90-foot-long, 5-foot-wide Line. Failure: 60 (11d10) Lightning damage. Success: Half damage.",
+          "key": "action/saving-throw",
+          "save": {
+            "ability": "dex",
+            "dc": 19
+          },
+          "target": {
+            "shape": "line",
+            "size": 90,
+            "width": 5,
+            "range": 0
+          },
+          "uses": {
+            "per_day": 0,
+            "lair_per_day": 0,
+            "recharge": 5
+          },
+          "effects": [
+            {
+              "key": "save/dex",
+              "name": "Dexterity Saving Throw",
+              "text": "Dexterity Saving Throw: DC 19"
+            },
+            {
+              "key": "area/line",
+              "name": "Target",
+              "text": "each creature in a 90-foot-long, 5-foot-wide Line."
+            },
+            {
+              "key": "limit/recharge",
+              "name": "Recharge",
+              "text": "(Recharge 5–6)"
+            },
+            {
+              "key": "effect/lightning-damage",
+              "name": "Lightning damage",
+              "text": "60 (11d10) Lightning damage.",
+              "dice": {
+                "average": 60,
+                "dice": 11,
+                "sides": 10,
+                "modifier": 0
+              }
+            },
+            {
+              "key": "save/half-damage",
+              "name": "Half damage",
+              "text": "Success: Half damage."
+            }
+          ]
+        },
+        {
+          "id": "spellcasting",
+          "name": "Spellcasting",
+          "text": "Spellcasting. The dragon casts one of the following spells, requiring no Material components and using Charisma as the spellcasting ability (spell save DC 18): At Will: Detect Magic, Invisibility, Mage Hand, Shatter 1/Day Each: Scrying, Sending",
+          "key": "action/spellcasting",
+          "spellcasting": {
+            "ability": "cha",
+            "save_dc": 18,
+            "attack_bonus": 0,
+            "at_will": [
+              "Detect Magic",
+              "Invisibility",
+              "Mage Hand",
+              "Shatter"
+            ],
+            "per_day": [
+              {
+                "uses": 1,
+                "spells": [
+                  "Scrying",
+                  "Sending"
+                ]
+              }
+            ]
+          },
+          "effects": [
+            {
+              "key": "spellcasting/no-material-components",
+              "name": "No Material components",
+              "text": "The dragon casts one of the following spells, requiring no Material components and using Charisma as the spellcasting ability (spell save DC 18):"
+            },
+            {
+              "key": "spell/detect-magic",
+              "name": "Detect Magic",
+              "text": "Detect Magic",
+              "requires": [
+                "spellcasting/at-will"
+              ]
+            },
+            {
+              "key": "spell/invisibility",
+              "name": "Invisibility",
+              "text": "Invisibility",
+              "requires": [
+                "spellcasting/at-will"
+              ]
+            },
+            {
+              "key": "spell/mage-hand",
+              "name": "Mage Hand",
+              "text": "Mage Hand",
+              "requires": [
+                "spellcasting/at-will"
+              ]
+            },
+            {
+              "key": "spell/shatter",
+              "name": "Shatter",
+              "text": "Shatter",
+              "requires": [
+                "spellcasting/at-will"
+              ]
+            },
+            {
+              "key": "spell/scrying",
+              "name": "Scrying",
+              "text": "Scrying",
+              "requires": [
+                "limit/per-day"
+              ]
+            },
+            {
+              "key": "spell/sending",
+              "name": "Sending",
+              "text": "Sending",
+              "requires": [
+                "limit/per-day"
+              ]
+            }
+          ]
+        }
+      ],
+      "tags": [
+        "Chromatic"
+      ],
+      "skills": {
+        "perception": 12,
+        "stealth": 5
+      },
+      "immunities": [
+        "lightning"
+      ],
+      "lair_xp": 18000,
+      "legendary_actions": [
+        {
+          "id": "cloaked-flight",
+          "name": "Cloaked Flight",
+          "text": "Cloaked Flight. The dragon uses Spellcasting to cast Invisibility on itself, and it can fly up to half its Fly Speed. The dragon can’t take this action again until the start of its next turn.",
+          "key": "action/special",
+          "effects": [
+            {
+              "key": "movement/half-fly-speed",
+              "name": "Fly half Fly Speed",
+              "text": "The dragon uses Spellcasting to cast Invisibility on itself, and it can fly up to half its Fly Speed."
+            },
+            {
+              "key": "action/spellcasting",
+              "name": "Spellcasting",
+              "text": "The dragon uses Spellcasting to cast Invisibility on itself, and it can fly up to half its Fly Speed."
+            },
+            {
+              "key": "spell/invisibility",
+              "name": "Invisibility",
+              "text": "The dragon uses Spellcasting to cast Invisibility on itself, and it can fly up to half its Fly Speed."
+            },
+            {
+              "key": "limit/once-per-round",
+              "name": "Once per round",
+              "text": "The dragon can’t take this action again until the start of its next turn."
+            }
+          ]
+        },
+        {
+          "id": "sonic-boom",
+          "name": "Sonic Boom",
+          "text": "Sonic Boom. The dragon uses Spellcasting to cast Shatter. The dragon can’t take this action again until the start of its next turn.",
+          "key": "action/special",
+          "effects": [
+            {
+              "key": "action/spellcasting",
+              "name": "Spellcasting",
+              "text": "The dragon uses Spellcasting to cast Shatter."
+            },
+            {
+              "key": "spell/shatter",
+              "name": "Shatter",
+              "text": "The dragon uses Spellcasting to cast Shatter."
+            },
+            {
+              "key": "limit/once-per-round",
+              "name": "Once per round",
+              "text": "The dragon can’t take this action again until the start of its next turn."
+            }
+          ]
+        },
+        {
+          "id": "tail-swipe",
+          "name": "Tail Swipe",
+          "text": "Tail Swipe. The dragon makes one Rend attack.",
+          "key": "action/special",
+          "effects": [
+            {
+              "key": "action/melee-attack",
+              "name": "Attack",
+              "text": "The dragon makes one Rend attack."
+            }
+          ]
+        }
+      ],
+      "legendary": {
+        "uses": 3,
+        "lair_uses": 4,
+        "text": "Legendary Action Uses: 3 (4 in Lair). Immediately after another creature’s turn, the dragon can expend a use to take one of the following actions. The dragon regains all expended uses at the start of each of its turns."
+      },
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/skills",
+        "defense/damage-immunity",
+        "movement/burrow",
+        "movement/fly",
+        "sense/blindsight",
+        "sense/darkvision",
+        "lair/xp",
+        "legendary/actions",
+        "lair/uses",
+        "trait/legendary-resistance",
+        "limit/per-day",
+        "save/choose-success",
+        "action/multiattack",
+        "action/melee-attack",
+        "multiattack/replace-attack",
+        "spell/shatter",
+        "effect/slashing-damage",
+        "effect/lightning-damage",
+        "action/saving-throw",
+        "save/dex",
+        "area/line",
+        "limit/recharge",
+        "save/half-damage",
+        "action/spellcasting",
+        "spellcasting/no-material-components",
+        "spell/detect-magic",
+        "spellcasting/at-will",
+        "spell/invisibility",
+        "spell/mage-hand",
+        "spell/scrying",
+        "spell/sending",
+        "action/special",
+        "movement/half-fly-speed",
+        "limit/once-per-round"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/adult-brass-dragon",
+      "name": "Adult Brass Dragon",
+      "source_pages": [
+        268,
+        269
+      ],
+      "sizes": [
+        "huge"
+      ],
+      "type": "dragon",
+      "alignment": "Chaotic Good",
+      "ac": 18,
+      "hp": {
+        "average": 172,
+        "dice": 15,
+        "sides": 12,
+        "modifier": 75
+      },
+      "initiative": {
+        "modifier": 10,
+        "score": 20
+      },
+      "speeds": {
+        "walk": 40,
+        "burrow": 30,
+        "fly": 80
+      },
+      "abilities": {
+        "str": {
+          "score": 23,
+          "modifier": 6,
+          "save": 6
+        },
+        "dex": {
+          "score": 10,
+          "modifier": 0,
+          "save": 5
+        },
+        "con": {
+          "score": 21,
+          "modifier": 5,
+          "save": 5
+        },
+        "int": {
+          "score": 14,
+          "modifier": 2,
+          "save": 2
+        },
+        "wis": {
+          "score": 13,
+          "modifier": 1,
+          "save": 6
+        },
+        "cha": {
+          "score": 17,
+          "modifier": 3,
+          "save": 3
+        }
+      },
+      "senses": {
+        "passive_perception": 21,
+        "special": {
+          "blindsight": 60,
+          "darkvision": 120
+        }
+      },
+      "languages": [
+        "Common",
+        "Draconic"
+      ],
+      "gear": [],
+      "cr": "13",
+      "xp": 10000,
+      "proficiency_bonus": 5,
+      "traits": [
+        {
+          "key": "trait/legendary-resistance",
+          "name": "Legendary Resistance",
+          "text": "Legendary Resistance (3/Day, or 4/Day in Lair). If the dragon fails a saving throw, it can choose to succeed instead.",
+          "uses": {
+            "per_day": 3,
+            "lair_per_day": 4,
+            "recharge": 0
+          },
+          "requires": [
+            "limit/per-day",
+            "lair/uses",
+            "save/choose-success"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "multiattack",
+          "name": "Multiattack",
+          "text": "Multiattack. The dragon makes three Rend attacks. It can replace one attack with a use of (A) Sleep Breath or (B) Spellcasting to cast Scorching Ray.",
+          "key": "action/multiattack",
+          "effects": [
+            {
+              "key": "action/melee-attack",
+              "name": "Attack",
+              "text": "The dragon makes three Rend attacks."
+            },
+            {
+              "key": "multiattack/replace-attack",
+              "name": "Replace one attack",
+              "text": "It can replace one attack with a use of (A) Sleep Breath or (B) Spellcasting to cast Scorching Ray."
+            },
+            {
+              "key": "spell/scorching-ray",
+              "name": "Scorching Ray",
+              "text": "It can replace one attack with a use of (A) Sleep Breath or (B) Spellcasting to cast Scorching Ray."
+            }
+          ]
+        },
+        {
+          "id": "rend",
+          "name": "Rend",
+          "text": "Rend. Melee Attack Roll: +11, reach 10 ft. Hit: 17 (2d10 + 6) Slashing damage plus 4 (1d8) Fire damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 11,
+            "reach": 10,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 17,
+              "dice": 2,
+              "sides": 10,
+              "modifier": 6
+            },
+            "damage_type": "slashing"
+          },
+          "effects": [
+            {
+              "key": "effect/slashing-damage",
+              "name": "Slashing damage",
+              "text": "17 (2d10 + 6) Slashing damage.",
+              "dice": {
+                "average": 17,
+                "dice": 2,
+                "sides": 10,
+                "modifier": 6
+              }
+            },
+            {
+              "key": "effect/fire-damage",
+              "name": "Fire damage",
+              "text": "4 (1d8) Fire damage.",
+              "dice": {
+                "average": 4,
+                "dice": 1,
+                "sides": 8,
+                "modifier": 0
+              }
+            }
+          ]
+        },
+        {
+          "id": "fire-breath",
+          "name": "Fire Breath",
+          "text": "Fire Breath (Recharge 5–6). Dexterity Saving Throw: DC 18, each creature in a 60-foot-long, 5-foot-wide Line. Failure: 45 (10d8) Fire damage. Success: Half damage.",
+          "key": "action/saving-throw",
+          "save": {
+            "ability": "dex",
+            "dc": 18
+          },
+          "target": {
+            "shape": "line",
+            "size": 60,
+            "width": 5,
+            "range": 0
+          },
+          "uses": {
+            "per_day": 0,
+            "lair_per_day": 0,
+            "recharge": 5
+          },
+          "effects": [
+            {
+              "key": "save/dex",
+              "name": "Dexterity Saving Throw",
+              "text": "Dexterity Saving Throw: DC 18"
+            },
+            {
+              "key": "area/line",
+              "name": "Target",
+              "text": "each creature in a 60-foot-long, 5-foot-wide Line."
+            },
+            {
+              "key": "limit/recharge",
+              "name": "Recharge",
+              "text": "(Recharge 5–6)"
+            },
+            {
+              "key": "effect/fire-damage",
+              "name": "Fire damage",
+              "text": "45 (10d8) Fire damage.",
+              "dice": {
+                "average": 45,
+                "dice": 10,
+                "sides": 8,
+                "modifier": 0
+              }
+            },
+            {
+              "key": "save/half-damage",
+              "name": "Half damage",
+              "text": "Success: Half damage."
+            }
+          ]
+        },
+        {
+          "id": "sleep-breath",
+          "name": "Sleep Breath",
+          "text": "Sleep Breath. Constitution Saving Throw: DC 18, each creature in a 60-foot Cone. Failure: The target has the Incapacitated condition until the end of its next turn, at which point it repeats the save. Second Failure: The target has the Unconscious condition for 10 minutes. This effect ends for the target if it takes damage or a creature within 5 feet of it takes an action to wake it.",
+          "key": "action/saving-throw",
+          "save": {
+            "ability": "con",
+            "dc": 18
+          },
+          "target": {
+            "shape": "cone",
+            "size": 60,
+            "width": 0,
+            "range": 0
+          },
+          "effects": [
+            {
+              "key": "save/con",
+              "name": "Constitution Saving Throw",
+              "text": "Constitution Saving Throw: DC 18"
+            },
+            {
+              "key": "area/cone",
+              "name": "Target",
+              "text": "each creature in a 60-foot Cone."
+            },
+            {
+              "key": "condition/incapacitated",
+              "name": "Incapacitated",
+              "text": "Failure: The target has the Incapacitated condition until the end of its next turn, at which point it repeats the save."
+            },
+            {
+              "key": "save/repeat",
+              "name": "Repeated save",
+              "text": "Failure: The target has the Incapacitated condition until the end of its next turn, at which point it repeats the save."
+            },
+            {
+              "key": "condition/unconscious",
+              "name": "Unconscious",
+              "text": "Second Failure: The target has the Unconscious condition for 10 minutes."
+            },
+            {
+              "key": "save/second-failure",
+              "name": "Second failure",
+              "text": "Second Failure: The target has the Unconscious condition for 10 minutes."
+            },
+            {
+              "key": "effect/ends-on-damage-or-wake",
+              "name": "Ends on damage or wake",
+              "text": "This effect ends for the target if it takes damage or a creature within 5 feet of it takes an action to wake it."
+            }
+          ]
+        },
+        {
+          "id": "spellcasting",
+          "name": "Spellcasting",
+          "text": "Spellcasting. The dragon casts one of the following spells, requiring no Material components and using Charisma as the spellcasting ability (spell save DC 16): At Will: Detect Magic, Minor Illusion, Scorching Ray, Shapechange (Beast or Humanoid form only, no Temporary Hit Points gained from the spell, and no Concentration or Temporary Hit Points required to maintain the spell), Speak with Animals 1/Day Each: Detect Thoughts, Control Weather",
+          "key": "action/spellcasting",
+          "spellcasting": {
+            "ability": "cha",
+            "save_dc": 16,
+            "attack_bonus": 0,
+            "at_will": [
+              "Detect Magic",
+              "Minor Illusion",
+              "Scorching Ray",
+              "Shapechange (Beast or Humanoid form only, no Temporary Hit Points gained from the spell, and no Concentration or Temporary Hit Points required to maintain the spell)",
+              "Speak with Animals"
+            ],
+            "per_day": [
+              {
+                "uses": 1,
+                "spells": [
+                  "Detect Thoughts",
+                  "Control Weather"
+                ]
+              }
+            ]
+          },
+          "effects": [
+            {
+              "key": "spellcasting/no-material-components",
+              "name": "No Material components",
+              "text": "The dragon casts one of the following spells, requiring no Material components and using Charisma as the spellcasting ability (spell save DC 16):"
+            },
+            {
+              "key": "spell/detect-magic",
+              "name": "Detect Magic",
+              "text": "Detect Magic",
+              "requires": [
+                "spellcasting/at-will"
+              ]
+            },
+            {
+              "key": "spell/minor-illusion",
+              "name": "Minor Illusion",
+              "text": "Minor Illusion",
+              "requires": [
+                "spellcasting/at-will"
+              ]
+            },
+            {
+              "key": "spell/scorching-ray",
+              "name": "Scorching Ray",
+              "text": "Scorching Ray",
+              "requires": [
+                "spellcasting/at-will"
+              ]
+            },
+            {
+              "key": "spell/shapechange",
+              "name": "Shapechange",
+              "text": "Shapechange (Beast or Humanoid form only, no Temporary Hit Points gained from the spell, and no Concentration or Temporary Hit Points required to maintain the spell)",
+              "requires": [
+                "spellcasting/at-will"
+              ]
+            },
+            {
+              "key": "spell/speak-with-animals",
+              "name": "Speak with Animals",
+              "text": "Speak with Animals",
+              "requires": [
+                "spellcasting/at-will"
+              ]
+            },
+            {
+              "key": "spell/detect-thoughts",
+              "name": "Detect Thoughts",
+              "text": "Detect Thoughts",
+              "requires": [
+                "limit/per-day"
+              ]
+            },
+            {
+              "key": "spell/control-weather",
+              "name": "Control Weather",
+              "text": "Control Weather",
+              "requires": [
+                "limit/per-day"
+              ]
+            }
+          ]
+        }
+      ],
+      "tags": [
+        "Metallic"
+      ],
+      "skills": {
+        "history": 7,
+        "perception": 11,
+        "persuasion": 8,
+        "stealth": 5
+      },
+      "immunities": [
+        "fire"
+      ],
+      "lair_xp": 11500,
+      "legendary_actions": [
+        {
+          "id": "blazing-light",
+          "name": "Blazing Light",
+          "text": "Blazing Light. The dragon uses Spellcasting to cast Scorching Ray.",
+          "key": "action/special",
+          "effects": [
+            {
+              "key": "action/spellcasting",
+              "name": "Spellcasting",
+              "text": "The dragon uses Spellcasting to cast Scorching Ray."
+            },
+            {
+              "key": "spell/scorching-ray",
+              "name": "Scorching Ray",
+              "text": "The dragon uses Spellcasting to cast Scorching Ray."
+            }
+          ]
+        },
+        {
+          "id": "pounce",
+          "name": "Pounce",
+          "text": "Pounce. The dragon moves up to half its Speed, and it makes one Rend attack.",
+          "key": "action/special",
+          "effects": [
+            {
+              "key": "movement/half-speed",
+              "name": "Move half Speed",
+              "text": "The dragon moves up to half its Speed, and it makes one Rend attack."
+            },
+            {
+              "key": "action/melee-attack",
+              "name": "Attack",
+              "text": "The dragon moves up to half its Speed, and it makes one Rend attack."
+            }
+          ]
+        },
+        {
+          "id": "scorching-sands",
+          "name": "Scorching Sands",
+          "text": "Scorching Sands. Dexterity Saving Throw: DC 16, one creature the dragon can see within 120 feet. Failure: 27 (6d8) Fire damage, and the target’s Speed is halved until the end of its next turn. Failure or Success: The dragon can’t take this action again until the start of its next turn.",
+          "key": "action/saving-throw",
+          "save": {
+            "ability": "dex",
+            "dc": 16
+          },
+          "target": {
+            "shape": "creature",
+            "size": 0,
+            "width": 0,
+            "range": 120
+          },
+          "effects": [
+            {
+              "key": "save/dex",
+              "name": "Dexterity Saving Throw",
+              "text": "Dexterity Saving Throw: DC 16"
+            },
+            {
+              "key": "target/creature",
+              "name": "Target",
+              "text": "one creature the dragon can see within 120 feet."
+            },
+            {
+              "key": "effect/fire-damage",
+              "name": "Fire damage",
+              "text": "27 (6d8) Fire damage.",
+              "dice": {
+                "average": 27,
+                "dice": 6,
+                "sides": 8,
+                "modifier": 0
+              }
+            },
+            {
+              "key": "effect/speed-halved",
+              "name": "Speed halved",
+              "text": "Failure: 27 (6d8) Fire damage, and the target’s Speed is halved until the end of its next turn."
+            },
+            {
+              "key": "limit/once-per-round",
+              "name": "Once per round",
+              "text": "Failure or Success: The dragon can’t take this action again until the start of its next turn."
+            }
+          ]
+        }
+      ],
+      "legendary": {
+        "uses": 3,
+        "lair_uses": 4,
+        "text": "Legendary Action Uses: 3 (4 in Lair). Immediately after another creature’s turn, the dragon can expend a use to take one of the following actions. The dragon regains all expended uses at the start of each of its turns."
+      },
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/skills",
+        "defense/damage-immunity",
+        "movement/burrow",
+        "movement/fly",
+        "sense/blindsight",
+        "sense/darkvision",
+        "lair/xp",
+        "legendary/actions",
+        "lair/uses",
+        "trait/legendary-resistance",
+        "limit/per-day",
+        "save/choose-success",
+        "action/multiattack",
+        "action/melee-attack",
+        "multiattack/replace-attack",
+        "spell/scorching-ray",
+        "effect/slashing-damage",
+        "effect/fire-damage",
+        "action/saving-throw",
+        "save/dex",
+        "area/line",
+        "limit/recharge",
+        "save/half-damage",
+        "save/con",
+        "area/cone",
+        "condition/incapacitated",
+        "save/repeat",
+        "condition/unconscious",
+        "save/second-failure",
+        "effect/ends-on-damage-or-wake",
+        "action/spellcasting",
+        "spellcasting/no-material-components",
+        "spell/detect-magic",
+        "spellcasting/at-will",
+        "spell/minor-illusion",
+        "spell/shapechange",
+        "spell/speak-with-animals",
+        "spell/detect-thoughts",
+        "spell/control-weather",
+        "action/special",
+        "movement/half-speed",
+        "target/creature",
+        "effect/speed-halved",
+        "limit/once-per-round"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/adult-bronze-dragon",
+      "name": "Adult Bronze Dragon",
+      "source_pages": [
+        270,
+        271
+      ],
+      "sizes": [
+        "huge"
+      ],
+      "type": "dragon",
+      "alignment": "Lawful Good",
+      "ac": 18,
+      "hp": {
+        "average": 212,
+        "dice": 17,
+        "sides": 12,
+        "modifier": 102
+      },
+      "initiative": {
+        "modifier": 10,
+        "score": 20
+      },
+      "speeds": {
+        "walk": 40,
+        "fly": 80,
+        "swim": 40
+      },
+      "abilities": {
+        "str": {
+          "score": 25,
+          "modifier": 7,
+          "save": 7
+        },
+        "dex": {
+          "score": 10,
+          "modifier": 0,
+          "save": 5
+        },
+        "con": {
+          "score": 23,
+          "modifier": 6,
+          "save": 6
+        },
+        "int": {
+          "score": 16,
+          "modifier": 3,
+          "save": 3
+        },
+        "wis": {
+          "score": 15,
+          "modifier": 2,
+          "save": 7
+        },
+        "cha": {
+          "score": 20,
+          "modifier": 5,
+          "save": 5
+        }
+      },
+      "senses": {
+        "passive_perception": 22,
+        "special": {
+          "blindsight": 60,
+          "darkvision": 120
+        }
+      },
+      "languages": [
+        "Common",
+        "Draconic"
+      ],
+      "gear": [],
+      "cr": "15",
+      "xp": 13000,
+      "proficiency_bonus": 5,
+      "traits": [
+        {
+          "key": "trait/amphibious",
+          "name": "Amphibious",
+          "text": "Amphibious. The dragon can breathe air and water."
+        },
+        {
+          "key": "trait/legendary-resistance",
+          "name": "Legendary Resistance",
+          "text": "Legendary Resistance (3/Day, or 4/Day in Lair). If the dragon fails a saving throw, it can choose to succeed instead.",
+          "uses": {
+            "per_day": 3,
+            "lair_per_day": 4,
+            "recharge": 0
+          },
+          "requires": [
+            "limit/per-day",
+            "lair/uses",
+            "save/choose-success"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "multiattack",
+          "name": "Multiattack",
+          "text": "Multiattack. The dragon makes three Rend attacks. It can replace one attack with a use of (A) Repulsion Breath or (B) Spellcasting to cast Guiding Bolt (level 2 version).",
+          "key": "action/multiattack",
+          "effects": [
+            {
+              "key": "action/melee-attack",
+              "name": "Attack",
+              "text": "The dragon makes three Rend attacks."
+            },
+            {
+              "key": "multiattack/replace-attack",
+              "name": "Replace one attack",
+              "text": "It can replace one attack with a use of (A) Repulsion Breath or (B) Spellcasting to cast Guiding Bolt (level 2 version)."
+            },
+            {
+              "key": "spell/guiding-bolt",
+              "name": "Guiding Bolt (level 2 version)",
+              "text": "It can replace one attack with a use of (A) Repulsion Breath or (B) Spellcasting to cast Guiding Bolt (level 2 version)."
+            }
+          ]
+        },
+        {
+          "id": "rend",
+          "name": "Rend",
+          "text": "Rend. Melee Attack Roll: +12, reach 10 ft. Hit: 16 (2d8 + 7) Slashing damage plus 5 (1d10) Lightning damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 12,
+            "reach": 10,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 16,
+              "dice": 2,
+              "sides": 8,
+              "modifier": 7
+            },
+            "damage_type": "slashing"
+          },
+          "effects": [
+            {
+              "key": "effect/slashing-damage",
+              "name": "Slashing damage",
+              "text": "16 (2d8 + 7) Slashing damage.",
+              "dice": {
+                "average": 16,
+                "dice": 2,
+                "sides": 8,
+                "modifier": 7
+              }
+            },
+            {
+              "key": "effect/lightning-damage",
+              "name": "Lightning damage",
+              "text": "5 (1d10) Lightning damage.",
+              "dice": {
+                "average": 5,
+                "dice": 1,
+                "sides": 10,
+                "modifier": 0
+              }
+            }
+          ]
+        },
+        {
+          "id": "lightning-breath",
+          "name": "Lightning Breath",
+          "text": "Lightning Breath (Recharge 5–6). Dexterity Saving Throw: DC 19, each creature in a 90-foot-long, 5-foot-wide Line. Failure: 55 (10d10) Lightning damage. Success: Half damage.",
+          "key": "action/saving-throw",
+          "save": {
+            "ability": "dex",
+            "dc": 19
+          },
+          "target": {
+            "shape": "line",
+            "size": 90,
+            "width": 5,
+            "range": 0
+          },
+          "uses": {
+            "per_day": 0,
+            "lair_per_day": 0,
+            "recharge": 5
+          },
+          "effects": [
+            {
+              "key": "save/dex",
+              "name": "Dexterity Saving Throw",
+              "text": "Dexterity Saving Throw: DC 19"
+            },
+            {
+              "key": "area/line",
+              "name": "Target",
+              "text": "each creature in a 90-foot-long, 5-foot-wide Line."
+            },
+            {
+              "key": "limit/recharge",
+              "name": "Recharge",
+              "text": "(Recharge 5–6)"
+            },
+            {
+              "key": "effect/lightning-damage",
+              "name": "Lightning damage",
+              "text": "55 (10d10) Lightning damage.",
+              "dice": {
+                "average": 55,
+                "dice": 10,
+                "sides": 10,
+                "modifier": 0
+              }
+            },
+            {
+              "key": "save/half-damage",
+              "name": "Half damage",
+              "text": "Success: Half damage."
+            }
+          ]
+        },
+        {
+          "id": "repulsion-breath",
+          "name": "Repulsion Breath",
+          "text": "Repulsion Breath. Strength Saving Throw: DC 19, each creature in a 30-foot Cone. Failure: The target is pushed up to 60 feet straight away from the dragon and has the Prone condition.",
+          "key": "action/saving-throw",
+          "save": {
+            "ability": "str",
+            "dc": 19
+          },
+          "target": {
+            "shape": "cone",
+            "size": 30,
+            "width": 0,
+            "range": 0
+          },
+          "effects": [
+            {
+              "key": "save/str",
+              "name": "Strength Saving Throw",
+              "text": "Strength Saving Throw: DC 19"
+            },
+            {
+              "key": "area/cone",
+              "name": "Target",
+              "text": "each creature in a 30-foot Cone."
+            },
+            {
+              "key": "condition/prone",
+              "name": "Prone",
+              "text": "Failure: The target is pushed up to 60 feet straight away from the dragon and has the Prone condition."
+            },
+            {
+              "key": "effect/push",
+              "name": "Push",
+              "text": "Failure: The target is pushed up to 60 feet straight away from the dragon and has the Prone condition."
+            }
+          ]
+        },
+        {
+          "id": "spellcasting",
+          "name": "Spellcasting",
+          "text": "Spellcasting. The dragon casts one of the following spells, requiring no Material components and using Charisma as the spellcasting ability (spell save DC 17, +10 to hit with spell attacks): At Will: Detect Magic, Guiding Bolt (level 2 version), Shapechange (Beast or Humanoid form only, no Temporary Hit Points gained from the spell, and no Concentration or Temporary Hit Points required to maintain the spell), Speak with Animals, Thaumaturgy 1/Day Each: Detect Thoughts, Water Breathing",
+          "key": "action/spellcasting",
+          "spellcasting": {
+            "ability": "cha",
+            "save_dc": 17,
+            "attack_bonus": 10,
+            "at_will": [
+              "Detect Magic",
+              "Guiding Bolt (level 2 version)",
+              "Shapechange (Beast or Humanoid form only, no Temporary Hit Points gained from the spell, and no Concentration or Temporary Hit Points required to maintain the spell)",
+              "Speak with Animals",
+              "Thaumaturgy"
+            ],
+            "per_day": [
+              {
+                "uses": 1,
+                "spells": [
+                  "Detect Thoughts",
+                  "Water Breathing"
+                ]
+              }
+            ]
+          },
+          "effects": [
+            {
+              "key": "spellcasting/no-material-components",
+              "name": "No Material components",
+              "text": "The dragon casts one of the following spells, requiring no Material components and using Charisma as the spellcasting ability (spell save DC 17, +10 to hit with spell attacks):"
+            },
+            {
+              "key": "spell/detect-magic",
+              "name": "Detect Magic",
+              "text": "Detect Magic",
+              "requires": [
+                "spellcasting/at-will"
+              ]
+            },
+            {
+              "key": "spell/guiding-bolt",
+              "name": "Guiding Bolt",
+              "text": "Guiding Bolt (level 2 version)",
+              "requires": [
+                "spellcasting/at-will"
+              ]
+            },
+            {
+              "key": "spell/shapechange",
+              "name": "Shapechange",
+              "text": "Shapechange (Beast or Humanoid form only, no Temporary Hit Points gained from the spell, and no Concentration or Temporary Hit Points required to maintain the spell)",
+              "requires": [
+                "spellcasting/at-will"
+              ]
+            },
+            {
+              "key": "spell/speak-with-animals",
+              "name": "Speak with Animals",
+              "text": "Speak with Animals",
+              "requires": [
+                "spellcasting/at-will"
+              ]
+            },
+            {
+              "key": "spell/thaumaturgy",
+              "name": "Thaumaturgy",
+              "text": "Thaumaturgy",
+              "requires": [
+                "spellcasting/at-will"
+              ]
+            },
+            {
+              "key": "spell/detect-thoughts",
+              "name": "Detect Thoughts",
+              "text": "Detect Thoughts",
+              "requires": [
+                "limit/per-day"
+              ]
+            },
+            {
+              "key": "spell/water-breathing",
+              "name": "Water Breathing",
+              "text": "Water Breathing",
+              "requires": [
+                "limit/per-day"
+              ]
+            }
+          ]
+        }
+      ],
+      "tags": [
+        "Metallic"
+      ],
+      "skills": {
+        "insight": 7,
+        "perception": 12,
+        "stealth": 5
+      },
+      "immunities": [
+        "lightning"
+      ],
+      "lair_xp": 15000,
+      "legendary_actions": [
+        {
+          "id": "guiding-light",
+          "name": "Guiding Light",
+          "text": "Guiding Light. The dragon uses Spellcasting to cast Guiding Bolt (level 2 version).",
+          "key": "action/special",
+          "effects": [
+            {
+              "key": "action/spellcasting",
+              "name": "Spellcasting",
+              "text": "The dragon uses Spellcasting to cast Guiding Bolt (level 2 version)."
+            },
+            {
+              "key": "spell/guiding-bolt",
+              "name": "Guiding Bolt (level 2 version)",
+              "text": "The dragon uses Spellcasting to cast Guiding Bolt (level 2 version)."
+            }
+          ]
+        },
+        {
+          "id": "pounce",
+          "name": "Pounce",
+          "text": "Pounce. The dragon moves up to half its Speed, and it makes one Rend attack.",
+          "key": "action/special",
+          "effects": [
+            {
+              "key": "movement/half-speed",
+              "name": "Move half Speed",
+              "text": "The dragon moves up to half its Speed, and it makes one Rend attack."
+            },
+            {
+              "key": "action/melee-attack",
+              "name": "Attack",
+              "text": "The dragon moves up to half its Speed, and it makes one Rend attack."
+            }
+          ]
+        },
+        {
+          "id": "thunderclap",
+          "name": "Thunderclap",
+          "text": "Thunderclap. Constitution Saving Throw: DC 17, each creature in a 20-foot-radius Sphere centered on a point the dragon can see within 90 feet. Failure: 10 (3d6) Thunder damage, and the target has the Deafened condition until the end of its next turn.",
+          "key": "action/saving-throw",
+          "save": {
+            "ability": "con",
+            "dc": 17
+          },
+          "target": {
+            "shape": "sphere",
+            "size": 20,
+            "width": 0,
+            "range": 90
+          },
+          "effects": [
+            {
+              "key": "save/con",
+              "name": "Constitution Saving Throw",
+              "text": "Constitution Saving Throw: DC 17"
+            },
+            {
+              "key": "area/sphere",
+              "name": "Target",
+              "text": "each creature in a 20-foot-radius Sphere centered on a point the dragon can see within 90 feet."
+            },
+            {
+              "key": "effect/thunder-damage",
+              "name": "Thunder damage",
+              "text": "10 (3d6) Thunder damage.",
+              "dice": {
+                "average": 10,
+                "dice": 3,
+                "sides": 6,
+                "modifier": 0
+              }
+            },
+            {
+              "key": "condition/deafened",
+              "name": "Deafened",
+              "text": "Failure: 10 (3d6) Thunder damage, and the target has the Deafened condition until the end of its next turn."
+            }
+          ]
+        }
+      ],
+      "legendary": {
+        "uses": 3,
+        "lair_uses": 4,
+        "text": "Legendary Action Uses: 3 (4 in Lair). Immediately after another creature’s turn, the dragon can expend a use to take one of the following actions. The dragon regains all expended uses at the start of each of its turns."
+      },
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/skills",
+        "defense/damage-immunity",
+        "movement/fly",
+        "movement/swim",
+        "sense/blindsight",
+        "sense/darkvision",
+        "lair/xp",
+        "legendary/actions",
+        "lair/uses",
+        "trait/amphibious",
+        "trait/legendary-resistance",
+        "limit/per-day",
+        "save/choose-success",
+        "action/multiattack",
+        "action/melee-attack",
+        "multiattack/replace-attack",
+        "spell/guiding-bolt",
+        "effect/slashing-damage",
+        "effect/lightning-damage",
+        "action/saving-throw",
+        "save/dex",
+        "area/line",
+        "limit/recharge",
+        "save/half-damage",
+        "save/str",
+        "area/cone",
+        "condition/prone",
+        "effect/push",
+        "action/spellcasting",
+        "spellcasting/no-material-components",
+        "spell/detect-magic",
+        "spellcasting/at-will",
+        "spell/shapechange",
+        "spell/speak-with-animals",
+        "spell/thaumaturgy",
+        "spell/detect-thoughts",
+        "spell/water-breathing",
+        "action/special",
+        "movement/half-speed",
+        "save/con",
+        "area/sphere",
+        "effect/thunder-damage",
+        "condition/deafened"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/adult-copper-dragon",
+      "name": "Adult Copper Dragon",
+      "source_pages": [
+        276,
+        277
+      ],
+      "sizes": [
+        "huge"
+      ],
+      "type": "dragon",
+      "alignment": "Chaotic Good",
+      "ac": 18,
+      "hp": {
+        "average": 184,
+        "dice": 16,
+        "sides": 12,
+        "modifier": 80
+      },
+      "initiative": {
+        "modifier": 11,
+        "score": 21
+      },
+      "speeds": {
+        "walk": 40,
+        "climb": 40,
+        "fly": 80
+      },
+      "abilities": {
+        "str": {
+          "score": 23,
+          "modifier": 6,
+          "save": 6
+        },
+        "dex": {
+          "score": 12,
+          "modifier": 1,
+          "save": 6
+        },
+        "con": {
+          "score": 21,
+          "modifier": 5,
+          "save": 5
+        },
+        "int": {
+          "score": 18,
+          "modifier": 4,
+          "save": 4
+        },
+        "wis": {
+          "score": 15,
+          "modifier": 2,
+          "save": 7
+        },
+        "cha": {
+          "score": 18,
+          "modifier": 4,
+          "save": 4
+        }
+      },
+      "senses": {
+        "passive_perception": 22,
+        "special": {
+          "blindsight": 60,
+          "darkvision": 120
+        }
+      },
+      "languages": [
+        "Common",
+        "Draconic"
+      ],
+      "gear": [],
+      "cr": "14",
+      "xp": 11500,
+      "proficiency_bonus": 5,
+      "traits": [
+        {
+          "key": "trait/legendary-resistance",
+          "name": "Legendary Resistance",
+          "text": "Legendary Resistance (3/Day, or 4/Day in Lair). If the dragon fails a saving throw, it can choose to succeed instead.",
+          "uses": {
+            "per_day": 3,
+            "lair_per_day": 4,
+            "recharge": 0
+          },
+          "requires": [
+            "limit/per-day",
+            "lair/uses",
+            "save/choose-success"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "multiattack",
+          "name": "Multiattack",
+          "text": "Multiattack. The dragon makes three Rend attacks. It can replace one attack with a use of (A) Slowing Breath or (B) Spellcasting to cast Mind Spike (level 4 version).",
+          "key": "action/multiattack",
+          "effects": [
+            {
+              "key": "action/melee-attack",
+              "name": "Attack",
+              "text": "The dragon makes three Rend attacks."
+            },
+            {
+              "key": "multiattack/replace-attack",
+              "name": "Replace one attack",
+              "text": "It can replace one attack with a use of (A) Slowing Breath or (B) Spellcasting to cast Mind Spike (level 4 version)."
+            },
+            {
+              "key": "spell/mind-spike",
+              "name": "Mind Spike (level 4 version)",
+              "text": "It can replace one attack with a use of (A) Slowing Breath or (B) Spellcasting to cast Mind Spike (level 4 version)."
+            }
+          ]
+        },
+        {
+          "id": "rend",
+          "name": "Rend",
+          "text": "Rend. Melee Attack Roll: +11, reach 10 ft. Hit: 17 (2d10 + 6) Slashing damage plus 4 (1d8) Acid damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 11,
+            "reach": 10,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 17,
+              "dice": 2,
+              "sides": 10,
+              "modifier": 6
+            },
+            "damage_type": "slashing"
+          },
+          "effects": [
+            {
+              "key": "effect/slashing-damage",
+              "name": "Slashing damage",
+              "text": "17 (2d10 + 6) Slashing damage.",
+              "dice": {
+                "average": 17,
+                "dice": 2,
+                "sides": 10,
+                "modifier": 6
+              }
+            },
+            {
+              "key": "effect/acid-damage",
+              "name": "Acid damage",
+              "text": "4 (1d8) Acid damage.",
+              "dice": {
+                "average": 4,
+                "dice": 1,
+                "sides": 8,
+                "modifier": 0
+              }
+            }
+          ]
+        },
+        {
+          "id": "acid-breath",
+          "name": "Acid Breath",
+          "text": "Acid Breath (Recharge 5–6). Dexterity Saving Throw: DC 18, each creature in an 60-foot-long, 5-foot-wide Line. Failure: 54 (12d8) Acid damage. Success: Half damage.",
+          "key": "action/saving-throw",
+          "save": {
+            "ability": "dex",
+            "dc": 18
+          },
+          "target": {
+            "shape": "line",
+            "size": 60,
+            "width": 5,
+            "range": 0
+          },
+          "uses": {
+            "per_day": 0,
+            "lair_per_day": 0,
+            "recharge": 5
+          },
+          "effects": [
+            {
+              "key": "save/dex",
+              "name": "Dexterity Saving Throw",
+              "text": "Dexterity Saving Throw: DC 18"
+            },
+            {
+              "key": "area/line",
+              "name": "Target",
+              "text": "each creature in an 60-foot-long, 5-foot-wide Line."
+            },
+            {
+              "key": "limit/recharge",
+              "name": "Recharge",
+              "text": "(Recharge 5–6)"
+            },
+            {
+              "key": "effect/acid-damage",
+              "name": "Acid damage",
+              "text": "54 (12d8) Acid damage.",
+              "dice": {
+                "average": 54,
+                "dice": 12,
+                "sides": 8,
+                "modifier": 0
+              }
+            },
+            {
+              "key": "save/half-damage",
+              "name": "Half damage",
+              "text": "Success: Half damage."
+            }
+          ]
+        },
+        {
+          "id": "slowing-breath",
+          "name": "Slowing Breath",
+          "text": "Slowing Breath. Constitution Saving Throw: DC 18, each creature in a 60-foot Cone. Failure: The target can’t take Reactions; its Speed is halved; and it can take either an action or a Bonus Action on its turn, not both. This effect lasts until the end of its next turn.",
+          "key": "action/saving-throw",
+          "save": {
+            "ability": "con",
+            "dc": 18
+          },
+          "target": {
+            "shape": "cone",
+            "size": 60,
+            "width": 0,
+            "range": 0
+          },
+          "effects": [
+            {
+              "key": "save/con",
+              "name": "Constitution Saving Throw",
+              "text": "Constitution Saving Throw: DC 18"
+            },
+            {
+              "key": "area/cone",
+              "name": "Target",
+              "text": "each creature in a 60-foot Cone."
+            },
+            {
+              "key": "effect/speed-halved",
+              "name": "Speed halved",
+              "text": "Failure: The target can’t take Reactions; its Speed is halved; and it can take either an action or a Bonus Action on its turn, not both."
+            },
+            {
+              "key": "effect/no-reactions",
+              "name": "No Reactions",
+              "text": "Failure: The target can’t take Reactions; its Speed is halved; and it can take either an action or a Bonus Action on its turn, not both."
+            },
+            {
+              "key": "effect/action-or-bonus-action",
+              "name": "Action or Bonus Action",
+              "text": "Failure: The target can’t take Reactions; its Speed is halved; and it can take either an action or a Bonus Action on its turn, not both."
+            }
+          ]
+        },
+        {
+          "id": "spellcasting",
+          "name": "Spellcasting",
+          "text": "Spellcasting. The dragon casts one of the following spells, requiring no Material components and using Charisma as the spellcasting ability (spell save DC 17): At Will: Detect Magic, Mind Spike (level 4 version), Minor Illusion, Shapechange (Beast or Humanoid form only, no Temporary Hit Points gained from the spell, and no Concentration or Temporary Hit Points required to maintain the spell) 1/Day Each: Greater Restoration, Major Image",
+          "key": "action/spellcasting",
+          "spellcasting": {
+            "ability": "cha",
+            "save_dc": 17,
+            "attack_bonus": 0,
+            "at_will": [
+              "Detect Magic",
+              "Mind Spike (level 4 version)",
+              "Minor Illusion",
+              "Shapechange (Beast or Humanoid form only, no Temporary Hit Points gained from the spell, and no Concentration or Temporary Hit Points required to maintain the spell)"
+            ],
+            "per_day": [
+              {
+                "uses": 1,
+                "spells": [
+                  "Greater Restoration",
+                  "Major Image"
+                ]
+              }
+            ]
+          },
+          "effects": [
+            {
+              "key": "spellcasting/no-material-components",
+              "name": "No Material components",
+              "text": "The dragon casts one of the following spells, requiring no Material components and using Charisma as the spellcasting ability (spell save DC 17):"
+            },
+            {
+              "key": "spell/detect-magic",
+              "name": "Detect Magic",
+              "text": "Detect Magic",
+              "requires": [
+                "spellcasting/at-will"
+              ]
+            },
+            {
+              "key": "spell/mind-spike",
+              "name": "Mind Spike",
+              "text": "Mind Spike (level 4 version)",
+              "requires": [
+                "spellcasting/at-will"
+              ]
+            },
+            {
+              "key": "spell/minor-illusion",
+              "name": "Minor Illusion",
+              "text": "Minor Illusion",
+              "requires": [
+                "spellcasting/at-will"
+              ]
+            },
+            {
+              "key": "spell/shapechange",
+              "name": "Shapechange",
+              "text": "Shapechange (Beast or Humanoid form only, no Temporary Hit Points gained from the spell, and no Concentration or Temporary Hit Points required to maintain the spell)",
+              "requires": [
+                "spellcasting/at-will"
+              ]
+            },
+            {
+              "key": "spell/greater-restoration",
+              "name": "Greater Restoration",
+              "text": "Greater Restoration",
+              "requires": [
+                "limit/per-day"
+              ]
+            },
+            {
+              "key": "spell/major-image",
+              "name": "Major Image",
+              "text": "Major Image",
+              "requires": [
+                "limit/per-day"
+              ]
+            }
+          ]
+        }
+      ],
+      "tags": [
+        "Metallic"
+      ],
+      "skills": {
+        "deception": 9,
+        "perception": 12,
+        "stealth": 6
+      },
+      "immunities": [
+        "acid"
+      ],
+      "lair_xp": 13000,
+      "legendary_actions": [
+        {
+          "id": "giggling-magic",
+          "name": "Giggling Magic",
+          "text": "Giggling Magic. Charisma Saving Throw: DC 17, one creature the dragon can see within 90 feet. Failure: 24 (7d6) Psychic damage. Until the end of its next turn, the target rolls 1d6 whenever it makes an ability check or attack roll and subtracts the number rolled from the D20 Test. Failure or Success: The dragon can’t take this action again until the start of its next turn.",
+          "key": "action/saving-throw",
+          "save": {
+            "ability": "cha",
+            "dc": 17
+          },
+          "target": {
+            "shape": "creature",
+            "size": 0,
+            "width": 0,
+            "range": 90
+          },
+          "effects": [
+            {
+              "key": "save/cha",
+              "name": "Charisma Saving Throw",
+              "text": "Charisma Saving Throw: DC 17"
+            },
+            {
+              "key": "target/creature",
+              "name": "Target",
+              "text": "one creature the dragon can see within 90 feet."
+            },
+            {
+              "key": "effect/psychic-damage",
+              "name": "Psychic damage",
+              "text": "24 (7d6) Psychic damage.",
+              "dice": {
+                "average": 24,
+                "dice": 7,
+                "sides": 6,
+                "modifier": 0
+              }
+            },
+            {
+              "key": "effect/d20-test-penalty",
+              "name": "D20 Test penalty",
+              "text": "Until the end of its next turn, the target rolls 1d6 whenever it makes an ability check or attack roll and subtracts the number rolled from the D20 Test."
+            },
+            {
+              "key": "limit/once-per-round",
+              "name": "Once per round",
+              "text": "Failure or Success: The dragon can’t take this action again until the start of its next turn."
+            }
+          ]
+        },
+        {
+          "id": "mind-jolt",
+          "name": "Mind Jolt",
+          "text": "Mind Jolt. The dragon uses Spellcasting to cast Mind Spike (level 4 version). The dragon can’t take this action again until the start of its next turn.",
+          "key": "action/special",
+          "effects": [
+            {
+              "key": "action/spellcasting",
+              "name": "Spellcasting",
+              "text": "The dragon uses Spellcasting to cast Mind Spike (level 4 version)."
+            },
+            {
+              "key": "spell/mind-spike",
+              "name": "Mind Spike (level 4 version)",
+              "text": "The dragon uses Spellcasting to cast Mind Spike (level 4 version)."
+            },
+            {
+              "key": "limit/once-per-round",
+              "name": "Once per round",
+              "text": "The dragon can’t take this action again until the start of its next turn."
+            }
+          ]
+        },
+        {
+          "id": "pounce",
+          "name": "Pounce",
+          "text": "Pounce. The dragon moves up to half its Speed, and it makes one Rend attack.",
+          "key": "action/special",
+          "effects": [
+            {
+              "key": "movement/half-speed",
+              "name": "Move half Speed",
+              "text": "The dragon moves up to half its Speed, and it makes one Rend attack."
+            },
+            {
+              "key": "action/melee-attack",
+              "name": "Attack",
+              "text": "The dragon moves up to half its Speed, and it makes one Rend attack."
+            }
+          ]
+        }
+      ],
+      "legendary": {
+        "uses": 3,
+        "lair_uses": 4,
+        "text": "Legendary Action Uses: 3 (4 in Lair). Immediately after another creature’s turn, the dragon can expend a use to take one of the following actions. The dragon regains all expended uses at the start of each of its turns."
+      },
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/skills",
+        "defense/damage-immunity",
+        "movement/climb",
+        "movement/fly",
+        "sense/blindsight",
+        "sense/darkvision",
+        "lair/xp",
+        "legendary/actions",
+        "lair/uses",
+        "trait/legendary-resistance",
+        "limit/per-day",
+        "save/choose-success",
+        "action/multiattack",
+        "action/melee-attack",
+        "multiattack/replace-attack",
+        "spell/mind-spike",
+        "effect/slashing-damage",
+        "effect/acid-damage",
+        "action/saving-throw",
+        "save/dex",
+        "area/line",
+        "limit/recharge",
+        "save/half-damage",
+        "save/con",
+        "area/cone",
+        "effect/speed-halved",
+        "effect/no-reactions",
+        "effect/action-or-bonus-action",
+        "action/spellcasting",
+        "spellcasting/no-material-components",
+        "spell/detect-magic",
+        "spellcasting/at-will",
+        "spell/minor-illusion",
+        "spell/shapechange",
+        "spell/greater-restoration",
+        "spell/major-image",
+        "save/cha",
+        "target/creature",
+        "effect/psychic-damage",
+        "effect/d20-test-penalty",
+        "limit/once-per-round",
+        "action/special",
+        "movement/half-speed"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/adult-gold-dragon",
+      "name": "Adult Gold Dragon",
+      "source_pages": [
+        291,
+        292
+      ],
+      "sizes": [
+        "huge"
+      ],
+      "type": "dragon",
+      "alignment": "Lawful Good",
+      "ac": 19,
+      "hp": {
+        "average": 243,
+        "dice": 18,
+        "sides": 12,
+        "modifier": 126
+      },
+      "initiative": {
+        "modifier": 14,
+        "score": 24
+      },
+      "speeds": {
+        "walk": 40,
+        "fly": 80,
+        "swim": 40
+      },
+      "abilities": {
+        "str": {
+          "score": 27,
+          "modifier": 8,
+          "save": 8
+        },
+        "dex": {
+          "score": 14,
+          "modifier": 2,
+          "save": 8
+        },
+        "con": {
+          "score": 25,
+          "modifier": 7,
+          "save": 7
+        },
+        "int": {
+          "score": 16,
+          "modifier": 3,
+          "save": 3
+        },
+        "wis": {
+          "score": 15,
+          "modifier": 2,
+          "save": 8
+        },
+        "cha": {
+          "score": 24,
+          "modifier": 7,
+          "save": 7
+        }
+      },
+      "senses": {
+        "passive_perception": 24,
+        "special": {
+          "blindsight": 60,
+          "darkvision": 120
+        }
+      },
+      "languages": [
+        "Common",
+        "Draconic"
+      ],
+      "gear": [],
+      "cr": "17",
+      "xp": 18000,
+      "proficiency_bonus": 6,
+      "traits": [
+        {
+          "key": "trait/amphibious",
+          "name": "Amphibious",
+          "text": "Amphibious. The dragon can breathe air and water."
+        },
+        {
+          "key": "trait/legendary-resistance",
+          "name": "Legendary Resistance",
+          "text": "Legendary Resistance (3/Day, or 4/Day in Lair). If the dragon fails a saving throw, it can choose to succeed instead.",
+          "uses": {
+            "per_day": 3,
+            "lair_per_day": 4,
+            "recharge": 0
+          },
+          "requires": [
+            "limit/per-day",
+            "lair/uses",
+            "save/choose-success"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "multiattack",
+          "name": "Multiattack",
+          "text": "Multiattack. The dragon makes three Rend attacks. It can replace one attack with a use of (A) Spellcasting to cast Guiding Bolt (level 2 version) or (B) Weakening Breath.",
+          "key": "action/multiattack",
+          "effects": [
+            {
+              "key": "action/melee-attack",
+              "name": "Attack",
+              "text": "The dragon makes three Rend attacks."
+            },
+            {
+              "key": "multiattack/replace-attack",
+              "name": "Replace one attack",
+              "text": "It can replace one attack with a use of (A) Spellcasting to cast Guiding Bolt (level 2 version) or (B) Weakening Breath."
+            },
+            {
+              "key": "spell/guiding-bolt",
+              "name": "Guiding Bolt (level 2 version)",
+              "text": "It can replace one attack with a use of (A) Spellcasting to cast Guiding Bolt (level 2 version) or (B) Weakening Breath."
+            }
+          ]
+        },
+        {
+          "id": "rend",
+          "name": "Rend",
+          "text": "Rend. Melee Attack Roll: +14, reach 10 ft. Hit: 17 (2d8 + 8) Slashing damage plus 4 (1d8) Fire damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 14,
+            "reach": 10,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 17,
+              "dice": 2,
+              "sides": 8,
+              "modifier": 8
+            },
+            "damage_type": "slashing"
+          },
+          "effects": [
+            {
+              "key": "effect/slashing-damage",
+              "name": "Slashing damage",
+              "text": "17 (2d8 + 8) Slashing damage.",
+              "dice": {
+                "average": 17,
+                "dice": 2,
+                "sides": 8,
+                "modifier": 8
+              }
+            },
+            {
+              "key": "effect/fire-damage",
+              "name": "Fire damage",
+              "text": "4 (1d8) Fire damage.",
+              "dice": {
+                "average": 4,
+                "dice": 1,
+                "sides": 8,
+                "modifier": 0
+              }
+            }
+          ]
+        },
+        {
+          "id": "fire-breath",
+          "name": "Fire Breath",
+          "text": "Fire Breath (Recharge 5–6). Dexterity Saving Throw: DC 21, each creature in a 60-foot Cone. Failure: 66 (12d10) Fire damage. Success: Half damage.",
+          "key": "action/saving-throw",
+          "save": {
+            "ability": "dex",
+            "dc": 21
+          },
+          "target": {
+            "shape": "cone",
+            "size": 60,
+            "width": 0,
+            "range": 0
+          },
+          "uses": {
+            "per_day": 0,
+            "lair_per_day": 0,
+            "recharge": 5
+          },
+          "effects": [
+            {
+              "key": "save/dex",
+              "name": "Dexterity Saving Throw",
+              "text": "Dexterity Saving Throw: DC 21"
+            },
+            {
+              "key": "area/cone",
+              "name": "Target",
+              "text": "each creature in a 60-foot Cone."
+            },
+            {
+              "key": "limit/recharge",
+              "name": "Recharge",
+              "text": "(Recharge 5–6)"
+            },
+            {
+              "key": "effect/fire-damage",
+              "name": "Fire damage",
+              "text": "66 (12d10) Fire damage.",
+              "dice": {
+                "average": 66,
+                "dice": 12,
+                "sides": 10,
+                "modifier": 0
+              }
+            },
+            {
+              "key": "save/half-damage",
+              "name": "Half damage",
+              "text": "Success: Half damage."
+            }
+          ]
+        },
+        {
+          "id": "spellcasting",
+          "name": "Spellcasting",
+          "text": "Spellcasting. The dragon casts one of the following spells, requiring no Material components and using Charisma as the spellcasting ability (spell save DC 21, +13 to hit with spell attacks): At Will: Detect Magic, Guiding Bolt (level 2 version), Shapechange (Beast or Humanoid form only, no Temporary Hit Points gained from the spell, and no Concentration or Temporary Hit Points required to maintain the spell) 1/Day Each: Flame Strike, Zone of Truth",
+          "key": "action/spellcasting",
+          "spellcasting": {
+            "ability": "cha",
+            "save_dc": 21,
+            "attack_bonus": 13,
+            "at_will": [
+              "Detect Magic",
+              "Guiding Bolt (level 2 version)",
+              "Shapechange (Beast or Humanoid form only, no Temporary Hit Points gained from the spell, and no Concentration or Temporary Hit Points required to maintain the spell)"
+            ],
+            "per_day": [
+              {
+                "uses": 1,
+                "spells": [
+                  "Flame Strike",
+                  "Zone of Truth"
+                ]
+              }
+            ]
+          },
+          "effects": [
+            {
+              "key": "spellcasting/no-material-components",
+              "name": "No Material components",
+              "text": "The dragon casts one of the following spells, requiring no Material components and using Charisma as the spellcasting ability (spell save DC 21, +13 to hit with spell attacks):"
+            },
+            {
+              "key": "spell/detect-magic",
+              "name": "Detect Magic",
+              "text": "Detect Magic",
+              "requires": [
+                "spellcasting/at-will"
+              ]
+            },
+            {
+              "key": "spell/guiding-bolt",
+              "name": "Guiding Bolt",
+              "text": "Guiding Bolt (level 2 version)",
+              "requires": [
+                "spellcasting/at-will"
+              ]
+            },
+            {
+              "key": "spell/shapechange",
+              "name": "Shapechange",
+              "text": "Shapechange (Beast or Humanoid form only, no Temporary Hit Points gained from the spell, and no Concentration or Temporary Hit Points required to maintain the spell)",
+              "requires": [
+                "spellcasting/at-will"
+              ]
+            },
+            {
+              "key": "spell/flame-strike",
+              "name": "Flame Strike",
+              "text": "Flame Strike",
+              "requires": [
+                "limit/per-day"
+              ]
+            },
+            {
+              "key": "spell/zone-of-truth",
+              "name": "Zone of Truth",
+              "text": "Zone of Truth",
+              "requires": [
+                "limit/per-day"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "weakening-breath",
+          "name": "Weakening Breath",
+          "text": "Weakening Breath. Strength Saving Throw: DC 21, each creature that isn’t currently affected by this breath in a 60-foot Cone. Failure: The target has Disadvantage on Strength-based D20 Tests and subtracts 3 (1d6) from its damage rolls. It repeats the save at the end of each of its turns, ending the effect on itself on a success. After 1 minute, it succeeds automatically.",
+          "key": "action/saving-throw",
+          "save": {
+            "ability": "str",
+            "dc": 21
+          },
+          "target": {
+            "shape": "cone",
+            "size": 60,
+            "width": 0,
+            "range": 0
+          },
+          "effects": [
+            {
+              "key": "save/str",
+              "name": "Strength Saving Throw",
+              "text": "Strength Saving Throw: DC 21"
+            },
+            {
+              "key": "area/cone",
+              "name": "Target",
+              "text": "each creature that isn’t currently affected by this breath in a 60-foot Cone."
+            },
+            {
+              "key": "requirement/unaffected-target",
+              "name": "Unaffected target",
+              "text": "Strength Saving Throw: DC 21, each creature that isn’t currently affected by this breath in a 60-foot Cone."
+            },
+            {
+              "key": "effect/damage-roll-penalty",
+              "name": "Damage roll penalty",
+              "text": "Failure: The target has Disadvantage on Strength-based D20 Tests and subtracts 3 (1d6) from its damage rolls.",
+              "dice": {
+                "average": 3,
+                "dice": 1,
+                "sides": 6,
+                "modifier": 0
+              }
+            },
+            {
+              "key": "effect/strength-test-disadvantage",
+              "name": "Strength D20 Test Disadvantage",
+              "text": "Failure: The target has Disadvantage on Strength-based D20 Tests and subtracts 3 (1d6) from its damage rolls."
+            },
+            {
+              "key": "save/repeat",
+              "name": "Repeated save",
+              "text": "It repeats the save at the end of each of its turns, ending the effect on itself on a success."
+            },
+            {
+              "key": "save/automatic-success",
+              "name": "Automatic success",
+              "text": "After 1 minute, it succeeds automatically."
+            }
+          ]
+        }
+      ],
+      "tags": [
+        "Metallic"
+      ],
+      "skills": {
+        "insight": 8,
+        "perception": 14,
+        "persuasion": 13,
+        "stealth": 8
+      },
+      "immunities": [
+        "fire"
+      ],
+      "lair_xp": 20000,
+      "legendary_actions": [
+        {
+          "id": "banish",
+          "name": "Banish",
+          "text": "Banish. Charisma Saving Throw: DC 21, one creature the dragon can see within 120 feet. Failure: 10 (3d6) Force damage, and the target has the Incapacitated condition and is transported to a harmless demiplane until the start of the dragon’s next turn, at which point it reappears in an unoccupied space of the dragon’s choice within 120 feet of the dragon. Failure or Success: The dragon can’t take this action again until the start of its next turn.",
+          "key": "action/saving-throw",
+          "save": {
+            "ability": "cha",
+            "dc": 21
+          },
+          "target": {
+            "shape": "creature",
+            "size": 0,
+            "width": 0,
+            "range": 120
+          },
+          "effects": [
+            {
+              "key": "save/cha",
+              "name": "Charisma Saving Throw",
+              "text": "Charisma Saving Throw: DC 21"
+            },
+            {
+              "key": "target/creature",
+              "name": "Target",
+              "text": "one creature the dragon can see within 120 feet."
+            },
+            {
+              "key": "effect/force-damage",
+              "name": "Force damage",
+              "text": "10 (3d6) Force damage.",
+              "dice": {
+                "average": 10,
+                "dice": 3,
+                "sides": 6,
+                "modifier": 0
+              }
+            },
+            {
+              "key": "condition/incapacitated",
+              "name": "Incapacitated",
+              "text": "Failure: 10 (3d6) Force damage, and the target has the Incapacitated condition and is transported to a harmless demiplane until the start of the dragon’s next turn, at which point it reappears in an unoccupied space of the dragon’s choice within 120 feet of the dragon."
+            },
+            {
+              "key": "effect/banishment",
+              "name": "Banishment",
+              "text": "Failure: 10 (3d6) Force damage, and the target has the Incapacitated condition and is transported to a harmless demiplane until the start of the dragon’s next turn, at which point it reappears in an unoccupied space of the dragon’s choice within 120 feet of the dragon."
+            },
+            {
+              "key": "limit/once-per-round",
+              "name": "Once per round",
+              "text": "Failure or Success: The dragon can’t take this action again until the start of its next turn."
+            }
+          ]
+        },
+        {
+          "id": "guiding-light",
+          "name": "Guiding Light",
+          "text": "Guiding Light. The dragon uses Spellcasting to cast Guiding Bolt (level 2 version).",
+          "key": "action/special",
+          "effects": [
+            {
+              "key": "action/spellcasting",
+              "name": "Spellcasting",
+              "text": "The dragon uses Spellcasting to cast Guiding Bolt (level 2 version)."
+            },
+            {
+              "key": "spell/guiding-bolt",
+              "name": "Guiding Bolt (level 2 version)",
+              "text": "The dragon uses Spellcasting to cast Guiding Bolt (level 2 version)."
+            }
+          ]
+        },
+        {
+          "id": "pounce",
+          "name": "Pounce",
+          "text": "Pounce. The dragon moves up to half its Speed, and it makes one Rend attack.",
+          "key": "action/special",
+          "effects": [
+            {
+              "key": "movement/half-speed",
+              "name": "Move half Speed",
+              "text": "The dragon moves up to half its Speed, and it makes one Rend attack."
+            },
+            {
+              "key": "action/melee-attack",
+              "name": "Attack",
+              "text": "The dragon moves up to half its Speed, and it makes one Rend attack."
+            }
+          ]
+        }
+      ],
+      "legendary": {
+        "uses": 3,
+        "lair_uses": 4,
+        "text": "Legendary Action Uses: 3 (4 in Lair). Immediately after another creature’s turn, the dragon can expend a use to take one of the following actions. The dragon regains all expended uses at the start of each of its turns."
+      },
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/skills",
+        "defense/damage-immunity",
+        "movement/fly",
+        "movement/swim",
+        "sense/blindsight",
+        "sense/darkvision",
+        "lair/xp",
+        "legendary/actions",
+        "lair/uses",
+        "trait/amphibious",
+        "trait/legendary-resistance",
+        "limit/per-day",
+        "save/choose-success",
+        "action/multiattack",
+        "action/melee-attack",
+        "multiattack/replace-attack",
+        "spell/guiding-bolt",
+        "effect/slashing-damage",
+        "effect/fire-damage",
+        "action/saving-throw",
+        "save/dex",
+        "area/cone",
+        "limit/recharge",
+        "save/half-damage",
+        "action/spellcasting",
+        "spellcasting/no-material-components",
+        "spell/detect-magic",
+        "spellcasting/at-will",
+        "spell/shapechange",
+        "spell/flame-strike",
+        "spell/zone-of-truth",
+        "save/str",
+        "requirement/unaffected-target",
+        "effect/damage-roll-penalty",
+        "effect/strength-test-disadvantage",
+        "save/repeat",
+        "save/automatic-success",
+        "save/cha",
+        "target/creature",
+        "effect/force-damage",
+        "condition/incapacitated",
+        "effect/banishment",
+        "limit/once-per-round",
+        "action/special",
+        "movement/half-speed"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/adult-green-dragon",
+      "name": "Adult Green Dragon",
+      "source_pages": [
+        294,
+        294
+      ],
+      "sizes": [
+        "huge"
+      ],
+      "type": "dragon",
+      "alignment": "Lawful Evil",
+      "ac": 19,
+      "hp": {
+        "average": 207,
+        "dice": 18,
+        "sides": 12,
+        "modifier": 90
+      },
+      "initiative": {
+        "modifier": 11,
+        "score": 21
+      },
+      "speeds": {
+        "walk": 40,
+        "fly": 80,
+        "swim": 40
+      },
+      "abilities": {
+        "str": {
+          "score": 23,
+          "modifier": 6,
+          "save": 6
+        },
+        "dex": {
+          "score": 12,
+          "modifier": 1,
+          "save": 6
+        },
+        "con": {
+          "score": 21,
+          "modifier": 5,
+          "save": 5
+        },
+        "int": {
+          "score": 18,
+          "modifier": 4,
+          "save": 4
+        },
+        "wis": {
+          "score": 15,
+          "modifier": 2,
+          "save": 7
+        },
+        "cha": {
+          "score": 18,
+          "modifier": 4,
+          "save": 4
+        }
+      },
+      "senses": {
+        "passive_perception": 22,
+        "special": {
+          "blindsight": 60,
+          "darkvision": 120
+        }
+      },
+      "languages": [
+        "Common",
+        "Draconic"
+      ],
+      "gear": [],
+      "cr": "15",
+      "xp": 13000,
+      "proficiency_bonus": 5,
+      "traits": [
+        {
+          "key": "trait/amphibious",
+          "name": "Amphibious",
+          "text": "Amphibious. The dragon can breathe air and water."
+        },
+        {
+          "key": "trait/legendary-resistance",
+          "name": "Legendary Resistance",
+          "text": "Legendary Resistance (3/Day, or 4/Day in Lair). If the dragon fails a saving throw, it can choose to succeed instead.",
+          "uses": {
+            "per_day": 3,
+            "lair_per_day": 4,
+            "recharge": 0
+          },
+          "requires": [
+            "limit/per-day",
+            "lair/uses",
+            "save/choose-success"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "multiattack",
+          "name": "Multiattack",
+          "text": "Multiattack. The dragon makes three Rend attacks. It can replace one attack with a use of Spellcasting to cast Mind Spike (level 3 version).",
+          "key": "action/multiattack",
+          "effects": [
+            {
+              "key": "action/melee-attack",
+              "name": "Attack",
+              "text": "The dragon makes three Rend attacks."
+            },
+            {
+              "key": "multiattack/replace-attack",
+              "name": "Replace one attack",
+              "text": "It can replace one attack with a use of Spellcasting to cast Mind Spike (level 3 version)."
+            },
+            {
+              "key": "spell/mind-spike",
+              "name": "Mind Spike (level 3 version)",
+              "text": "It can replace one attack with a use of Spellcasting to cast Mind Spike (level 3 version)."
+            }
+          ]
+        },
+        {
+          "id": "rend",
+          "name": "Rend",
+          "text": "Rend. Melee Attack Roll: +11, reach 10 ft. Hit: 15 (2d8 + 6) Slashing damage plus 7 (2d6) Poison damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 11,
+            "reach": 10,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 15,
+              "dice": 2,
+              "sides": 8,
+              "modifier": 6
+            },
+            "damage_type": "slashing"
+          },
+          "effects": [
+            {
+              "key": "effect/slashing-damage",
+              "name": "Slashing damage",
+              "text": "15 (2d8 + 6) Slashing damage.",
+              "dice": {
+                "average": 15,
+                "dice": 2,
+                "sides": 8,
+                "modifier": 6
+              }
+            },
+            {
+              "key": "effect/poison-damage",
+              "name": "Poison damage",
+              "text": "7 (2d6) Poison damage.",
+              "dice": {
+                "average": 7,
+                "dice": 2,
+                "sides": 6,
+                "modifier": 0
+              }
+            }
+          ]
+        },
+        {
+          "id": "poison-breath",
+          "name": "Poison Breath",
+          "text": "Poison Breath (Recharge 5–6). Constitution Saving Throw: DC 18, each creature in a 60-foot Cone. Failure: 56 (16d6) Poison damage. Success: Half damage.",
+          "key": "action/saving-throw",
+          "save": {
+            "ability": "con",
+            "dc": 18
+          },
+          "target": {
+            "shape": "cone",
+            "size": 60,
+            "width": 0,
+            "range": 0
+          },
+          "uses": {
+            "per_day": 0,
+            "lair_per_day": 0,
+            "recharge": 5
+          },
+          "effects": [
+            {
+              "key": "save/con",
+              "name": "Constitution Saving Throw",
+              "text": "Constitution Saving Throw: DC 18"
+            },
+            {
+              "key": "area/cone",
+              "name": "Target",
+              "text": "each creature in a 60-foot Cone."
+            },
+            {
+              "key": "limit/recharge",
+              "name": "Recharge",
+              "text": "(Recharge 5–6)"
+            },
+            {
+              "key": "effect/poison-damage",
+              "name": "Poison damage",
+              "text": "56 (16d6) Poison damage.",
+              "dice": {
+                "average": 56,
+                "dice": 16,
+                "sides": 6,
+                "modifier": 0
+              }
+            },
+            {
+              "key": "save/half-damage",
+              "name": "Half damage",
+              "text": "Success: Half damage."
+            }
+          ]
+        },
+        {
+          "id": "spellcasting",
+          "name": "Spellcasting",
+          "text": "Spellcasting. The dragon casts one of the following spells, requiring no Material components and using Charisma as the spellcasting ability (spell save DC 17): At Will: Detect Magic, Mind Spike (level 3 version) 1/Day: Geas",
+          "key": "action/spellcasting",
+          "spellcasting": {
+            "ability": "cha",
+            "save_dc": 17,
+            "attack_bonus": 0,
+            "at_will": [
+              "Detect Magic",
+              "Mind Spike (level 3 version)"
+            ],
+            "per_day": [
+              {
+                "uses": 1,
+                "spells": [
+                  "Geas"
+                ]
+              }
+            ]
+          },
+          "effects": [
+            {
+              "key": "spellcasting/no-material-components",
+              "name": "No Material components",
+              "text": "The dragon casts one of the following spells, requiring no Material components and using Charisma as the spellcasting ability (spell save DC 17):"
+            },
+            {
+              "key": "spell/detect-magic",
+              "name": "Detect Magic",
+              "text": "Detect Magic",
+              "requires": [
+                "spellcasting/at-will"
+              ]
+            },
+            {
+              "key": "spell/mind-spike",
+              "name": "Mind Spike",
+              "text": "Mind Spike (level 3 version)",
+              "requires": [
+                "spellcasting/at-will"
+              ]
+            },
+            {
+              "key": "spell/geas",
+              "name": "Geas",
+              "text": "Geas",
+              "requires": [
+                "limit/per-day"
+              ]
+            }
+          ]
+        }
+      ],
+      "tags": [
+        "Chromatic"
+      ],
+      "skills": {
+        "deception": 9,
+        "perception": 12,
+        "persuasion": 9,
+        "stealth": 6
+      },
+      "immunities": [
+        "poison"
+      ],
+      "condition_immunities": [
+        "poisoned"
+      ],
+      "lair_xp": 15000,
+      "legendary_actions": [
+        {
+          "id": "mind-invasion",
+          "name": "Mind Invasion",
+          "text": "Mind Invasion. The dragon uses Spellcasting to cast Mind Spike (level 3 version).",
+          "key": "action/special",
+          "effects": [
+            {
+              "key": "action/spellcasting",
+              "name": "Spellcasting",
+              "text": "The dragon uses Spellcasting to cast Mind Spike (level 3 version)."
+            },
+            {
+              "key": "spell/mind-spike",
+              "name": "Mind Spike (level 3 version)",
+              "text": "The dragon uses Spellcasting to cast Mind Spike (level 3 version)."
+            }
+          ]
+        },
+        {
+          "id": "noxious-miasma",
+          "name": "Noxious Miasma",
+          "text": "Noxious Miasma. Constitution Saving Throw: DC 17, each creature in a 20-foot-radius Sphere centered on a point the dragon can see within 90 feet. Failure: 7 (2d6) Poison damage, and the target takes a −2 penalty to AC until the end of its next turn. Failure or Success: The dragon can’t take this action again until the start of its next turn.",
+          "key": "action/saving-throw",
+          "save": {
+            "ability": "con",
+            "dc": 17
+          },
+          "target": {
+            "shape": "sphere",
+            "size": 20,
+            "width": 0,
+            "range": 90
+          },
+          "effects": [
+            {
+              "key": "save/con",
+              "name": "Constitution Saving Throw",
+              "text": "Constitution Saving Throw: DC 17"
+            },
+            {
+              "key": "area/sphere",
+              "name": "Target",
+              "text": "each creature in a 20-foot-radius Sphere centered on a point the dragon can see within 90 feet."
+            },
+            {
+              "key": "effect/poison-damage",
+              "name": "Poison damage",
+              "text": "7 (2d6) Poison damage.",
+              "dice": {
+                "average": 7,
+                "dice": 2,
+                "sides": 6,
+                "modifier": 0
+              }
+            },
+            {
+              "key": "effect/ac-penalty",
+              "name": "AC penalty",
+              "text": "Failure: 7 (2d6) Poison damage, and the target takes a −2 penalty to AC until the end of its next turn."
+            },
+            {
+              "key": "limit/once-per-round",
+              "name": "Once per round",
+              "text": "Failure or Success: The dragon can’t take this action again until the start of its next turn."
+            }
+          ]
+        },
+        {
+          "id": "pounce",
+          "name": "Pounce",
+          "text": "Pounce. The dragon moves up to half its Speed, and it makes one Rend attack.",
+          "key": "action/special",
+          "effects": [
+            {
+              "key": "movement/half-speed",
+              "name": "Move half Speed",
+              "text": "The dragon moves up to half its Speed, and it makes one Rend attack."
+            },
+            {
+              "key": "action/melee-attack",
+              "name": "Attack",
+              "text": "The dragon moves up to half its Speed, and it makes one Rend attack."
+            }
+          ]
+        }
+      ],
+      "legendary": {
+        "uses": 3,
+        "lair_uses": 4,
+        "text": "Legendary Action Uses: 3 (4 in Lair). Immediately after another creature’s turn, the dragon can expend a use to take one of the following actions. The dragon regains all expended uses at the start of each of its turns."
+      },
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/skills",
+        "defense/damage-immunity",
+        "defense/condition-immunity",
+        "movement/fly",
+        "movement/swim",
+        "sense/blindsight",
+        "sense/darkvision",
+        "lair/xp",
+        "legendary/actions",
+        "lair/uses",
+        "trait/amphibious",
+        "trait/legendary-resistance",
+        "limit/per-day",
+        "save/choose-success",
+        "action/multiattack",
+        "action/melee-attack",
+        "multiattack/replace-attack",
+        "spell/mind-spike",
+        "effect/slashing-damage",
+        "effect/poison-damage",
+        "action/saving-throw",
+        "save/con",
+        "area/cone",
+        "limit/recharge",
+        "save/half-damage",
+        "action/spellcasting",
+        "spellcasting/no-material-components",
+        "spell/detect-magic",
+        "spellcasting/at-will",
+        "spell/geas",
+        "action/special",
+        "area/sphere",
+        "effect/ac-penalty",
+        "limit/once-per-round",
+        "movement/half-speed"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/adult-red-dragon",
+      "name": "Adult Red Dragon",
+      "source_pages": [
+        318,
+        319
+      ],
+      "sizes": [
+        "huge"
+      ],
+      "type": "dragon",
+      "alignment": "Chaotic Evil",
+      "ac": 19,
+      "hp": {
+        "average": 256,
+        "dice": 19,
+        "sides": 12,
+        "modifier": 133
+      },
+      "initiative": {
+        "modifier": 12,
+        "score": 22
+      },
+      "speeds": {
+        "walk": 40,
+        "climb": 40,
+        "fly": 80
+      },
+      "abilities": {
+        "str": {
+          "score": 27,
+          "modifier": 8,
+          "save": 8
+        },
+        "dex": {
+          "score": 10,
+          "modifier": 0,
+          "save": 6
+        },
+        "con": {
+          "score": 25,
+          "modifier": 7,
+          "save": 7
+        },
+        "int": {
+          "score": 16,
+          "modifier": 3,
+          "save": 3
+        },
+        "wis": {
+          "score": 13,
+          "modifier": 1,
+          "save": 7
+        },
+        "cha": {
+          "score": 23,
+          "modifier": 6,
+          "save": 6
+        }
+      },
+      "senses": {
+        "passive_perception": 23,
+        "special": {
+          "blindsight": 60,
+          "darkvision": 120
+        }
+      },
+      "languages": [
+        "Common",
+        "Draconic"
+      ],
+      "gear": [],
+      "cr": "17",
+      "xp": 18000,
+      "proficiency_bonus": 6,
+      "traits": [
+        {
+          "key": "trait/legendary-resistance",
+          "name": "Legendary Resistance",
+          "text": "Legendary Resistance (3/Day, or 4/Day in Lair). If the dragon fails a saving throw, it can choose to succeed instead.",
+          "uses": {
+            "per_day": 3,
+            "lair_per_day": 4,
+            "recharge": 0
+          },
+          "requires": [
+            "limit/per-day",
+            "lair/uses",
+            "save/choose-success"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "multiattack",
+          "name": "Multiattack",
+          "text": "Multiattack. The dragon makes three Rend attacks. It can replace one attack with a use of Spellcasting to cast Scorching Ray.",
+          "key": "action/multiattack",
+          "effects": [
+            {
+              "key": "action/melee-attack",
+              "name": "Attack",
+              "text": "The dragon makes three Rend attacks."
+            },
+            {
+              "key": "multiattack/replace-attack",
+              "name": "Replace one attack",
+              "text": "It can replace one attack with a use of Spellcasting to cast Scorching Ray."
+            },
+            {
+              "key": "spell/scorching-ray",
+              "name": "Scorching Ray",
+              "text": "It can replace one attack with a use of Spellcasting to cast Scorching Ray."
+            }
+          ]
+        },
+        {
+          "id": "rend",
+          "name": "Rend",
+          "text": "Rend. Melee Attack Roll: +14, reach 10 ft. Hit: 13 (1d10 + 8) Slashing damage plus 5 (2d4) Fire damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 14,
+            "reach": 10,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 13,
+              "dice": 1,
+              "sides": 10,
+              "modifier": 8
+            },
+            "damage_type": "slashing"
+          },
+          "effects": [
+            {
+              "key": "effect/slashing-damage",
+              "name": "Slashing damage",
+              "text": "13 (1d10 + 8) Slashing damage.",
+              "dice": {
+                "average": 13,
+                "dice": 1,
+                "sides": 10,
+                "modifier": 8
+              }
+            },
+            {
+              "key": "effect/fire-damage",
+              "name": "Fire damage",
+              "text": "5 (2d4) Fire damage.",
+              "dice": {
+                "average": 5,
+                "dice": 2,
+                "sides": 4,
+                "modifier": 0
+              }
+            }
+          ]
+        },
+        {
+          "id": "fire-breath",
+          "name": "Fire Breath",
+          "text": "Fire Breath (Recharge 5–6). Dexterity Saving Throw: DC 21, each creature in a 60-foot Cone. Failure: 59 (17d6) Fire damage. Success: Half damage.",
+          "key": "action/saving-throw",
+          "save": {
+            "ability": "dex",
+            "dc": 21
+          },
+          "target": {
+            "shape": "cone",
+            "size": 60,
+            "width": 0,
+            "range": 0
+          },
+          "uses": {
+            "per_day": 0,
+            "lair_per_day": 0,
+            "recharge": 5
+          },
+          "effects": [
+            {
+              "key": "save/dex",
+              "name": "Dexterity Saving Throw",
+              "text": "Dexterity Saving Throw: DC 21"
+            },
+            {
+              "key": "area/cone",
+              "name": "Target",
+              "text": "each creature in a 60-foot Cone."
+            },
+            {
+              "key": "limit/recharge",
+              "name": "Recharge",
+              "text": "(Recharge 5–6)"
+            },
+            {
+              "key": "effect/fire-damage",
+              "name": "Fire damage",
+              "text": "59 (17d6) Fire damage.",
+              "dice": {
+                "average": 59,
+                "dice": 17,
+                "sides": 6,
+                "modifier": 0
+              }
+            },
+            {
+              "key": "save/half-damage",
+              "name": "Half damage",
+              "text": "Success: Half damage."
+            }
+          ]
+        },
+        {
+          "id": "spellcasting",
+          "name": "Spellcasting",
+          "text": "Spellcasting. The dragon casts one of the following spells, requiring no Material components and using Charisma as the spellcasting ability (spell save DC 20, +12 to hit with spell attacks): At Will: Command (level 2 version), Detect Magic, Scorching Ray 1/Day: Fireball",
+          "key": "action/spellcasting",
+          "spellcasting": {
+            "ability": "cha",
+            "save_dc": 20,
+            "attack_bonus": 12,
+            "at_will": [
+              "Command (level 2 version)",
+              "Detect Magic",
+              "Scorching Ray"
+            ],
+            "per_day": [
+              {
+                "uses": 1,
+                "spells": [
+                  "Fireball"
+                ]
+              }
+            ]
+          },
+          "effects": [
+            {
+              "key": "spellcasting/no-material-components",
+              "name": "No Material components",
+              "text": "The dragon casts one of the following spells, requiring no Material components and using Charisma as the spellcasting ability (spell save DC 20, +12 to hit with spell attacks):"
+            },
+            {
+              "key": "spell/command",
+              "name": "Command",
+              "text": "Command (level 2 version)",
+              "requires": [
+                "spellcasting/at-will"
+              ]
+            },
+            {
+              "key": "spell/detect-magic",
+              "name": "Detect Magic",
+              "text": "Detect Magic",
+              "requires": [
+                "spellcasting/at-will"
+              ]
+            },
+            {
+              "key": "spell/scorching-ray",
+              "name": "Scorching Ray",
+              "text": "Scorching Ray",
+              "requires": [
+                "spellcasting/at-will"
+              ]
+            },
+            {
+              "key": "spell/fireball",
+              "name": "Fireball",
+              "text": "Fireball",
+              "requires": [
+                "limit/per-day"
+              ]
+            }
+          ]
+        }
+      ],
+      "tags": [
+        "Chromatic"
+      ],
+      "skills": {
+        "perception": 13,
+        "stealth": 6
+      },
+      "immunities": [
+        "fire"
+      ],
+      "lair_xp": 20000,
+      "legendary_actions": [
+        {
+          "id": "commanding-presence",
+          "name": "Commanding Presence",
+          "text": "Commanding Presence. The dragon uses Spellcasting to cast Command (level 2 version). The dragon can’t take this action again until the start of its next turn.",
+          "key": "action/special",
+          "effects": [
+            {
+              "key": "action/spellcasting",
+              "name": "Spellcasting",
+              "text": "The dragon uses Spellcasting to cast Command (level 2 version)."
+            },
+            {
+              "key": "spell/command",
+              "name": "Command (level 2 version)",
+              "text": "The dragon uses Spellcasting to cast Command (level 2 version)."
+            },
+            {
+              "key": "limit/once-per-round",
+              "name": "Once per round",
+              "text": "The dragon can’t take this action again until the start of its next turn."
+            }
+          ]
+        },
+        {
+          "id": "fiery-rays",
+          "name": "Fiery Rays",
+          "text": "Fiery Rays. The dragon uses Spellcasting to cast Scorching Ray. The dragon can’t take this action again until the start of its next turn.",
+          "key": "action/special",
+          "effects": [
+            {
+              "key": "action/spellcasting",
+              "name": "Spellcasting",
+              "text": "The dragon uses Spellcasting to cast Scorching Ray."
+            },
+            {
+              "key": "spell/scorching-ray",
+              "name": "Scorching Ray",
+              "text": "The dragon uses Spellcasting to cast Scorching Ray."
+            },
+            {
+              "key": "limit/once-per-round",
+              "name": "Once per round",
+              "text": "The dragon can’t take this action again until the start of its next turn."
+            }
+          ]
+        },
+        {
+          "id": "pounce",
+          "name": "Pounce",
+          "text": "Pounce. The dragon moves up to half its Speed, and it makes one Rend attack.",
+          "key": "action/special",
+          "effects": [
+            {
+              "key": "movement/half-speed",
+              "name": "Move half Speed",
+              "text": "The dragon moves up to half its Speed, and it makes one Rend attack."
+            },
+            {
+              "key": "action/melee-attack",
+              "name": "Attack",
+              "text": "The dragon moves up to half its Speed, and it makes one Rend attack."
+            }
+          ]
+        }
+      ],
+      "legendary": {
+        "uses": 3,
+        "lair_uses": 4,
+        "text": "Legendary Action Uses: 3 (4 in Lair). Immediately after another creature’s turn, the dragon can expend a use to take one of the following actions. The dragon regains all expended uses at the start of each of its turns."
+      },
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/skills",
+        "defense/damage-immunity",
+        "movement/climb",
+        "movement/fly",
+        "sense/blindsight",
+        "sense/darkvision",
+        "lair/xp",
+        "legendary/actions",
+        "lair/uses",
+        "trait/legendary-resistance",
+        "limit/per-day",
+        "save/choose-success",
+        "action/multiattack",
+        "action/melee-attack",
+        "multiattack/replace-attack",
+        "spell/scorching-ray",
+        "effect/slashing-damage",
+        "effect/fire-damage",
+        "action/saving-throw",
+        "save/dex",
+        "area/cone",
+        "limit/recharge",
+        "save/half-damage",
+        "action/spellcasting",
+        "spellcasting/no-material-components",
+        "spell/command",
+        "spellcasting/at-will",
+        "spell/detect-magic",
+        "spell/fireball",
+        "action/special",
+        "limit/once-per-round",
+        "movement/half-speed"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/adult-silver-dragon",
+      "name": "Adult Silver Dragon",
+      "source_pages": [
+        324,
+        325
+      ],
+      "sizes": [
+        "huge"
+      ],
+      "type": "dragon",
+      "alignment": "Lawful Good",
+      "ac": 19,
+      "hp": {
+        "average": 216,
+        "dice": 16,
+        "sides": 12,
+        "modifier": 112
+      },
+      "initiative": {
+        "modifier": 10,
+        "score": 20
+      },
+      "speeds": {
+        "walk": 40,
+        "fly": 80
+      },
+      "abilities": {
+        "str": {
+          "score": 27,
+          "modifier": 8,
+          "save": 8
+        },
+        "dex": {
+          "score": 10,
+          "modifier": 0,
+          "save": 5
+        },
+        "con": {
+          "score": 25,
+          "modifier": 7,
+          "save": 7
+        },
+        "int": {
+          "score": 16,
+          "modifier": 3,
+          "save": 3
+        },
+        "wis": {
+          "score": 13,
+          "modifier": 1,
+          "save": 6
+        },
+        "cha": {
+          "score": 22,
+          "modifier": 6,
+          "save": 6
+        }
+      },
+      "senses": {
+        "passive_perception": 21,
+        "special": {
+          "blindsight": 60,
+          "darkvision": 120
+        }
+      },
+      "languages": [
+        "Common",
+        "Draconic"
+      ],
+      "gear": [],
+      "cr": "16",
+      "xp": 15000,
+      "proficiency_bonus": 5,
+      "traits": [
+        {
+          "key": "trait/legendary-resistance",
+          "name": "Legendary Resistance",
+          "text": "Legendary Resistance (3/Day, or 4/Day in Lair). If the dragon fails a saving throw, it can choose to succeed instead.",
+          "uses": {
+            "per_day": 3,
+            "lair_per_day": 4,
+            "recharge": 0
+          },
+          "requires": [
+            "limit/per-day",
+            "lair/uses",
+            "save/choose-success"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "multiattack",
+          "name": "Multiattack",
+          "text": "Multiattack. The dragon makes three Rend attacks. It can replace one attack with a use of (A) Paralyzing Breath or (B) Spellcasting to cast Ice Knife.",
+          "key": "action/multiattack",
+          "effects": [
+            {
+              "key": "action/melee-attack",
+              "name": "Attack",
+              "text": "The dragon makes three Rend attacks."
+            },
+            {
+              "key": "multiattack/replace-attack",
+              "name": "Replace one attack",
+              "text": "It can replace one attack with a use of (A) Paralyzing Breath or (B) Spellcasting to cast Ice Knife."
+            },
+            {
+              "key": "spell/ice-knife",
+              "name": "Ice Knife",
+              "text": "It can replace one attack with a use of (A) Paralyzing Breath or (B) Spellcasting to cast Ice Knife."
+            }
+          ]
+        },
+        {
+          "id": "rend",
+          "name": "Rend",
+          "text": "Rend. Melee Attack Roll: +13, reach 10 ft. Hit: 17 (2d8 + 8) Slashing damage plus 4 (1d8) Cold damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 13,
+            "reach": 10,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 17,
+              "dice": 2,
+              "sides": 8,
+              "modifier": 8
+            },
+            "damage_type": "slashing"
+          },
+          "effects": [
+            {
+              "key": "effect/slashing-damage",
+              "name": "Slashing damage",
+              "text": "17 (2d8 + 8) Slashing damage.",
+              "dice": {
+                "average": 17,
+                "dice": 2,
+                "sides": 8,
+                "modifier": 8
+              }
+            },
+            {
+              "key": "effect/cold-damage",
+              "name": "Cold damage",
+              "text": "4 (1d8) Cold damage.",
+              "dice": {
+                "average": 4,
+                "dice": 1,
+                "sides": 8,
+                "modifier": 0
+              }
+            }
+          ]
+        },
+        {
+          "id": "cold-breath",
+          "name": "Cold Breath",
+          "text": "Cold Breath (Recharge 5–6). Constitution Saving Throw: DC 20, each creature in a 60-foot Cone. Failure: 54 (12d8) Cold damage. Success: Half damage.",
+          "key": "action/saving-throw",
+          "save": {
+            "ability": "con",
+            "dc": 20
+          },
+          "target": {
+            "shape": "cone",
+            "size": 60,
+            "width": 0,
+            "range": 0
+          },
+          "uses": {
+            "per_day": 0,
+            "lair_per_day": 0,
+            "recharge": 5
+          },
+          "effects": [
+            {
+              "key": "save/con",
+              "name": "Constitution Saving Throw",
+              "text": "Constitution Saving Throw: DC 20"
+            },
+            {
+              "key": "area/cone",
+              "name": "Target",
+              "text": "each creature in a 60-foot Cone."
+            },
+            {
+              "key": "limit/recharge",
+              "name": "Recharge",
+              "text": "(Recharge 5–6)"
+            },
+            {
+              "key": "effect/cold-damage",
+              "name": "Cold damage",
+              "text": "54 (12d8) Cold damage.",
+              "dice": {
+                "average": 54,
+                "dice": 12,
+                "sides": 8,
+                "modifier": 0
+              }
+            },
+            {
+              "key": "save/half-damage",
+              "name": "Half damage",
+              "text": "Success: Half damage."
+            }
+          ]
+        },
+        {
+          "id": "paralyzing-breath",
+          "name": "Paralyzing Breath",
+          "text": "Paralyzing Breath. Constitution Saving Throw: DC 20, each creature in a 60-foot Cone. First Failure: The target has the Incapacitated condition until the end of its next turn, when it repeats the save. Second Failure: The target has the Paralyzed condition, and it repeats the save at the end of each of its turns, ending the effect on itself on a success. After 1 minute, it succeeds automatically.",
+          "key": "action/saving-throw",
+          "save": {
+            "ability": "con",
+            "dc": 20
+          },
+          "target": {
+            "shape": "cone",
+            "size": 60,
+            "width": 0,
+            "range": 0
+          },
+          "effects": [
+            {
+              "key": "save/con",
+              "name": "Constitution Saving Throw",
+              "text": "Constitution Saving Throw: DC 20"
+            },
+            {
+              "key": "area/cone",
+              "name": "Target",
+              "text": "each creature in a 60-foot Cone."
+            },
+            {
+              "key": "condition/incapacitated",
+              "name": "Incapacitated",
+              "text": "First Failure: The target has the Incapacitated condition until the end of its next turn, when it repeats the save."
+            },
+            {
+              "key": "save/repeat",
+              "name": "Repeated save",
+              "text": "First Failure: The target has the Incapacitated condition until the end of its next turn, when it repeats the save."
+            },
+            {
+              "key": "condition/paralyzed",
+              "name": "Paralyzed",
+              "text": "Second Failure: The target has the Paralyzed condition, and it repeats the save at the end of each of its turns, ending the effect on itself on a success."
+            },
+            {
+              "key": "save/repeat",
+              "name": "Repeated save",
+              "text": "Second Failure: The target has the Paralyzed condition, and it repeats the save at the end of each of its turns, ending the effect on itself on a success."
+            },
+            {
+              "key": "save/second-failure",
+              "name": "Second failure",
+              "text": "Second Failure: The target has the Paralyzed condition, and it repeats the save at the end of each of its turns, ending the effect on itself on a success."
+            },
+            {
+              "key": "save/automatic-success",
+              "name": "Automatic success",
+              "text": "After 1 minute, it succeeds automatically."
+            }
+          ]
+        },
+        {
+          "id": "spellcasting",
+          "name": "Spellcasting",
+          "text": "Spellcasting. The dragon casts one of the following spells, requiring no Material components and using Charisma as the spellcasting ability (spell save DC 19, +11 to hit with spell attacks): At Will: Detect Magic, Hold Monster, Ice Knife, Shapechange (Beast or Humanoid form only, no Temporary Hit Points gained from the spell, and no Concentration or Temporary Hit Points required to maintain the spell) 1/Day Each: Ice Storm (level 5 version), Zone of Truth",
+          "key": "action/spellcasting",
+          "spellcasting": {
+            "ability": "cha",
+            "save_dc": 19,
+            "attack_bonus": 11,
+            "at_will": [
+              "Detect Magic",
+              "Hold Monster",
+              "Ice Knife",
+              "Shapechange (Beast or Humanoid form only, no Temporary Hit Points gained from the spell, and no Concentration or Temporary Hit Points required to maintain the spell)"
+            ],
+            "per_day": [
+              {
+                "uses": 1,
+                "spells": [
+                  "Ice Storm (level 5 version)",
+                  "Zone of Truth"
+                ]
+              }
+            ]
+          },
+          "effects": [
+            {
+              "key": "spellcasting/no-material-components",
+              "name": "No Material components",
+              "text": "The dragon casts one of the following spells, requiring no Material components and using Charisma as the spellcasting ability (spell save DC 19, +11 to hit with spell attacks):"
+            },
+            {
+              "key": "spell/detect-magic",
+              "name": "Detect Magic",
+              "text": "Detect Magic",
+              "requires": [
+                "spellcasting/at-will"
+              ]
+            },
+            {
+              "key": "spell/hold-monster",
+              "name": "Hold Monster",
+              "text": "Hold Monster",
+              "requires": [
+                "spellcasting/at-will"
+              ]
+            },
+            {
+              "key": "spell/ice-knife",
+              "name": "Ice Knife",
+              "text": "Ice Knife",
+              "requires": [
+                "spellcasting/at-will"
+              ]
+            },
+            {
+              "key": "spell/shapechange",
+              "name": "Shapechange",
+              "text": "Shapechange (Beast or Humanoid form only, no Temporary Hit Points gained from the spell, and no Concentration or Temporary Hit Points required to maintain the spell)",
+              "requires": [
+                "spellcasting/at-will"
+              ]
+            },
+            {
+              "key": "spell/ice-storm",
+              "name": "Ice Storm",
+              "text": "Ice Storm (level 5 version)",
+              "requires": [
+                "limit/per-day"
+              ]
+            },
+            {
+              "key": "spell/zone-of-truth",
+              "name": "Zone of Truth",
+              "text": "Zone of Truth",
+              "requires": [
+                "limit/per-day"
+              ]
+            }
+          ]
+        }
+      ],
+      "tags": [
+        "Metallic"
+      ],
+      "skills": {
+        "history": 8,
+        "perception": 11,
+        "stealth": 5
+      },
+      "immunities": [
+        "cold"
+      ],
+      "lair_xp": 18000,
+      "legendary_actions": [
+        {
+          "id": "chill",
+          "name": "Chill",
+          "text": "Chill. The dragon uses Spellcasting to cast Hold Monster. The dragon can’t take this action again until the start of its next turn.",
+          "key": "action/special",
+          "effects": [
+            {
+              "key": "action/spellcasting",
+              "name": "Spellcasting",
+              "text": "The dragon uses Spellcasting to cast Hold Monster."
+            },
+            {
+              "key": "spell/hold-monster",
+              "name": "Hold Monster",
+              "text": "The dragon uses Spellcasting to cast Hold Monster."
+            },
+            {
+              "key": "limit/once-per-round",
+              "name": "Once per round",
+              "text": "The dragon can’t take this action again until the start of its next turn."
+            }
+          ]
+        },
+        {
+          "id": "cold-gale",
+          "name": "Cold Gale",
+          "text": "Cold Gale. Dexterity Saving Throw: DC 19, each creature in a 60-foot-long, 10-foot-wide Line. Failure: 14 (4d6) Cold damage, and the target is pushed up to 30 feet straight away from the dragon. Success: Half damage only. Failure or Success: The dragon can’t take this action again until the start of its next turn.",
+          "key": "action/saving-throw",
+          "save": {
+            "ability": "dex",
+            "dc": 19
+          },
+          "target": {
+            "shape": "line",
+            "size": 60,
+            "width": 10,
+            "range": 0
+          },
+          "effects": [
+            {
+              "key": "save/dex",
+              "name": "Dexterity Saving Throw",
+              "text": "Dexterity Saving Throw: DC 19"
+            },
+            {
+              "key": "area/line",
+              "name": "Target",
+              "text": "each creature in a 60-foot-long, 10-foot-wide Line."
+            },
+            {
+              "key": "effect/cold-damage",
+              "name": "Cold damage",
+              "text": "14 (4d6) Cold damage.",
+              "dice": {
+                "average": 14,
+                "dice": 4,
+                "sides": 6,
+                "modifier": 0
+              }
+            },
+            {
+              "key": "effect/push",
+              "name": "Push",
+              "text": "Failure: 14 (4d6) Cold damage, and the target is pushed up to 30 feet straight away from the dragon."
+            },
+            {
+              "key": "save/half-damage-only",
+              "name": "Half damage only",
+              "text": "Success: Half damage only."
+            },
+            {
+              "key": "limit/once-per-round",
+              "name": "Once per round",
+              "text": "Failure or Success: The dragon can’t take this action again until the start of its next turn."
+            }
+          ]
+        },
+        {
+          "id": "pounce",
+          "name": "Pounce",
+          "text": "Pounce. The dragon moves up to half its Speed, and it makes one Rend attack.",
+          "key": "action/special",
+          "effects": [
+            {
+              "key": "movement/half-speed",
+              "name": "Move half Speed",
+              "text": "The dragon moves up to half its Speed, and it makes one Rend attack."
+            },
+            {
+              "key": "action/melee-attack",
+              "name": "Attack",
+              "text": "The dragon moves up to half its Speed, and it makes one Rend attack."
+            }
+          ]
+        }
+      ],
+      "legendary": {
+        "uses": 3,
+        "lair_uses": 4,
+        "text": "Legendary Action Uses: 3 (4 in Lair). Immediately after another creature’s turn, the dragon can expend a use to take one of the following actions. The dragon regains all expended uses at the start of each of its turns."
+      },
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/skills",
+        "defense/damage-immunity",
+        "movement/fly",
+        "sense/blindsight",
+        "sense/darkvision",
+        "lair/xp",
+        "legendary/actions",
+        "lair/uses",
+        "trait/legendary-resistance",
+        "limit/per-day",
+        "save/choose-success",
+        "action/multiattack",
+        "action/melee-attack",
+        "multiattack/replace-attack",
+        "spell/ice-knife",
+        "effect/slashing-damage",
+        "effect/cold-damage",
+        "action/saving-throw",
+        "save/con",
+        "area/cone",
+        "limit/recharge",
+        "save/half-damage",
+        "condition/incapacitated",
+        "save/repeat",
+        "condition/paralyzed",
+        "save/second-failure",
+        "save/automatic-success",
+        "action/spellcasting",
+        "spellcasting/no-material-components",
+        "spell/detect-magic",
+        "spellcasting/at-will",
+        "spell/hold-monster",
+        "spell/shapechange",
+        "spell/ice-storm",
+        "spell/zone-of-truth",
+        "action/special",
+        "limit/once-per-round",
+        "save/dex",
+        "area/line",
+        "effect/push",
+        "save/half-damage-only",
+        "movement/half-speed"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/adult-white-dragon",
+      "name": "Adult White Dragon",
+      "source_pages": [
+        340,
+        340
+      ],
+      "sizes": [
+        "huge"
+      ],
+      "type": "dragon",
+      "alignment": "Chaotic Evil",
+      "ac": 18,
+      "hp": {
+        "average": 200,
+        "dice": 16,
+        "sides": 12,
+        "modifier": 96
+      },
+      "initiative": {
+        "modifier": 10,
+        "score": 20
+      },
+      "speeds": {
+        "walk": 40,
+        "burrow": 30,
+        "fly": 80,
+        "swim": 40
+      },
+      "abilities": {
+        "str": {
+          "score": 22,
+          "modifier": 6,
+          "save": 6
+        },
+        "dex": {
+          "score": 10,
+          "modifier": 0,
+          "save": 5
+        },
+        "con": {
+          "score": 22,
+          "modifier": 6,
+          "save": 6
+        },
+        "int": {
+          "score": 8,
+          "modifier": -1,
+          "save": -1
+        },
+        "wis": {
+          "score": 12,
+          "modifier": 1,
+          "save": 6
+        },
+        "cha": {
+          "score": 12,
+          "modifier": 1,
+          "save": 1
+        }
+      },
+      "senses": {
+        "passive_perception": 21,
+        "special": {
+          "blindsight": 60,
+          "darkvision": 120
+        }
+      },
+      "languages": [
+        "Common",
+        "Draconic"
+      ],
+      "gear": [],
+      "cr": "13",
+      "xp": 10000,
+      "proficiency_bonus": 5,
+      "traits": [
+        {
+          "key": "trait/ice-walk",
+          "name": "Ice Walk",
+          "text": "Ice Walk. The dragon can move across and climb icy surfaces without needing to make an ability check. Additionally, Difficult Terrain composed of ice or snow doesn’t cost it extra movement.",
+          "requires": [
+            "movement/ice-walk",
+            "movement/ignore-difficult-terrain"
+          ]
+        },
+        {
+          "key": "trait/legendary-resistance",
+          "name": "Legendary Resistance",
+          "text": "Legendary Resistance (3/Day, or 4/Day in Lair). If the dragon fails a saving throw, it can choose to succeed instead.",
+          "uses": {
+            "per_day": 3,
+            "lair_per_day": 4,
+            "recharge": 0
+          },
+          "requires": [
+            "limit/per-day",
+            "lair/uses",
+            "save/choose-success"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "multiattack",
+          "name": "Multiattack",
+          "text": "Multiattack. The dragon makes three Rend attacks.",
+          "key": "action/multiattack",
+          "effects": [
+            {
+              "key": "action/melee-attack",
+              "name": "Attack",
+              "text": "The dragon makes three Rend attacks."
+            }
+          ]
+        },
+        {
+          "id": "rend",
+          "name": "Rend",
+          "text": "Rend. Melee Attack Roll: +11, reach 10 ft. Hit: 13 (2d6 + 6) Slashing damage plus 4 (1d8) Cold damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 11,
+            "reach": 10,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 13,
+              "dice": 2,
+              "sides": 6,
+              "modifier": 6
+            },
+            "damage_type": "slashing"
+          },
+          "effects": [
+            {
+              "key": "effect/slashing-damage",
+              "name": "Slashing damage",
+              "text": "13 (2d6 + 6) Slashing damage.",
+              "dice": {
+                "average": 13,
+                "dice": 2,
+                "sides": 6,
+                "modifier": 6
+              }
+            },
+            {
+              "key": "effect/cold-damage",
+              "name": "Cold damage",
+              "text": "4 (1d8) Cold damage.",
+              "dice": {
+                "average": 4,
+                "dice": 1,
+                "sides": 8,
+                "modifier": 0
+              }
+            }
+          ]
+        },
+        {
+          "id": "cold-breath",
+          "name": "Cold Breath",
+          "text": "Cold Breath (Recharge 5–6). Constitution Saving Throw: DC 19, each creature in a 60-foot Cone. Failure: 54 (12d8) Cold damage. Success: Half damage.",
+          "key": "action/saving-throw",
+          "save": {
+            "ability": "con",
+            "dc": 19
+          },
+          "target": {
+            "shape": "cone",
+            "size": 60,
+            "width": 0,
+            "range": 0
+          },
+          "uses": {
+            "per_day": 0,
+            "lair_per_day": 0,
+            "recharge": 5
+          },
+          "effects": [
+            {
+              "key": "save/con",
+              "name": "Constitution Saving Throw",
+              "text": "Constitution Saving Throw: DC 19"
+            },
+            {
+              "key": "area/cone",
+              "name": "Target",
+              "text": "each creature in a 60-foot Cone."
+            },
+            {
+              "key": "limit/recharge",
+              "name": "Recharge",
+              "text": "(Recharge 5–6)"
+            },
+            {
+              "key": "effect/cold-damage",
+              "name": "Cold damage",
+              "text": "54 (12d8) Cold damage.",
+              "dice": {
+                "average": 54,
+                "dice": 12,
+                "sides": 8,
+                "modifier": 0
+              }
+            },
+            {
+              "key": "save/half-damage",
+              "name": "Half damage",
+              "text": "Success: Half damage."
+            }
+          ]
+        }
+      ],
+      "tags": [
+        "Chromatic"
+      ],
+      "skills": {
+        "perception": 11,
+        "stealth": 5
+      },
+      "immunities": [
+        "cold"
+      ],
+      "lair_xp": 11500,
+      "legendary_actions": [
+        {
+          "id": "freezing-burst",
+          "name": "Freezing Burst",
+          "text": "Freezing Burst. Constitution Saving Throw: DC 14, each creature in a 30-foot-radius Sphere centered on a point the dragon can see within 120 feet. Failure: 7 (2d6) Cold damage, and the target’s Speed is 0 until the end of the target’s next turn. Failure or Success: The dragon can’t take this action again until the start of its next turn.",
+          "key": "action/saving-throw",
+          "save": {
+            "ability": "con",
+            "dc": 14
+          },
+          "target": {
+            "shape": "sphere",
+            "size": 30,
+            "width": 0,
+            "range": 120
+          },
+          "effects": [
+            {
+              "key": "save/con",
+              "name": "Constitution Saving Throw",
+              "text": "Constitution Saving Throw: DC 14"
+            },
+            {
+              "key": "area/sphere",
+              "name": "Target",
+              "text": "each creature in a 30-foot-radius Sphere centered on a point the dragon can see within 120 feet."
+            },
+            {
+              "key": "effect/cold-damage",
+              "name": "Cold damage",
+              "text": "7 (2d6) Cold damage.",
+              "dice": {
+                "average": 7,
+                "dice": 2,
+                "sides": 6,
+                "modifier": 0
+              }
+            },
+            {
+              "key": "effect/speed-zero",
+              "name": "Speed 0",
+              "text": "Failure: 7 (2d6) Cold damage, and the target’s Speed is 0 until the end of the target’s next turn."
+            },
+            {
+              "key": "limit/once-per-round",
+              "name": "Once per round",
+              "text": "Failure or Success: The dragon can’t take this action again until the start of its next turn."
+            }
+          ]
+        },
+        {
+          "id": "frightful-presence",
+          "name": "Frightful Presence",
+          "text": "Frightful Presence. The dragon casts Fear, requiring no Material components and using Charisma as the spellcasting ability (spell save DC 14). The dragon can’t take this action again until the start of its next turn.",
+          "key": "action/special",
+          "effects": [
+            {
+              "key": "spellcasting/fixed-save-dc",
+              "name": "Fixed spell save DC",
+              "text": "The dragon casts Fear, requiring no Material components and using Charisma as the spellcasting ability (spell save DC 14)."
+            },
+            {
+              "key": "spellcasting/no-material-components",
+              "name": "No Material components",
+              "text": "The dragon casts Fear, requiring no Material components and using Charisma as the spellcasting ability (spell save DC 14)."
+            },
+            {
+              "key": "spell/fear",
+              "name": "Fear",
+              "text": "The dragon casts Fear, requiring no Material components and using Charisma as the spellcasting ability (spell save DC 14)."
+            },
+            {
+              "key": "limit/once-per-round",
+              "name": "Once per round",
+              "text": "The dragon can’t take this action again until the start of its next turn."
+            }
+          ]
+        },
+        {
+          "id": "pounce",
+          "name": "Pounce",
+          "text": "Pounce. The dragon moves up to half its Speed, and it makes one Rend attack.",
+          "key": "action/special",
+          "effects": [
+            {
+              "key": "movement/half-speed",
+              "name": "Move half Speed",
+              "text": "The dragon moves up to half its Speed, and it makes one Rend attack."
+            },
+            {
+              "key": "action/melee-attack",
+              "name": "Attack",
+              "text": "The dragon moves up to half its Speed, and it makes one Rend attack."
+            }
+          ]
+        }
+      ],
+      "legendary": {
+        "uses": 3,
+        "lair_uses": 4,
+        "text": "Legendary Action Uses: 3 (4 in Lair). Immediately after another creature’s turn, the dragon can expend a use to take one of the following actions. The dragon regains all expended uses at the start of each of its turns."
+      },
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/skills",
+        "defense/damage-immunity",
+        "movement/burrow",
+        "movement/fly",
+        "movement/swim",
+        "sense/blindsight",
+        "sense/darkvision",
+        "lair/xp",
+        "legendary/actions",
+        "lair/uses",
+        "trait/ice-walk",
+        "movement/ice-walk",
+        "movement/ignore-difficult-terrain",
+        "trait/legendary-resistance",
+        "limit/per-day",
+        "save/choose-success",
+        "action/multiattack",
+        "action/melee-attack",
+        "effect/slashing-damage",
+        "effect/cold-damage",
+        "action/saving-throw",
+        "save/con",
+        "area/cone",
+        "limit/recharge",
+        "save/half-damage",
+        "area/sphere",
+        "effect/speed-zero",
+        "limit/once-per-round",
+        "action/special",
+        "spellcasting/fixed-save-dc",
+        "spellcasting/no-material-components",
+        "spell/fear",
+        "movement/half-speed"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/air-elemental",
+      "name": "Air Elemental",
+      "source_pages": [
+        258,
+        259
+      ],
+      "sizes": [
+        "large"
+      ],
+      "type": "elemental",
+      "alignment": "Neutral",
+      "ac": 15,
+      "hp": {
+        "average": 90,
+        "dice": 12,
+        "sides": 10,
+        "modifier": 24
+      },
+      "initiative": {
+        "modifier": 5,
+        "score": 15
+      },
+      "speeds": {
+        "walk": 10,
+        "fly": 90
+      },
+      "abilities": {
+        "str": {
+          "score": 14,
+          "modifier": 2,
+          "save": 2
+        },
+        "dex": {
+          "score": 20,
+          "modifier": 5,
+          "save": 5
+        },
+        "con": {
+          "score": 14,
+          "modifier": 2,
+          "save": 2
+        },
+        "int": {
+          "score": 6,
+          "modifier": -2,
+          "save": -2
+        },
+        "wis": {
+          "score": 10,
+          "modifier": 0,
+          "save": 0
+        },
+        "cha": {
+          "score": 6,
+          "modifier": -2,
+          "save": -2
+        }
+      },
+      "senses": {
+        "passive_perception": 10,
+        "special": {
+          "darkvision": 60
+        }
+      },
+      "languages": [
+        "Primordial (Auran)"
+      ],
+      "gear": [],
+      "cr": "5",
+      "xp": 1800,
+      "proficiency_bonus": 3,
+      "traits": [
+        {
+          "key": "trait/air-form",
+          "name": "Air Form",
+          "text": "Air Form. The elemental can enter a creature’s space and stop there. It can move through a space as narrow as 1 inch without expending extra movement to do so.",
+          "requires": [
+            "movement/enter-creature-space",
+            "movement/squeeze"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "multiattack",
+          "name": "Multiattack",
+          "text": "Multiattack. The elemental makes two Thunderous Slam attacks.",
+          "key": "action/multiattack",
+          "effects": [
+            {
+              "key": "action/melee-attack",
+              "name": "Attack",
+              "text": "The elemental makes two Thunderous Slam attacks."
+            }
+          ]
+        },
+        {
+          "id": "thunderous-slam",
+          "name": "Thunderous Slam",
+          "text": "Thunderous Slam. Melee Attack Roll: +8, reach 10 ft. Hit: 14 (2d8 + 5) Thunder damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 8,
+            "reach": 10,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 14,
+              "dice": 2,
+              "sides": 8,
+              "modifier": 5
+            },
+            "damage_type": "thunder"
+          },
+          "effects": [
+            {
+              "key": "effect/thunder-damage",
+              "name": "Thunder damage",
+              "text": "14 (2d8 + 5) Thunder damage.",
+              "dice": {
+                "average": 14,
+                "dice": 2,
+                "sides": 8,
+                "modifier": 5
+              }
+            }
+          ]
+        },
+        {
+          "id": "whirlwind",
+          "name": "Whirlwind",
+          "text": "Whirlwind (Recharge 4–6). Strength Saving Throw: DC 13, one Medium or smaller creature in the elemental’s space. Failure: 24 (4d10 + 2) Thunder damage, and the target is pushed up to 20 feet straight away from the elemental and has the Prone condition. Success: Half damage only.",
+          "key": "action/saving-throw",
+          "save": {
+            "ability": "str",
+            "dc": 13
+          },
+          "target": {
+            "shape": "creature",
+            "size": 0,
+            "width": 0,
+            "range": 0
+          },
+          "uses": {
+            "per_day": 0,
+            "lair_per_day": 0,
+            "recharge": 4
+          },
+          "effects": [
+            {
+              "key": "save/str",
+              "name": "Strength Saving Throw",
+              "text": "Strength Saving Throw: DC 13"
+            },
+            {
+              "key": "target/creature",
+              "name": "Target",
+              "text": "one Medium or smaller creature in the elemental’s space."
+            },
+            {
+              "key": "limit/recharge",
+              "name": "Recharge",
+              "text": "(Recharge 4–6)"
+            },
+            {
+              "key": "requirement/target-size",
+              "name": "Target size",
+              "text": "Strength Saving Throw: DC 13, one Medium or smaller creature in the elemental’s space."
+            },
+            {
+              "key": "effect/thunder-damage",
+              "name": "Thunder damage",
+              "text": "24 (4d10 + 2) Thunder damage.",
+              "dice": {
+                "average": 24,
+                "dice": 4,
+                "sides": 10,
+                "modifier": 2
+              }
+            },
+            {
+              "key": "condition/prone",
+              "name": "Prone",
+              "text": "Failure: 24 (4d10 + 2) Thunder damage, and the target is pushed up to 20 feet straight away from the elemental and has the Prone condition."
+            },
+            {
+              "key": "effect/push",
+              "name": "Push",
+              "text": "Failure: 24 (4d10 + 2) Thunder damage, and the target is pushed up to 20 feet straight away from the elemental and has the Prone condition."
+            },
+            {
+              "key": "save/half-damage-only",
+              "name": "Half damage only",
+              "text": "Success: Half damage only."
+            }
+          ]
+        }
+      ],
+      "resistances": [
+        "bludgeoning",
+        "lightning",
+        "piercing",
+        "slashing"
+      ],
+      "immunities": [
+        "poison",
+        "thunder"
+      ],
+      "condition_immunities": [
+        "exhaustion",
+        "grappled",
+        "paralyzed",
+        "petrified",
+        "poisoned",
+        "prone",
+        "restrained",
+        "unconscious"
+      ],
+      "hover": true,
+      "required_mechanics": [
+        "monster/stat-block",
+        "defense/damage-resistance",
+        "defense/damage-immunity",
+        "defense/condition-immunity",
+        "movement/fly",
+        "movement/hover",
+        "sense/darkvision",
+        "trait/air-form",
+        "movement/enter-creature-space",
+        "movement/squeeze",
+        "action/multiattack",
+        "action/melee-attack",
+        "effect/thunder-damage",
+        "action/saving-throw",
+        "save/str",
+        "target/creature",
+        "limit/recharge",
+        "requirement/target-size",
+        "condition/prone",
+        "effect/push",
+        "save/half-damage-only"
+      ]
+    }
+  ]
+}
