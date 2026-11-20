@@ -1,0 +1,2691 @@
+{
+  "schema_version": 1,
+  "source": {
+    "version": "5.2.1",
+    "language": "en",
+    "landing_url": "https://www.dndbeyond.com/srd",
+    "artifact_url": "https://media.dndbeyond.com/compendium-images/srd/5.2/SRD_CC_v5.2.1.pdf",
+    "sha256": "8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87",
+    "bytes": 6031375,
+    "pages": 364,
+    "retrieved_at": "2026-11-15",
+    "license": "CC-BY-4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/legalcode",
+    "attribution": "This work includes material from the System Reference Document 5.2.1 (“SRD 5.2.1”) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd. The SRD 5.2.1 is licensed under the Creative Commons Attribution 4.0 International License, available at https://creativecommons.org/licenses/by/4.0/legalcode.",
+    "changes": "Adapted the twelve stat blocks of issue #159 (Efreeti, Elephant, Elk, Erinyes, Ettercap, Ettin, Fire Elemental, Fire Giant, Flesh Golem, Flying Snake, Frog and Frost Giant; PDF pages 283–286 and 348–349) into typed mechanical fields and implementation keys. Trait, action, bonus action and reaction entries keep their source rules text, rejoined across line, column and page breaks; descriptive prose outside the stat blocks is omitted. A hit printed without dice keeps explicit zero dice. No playable NPC behavior is granted."
+  },
+  "monsters": [
+    {
+      "id": "srd-5.2.1:content/monsters/efreeti",
+      "name": "Efreeti",
+      "source_pages": [
+        283,
+        283
+      ],
+      "sizes": [
+        "large"
+      ],
+      "type": "elemental",
+      "alignment": "Neutral",
+      "ac": 17,
+      "hp": {
+        "average": 212,
+        "dice": 17,
+        "sides": 10,
+        "modifier": 119
+      },
+      "initiative": {
+        "modifier": 1,
+        "score": 11
+      },
+      "speeds": {
+        "walk": 40,
+        "fly": 60
+      },
+      "abilities": {
+        "str": {
+          "score": 22,
+          "modifier": 6,
+          "save": 6
+        },
+        "dex": {
+          "score": 12,
+          "modifier": 1,
+          "save": 1
+        },
+        "con": {
+          "score": 24,
+          "modifier": 7,
+          "save": 7
+        },
+        "int": {
+          "score": 16,
+          "modifier": 3,
+          "save": 3
+        },
+        "wis": {
+          "score": 15,
+          "modifier": 2,
+          "save": 6
+        },
+        "cha": {
+          "score": 19,
+          "modifier": 4,
+          "save": 8
+        }
+      },
+      "senses": {
+        "passive_perception": 12,
+        "special": {
+          "darkvision": 120
+        }
+      },
+      "languages": [
+        "Primordial (Ignan)"
+      ],
+      "gear": [],
+      "cr": "11",
+      "xp": 7200,
+      "proficiency_bonus": 4,
+      "traits": [
+        {
+          "key": "trait/elemental-restoration",
+          "name": "Elemental Restoration",
+          "text": "Elemental Restoration. If the efreeti dies outside the Elemental Plane of Fire, its body dissolves into ash, and it gains a new body in 1d4 days, reviving with all its Hit Points somewhere on the Plane of Fire.",
+          "requires": [
+            "effect/revive"
+          ]
+        },
+        {
+          "key": "trait/magic-resistance",
+          "name": "Magic Resistance",
+          "text": "Magic Resistance. The efreeti has Advantage on saving throws against spells and other magical effects.",
+          "requires": [
+            "save/advantage-against-magic"
+          ]
+        },
+        {
+          "key": "trait/wishes",
+          "name": "Wishes",
+          "text": "Wishes. The efreeti has a 30 percent chance of knowing the Wish spell. If the efreeti knows it, the efreeti can cast it only on behalf of a non-genie creature who communicates a wish in a way the efreeti can understand. If the efreeti casts the spell for the creature, the efreeti suffers none of the spell’s stress. Once the efreeti has cast it three times, the efreeti can’t do so again for 365 days.",
+          "requires": [
+            "spell/wish",
+            "effect/wish-chance",
+            "effect/wish-non-genie-beneficiary",
+            "effect/wish-no-stress",
+            "effect/wish-casting-limit"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "multiattack",
+          "name": "Multiattack",
+          "text": "Multiattack. The efreeti makes three attacks, using Heated Blade or Hurl Flame in any combination.",
+          "key": "action/multiattack",
+          "effects": [
+            {
+              "key": "action/melee-attack",
+              "name": "Melee attack",
+              "text": "The efreeti makes three attacks, using Heated Blade or Hurl Flame in any combination."
+            },
+            {
+              "key": "action/ranged-attack",
+              "name": "Ranged attack",
+              "text": "The efreeti makes three attacks, using Heated Blade or Hurl Flame in any combination."
+            },
+            {
+              "key": "multiattack/any-combination",
+              "name": "Any combination",
+              "text": "in any combination."
+            }
+          ]
+        },
+        {
+          "id": "heated-blade",
+          "name": "Heated Blade",
+          "text": "Heated Blade. Melee Attack Roll: +10, reach 5 ft. Hit: 13 (2d6 + 6) Slashing damage plus 13 (2d12) Fire damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 10,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 13,
+              "dice": 2,
+              "sides": 6,
+              "modifier": 6
+            },
+            "damage_type": "slashing"
+          },
+          "effects": [
+            {
+              "key": "effect/slashing-damage",
+              "name": "Slashing damage",
+              "text": "13 (2d6 + 6) Slashing damage.",
+              "dice": {
+                "average": 13,
+                "dice": 2,
+                "sides": 6,
+                "modifier": 6
+              }
+            },
+            {
+              "key": "effect/fire-damage",
+              "name": "Fire damage",
+              "text": "13 (2d12) Fire damage.",
+              "dice": {
+                "average": 13,
+                "dice": 2,
+                "sides": 12,
+                "modifier": 0
+              }
+            }
+          ]
+        },
+        {
+          "id": "hurl-flame",
+          "name": "Hurl Flame",
+          "text": "Hurl Flame. Ranged Attack Roll: +8, range 120 ft. Hit: 24 (7d6) Fire damage.",
+          "key": "action/ranged-attack",
+          "attack": {
+            "kind": "ranged",
+            "bonus": 8,
+            "reach": 0,
+            "range": 120,
+            "long_range": 120,
+            "damage": {
+              "average": 24,
+              "dice": 7,
+              "sides": 6,
+              "modifier": 0
+            },
+            "damage_type": "fire"
+          },
+          "effects": [
+            {
+              "key": "effect/fire-damage",
+              "name": "Fire damage",
+              "text": "24 (7d6) Fire damage.",
+              "dice": {
+                "average": 24,
+                "dice": 7,
+                "sides": 6,
+                "modifier": 0
+              }
+            }
+          ]
+        },
+        {
+          "id": "spellcasting",
+          "name": "Spellcasting",
+          "text": "Spellcasting. The efreeti casts one of the following spells, requiring no Material components and using Charisma as the spellcasting ability (spell save DC 16): At Will: Detect Magic, Elementalism 1/Day Each: Gaseous Form, Invisibility, Major Image, Plane Shift, Tongues, Wall of Fire (level 7 version)",
+          "key": "action/spellcasting",
+          "spellcasting": {
+            "ability": "cha",
+            "save_dc": 16,
+            "attack_bonus": 0,
+            "at_will": [
+              "Detect Magic",
+              "Elementalism"
+            ],
+            "per_day": [
+              {
+                "uses": 1,
+                "spells": [
+                  "Gaseous Form",
+                  "Invisibility",
+                  "Major Image",
+                  "Plane Shift",
+                  "Tongues",
+                  "Wall of Fire (level 7 version)"
+                ]
+              }
+            ]
+          },
+          "effects": [
+            {
+              "key": "spellcasting/no-material-components",
+              "name": "No Material components",
+              "text": "requiring no Material components"
+            },
+            {
+              "key": "spell/detect-magic",
+              "name": "Detect Magic",
+              "text": "Detect Magic",
+              "requires": [
+                "spellcasting/at-will"
+              ]
+            },
+            {
+              "key": "spell/elementalism",
+              "name": "Elementalism",
+              "text": "Elementalism",
+              "requires": [
+                "spellcasting/at-will"
+              ]
+            },
+            {
+              "key": "spell/gaseous-form",
+              "name": "Gaseous Form",
+              "text": "Gaseous Form",
+              "requires": [
+                "limit/per-day"
+              ]
+            },
+            {
+              "key": "spell/invisibility",
+              "name": "Invisibility",
+              "text": "Invisibility",
+              "requires": [
+                "limit/per-day"
+              ]
+            },
+            {
+              "key": "spell/major-image",
+              "name": "Major Image",
+              "text": "Major Image",
+              "requires": [
+                "limit/per-day"
+              ]
+            },
+            {
+              "key": "spell/plane-shift",
+              "name": "Plane Shift",
+              "text": "Plane Shift",
+              "requires": [
+                "limit/per-day"
+              ]
+            },
+            {
+              "key": "spell/tongues",
+              "name": "Tongues",
+              "text": "Tongues",
+              "requires": [
+                "limit/per-day"
+              ]
+            },
+            {
+              "key": "spell/wall-of-fire",
+              "name": "Wall of Fire (level 7 version)",
+              "text": "Wall of Fire (level 7 version)",
+              "requires": [
+                "limit/per-day",
+                "spellcasting/higher-level-version"
+              ]
+            }
+          ]
+        }
+      ],
+      "tags": [
+        "Genie"
+      ],
+      "immunities": [
+        "fire"
+      ],
+      "hover": true,
+      "required_mechanics": [
+        "monster/stat-block",
+        "defense/damage-immunity",
+        "movement/fly",
+        "movement/hover",
+        "sense/darkvision",
+        "trait/elemental-restoration",
+        "effect/revive",
+        "trait/magic-resistance",
+        "save/advantage-against-magic",
+        "trait/wishes",
+        "spell/wish",
+        "effect/wish-chance",
+        "effect/wish-non-genie-beneficiary",
+        "effect/wish-no-stress",
+        "effect/wish-casting-limit",
+        "action/multiattack",
+        "action/melee-attack",
+        "action/ranged-attack",
+        "multiattack/any-combination",
+        "effect/slashing-damage",
+        "effect/fire-damage",
+        "action/spellcasting",
+        "spellcasting/no-material-components",
+        "spell/detect-magic",
+        "spellcasting/at-will",
+        "spell/elementalism",
+        "spell/gaseous-form",
+        "limit/per-day",
+        "spell/invisibility",
+        "spell/major-image",
+        "spell/plane-shift",
+        "spell/tongues",
+        "spell/wall-of-fire",
+        "spellcasting/higher-level-version"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/animals/elephant",
+      "name": "Elephant",
+      "source_pages": [
+        348,
+        348
+      ],
+      "sizes": [
+        "huge"
+      ],
+      "type": "beast",
+      "alignment": "Unaligned",
+      "ac": 12,
+      "hp": {
+        "average": 76,
+        "dice": 8,
+        "sides": 12,
+        "modifier": 24
+      },
+      "initiative": {
+        "modifier": -1,
+        "score": 9
+      },
+      "speeds": {
+        "walk": 40
+      },
+      "abilities": {
+        "str": {
+          "score": 22,
+          "modifier": 6,
+          "save": 6
+        },
+        "dex": {
+          "score": 9,
+          "modifier": -1,
+          "save": -1
+        },
+        "con": {
+          "score": 17,
+          "modifier": 3,
+          "save": 3
+        },
+        "int": {
+          "score": 3,
+          "modifier": -4,
+          "save": -4
+        },
+        "wis": {
+          "score": 11,
+          "modifier": 0,
+          "save": 0
+        },
+        "cha": {
+          "score": 6,
+          "modifier": -2,
+          "save": -2
+        }
+      },
+      "senses": {
+        "passive_perception": 10,
+        "special": {}
+      },
+      "languages": [],
+      "gear": [],
+      "cr": "4",
+      "xp": 1100,
+      "proficiency_bonus": 2,
+      "traits": [],
+      "actions": [
+        {
+          "id": "multiattack",
+          "name": "Multiattack",
+          "text": "Multiattack. The elephant makes two Gore attacks.",
+          "key": "action/multiattack",
+          "effects": [
+            {
+              "key": "action/melee-attack",
+              "name": "Attack",
+              "text": "The elephant makes two Gore attacks."
+            }
+          ]
+        },
+        {
+          "id": "gore",
+          "name": "Gore",
+          "text": "Gore. Melee Attack Roll: +8, reach 5 ft. Hit: 15 (2d8 + 6) Piercing damage. If the target is a Huge or smaller creature and the elephant moved 20+ feet straight toward it immediately before the hit, the target has the Prone condition.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 8,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 15,
+              "dice": 2,
+              "sides": 8,
+              "modifier": 6
+            },
+            "damage_type": "piercing"
+          },
+          "effects": [
+            {
+              "key": "effect/piercing-damage",
+              "name": "Piercing damage",
+              "text": "15 (2d8 + 6) Piercing damage.",
+              "dice": {
+                "average": 15,
+                "dice": 2,
+                "sides": 8,
+                "modifier": 6
+              }
+            },
+            {
+              "key": "requirement/target-size",
+              "name": "Target size",
+              "text": "If the target is a Huge or smaller creature"
+            },
+            {
+              "key": "requirement/charge-distance",
+              "name": "Charge distance",
+              "text": "the elephant moved 20+ feet straight toward it immediately before the hit"
+            },
+            {
+              "key": "condition/prone",
+              "name": "Prone",
+              "text": "the target has the Prone condition."
+            }
+          ]
+        }
+      ],
+      "bonus_actions": [
+        {
+          "id": "trample",
+          "name": "Trample",
+          "text": "Trample. Dexterity Saving Throw: DC 16, one creature within 5 feet that has the Prone condition. Failure: 17 (2d10 + 6) Bludgeoning damage. Success: Half damage.",
+          "key": "action/saving-throw",
+          "save": {
+            "ability": "dex",
+            "dc": 16
+          },
+          "target": {
+            "shape": "creature",
+            "size": 0,
+            "width": 0,
+            "range": 5
+          },
+          "effects": [
+            {
+              "key": "save/dex",
+              "name": "Dexterity Saving Throw",
+              "text": "Dexterity Saving Throw: DC 16"
+            },
+            {
+              "key": "target/creature",
+              "name": "Target",
+              "text": "one creature within 5 feet that has the Prone condition."
+            },
+            {
+              "key": "requirement/target-prone",
+              "name": "Target is Prone",
+              "text": "one creature within 5 feet that has the Prone condition."
+            },
+            {
+              "key": "effect/bludgeoning-damage",
+              "name": "Bludgeoning damage",
+              "text": "17 (2d10 + 6) Bludgeoning damage.",
+              "dice": {
+                "average": 17,
+                "dice": 2,
+                "sides": 10,
+                "modifier": 6
+              }
+            },
+            {
+              "key": "save/half-damage",
+              "name": "Half damage on success",
+              "text": "Success: Half damage."
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "action/bonus-action",
+        "action/multiattack",
+        "action/melee-attack",
+        "effect/piercing-damage",
+        "requirement/target-size",
+        "requirement/charge-distance",
+        "condition/prone",
+        "action/saving-throw",
+        "save/dex",
+        "target/creature",
+        "requirement/target-prone",
+        "effect/bludgeoning-damage",
+        "save/half-damage"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/animals/elk",
+      "name": "Elk",
+      "source_pages": [
+        348,
+        348
+      ],
+      "sizes": [
+        "large"
+      ],
+      "type": "beast",
+      "alignment": "Unaligned",
+      "ac": 10,
+      "hp": {
+        "average": 11,
+        "dice": 2,
+        "sides": 10,
+        "modifier": 0
+      },
+      "initiative": {
+        "modifier": 0,
+        "score": 10
+      },
+      "speeds": {
+        "walk": 50
+      },
+      "abilities": {
+        "str": {
+          "score": 16,
+          "modifier": 3,
+          "save": 3
+        },
+        "dex": {
+          "score": 10,
+          "modifier": 0,
+          "save": 0
+        },
+        "con": {
+          "score": 11,
+          "modifier": 0,
+          "save": 0
+        },
+        "int": {
+          "score": 2,
+          "modifier": -4,
+          "save": -4
+        },
+        "wis": {
+          "score": 10,
+          "modifier": 0,
+          "save": 0
+        },
+        "cha": {
+          "score": 6,
+          "modifier": -2,
+          "save": -2
+        }
+      },
+      "senses": {
+        "passive_perception": 12,
+        "special": {
+          "darkvision": 60
+        }
+      },
+      "languages": [],
+      "gear": [],
+      "cr": "1/4",
+      "xp": 50,
+      "proficiency_bonus": 2,
+      "traits": [],
+      "actions": [
+        {
+          "id": "ram",
+          "name": "Ram",
+          "text": "Ram. Melee Attack Roll: +5, reach 5 ft. Hit: 6 (1d6 + 3) Bludgeoning damage. If the target is a Large or smaller creature and the elk moved 20+ feet straight toward it immediately before the hit, the target takes an extra 3 (1d6) Bludgeoning damage and has the Prone condition.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 5,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 6,
+              "dice": 1,
+              "sides": 6,
+              "modifier": 3
+            },
+            "damage_type": "bludgeoning"
+          },
+          "effects": [
+            {
+              "key": "effect/bludgeoning-damage",
+              "name": "Bludgeoning damage",
+              "text": "6 (1d6 + 3) Bludgeoning damage.",
+              "dice": {
+                "average": 6,
+                "dice": 1,
+                "sides": 6,
+                "modifier": 3
+              }
+            },
+            {
+              "key": "requirement/target-size",
+              "name": "Target size",
+              "text": "If the target is a Large or smaller creature"
+            },
+            {
+              "key": "requirement/charge-distance",
+              "name": "Charge distance",
+              "text": "the elk moved 20+ feet straight toward it immediately before the hit"
+            },
+            {
+              "key": "effect/extra-bludgeoning-damage",
+              "name": "Extra Bludgeoning damage",
+              "text": "the target takes an extra 3 (1d6) Bludgeoning damage",
+              "dice": {
+                "average": 3,
+                "dice": 1,
+                "sides": 6,
+                "modifier": 0
+              }
+            },
+            {
+              "key": "condition/prone",
+              "name": "Prone",
+              "text": "has the Prone condition."
+            }
+          ]
+        }
+      ],
+      "skills": {
+        "perception": 2
+      },
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/skills",
+        "sense/darkvision",
+        "action/melee-attack",
+        "effect/bludgeoning-damage",
+        "requirement/target-size",
+        "requirement/charge-distance",
+        "effect/extra-bludgeoning-damage",
+        "condition/prone"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/erinyes",
+      "name": "Erinyes",
+      "source_pages": [
+        283,
+        283
+      ],
+      "sizes": [
+        "medium"
+      ],
+      "type": "fiend",
+      "alignment": "Lawful Evil",
+      "ac": 18,
+      "hp": {
+        "average": 178,
+        "dice": 21,
+        "sides": 8,
+        "modifier": 84
+      },
+      "initiative": {
+        "modifier": 7,
+        "score": 17
+      },
+      "speeds": {
+        "walk": 30,
+        "fly": 60
+      },
+      "abilities": {
+        "str": {
+          "score": 18,
+          "modifier": 4,
+          "save": 4
+        },
+        "dex": {
+          "score": 16,
+          "modifier": 3,
+          "save": 7
+        },
+        "con": {
+          "score": 18,
+          "modifier": 4,
+          "save": 8
+        },
+        "int": {
+          "score": 14,
+          "modifier": 2,
+          "save": 2
+        },
+        "wis": {
+          "score": 14,
+          "modifier": 2,
+          "save": 2
+        },
+        "cha": {
+          "score": 18,
+          "modifier": 4,
+          "save": 8
+        }
+      },
+      "senses": {
+        "passive_perception": 16,
+        "special": {
+          "truesight": 120
+        }
+      },
+      "languages": [
+        "Infernal"
+      ],
+      "gear": [],
+      "cr": "12",
+      "xp": 8400,
+      "proficiency_bonus": 4,
+      "traits": [
+        {
+          "key": "trait/diabolical-restoration",
+          "name": "Diabolical Restoration",
+          "text": "Diabolical Restoration. If the erinyes dies outside the Nine Hells, its body disappears in sulfurous smoke, and it gains a new body instantly, reviving with all its Hit Points somewhere in the Nine Hells.",
+          "requires": [
+            "effect/revive"
+          ]
+        },
+        {
+          "key": "trait/magic-resistance",
+          "name": "Magic Resistance",
+          "text": "Magic Resistance. The erinyes has Advantage on saving throws against spells and other magical effects.",
+          "requires": [
+            "save/advantage-against-magic"
+          ]
+        },
+        {
+          "key": "trait/magic-rope",
+          "name": "Magic Rope",
+          "text": "Magic Rope. The erinyes has a magic rope. While bearing it, the erinyes can use the Entangling Rope action. The rope has AC 20, HP 90, and Immunity to Poison and Psychic damage. The rope turns to dust if reduced to 0 Hit Points, if it is 5+ feet away from the erinyes for 1 hour or more, or if the erinyes dies. If the rope is damaged or destroyed, the erinyes can fully restore it when finishing a Short or Long Rest.",
+          "requires": [
+            "effect/magic-rope",
+            "effect/magic-rope-statistics",
+            "effect/magic-rope-destruction",
+            "effect/magic-rope-restoration"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "multiattack",
+          "name": "Multiattack",
+          "text": "Multiattack. The erinyes makes three Withering Sword attacks and can use Entangling Rope.",
+          "key": "action/multiattack",
+          "effects": [
+            {
+              "key": "action/melee-attack",
+              "name": "Attack",
+              "text": "The erinyes makes three Withering Sword attacks and can use Entangling Rope."
+            },
+            {
+              "key": "multiattack/additional-action",
+              "name": "Additional action",
+              "text": "and can use Entangling Rope."
+            }
+          ]
+        },
+        {
+          "id": "withering-sword",
+          "name": "Withering Sword",
+          "text": "Withering Sword. Melee Attack Roll: +8, reach 5 ft. Hit: 13 (2d8 + 4) Slashing damage plus 11 (2d10) Necrotic damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 8,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 13,
+              "dice": 2,
+              "sides": 8,
+              "modifier": 4
+            },
+            "damage_type": "slashing"
+          },
+          "effects": [
+            {
+              "key": "effect/slashing-damage",
+              "name": "Slashing damage",
+              "text": "13 (2d8 + 4) Slashing damage.",
+              "dice": {
+                "average": 13,
+                "dice": 2,
+                "sides": 8,
+                "modifier": 4
+              }
+            },
+            {
+              "key": "effect/necrotic-damage",
+              "name": "Necrotic damage",
+              "text": "11 (2d10) Necrotic damage.",
+              "dice": {
+                "average": 11,
+                "dice": 2,
+                "sides": 10,
+                "modifier": 0
+              }
+            }
+          ]
+        },
+        {
+          "id": "entangling-rope",
+          "name": "Entangling Rope",
+          "text": "Entangling Rope (Requires Magic Rope). Strength Saving Throw: DC 16, one creature the erinyes can see within 120 feet. Failure: 14 (4d6) Force damage, and the target has the Restrained condition until the rope is destroyed, the erinyes uses a Bonus Action to release the target, or the erinyes uses Entangling Rope again.",
+          "key": "action/saving-throw",
+          "save": {
+            "ability": "str",
+            "dc": 16
+          },
+          "target": {
+            "shape": "creature",
+            "size": 0,
+            "width": 0,
+            "range": 120
+          },
+          "effects": [
+            {
+              "key": "requirement/magic-rope",
+              "name": "Requires Magic Rope",
+              "text": "(Requires Magic Rope)"
+            },
+            {
+              "key": "save/str",
+              "name": "Strength Saving Throw",
+              "text": "Strength Saving Throw: DC 16"
+            },
+            {
+              "key": "target/creature",
+              "name": "Target",
+              "text": "one creature the erinyes can see within 120 feet."
+            },
+            {
+              "key": "effect/force-damage",
+              "name": "Force damage",
+              "text": "14 (4d6) Force damage.",
+              "dice": {
+                "average": 14,
+                "dice": 4,
+                "sides": 6,
+                "modifier": 0
+              }
+            },
+            {
+              "key": "condition/restrained",
+              "name": "Restrained",
+              "text": "the target has the Restrained condition until the rope is destroyed, the erinyes uses a Bonus Action to release the target, or the erinyes uses Entangling Rope again."
+            },
+            {
+              "key": "effect/restraint-duration",
+              "name": "Restraint duration",
+              "text": "until the rope is destroyed, the erinyes uses a Bonus Action to release the target, or the erinyes uses Entangling Rope again."
+            }
+          ]
+        }
+      ],
+      "tags": [
+        "Devil"
+      ],
+      "skills": {
+        "perception": 6,
+        "persuasion": 8
+      },
+      "resistances": [
+        "cold"
+      ],
+      "immunities": [
+        "fire",
+        "poison"
+      ],
+      "condition_immunities": [
+        "poisoned"
+      ],
+      "telepathy": 120,
+      "reactions": [
+        {
+          "id": "parry",
+          "name": "Parry",
+          "text": "Parry. Trigger: The erinyes is hit by a melee attack roll while holding a weapon. Response: The erinyes adds 4 to its AC against that attack, possibly causing it to miss.",
+          "key": "action/special",
+          "effects": [
+            {
+              "key": "reaction/trigger",
+              "name": "Trigger",
+              "text": "Trigger: The erinyes is hit by a melee attack roll while holding a weapon."
+            },
+            {
+              "key": "requirement/holding-weapon",
+              "name": "Holding a weapon",
+              "text": "Trigger: The erinyes is hit by a melee attack roll while holding a weapon."
+            },
+            {
+              "key": "effect/ac-bonus",
+              "name": "AC bonus",
+              "text": "Response: The erinyes adds 4 to its AC against that attack, possibly causing it to miss."
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/skills",
+        "defense/damage-resistance",
+        "defense/damage-immunity",
+        "defense/condition-immunity",
+        "movement/fly",
+        "sense/truesight",
+        "language/telepathy",
+        "action/reaction",
+        "trait/diabolical-restoration",
+        "effect/revive",
+        "trait/magic-resistance",
+        "save/advantage-against-magic",
+        "trait/magic-rope",
+        "effect/magic-rope",
+        "effect/magic-rope-statistics",
+        "effect/magic-rope-destruction",
+        "effect/magic-rope-restoration",
+        "action/multiattack",
+        "action/melee-attack",
+        "multiattack/additional-action",
+        "effect/slashing-damage",
+        "effect/necrotic-damage",
+        "action/saving-throw",
+        "requirement/magic-rope",
+        "save/str",
+        "target/creature",
+        "effect/force-damage",
+        "condition/restrained",
+        "effect/restraint-duration",
+        "action/special",
+        "reaction/trigger",
+        "requirement/holding-weapon",
+        "effect/ac-bonus"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/ettercap",
+      "name": "Ettercap",
+      "source_pages": [
+        284,
+        284
+      ],
+      "sizes": [
+        "medium"
+      ],
+      "type": "monstrosity",
+      "alignment": "Neutral Evil",
+      "ac": 13,
+      "hp": {
+        "average": 44,
+        "dice": 8,
+        "sides": 8,
+        "modifier": 8
+      },
+      "initiative": {
+        "modifier": 2,
+        "score": 12
+      },
+      "speeds": {
+        "walk": 30,
+        "climb": 30
+      },
+      "abilities": {
+        "str": {
+          "score": 14,
+          "modifier": 2,
+          "save": 2
+        },
+        "dex": {
+          "score": 15,
+          "modifier": 2,
+          "save": 2
+        },
+        "con": {
+          "score": 13,
+          "modifier": 1,
+          "save": 1
+        },
+        "int": {
+          "score": 7,
+          "modifier": -2,
+          "save": -2
+        },
+        "wis": {
+          "score": 12,
+          "modifier": 1,
+          "save": 1
+        },
+        "cha": {
+          "score": 8,
+          "modifier": -1,
+          "save": -1
+        }
+      },
+      "senses": {
+        "passive_perception": 13,
+        "special": {
+          "darkvision": 60
+        }
+      },
+      "languages": [],
+      "gear": [],
+      "cr": "2",
+      "xp": 450,
+      "proficiency_bonus": 2,
+      "traits": [
+        {
+          "key": "trait/spider-climb",
+          "name": "Spider Climb",
+          "text": "Spider Climb. The ettercap can climb difficult surfaces, including along ceilings, without needing to make an ability check."
+        },
+        {
+          "key": "trait/web-walker",
+          "name": "Web Walker",
+          "text": "Web Walker. The ettercap ignores movement restrictions caused by webs, and the ettercap knows the location of any other creature in contact with the same web.",
+          "requires": [
+            "effect/ignore-web-movement-restrictions",
+            "effect/know-web-contact-locations"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "multiattack",
+          "name": "Multiattack",
+          "text": "Multiattack. The ettercap makes one Bite attack and one Claw attack.",
+          "key": "action/multiattack",
+          "effects": [
+            {
+              "key": "action/melee-attack",
+              "name": "Attack",
+              "text": "The ettercap makes one Bite attack and one Claw attack."
+            }
+          ]
+        },
+        {
+          "id": "bite",
+          "name": "Bite",
+          "text": "Bite. Melee Attack Roll: +4, reach 5 ft. Hit: 5 (1d6 + 2) Piercing damage plus 2 (1d4) Poison damage, and the target has the Poisoned condition until the start of the ettercap’s next turn.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 4,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 5,
+              "dice": 1,
+              "sides": 6,
+              "modifier": 2
+            },
+            "damage_type": "piercing"
+          },
+          "effects": [
+            {
+              "key": "effect/piercing-damage",
+              "name": "Piercing damage",
+              "text": "5 (1d6 + 2) Piercing damage.",
+              "dice": {
+                "average": 5,
+                "dice": 1,
+                "sides": 6,
+                "modifier": 2
+              }
+            },
+            {
+              "key": "effect/poison-damage",
+              "name": "Poison damage",
+              "text": "2 (1d4) Poison damage,",
+              "dice": {
+                "average": 2,
+                "dice": 1,
+                "sides": 4,
+                "modifier": 0
+              }
+            },
+            {
+              "key": "condition/poisoned",
+              "name": "Poisoned",
+              "text": "the target has the Poisoned condition until the start of the ettercap’s next turn."
+            }
+          ]
+        },
+        {
+          "id": "claw",
+          "name": "Claw",
+          "text": "Claw. Melee Attack Roll: +4, reach 5 ft. Hit: 7 (2d4 + 2) Slashing damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 4,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 7,
+              "dice": 2,
+              "sides": 4,
+              "modifier": 2
+            },
+            "damage_type": "slashing"
+          },
+          "effects": [
+            {
+              "key": "effect/slashing-damage",
+              "name": "Slashing damage",
+              "text": "7 (2d4 + 2) Slashing damage.",
+              "dice": {
+                "average": 7,
+                "dice": 2,
+                "sides": 4,
+                "modifier": 2
+              }
+            }
+          ]
+        },
+        {
+          "id": "web-strand",
+          "name": "Web Strand",
+          "text": "Web Strand (Recharge 5–6). Dexterity Saving Throw: DC 12, one Large or smaller creature the ettercap can see within 30 feet. Failure: The target has the Restrained condition until the web is destroyed (AC 10; HP 5; Vulnerability to Fire damage; Immunity to Bludgeoning, Poison, and Psychic damage).",
+          "key": "action/saving-throw",
+          "uses": {
+            "per_day": 0,
+            "lair_per_day": 0,
+            "recharge": 5
+          },
+          "save": {
+            "ability": "dex",
+            "dc": 12
+          },
+          "target": {
+            "shape": "creature",
+            "size": 0,
+            "width": 0,
+            "range": 30
+          },
+          "effects": [
+            {
+              "key": "limit/recharge",
+              "name": "Recharge",
+              "text": "(Recharge 5–6)"
+            },
+            {
+              "key": "save/dex",
+              "name": "Dexterity Saving Throw",
+              "text": "Dexterity Saving Throw: DC 12"
+            },
+            {
+              "key": "target/creature",
+              "name": "Target",
+              "text": "one Large or smaller creature the ettercap can see within 30 feet."
+            },
+            {
+              "key": "requirement/target-size",
+              "name": "Target size",
+              "text": "one Large or smaller creature the ettercap can see within 30 feet."
+            },
+            {
+              "key": "condition/restrained",
+              "name": "Restrained",
+              "text": "The target has the Restrained condition until the web is destroyed (AC 10; HP 5; Vulnerability to Fire damage; Immunity to Bludgeoning, Poison, and Psychic damage)."
+            },
+            {
+              "key": "effect/web-statistics",
+              "name": "Web statistics",
+              "text": "(AC 10; HP 5; Vulnerability to Fire damage; Immunity to Bludgeoning, Poison, and Psychic damage)"
+            }
+          ]
+        }
+      ],
+      "skills": {
+        "perception": 3,
+        "stealth": 4,
+        "survival": 3
+      },
+      "bonus_actions": [
+        {
+          "id": "reel",
+          "name": "Reel",
+          "text": "Reel. The ettercap pulls one creature within 30 feet of itself that is Restrained by its Web Strand up to 25 feet straight toward itself.",
+          "key": "action/special",
+          "effects": [
+            {
+              "key": "effect/pull",
+              "name": "Pull",
+              "text": "The ettercap pulls one creature within 30 feet of itself that is Restrained by its Web Strand up to 25 feet straight toward itself."
+            },
+            {
+              "key": "requirement/restrained-by-web-strand",
+              "name": "Restrained by Web Strand",
+              "text": "one creature within 30 feet of itself that is Restrained by its Web Strand"
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/skills",
+        "movement/climb",
+        "sense/darkvision",
+        "action/bonus-action",
+        "trait/spider-climb",
+        "trait/web-walker",
+        "effect/ignore-web-movement-restrictions",
+        "effect/know-web-contact-locations",
+        "action/multiattack",
+        "action/melee-attack",
+        "effect/piercing-damage",
+        "effect/poison-damage",
+        "condition/poisoned",
+        "effect/slashing-damage",
+        "action/saving-throw",
+        "limit/recharge",
+        "save/dex",
+        "target/creature",
+        "requirement/target-size",
+        "condition/restrained",
+        "effect/web-statistics",
+        "action/special",
+        "effect/pull",
+        "requirement/restrained-by-web-strand"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/ettin",
+      "name": "Ettin",
+      "source_pages": [
+        284,
+        284
+      ],
+      "sizes": [
+        "large"
+      ],
+      "type": "giant",
+      "alignment": "Chaotic Evil",
+      "ac": 12,
+      "hp": {
+        "average": 85,
+        "dice": 10,
+        "sides": 10,
+        "modifier": 30
+      },
+      "initiative": {
+        "modifier": -1,
+        "score": 9
+      },
+      "speeds": {
+        "walk": 40
+      },
+      "abilities": {
+        "str": {
+          "score": 21,
+          "modifier": 5,
+          "save": 5
+        },
+        "dex": {
+          "score": 8,
+          "modifier": -1,
+          "save": -1
+        },
+        "con": {
+          "score": 17,
+          "modifier": 3,
+          "save": 3
+        },
+        "int": {
+          "score": 6,
+          "modifier": -2,
+          "save": -2
+        },
+        "wis": {
+          "score": 10,
+          "modifier": 0,
+          "save": 0
+        },
+        "cha": {
+          "score": 8,
+          "modifier": -1,
+          "save": -1
+        }
+      },
+      "senses": {
+        "passive_perception": 14,
+        "special": {
+          "darkvision": 60
+        }
+      },
+      "languages": [
+        "Giant"
+      ],
+      "gear": [
+        "Battleaxe",
+        "Morningstar"
+      ],
+      "cr": "4",
+      "xp": 1100,
+      "proficiency_bonus": 2,
+      "traits": [],
+      "actions": [
+        {
+          "id": "multiattack",
+          "name": "Multiattack",
+          "text": "Multiattack. The ettin makes one Battleaxe attack and one Morningstar attack.",
+          "key": "action/multiattack",
+          "effects": [
+            {
+              "key": "action/melee-attack",
+              "name": "Attack",
+              "text": "The ettin makes one Battleaxe attack and one Morningstar attack."
+            }
+          ]
+        },
+        {
+          "id": "battleaxe",
+          "name": "Battleaxe",
+          "text": "Battleaxe. Melee Attack Roll: +7, reach 5 ft. Hit: 14 (2d8 + 5) Slashing damage. If the target is a Large or smaller creature, it has the Prone condition.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 7,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 14,
+              "dice": 2,
+              "sides": 8,
+              "modifier": 5
+            },
+            "damage_type": "slashing"
+          },
+          "effects": [
+            {
+              "key": "effect/slashing-damage",
+              "name": "Slashing damage",
+              "text": "14 (2d8 + 5) Slashing damage.",
+              "dice": {
+                "average": 14,
+                "dice": 2,
+                "sides": 8,
+                "modifier": 5
+              }
+            },
+            {
+              "key": "condition/prone",
+              "name": "Prone",
+              "text": "If the target is a Large or smaller creature, it has the Prone condition."
+            },
+            {
+              "key": "requirement/target-size",
+              "name": "Target size",
+              "text": "If the target is a Large or smaller creature, it has the Prone condition."
+            }
+          ]
+        },
+        {
+          "id": "morningstar",
+          "name": "Morningstar",
+          "text": "Morningstar. Melee Attack Roll: +7, reach 5 ft. Hit: 14 (2d8 + 5) Piercing damage, and the target has Disadvantage on the next attack roll it makes before the end of its next turn.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 7,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 14,
+              "dice": 2,
+              "sides": 8,
+              "modifier": 5
+            },
+            "damage_type": "piercing"
+          },
+          "effects": [
+            {
+              "key": "effect/piercing-damage",
+              "name": "Piercing damage",
+              "text": "14 (2d8 + 5) Piercing damage.",
+              "dice": {
+                "average": 14,
+                "dice": 2,
+                "sides": 8,
+                "modifier": 5
+              }
+            },
+            {
+              "key": "attack/disadvantage",
+              "name": "Disadvantage on attack",
+              "text": "the target has Disadvantage on the next attack roll it makes before the end of its next turn."
+            }
+          ]
+        }
+      ],
+      "skills": {
+        "perception": 4
+      },
+      "condition_immunities": [
+        "blinded",
+        "charmed",
+        "deafened",
+        "frightened",
+        "stunned",
+        "unconscious"
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/skills",
+        "defense/condition-immunity",
+        "sense/darkvision",
+        "action/multiattack",
+        "action/melee-attack",
+        "effect/slashing-damage",
+        "condition/prone",
+        "requirement/target-size",
+        "effect/piercing-damage",
+        "attack/disadvantage"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/fire-elemental",
+      "name": "Fire Elemental",
+      "source_pages": [
+        284,
+        285
+      ],
+      "sizes": [
+        "large"
+      ],
+      "type": "elemental",
+      "alignment": "Neutral",
+      "ac": 13,
+      "hp": {
+        "average": 93,
+        "dice": 11,
+        "sides": 10,
+        "modifier": 33
+      },
+      "initiative": {
+        "modifier": 3,
+        "score": 13
+      },
+      "speeds": {
+        "walk": 50
+      },
+      "abilities": {
+        "str": {
+          "score": 10,
+          "modifier": 0,
+          "save": 0
+        },
+        "dex": {
+          "score": 17,
+          "modifier": 3,
+          "save": 3
+        },
+        "con": {
+          "score": 16,
+          "modifier": 3,
+          "save": 3
+        },
+        "int": {
+          "score": 6,
+          "modifier": -2,
+          "save": -2
+        },
+        "wis": {
+          "score": 10,
+          "modifier": 0,
+          "save": 0
+        },
+        "cha": {
+          "score": 7,
+          "modifier": -2,
+          "save": -2
+        }
+      },
+      "senses": {
+        "passive_perception": 10,
+        "special": {
+          "darkvision": 60
+        }
+      },
+      "languages": [
+        "Primordial (Ignan)"
+      ],
+      "gear": [],
+      "cr": "5",
+      "xp": 1800,
+      "proficiency_bonus": 3,
+      "traits": [
+        {
+          "key": "trait/fire-aura",
+          "name": "Fire Aura",
+          "text": "Fire Aura. At the end of each of the elemental’s turns, each creature in a 10-foot Emanation originating from the elemental takes 5 (1d10) Fire damage. Creatures and flammable objects in the Emanation start burning.",
+          "target": {
+            "shape": "emanation",
+            "size": 10,
+            "width": 0,
+            "range": 0
+          },
+          "dice": {
+            "average": 5,
+            "dice": 1,
+            "sides": 10,
+            "modifier": 0
+          },
+          "requires": [
+            "area/emanation",
+            "effect/fire-damage",
+            "effect/start-burning"
+          ]
+        },
+        {
+          "key": "trait/fire-form",
+          "name": "Fire Form",
+          "text": "Fire Form. The elemental can move through a space as narrow as 1 inch without expending extra movement to do so, and it can enter a creature’s space and stop there. The first time it enters a creature’s space on a turn, that creature takes 5 (1d10) Fire damage.",
+          "dice": {
+            "average": 5,
+            "dice": 1,
+            "sides": 10,
+            "modifier": 0
+          },
+          "requires": [
+            "movement/squeeze",
+            "movement/enter-creature-space",
+            "effect/fire-damage"
+          ]
+        },
+        {
+          "key": "trait/illumination",
+          "name": "Illumination",
+          "text": "Illumination. The elemental sheds Bright Light in a 30-foot radius and Dim Light for an additional 30 feet.",
+          "requires": [
+            "effect/shed-light"
+          ]
+        },
+        {
+          "key": "trait/water-susceptibility",
+          "name": "Water Susceptibility",
+          "text": "Water Susceptibility. The elemental takes 3 (1d6) Cold damage for every 5 feet the elemental moves in water or for every gallon of water splashed on it.",
+          "dice": {
+            "average": 3,
+            "dice": 1,
+            "sides": 6,
+            "modifier": 0
+          },
+          "requires": [
+            "effect/cold-damage",
+            "effect/water-movement-damage",
+            "effect/water-splash-damage"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "multiattack",
+          "name": "Multiattack",
+          "text": "Multiattack. The elemental makes two Burn attacks.",
+          "key": "action/multiattack",
+          "effects": [
+            {
+              "key": "action/melee-attack",
+              "name": "Attack",
+              "text": "The elemental makes two Burn attacks."
+            }
+          ]
+        },
+        {
+          "id": "burn",
+          "name": "Burn",
+          "text": "Burn. Melee Attack Roll: +6, reach 5 ft. Hit: 10 (2d6 + 3) Fire damage. If the target is a creature or a flammable object, it starts burning.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 6,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 10,
+              "dice": 2,
+              "sides": 6,
+              "modifier": 3
+            },
+            "damage_type": "fire"
+          },
+          "effects": [
+            {
+              "key": "effect/fire-damage",
+              "name": "Fire damage",
+              "text": "10 (2d6 + 3) Fire damage.",
+              "dice": {
+                "average": 10,
+                "dice": 2,
+                "sides": 6,
+                "modifier": 3
+              }
+            },
+            {
+              "key": "effect/start-burning",
+              "name": "Start burning",
+              "text": "If the target is a creature or a flammable object, it starts burning."
+            }
+          ]
+        }
+      ],
+      "resistances": [
+        "bludgeoning",
+        "piercing",
+        "slashing"
+      ],
+      "immunities": [
+        "fire",
+        "poison"
+      ],
+      "condition_immunities": [
+        "exhaustion",
+        "grappled",
+        "paralyzed",
+        "petrified",
+        "poisoned",
+        "prone",
+        "restrained",
+        "unconscious"
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "defense/damage-resistance",
+        "defense/damage-immunity",
+        "defense/condition-immunity",
+        "sense/darkvision",
+        "trait/fire-aura",
+        "area/emanation",
+        "effect/fire-damage",
+        "effect/start-burning",
+        "trait/fire-form",
+        "movement/squeeze",
+        "movement/enter-creature-space",
+        "trait/illumination",
+        "effect/shed-light",
+        "trait/water-susceptibility",
+        "effect/cold-damage",
+        "effect/water-movement-damage",
+        "effect/water-splash-damage",
+        "action/multiattack",
+        "action/melee-attack"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/fire-giant",
+      "name": "Fire Giant",
+      "source_pages": [
+        285,
+        285
+      ],
+      "sizes": [
+        "huge"
+      ],
+      "type": "giant",
+      "alignment": "Lawful Evil",
+      "ac": 18,
+      "hp": {
+        "average": 162,
+        "dice": 13,
+        "sides": 12,
+        "modifier": 78
+      },
+      "initiative": {
+        "modifier": 3,
+        "score": 13
+      },
+      "speeds": {
+        "walk": 30
+      },
+      "abilities": {
+        "str": {
+          "score": 25,
+          "modifier": 7,
+          "save": 7
+        },
+        "dex": {
+          "score": 9,
+          "modifier": -1,
+          "save": 3
+        },
+        "con": {
+          "score": 23,
+          "modifier": 6,
+          "save": 10
+        },
+        "int": {
+          "score": 10,
+          "modifier": 0,
+          "save": 0
+        },
+        "wis": {
+          "score": 14,
+          "modifier": 2,
+          "save": 2
+        },
+        "cha": {
+          "score": 13,
+          "modifier": 1,
+          "save": 5
+        }
+      },
+      "senses": {
+        "passive_perception": 16,
+        "special": {}
+      },
+      "languages": [
+        "Giant"
+      ],
+      "gear": [],
+      "cr": "9",
+      "xp": 5000,
+      "proficiency_bonus": 4,
+      "traits": [],
+      "actions": [
+        {
+          "id": "multiattack",
+          "name": "Multiattack",
+          "text": "Multiattack. The giant makes two attacks, using Flame Sword or Hammer Throw in any combination.",
+          "key": "action/multiattack",
+          "effects": [
+            {
+              "key": "action/melee-attack",
+              "name": "Melee attack",
+              "text": "The giant makes two attacks, using Flame Sword or Hammer Throw in any combination."
+            },
+            {
+              "key": "action/ranged-attack",
+              "name": "Ranged attack",
+              "text": "The giant makes two attacks, using Flame Sword or Hammer Throw in any combination."
+            },
+            {
+              "key": "multiattack/any-combination",
+              "name": "Any combination",
+              "text": "in any combination."
+            }
+          ]
+        },
+        {
+          "id": "flame-sword",
+          "name": "Flame Sword",
+          "text": "Flame Sword. Melee Attack Roll: +11, reach 10 ft. Hit: 21 (4d6 + 7) Slashing damage plus 10 (3d6) Fire damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 11,
+            "reach": 10,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 21,
+              "dice": 4,
+              "sides": 6,
+              "modifier": 7
+            },
+            "damage_type": "slashing"
+          },
+          "effects": [
+            {
+              "key": "effect/slashing-damage",
+              "name": "Slashing damage",
+              "text": "21 (4d6 + 7) Slashing damage.",
+              "dice": {
+                "average": 21,
+                "dice": 4,
+                "sides": 6,
+                "modifier": 7
+              }
+            },
+            {
+              "key": "effect/fire-damage",
+              "name": "Fire damage",
+              "text": "10 (3d6) Fire damage.",
+              "dice": {
+                "average": 10,
+                "dice": 3,
+                "sides": 6,
+                "modifier": 0
+              }
+            }
+          ]
+        },
+        {
+          "id": "hammer-throw",
+          "name": "Hammer Throw",
+          "text": "Hammer Throw. Ranged Attack Roll: +11, range 60/240 ft. Hit: 23 (3d10 + 7) Bludgeoning damage plus 4 (1d8) Fire damage, and the target is pushed up to 15 feet straight away from the giant and has Disadvantage on the next attack roll it makes before the end of its next turn.",
+          "key": "action/ranged-attack",
+          "attack": {
+            "kind": "ranged",
+            "bonus": 11,
+            "reach": 0,
+            "range": 60,
+            "long_range": 240,
+            "damage": {
+              "average": 23,
+              "dice": 3,
+              "sides": 10,
+              "modifier": 7
+            },
+            "damage_type": "bludgeoning"
+          },
+          "effects": [
+            {
+              "key": "effect/bludgeoning-damage",
+              "name": "Bludgeoning damage",
+              "text": "23 (3d10 + 7) Bludgeoning damage.",
+              "dice": {
+                "average": 23,
+                "dice": 3,
+                "sides": 10,
+                "modifier": 7
+              }
+            },
+            {
+              "key": "effect/fire-damage",
+              "name": "Fire damage",
+              "text": "4 (1d8) Fire damage,",
+              "dice": {
+                "average": 4,
+                "dice": 1,
+                "sides": 8,
+                "modifier": 0
+              }
+            },
+            {
+              "key": "effect/push",
+              "name": "Push",
+              "text": "the target is pushed up to 15 feet straight away from the giant"
+            },
+            {
+              "key": "attack/disadvantage",
+              "name": "Disadvantage on attack",
+              "text": "has Disadvantage on the next attack roll it makes before the end of its next turn."
+            }
+          ]
+        }
+      ],
+      "skills": {
+        "athletics": 11,
+        "perception": 6
+      },
+      "immunities": [
+        "fire"
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/skills",
+        "defense/damage-immunity",
+        "action/multiattack",
+        "action/melee-attack",
+        "action/ranged-attack",
+        "multiattack/any-combination",
+        "effect/slashing-damage",
+        "effect/fire-damage",
+        "effect/bludgeoning-damage",
+        "effect/push",
+        "attack/disadvantage"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/flesh-golem",
+      "name": "Flesh Golem",
+      "source_pages": [
+        285,
+        285
+      ],
+      "sizes": [
+        "medium"
+      ],
+      "type": "construct",
+      "alignment": "Neutral",
+      "ac": 9,
+      "hp": {
+        "average": 127,
+        "dice": 15,
+        "sides": 8,
+        "modifier": 60
+      },
+      "initiative": {
+        "modifier": -1,
+        "score": 9
+      },
+      "speeds": {
+        "walk": 30
+      },
+      "abilities": {
+        "str": {
+          "score": 19,
+          "modifier": 4,
+          "save": 4
+        },
+        "dex": {
+          "score": 9,
+          "modifier": -1,
+          "save": -1
+        },
+        "con": {
+          "score": 18,
+          "modifier": 4,
+          "save": 4
+        },
+        "int": {
+          "score": 6,
+          "modifier": -2,
+          "save": -2
+        },
+        "wis": {
+          "score": 10,
+          "modifier": 0,
+          "save": 0
+        },
+        "cha": {
+          "score": 5,
+          "modifier": -3,
+          "save": -3
+        }
+      },
+      "senses": {
+        "passive_perception": 10,
+        "special": {
+          "darkvision": 60
+        }
+      },
+      "languages": [
+        "Understands Common plus one other language but can’t speak"
+      ],
+      "gear": [],
+      "cr": "5",
+      "xp": 1800,
+      "proficiency_bonus": 3,
+      "traits": [
+        {
+          "key": "trait/aversion-to-fire",
+          "name": "Aversion to Fire",
+          "text": "Aversion to Fire. If the golem takes Fire damage, it has Disadvantage on attack rolls and ability checks until the end of its next turn.",
+          "requires": [
+            "effect/fire-damage-trigger",
+            "attack/disadvantage",
+            "check/disadvantage"
+          ]
+        },
+        {
+          "key": "trait/berserk",
+          "name": "Berserk",
+          "text": "Berserk. Whenever the golem starts its turn Bloodied, roll 1d6. On a 6, the golem goes berserk. On each of its turns while berserk, the golem attacks the nearest creature it can see. If no creature is near enough to move to and attack, the golem attacks an object. Once the golem goes berserk, it remains so until it is destroyed or it is no longer Bloodied. The golem’s creator, if within 60 feet of the berserk golem, can try to calm it by taking an action to make a DC 15 Charisma (Persuasion) check; the golem must be able to hear its creator. If this check succeeds, the golem ceases being berserk until the start of its next turn, at which point it resumes rolling for the Berserk trait again if it is still Bloodied.",
+          "requires": [
+            "requirement/bloodied",
+            "effect/berserk-roll",
+            "effect/berserk",
+            "effect/berserk-calm",
+            "check/cha-persuasion"
+          ]
+        },
+        {
+          "key": "trait/immutable-form",
+          "name": "Immutable Form",
+          "text": "Immutable Form. The golem can’t shape-shift.",
+          "requires": [
+            "effect/no-shape-shift"
+          ]
+        },
+        {
+          "key": "trait/lightning-absorption",
+          "name": "Lightning Absorption",
+          "text": "Lightning Absorption. Whenever the golem is subjected to Lightning damage, it regains a number of Hit Points equal to the Lightning damage dealt.",
+          "requires": [
+            "effect/absorb-lightning-damage"
+          ]
+        },
+        {
+          "key": "trait/magic-resistance",
+          "name": "Magic Resistance",
+          "text": "Magic Resistance. The golem has Advantage on saving throws against spells and other magical effects.",
+          "requires": [
+            "save/advantage-against-magic"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "multiattack",
+          "name": "Multiattack",
+          "text": "Multiattack. The golem makes two Slam attacks.",
+          "key": "action/multiattack",
+          "effects": [
+            {
+              "key": "action/melee-attack",
+              "name": "Attack",
+              "text": "The golem makes two Slam attacks."
+            }
+          ]
+        },
+        {
+          "id": "slam",
+          "name": "Slam",
+          "text": "Slam. Melee Attack Roll: +7, reach 5 ft. Hit: 13 (2d8 + 4) Bludgeoning damage plus 4 (1d8) Lightning damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 7,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 13,
+              "dice": 2,
+              "sides": 8,
+              "modifier": 4
+            },
+            "damage_type": "bludgeoning"
+          },
+          "effects": [
+            {
+              "key": "effect/bludgeoning-damage",
+              "name": "Bludgeoning damage",
+              "text": "13 (2d8 + 4) Bludgeoning damage.",
+              "dice": {
+                "average": 13,
+                "dice": 2,
+                "sides": 8,
+                "modifier": 4
+              }
+            },
+            {
+              "key": "effect/lightning-damage",
+              "name": "Lightning damage",
+              "text": "4 (1d8) Lightning damage.",
+              "dice": {
+                "average": 4,
+                "dice": 1,
+                "sides": 8,
+                "modifier": 0
+              }
+            }
+          ]
+        }
+      ],
+      "immunities": [
+        "lightning",
+        "poison"
+      ],
+      "condition_immunities": [
+        "charmed",
+        "exhaustion",
+        "frightened",
+        "paralyzed",
+        "petrified",
+        "poisoned"
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "defense/damage-immunity",
+        "defense/condition-immunity",
+        "sense/darkvision",
+        "trait/aversion-to-fire",
+        "effect/fire-damage-trigger",
+        "attack/disadvantage",
+        "check/disadvantage",
+        "trait/berserk",
+        "requirement/bloodied",
+        "effect/berserk-roll",
+        "effect/berserk",
+        "effect/berserk-calm",
+        "check/cha-persuasion",
+        "trait/immutable-form",
+        "effect/no-shape-shift",
+        "trait/lightning-absorption",
+        "effect/absorb-lightning-damage",
+        "trait/magic-resistance",
+        "save/advantage-against-magic",
+        "action/multiattack",
+        "action/melee-attack",
+        "effect/bludgeoning-damage",
+        "effect/lightning-damage"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/animals/flying-snake",
+      "name": "Flying Snake",
+      "source_pages": [
+        348,
+        348
+      ],
+      "sizes": [
+        "tiny"
+      ],
+      "type": "monstrosity",
+      "alignment": "Unaligned",
+      "ac": 14,
+      "hp": {
+        "average": 5,
+        "dice": 2,
+        "sides": 4,
+        "modifier": 0
+      },
+      "initiative": {
+        "modifier": 2,
+        "score": 12
+      },
+      "speeds": {
+        "walk": 30,
+        "fly": 60,
+        "swim": 30
+      },
+      "abilities": {
+        "str": {
+          "score": 4,
+          "modifier": -3,
+          "save": -3
+        },
+        "dex": {
+          "score": 15,
+          "modifier": 2,
+          "save": 2
+        },
+        "con": {
+          "score": 11,
+          "modifier": 0,
+          "save": 0
+        },
+        "int": {
+          "score": 2,
+          "modifier": -4,
+          "save": -4
+        },
+        "wis": {
+          "score": 12,
+          "modifier": 1,
+          "save": 1
+        },
+        "cha": {
+          "score": 5,
+          "modifier": -3,
+          "save": -3
+        }
+      },
+      "senses": {
+        "passive_perception": 11,
+        "special": {
+          "blindsight": 10
+        }
+      },
+      "languages": [],
+      "gear": [],
+      "cr": "1/8",
+      "xp": 25,
+      "proficiency_bonus": 2,
+      "traits": [
+        {
+          "key": "trait/flyby",
+          "name": "Flyby",
+          "text": "Flyby. The snake doesn’t provoke an Opportunity Attack when it flies out of an enemy’s reach.",
+          "requires": [
+            "effect/no-opportunity-attack-flying-out"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "bite",
+          "name": "Bite",
+          "text": "Bite. Melee Attack Roll: +4, reach 5 ft. Hit: 1 Piercing damage plus 5 (2d4) Poison damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 4,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 1,
+              "dice": 0,
+              "sides": 0,
+              "modifier": 0
+            },
+            "damage_type": "piercing"
+          },
+          "effects": [
+            {
+              "key": "effect/piercing-damage",
+              "name": "Piercing damage",
+              "text": "1 Piercing damage",
+              "requires": [
+                "damage/fixed"
+              ]
+            },
+            {
+              "key": "effect/poison-damage",
+              "name": "Poison damage",
+              "text": "5 (2d4) Poison damage.",
+              "dice": {
+                "average": 5,
+                "dice": 2,
+                "sides": 4,
+                "modifier": 0
+              }
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "movement/fly",
+        "movement/swim",
+        "sense/blindsight",
+        "trait/flyby",
+        "effect/no-opportunity-attack-flying-out",
+        "action/melee-attack",
+        "effect/piercing-damage",
+        "damage/fixed",
+        "effect/poison-damage"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/animals/frog",
+      "name": "Frog",
+      "source_pages": [
+        348,
+        349
+      ],
+      "sizes": [
+        "tiny"
+      ],
+      "type": "beast",
+      "alignment": "Unaligned",
+      "ac": 11,
+      "hp": {
+        "average": 1,
+        "dice": 1,
+        "sides": 4,
+        "modifier": -1
+      },
+      "initiative": {
+        "modifier": 1,
+        "score": 11
+      },
+      "speeds": {
+        "walk": 20,
+        "swim": 20
+      },
+      "abilities": {
+        "str": {
+          "score": 1,
+          "modifier": -5,
+          "save": -5
+        },
+        "dex": {
+          "score": 13,
+          "modifier": 1,
+          "save": 1
+        },
+        "con": {
+          "score": 8,
+          "modifier": -1,
+          "save": -1
+        },
+        "int": {
+          "score": 1,
+          "modifier": -5,
+          "save": -5
+        },
+        "wis": {
+          "score": 8,
+          "modifier": -1,
+          "save": -1
+        },
+        "cha": {
+          "score": 3,
+          "modifier": -4,
+          "save": -4
+        }
+      },
+      "senses": {
+        "passive_perception": 11,
+        "special": {
+          "darkvision": 30
+        }
+      },
+      "languages": [],
+      "gear": [],
+      "cr": "0",
+      "xp": 10,
+      "proficiency_bonus": 2,
+      "traits": [
+        {
+          "key": "trait/amphibious",
+          "name": "Amphibious",
+          "text": "Amphibious. The frog can breathe air and water.",
+          "requires": [
+            "effect/breathe-air-and-water"
+          ]
+        },
+        {
+          "key": "trait/standing-leap",
+          "name": "Standing Leap",
+          "text": "Standing Leap. The frog’s Long Jump is up to 10 feet and its High Jump is up to 5 feet with or without a running start.",
+          "requires": [
+            "effect/jump-distance-limits",
+            "effect/jump-without-running-start"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "bite",
+          "name": "Bite",
+          "text": "Bite. Melee Attack Roll: +3, reach 5 ft. Hit: 1 Piercing damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 3,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 1,
+              "dice": 0,
+              "sides": 0,
+              "modifier": 0
+            },
+            "damage_type": "piercing"
+          },
+          "effects": [
+            {
+              "key": "effect/piercing-damage",
+              "name": "Piercing damage",
+              "text": "1 Piercing damage.",
+              "requires": [
+                "damage/fixed"
+              ]
+            }
+          ]
+        }
+      ],
+      "skills": {
+        "perception": 1,
+        "stealth": 3
+      },
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/skills",
+        "movement/swim",
+        "sense/darkvision",
+        "trait/amphibious",
+        "effect/breathe-air-and-water",
+        "trait/standing-leap",
+        "effect/jump-distance-limits",
+        "effect/jump-without-running-start",
+        "action/melee-attack",
+        "effect/piercing-damage",
+        "damage/fixed"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/frost-giant",
+      "name": "Frost Giant",
+      "source_pages": [
+        285,
+        286
+      ],
+      "sizes": [
+        "huge"
+      ],
+      "type": "giant",
+      "alignment": "Neutral Evil",
+      "ac": 15,
+      "hp": {
+        "average": 149,
+        "dice": 13,
+        "sides": 12,
+        "modifier": 65
+      },
+      "initiative": {
+        "modifier": 2,
+        "score": 12
+      },
+      "speeds": {
+        "walk": 40
+      },
+      "abilities": {
+        "str": {
+          "score": 23,
+          "modifier": 6,
+          "save": 6
+        },
+        "dex": {
+          "score": 9,
+          "modifier": -1,
+          "save": -1
+        },
+        "con": {
+          "score": 21,
+          "modifier": 5,
+          "save": 8
+        },
+        "int": {
+          "score": 9,
+          "modifier": -1,
+          "save": -1
+        },
+        "wis": {
+          "score": 10,
+          "modifier": 0,
+          "save": 3
+        },
+        "cha": {
+          "score": 12,
+          "modifier": 1,
+          "save": 4
+        }
+      },
+      "senses": {
+        "passive_perception": 13,
+        "special": {}
+      },
+      "languages": [
+        "Giant"
+      ],
+      "gear": [],
+      "cr": "8",
+      "xp": 3900,
+      "proficiency_bonus": 3,
+      "traits": [],
+      "actions": [
+        {
+          "id": "multiattack",
+          "name": "Multiattack",
+          "text": "Multiattack. The giant makes two attacks, using Frost Axe or Great Bow in any combination.",
+          "key": "action/multiattack",
+          "effects": [
+            {
+              "key": "action/melee-attack",
+              "name": "Melee attack",
+              "text": "The giant makes two attacks, using Frost Axe or Great Bow in any combination."
+            },
+            {
+              "key": "action/ranged-attack",
+              "name": "Ranged attack",
+              "text": "The giant makes two attacks, using Frost Axe or Great Bow in any combination."
+            },
+            {
+              "key": "multiattack/any-combination",
+              "name": "Any combination",
+              "text": "in any combination."
+            }
+          ]
+        },
+        {
+          "id": "frost-axe",
+          "name": "Frost Axe",
+          "text": "Frost Axe. Melee Attack Roll: +9, reach 10 ft. Hit: 19 (2d12 + 6) Slashing damage plus 9 (2d8) Cold damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 9,
+            "reach": 10,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 19,
+              "dice": 2,
+              "sides": 12,
+              "modifier": 6
+            },
+            "damage_type": "slashing"
+          },
+          "effects": [
+            {
+              "key": "effect/slashing-damage",
+              "name": "Slashing damage",
+              "text": "19 (2d12 + 6) Slashing damage.",
+              "dice": {
+                "average": 19,
+                "dice": 2,
+                "sides": 12,
+                "modifier": 6
+              }
+            },
+            {
+              "key": "effect/cold-damage",
+              "name": "Cold damage",
+              "text": "9 (2d8) Cold damage.",
+              "dice": {
+                "average": 9,
+                "dice": 2,
+                "sides": 8,
+                "modifier": 0
+              }
+            }
+          ]
+        },
+        {
+          "id": "great-bow",
+          "name": "Great Bow",
+          "text": "Great Bow. Ranged Attack Roll: +9, range 150/600 ft. Hit: 17 (2d10 + 6) Piercing damage plus 7 (2d6) Cold damage, and the target’s Speed decreases by 10 feet until the end of its next turn.",
+          "key": "action/ranged-attack",
+          "attack": {
+            "kind": "ranged",
+            "bonus": 9,
+            "reach": 0,
+            "range": 150,
+            "long_range": 600,
+            "damage": {
+              "average": 17,
+              "dice": 2,
+              "sides": 10,
+              "modifier": 6
+            },
+            "damage_type": "piercing"
+          },
+          "effects": [
+            {
+              "key": "effect/piercing-damage",
+              "name": "Piercing damage",
+              "text": "17 (2d10 + 6) Piercing damage.",
+              "dice": {
+                "average": 17,
+                "dice": 2,
+                "sides": 10,
+                "modifier": 6
+              }
+            },
+            {
+              "key": "effect/cold-damage",
+              "name": "Cold damage",
+              "text": "7 (2d6) Cold damage,",
+              "dice": {
+                "average": 7,
+                "dice": 2,
+                "sides": 6,
+                "modifier": 0
+              }
+            },
+            {
+              "key": "effect/speed-decrease",
+              "name": "Speed decrease",
+              "text": "the target’s Speed decreases by 10 feet until the end of its next turn."
+            }
+          ]
+        }
+      ],
+      "skills": {
+        "athletics": 9,
+        "perception": 3
+      },
+      "immunities": [
+        "cold"
+      ],
+      "bonus_actions": [
+        {
+          "id": "war-cry",
+          "name": "War Cry",
+          "text": "War Cry (Recharge 5–6). The giant or one creature of its choice that can see or hear it gains 16 (2d10 + 5) Temporary Hit Points and has Advantage on attack rolls until the start of the giant’s next turn.",
+          "key": "action/special",
+          "uses": {
+            "per_day": 0,
+            "lair_per_day": 0,
+            "recharge": 5
+          },
+          "effects": [
+            {
+              "key": "limit/recharge",
+              "name": "Recharge",
+              "text": "(Recharge 5–6)"
+            },
+            {
+              "key": "target/creature-of-choice",
+              "name": "Target",
+              "text": "The giant or one creature of its choice that can see or hear it"
+            },
+            {
+              "key": "effect/temporary-hit-points",
+              "name": "Temporary Hit Points",
+              "text": "gains 16 (2d10 + 5) Temporary Hit Points",
+              "dice": {
+                "average": 16,
+                "dice": 2,
+                "sides": 10,
+                "modifier": 5
+              }
+            },
+            {
+              "key": "attack/advantage",
+              "name": "Advantage on attacks",
+              "text": "has Advantage on attack rolls until the start of the giant’s next turn."
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/skills",
+        "defense/damage-immunity",
+        "action/bonus-action",
+        "action/multiattack",
+        "action/melee-attack",
+        "action/ranged-attack",
+        "multiattack/any-combination",
+        "effect/slashing-damage",
+        "effect/cold-damage",
+        "effect/piercing-damage",
+        "effect/speed-decrease",
+        "action/special",
+        "limit/recharge",
+        "target/creature-of-choice",
+        "effect/temporary-hit-points",
+        "attack/advantage"
+      ]
+    }
+  ]
+}
