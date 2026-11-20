@@ -1,0 +1,1329 @@
+{
+  "schema_version": 1,
+  "decision": 358,
+  "status": "SOURCE_PASS_NATIVE_PUBLICATION_VERIFIED",
+  "observed_at": "2026-11-20T07:48:54Z",
+  "observed_issue_count": 1892,
+  "source": {
+    "sha256": "8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87",
+    "attribution": "docs/srd-5.2.1-conformance.md",
+    "checked_source_clauses": {
+      "5": [
+        "round down if you end up with a fraction"
+      ],
+      "16": [
+        "roll the damage once for all the targets",
+        "Many saving throw effects deal half damage (round down)"
+      ],
+      "18": [
+        "Temporary Hit Points can’t be added together",
+        "you decide whether to keep the ones you have or to gain the new ones",
+        "those points are lost first",
+        "Temporary Hit Points last until they’re depleted or you finish a Long Rest",
+        "receiving Temporary Hit Points doesn’t count as healing"
+      ],
+      "21": [
+        "one identifies morality (good, evil, or neutral)"
+      ],
+      "22": [
+        "Unaligned Creatures",
+        "they are unaligned",
+        "Lawful Evil (LE)",
+        "Neutral Evil (NE)",
+        "Chaotic Evil (CE)"
+      ],
+      "36": [
+        "Cleric Features",
+        "Sear Undead",
+        "Blessed Strikes"
+      ],
+      "39": [
+        "Spirit Guardians"
+      ],
+      "104": [
+        "Casting Time"
+      ],
+      "105": [
+        "On a turn, you can expend only one spell slot to cast",
+        "The spellcaster must have a hand free to access them",
+        "a spellcaster can use a Component Pouch"
+      ],
+      "106": [
+        "the effects of the same spell cast multiple times don’t combine",
+        "spellcaster can substitute a Spellcasting Focus if the caster has a feature that allows that substitution",
+        "Spell save DC = 8 + your spellcasting ability modifier + your Proficiency Bonus"
+      ],
+      "140": [
+        "Heroism",
+        "Level 1 Enchantment (Bard, Paladin)",
+        "Range: Touch",
+        "Duration: Concentration, up to 1 minute",
+        "A willing creature you touch",
+        "immune to the Frightened condition",
+        "Temporary Hit Points equal to your spellcasting ability modifier at the start of each of its turns",
+        "one additional creature for each spell slot level above 1"
+      ],
+      "164": [
+        "Spirit Guardians",
+        "Level 3 Conjuration (Cleric)",
+        "Range: Self",
+        "Components: V, S, M (a prayer scroll)",
+        "Duration: Concentration, up to 10 minutes",
+        "15-foot Emanation",
+        "If you are evil, they appear fiendish",
+        "you can designate creatures to be unaffected by it",
+        "Speed is halved in the Emanation",
+        "Emanation enters a creature’s space"
+      ],
+      "165": [
+        "a creature enters the Emanation or ends its turn there",
+        "Wisdom saving throw",
+        "3d8 Radiant damage (if you are good or neutral)",
+        "3d8 Necrotic damage (if you are evil)",
+        "the creature takes half as much damage",
+        "makes this save only once per turn",
+        "The damage increases by 1d8 for each spell slot level above 3"
+      ],
+      "177": [
+        "If all straight lines extending from the point of origin to a location in the area of effect are blocked, that location isn’t included in the area of effect",
+        "an obstruction must provide Total Cover"
+      ],
+      "179": [
+        "If you take damage, you must succeed on a Constitution saving throw to maintain Concentration",
+        "If the effect’s creator loses Concentration, the effect ends",
+        "The creator can end Concentration at any time (no action required)"
+      ],
+      "181": [
+        "An Emanation moves with the creature or object that is its origin",
+        "isn’t included in the area of effect unless its creator decides otherwise"
+      ],
+      "187": [
+        "Simultaneous Effects",
+        "whose turn it is decides the order in which those things happen"
+      ],
+      "188": [
+        "If an effect increases or decreases your Speed for a time, any special speed you have increases or decreases by an equal amount",
+        "subtract the distance already moved from the new speed",
+        "If the result is 0 or less, you can’t use the new speed during the current move"
+      ],
+      "190": [
+        "Temporary Hit Points are granted by certain effects and act as a buffer against losing real Hit Points"
+      ],
+      "316": [
+        "Priest",
+        "spell save DC 13",
+        "1/Day: Spirit Guardians"
+      ]
+    }
+  },
+  "scopes": [
+    {
+      "scope": "Heroism record and list membership",
+      "PDF": [
+        140
+      ],
+      "owners": [
+        209,
+        856,
+        503
+      ],
+      "new_tasks": []
+    },
+    {
+      "scope": "Heroism cast, willing touch, Concentration minute, upcast recipients",
+      "PDF": [
+        140,
+        179
+      ],
+      "owners": [
+        912,
+        353
+      ],
+      "new_tasks": []
+    },
+    {
+      "scope": "Heroism Frightened immunity",
+      "PDF": [
+        140
+      ],
+      "owners": [
+        912,
+        488
+      ],
+      "new_tasks": []
+    },
+    {
+      "scope": "Heroism recipient start-turn grant: amount, no invented minimum, no permanent stacking, none after expiry",
+      "PDF": [
+        140
+      ],
+      "owners": [
+        912
+      ],
+      "new_tasks": []
+    },
+    {
+      "scope": "Temporary Hit Points pool rules: lost before Hit Points, keep-or-replace choice on each new grant, last until depleted or a finished Long Rest (so they persist after Heroism ends), not healing",
+      "PDF": [
+        18,
+        190
+      ],
+      "owners": [
+        272,
+        428
+      ],
+      "new_tasks": [],
+      "note": "Not stated in #912's body. Assigned by name to open splitter #272 as an explicit residual; #428 owns the completed Long Rest. #912 is not edited and cannot qualify until the #272 pool owner exists. No pool task is published by #358."
+    },
+    {
+      "scope": "Spirit Guardians record and list membership",
+      "PDF": [
+        39,
+        164
+      ],
+      "owners": [
+        220,
+        503
+      ],
+      "new_tasks": []
+    },
+    {
+      "scope": "Spirit Guardians Cleric casting modes: slot level, one slot per turn, V/S/M, prayer scroll or Component Pouch or allowed Spellcasting Focus with a free hand, DC 8 + PB + WIS, preparation, slots, level transitions",
+      "PDF": [
+        36,
+        105,
+        106,
+        164
+      ],
+      "owners": [
+        556,
+        557,
+        558,
+        597
+      ],
+      "new_tasks": [],
+      "note": "#556's body does not name the Component Pouch; it is part of its cited PDF104-106 obligation. #556 is not a native prerequisite of the new tasks because #556 <- #503 <- #277 <- terminal would close a cycle."
+    },
+    {
+      "scope": "Spirit Guardians designation, Emanation membership, three triggers, once-per-turn Wisdom save, alignment-typed damage, upcast, ending",
+      "PDF": [
+        5,
+        16,
+        21,
+        22,
+        36,
+        105,
+        106,
+        164,
+        165,
+        177,
+        179,
+        181,
+        187
+      ],
+      "owners": [],
+      "new_tasks": [
+        "spirit-guardians-saves"
+      ]
+    },
+    {
+      "scope": "Spirit Guardians Speed halving",
+      "PDF": [
+        5,
+        106,
+        164,
+        181,
+        188
+      ],
+      "owners": [],
+      "new_tasks": [
+        "spirit-guardians-speed"
+      ]
+    },
+    {
+      "scope": "Priest stat block casts Spirit Guardians 1/Day at spell save DC 13 without a slot",
+      "PDF": [
+        316
+      ],
+      "owners": [
+        170,
+        182,
+        183
+      ],
+      "new_tasks": [],
+      "note": "Catalogue #170 holds the record; monster spellcasting fixtures belong to open splitter #182, which feeds #183. Out of #358's stated targets and unavailable; consumes the two new tasks."
+    },
+    {
+      "scope": "Concentration ending for both spells",
+      "PDF": [
+        179
+      ],
+      "owners": [
+        353,
+        77
+      ],
+      "new_tasks": []
+    },
+    {
+      "scope": "Simultaneous same-moment ordering",
+      "PDF": [
+        187
+      ],
+      "owners": [],
+      "new_tasks": [],
+      "note": "No ordering owner exists and none is invented. In the saves task a colliding action stays unavailable with an explicit reason. #912 unchanged."
+    },
+    {
+      "scope": "General same-spell potency ordering and every other spell key",
+      "PDF": [
+        106
+      ],
+      "owners": [
+        277
+      ],
+      "new_tasks": []
+    }
+  ],
+  "mechanic_keys": {
+    "effect.periodic.recipient-start": {
+      "status": "planning identifier, unregistered",
+      "owner": 912
+    },
+    "effect.area.entry-or-target-end.once-per-turn": {
+      "status": "planning identifier, unregistered",
+      "owner": 2058
+    }
+  },
+  "existing_owners": {
+    "61": {
+      "number": 61,
+      "title": "Resolve SRD checks and saving throws with inspectable dice receipts",
+      "state": "CLOSED",
+      "parent": 50,
+      "blocked_by": [
+        58
+      ],
+      "body_sha256": "40078e957d35bd33b66c06dad6451270817f5fd833a924aa87d631d4a7bd9cd5",
+      "root_paths": {
+        "279": [
+          279,
+          965,
+          61
+        ],
+        "280": [
+          280,
+          965,
+          61
+        ],
+        "337": [
+          337,
+          61
+        ]
+      }
+    },
+    "64": {
+      "number": 64,
+      "title": "Confirm prepared actions once and reconcile the committed result",
+      "state": "CLOSED",
+      "parent": 50,
+      "blocked_by": [
+        30,
+        62,
+        63
+      ],
+      "body_sha256": "7713ac3e9a9ec4ee8462fad404b5141c7d2347a5e262f48544d6506278258f2d",
+      "root_paths": {
+        "279": [
+          279,
+          964,
+          64
+        ],
+        "280": [
+          280,
+          964,
+          64
+        ],
+        "337": [
+          337,
+          776,
+          64
+        ]
+      }
+    },
+    "66": {
+      "number": 66,
+      "title": "Track initiative and action economy in narrative combat",
+      "state": "CLOSED",
+      "parent": 50,
+      "blocked_by": [
+        65
+      ],
+      "body_sha256": "1268b0f01bca795849b5401b42b6dce70ae483cd7ce9eeb2870a2d5d0c9b0d12",
+      "root_paths": {
+        "279": [
+          279,
+          962,
+          66
+        ],
+        "280": [
+          280,
+          962,
+          66
+        ],
+        "337": [
+          337,
+          66
+        ]
+      }
+    },
+    "67": {
+      "number": 67,
+      "title": "Validate narrative combat targets, ranges and scene facts",
+      "state": "CLOSED",
+      "parent": 50,
+      "blocked_by": [
+        66
+      ],
+      "body_sha256": "aa7bfb66a1b5d6aafd22ca8dc6f7530ce938d0710ee917867fbb899490376096",
+      "root_paths": {
+        "279": [
+          279,
+          966,
+          67
+        ],
+        "280": [
+          280,
+          966,
+          67
+        ],
+        "337": [
+          337,
+          67
+        ]
+      }
+    },
+    "68": {
+      "number": 68,
+      "title": "Cast a supported spell with explicit targets and slot costs",
+      "state": "CLOSED",
+      "parent": 50,
+      "blocked_by": [
+        67
+      ],
+      "body_sha256": "f86c4f49714b778ab10e0a09f2f13c3ff561add2ef0a4147875458a293eca6ed",
+      "root_paths": {
+        "279": [
+          279,
+          502,
+          68
+        ],
+        "280": [
+          280,
+          502,
+          68
+        ],
+        "337": [
+          337,
+          501,
+          68
+        ]
+      }
+    },
+    "77": {
+      "number": 77,
+      "title": "Track concentration, durations and recovery for the casting slice",
+      "state": "CLOSED",
+      "parent": 50,
+      "blocked_by": [
+        68
+      ],
+      "body_sha256": "c6138ed1f321aa488511a5b343e7ec52b84b4ad52b91e1b340c82d3d9053ba59",
+      "root_paths": {
+        "279": [
+          279,
+          265,
+          77
+        ],
+        "280": [
+          280,
+          267,
+          77
+        ],
+        "337": [
+          337,
+          267,
+          77
+        ]
+      }
+    },
+    "170": {
+      "number": 170,
+      "title": "Catalogue SRD stat blocks 20: Polar Bear to Red Dragon Wyrmling",
+      "state": "OPEN",
+      "parent": 54,
+      "blocked_by": [
+        143
+      ],
+      "body_sha256": "5ac06699b2e81828bff9f645adf986c7dd608562edba3118cf9735cfd0b64535",
+      "root_paths": {
+        "279": [
+          279,
+          725,
+          183,
+          182,
+          170
+        ],
+        "280": [
+          280,
+          725,
+          183,
+          182,
+          170
+        ],
+        "337": [
+          337,
+          630,
+          183,
+          182,
+          170
+        ]
+      }
+    },
+    "182": {
+      "number": 182,
+      "title": "Split unimplemented monster mechanic keys into exact fixture PRs",
+      "state": "OPEN",
+      "parent": 54,
+      "blocked_by": [
+        151,
+        152,
+        153,
+        154,
+        155,
+        156,
+        157,
+        158,
+        159,
+        160,
+        161,
+        162,
+        163,
+        164,
+        165,
+        166,
+        167,
+        168,
+        169,
+        170,
+        171,
+        172,
+        173,
+        174,
+        175,
+        176,
+        177,
+        178,
+        184
+      ],
+      "body_sha256": "69af93107731b8418a429951ab118d37bab27bb48b82303f949983a717ef8ab0",
+      "root_paths": {
+        "279": [
+          279,
+          725,
+          183,
+          182
+        ],
+        "280": [
+          280,
+          725,
+          183,
+          182
+        ],
+        "337": [
+          337,
+          630,
+          183,
+          182
+        ]
+      }
+    },
+    "183": {
+      "number": 183,
+      "title": "Qualify complete monster and exploration coverage before advertising full support",
+      "state": "OPEN",
+      "parent": 54,
+      "blocked_by": [
+        145,
+        146,
+        149,
+        150,
+        179,
+        180,
+        181,
+        182,
+        185,
+        583,
+        584,
+        589,
+        590
+      ],
+      "body_sha256": "dfcd77e1cce70f649b4e5acd3f5a5291ebca05bf777063de1a4f6e5e4b627a43",
+      "root_paths": {
+        "279": [
+          279,
+          725,
+          183
+        ],
+        "280": [
+          280,
+          725,
+          183
+        ],
+        "337": [
+          337,
+          630,
+          183
+        ]
+      }
+    },
+    "194": {
+      "number": 194,
+      "title": "Validate versioned spell records and fail closed on unsupported effects",
+      "state": "CLOSED",
+      "parent": 191,
+      "blocked_by": [
+        80
+      ],
+      "body_sha256": "d62b260d8724393eb592dfa447213c3a959e776df5e4addd6de443ed47f78366",
+      "root_paths": {
+        "279": [
+          279,
+          726,
+          194
+        ],
+        "280": [
+          280,
+          726,
+          194
+        ],
+        "337": [
+          337,
+          501,
+          194
+        ]
+      }
+    },
+    "209": {
+      "number": 209,
+      "title": "Catalogue SRD spells 14: Hallucinatory Terrain to Hold Monster",
+      "state": "OPEN",
+      "parent": 191,
+      "blocked_by": [
+        194
+      ],
+      "body_sha256": "8aea722f6794f937a0b04a2c725484c1d2b80019b4f9764bf9ff9e1d955e1f14",
+      "root_paths": {
+        "279": [
+          279,
+          503,
+          209
+        ],
+        "280": [
+          280,
+          503,
+          209
+        ],
+        "337": [
+          337,
+          551,
+          503,
+          209
+        ]
+      }
+    },
+    "220": {
+      "number": 220,
+      "title": "Catalogue SRD spells 25: Speak with Dead to Suggestion",
+      "state": "OPEN",
+      "parent": 191,
+      "blocked_by": [
+        194
+      ],
+      "body_sha256": "87dc993336597e27dbc8eff5f48cfebc7d83d68c47116bba1be8852f58560f46",
+      "root_paths": {
+        "279": [
+          279,
+          697,
+          220
+        ],
+        "280": [
+          280,
+          697,
+          220
+        ],
+        "337": [
+          337,
+          551,
+          503,
+          220
+        ]
+      }
+    },
+    "272": {
+      "number": 272,
+      "title": "Split interrupted rest, recovery and recharge exceptions",
+      "state": "OPEN",
+      "parent": 193,
+      "blocked_by": [
+        80
+      ],
+      "body_sha256": "cb33113ffa00ae6fc9c094f868a0096d1d252b3ffc8dc3fc1aae7f7c23045594",
+      "root_paths": {
+        "279": [
+          279,
+          272
+        ],
+        "280": [
+          280,
+          279,
+          272
+        ],
+        "337": [
+          337,
+          397,
+          272
+        ]
+      }
+    },
+    "277": {
+      "number": 277,
+      "title": "Assign every remaining spell mechanic key to bounded implementation PRs",
+      "state": "OPEN",
+      "parent": 191,
+      "blocked_by": [
+        80,
+        196,
+        197,
+        198,
+        199,
+        200,
+        201,
+        202,
+        203,
+        204,
+        205,
+        206,
+        207,
+        208,
+        209,
+        210,
+        211,
+        212,
+        213,
+        214,
+        215,
+        216,
+        217,
+        218,
+        219,
+        220,
+        221,
+        222,
+        223,
+        224
+      ],
+      "body_sha256": "361146df6f5488415129a6ba04acfd9d0b4730da3c39d8bc99767f79d0669a30",
+      "root_paths": {
+        "279": [
+          279,
+          277
+        ],
+        "280": [
+          280,
+          503,
+          277
+        ],
+        "337": [
+          337,
+          399,
+          277
+        ]
+      }
+    },
+    "351": {
+      "number": 351,
+      "title": "Track two Shield of Faith casters with independent recipient effects",
+      "state": "CLOSED",
+      "parent": 193,
+      "blocked_by": [
+        194,
+        218
+      ],
+      "body_sha256": "a2fcd86fa809c3d4c62c591c343bb4002c2b6b43d4428b2cdeb34fcfef691a57",
+      "root_paths": {
+        "279": [
+          279,
+          351
+        ],
+        "280": [
+          280,
+          351
+        ],
+        "337": [
+          337,
+          351
+        ]
+      }
+    },
+    "353": {
+      "number": 353,
+      "title": "End the exact concentration cast on resolved damage and incapacitation events",
+      "state": "OPEN",
+      "parent": 193,
+      "blocked_by": [
+        351
+      ],
+      "body_sha256": "7ef0d64efbb02de3ead64a18f38123fe77ebc619c2589b5aaba7d15699bceb4a",
+      "root_paths": {
+        "279": [
+          279,
+          353
+        ],
+        "280": [
+          280,
+          353
+        ],
+        "337": [
+          337,
+          353
+        ]
+      }
+    },
+    "428": {
+      "number": 428,
+      "title": "Complete source-correct Long Rest with interruption and recovery receipt",
+      "state": "OPEN",
+      "parent": 272,
+      "blocked_by": [
+        272,
+        286,
+        308,
+        427
+      ],
+      "body_sha256": "6822469be2b3e75b9f37da60335e01fbe3f27bc5d8cb735a44dc4171f1657046",
+      "root_paths": {
+        "279": [
+          279,
+          850,
+          952,
+          428
+        ],
+        "280": [
+          280,
+          850,
+          952,
+          428
+        ],
+        "337": [
+          337,
+          2054,
+          428
+        ]
+      }
+    },
+    "488": {
+      "number": 488,
+      "title": "Resolve shared Charmed Frightened and Prone condition consumers",
+      "state": "OPEN",
+      "parent": 270,
+      "blocked_by": [
+        61,
+        65,
+        67,
+        269,
+        270
+      ],
+      "body_sha256": "009a793cf71efa8420190edabdc41aa7790b575e095698ec8710f9a978ca16c5",
+      "root_paths": {
+        "279": [
+          279,
+          779,
+          488
+        ],
+        "280": [
+          280,
+          779,
+          488
+        ],
+        "337": [
+          337,
+          776,
+          488
+        ]
+      }
+    },
+    "503": {
+      "number": 503,
+      "title": "Validate Bard Cleric Druid and Wizard spell-list membership",
+      "state": "OPEN",
+      "parent": 191,
+      "blocked_by": [
+        194,
+        196,
+        197,
+        198,
+        199,
+        200,
+        201,
+        202,
+        203,
+        204,
+        205,
+        206,
+        207,
+        208,
+        209,
+        210,
+        211,
+        212,
+        213,
+        214,
+        215,
+        216,
+        217,
+        218,
+        219,
+        220,
+        221,
+        222,
+        223,
+        224,
+        277
+      ],
+      "body_sha256": "4cddacfa9c6e0dea7d0b5867f262eb52fa9f4073a97a37156cd071f94d7703f2",
+      "root_paths": {
+        "279": [
+          279,
+          503
+        ],
+        "280": [
+          280,
+          503
+        ],
+        "337": [
+          337,
+          551,
+          503
+        ]
+      }
+    },
+    "556": {
+      "number": 556,
+      "title": "Route Cleric Wisdom and Holy Symbol casts through authoritative receipts",
+      "state": "OPEN",
+      "parent": 551,
+      "blocked_by": [
+        68,
+        273,
+        386,
+        503
+      ],
+      "body_sha256": "f791ffb7790591c4fc401ee073c69cfa33473ded404debaa7165e4dee137d638",
+      "root_paths": {
+        "337": [
+          337,
+          551,
+          556
+        ]
+      }
+    },
+    "557": {
+      "number": 557,
+      "title": "Confirm Cleric cantrips and prepared-spell changes",
+      "state": "OPEN",
+      "parent": 551,
+      "blocked_by": [
+        428,
+        503,
+        556
+      ],
+      "body_sha256": "4ce9d2b7119d13f7f3ea9df92fdfe1c7ad1d2014bb4afc8ef80b583a9583a450",
+      "root_paths": {
+        "337": [
+          337,
+          551,
+          557
+        ]
+      }
+    },
+    "558": {
+      "number": 558,
+      "title": "Project all Cleric slot columns and Long Rest recovery",
+      "state": "OPEN",
+      "parent": 551,
+      "blocked_by": [
+        428
+      ],
+      "body_sha256": "d28b24cbd0cc3cc0eab4a75cb347ae0489ee73af70b2be8c8f88753f8c474723",
+      "root_paths": {
+        "337": [
+          337,
+          551,
+          558
+        ]
+      }
+    },
+    "597": {
+      "number": 597,
+      "title": "Confirm Cleric level4 to5 transition",
+      "state": "OPEN",
+      "parent": 551,
+      "blocked_by": [
+        429,
+        430,
+        552,
+        557,
+        558,
+        566,
+        578,
+        596
+      ],
+      "body_sha256": "b5193f4f7d0d46023bb6213a12c9902974980a1928a866613481002a637329f1",
+      "root_paths": {
+        "337": [
+          337,
+          551,
+          597
+        ]
+      }
+    },
+    "848": {
+      "number": 848,
+      "title": "Qualify finite Paladin spell cohort 1",
+      "state": "OPEN",
+      "parent": 277,
+      "blocked_by": [
+        905,
+        906,
+        907,
+        908,
+        909,
+        910,
+        911,
+        912,
+        913,
+        914,
+        916,
+        917,
+        918,
+        919,
+        920,
+        921,
+        922,
+        923,
+        924,
+        925
+      ],
+      "body_sha256": "6ab614ea1e843e8a36e898465cd239a1af85e5ccb486baf24a2fce0d271204cd",
+      "root_paths": {
+        "279": [
+          279,
+          848
+        ],
+        "280": [
+          280,
+          848
+        ],
+        "337": [
+          337,
+          1093,
+          280,
+          848
+        ]
+      }
+    },
+    "856": {
+      "number": 856,
+      "title": "Validate only exact Paladin spell-list membership",
+      "state": "OPEN",
+      "parent": 846,
+      "blocked_by": [
+        194
+      ],
+      "body_sha256": "23c2d992854ca1724e87ca9d948e81d27333de33787153515e942db383a0241d",
+      "root_paths": {
+        "337": [
+          337,
+          845,
+          846,
+          856
+        ]
+      }
+    },
+    "912": {
+      "number": 912,
+      "title": "Resolve Heroism heroism",
+      "state": "OPEN",
+      "parent": 848,
+      "blocked_by": [
+        66,
+        353,
+        488
+      ],
+      "body_sha256": "d4702c1675cad871986496bb43777f7fba4760aba26069026a0c10fe263657f4",
+      "root_paths": {
+        "279": [
+          279,
+          848,
+          912
+        ],
+        "280": [
+          280,
+          848,
+          912
+        ],
+        "337": [
+          337,
+          1093,
+          280,
+          848,
+          912
+        ]
+      }
+    }
+  },
+  "new_tasks": [
+    {
+      "key": "spirit-guardians-saves",
+      "placeholder": "{{ISSUE_SG_SAVES}}",
+      "number": 2058,
+      "title": "Resolve Spirit Guardians cast, exclusions and once-per-turn Emanation saves",
+      "type": "Task",
+      "size": "M",
+      "parent": 193,
+      "blocked_by": [
+        220,
+        353
+      ],
+      "blocks": [
+        2059
+      ],
+      "task_file": "docs/investigations/issue-358-spirit-guardians-saves-task.md",
+      "template_body_sha256": "b23c441fa0b9b7b834beac8f8a356b464f7ad93038e524adcaa528d862d31149",
+      "published_body_sha256": "e3d83ab01b13e7002beaa146443e543a9aa32f3f86505b9f858753e1c491d553"
+    },
+    {
+      "key": "spirit-guardians-speed",
+      "placeholder": "{{ISSUE_SG_SPEED}}",
+      "number": 2059,
+      "title": "Halve Speed inside the Spirit Guardians Emanation",
+      "type": "Task",
+      "size": "M",
+      "parent": 193,
+      "blocked_by": [
+        2058
+      ],
+      "blocks": [
+        280,
+        277
+      ],
+      "task_file": "docs/investigations/issue-358-spirit-guardians-speed-task.md",
+      "template_body_sha256": "853834e9fd98e0ac1e0bbb5fed9e6a67c1df8517a39f0b2da6fcfee669cd3ec9",
+      "published_body_sha256": "71669b0f7c6605c63cd649dbcfa3ab2b0a035a953c571586f6c237b95863b45e"
+    }
+  ],
+  "caps": {
+    "limit": 100,
+    "279": {
+      "blocked_by": 100,
+      "blocking": 11,
+      "sub_issues": 0
+    },
+    "280": {
+      "blocked_by": 96,
+      "blocking": 3,
+      "sub_issues": 0
+    },
+    "277": {
+      "blocked_by": 30,
+      "blocking": 3,
+      "sub_issues": 31
+    },
+    "193": {
+      "blocked_by": 0,
+      "blocking": 0,
+      "sub_issues": 30
+    },
+    "220": {
+      "blocked_by": 1,
+      "blocking": 3,
+      "sub_issues": 0
+    },
+    "353": {
+      "blocked_by": 1,
+      "blocking": 76,
+      "sub_issues": 0
+    },
+    "67": {
+      "blocked_by": 1,
+      "blocking": 100,
+      "sub_issues": 0
+    },
+    "61": {
+      "blocked_by": 1,
+      "blocking": 84,
+      "sub_issues": 0
+    },
+    "66": {
+      "blocked_by": 1,
+      "blocking": 62,
+      "sub_issues": 0
+    },
+    "after_publication": {
+      "280_blocked_by": 97,
+      "193_sub_issues": 32,
+      "220_blocking": 4,
+      "353_blocking": 77,
+      "277_blocked_by": 31,
+      "279_blocked_by": 100
+    },
+    "279_note": "#279 holds 100 native blockers, the platform maximum, so no direct edge can be added. A #280-only path is insufficient because #279 blocks #280 and not the reverse. No finite aggregate covers this spell: #1477 is fixed to the 245-identity Sorcerer/Warlock/Wizard union and #848-#850/#973/#1096 are finite class rosters. The terminal therefore blocks #277, an existing open direct blocker of #279 that must wire every remaining spell key to the spell gate: #279 -> #277 -> terminal -> saves. #277 cannot close before the terminal qualifies.",
+    "readback": {
+      "279": {
+        "blocked_by": 100,
+        "blocking": 11,
+        "sub_issues": 0
+      },
+      "280": {
+        "blocked_by": 97,
+        "blocking": 3,
+        "sub_issues": 0
+      },
+      "277": {
+        "blocked_by": 31,
+        "blocking": 3,
+        "sub_issues": 31
+      },
+      "193": {
+        "blocked_by": 0,
+        "blocking": 0,
+        "sub_issues": 32
+      },
+      "220": {
+        "blocked_by": 1,
+        "blocking": 4,
+        "sub_issues": 0
+      },
+      "353": {
+        "blocked_by": 1,
+        "blocking": 77,
+        "sub_issues": 0
+      },
+      "67": {
+        "blocked_by": 1,
+        "blocking": 100,
+        "sub_issues": 0
+      },
+      "358": {
+        "blocked_by": 0,
+        "blocking": 2,
+        "sub_issues": 0
+      },
+      "2058": {
+        "blocked_by": 2,
+        "blocking": 1,
+        "sub_issues": 0
+      },
+      "2059": {
+        "blocked_by": 1,
+        "blocking": 2,
+        "sub_issues": 0
+      }
+    },
+    "drafting_note": "Top-level per-issue counts and after_publication are the drafting read of 2026-11-20T07:48:54Z and its forecast; readback holds the counts read after publication, which match the forecast."
+  },
+  "gate_path_279": {
+    "chosen": "terminal blocks #277 (additive; #277 already blocks #279)",
+    "issues_waiting_on_279_without_280": [
+      571,
+      574,
+      577,
+      578,
+      579,
+      582,
+      656
+    ],
+    "alternative_requiring_owner_approval": "Replace #358's own #279 blocker slot with the terminal at publication (count stays 100). It removes an existing edge, so it is not part of this plan; if approved, the #277 edge is not added.",
+    "publication_readback_must_assert": [
+      "#279 reaches the terminal and the saves task",
+      "#280 reaches the terminal and the saves task",
+      "all cap counts re-read immediately before and after publication",
+      "both acyclicity checks rerun"
+    ]
+  },
+  "recorded_ambiguities": [
+    "PDF164-165 list three save triggers and no cast-time trigger; a creature already inside when the spell is cast does not save at the cast.",
+    "PDF187 lets the person whose turn it is order same-moment events; no ordering owner exists, so in the saves task a colliding action stays unavailable with an explicit reason and no scheduler is built.",
+    "PDF181 lets the creator include the Emanation's origin; the saves task keeps including the caster unavailable as a labelled Edda restriction, not a source prohibition.",
+    "PDF164 sets no limit on designated creatures; limiting the choice to creatures the caster's player already knows is a labelled Edda disclosure adaptation.",
+    "PDF164-165 give no damage type for an unaligned caster (PDF22); that cast stays unavailable. No published issue owns a player character's alignment fact, so the fixture supplies it and a production cast stays unavailable until an owner exists.",
+    "No page states how a Speed that changes mid-move is accounted; the Speed task applies the PDF188 switching subtraction as a labelled Edda adaptation, and a five-foot step needs at least 5 feet remaining.",
+    "PDF18 keep-or-replace choice at each Heroism turn start and persistence of its Temporary Hit Points after the spell ends are not spelled out in #912's body; they belong to the named #272 residual and must be neither auto-replaced nor auto-kept.",
+    "Edda stores an exact pairwise distance, not a grid; inside means 15 feet or less without Total Cover from the caster.",
+    "PDF106 potency ordering for overlapping same-spell casts stays with #277; the new task admits one active Spirit Guardians per encounter.",
+    "Entries from forced movement and teleportation stay unavailable until their own owners emit trusted position changes."
+  ],
+  "runtime_qualified": false,
+  "graph_checks": {
+    "dependency_dag": "PASS",
+    "parent_hierarchy": "PASS",
+    "gate_279_reaches_both_tasks": "PASS",
+    "gate_280_reaches_both_tasks": "PASS",
+    "issues_checked": 1894,
+    "dependency_edges": 10206,
+    "parent_edges": 1890,
+    "observed_at": "2026-11-20T08:06:27Z"
+  },
+  "published_native_edges": {
+    "sub_issue": [
+      [
+        193,
+        2058
+      ],
+      [
+        193,
+        2059
+      ]
+    ],
+    "blocked_by": [
+      [
+        2058,
+        220
+      ],
+      [
+        2058,
+        353
+      ],
+      [
+        2059,
+        2058
+      ],
+      [
+        280,
+        2059
+      ],
+      [
+        277,
+        2059
+      ]
+    ],
+    "unchanged": "No existing body, parent or edge changes other than one added blocker on #280, one added blocker on #277 and two sub-issues of #193. No edge is removed."
+  },
+  "publication": {
+    "preflight_observed_at": "2026-11-20T08:03:49Z",
+    "readback_observed_at": "2026-11-20T08:06:27Z",
+    "issue_count_before": 1892,
+    "issue_count_after": 1894,
+    "receipt": "docs/investigations/issue-358-link-verification.json"
+  }
+}
