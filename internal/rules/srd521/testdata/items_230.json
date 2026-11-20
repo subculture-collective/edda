@@ -1,0 +1,1821 @@
+{
+  "schema_version": 1,
+  "rules_version": "srd-5.2.1",
+  "batch": "data-magic-items-06",
+  "catalogue_issue": 230,
+  "source": {
+    "version": "5.2.1",
+    "language": "en",
+    "landing_url": "https://www.dndbeyond.com/srd",
+    "artifact_url": "https://media.dndbeyond.com/compendium-images/srd/5.2/SRD_CC_v5.2.1.pdf",
+    "sha256": "8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87",
+    "bytes": 6031375,
+    "pages": 364,
+    "retrieved_at": "2026-11-15",
+    "license": "CC-BY-4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/legalcode",
+    "attribution": "This work includes material from the System Reference Document 5.2.1 (“SRD 5.2.1”) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd. The SRD 5.2.1 is licensed under the Creative Commons Attribution 4.0 International License, available at https://creativecommons.org/licenses/by/4.0/legalcode.",
+    "changes": "SRD 5.2.1 pp. 218–220 adapted into twelve versioned magic-item families (Dragon Scale Mail through Elven Chain) with explicit variant identities, structured requirements and typed source values. Names, numeric rules and key phrases are adapted into keys; no rules prose is reproduced. Prices are not listed and remain unspecified. Catalogue data grants no inventory, action or gameplay permissions; every record is unavailable."
+  },
+  "families": [
+    {
+      "id": "srd-5.2.1:content/items/dragon-scale-mail",
+      "name": "Dragon Scale Mail",
+      "kind": "magic",
+      "category": "armor",
+      "base": {
+        "options": [
+          "scale-mail"
+        ],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/dragon-scale-mail",
+          "pages": [
+            218,
+            218
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/dragon-scale-mail/variant/black",
+          "name": "Dragon Scale Mail (black)",
+          "rarity": "very-rare",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wear",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "magic-action",
+            "restrictions": [
+              "once-until-next-dawn"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              218,
+              218
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "item.wear",
+            "defense.armor-class-bonus-1",
+            "save.advantage-against-dragon-breath",
+            "defense.resistance-by-dragon-type",
+            "action.magic",
+            "sense.closest-same-type-dragon-30-miles",
+            "item.once-until-next-dawn"
+          ],
+          "details": {
+            "scale_mail": {
+              "condition": "while-wearing",
+              "ac_bonus": 1,
+              "breath_weapon_save_mode": "advantage",
+              "breath_weapon_source": "dragons",
+              "dragon": "black",
+              "resistance": "acid",
+              "sense_action": "magic",
+              "sense_target": "closest-dragon-of-same-type",
+              "sense_range_miles": 30,
+              "sense_reveals": [
+                "distance",
+                "direction"
+              ],
+              "sense_uses": 1,
+              "sense_recharge": "next-dawn"
+            }
+          }
+        },
+        {
+          "id": "srd-5.2.1:content/items/dragon-scale-mail/variant/blue",
+          "name": "Dragon Scale Mail (blue)",
+          "rarity": "very-rare",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wear",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "magic-action",
+            "restrictions": [
+              "once-until-next-dawn"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              218,
+              218
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "item.wear",
+            "defense.armor-class-bonus-1",
+            "save.advantage-against-dragon-breath",
+            "defense.resistance-by-dragon-type",
+            "action.magic",
+            "sense.closest-same-type-dragon-30-miles",
+            "item.once-until-next-dawn"
+          ],
+          "details": {
+            "scale_mail": {
+              "condition": "while-wearing",
+              "ac_bonus": 1,
+              "breath_weapon_save_mode": "advantage",
+              "breath_weapon_source": "dragons",
+              "dragon": "blue",
+              "resistance": "lightning",
+              "sense_action": "magic",
+              "sense_target": "closest-dragon-of-same-type",
+              "sense_range_miles": 30,
+              "sense_reveals": [
+                "distance",
+                "direction"
+              ],
+              "sense_uses": 1,
+              "sense_recharge": "next-dawn"
+            }
+          }
+        },
+        {
+          "id": "srd-5.2.1:content/items/dragon-scale-mail/variant/brass",
+          "name": "Dragon Scale Mail (brass)",
+          "rarity": "very-rare",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wear",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "magic-action",
+            "restrictions": [
+              "once-until-next-dawn"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              218,
+              218
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "item.wear",
+            "defense.armor-class-bonus-1",
+            "save.advantage-against-dragon-breath",
+            "defense.resistance-by-dragon-type",
+            "action.magic",
+            "sense.closest-same-type-dragon-30-miles",
+            "item.once-until-next-dawn"
+          ],
+          "details": {
+            "scale_mail": {
+              "condition": "while-wearing",
+              "ac_bonus": 1,
+              "breath_weapon_save_mode": "advantage",
+              "breath_weapon_source": "dragons",
+              "dragon": "brass",
+              "resistance": "fire",
+              "sense_action": "magic",
+              "sense_target": "closest-dragon-of-same-type",
+              "sense_range_miles": 30,
+              "sense_reveals": [
+                "distance",
+                "direction"
+              ],
+              "sense_uses": 1,
+              "sense_recharge": "next-dawn"
+            }
+          }
+        },
+        {
+          "id": "srd-5.2.1:content/items/dragon-scale-mail/variant/bronze",
+          "name": "Dragon Scale Mail (bronze)",
+          "rarity": "very-rare",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wear",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "magic-action",
+            "restrictions": [
+              "once-until-next-dawn"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              218,
+              218
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "item.wear",
+            "defense.armor-class-bonus-1",
+            "save.advantage-against-dragon-breath",
+            "defense.resistance-by-dragon-type",
+            "action.magic",
+            "sense.closest-same-type-dragon-30-miles",
+            "item.once-until-next-dawn"
+          ],
+          "details": {
+            "scale_mail": {
+              "condition": "while-wearing",
+              "ac_bonus": 1,
+              "breath_weapon_save_mode": "advantage",
+              "breath_weapon_source": "dragons",
+              "dragon": "bronze",
+              "resistance": "lightning",
+              "sense_action": "magic",
+              "sense_target": "closest-dragon-of-same-type",
+              "sense_range_miles": 30,
+              "sense_reveals": [
+                "distance",
+                "direction"
+              ],
+              "sense_uses": 1,
+              "sense_recharge": "next-dawn"
+            }
+          }
+        },
+        {
+          "id": "srd-5.2.1:content/items/dragon-scale-mail/variant/copper",
+          "name": "Dragon Scale Mail (copper)",
+          "rarity": "very-rare",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wear",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "magic-action",
+            "restrictions": [
+              "once-until-next-dawn"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              218,
+              218
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "item.wear",
+            "defense.armor-class-bonus-1",
+            "save.advantage-against-dragon-breath",
+            "defense.resistance-by-dragon-type",
+            "action.magic",
+            "sense.closest-same-type-dragon-30-miles",
+            "item.once-until-next-dawn"
+          ],
+          "details": {
+            "scale_mail": {
+              "condition": "while-wearing",
+              "ac_bonus": 1,
+              "breath_weapon_save_mode": "advantage",
+              "breath_weapon_source": "dragons",
+              "dragon": "copper",
+              "resistance": "acid",
+              "sense_action": "magic",
+              "sense_target": "closest-dragon-of-same-type",
+              "sense_range_miles": 30,
+              "sense_reveals": [
+                "distance",
+                "direction"
+              ],
+              "sense_uses": 1,
+              "sense_recharge": "next-dawn"
+            }
+          }
+        },
+        {
+          "id": "srd-5.2.1:content/items/dragon-scale-mail/variant/gold",
+          "name": "Dragon Scale Mail (gold)",
+          "rarity": "very-rare",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wear",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "magic-action",
+            "restrictions": [
+              "once-until-next-dawn"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              218,
+              218
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "item.wear",
+            "defense.armor-class-bonus-1",
+            "save.advantage-against-dragon-breath",
+            "defense.resistance-by-dragon-type",
+            "action.magic",
+            "sense.closest-same-type-dragon-30-miles",
+            "item.once-until-next-dawn"
+          ],
+          "details": {
+            "scale_mail": {
+              "condition": "while-wearing",
+              "ac_bonus": 1,
+              "breath_weapon_save_mode": "advantage",
+              "breath_weapon_source": "dragons",
+              "dragon": "gold",
+              "resistance": "fire",
+              "sense_action": "magic",
+              "sense_target": "closest-dragon-of-same-type",
+              "sense_range_miles": 30,
+              "sense_reveals": [
+                "distance",
+                "direction"
+              ],
+              "sense_uses": 1,
+              "sense_recharge": "next-dawn"
+            }
+          }
+        },
+        {
+          "id": "srd-5.2.1:content/items/dragon-scale-mail/variant/green",
+          "name": "Dragon Scale Mail (green)",
+          "rarity": "very-rare",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wear",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "magic-action",
+            "restrictions": [
+              "once-until-next-dawn"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              218,
+              218
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "item.wear",
+            "defense.armor-class-bonus-1",
+            "save.advantage-against-dragon-breath",
+            "defense.resistance-by-dragon-type",
+            "action.magic",
+            "sense.closest-same-type-dragon-30-miles",
+            "item.once-until-next-dawn"
+          ],
+          "details": {
+            "scale_mail": {
+              "condition": "while-wearing",
+              "ac_bonus": 1,
+              "breath_weapon_save_mode": "advantage",
+              "breath_weapon_source": "dragons",
+              "dragon": "green",
+              "resistance": "poison",
+              "sense_action": "magic",
+              "sense_target": "closest-dragon-of-same-type",
+              "sense_range_miles": 30,
+              "sense_reveals": [
+                "distance",
+                "direction"
+              ],
+              "sense_uses": 1,
+              "sense_recharge": "next-dawn"
+            }
+          }
+        },
+        {
+          "id": "srd-5.2.1:content/items/dragon-scale-mail/variant/red",
+          "name": "Dragon Scale Mail (red)",
+          "rarity": "very-rare",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wear",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "magic-action",
+            "restrictions": [
+              "once-until-next-dawn"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              218,
+              218
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "item.wear",
+            "defense.armor-class-bonus-1",
+            "save.advantage-against-dragon-breath",
+            "defense.resistance-by-dragon-type",
+            "action.magic",
+            "sense.closest-same-type-dragon-30-miles",
+            "item.once-until-next-dawn"
+          ],
+          "details": {
+            "scale_mail": {
+              "condition": "while-wearing",
+              "ac_bonus": 1,
+              "breath_weapon_save_mode": "advantage",
+              "breath_weapon_source": "dragons",
+              "dragon": "red",
+              "resistance": "fire",
+              "sense_action": "magic",
+              "sense_target": "closest-dragon-of-same-type",
+              "sense_range_miles": 30,
+              "sense_reveals": [
+                "distance",
+                "direction"
+              ],
+              "sense_uses": 1,
+              "sense_recharge": "next-dawn"
+            }
+          }
+        },
+        {
+          "id": "srd-5.2.1:content/items/dragon-scale-mail/variant/silver",
+          "name": "Dragon Scale Mail (silver)",
+          "rarity": "very-rare",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wear",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "magic-action",
+            "restrictions": [
+              "once-until-next-dawn"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              218,
+              218
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "item.wear",
+            "defense.armor-class-bonus-1",
+            "save.advantage-against-dragon-breath",
+            "defense.resistance-by-dragon-type",
+            "action.magic",
+            "sense.closest-same-type-dragon-30-miles",
+            "item.once-until-next-dawn"
+          ],
+          "details": {
+            "scale_mail": {
+              "condition": "while-wearing",
+              "ac_bonus": 1,
+              "breath_weapon_save_mode": "advantage",
+              "breath_weapon_source": "dragons",
+              "dragon": "silver",
+              "resistance": "cold",
+              "sense_action": "magic",
+              "sense_target": "closest-dragon-of-same-type",
+              "sense_range_miles": 30,
+              "sense_reveals": [
+                "distance",
+                "direction"
+              ],
+              "sense_uses": 1,
+              "sense_recharge": "next-dawn"
+            }
+          }
+        },
+        {
+          "id": "srd-5.2.1:content/items/dragon-scale-mail/variant/white",
+          "name": "Dragon Scale Mail (white)",
+          "rarity": "very-rare",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wear",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "magic-action",
+            "restrictions": [
+              "once-until-next-dawn"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              218,
+              218
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "item.wear",
+            "defense.armor-class-bonus-1",
+            "save.advantage-against-dragon-breath",
+            "defense.resistance-by-dragon-type",
+            "action.magic",
+            "sense.closest-same-type-dragon-30-miles",
+            "item.once-until-next-dawn"
+          ],
+          "details": {
+            "scale_mail": {
+              "condition": "while-wearing",
+              "ac_bonus": 1,
+              "breath_weapon_save_mode": "advantage",
+              "breath_weapon_source": "dragons",
+              "dragon": "white",
+              "resistance": "cold",
+              "sense_action": "magic",
+              "sense_target": "closest-dragon-of-same-type",
+              "sense_range_miles": 30,
+              "sense_reveals": [
+                "distance",
+                "direction"
+              ],
+              "sense_uses": 1,
+              "sense_recharge": "next-dawn"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/dragon-slayer",
+      "name": "Dragon Slayer",
+      "kind": "magic",
+      "category": "weapon",
+      "base": {
+        "options": [
+          "any-simple-weapon",
+          "any-martial-weapon"
+        ],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/dragon-slayer",
+          "pages": [
+            219,
+            219
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/dragon-slayer/variant/standard",
+          "name": "Dragon Slayer",
+          "rarity": "rare",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wield",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "weapon-attack",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              219,
+              219
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.magic-weapon",
+            "attack.weapon-bonus",
+            "damage.weapon-bonus",
+            "damage.extra-3d6-against-dragons"
+          ],
+          "details": {
+            "slayer": {
+              "attack_bonus": 1,
+              "damage_bonus": 1,
+              "extra_damage": {
+                "dice": 3,
+                "sides": 6,
+                "type": "weapon-type"
+              },
+              "extra_damage_target": "dragon"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/dust-of-disappearance",
+      "name": "Dust of Disappearance",
+      "kind": "magic",
+      "category": "wondrous-item",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/dust-of-disappearance",
+          "pages": [
+            219,
+            219
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/dust-of-disappearance/variant/standard",
+          "name": "Dust of Disappearance",
+          "rarity": "uncommon",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "utilize-action",
+            "restrictions": [
+              "throw-into-air",
+              "one-use"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              219,
+              219
+            ]
+          },
+          "required_mechanic_keys": [
+            "action.utilize",
+            "area.emanation-10-feet",
+            "condition.invisible",
+            "duration.2d4-minutes",
+            "effect.ends-after-attack-damage-or-spell",
+            "item.consumed-on-use"
+          ],
+          "details": {
+            "disappearance": {
+              "appearance": "fine-sand",
+              "uses": 1,
+              "action": "utilize",
+              "area_emanation_feet": 10,
+              "affects": [
+                "you",
+                "each-creature",
+                "each-object"
+              ],
+              "grants_condition": "invisible",
+              "duration": {
+                "dice": 2,
+                "sides": 4,
+                "type": "minutes"
+              },
+              "duration_same_for_all": true,
+              "consumed_when": "magic-takes-effect",
+              "ends_for_creature_after": [
+                "makes-attack-roll",
+                "deals-damage",
+                "casts-spell"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/dust-of-dryness",
+      "name": "Dust of Dryness",
+      "kind": "magic",
+      "category": "wondrous-item",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/dust-of-dryness",
+          "pages": [
+            219,
+            219
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/dust-of-dryness/variant/standard",
+          "name": "Dust of Dryness",
+          "rarity": "uncommon",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "utilize-action",
+            "restrictions": [
+              "sprinkle-one-pinch"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              219,
+              219
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.pinches-1d6-plus-4",
+            "action.utilize",
+            "effect.water-cube-15-feet-to-pellet",
+            "action.utilize-smash-pellet",
+            "effect.pellet-releases-water",
+            "save.constitution-dc-13",
+            "damage.necrotic-10d6",
+            "damage.half-on-success"
+          ],
+          "details": {
+            "dryness": {
+              "container": "small-packet",
+              "pinches": {
+                "dice": 1,
+                "sides": 6,
+                "type": "pinches"
+              },
+              "pinches_bonus": 4,
+              "water_action": "utilize",
+              "water_cube_feet": 15,
+              "water_result": "marble-sized-pellet",
+              "pellet_location": "floats-or-rests-near-where-sprinkled",
+              "pellet_weight": "negligible",
+              "smash_action": "utilize",
+              "smash_surface": "hard-surface",
+              "smash_result": "pellet-shatters-and-releases-absorbed-water",
+              "smash_ends": "destroys-pellet-and-ends-its-magic",
+              "elemental_action": "utilize",
+              "elemental_range_feet": 5,
+              "elemental_target": "elemental-composed-mostly-of-water",
+              "save_ability": "constitution",
+              "save_dc": 13,
+              "damage": {
+                "dice": 10,
+                "sides": 6,
+                "type": "necrotic"
+              },
+              "save_success": "half-damage"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/dust-of-sneezing-and-choking",
+      "name": "Dust of Sneezing and Choking",
+      "kind": "magic",
+      "category": "wondrous-item",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/dust-of-sneezing-and-choking",
+          "pages": [
+            219,
+            219
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/dust-of-sneezing-and-choking/variant/standard",
+          "name": "Dust of Sneezing and Choking",
+          "rarity": "uncommon",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "utilize-action",
+            "restrictions": [
+              "throw-into-air",
+              "one-use"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              219,
+              219
+            ]
+          },
+          "required_mechanic_keys": [
+            "action.utilize",
+            "area.emanation-30-feet",
+            "save.constitution-dc-15",
+            "save.automatic-success-by-creature-type",
+            "condition.incapacitated",
+            "condition.suffocating",
+            "save.repeat-end-of-turn",
+            "effect.ends-with-lesser-restoration"
+          ],
+          "details": {
+            "sneezing": {
+              "container": "small-container",
+              "resembles": "dust-of-disappearance",
+              "identify_reveals": true,
+              "uses": 1,
+              "action": "utilize",
+              "area_emanation_feet": 30,
+              "affects_user": true,
+              "save_ability": "constitution",
+              "save_dc": 15,
+              "auto_succeed_creature_types": [
+                "constructs",
+                "elementals",
+                "oozes",
+                "plants",
+                "undead"
+              ],
+              "failure_effect": "sneezes-uncontrollably",
+              "failure_conditions": [
+                "incapacitated",
+                "suffocating"
+              ],
+              "repeat_save": "end-of-each-of-its-turns",
+              "ends_on": [
+                "successful-save",
+                "lesser-restoration"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/dwarven-plate",
+      "name": "Dwarven Plate",
+      "kind": "magic",
+      "category": "armor",
+      "base": {
+        "options": [
+          "half-plate-armor",
+          "plate-armor"
+        ],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/dwarven-plate",
+          "pages": [
+            219,
+            219
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/dwarven-plate/variant/standard",
+          "name": "Dwarven Plate",
+          "rarity": "very-rare",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wear",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "reaction",
+            "restrictions": [
+              "moved-against-will-along-ground"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              219,
+              219
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.wear",
+            "defense.armor-class-bonus-2",
+            "action.reaction",
+            "movement.reduce-forced-ground-movement-10-feet"
+          ],
+          "details": {
+            "plate": {
+              "condition": "while-wearing",
+              "ac_bonus": 2,
+              "reaction_trigger": "effect-moves-you-against-your-will-along-ground",
+              "reaction_effect": "reduce-distance-moved",
+              "reduce_distance_up_to_feet": 10
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/dwarven-thrower",
+      "name": "Dwarven Thrower",
+      "kind": "magic",
+      "category": "weapon",
+      "base": {
+        "options": [
+          "warhammer"
+        ],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/dwarven-thrower",
+          "pages": [
+            219,
+            219
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/dwarven-thrower/variant/standard",
+          "name": "Dwarven Thrower",
+          "rarity": "very-rare",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wield",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "weapon-attack",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              219,
+              219
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "item.magic-weapon",
+            "attack.weapon-bonus",
+            "damage.weapon-bonus",
+            "property.thrown-20-60",
+            "damage.extra-force-1d8-ranged-hit",
+            "damage.extra-force-2d8-against-giants",
+            "item.returns-to-hand"
+          ],
+          "details": {
+            "thrower": {
+              "attunement_by_any_of": [
+                "dwarf",
+                "creature-attuned-to-belt-of-dwarvenkind"
+              ],
+              "attack_bonus": 3,
+              "damage_bonus": 3,
+              "thrown_property": true,
+              "normal_range_feet": 20,
+              "long_range_feet": 60,
+              "ranged_hit_extra_damage": {
+                "dice": 1,
+                "sides": 8,
+                "type": "force"
+              },
+              "giant_target_extra_damage": {
+                "dice": 2,
+                "sides": 8,
+                "type": "force"
+              },
+              "giant_target": "giant",
+              "returns_to": "your-hand",
+              "returns_when": "immediately-after-hitting-or-missing"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/efficient-quiver",
+      "name": "Efficient Quiver",
+      "kind": "magic",
+      "category": "wondrous-item",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/efficient-quiver",
+          "pages": [
+            219,
+            219
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/efficient-quiver/variant/standard",
+          "name": "Efficient Quiver",
+          "rarity": "uncommon",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "container",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              219,
+              219
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.extradimensional-storage",
+            "item.weight-cap-2-pounds",
+            "item.compartments-60-18-6",
+            "action.draw-as-regular-quiver"
+          ],
+          "details": {
+            "quiver": {
+              "compartments": [
+                {
+                  "length": "shortest",
+                  "capacity": 60,
+                  "holds": [
+                    "arrows",
+                    "bolts",
+                    "similar-objects"
+                  ]
+                },
+                {
+                  "length": "midsize",
+                  "capacity": 18,
+                  "holds": [
+                    "javelins",
+                    "similar-objects"
+                  ]
+                },
+                {
+                  "length": "longest",
+                  "capacity": 6,
+                  "holds": [
+                    "long-objects",
+                    "bows",
+                    "quarterstaffs",
+                    "spears"
+                  ]
+                }
+              ],
+              "extradimensional": true,
+              "max_weight_pounds": 2,
+              "draw_as": "regular-quiver-or-scabbard"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/efreeti-bottle",
+      "name": "Efreeti Bottle",
+      "kind": "magic",
+      "category": "wondrous-item",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/efreeti-bottle",
+          "pages": [
+            220,
+            220
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/efreeti-bottle/variant/standard",
+          "name": "Efreeti Bottle",
+          "rarity": "very-rare",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "magic-action",
+            "restrictions": [
+              "remove-stopper"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              220,
+              220
+            ]
+          },
+          "required_mechanic_keys": [
+            "action.magic",
+            "summon.efreeti",
+            "table.efreeti-1d10-first-opening",
+            "effect.bottle-loses-magic"
+          ],
+          "details": {
+            "bottle": {
+              "appearance": "painted-brass-bottle",
+              "action": "magic",
+              "smoke_ends": "end-of-your-turn",
+              "smoke_end_effect": "flash-of-harmless-fire",
+              "summons": "efreeti",
+              "appears_within_feet": 30,
+              "table_applies_to": "first-opening",
+              "table_die_sides": 10,
+              "effects": [
+                {
+                  "min": 1,
+                  "max": 1,
+                  "effect": "efreeti-attacks-you",
+                  "understands_owner_languages": false,
+                  "obeys_owner_commands": false,
+                  "fight_rounds": 5,
+                  "duration_seconds": 0,
+                  "stopper_locked_hours": 0,
+                  "same_effect_next_openings": 0,
+                  "escapes_on_opening": 0,
+                  "wishes": 0,
+                  "ends": [
+                    "after-fighting-rounds"
+                  ],
+                  "bottle_after": "bottle-loses-magic"
+                },
+                {
+                  "min": 2,
+                  "max": 9,
+                  "effect": "efreeti-serves-you",
+                  "understands_owner_languages": true,
+                  "obeys_owner_commands": true,
+                  "fight_rounds": 0,
+                  "duration_seconds": 3600,
+                  "stopper_locked_hours": 24,
+                  "same_effect_next_openings": 2,
+                  "escapes_on_opening": 4,
+                  "wishes": 0,
+                  "ends": [
+                    "duration-elapsed"
+                  ],
+                  "bottle_after": "returns-to-bottle-with-new-stopper"
+                },
+                {
+                  "min": 10,
+                  "max": 10,
+                  "effect": "efreeti-casts-wish-once",
+                  "understands_owner_languages": true,
+                  "obeys_owner_commands": false,
+                  "fight_rounds": 0,
+                  "duration_seconds": 3600,
+                  "stopper_locked_hours": 0,
+                  "same_effect_next_openings": 0,
+                  "escapes_on_opening": 0,
+                  "wishes": 1,
+                  "ends": [
+                    "grants-wish",
+                    "duration-elapsed"
+                  ],
+                  "bottle_after": "bottle-loses-magic"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/elemental-gem",
+      "name": "Elemental Gem",
+      "kind": "magic",
+      "category": "wondrous-item",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/elemental-gem",
+          "pages": [
+            220,
+            220
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/elemental-gem/variant/blue-sapphire",
+          "name": "Elemental Gem (blue sapphire)",
+          "rarity": "uncommon",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "utilize-action",
+            "restrictions": [
+              "break-gem",
+              "gem-ceases-to-be-magical"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              220,
+              220
+            ]
+          },
+          "required_mechanic_keys": [
+            "action.utilize",
+            "summon.elemental-by-gem-type",
+            "duration.one-hour",
+            "effect.gem-ceases-to-be-magical"
+          ],
+          "details": {
+            "gem": {
+              "gem": "blue-sapphire",
+              "elemental": "air-elemental",
+              "action": "utilize",
+              "gem_after": "ceases-to-be-magical",
+              "location": "unoccupied-space-nearest-broken-gem",
+              "understands_owner_languages": true,
+              "obeys_owner_commands": true,
+              "initiative": "immediately-after-summoner",
+              "duration_seconds": 3600,
+              "end_triggers": [
+                "duration-elapsed",
+                "dies",
+                "dismissed-as-bonus-action"
+              ]
+            }
+          }
+        },
+        {
+          "id": "srd-5.2.1:content/items/elemental-gem/variant/emerald",
+          "name": "Elemental Gem (emerald)",
+          "rarity": "uncommon",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "utilize-action",
+            "restrictions": [
+              "break-gem",
+              "gem-ceases-to-be-magical"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              220,
+              220
+            ]
+          },
+          "required_mechanic_keys": [
+            "action.utilize",
+            "summon.elemental-by-gem-type",
+            "duration.one-hour",
+            "effect.gem-ceases-to-be-magical"
+          ],
+          "details": {
+            "gem": {
+              "gem": "emerald",
+              "elemental": "water-elemental",
+              "action": "utilize",
+              "gem_after": "ceases-to-be-magical",
+              "location": "unoccupied-space-nearest-broken-gem",
+              "understands_owner_languages": true,
+              "obeys_owner_commands": true,
+              "initiative": "immediately-after-summoner",
+              "duration_seconds": 3600,
+              "end_triggers": [
+                "duration-elapsed",
+                "dies",
+                "dismissed-as-bonus-action"
+              ]
+            }
+          }
+        },
+        {
+          "id": "srd-5.2.1:content/items/elemental-gem/variant/red-corundum",
+          "name": "Elemental Gem (red corundum)",
+          "rarity": "uncommon",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "utilize-action",
+            "restrictions": [
+              "break-gem",
+              "gem-ceases-to-be-magical"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              220,
+              220
+            ]
+          },
+          "required_mechanic_keys": [
+            "action.utilize",
+            "summon.elemental-by-gem-type",
+            "duration.one-hour",
+            "effect.gem-ceases-to-be-magical"
+          ],
+          "details": {
+            "gem": {
+              "gem": "red-corundum",
+              "elemental": "fire-elemental",
+              "action": "utilize",
+              "gem_after": "ceases-to-be-magical",
+              "location": "unoccupied-space-nearest-broken-gem",
+              "understands_owner_languages": true,
+              "obeys_owner_commands": true,
+              "initiative": "immediately-after-summoner",
+              "duration_seconds": 3600,
+              "end_triggers": [
+                "duration-elapsed",
+                "dies",
+                "dismissed-as-bonus-action"
+              ]
+            }
+          }
+        },
+        {
+          "id": "srd-5.2.1:content/items/elemental-gem/variant/yellow-diamond",
+          "name": "Elemental Gem (yellow diamond)",
+          "rarity": "uncommon",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "utilize-action",
+            "restrictions": [
+              "break-gem",
+              "gem-ceases-to-be-magical"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              220,
+              220
+            ]
+          },
+          "required_mechanic_keys": [
+            "action.utilize",
+            "summon.elemental-by-gem-type",
+            "duration.one-hour",
+            "effect.gem-ceases-to-be-magical"
+          ],
+          "details": {
+            "gem": {
+              "gem": "yellow-diamond",
+              "elemental": "earth-elemental",
+              "action": "utilize",
+              "gem_after": "ceases-to-be-magical",
+              "location": "unoccupied-space-nearest-broken-gem",
+              "understands_owner_languages": true,
+              "obeys_owner_commands": true,
+              "initiative": "immediately-after-summoner",
+              "duration_seconds": 3600,
+              "end_triggers": [
+                "duration-elapsed",
+                "dies",
+                "dismissed-as-bonus-action"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/elixir-of-health",
+      "name": "Elixir of Health",
+      "kind": "magic",
+      "category": "potion",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/elixir-of-health",
+          "pages": [
+            220,
+            220
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/elixir-of-health/variant/standard",
+          "name": "Elixir of Health",
+          "rarity": "rare",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "consume",
+            "restrictions": [
+              "drink-one"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              220,
+              220
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.consume",
+            "cure.magical-contagions",
+            "condition.end-blinded",
+            "condition.end-deafened",
+            "condition.end-paralyzed",
+            "condition.end-poisoned"
+          ],
+          "details": {
+            "elixir": {
+              "cures_magical_contagions": true,
+              "ends_conditions": [
+                "blinded",
+                "deafened",
+                "paralyzed",
+                "poisoned"
+              ],
+              "appearance": "clear-red-liquid-with-tiny-bubbles-of-light"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/elven-chain",
+      "name": "Elven Chain",
+      "kind": "magic",
+      "category": "armor",
+      "base": {
+        "options": [
+          "chain-mail",
+          "chain-shirt"
+        ],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/elven-chain",
+          "pages": [
+            220,
+            220
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/elven-chain/variant/standard",
+          "name": "Elven Chain",
+          "rarity": "rare",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wear",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              220,
+              220
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.wear",
+            "defense.armor-class-bonus-1",
+            "training.trained-with-this-armor"
+          ],
+          "details": {
+            "chain": {
+              "condition": "while-wearing",
+              "ac_bonus": 1,
+              "trained_with_this_armor": true,
+              "trained_even_without": [
+                "medium-armor",
+                "heavy-armor"
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

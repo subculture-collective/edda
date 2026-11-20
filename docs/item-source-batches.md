@@ -282,6 +282,51 @@ families and 74 variants with no shared identity. The Healing fixture,
 rtk proxy python3 -I scripts/verify_srd_items_229.py /path/to/SRD_CC_v5.2.1.pdf
 ```
 
+## Magic items 06 (#230), pp. 218–220
+
+Twelve families in planning inventory order. Files: `item_details_230.go`,
+`testdata/items_230.json`, `items_230_test.go` and
+`scripts/verify_srd_items_230.py`. Dragon Scale Mail has ten variants, one per row
+of the source's dragon table, and Elemental Gem has four, one per row of its gem
+table; every other family has the single variant `standard`. Presentation pages
+follow the page of the heading, as in batch 04.
+
+| Family | Page | Rarity | Attunement | Typed payload |
+| --- | --- | --- | --- | --- |
+| Dragon Scale Mail | 218 | Very Rare | required | `scale_mail`: ten dragon variants; continues onto p. 219 |
+| Dragon Slayer | 219 | Rare | none | `slayer` |
+| Dust of Disappearance | 219 | Uncommon | none | `disappearance` |
+| Dust of Dryness | 219 | Uncommon | none | `dryness`: continues across the column break |
+| Dust of Sneezing and Choking | 219 | Uncommon | none | `sneezing` |
+| Dwarven Plate | 219 | Very Rare | none | `plate` |
+| Dwarven Thrower | 219 | Very Rare | required | `thrower`: the Dwarf or Belt of Dwarvenkind qualifier is payload data |
+| Efficient Quiver | 219 | Uncommon | none | `quiver` |
+| Efreeti Bottle | 220 | Very Rare | none | `bottle`: the 1d10 table, rolled on the first opening |
+| Elemental Gem | 220 | Uncommon | none | `gem`: four gem variants |
+| Elixir of Health | 220 | Rare | none | `elixir` |
+| Elven Chain | 220 | Rare | none | `chain` |
+
+None of the twelve lists a price or a charge pool. The Dust of Dryness pinches
+are a quantity (1d6 + 4), not charges. Attunement restrictions stay empty in the
+shared fields, so the Dwarven Thrower's qualifier is recorded in its payload. The
+shared manifest and validator are unchanged.
+
+The shared manifest stores one presentation page per family, so Dragon Scale
+Mail records p. 218 although its text and table continue onto p. 219. In the
+Efreeti Bottle table, `understands_owner_languages` and `obeys_owner_commands`
+are `false` where the source does not state them (rows 1 and 10); `false` there
+means not stated, not a source claim. The validator checks structure and the
+dragon and gem tables; the literal fixture and the PDF verifier pin the numeric
+values.
+
+Composing the Healing contract fixture with batches #225 to #229 and #230 yields
+73 families and 98 variants with no shared identity. The Healing fixture,
+`ResolveHealingPotion` and the coverage register are unchanged.
+
+```sh
+rtk proxy python3 -I scripts/verify_srd_items_230.py /path/to/SRD_CC_v5.2.1.pdf
+```
+
 This work includes material from the System Reference Document 5.2.1 (“SRD
 5.2.1”) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd.
 The SRD 5.2.1 is licensed under the Creative Commons Attribution 4.0 International
