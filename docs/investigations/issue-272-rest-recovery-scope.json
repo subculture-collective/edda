@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "decision": 272,
-  "status": "SOURCE_PASS_NATIVE_PUBLICATION_PENDING",
+  "status": "EXACT_SOURCE_PUBLICATION_PASS",
   "observed_at": "2026-11-20T07:50:53Z",
   "source": {
     "sha256": "8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87",
@@ -724,7 +724,7 @@
     "270": {
       "number": 270,
       "title": "Split remaining bodily condition effects into fixture PRs",
-      "state": "OPEN",
+      "state": "CLOSED",
       "parent": 193,
       "blocked_by": [
         80
@@ -745,7 +745,8 @@
           390,
           270
         ]
-      }
+      },
+      "note": "Changed from OPEN to CLOSED between the pre-publication read and the readback; not caused by this publication."
     },
     "278": {
       "number": 278,
@@ -2117,7 +2118,7 @@
     {
       "key": "knock-out",
       "task_file": "docs/investigations/issue-272-knock-out-task.md",
-      "number": null,
+      "number": 2066,
       "title": "Knock out a creature with a melee attack and start its Short Rest",
       "type": "Task",
       "size": "M",
@@ -2137,7 +2138,7 @@
     {
       "key": "temporary-hit-points",
       "task_file": "docs/investigations/issue-272-temporary-hit-points-task.md",
-      "number": null,
+      "number": 2067,
       "title": "Resolve the shared Temporary Hit Point clauses and their Long Rest ending",
       "type": "Task",
       "size": "M",
@@ -2158,7 +2159,7 @@
     {
       "key": "long-rest-sleep",
       "task_file": "docs/investigations/issue-272-long-rest-sleep-task.md",
-      "number": null,
+      "number": 2068,
       "title": "Apply the Unconscious condition during Long Rest sleep",
       "type": "Task",
       "size": "S",
@@ -2176,7 +2177,7 @@
     {
       "key": "wand-cast",
       "task_file": "docs/investigations/issue-272-wand-cast-task.md",
-      "number": null,
+      "number": 2069,
       "title": "Cast Magic Missile from a Wand of Magic Missiles and roll for its last charge",
       "type": "Task",
       "size": "M",
@@ -2196,7 +2197,7 @@
     {
       "key": "wand-dawn",
       "task_file": "docs/investigations/issue-272-wand-dawn-task.md",
-      "number": null,
+      "number": 2070,
       "title": "Recharge a Wand of Magic Missiles at dawn",
       "type": "Task",
       "size": "M",
@@ -2214,7 +2215,7 @@
     {
       "key": "hit-point-maximum-zero",
       "task_file": "docs/investigations/issue-272-hit-point-maximum-zero-task.md",
-      "number": null,
+      "number": 2071,
       "title": "Kill a creature whose Hit Point maximum reaches 0",
       "type": "Task",
       "size": "S",
@@ -2232,7 +2233,7 @@
     {
       "key": "recovery-qualification",
       "task_file": "docs/investigations/issue-272-recovery-qualification-task.md",
-      "number": null,
+      "number": 2072,
       "title": "Qualify the rest, recovery and recharge exception outputs",
       "type": "Task",
       "size": "M",
@@ -2562,7 +2563,116 @@
       193,
       54,
       47
-    ]
+    ],
+    "at_publication": {
+      "limit": 100,
+      "nodes": 1905,
+      "dependency_edges": 10252,
+      "parent_edges": 1901,
+      "incoming279": 100,
+      "incoming280": 98,
+      "incoming337": 62,
+      "outgoing427": 36,
+      "outgoing428": 84,
+      "outgoing487": 91,
+      "outgoing61": 86,
+      "outgoing65": 77,
+      "outgoing266": 2,
+      "outgoing1705": 3,
+      "outgoing195": 62,
+      "outgoing1140": 5,
+      "outgoing1148": 2,
+      "outgoing1318": 5,
+      "outgoing1368": 3,
+      "outgoing67": 100,
+      "outgoing429": 100,
+      "children272": 9,
+      "children193": 32,
+      "max_incoming": 100,
+      "max_outgoing": 100,
+      "max_children": 95,
+      "before": {
+        "observed_at": "2026-11-20T08:23:14Z",
+        "nodes": 1898,
+        "dependency_edges": 10225,
+        "parent_edges": 1894,
+        "incoming279": 100,
+        "incoming280": 97,
+        "incoming337": 62,
+        "outgoing427": 34,
+        "outgoing428": 81,
+        "outgoing487": 88,
+        "outgoing61": 85,
+        "outgoing65": 74,
+        "outgoing266": 1,
+        "outgoing1705": 2,
+        "outgoing195": 61,
+        "outgoing1140": 4,
+        "outgoing1148": 1,
+        "outgoing1318": 4,
+        "outgoing1368": 2,
+        "outgoing67": 100,
+        "outgoing429": 100,
+        "children272": 2,
+        "children193": 32
+      }
+    }
   },
-  "runtime_qualified": false
+  "runtime_qualified": false,
+  "published": {
+    "observed_at": "2026-11-20T08:27:17Z",
+    "issue_count": 1905,
+    "numbers": {
+      "knock-out": 2066,
+      "temporary-hit-points": 2067,
+      "long-rest-sleep": 2068,
+      "wand-cast": 2069,
+      "wand-dawn": 2070,
+      "hit-point-maximum-zero": 2071,
+      "recovery-qualification": 2072
+    },
+    "receipt": "docs/investigations/issue-272-link-verification.json",
+    "edges_added": [
+      "#2066 parent #272",
+      "#2067 parent #272",
+      "#2068 parent #272",
+      "#2069 parent #272",
+      "#2070 parent #272",
+      "#2071 parent #272",
+      "#2072 parent #272",
+      "#2066 blocked-by #61",
+      "#2066 blocked-by #65",
+      "#2066 blocked-by #427",
+      "#2066 blocked-by #487",
+      "#2067 blocked-by #65",
+      "#2067 blocked-by #266",
+      "#2067 blocked-by #428",
+      "#2067 blocked-by #487",
+      "#2067 blocked-by #1318",
+      "#2068 blocked-by #428",
+      "#2068 blocked-by #487",
+      "#2069 blocked-by #195",
+      "#2069 blocked-by #1140",
+      "#2069 blocked-by #1368",
+      "#2070 blocked-by #1148",
+      "#2070 blocked-by #2069",
+      "#2071 blocked-by #65",
+      "#2071 blocked-by #1705",
+      "#2072 blocked-by #427",
+      "#2072 blocked-by #428",
+      "#2072 blocked-by #2066",
+      "#2072 blocked-by #2067",
+      "#2072 blocked-by #2068",
+      "#2072 blocked-by #2069",
+      "#2072 blocked-by #2070",
+      "#2072 blocked-by #2071",
+      "#280 blocked-by #2072"
+    ],
+    "note": "Task keys in planned_native_edges, scopes, assigned_content_keys and planned paths resolve through numbers. caps.current and caps.planned are the draft read of 2026-11-20T07:50:53Z; #270 and #358 published between that read and this publication, so the counts at publication are under caps.at_publication."
+  },
+  "graph_checks": {
+    "native_readback_dependency_acyclic": true,
+    "native_readback_parent_acyclic": true,
+    "native_readback_issues_paged": 1905
+  }
 }

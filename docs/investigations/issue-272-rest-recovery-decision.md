@@ -1,6 +1,6 @@
 # Interrupted rest, recovery and recharge ownership (#272)
 
-Most named rest and recharge rules already have bounded published owners: #427 for the Short Rest, #428 for the Long Rest and #1148 for one wand's dawn recharge. Reuse them without changing their bodies. Whole-body inspection of all 1,892 issues found five source clauses with no owner. This decision assigns them to six implementation tasks and adds one qualification task that carries all of them to the item gate. The seven exact bodies are the companion task files; native publication, numbers and readback are recorded later in the link-verification receipt. Closing this decision supplies no runtime.
+Most named rest and recharge rules already have bounded published owners: #427 for the Short Rest, #428 for the Long Rest and #1148 for one wand's dawn recharge. Reuse them without changing their bodies. Whole-body inspection of all 1,892 issues found five source clauses with no owner. This decision assigns them to six implementation tasks and adds one qualification task that carries all of them to the item gate. The seven tasks are published as #2066–#2072; their exact bodies are the companion task files, and the [link receipt](issue-272-link-verification.json) records the native readback. Closing this decision supplies no runtime.
 
 ## Source and existing owners
 
@@ -35,26 +35,32 @@ Wider scope keeps its existing planning owner and is not executable:
 
 Outside the five named scopes and without a published owner: Death Saving Throws, stabilizing a creature and the rule that a Stable creature regains 1 Hit Point after 1d4 hours (PDF17–18). Legacy combat code tracks death saves; Spare the Dying #958 defers Stable to #487, whose body does not mention it. Those pages are in the source range of world qualification #183 only. This decision does not assign them and the knock-out task does not use them; they need an owner decision.
 
-## Planned native publication
+## Native publication
 
-| Task file | Title | Size | Blocked by |
-|---|---|---|---|
-| `issue-272-knock-out-task.md` | Knock out a creature with a melee attack and start its Short Rest | M | #61, #65, #427, #487 |
-| `issue-272-temporary-hit-points-task.md` | Resolve the shared Temporary Hit Point clauses and their Long Rest ending | M | #65, #266, #428, #487, #1318 |
-| `issue-272-long-rest-sleep-task.md` | Apply the Unconscious condition during Long Rest sleep | S | #428, #487 |
-| `issue-272-wand-cast-task.md` | Cast Magic Missile from a Wand of Magic Missiles and roll for its last charge | M | #195, #1140, #1368 |
-| `issue-272-wand-dawn-task.md` | Recharge a Wand of Magic Missiles at dawn | M | #1148 and the wand cast task |
-| `issue-272-hit-point-maximum-zero-task.md` | Kill a creature whose Hit Point maximum reaches 0 | S | #65, #1705 |
-| `issue-272-recovery-qualification-task.md` | Qualify the rest, recovery and recharge exception outputs | M | #427, #428 and the six tasks above |
+| Issue | Task file | Title | Size | Blocked by |
+|---|---|---|---|---|
+| #2066 | `issue-272-knock-out-task.md` | Knock out a creature with a melee attack and start its Short Rest | M | #61, #65, #427, #487 |
+| #2067 | `issue-272-temporary-hit-points-task.md` | Resolve the shared Temporary Hit Point clauses and their Long Rest ending | M | #65, #266, #428, #487, #1318 |
+| #2068 | `issue-272-long-rest-sleep-task.md` | Apply the Unconscious condition during Long Rest sleep | S | #428, #487 |
+| #2069 | `issue-272-wand-cast-task.md` | Cast Magic Missile from a Wand of Magic Missiles and roll for its last charge | M | #195, #1140, #1368 |
+| #2070 | `issue-272-wand-dawn-task.md` | Recharge a Wand of Magic Missiles at dawn | M | #1148, #2069 |
+| #2071 | `issue-272-hit-point-maximum-zero-task.md` | Kill a creature whose Hit Point maximum reaches 0 | S | #65, #1705 |
+| #2072 | `issue-272-recovery-qualification-task.md` | Qualify the rest, recovery and recharge exception outputs | M | #427, #428, #2066–#2071 |
 
-All seven are Task children of #272, beside #427 and #428. Publish from `planned_native_edges` in the companion scope, not from a summary list: create the six implementation tasks first, then the qualification task with its eight blocked-by edges, then the one gate edge. That is 26 blocked-by edges, seven parent links and one gate addition. The receipt must read back every one of them and show that each implementation task reaches #280 only through the qualification task.
+All seven are Task children of #272, beside #427 and #428, and are on the edda Project. They were published from `planned_native_edges` in the companion scope: the six implementation tasks first, then the qualification task #2072 with its eight blocked-by edges, then the one gate edge. That is 26 blocked-by edges, seven parent links and one gate addition. The receipt reads back every one of them and shows that each implementation task reaches #280 only through #2072.
 
-Only the qualification task touches a gate: it becomes a blocker of item qualification #280, which uses one of its four free slots. No direct #337 edge is added, because #280 already blocks #551, #630 and #1093 and each of those blocks #337; #427 and #428 also reach #337 through #498. No existing body, parent or edge changes apart from that one gate addition. No new direct #67 or #429 consumer is introduced.
+Only the qualification task touches a gate: #2072 is now a blocker of item qualification #280. #280 had 97 blockers when rechecked immediately before the edge and has 98 after it, so two slots remain. No direct #337 edge is added, because #280 already blocks #551, #630 and #1093 and each of those blocks #337; #427 and #428 also reach #337 through #498. No existing body, parent or edge changes apart from that one gate addition. No new direct #67 or #429 consumer is introduced.
 
 Limit on spell qualification #279: it has 100 native blockers, the cap, so no new task can block it. #279 blocks #280, not the reverse. Its existing blocker #272 is satisfied when this decision closes, and from then on none of the seven tasks reaches #279 natively. #279 still requires the unchanged #427, #428, #1318, #1368 and #1705 through existing paths, but the tasks it alone gates, such as #571, #574 and #656, could proceed with the Temporary Hit Point task unimplemented. The review of this decision named the then-open splitter #358 as the repair. #358 has since published and closed (PR #2060) without a Heroism child: it reuses Heroism #912 unchanged and assigns the four pool clauses to this decision. #912 is open and reaches #279 and #280 through its cohort #848, so the repair is one edge making #912 blocked by the Temporary Hit Point task. That edge changes an existing issue and needs owner approval; this decision does not add it. Until it exists the obligation is carried by the task body and the #358 decision text.
 
 ## Evidence and limits
 
-The companion scope records the checked source clauses, every owner's body hash and gate paths, the seven exact bodies and the planned edges. The graph was read at 2026-11-20T07:50:53Z: #272's only blocker #80 is closed. Counts now and after publication are #279 100 and 100, #280 96 and 97, #337 62 and 62, children of #272 2 and 9, consumers of #428 81 and 84, of #487 87 and 90, of #427 34 and 36, of #65 73 and 76. The planned dependency graph and the parent chain #272, #193, #54, #47 stay acyclic, and with #272 closed every new task and both rest tasks still reach #280 and, through it, #337. Publication must recheck #280's count immediately before adding the gate edge and record it in the receipt, because the open splitters #274, #275, #276, #278, #358 and #359 are native blockers of #280 and still owe it implementation blockers.
+The companion scope records the checked source clauses, every owner's body hash and gate paths, the seven exact bodies and the edges. The draft graph was read at 2026-11-20T07:50:53Z (1,892 issues). Decisions #358 and #270 published between that read and this publication, so the graph was read again at 2026-11-20T08:23:14Z (1,898 issues): #272 was open, its only blocker #80 closed, and no issue carried any of the seven titles.
+
+Readback at 2026-11-20T08:27:17Z, over all 1,905 issues: the seven bodies match the committed task files byte for byte, and title, open state, type Task, Size, parent and blocker sets match the plan. The dependency graph (10,252 edges) and the parent hierarchy (1,901 edges) are acyclic, and no issue exceeds 100 blockers, 100 dependents or 100 children. Counts before and after: #279 100 and 100, #280 97 and 98, #337 62 and 62, children of #272 2 and 9, consumers of #428 81 and 84, of #487 88 and 91, of #427 34 and 36, of #65 74 and 77, of #61 85 and 86, of #195 61 and 62; #67 and #429 stay at 100. Against the read taken just before publication, the only changes to earlier issues are the added blocker on #280, the seven new children of #272, the planned dependent counts, and #270 closing, which this publication did not cause. With #272 skipped, every new task reaches #280 through #2072 and #337 through #551. The parent chain is #272, #193, #54, #47.
+
+One sentence changed after review. The reviewed Temporary Hit Point body named the open splitter #358 and a Heroism child it would publish. #358 closed without one and reuses #912, so the published body of #2067 names #912 as the future consumer. No clause, fixture, edge or acceptance line changed; the receipt records both hashes.
+
+The open splitters #274, #275, #276, #278 and #359 are native blockers of #280 and still owe it implementation blockers; two slots are free.
 
 Current gameplay evidence is the uninterrupted Cleric Short and Long Rest in `internal/rules/srd521/lifecycle.go`; interruptions, Temporary Hit Points, item charges and dawn events have no runtime. This change contains no runtime file, migration, UI behavior, production mutation or Full Rules admission. Runtime implementation remains paused. Focused source and graph checks and hosted CI apply to this decision; the tasks keep their own PostgreSQL and device requirements.
