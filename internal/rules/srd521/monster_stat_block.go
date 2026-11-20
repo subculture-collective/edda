@@ -291,7 +291,10 @@ func (m Monster) validateStatBlock() error {
 			return fmt.Errorf("spellcasting action requires typed spell lists")
 		}
 		if s := a.Spellcasting; s != nil {
-			if !slices.Contains(monsterAbilities, s.Ability) || s.SaveDC < 1 || s.SaveDC > 30 || s.AttackBonus < 0 || s.AtWill == nil || s.PerDay == nil {
+			// A zero DC means the source prints none (the Giant Owl); a printed DC must match.
+			printed := strings.Contains(a.Text, "spell save DC")
+			if !slices.Contains(monsterAbilities, s.Ability) || s.SaveDC < 0 || s.SaveDC > 30 || s.AttackBonus < 0 || s.AtWill == nil || s.PerDay == nil ||
+				printed != (s.SaveDC > 0) || printed && !strings.Contains(a.Text, fmt.Sprintf("spell save DC %d", s.SaveDC)) {
 				return fmt.Errorf("invalid spellcasting")
 			}
 			spells := slices.Clone(s.AtWill)

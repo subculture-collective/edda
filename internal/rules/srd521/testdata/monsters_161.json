@@ -1,0 +1,2047 @@
+{
+  "schema_version": 1,
+  "source": {
+    "version": "5.2.1",
+    "language": "en",
+    "landing_url": "https://www.dndbeyond.com/srd",
+    "artifact_url": "https://media.dndbeyond.com/compendium-images/srd/5.2/SRD_CC_v5.2.1.pdf",
+    "sha256": "8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87",
+    "bytes": 6031375,
+    "pages": 364,
+    "retrieved_at": "2026-11-15",
+    "license": "CC-BY-4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/legalcode",
+    "attribution": "This work includes material from the System Reference Document 5.2.1 (“SRD 5.2.1”) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd. The SRD 5.2.1 is licensed under the Creative Commons Attribution 4.0 International License, available at https://creativecommons.org/licenses/by/4.0/legalcode.",
+    "changes": "Adapted the twelve stat blocks of issue #161 (Giant Crocodile, Giant Eagle, Giant Elk, Giant Fire Beetle, Giant Frog, Giant Goat, Giant Hyena, Giant Lizard, Giant Octopus, Giant Owl, Giant Rat and Giant Scorpion; PDF pages 350–353) into typed mechanical fields and implementation keys. Trait, action, bonus action and reaction entries keep their source rules text, rejoined across line, column and page breaks; descriptive prose outside the stat blocks is omitted. A hit printed without dice keeps explicit zero dice, and a Spellcasting action that prints no spell save DC keeps an explicit zero. No playable NPC behavior is granted."
+  },
+  "monsters": [
+    {
+      "id": "srd-5.2.1:content/animals/giant-crocodile",
+      "name": "Giant Crocodile",
+      "source_pages": [
+        350,
+        350
+      ],
+      "sizes": [
+        "huge"
+      ],
+      "type": "beast",
+      "alignment": "Unaligned",
+      "ac": 14,
+      "hp": {
+        "average": 85,
+        "dice": 9,
+        "sides": 12,
+        "modifier": 27
+      },
+      "initiative": {
+        "modifier": -1,
+        "score": 9
+      },
+      "speeds": {
+        "walk": 30,
+        "swim": 50
+      },
+      "abilities": {
+        "str": {
+          "score": 21,
+          "modifier": 5,
+          "save": 5
+        },
+        "dex": {
+          "score": 9,
+          "modifier": -1,
+          "save": -1
+        },
+        "con": {
+          "score": 17,
+          "modifier": 3,
+          "save": 3
+        },
+        "int": {
+          "score": 2,
+          "modifier": -4,
+          "save": -4
+        },
+        "wis": {
+          "score": 10,
+          "modifier": 0,
+          "save": 0
+        },
+        "cha": {
+          "score": 7,
+          "modifier": -2,
+          "save": -2
+        }
+      },
+      "senses": {
+        "passive_perception": 10,
+        "special": {}
+      },
+      "languages": [],
+      "gear": [],
+      "cr": "5",
+      "xp": 1800,
+      "proficiency_bonus": 3,
+      "traits": [
+        {
+          "key": "trait/hold-breath",
+          "name": "Hold Breath",
+          "text": "Hold Breath. The crocodile can hold its breath for 1 hour.",
+          "requires": [
+            "effect/hold-breath"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "multiattack",
+          "name": "Multiattack",
+          "text": "Multiattack. The crocodile makes one Bite attack and one Tail attack.",
+          "key": "action/multiattack",
+          "effects": [
+            {
+              "key": "action/melee-attack",
+              "name": "Attack",
+              "text": "The crocodile makes one Bite attack and one Tail attack."
+            }
+          ]
+        },
+        {
+          "id": "bite",
+          "name": "Bite",
+          "text": "Bite. Melee Attack Roll: +8, reach 5 ft. Hit: 21 (3d10 + 5) Piercing damage. If the target is a Large or smaller creature, it has the Grappled condition (escape DC 15). While Grappled, the target has the Restrained condition and can’t be targeted by the crocodile’s Tail.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 8,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 21,
+              "dice": 3,
+              "sides": 10,
+              "modifier": 5
+            },
+            "damage_type": "piercing"
+          },
+          "effects": [
+            {
+              "key": "effect/piercing-damage",
+              "name": "Piercing damage",
+              "text": "21 (3d10 + 5) Piercing damage.",
+              "dice": {
+                "average": 21,
+                "dice": 3,
+                "sides": 10,
+                "modifier": 5
+              }
+            },
+            {
+              "key": "requirement/target-size",
+              "name": "Target size",
+              "text": "If the target is a Large or smaller creature, it has the Grappled condition (escape DC 15)."
+            },
+            {
+              "key": "condition/grappled",
+              "name": "Grappled",
+              "text": "If the target is a Large or smaller creature, it has the Grappled condition (escape DC 15)."
+            },
+            {
+              "key": "condition/restrained",
+              "name": "Restrained",
+              "text": "While Grappled, the target has the Restrained condition"
+            },
+            {
+              "key": "effect/tail-untargetable",
+              "name": "Tail cannot target",
+              "text": "and can’t be targeted by the crocodile’s Tail."
+            }
+          ]
+        },
+        {
+          "id": "tail",
+          "name": "Tail",
+          "text": "Tail. Melee Attack Roll: +8, reach 10 ft. Hit: 18 (3d8 + 5) Bludgeoning damage. If the target is a Large or smaller creature, it has the Prone condition.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 8,
+            "reach": 10,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 18,
+              "dice": 3,
+              "sides": 8,
+              "modifier": 5
+            },
+            "damage_type": "bludgeoning"
+          },
+          "effects": [
+            {
+              "key": "effect/bludgeoning-damage",
+              "name": "Bludgeoning damage",
+              "text": "18 (3d8 + 5) Bludgeoning damage.",
+              "dice": {
+                "average": 18,
+                "dice": 3,
+                "sides": 8,
+                "modifier": 5
+              }
+            },
+            {
+              "key": "requirement/target-size",
+              "name": "Target size",
+              "text": "If the target is a Large or smaller creature, it has the Prone condition."
+            },
+            {
+              "key": "condition/prone",
+              "name": "Prone",
+              "text": "If the target is a Large or smaller creature, it has the Prone condition."
+            }
+          ]
+        }
+      ],
+      "skills": {
+        "stealth": 5
+      },
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/skills",
+        "movement/swim",
+        "trait/hold-breath",
+        "effect/hold-breath",
+        "action/multiattack",
+        "action/melee-attack",
+        "effect/piercing-damage",
+        "requirement/target-size",
+        "condition/grappled",
+        "condition/restrained",
+        "effect/tail-untargetable",
+        "effect/bludgeoning-damage",
+        "condition/prone"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/animals/giant-eagle",
+      "name": "Giant Eagle",
+      "source_pages": [
+        350,
+        351
+      ],
+      "sizes": [
+        "large"
+      ],
+      "type": "celestial",
+      "alignment": "Neutral Good",
+      "ac": 13,
+      "hp": {
+        "average": 26,
+        "dice": 4,
+        "sides": 10,
+        "modifier": 4
+      },
+      "initiative": {
+        "modifier": 3,
+        "score": 13
+      },
+      "speeds": {
+        "walk": 10,
+        "fly": 80
+      },
+      "abilities": {
+        "str": {
+          "score": 16,
+          "modifier": 3,
+          "save": 3
+        },
+        "dex": {
+          "score": 17,
+          "modifier": 3,
+          "save": 3
+        },
+        "con": {
+          "score": 13,
+          "modifier": 1,
+          "save": 1
+        },
+        "int": {
+          "score": 8,
+          "modifier": -1,
+          "save": -1
+        },
+        "wis": {
+          "score": 14,
+          "modifier": 2,
+          "save": 2
+        },
+        "cha": {
+          "score": 10,
+          "modifier": 0,
+          "save": 0
+        }
+      },
+      "senses": {
+        "passive_perception": 16,
+        "special": {}
+      },
+      "languages": [
+        "Celestial; understands Common and Primordial (Auran) but can’t speak them"
+      ],
+      "gear": [],
+      "cr": "1",
+      "xp": 200,
+      "proficiency_bonus": 2,
+      "traits": [],
+      "actions": [
+        {
+          "id": "multiattack",
+          "name": "Multiattack",
+          "text": "Multiattack. The eagle makes two Rend attacks.",
+          "key": "action/multiattack",
+          "effects": [
+            {
+              "key": "action/melee-attack",
+              "name": "Attack",
+              "text": "The eagle makes two Rend attacks."
+            }
+          ]
+        },
+        {
+          "id": "rend",
+          "name": "Rend",
+          "text": "Rend. Melee Attack Roll: +5, reach 5 ft. Hit: 5 (1d4 + 3) Slashing damage plus 3 (1d6) Radiant damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 5,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 5,
+              "dice": 1,
+              "sides": 4,
+              "modifier": 3
+            },
+            "damage_type": "slashing"
+          },
+          "effects": [
+            {
+              "key": "effect/slashing-damage",
+              "name": "Slashing damage",
+              "text": "5 (1d4 + 3) Slashing damage.",
+              "dice": {
+                "average": 5,
+                "dice": 1,
+                "sides": 4,
+                "modifier": 3
+              }
+            },
+            {
+              "key": "effect/radiant-damage",
+              "name": "Radiant damage",
+              "text": "3 (1d6) Radiant damage.",
+              "dice": {
+                "average": 3,
+                "dice": 1,
+                "sides": 6,
+                "modifier": 0
+              }
+            }
+          ]
+        }
+      ],
+      "skills": {
+        "perception": 6
+      },
+      "resistances": [
+        "necrotic",
+        "radiant"
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/skills",
+        "defense/damage-resistance",
+        "movement/fly",
+        "action/multiattack",
+        "action/melee-attack",
+        "effect/slashing-damage",
+        "effect/radiant-damage"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/animals/giant-elk",
+      "name": "Giant Elk",
+      "source_pages": [
+        351,
+        351
+      ],
+      "sizes": [
+        "huge"
+      ],
+      "type": "celestial",
+      "alignment": "Neutral Good",
+      "ac": 14,
+      "hp": {
+        "average": 42,
+        "dice": 5,
+        "sides": 12,
+        "modifier": 10
+      },
+      "initiative": {
+        "modifier": 6,
+        "score": 16
+      },
+      "speeds": {
+        "walk": 60
+      },
+      "abilities": {
+        "str": {
+          "score": 19,
+          "modifier": 4,
+          "save": 6
+        },
+        "dex": {
+          "score": 18,
+          "modifier": 4,
+          "save": 6
+        },
+        "con": {
+          "score": 14,
+          "modifier": 2,
+          "save": 2
+        },
+        "int": {
+          "score": 7,
+          "modifier": -2,
+          "save": -2
+        },
+        "wis": {
+          "score": 14,
+          "modifier": 2,
+          "save": 2
+        },
+        "cha": {
+          "score": 10,
+          "modifier": 0,
+          "save": 0
+        }
+      },
+      "senses": {
+        "passive_perception": 14,
+        "special": {
+          "darkvision": 90
+        }
+      },
+      "languages": [
+        "Celestial; understands Common, Elvish, and Sylvan but can’t speak them"
+      ],
+      "gear": [],
+      "cr": "2",
+      "xp": 450,
+      "proficiency_bonus": 2,
+      "traits": [],
+      "actions": [
+        {
+          "id": "ram",
+          "name": "Ram",
+          "text": "Ram. Melee Attack Roll: +6, reach 10 ft. Hit: 11 (2d6 + 4) Bludgeoning damage plus 5 (2d4) Radiant damage. If the target is a Huge or smaller creature and the elk moved 20+ feet straight toward it immediately before the hit, the target takes an extra 5 (2d4) Bludgeoning damage and has the Prone condition.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 6,
+            "reach": 10,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 11,
+              "dice": 2,
+              "sides": 6,
+              "modifier": 4
+            },
+            "damage_type": "bludgeoning"
+          },
+          "effects": [
+            {
+              "key": "effect/bludgeoning-damage",
+              "name": "Bludgeoning damage",
+              "text": "11 (2d6 + 4) Bludgeoning damage.",
+              "dice": {
+                "average": 11,
+                "dice": 2,
+                "sides": 6,
+                "modifier": 4
+              }
+            },
+            {
+              "key": "effect/radiant-damage",
+              "name": "Radiant damage",
+              "text": "5 (2d4) Radiant damage.",
+              "dice": {
+                "average": 5,
+                "dice": 2,
+                "sides": 4,
+                "modifier": 0
+              }
+            },
+            {
+              "key": "requirement/target-size",
+              "name": "Target size",
+              "text": "If the target is a Huge or smaller creature"
+            },
+            {
+              "key": "requirement/charge-distance",
+              "name": "Charge distance",
+              "text": "the elk moved 20+ feet straight toward it immediately before the hit"
+            },
+            {
+              "key": "effect/extra-bludgeoning-damage",
+              "name": "Extra Bludgeoning damage",
+              "text": "the target takes an extra 5 (2d4) Bludgeoning damage",
+              "dice": {
+                "average": 5,
+                "dice": 2,
+                "sides": 4,
+                "modifier": 0
+              }
+            },
+            {
+              "key": "condition/prone",
+              "name": "Prone",
+              "text": "has the Prone condition."
+            }
+          ]
+        }
+      ],
+      "skills": {
+        "perception": 4
+      },
+      "resistances": [
+        "necrotic",
+        "radiant"
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/skills",
+        "defense/damage-resistance",
+        "sense/darkvision",
+        "action/melee-attack",
+        "effect/bludgeoning-damage",
+        "effect/radiant-damage",
+        "requirement/target-size",
+        "requirement/charge-distance",
+        "effect/extra-bludgeoning-damage",
+        "condition/prone"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/animals/giant-fire-beetle",
+      "name": "Giant Fire Beetle",
+      "source_pages": [
+        351,
+        351
+      ],
+      "sizes": [
+        "small"
+      ],
+      "type": "beast",
+      "alignment": "Unaligned",
+      "ac": 13,
+      "hp": {
+        "average": 4,
+        "dice": 1,
+        "sides": 6,
+        "modifier": 1
+      },
+      "initiative": {
+        "modifier": 0,
+        "score": 10
+      },
+      "speeds": {
+        "walk": 30,
+        "climb": 30
+      },
+      "abilities": {
+        "str": {
+          "score": 8,
+          "modifier": -1,
+          "save": -1
+        },
+        "dex": {
+          "score": 10,
+          "modifier": 0,
+          "save": 0
+        },
+        "con": {
+          "score": 12,
+          "modifier": 1,
+          "save": 1
+        },
+        "int": {
+          "score": 1,
+          "modifier": -5,
+          "save": -5
+        },
+        "wis": {
+          "score": 7,
+          "modifier": -2,
+          "save": -2
+        },
+        "cha": {
+          "score": 3,
+          "modifier": -4,
+          "save": -4
+        }
+      },
+      "senses": {
+        "passive_perception": 8,
+        "special": {
+          "blindsight": 30
+        }
+      },
+      "languages": [],
+      "gear": [],
+      "cr": "0",
+      "xp": 10,
+      "proficiency_bonus": 2,
+      "traits": [
+        {
+          "key": "trait/illumination",
+          "name": "Illumination",
+          "text": "Illumination. The beetle sheds Bright Light in a 10-foot radius and Dim Light for an additional 10 feet.",
+          "requires": [
+            "effect/shed-light"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "bite",
+          "name": "Bite",
+          "text": "Bite. Melee Attack Roll: +1, reach 5 ft. Hit: 1 Fire damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 1,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 1,
+              "dice": 0,
+              "sides": 0,
+              "modifier": 0
+            },
+            "damage_type": "fire"
+          },
+          "effects": [
+            {
+              "key": "effect/fire-damage",
+              "name": "Fire damage",
+              "text": "1 Fire damage.",
+              "requires": [
+                "damage/fixed"
+              ]
+            }
+          ]
+        }
+      ],
+      "resistances": [
+        "fire"
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "defense/damage-resistance",
+        "movement/climb",
+        "sense/blindsight",
+        "trait/illumination",
+        "effect/shed-light",
+        "action/melee-attack",
+        "effect/fire-damage",
+        "damage/fixed"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/animals/giant-frog",
+      "name": "Giant Frog",
+      "source_pages": [
+        351,
+        351
+      ],
+      "sizes": [
+        "medium"
+      ],
+      "type": "beast",
+      "alignment": "Unaligned",
+      "ac": 11,
+      "hp": {
+        "average": 18,
+        "dice": 4,
+        "sides": 8,
+        "modifier": 0
+      },
+      "initiative": {
+        "modifier": 1,
+        "score": 11
+      },
+      "speeds": {
+        "walk": 30,
+        "swim": 30
+      },
+      "abilities": {
+        "str": {
+          "score": 12,
+          "modifier": 1,
+          "save": 1
+        },
+        "dex": {
+          "score": 13,
+          "modifier": 1,
+          "save": 1
+        },
+        "con": {
+          "score": 11,
+          "modifier": 0,
+          "save": 0
+        },
+        "int": {
+          "score": 2,
+          "modifier": -4,
+          "save": -4
+        },
+        "wis": {
+          "score": 10,
+          "modifier": 0,
+          "save": 0
+        },
+        "cha": {
+          "score": 3,
+          "modifier": -4,
+          "save": -4
+        }
+      },
+      "senses": {
+        "passive_perception": 12,
+        "special": {
+          "darkvision": 30
+        }
+      },
+      "languages": [],
+      "gear": [],
+      "cr": "1/4",
+      "xp": 50,
+      "proficiency_bonus": 2,
+      "traits": [
+        {
+          "key": "trait/amphibious",
+          "name": "Amphibious",
+          "text": "Amphibious. The frog can breathe air and water.",
+          "requires": [
+            "effect/breathe-air-and-water"
+          ]
+        },
+        {
+          "key": "trait/standing-leap",
+          "name": "Standing Leap",
+          "text": "Standing Leap. The frog’s Long Jump is up to 20 feet and its High Jump is up to 10 feet with or without a running start.",
+          "requires": [
+            "effect/long-jump-distance",
+            "effect/high-jump-distance",
+            "effect/jump-without-running-start"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "bite",
+          "name": "Bite",
+          "text": "Bite. Melee Attack Roll: +3, reach 5 ft. Hit: 5 (1d6 + 2) Piercing damage. If the target is a Medium or smaller creature, it has the Grappled condition (escape DC 11).",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 3,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 5,
+              "dice": 1,
+              "sides": 6,
+              "modifier": 2
+            },
+            "damage_type": "piercing"
+          },
+          "effects": [
+            {
+              "key": "effect/piercing-damage",
+              "name": "Piercing damage",
+              "text": "5 (1d6 + 2) Piercing damage.",
+              "dice": {
+                "average": 5,
+                "dice": 1,
+                "sides": 6,
+                "modifier": 2
+              }
+            },
+            {
+              "key": "requirement/target-size",
+              "name": "Target size",
+              "text": "If the target is a Medium or smaller creature, it has the Grappled condition (escape DC 11)."
+            },
+            {
+              "key": "condition/grappled",
+              "name": "Grappled",
+              "text": "If the target is a Medium or smaller creature, it has the Grappled condition (escape DC 11)."
+            }
+          ]
+        },
+        {
+          "id": "swallow",
+          "name": "Swallow",
+          "text": "Swallow. The frog swallows a Small or smaller target it is grappling. While swallowed, the target isn’t Grappled but has the Blinded and Restrained conditions, and it has Total Cover against attacks and other effects outside the frog. While swallowing the target, the frog can’t use Bite, and if the frog dies, the swallowed target is no longer Restrained and can escape from the corpse using 5 feet of movement, exiting with the Prone condition. At the end of the frog’s next turn, the swallowed target takes 5 (2d4) Acid damage. If that damage doesn’t kill it, the frog disgorges it, causing it to exit Prone.",
+          "key": "action/special",
+          "effects": [
+            {
+              "key": "effect/swallow",
+              "name": "Swallow",
+              "text": "The frog swallows a Small or smaller target it is grappling."
+            },
+            {
+              "key": "requirement/target-size",
+              "name": "Target size",
+              "text": "a Small or smaller target"
+            },
+            {
+              "key": "requirement/grappled-target",
+              "name": "Grappled target",
+              "text": "it is grappling"
+            },
+            {
+              "key": "condition/blinded",
+              "name": "Blinded",
+              "text": "the target isn’t Grappled but has the Blinded and Restrained conditions"
+            },
+            {
+              "key": "condition/restrained",
+              "name": "Restrained",
+              "text": "the target isn’t Grappled but has the Blinded and Restrained conditions"
+            },
+            {
+              "key": "effect/total-cover",
+              "name": "Total Cover",
+              "text": "it has Total Cover against attacks and other effects outside the frog"
+            },
+            {
+              "key": "effect/no-bite-while-swallowing",
+              "name": "No Bite while swallowing",
+              "text": "While swallowing the target, the frog can’t use Bite"
+            },
+            {
+              "key": "effect/escape-corpse",
+              "name": "Escape from the corpse",
+              "text": "if the frog dies, the swallowed target is no longer Restrained and can escape from the corpse using 5 feet of movement, exiting with the Prone condition"
+            },
+            {
+              "key": "condition/prone",
+              "name": "Prone",
+              "text": "exiting with the Prone condition"
+            },
+            {
+              "key": "effect/acid-damage",
+              "name": "Acid damage",
+              "text": "5 (2d4) Acid damage.",
+              "dice": {
+                "average": 5,
+                "dice": 2,
+                "sides": 4,
+                "modifier": 0
+              }
+            },
+            {
+              "key": "effect/disgorge",
+              "name": "Disgorge",
+              "text": "If that damage doesn’t kill it, the frog disgorges it, causing it to exit Prone."
+            }
+          ]
+        }
+      ],
+      "skills": {
+        "perception": 2,
+        "stealth": 4
+      },
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/skills",
+        "movement/swim",
+        "sense/darkvision",
+        "trait/amphibious",
+        "effect/breathe-air-and-water",
+        "trait/standing-leap",
+        "effect/long-jump-distance",
+        "effect/high-jump-distance",
+        "effect/jump-without-running-start",
+        "action/melee-attack",
+        "effect/piercing-damage",
+        "requirement/target-size",
+        "condition/grappled",
+        "action/special",
+        "effect/swallow",
+        "requirement/grappled-target",
+        "condition/blinded",
+        "condition/restrained",
+        "effect/total-cover",
+        "effect/no-bite-while-swallowing",
+        "effect/escape-corpse",
+        "condition/prone",
+        "effect/acid-damage",
+        "effect/disgorge"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/animals/giant-goat",
+      "name": "Giant Goat",
+      "source_pages": [
+        351,
+        351
+      ],
+      "sizes": [
+        "large"
+      ],
+      "type": "beast",
+      "alignment": "Unaligned",
+      "ac": 11,
+      "hp": {
+        "average": 19,
+        "dice": 3,
+        "sides": 10,
+        "modifier": 3
+      },
+      "initiative": {
+        "modifier": 1,
+        "score": 11
+      },
+      "speeds": {
+        "walk": 40,
+        "climb": 30
+      },
+      "abilities": {
+        "str": {
+          "score": 17,
+          "modifier": 3,
+          "save": 5
+        },
+        "dex": {
+          "score": 13,
+          "modifier": 1,
+          "save": 1
+        },
+        "con": {
+          "score": 12,
+          "modifier": 1,
+          "save": 1
+        },
+        "int": {
+          "score": 3,
+          "modifier": -4,
+          "save": -4
+        },
+        "wis": {
+          "score": 12,
+          "modifier": 1,
+          "save": 1
+        },
+        "cha": {
+          "score": 6,
+          "modifier": -2,
+          "save": -2
+        }
+      },
+      "senses": {
+        "passive_perception": 13,
+        "special": {
+          "darkvision": 60
+        }
+      },
+      "languages": [],
+      "gear": [],
+      "cr": "1/2",
+      "xp": 100,
+      "proficiency_bonus": 2,
+      "traits": [],
+      "actions": [
+        {
+          "id": "ram",
+          "name": "Ram",
+          "text": "Ram. Melee Attack Roll: +5, reach 5 ft. Hit: 6 (1d6 + 3) Bludgeoning damage. If the target is a Large or smaller creature and the goat moved 20+ feet straight toward it immediately before the hit, the target takes an extra 5 (2d4) Bludgeoning damage and has the Prone condition.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 5,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 6,
+              "dice": 1,
+              "sides": 6,
+              "modifier": 3
+            },
+            "damage_type": "bludgeoning"
+          },
+          "effects": [
+            {
+              "key": "effect/bludgeoning-damage",
+              "name": "Bludgeoning damage",
+              "text": "6 (1d6 + 3) Bludgeoning damage.",
+              "dice": {
+                "average": 6,
+                "dice": 1,
+                "sides": 6,
+                "modifier": 3
+              }
+            },
+            {
+              "key": "requirement/target-size",
+              "name": "Target size",
+              "text": "If the target is a Large or smaller creature"
+            },
+            {
+              "key": "requirement/charge-distance",
+              "name": "Charge distance",
+              "text": "the goat moved 20+ feet straight toward it immediately before the hit"
+            },
+            {
+              "key": "effect/extra-bludgeoning-damage",
+              "name": "Extra Bludgeoning damage",
+              "text": "the target takes an extra 5 (2d4) Bludgeoning damage",
+              "dice": {
+                "average": 5,
+                "dice": 2,
+                "sides": 4,
+                "modifier": 0
+              }
+            },
+            {
+              "key": "condition/prone",
+              "name": "Prone",
+              "text": "has the Prone condition."
+            }
+          ]
+        }
+      ],
+      "skills": {
+        "perception": 3
+      },
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/skills",
+        "movement/climb",
+        "sense/darkvision",
+        "action/melee-attack",
+        "effect/bludgeoning-damage",
+        "requirement/target-size",
+        "requirement/charge-distance",
+        "effect/extra-bludgeoning-damage",
+        "condition/prone"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/animals/giant-hyena",
+      "name": "Giant Hyena",
+      "source_pages": [
+        352,
+        352
+      ],
+      "sizes": [
+        "large"
+      ],
+      "type": "beast",
+      "alignment": "Unaligned",
+      "ac": 12,
+      "hp": {
+        "average": 45,
+        "dice": 6,
+        "sides": 10,
+        "modifier": 12
+      },
+      "initiative": {
+        "modifier": 2,
+        "score": 12
+      },
+      "speeds": {
+        "walk": 50
+      },
+      "abilities": {
+        "str": {
+          "score": 16,
+          "modifier": 3,
+          "save": 3
+        },
+        "dex": {
+          "score": 14,
+          "modifier": 2,
+          "save": 2
+        },
+        "con": {
+          "score": 14,
+          "modifier": 2,
+          "save": 2
+        },
+        "int": {
+          "score": 2,
+          "modifier": -4,
+          "save": -4
+        },
+        "wis": {
+          "score": 12,
+          "modifier": 1,
+          "save": 1
+        },
+        "cha": {
+          "score": 7,
+          "modifier": -2,
+          "save": -2
+        }
+      },
+      "senses": {
+        "passive_perception": 13,
+        "special": {
+          "darkvision": 60
+        }
+      },
+      "languages": [],
+      "gear": [],
+      "cr": "1",
+      "xp": 200,
+      "proficiency_bonus": 2,
+      "traits": [],
+      "actions": [
+        {
+          "id": "bite",
+          "name": "Bite",
+          "text": "Bite. Melee Attack Roll: +5, reach 5 ft. Hit: 10 (2d6 + 3) Piercing damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 5,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 10,
+              "dice": 2,
+              "sides": 6,
+              "modifier": 3
+            },
+            "damage_type": "piercing"
+          },
+          "effects": [
+            {
+              "key": "effect/piercing-damage",
+              "name": "Piercing damage",
+              "text": "10 (2d6 + 3) Piercing damage.",
+              "dice": {
+                "average": 10,
+                "dice": 2,
+                "sides": 6,
+                "modifier": 3
+              }
+            }
+          ]
+        }
+      ],
+      "skills": {
+        "perception": 3
+      },
+      "bonus_actions": [
+        {
+          "id": "rampage",
+          "name": "Rampage",
+          "text": "Rampage (1/Day). Immediately after dealing damage to a creature that was already Bloodied, the hyena can move up to half its Speed, and it makes one Bite attack.",
+          "key": "action/special",
+          "effects": [
+            {
+              "key": "limit/per-day",
+              "name": "Daily uses",
+              "text": "(1/Day)"
+            },
+            {
+              "key": "requirement/target-already-bloodied",
+              "name": "Target already Bloodied",
+              "text": "Immediately after dealing damage to a creature that was already Bloodied"
+            },
+            {
+              "key": "effect/move-half-speed",
+              "name": "Move up to half Speed",
+              "text": "the hyena can move up to half its Speed"
+            },
+            {
+              "key": "action/melee-attack",
+              "name": "Attack",
+              "text": "it makes one Bite attack"
+            }
+          ],
+          "uses": {
+            "per_day": 1,
+            "lair_per_day": 0,
+            "recharge": 0
+          }
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/skills",
+        "sense/darkvision",
+        "action/bonus-action",
+        "action/melee-attack",
+        "effect/piercing-damage",
+        "action/special",
+        "limit/per-day",
+        "requirement/target-already-bloodied",
+        "effect/move-half-speed"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/animals/giant-lizard",
+      "name": "Giant Lizard",
+      "source_pages": [
+        352,
+        352
+      ],
+      "sizes": [
+        "large"
+      ],
+      "type": "beast",
+      "alignment": "Unaligned",
+      "ac": 12,
+      "hp": {
+        "average": 19,
+        "dice": 3,
+        "sides": 10,
+        "modifier": 3
+      },
+      "initiative": {
+        "modifier": 1,
+        "score": 11
+      },
+      "speeds": {
+        "walk": 40,
+        "climb": 40
+      },
+      "abilities": {
+        "str": {
+          "score": 15,
+          "modifier": 2,
+          "save": 2
+        },
+        "dex": {
+          "score": 12,
+          "modifier": 1,
+          "save": 3
+        },
+        "con": {
+          "score": 13,
+          "modifier": 1,
+          "save": 1
+        },
+        "int": {
+          "score": 2,
+          "modifier": -4,
+          "save": -4
+        },
+        "wis": {
+          "score": 10,
+          "modifier": 0,
+          "save": 0
+        },
+        "cha": {
+          "score": 5,
+          "modifier": -3,
+          "save": -3
+        }
+      },
+      "senses": {
+        "passive_perception": 10,
+        "special": {
+          "darkvision": 60
+        }
+      },
+      "languages": [],
+      "gear": [],
+      "cr": "1/4",
+      "xp": 50,
+      "proficiency_bonus": 2,
+      "traits": [
+        {
+          "key": "trait/spider-climb",
+          "name": "Spider Climb",
+          "text": "Spider Climb. The lizard can climb difficult surfaces, including along ceilings, without needing to make an ability check."
+        }
+      ],
+      "actions": [
+        {
+          "id": "bite",
+          "name": "Bite",
+          "text": "Bite. Melee Attack Roll: +4, reach 5 ft. Hit: 6 (1d8 + 2) Piercing damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 4,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 6,
+              "dice": 1,
+              "sides": 8,
+              "modifier": 2
+            },
+            "damage_type": "piercing"
+          },
+          "effects": [
+            {
+              "key": "effect/piercing-damage",
+              "name": "Piercing damage",
+              "text": "6 (1d8 + 2) Piercing damage.",
+              "dice": {
+                "average": 6,
+                "dice": 1,
+                "sides": 8,
+                "modifier": 2
+              }
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "movement/climb",
+        "sense/darkvision",
+        "trait/spider-climb",
+        "action/melee-attack",
+        "effect/piercing-damage"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/animals/giant-octopus",
+      "name": "Giant Octopus",
+      "source_pages": [
+        352,
+        352
+      ],
+      "sizes": [
+        "large"
+      ],
+      "type": "beast",
+      "alignment": "Unaligned",
+      "ac": 11,
+      "hp": {
+        "average": 45,
+        "dice": 7,
+        "sides": 10,
+        "modifier": 7
+      },
+      "initiative": {
+        "modifier": 1,
+        "score": 11
+      },
+      "speeds": {
+        "walk": 10,
+        "swim": 60
+      },
+      "abilities": {
+        "str": {
+          "score": 17,
+          "modifier": 3,
+          "save": 3
+        },
+        "dex": {
+          "score": 13,
+          "modifier": 1,
+          "save": 1
+        },
+        "con": {
+          "score": 13,
+          "modifier": 1,
+          "save": 1
+        },
+        "int": {
+          "score": 5,
+          "modifier": -3,
+          "save": -3
+        },
+        "wis": {
+          "score": 10,
+          "modifier": 0,
+          "save": 0
+        },
+        "cha": {
+          "score": 4,
+          "modifier": -3,
+          "save": -3
+        }
+      },
+      "senses": {
+        "passive_perception": 14,
+        "special": {
+          "darkvision": 60
+        }
+      },
+      "languages": [],
+      "gear": [],
+      "cr": "1",
+      "xp": 200,
+      "proficiency_bonus": 2,
+      "traits": [
+        {
+          "key": "trait/water-breathing",
+          "name": "Water Breathing",
+          "text": "Water Breathing. The octopus can breathe only underwater. It can hold its breath for 1 hour outside water.",
+          "requires": [
+            "effect/breathe-only-underwater",
+            "effect/hold-breath"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "tentacles",
+          "name": "Tentacles",
+          "text": "Tentacles. Melee Attack Roll: +5, reach 10 ft. Hit: 10 (2d6 + 3) Bludgeoning damage. If the target is a Medium or smaller creature, it has the Grappled condition (escape DC 13) from all eight tentacles. While Grappled, the target has the Restrained condition.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 5,
+            "reach": 10,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 10,
+              "dice": 2,
+              "sides": 6,
+              "modifier": 3
+            },
+            "damage_type": "bludgeoning"
+          },
+          "effects": [
+            {
+              "key": "effect/bludgeoning-damage",
+              "name": "Bludgeoning damage",
+              "text": "10 (2d6 + 3) Bludgeoning damage.",
+              "dice": {
+                "average": 10,
+                "dice": 2,
+                "sides": 6,
+                "modifier": 3
+              }
+            },
+            {
+              "key": "requirement/target-size",
+              "name": "Target size",
+              "text": "If the target is a Medium or smaller creature, it has the Grappled condition (escape DC 13) from all eight tentacles."
+            },
+            {
+              "key": "condition/grappled",
+              "name": "Grappled",
+              "text": "If the target is a Medium or smaller creature, it has the Grappled condition (escape DC 13) from all eight tentacles."
+            },
+            {
+              "key": "condition/restrained",
+              "name": "Restrained",
+              "text": "While Grappled, the target has the Restrained condition."
+            }
+          ]
+        }
+      ],
+      "skills": {
+        "perception": 4,
+        "stealth": 5
+      },
+      "reactions": [
+        {
+          "id": "ink-cloud",
+          "name": "Ink Cloud",
+          "text": "Ink Cloud (1/Day). Trigger: The octopus takes damage while underwater. Response: The octopus releases ink that fills a 10-foot Cube centered on itself, and the octopus moves up to its Swim Speed. The Cube is Heavily Obscured for 1 minute or until a strong current or similar effect disperses the ink.",
+          "key": "action/special",
+          "effects": [
+            {
+              "key": "limit/per-day",
+              "name": "Daily uses",
+              "text": "(1/Day)"
+            },
+            {
+              "key": "reaction/trigger",
+              "name": "Trigger",
+              "text": "Trigger: The octopus takes damage while underwater."
+            },
+            {
+              "key": "requirement/underwater",
+              "name": "Underwater",
+              "text": "while underwater"
+            },
+            {
+              "key": "effect/ink-cloud",
+              "name": "Ink cloud",
+              "text": "The octopus releases ink that fills a 10-foot Cube centered on itself"
+            },
+            {
+              "key": "effect/move-swim-speed",
+              "name": "Move up to Swim Speed",
+              "text": "the octopus moves up to its Swim Speed"
+            },
+            {
+              "key": "effect/heavily-obscured",
+              "name": "Heavily Obscured",
+              "text": "The Cube is Heavily Obscured for 1 minute or until a strong current or similar effect disperses the ink."
+            }
+          ],
+          "uses": {
+            "per_day": 1,
+            "lair_per_day": 0,
+            "recharge": 0
+          }
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/skills",
+        "movement/swim",
+        "sense/darkvision",
+        "action/reaction",
+        "trait/water-breathing",
+        "effect/breathe-only-underwater",
+        "effect/hold-breath",
+        "action/melee-attack",
+        "effect/bludgeoning-damage",
+        "requirement/target-size",
+        "condition/grappled",
+        "condition/restrained",
+        "action/special",
+        "limit/per-day",
+        "reaction/trigger",
+        "requirement/underwater",
+        "effect/ink-cloud",
+        "effect/move-swim-speed",
+        "effect/heavily-obscured"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/animals/giant-owl",
+      "name": "Giant Owl",
+      "source_pages": [
+        352,
+        352
+      ],
+      "sizes": [
+        "large"
+      ],
+      "type": "celestial",
+      "alignment": "Neutral",
+      "ac": 12,
+      "hp": {
+        "average": 19,
+        "dice": 3,
+        "sides": 10,
+        "modifier": 3
+      },
+      "initiative": {
+        "modifier": 2,
+        "score": 12
+      },
+      "speeds": {
+        "walk": 5,
+        "fly": 60
+      },
+      "abilities": {
+        "str": {
+          "score": 13,
+          "modifier": 1,
+          "save": 1
+        },
+        "dex": {
+          "score": 15,
+          "modifier": 2,
+          "save": 2
+        },
+        "con": {
+          "score": 12,
+          "modifier": 1,
+          "save": 1
+        },
+        "int": {
+          "score": 10,
+          "modifier": 0,
+          "save": 0
+        },
+        "wis": {
+          "score": 14,
+          "modifier": 2,
+          "save": 4
+        },
+        "cha": {
+          "score": 10,
+          "modifier": 0,
+          "save": 0
+        }
+      },
+      "senses": {
+        "passive_perception": 16,
+        "special": {
+          "darkvision": 120
+        }
+      },
+      "languages": [
+        "Celestial; understands Common, Elvish, and Sylvan but can’t speak them"
+      ],
+      "gear": [],
+      "cr": "1/4",
+      "xp": 50,
+      "proficiency_bonus": 2,
+      "traits": [
+        {
+          "key": "trait/flyby",
+          "name": "Flyby",
+          "text": "Flyby. The owl doesn’t provoke an Opportunity Attack when it flies out of an enemy’s reach.",
+          "requires": [
+            "effect/no-opportunity-attack-leaving-reach"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "talons",
+          "name": "Talons",
+          "text": "Talons. Melee Attack Roll: +4, reach 5 ft. Hit: 7 (1d10 + 2) Slashing damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 4,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 7,
+              "dice": 1,
+              "sides": 10,
+              "modifier": 2
+            },
+            "damage_type": "slashing"
+          },
+          "effects": [
+            {
+              "key": "effect/slashing-damage",
+              "name": "Slashing damage",
+              "text": "7 (1d10 + 2) Slashing damage.",
+              "dice": {
+                "average": 7,
+                "dice": 1,
+                "sides": 10,
+                "modifier": 2
+              }
+            }
+          ]
+        },
+        {
+          "id": "spellcasting",
+          "name": "Spellcasting",
+          "text": "Spellcasting. The owl casts one of the following spells, requiring no spell components and using Wisdom as the spellcasting ability: At Will: Detect Evil and Good, Detect Magic 1/Day: Clairvoyance",
+          "key": "action/spellcasting",
+          "spellcasting": {
+            "ability": "wis",
+            "save_dc": 0,
+            "attack_bonus": 0,
+            "at_will": [
+              "Detect Evil and Good",
+              "Detect Magic"
+            ],
+            "per_day": [
+              {
+                "uses": 1,
+                "spells": [
+                  "Clairvoyance"
+                ]
+              }
+            ]
+          },
+          "effects": [
+            {
+              "key": "spellcasting/no-components",
+              "name": "No spell components",
+              "text": "requiring no spell components"
+            },
+            {
+              "key": "spell/detect-evil-and-good",
+              "name": "Detect Evil and Good",
+              "text": "Detect Evil and Good",
+              "requires": [
+                "spellcasting/at-will"
+              ]
+            },
+            {
+              "key": "spell/detect-magic",
+              "name": "Detect Magic",
+              "text": "Detect Magic",
+              "requires": [
+                "spellcasting/at-will"
+              ]
+            },
+            {
+              "key": "spell/clairvoyance",
+              "name": "Clairvoyance",
+              "text": "Clairvoyance",
+              "requires": [
+                "limit/per-day"
+              ]
+            }
+          ]
+        }
+      ],
+      "skills": {
+        "perception": 6,
+        "stealth": 6
+      },
+      "resistances": [
+        "necrotic",
+        "radiant"
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/skills",
+        "defense/damage-resistance",
+        "movement/fly",
+        "sense/darkvision",
+        "trait/flyby",
+        "effect/no-opportunity-attack-leaving-reach",
+        "action/melee-attack",
+        "effect/slashing-damage",
+        "action/spellcasting",
+        "spellcasting/no-components",
+        "spell/detect-evil-and-good",
+        "spellcasting/at-will",
+        "spell/detect-magic",
+        "spell/clairvoyance",
+        "limit/per-day"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/animals/giant-rat",
+      "name": "Giant Rat",
+      "source_pages": [
+        353,
+        353
+      ],
+      "sizes": [
+        "small"
+      ],
+      "type": "beast",
+      "alignment": "Unaligned",
+      "ac": 13,
+      "hp": {
+        "average": 7,
+        "dice": 2,
+        "sides": 6,
+        "modifier": 0
+      },
+      "initiative": {
+        "modifier": 3,
+        "score": 13
+      },
+      "speeds": {
+        "walk": 30,
+        "climb": 30
+      },
+      "abilities": {
+        "str": {
+          "score": 7,
+          "modifier": -2,
+          "save": -2
+        },
+        "dex": {
+          "score": 16,
+          "modifier": 3,
+          "save": 5
+        },
+        "con": {
+          "score": 11,
+          "modifier": 0,
+          "save": 0
+        },
+        "int": {
+          "score": 2,
+          "modifier": -4,
+          "save": -4
+        },
+        "wis": {
+          "score": 10,
+          "modifier": 0,
+          "save": 0
+        },
+        "cha": {
+          "score": 4,
+          "modifier": -3,
+          "save": -3
+        }
+      },
+      "senses": {
+        "passive_perception": 12,
+        "special": {
+          "darkvision": 60
+        }
+      },
+      "languages": [],
+      "gear": [],
+      "cr": "1/8",
+      "xp": 25,
+      "proficiency_bonus": 2,
+      "traits": [
+        {
+          "key": "trait/pack-tactics",
+          "name": "Pack Tactics",
+          "text": "Pack Tactics. The rat has Advantage on an attack roll against a creature if at least one of the rat’s allies is within 5 feet of the creature and the ally doesn’t have the Incapacitated condition.",
+          "requires": [
+            "attack/advantage",
+            "requirement/ally-within-5-feet",
+            "requirement/ally-not-incapacitated"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "bite",
+          "name": "Bite",
+          "text": "Bite. Melee Attack Roll: +5, reach 5 feet. Hit: 5 (1d4 + 3) Piercing damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 5,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 5,
+              "dice": 1,
+              "sides": 4,
+              "modifier": 3
+            },
+            "damage_type": "piercing"
+          },
+          "effects": [
+            {
+              "key": "effect/piercing-damage",
+              "name": "Piercing damage",
+              "text": "5 (1d4 + 3) Piercing damage.",
+              "dice": {
+                "average": 5,
+                "dice": 1,
+                "sides": 4,
+                "modifier": 3
+              }
+            }
+          ]
+        }
+      ],
+      "skills": {
+        "perception": 2
+      },
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/skills",
+        "movement/climb",
+        "sense/darkvision",
+        "trait/pack-tactics",
+        "attack/advantage",
+        "requirement/ally-within-5-feet",
+        "requirement/ally-not-incapacitated",
+        "action/melee-attack",
+        "effect/piercing-damage"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/animals/giant-scorpion",
+      "name": "Giant Scorpion",
+      "source_pages": [
+        353,
+        353
+      ],
+      "sizes": [
+        "large"
+      ],
+      "type": "beast",
+      "alignment": "Unaligned",
+      "ac": 15,
+      "hp": {
+        "average": 52,
+        "dice": 7,
+        "sides": 10,
+        "modifier": 14
+      },
+      "initiative": {
+        "modifier": 1,
+        "score": 11
+      },
+      "speeds": {
+        "walk": 40
+      },
+      "abilities": {
+        "str": {
+          "score": 16,
+          "modifier": 3,
+          "save": 3
+        },
+        "dex": {
+          "score": 13,
+          "modifier": 1,
+          "save": 1
+        },
+        "con": {
+          "score": 15,
+          "modifier": 2,
+          "save": 2
+        },
+        "int": {
+          "score": 1,
+          "modifier": -5,
+          "save": -5
+        },
+        "wis": {
+          "score": 9,
+          "modifier": -1,
+          "save": -1
+        },
+        "cha": {
+          "score": 3,
+          "modifier": -4,
+          "save": -4
+        }
+      },
+      "senses": {
+        "passive_perception": 9,
+        "special": {
+          "blindsight": 60
+        }
+      },
+      "languages": [],
+      "gear": [],
+      "cr": "3",
+      "xp": 700,
+      "proficiency_bonus": 2,
+      "traits": [],
+      "actions": [
+        {
+          "id": "multiattack",
+          "name": "Multiattack",
+          "text": "Multiattack. The scorpion makes two Claw attacks and one Sting attack.",
+          "key": "action/multiattack",
+          "effects": [
+            {
+              "key": "action/melee-attack",
+              "name": "Attack",
+              "text": "The scorpion makes two Claw attacks and one Sting attack."
+            }
+          ]
+        },
+        {
+          "id": "claw",
+          "name": "Claw",
+          "text": "Claw. Melee Attack Roll: +5, reach 5 ft. Hit: 6 (1d6 + 3) Bludgeoning damage. If the target is a Large or smaller creature, it has the Grappled condition (escape DC 13) from one of two claws.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 5,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 6,
+              "dice": 1,
+              "sides": 6,
+              "modifier": 3
+            },
+            "damage_type": "bludgeoning"
+          },
+          "effects": [
+            {
+              "key": "effect/bludgeoning-damage",
+              "name": "Bludgeoning damage",
+              "text": "6 (1d6 + 3) Bludgeoning damage.",
+              "dice": {
+                "average": 6,
+                "dice": 1,
+                "sides": 6,
+                "modifier": 3
+              }
+            },
+            {
+              "key": "requirement/target-size",
+              "name": "Target size",
+              "text": "If the target is a Large or smaller creature, it has the Grappled condition (escape DC 13) from one of two claws."
+            },
+            {
+              "key": "condition/grappled",
+              "name": "Grappled",
+              "text": "If the target is a Large or smaller creature, it has the Grappled condition (escape DC 13) from one of two claws."
+            }
+          ]
+        },
+        {
+          "id": "sting",
+          "name": "Sting",
+          "text": "Sting. Melee Attack Roll: +5, reach 5 ft. Hit: 7 (1d8 + 3) Piercing damage plus 11 (2d10) Poison damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 5,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 7,
+              "dice": 1,
+              "sides": 8,
+              "modifier": 3
+            },
+            "damage_type": "piercing"
+          },
+          "effects": [
+            {
+              "key": "effect/piercing-damage",
+              "name": "Piercing damage",
+              "text": "7 (1d8 + 3) Piercing damage.",
+              "dice": {
+                "average": 7,
+                "dice": 1,
+                "sides": 8,
+                "modifier": 3
+              }
+            },
+            {
+              "key": "effect/poison-damage",
+              "name": "Poison damage",
+              "text": "11 (2d10) Poison damage.",
+              "dice": {
+                "average": 11,
+                "dice": 2,
+                "sides": 10,
+                "modifier": 0
+              }
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "sense/blindsight",
+        "action/multiattack",
+        "action/melee-attack",
+        "effect/bludgeoning-damage",
+        "requirement/target-size",
+        "condition/grappled",
+        "effect/piercing-damage",
+        "effect/poison-damage"
+      ]
+    }
+  ]
+}
