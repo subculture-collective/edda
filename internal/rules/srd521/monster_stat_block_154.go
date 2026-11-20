@@ -59,7 +59,12 @@ func (m Monster) validateStatBlockNotes() error {
 		if len(x.MoreDice) == 0 || x.Dice == nil {
 			return fmt.Errorf("further dice for %q need a first dice expression", x.Name)
 		}
+		seen := map[string]bool{}
 		for _, d := range x.MoreDice {
+			if seen[d.Key] {
+				return fmt.Errorf("duplicate further dice key %q for %q", d.Key, x.Name)
+			}
+			seen[d.Key] = true
 			if !validMonsterDice(d.Dice) || !validMonsterKey(d.Key) || !slices.Contains(m.RequiredMechanics, d.Key) {
 				return fmt.Errorf("invalid further dice for %q", x.Name)
 			}

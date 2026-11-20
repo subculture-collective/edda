@@ -516,6 +516,10 @@ func TestMonsters154MalformedFixtures(t *testing.T) {
 		}},
 		{"further dice unlisted key", func(c *MonsterCatalogue) { c.Monsters[3].Traits[0].MoreDice[0].Key = "effect/future-damage" }},
 		{"further dice invalid key", func(c *MonsterCatalogue) { c.Monsters[3].Traits[0].MoreDice[0].Key = "Force" }},
+		{"duplicate further dice key", func(c *MonsterCatalogue) {
+			t := &c.Monsters[3].Traits[0]
+			t.MoreDice = append(t.MoreDice, t.MoreDice[0])
+		}},
 		{"empty further dice", func(c *MonsterCatalogue) { c.Monsters[3].Traits[1].MoreDice = []MonsterKeyedDice{} }},
 		{"lair daily uses", func(c *MonsterCatalogue) { c.Monsters[3].Traits[2].Uses.LairPerDay = 2 }},
 		{"XP off CR", func(c *MonsterCatalogue) { c.Monsters[3].XP = 22001 }},
