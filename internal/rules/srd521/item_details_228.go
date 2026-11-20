@@ -249,7 +249,7 @@ func validateItemDetails228(family, _ string, d *ItemDetails228) error {
 		ok = positive(c.WebSaveDC, c.WebAreaMultiplier, c.WebUses) && uniqueItemKeys(c.Resistances) && uniqueItemKeys(c.ClimbDirections)
 	case "cloak-of-invisibility":
 		c := d.Invisibility
-		ok = positive(c.ChargeCost, c.DurationSeconds, c.MaxCharges, c.RegainDice.Dice, c.RegainDice.Sides) && c.ChargeCost <= c.MaxCharges && uniqueItemKeys(c.EndsEarly)
+		ok = positive(c.ChargeCost, c.DurationSeconds, c.MaxCharges, c.RegainDice.Dice, c.RegainDice.Sides) && c.ChargeCost <= c.MaxCharges && c.MaxCharges == 3 && c.RegainDice.Dice == 1 && c.RegainDice.Sides == 3 && c.RegainDice.Type == "charges" && uniqueItemKeys(c.EndsEarly)
 	case "cloak-of-protection":
 		c := d.Protection
 		ok = positive(c.ACBonus, c.SavingThrowBonus)

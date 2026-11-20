@@ -363,6 +363,11 @@ func TestItems228RejectInvalidFixtures(t *testing.T) {
 		{"arachnida negative area", func(b *batch) { v(b, 3).Details.Arachnida.WebAreaMultiplier = -2 }},
 		{"invisibility cost", func(b *batch) { v(b, 6).Details.Invisibility.ChargeCost = 4 }},
 		{"invisibility dice", func(b *batch) { v(b, 6).Details.Invisibility.RegainDice.Sides = 0 }},
+		{"invisibility max charges", func(b *batch) { v(b, 6).Details.Invisibility.MaxCharges = 5 }},
+		{"invisibility regain 2d6", func(b *batch) {
+			d := &v(b, 6).Details.Invisibility.RegainDice
+			d.Dice, d.Sides = 2, 6
+		}},
 		{"invisibility end triggers", func(b *batch) { v(b, 6).Details.Invisibility.EndsEarly = []string{} }},
 		{"protection bonus", func(b *batch) { v(b, 7).Details.Protection.ACBonus = 0 }},
 		{"bat speed", func(b *batch) { v(b, 8).Details.Bat.FlySpeedFeet = 0 }},
