@@ -546,6 +546,61 @@ Golems continue across their column and page breaks.
 rtk proxy python3 -I scripts/verify_srd_items_234.py /path/to/SRD_CC_v5.2.1.pdf
 ```
 
+## Magic items 11 (#235), pp. 230–233
+
+Twelve families and twelve variants, in planning inventory order. Files:
+`item_details_235.go`, `testdata/items_235.json`, `items_235_test.go` and
+`scripts/verify_srd_items_235.py`. `item_source.go` is unchanged.
+
+| Family | Page | Rarity | Attunement | Typed payload |
+| --- | --- | --- | --- | --- |
+| Manual of Quickness of Action | 230 | Very Rare | none | `manual_of_quickness_of_action` |
+| Marvelous Pigments | 230 | Very Rare | none | `marvelous_pigments` |
+| Medallion of Thoughts | 230 | Uncommon | required | `medallion_of_thoughts`: 5 charges |
+| Mirror of Life Trapping | 230 | Very Rare | none | `mirror_of_life_trapping` |
+| Mithral Armor | 231 | Uncommon | none | `mithral_armor`: base any medium or heavy armor, excluding hide |
+| Mysterious Deck | 231 | Legendary | none | `mysterious_deck`: both 1d100 columns, 22 card effects, Avatar of Death; continues onto p. 232 |
+| Necklace of Adaptation | 232 | Uncommon | required | `necklace_of_adaptation` |
+| Necklace of Fireballs | 233 | Rare | none | `necklace_of_fireballs` |
+| Necklace of Prayer Beads | 233 | Rare | required | `necklace_of_prayer_beads`: 6-row 1d20 bead table |
+| Nine Lives Stealer | 233 | Very Rare | required | `nine_lives_stealer`: base any simple or martial weapon |
+| Oathbow | 233 | Very Rare | required | `oathbow`: base longbow or shortbow |
+| Oil of Etherealness | 233 | Rare | none | `oil_of_etherealness` |
+
+Every family prints one form, so each has the single variant `standard`. The
+Mysterious Deck is one variant: its 13-card and 22-card decks are two columns of
+one table, recorded as two row lists (`deck_13_cards`, `deck_22_cards`) that each
+cover the 1d100 exactly. A printed `00` is stored as 100, and a card with a dash
+in a column has no row in it. The 22 card effects are keys and numeric facts;
+the Euryale penalty is the amount 2 with the unit `minus`, and dice such as the
+Moon card's 1d3 are an amount with a unit such as `d3`. The Avatar of Death stat
+block on p. 232 is a payload of the deck, not a monster record.
+
+The Necklace of Prayer Beads restricts attunement to a Cleric, Druid or Paladin.
+The shared decoder requires an empty attunement restriction list, so the classes
+are a payload field (`attunement_by_any_of`), as in batch 06 (#230). Its table gives a
+spell level only for the Bead of Curing (Cure Wounds, level 2); zero means none
+printed.
+
+Only two families have a charge pool. The Medallion of Thoughts has 5 charges,
+1 per use, regaining 1d4 at dawn. The Nine Lives Stealer has 1d8 + 1 charges,
+one lost per creature slain and never recharged; its variant records 9, the
+highest result of the printed dice, and the payload records the dice. The beads
+of the two necklaces and the pots of Marvelous Pigments are quantities rolled
+when found, not charges. The 25 GP, 500 GP, 2,000 GP and 1,000 GP values are
+payload facts, not prices; every cost stays unspecified.
+
+Composing the Healing contract fixture with batches #225 to #231 and this batch
+yields 97 families and 135 variants with no shared identity. The Healing
+fixture, `ResolveHealingPotion` and the coverage register are unchanged.
+
+The comparison script reads pp. 230–233 as one text stream, so the Mysterious
+Deck continues across its page break.
+
+```sh
+rtk proxy python3 -I scripts/verify_srd_items_235.py /path/to/SRD_CC_v5.2.1.pdf
+```
+
 This work includes material from the System Reference Document 5.2.1 (“SRD
 5.2.1”) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd.
 The SRD 5.2.1 is licensed under the Creative Commons Attribution 4.0 International
