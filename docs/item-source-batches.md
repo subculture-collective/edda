@@ -492,6 +492,60 @@ Brilliance and the Ioun Stone text continue across their page breaks.
 rtk proxy python3 -I scripts/verify_srd_items_233.py /path/to/SRD_CC_v5.2.1.pdf
 ```
 
+## Magic items 10 (#234), pp. 228–229
+
+Twelve families and 12 variants, in planning inventory order. Files:
+`item_details_234.go`, `testdata/items_234.json`, `items_234_test.go` and
+`scripts/verify_srd_items_234.py`. `item_source.go` is unchanged.
+
+| Family | Page | Variants | Typed payload |
+| --- | --- | --- | --- |
+| Iron Bands | 228 | `standard` (Rare) | `iron_bands` |
+| Iron Flask | 228 | `standard` (Legendary) | `iron_flask` |
+| Javelin of Lightning | 228 | `standard` (Uncommon) | `javelin_of_lightning`: Lightning Bolt property |
+| Lantern of Revealing | 228 | `standard` (Uncommon) | `lantern_of_revealing` |
+| Luck Blade | 229 | `standard` (Legendary, attunement) | `luck_blade`: Luck and Wish properties |
+| Mace of Disruption | 229 | `standard` (Rare, attunement) | `mace_of_disruption` |
+| Mace of Smiting | 229 | `standard` (Rare) | `mace_of_smiting` |
+| Mace of Terror | 229 | `standard` (Rare, attunement) | `mace_of_terror`: 3 charges |
+| Mantle of Spell Resistance | 229 | `standard` (Rare, attunement) | `mantle_of_spell_resistance` |
+| Manual of Bodily Health | 229 | `standard` (Very Rare) | `manual_of_bodily_health` |
+| Manual of Gainful Exercise | 229 | `standard` (Very Rare) | `manual_of_gainful_exercise` |
+| Manual of Golems | 229 | `standard` (Very Rare) | `manual_of_golems`: 1d20 table on p. 230 |
+
+Variant rules used in this batch:
+
+- No family prints more than one variant. The four golems of the Manual of
+  Golems are rows of its 1d20 table, kept as payload data (`golems`) with their
+  roll range, days and supplies cost; the book is one item, one rarity.
+- The Manual of Golems table is printed at the top of p. 230, so its payload
+  records `source_pages` 229 and 230 while its presentation page stays 229. The
+  GP amounts are supplies the creator pays, not a price: every cost stays
+  unspecified.
+- The Luck Blade, Mace of Disruption, Mace of Smiting and Mace of Terror base
+  weapons (Glaive to Shortsword, Mace) are base item options, not variants.
+- The two ability manuals share one payload type, `ItemManualStudy`, under
+  their own payload names. "A century" is stored as 100 years.
+
+The Mace of Terror (3 charges, regains 1d3 at dawn) and the Luck Blade are the
+only families with a charge pool. The Luck Blade "has 1d3 charges" with no
+printed maximum and no recharge, so its pool records maximum 3, the top of the
+starting roll, per use 1 and recharge none; the roll itself is the payload's
+`initial_charges`. Once-until-dawn limits (Iron Bands, Javelin of Lightning,
+Luck's reroll, Wish) are use limits, not charge pools.
+
+Composing the Healing contract fixture with batches #225 to #231 and this batch
+yields 97 families and 135 variants with no shared identity. The Healing fixture,
+`ResolveHealingPotion` and the coverage register are unchanged.
+
+The comparison script reads pp. 228–229 and the left column of p. 230 as one
+text stream, so the Lantern of Revealing, the Mace of Terror and the Manual of
+Golems continue across their column and page breaks.
+
+```sh
+rtk proxy python3 -I scripts/verify_srd_items_234.py /path/to/SRD_CC_v5.2.1.pdf
+```
+
 This work includes material from the System Reference Document 5.2.1 (“SRD
 5.2.1”) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd.
 The SRD 5.2.1 is licensed under the Creative Commons Attribution 4.0 International
