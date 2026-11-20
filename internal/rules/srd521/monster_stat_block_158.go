@@ -6,12 +6,8 @@ import (
 	"strings"
 )
 
-// TelepathyNote retains the parenthetical the source prints after a telepathy
-// range, such as the Dretch's "(works only with creatures that understand
-// Abyssal)". Like every stat-block field it requires a dependency key, so a
-// record that carries one stays unavailable.
-
-// validateTelepathyNote accepts a note only on a record that lists telepathy.
+// validateTelepathyNote accepts a note only on a record that lists telepathy
+// and requires language/telepathy-condition.
 func (m Monster) validateTelepathyNote() error {
 	if m.TelepathyNote == "" {
 		return nil
