@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "decision": 270,
-  "status": "SOURCE_PASS_NATIVE_PUBLICATION_PENDING",
+  "status": "EXACT_SOURCE_PUBLICATION_PASS",
   "observed_at": "2026-11-20T07:50:23Z",
   "observed_head": "7b14aba4f4a3f69c138354ed9d2bc3484fa7b84c",
   "observed_issue_count": 1892,
@@ -1144,7 +1144,7 @@
       "marker": "edda-270:prone-movement",
       "parent": 270,
       "type": "Task",
-      "number": null,
+      "number": 2061,
       "body_sha256": "aa729623c58223eaf0634c7ea74d9d94e8c743354a57d6f1ba65aed4412cbdaa",
       "body": "<!-- edda-270:prone-movement -->\nDecision #270; roadmap #47. One implementation PR; Task / Size M.\n\nSource: English SRD 5.2.1, PDF 14, 16, 178–179, 181–182, 185–188; SHA-256 `8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87`. CC-BY-4.0 attribution and adaptation: `docs/srd-5.2.1-conformance.md`. The deterministic fixtures below are Edda adaptations.\n\n## Bounded outcome\n\nImplement only the Prone movement clauses that #488 does not state. #488 keeps the Prone instance, its attack consequences and the two movement options as its body names them (\"crawl or spend half Speed to stand\"); this task consumes that output and never keeps a second Prone store or a second righting action. It adds four things: voluntarily dropping Prone (PDF14), the round-down of the righting cost from the current Speed (PDF186), the refusal to right yourself or drop Prone at Speed 0 against actual Speed-0 instances (PDF14, 186), and the crawling cost numbers (PDF179). #487 keeps \"remain Prone when Unconscious ends\"; #779 keeps Shove; #147 keeps falling.\n\nDropping Prone (PDF14): on its own turn a creature can give itself the Prone condition \"without using an action or any of your Speed, but you can’t do so if your Speed is 0.\" The self-applied instance is an ordinary source-bound Prone instance owned by that creature. The source names only the action and Speed; the fixture assertion that the Bonus Action and Reaction are also untouched is an Edda fixture control.\n\nRighting (PDF186): the cost is half the creature's Speed, rounded down. Use the authoritative current Speed that #780 reads, after every qualified increase and reduction, not a printed base value and never a Fly, Climb, Swim or Burrow Speed. Insufficient movement left this turn rejects. If the current Speed is 0, righting is unavailable. A Speed that \"is 0 and can't increase\" from an actual Restrained (#727) or Grappled (#778) instance stays 0 for this check whatever bonus is present; the same holds for any other actual Speed-0 instance supplied by its own owner (#487, #1444). Righting ends the creature's Prone condition, meaning every Prone contribution on it, because PDF186 ends the condition itself; it never ends the Speed-0 condition or any other condition.\n\nCrawling (PDF179): each foot crawled costs 1 extra foot of movement, or 2 extra feet in Difficult Terrain. Crawling does not end Prone. This task owns only those two figures. The general Difficult Terrain cost and the facts that make a space Difficult Terrain (PDF14, 181) belong to the open hazard split #150; until its child exists the terrain fact is an isolated trusted fact and production crawling through Difficult Terrain stays unavailable. A drag cost keeps its own #778 rule and is not combined here unless both facts are authoritative.\n\nMovement spent: no published task owns a general per-turn movement record. This task adds the minimal one its own spends need: the turn's allowance from the authoritative Speed of #780, feet spent by righting and crawling, and replay-safe receipts. It adds no path, position, Opportunity Attack or other movement mode.\n\nNot in this task, and unavailable until an owner exists:\n\n- A flying creature that becomes Prone falls unless it can hover (PDF182). The flying fall task published with this decision (`edda-270:flying-fall`) owns that and consumes this task's drop.\n- Burning (PDF178) lets a creature give itself Prone as an action to put out fire. That is an action-cost self-Prone from a hazard, not the free drop; it is refused here.\n- Prone from a Long Jump landing (PDF185), from ending a turn in another creature's space (PDF14) and from falling off a mount (PDF16) are sources with their own owners.\n- How movement spent on righting counts against a special speed used in the same turn (PDF188 says only to subtract \"the distance already moved\" when switching speeds). Righting in a turn in which the creature also uses a special speed stays unavailable.\n\n## Deterministic fixtures\n\n- Speed 30, Prone, 30 feet of movement left: righting costs 15 and leaves 15. Speed 25 costs 12, not 13. Speed 5 costs 2. After spending 20 of Speed 30, righting (15) rejects with no mutation. Speed 30 with Fly Speed 60 and no movement yet this turn: righting costs 15, not 30.\n- A standing creature Grappled through actual #778, or Restrained through actual #727, has Speed 0 and cannot drop Prone, even with a +10 Speed bonus. A Prone creature with either instance cannot right itself, with or without the bonus. When the Speed-0 instance ends, righting becomes available again at the then-current Speed.\n- Crawling 5 feet costs 10 feet of movement; with a trusted Difficult Terrain fact it costs 15. With 10 feet left, a second 5-foot crawl in Difficult Terrain rejects.\n- A standing creature with Speed 30 on its own turn drops Prone at no cost: 30 feet remain and its action is unspent (Edda control: Bonus Action and Reaction also unspent). Off-turn dropping, dropping another creature, dropping while already Prone, or a Burning-style drop that claims the free path rejects.\n- Reject righting for free, righting with an action instead of movement, a rounded-up, base-Speed or special-speed cost, crawling at normal cost, automatic righting at turn start, clearing Restrained or Grappled by righting, and a client-declared Speed, terrain or movement-left value. Preserve unrelated conditions and the attack consequences of #488 before and after.\n\n## Durable implementation acceptance\n\nPreview is inert: no dice, writes or hidden facts. Confirm revalidates campaign, actor, turn ownership, current Prone and Speed-0 instances, current Speed, movement spent this turn, terrain fact, source version and expected revision. Commit the movement spend, the Prone instance creation or ending, derived sheet and public history atomically. Inject a failure after each stage and prove full isolated PostgreSQL rollback. Same action ID and payload replay after retry, reload or reconnect returns the saved receipt without spending again; a conflicting payload rejects; racing confirmations commit once. Web and trusted TUI share availability, unavailable reasons and confirm/cancel/reconnect behavior. Changed web requires focused build/lint and desktop/phone checks. Private NPC Speed, position and conditions never enter previews, receipts, errors or public history. Preserve legacy reads and unrelated JSON; the legacy `prone` combat flag is not silently upgraded to this contract.\n\nHard prerequisites: #488 actual Prone instance, attack consequences and movement options; #727 Restrained Speed-0 projection; #778 Grappled Speed-0 projection; #780 authoritative modified Speed. Parent: #270. Directly block the flying fall task (`edda-270:flying-fall`), which consumes the drop, and the Exhaustion penalty task (`edda-270:exhaustion-penalties`). #279 is at its 100-blocker cap, so this task takes no direct #279 edge: the edge to the penalty task is its route to #279, #280 and #337 through the existing blocker #623, and that task's composition fixture (righting at a reduced Speed) is the reason the edge is valid. Add no #67 or #429 consumer and alter no existing owner.\n\nValidation for the implementation PR: focused deterministic rules tests; isolated PostgreSQL rollback/concurrency/replay/reload tests; shared web/TUI confirmation and disclosure fixtures; `GOMAXPROCS=2 go test -p 2 -short -race ./...` and `GOMAXPROCS=2 go vet -p 2 ./...`. Short tests alone do not qualify PostgreSQL or devices. Runtime remains unavailable until implementation and its callers qualify. No deployment, source inference or Full Rules promotion.\n",
       "root_paths_after_publication": {
@@ -1199,7 +1199,7 @@
       "marker": "edda-270:flying-fall",
       "parent": 270,
       "type": "Task",
-      "number": null,
+      "number": 2062,
       "body_sha256": "09e3199854124c896ce14b6e7db9a808728e6ee62928b10bad956025c6d258f4",
       "body": "<!-- edda-270:flying-fall -->\nDecision #270; roadmap #47. One implementation PR; Task / Size S.\n\nSource: English SRD 5.2.1, PDF 182–184, 186–188; SHA-256 `8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87`. CC-BY-4.0 attribution and adaptation: `docs/srd-5.2.1-conformance.md`. The deterministic fixtures below are Edda adaptations.\n\n## Bounded outcome\n\nImplement only the Flying rule of PDF182: \"While flying, you fall if you have the Incapacitated or Prone condition or your Fly Speed is reduced to 0. You can stay aloft in those circumstances if you can hover.\" No published task owns it, and #147 excludes flying. This task decides only whether a fall starts. The fall itself, its damage and the landing Prone stay with #147, which receives one declared fall with the trusted height.\n\nTriggers, each read from its actual owner and never from a client flag:\n\n- Prone: an actual instance from #488, including a voluntary drop through the Prone movement task (`edda-270:prone-movement`).\n- Incapacitated: an actual instance from #487, including the Incapacitated part of Unconscious, Paralyzed, Stunned or Petrified when their owners supply it.\n- Fly Speed reduced to 0: PDF188 says a change to Speed changes every special speed equally and gives the example that Speed reduced to 0 makes a Climb Speed 0. So an actual Grappled (#778) or Restrained (#727) Speed-0 instance makes the Fly Speed 0, and so does any authoritative reduction that reaches 0.\n\nHover (PDF183) is an authoritative creature or effect fact from its own owner, such as a stat block or #1335. With it the creature stays aloft in all three circumstances. Without a known hover fact the creature does not hover.\n\nNo published task owns an authoritative \"currently flying at this height\" state. This task reads it only as an isolated trusted fact and enables no production flight; a fall trigger for a creature whose flying state or height is unknown stays unavailable. Ending of the Fly spell stays #1336. Falling onto another creature and magical fall prevention keep #147's exclusions.\n\n## Deterministic fixtures\n\n- Trusted flying at 30 feet, Fly Speed 60, no hover: gaining Prone from actual #488, or dropping Prone through the Prone movement task, starts one fall of 30 feet handed to #147. The same creature with a trusted hover fact stays aloft and keeps Prone.\n- Flying, no hover, becomes Incapacitated through actual #487: one fall. With hover: none.\n- Flying, no hover, Grappled through actual #778 or Restrained through actual #727: Fly Speed is 0 and it falls once; a +10 Speed bonus changes nothing. With hover: stays aloft with Fly Speed 0.\n- An isolated trusted Speed reduction of 20 on Fly Speed 20 gives 0 and a fall; a reduction of 15 gives Fly Speed 5 and no fall.\n- A creature on the ground, a creature with a Fly Speed that is not flying, or one with unknown height: no fall and an unavailable reason. Two triggers in the same transaction start one fall, not two. Replay starts none.\n- Reject a client-declared flying, hover, height or Fly Speed value, a fall for a hovering creature, a fall that skips #147's damage and landing rules, and ending the triggering condition because the creature landed.\n\n## Durable implementation acceptance\n\nThe trigger is evaluated inside the transaction that commits the triggering condition or Speed change; it adds no optional activation of its own. Preview of the triggering action shows the pending fall only from facts the player may know. Commit the condition or Speed change, the fall start handed to #147, derived sheet and public history atomically. Inject a failure after each stage and prove full isolated PostgreSQL rollback. Same action ID and payload replay after retry, reload or reconnect returns the saved receipt with no second fall; a conflicting payload rejects; racing triggers commit one fall. Web and trusted TUI show the same fall notice and unavailable reasons and share confirm/cancel/reconnect behavior. Changed web requires focused build/lint and desktop/phone checks. A hidden NPC's height, hover fact, Speed and conditions never enter previews, receipts, errors or public history. Preserve legacy reads and unrelated JSON.\n\nHard prerequisites: #147 declared fall; #487 actual Incapacitated instance; #727 Restrained and #778 Grappled Speed-0 projections; the Prone movement task (`edda-270:prone-movement`), which also carries the #488 Prone instance. Parent: #270. Directly block the Exhaustion penalty task (`edda-270:exhaustion-penalties`). #279 is at its 100-blocker cap, so this task takes no direct #279 edge: the edge to the penalty task is its route to #279, #280 and #337 through the existing blocker #623, and that task's composition fixture (a Fly Speed reduced to 0 by Exhaustion) is the reason the edge is valid. Add no #67 or #429 consumer and alter no existing owner.\n\nValidation for the implementation PR: focused deterministic rules tests; isolated PostgreSQL rollback/concurrency/replay/reload tests; shared web/TUI confirmation and disclosure fixtures; `GOMAXPROCS=2 go test -p 2 -short -race ./...` and `GOMAXPROCS=2 go vet -p 2 ./...`. Short tests alone do not qualify PostgreSQL or devices. Runtime remains unavailable until implementation and its callers qualify. No deployment, source inference or Full Rules promotion.\n",
       "root_paths_after_publication": {
@@ -1254,7 +1254,7 @@
       "marker": "edda-270:exhaustion-ledger",
       "parent": 270,
       "type": "Task",
-      "number": null,
+      "number": 2063,
       "body_sha256": "681afe7c24ab91def6d7b8c22e8276bc7f23a48adb93c2dbab8a1a2f2574924e",
       "body": "<!-- edda-270:exhaustion-ledger -->\nDecision #270; roadmap #47. One implementation PR; Task / Size M.\n\nSource: English SRD 5.2.1, PDF 17–18, 179–181, 183, 185, 189, 194, 236; SHA-256 `8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87`. CC-BY-4.0 attribution and adaptation: `docs/srd-5.2.1-conformance.md`. The deterministic fixtures below are Edda adaptations.\n\n## Bounded outcome\n\nImplement only the level ledger of the Exhaustion condition (PDF181): one authoritative per-creature level with per-level provenance, gain, Immunity, death at level 6, the ending at level 0, the predicate that says which level may be removed, and the revival reduction. No published task owns these. The two penalties the level causes belong to the Exhaustion penalty task (`edda-270:exhaustion-penalties`) and are not implemented here.\n\nReduction triggers stay where they are. #428 keeps the completed Long Rest trigger (PDF185). #623 keeps the trusted one-level reduction event and its recomputation call, and #1001 consumes that event through #623 as its body says. This task supplies the stored level they lower and the rule for which level is removable; it copies no trigger and keeps no second counter. Sources of Exhaustion (dehydration, malnutrition, suffocation, travel, temperature, contagions, items and stat blocks) stay with their own owners; this task admits a level only from a trusted, source-bound gain event and enables no such source in production.\n\nLevels (PDF179, 181): Exhaustion is the one condition that stacks with itself. Each trusted receipt of the condition adds exactly 1 level and records its source, receipt and order. Valid levels are 0–6. A living creature holds 0–5, and 0 means the condition is absent. Reaching 6 commits the creature's death in the same transaction as a trusted source-bound death record, and the dead creature keeps level 6. No seventh level is ever added. No published task owns a general dead state, 0 Hit Points or Death Saving Throws (PDF17–18); this task adds none of them and does not call the legacy combat death code. The death record it writes is the authoritative death fact that #618 reads.\n\nImmunity to the Exhaustion condition (PDF183) means a gain does not affect the creature at all: no level, no penalty, no history of a hidden level.\n\nRemoval (PDF181): when the level reaches 0 the condition ends. A reduction removes exactly one removable level, never below 0. Levels differ only in provenance; taking the most recently gained removable level first is an Edda ordering, not source text. A source owner may mark its own levels non-removable until its stated fact is met (PDF181 dehydration, PDF185 malnutrition) or remove all levels of its own source (PDF189 suffocation). This task supplies only that provenance and predicate, using isolated trusted facts, and never infers a meal, drink or breath.\n\nRevival (PDF180): \"If the creature died with any Exhaustion levels, it returns with 1 fewer level.\" Apply it to the actual #618 Revivify receipt: a creature that died at level 2 returns at 1, and one that died at level 6 returns at 5. Revival itself, its Hit Points and its other consequences stay with #618. Every other revival owner (#947 Raise Dead and later ones) is a caller of this same output. The ledger fails closed: a dead creature with stored levels can become alive only through a revival receipt that applied this reduction, so a revival owner that has not yet consumed it stays unavailable for such a creature.\n\nNot in this task, and unavailable until the source owner supplies a rule, because the source gives no precedence:\n\n- A level that \"lasts until the contagion ends\" (PDF194) against ordinary reduction.\n- An effect that removes \"any Exhaustion levels you have\" (PDF236 Potion of Vitality) against levels a source made non-removable.\n- The revival reduction when the only remaining levels are non-removable.\n\n## Deterministic fixtures\n\n- Two trusted gains from different sources give level 2 with two provenance rows, not a single flag. A third gain gives 3.\n- At level 5 one more gain commits level 6 and one death record; replay does not kill or add again. A gain on the dead creature, a seventh level, a client-declared level, a multi-level gain without a qualified source, a negative level or a gain on an immune creature rejects without mutation.\n- Ledger primitive, exercised by an isolated test event (the first real callers are #623 and #428): lowering level 1 ends the condition; at level 0 it is a no-op without history. With one non-removable level and one ordinary level it removes the ordinary level; with only the non-removable level it removes nothing. Remove-all-of-source removes only that source's levels.\n- Died at level 2, revived by the actual #618 receipt: level 1. Died at level 6: level 5 and alive. A forged, foreign or replayed revival receipt changes nothing. Marking a dead creature with levels alive without that receipt rejects.\n- Reject remove-all against a non-removable level, a contagion-duration level and revival against only non-removable levels as unavailable, each with a reason and no mutation.\n\n## Durable implementation acceptance\n\nPreview is inert: no dice, writes or hidden facts. Confirm revalidates campaign, actor, trusted source and receipt, immunity, current level, source version and expected revision. Commit the level change, provenance, any death record and public history atomically. Inject a failure after each stage and prove full isolated PostgreSQL rollback. Same action ID and payload replay after retry, reload or reconnect returns the saved receipt with no second level or death; a conflicting payload rejects; racing gains or reductions each commit once in a serial order. Web and trusted TUI show the player's own level, share unavailable reasons and confirm/cancel/reconnect behavior. Changed web requires focused build/lint and desktop/phone checks. An NPC's level and sources never enter previews, receipts, errors or public history. Preserve legacy reads and unrelated JSON: the legacy `exhausted` combat flag and player status carry no level and are never converted into one.\n\nHard prerequisites: #64 confirmation and receipts; #618 actual Revivify receipt and its authoritative death fact. Parent: #270. Directly block the Exhaustion penalty task (`edda-270:exhaustion-penalties`); through it and the existing blocker #623 this task is mandatory for #279, #280 and #337. #279 is at its 100-blocker cap: add no direct #279 edge. Add no #67 or #429 consumer, no edge to #428, #947 or #1001, and change no existing body, parent or prerequisite.\n\nValidation for the implementation PR: focused deterministic rules tests; isolated PostgreSQL rollback/concurrency/replay/reload tests; shared web/TUI confirmation and disclosure fixtures; `GOMAXPROCS=2 go test -p 2 -short -race ./...` and `GOMAXPROCS=2 go vet -p 2 ./...`. Short tests alone do not qualify PostgreSQL or devices. Runtime remains unavailable until implementation and its callers qualify. No deployment, source inference or Full Rules promotion.\n",
       "root_paths_after_publication": {
@@ -1314,7 +1314,7 @@
       "marker": "edda-270:exhaustion-penalties",
       "parent": 270,
       "type": "Task",
-      "number": null,
+      "number": 2064,
       "body_sha256": "6aeac55e3e1e3a8867e5383da9b0d503f623113b5a67681e50a9c7813c7944fc",
       "body": "<!-- edda-270:exhaustion-penalties -->\nDecision #270; roadmap #47. One implementation PR; Task / Size M.\n\nSource: English SRD 5.2.1, PDF 6–7, 13, 17–18, 180–182, 188; SHA-256 `8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87`. CC-BY-4.0 attribution and adaptation: `docs/srd-5.2.1-conformance.md`. The deterministic fixtures below are Edda adaptations.\n\n## Bounded outcome\n\nImplement only the two derived penalties of the Exhaustion condition (PDF181), read from the actual level of the Exhaustion ledger task (`edda-270:exhaustion-ledger`). This task stores no level and admits none. #623 \"recompute all derived penalties\" calls this projection after its reduction; #428 and #1001 see the same recomputation through the ledger level.\n\nD20 Tests (PDF6–7, 180–181): \"When you make a D20 Test, the roll is reduced by 2 times your Exhaustion level.\" D20 Tests are ability checks, attack rolls and saving throws. The reduction is a numeric term recorded beside the natural die in the #61 receipt for checks and saves and in the #65 receipt for attack rolls; it is not Disadvantage, and it combines with Advantage, Disadvantage and other modifiers without replacing them. Initiative is a Dexterity check (PDF13) and takes the reduction in the #66 Initiative roll. A hit or miss that the source ties to the number on the d20 (PDF7) keeps using the die face. Damage rolls, DCs the creature sets, AC and passive scores are not D20 Tests and get no invented reduction.\n\nDeath Saving Throws are saving throws (PDF17), so the reduction is defined for them, and PDF18 ties their 1 and 20 results to the die face. No published task owns Death Saving Throws. This task writes no fixture against the legacy combat death-save code; the reduction on a Death Saving Throw stays unavailable until a source-bound owner exists and consumes this projection.\n\nSpeed (PDF181, 188): \"Your Speed is reduced by a number of feet equal to 5 times your Exhaustion level\", and each special speed is reduced by the same amount. The reduction feeds the one authoritative current Speed that #780 reads. A Speed that is 0 and can't increase stays 0. A reduction larger than the Speed yields 0, never a negative stored Speed; this clamp is an Edda adaptation, not source text. When the reduction brings a flying creature's Fly Speed to 0, the flying fall task (`edda-270:flying-fall`) decides the fall; this task only supplies the reduced value.\n\n## Deterministic fixtures\n\n- Level 2: natural 14 with +3 becomes 17 − 4 = 13 on an ability check and on a saving throw, and Speed 30 becomes 20 with Climb Speed 30 also 20. Level 5: −10 and Speed 5. Level 0: no term in the receipt and no reduction.\n- Level 1, attack roll natural 20 through #65: the reduction is recorded and the attack still hits; natural 1 still misses. Level 2 Initiative is reduced by 4. With Advantage the reduction applies once to the kept die.\n- Level 3, Speed 30: Speed 15, Dash through #780 adds 15, and righting from Prone through the Prone movement task costs 7.\n- Level 4, flying with Fly Speed 20 and no hover: Fly Speed 0 and one fall through the flying fall task; with hover it stays aloft. Fly Speed 30 at level 4 is 10 and no fall.\n- Speed 20 at level 5 is 0 and cannot right itself. Speed 0 from actual Grappled #778 stays 0 at every level and returns to the reduced value when the grapple ends.\n- After an actual ledger reduction from level 1 to 0, the roll term and Speed reduction are gone in the same transaction.\n- Reject treating the penalty as Disadvantage, applying it to a damage roll, save DC, AC or passive score, applying it twice, a client-declared level or penalty, and a Death Saving Throw reduction through legacy code.\n\n## Durable implementation acceptance\n\nThe penalty is a projection: it has no activation of its own and is applied inside another owner's roll or movement, in that owner's receipt and transaction. Preview shows the reduced modifier and Speed from facts the player may know. A level change and both recomputed penalties commit atomically with the derived sheet and public history. Inject a failure after each stage and prove full isolated PostgreSQL rollback. Same action ID and payload replay after retry, reload or reconnect returns the saved receipt with the same term and no reroll; a conflicting payload rejects; a roll racing a level change uses one committed level. Web and trusted TUI show the player's own level and both penalties, share unavailable reasons and confirm/cancel/reconnect behavior. Changed web requires focused build/lint and desktop/phone checks. An NPC's level, penalties and private rolls never enter previews, receipts, errors or public history. Preserve legacy reads and unrelated JSON.\n\nHard prerequisites: the Exhaustion ledger task (`edda-270:exhaustion-ledger`); #61 check and save receipts; #65 attack roll; #66 Initiative and turn economy; #780 authoritative modified Speed; the Prone movement task (`edda-270:prone-movement`) and the flying fall task (`edda-270:flying-fall`), whose outputs the composition fixtures above use. Those last two edges also route both tasks to the capped #279. Parent: #270. Directly block #623, the existing direct #279 and #280 blocker that removes one level and recomputes these penalties; that single edge makes all four tasks of this decision mandatory for #279, #280 and, through #551 and #1001, #337. Add no direct #279 edge, no #67 or #429 consumer, no edge to #428 or #1001, and change no existing body, parent or other prerequisite.\n\nValidation for the implementation PR: focused deterministic rules tests; isolated PostgreSQL rollback/concurrency/replay/reload tests; shared web/TUI confirmation and disclosure fixtures; `GOMAXPROCS=2 go test -p 2 -short -race ./...` and `GOMAXPROCS=2 go vet -p 2 ./...`. Short tests alone do not qualify PostgreSQL or devices. Runtime remains unavailable until implementation and its callers qualify. No deployment, source inference or Full Rules promotion.\n",
       "root_paths_after_publication": {
@@ -1497,8 +1497,8 @@
         "after": 100
       },
       "280": {
-        "before": 96,
-        "after": 96
+        "before": 97,
+        "after": 97
       },
       "337": {
         "before": 62,
@@ -1561,8 +1561,8 @@
         "after": 8
       },
       "193": {
-        "before": 30,
-        "after": 30
+        "before": 32,
+        "after": 32
       }
     },
     "new_task_blocked_by": {
@@ -1575,13 +1575,67 @@
       "279_blocked_by": 100,
       "67_blocking": 100,
       "429_blocking": 100
+    },
+    "at_publication": {
+      "limit": 100,
+      "nodes": 1898,
+      "dependency_edges": 10225,
+      "parent_edges": 1894,
+      "incoming279": 100,
+      "incoming280": 97,
+      "incoming337": 62,
+      "incoming623": 2,
+      "outgoing61": 85,
+      "outgoing64": 50,
+      "outgoing65": 74,
+      "outgoing66": 63,
+      "outgoing147": 5,
+      "outgoing487": 88,
+      "outgoing488": 98,
+      "outgoing618": 10,
+      "outgoing727": 35,
+      "outgoing778": 16,
+      "outgoing780": 12,
+      "outgoing67": 100,
+      "outgoing429": 100,
+      "children270": 8,
+      "max_incoming": 100,
+      "max_outgoing": 100,
+      "max_children": 95,
+      "before": {
+        "observed_at": "2026-11-20T08:11:49Z",
+        "nodes": 1894,
+        "dependency_edges": 10206,
+        "parent_edges": 1890,
+        "incoming279": 100,
+        "incoming280": 97,
+        "incoming337": 62,
+        "incoming623": 1,
+        "outgoing61": 84,
+        "outgoing64": 49,
+        "outgoing65": 73,
+        "outgoing66": 62,
+        "outgoing147": 4,
+        "outgoing487": 87,
+        "outgoing488": 97,
+        "outgoing618": 9,
+        "outgoing727": 33,
+        "outgoing778": 14,
+        "outgoing780": 10,
+        "outgoing67": 100,
+        "outgoing429": 100,
+        "children270": 4
+      }
     }
   },
   "graph_checks": {
     "blocked_by_acyclic_before": true,
     "blocked_by_acyclic_after": true,
     "parent_acyclic_after": true,
-    "root_paths_exclude_closed_decision": 270
+    "root_paths_exclude_closed_decision": 270,
+    "native_readback_dependency_acyclic": true,
+    "native_readback_parent_acyclic": true,
+    "native_readback_issues_paged": 1898
   },
   "existing_evidence": {
     "internal/combat/state.go": "legacy string flags prone, poisoned and exhausted; prone and poisoned give attack disadvantage only; exhausted has no level or effect; no grappled, restrained or petrified flag; RollDeathSavingThrow is legacy and not source-bound",
@@ -1615,5 +1669,42 @@
     "Production sources of Exhaustion outside PDF176-191 (travel PDF192, contagion PDF194, temperature PDF195, items and stat blocks) stay with #150, #278 and their stat-block owners.",
     "General Restrained and Petrified endings are source-specific; no glossary ending exists to assign."
   ],
-  "runtime_qualified": false
+  "runtime_qualified": false,
+  "published": {
+    "observed_at": "2026-11-20T08:14:40Z",
+    "issue_count": 1898,
+    "numbers": {
+      "prone-movement": 2061,
+      "flying-fall": 2062,
+      "exhaustion-ledger": 2063,
+      "exhaustion-penalties": 2064
+    },
+    "receipt": "docs/investigations/issue-270-link-verification.json",
+    "edges_added": [
+      "#2061 parent #270",
+      "#2062 parent #270",
+      "#2063 parent #270",
+      "#2064 parent #270",
+      "#2061 blocked-by #488",
+      "#2061 blocked-by #727",
+      "#2061 blocked-by #778",
+      "#2061 blocked-by #780",
+      "#2062 blocked-by #147",
+      "#2062 blocked-by #487",
+      "#2062 blocked-by #727",
+      "#2062 blocked-by #778",
+      "#2062 blocked-by #2061",
+      "#2063 blocked-by #64",
+      "#2063 blocked-by #618",
+      "#2064 blocked-by #61",
+      "#2064 blocked-by #65",
+      "#2064 blocked-by #66",
+      "#2064 blocked-by #780",
+      "#2064 blocked-by #2063",
+      "#2064 blocked-by #2061",
+      "#2064 blocked-by #2062",
+      "#623 blocked-by #2064"
+    ],
+    "note": "Keys in planned_native_edges, released_planning_references and root paths resolve through numbers. Counts under caps were taken at observed_at of the draft; #280 had 97 blockers at publication because #358 published #2059 first. This publication did not touch #280."
+  }
 }
