@@ -733,7 +733,7 @@
             {
               "roll_min": 7,
               "roll_max": 8,
-              "behavior": "does-not-move-and-makes-one-melee-attack-against-random-creature-within-reach-else-takes-no-action"
+              "behavior": "does-not-move-and-takes-attack-action-for-one-melee-attack-against-random-creature-within-reach-else-takes-no-action"
             },
             {
               "roll_min": 9,
