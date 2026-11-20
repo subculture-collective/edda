@@ -436,6 +436,11 @@ func TestItems229RejectInvalidFixtures(t *testing.T) {
 		{"deck gap", func(b *batch) { v(b, 7).Details.Illusions.Illusions[10].Min = 32 }},
 		{"deck row range", func(b *batch) { v(b, 7).Details.Illusions.Illusions[32].Max = 99 }},
 		{"deck duplicate creature", func(b *batch) { v(b, 7).Details.Illusions.Illusions[1].Creature = "adult-red-dragon" }},
+		{"deck renamed creature", func(b *batch) { v(b, 7).Details.Illusions.Illusions[21].Creature = "kobold" }},
+		{"deck reordered creatures", func(b *batch) {
+			r := v(b, 7).Details.Illusions.Illusions
+			r[0].Creature, r[1].Creature = r[1].Creature, r[0].Creature
+		}},
 		{"deck drawer row", func(b *batch) { v(b, 7).Details.Illusions.Illusions[32].Creature = "wyvern" }},
 		{"deck die", func(b *batch) { v(b, 7).Details.Illusions.TableDieSides = 20 }},
 		{"deck table page", func(b *batch) { v(b, 7).Details.Illusions.TablePage = 217 }},

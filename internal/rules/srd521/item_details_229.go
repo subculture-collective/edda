@@ -408,7 +408,8 @@ func validateItemDetails229(family, _ string, d *ItemDetails229) error {
 			rows, creatures = append(rows, [2]int{r.Min, r.Max}), append(creatures, r.Creature)
 		}
 		// The 1d100 table, pp. 217–218: 32 creature rows of three, then the card drawer 97–00.
-		ok = itemRollTable(rows, c.TableDieSides) && uniqueItemKeys(creatures) && len(creatures) == c.CreatureCards+1 && creatures[len(creatures)-1] == "card-drawer" &&
+		wantCreatures := []string{"adult-red-dragon", "archmage", "assassin", "bandit-captain", "basilisk", "berserker", "bugbear-warrior", "cloud-giant", "druid", "erinyes", "ettin", "fire-giant", "frost-giant", "gnoll-warrior", "goblin-warrior", "guardian-naga", "hill-giant", "hobgoblin-warrior", "incubus", "iron-golem", "knight", "kobold-warrior", "lich", "medusa", "night-hag", "ogre", "oni", "priest", "succubus", "troll", "veteran-warrior", "wyvern", "card-drawer"}
+		ok = itemRollTable(rows, c.TableDieSides) && slices.Equal(creatures, wantCreatures) && uniqueItemKeys(creatures) && len(creatures) == c.CreatureCards+1 && creatures[len(creatures)-1] == "card-drawer" &&
 			c.FullDeckCards == c.CreatureCards+c.MirrorCards && c.FullDeckCards == 34 && c.TablePage == 218 && dice(c.MissingCardsDice, 1, 20) && c.MissingCardsDice.Type == "cards" &&
 			c.InspectCheck.DC == 15 && positive(c.MissingCardsSubtract, c.ThrowRangeFeet, c.MoveWhileWithinFeet, c.MoveDistanceFeet) && uniqueItemKeys(c.LastsUntil) && uniqueItemKeys(c.DispelledBy)
 	case "defender":
