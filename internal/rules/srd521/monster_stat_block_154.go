@@ -92,5 +92,5 @@ func (m Monster) validateStatBlockNotes() error {
 			}
 		}
 	}
-	return nil
+	return m.validateTelepathyNote()
 }

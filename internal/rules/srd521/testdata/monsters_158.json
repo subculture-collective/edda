@@ -1,0 +1,2974 @@
+{
+  "schema_version": 1,
+  "source": {
+    "version": "5.2.1",
+    "language": "en",
+    "landing_url": "https://www.dndbeyond.com/srd",
+    "artifact_url": "https://media.dndbeyond.com/compendium-images/srd/5.2/SRD_CC_v5.2.1.pdf",
+    "sha256": "8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87",
+    "bytes": 6031375,
+    "pages": 364,
+    "retrieved_at": "2026-11-15",
+    "license": "CC-BY-4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/legalcode",
+    "attribution": "This work includes material from the System Reference Document 5.2.1 (“SRD 5.2.1”) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd. The SRD 5.2.1 is licensed under the Creative Commons Attribution 4.0 International License, available at https://creativecommons.org/licenses/by/4.0/legalcode.",
+    "changes": "Adapted the twelve stat blocks of issue #158 (Dire Wolf, Djinni, Doppelganger, Draft Horse, Dragon Turtle, Dretch, Drider, Druid, Dryad, Dust Mephit, Eagle and Earth Elemental; PDF pages 280–283, 307 and 347–348) into typed mechanical fields and implementation keys. Trait, action and bonus action entries keep their source rules text, rejoined across line, column and page breaks; descriptive prose outside the stat blocks is omitted. No playable NPC behavior is granted."
+  },
+  "monsters": [
+    {
+      "id": "srd-5.2.1:content/animals/dire-wolf",
+      "name": "Dire Wolf",
+      "source_pages": [
+        347,
+        347
+      ],
+      "sizes": [
+        "large"
+      ],
+      "type": "beast",
+      "alignment": "Unaligned",
+      "ac": 14,
+      "hp": {
+        "average": 22,
+        "dice": 3,
+        "sides": 10,
+        "modifier": 6
+      },
+      "initiative": {
+        "modifier": 2,
+        "score": 12
+      },
+      "speeds": {
+        "walk": 50
+      },
+      "abilities": {
+        "str": {
+          "score": 17,
+          "modifier": 3,
+          "save": 3
+        },
+        "dex": {
+          "score": 15,
+          "modifier": 2,
+          "save": 2
+        },
+        "con": {
+          "score": 15,
+          "modifier": 2,
+          "save": 2
+        },
+        "int": {
+          "score": 3,
+          "modifier": -4,
+          "save": -4
+        },
+        "wis": {
+          "score": 12,
+          "modifier": 1,
+          "save": 1
+        },
+        "cha": {
+          "score": 7,
+          "modifier": -2,
+          "save": -2
+        }
+      },
+      "senses": {
+        "passive_perception": 15,
+        "special": {
+          "darkvision": 60
+        }
+      },
+      "languages": [],
+      "gear": [],
+      "cr": "1",
+      "xp": 200,
+      "proficiency_bonus": 2,
+      "traits": [
+        {
+          "key": "trait/pack-tactics",
+          "name": "Pack Tactics",
+          "text": "Pack Tactics. The wolf has Advantage on an attack roll against a creature if at least one of the wolf’s allies is within 5 feet of the creature and the ally doesn’t have the Incapacitated condition.",
+          "requires": [
+            "attack/advantage",
+            "requirement/ally-within-5-feet",
+            "requirement/ally-not-incapacitated"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "bite",
+          "name": "Bite",
+          "text": "Bite. Melee Attack Roll: +5, reach 5 ft. Hit: 8 (1d10 + 3) Piercing damage. If the target is a Large or smaller creature, it has the Prone condition.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 5,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 8,
+              "dice": 1,
+              "sides": 10,
+              "modifier": 3
+            },
+            "damage_type": "piercing"
+          },
+          "effects": [
+            {
+              "key": "effect/piercing-damage",
+              "name": "Piercing damage",
+              "text": "8 (1d10 + 3) Piercing damage.",
+              "dice": {
+                "average": 8,
+                "dice": 1,
+                "sides": 10,
+                "modifier": 3
+              }
+            },
+            {
+              "key": "condition/prone",
+              "name": "Prone",
+              "text": "If the target is a Large or smaller creature, it has the Prone condition."
+            },
+            {
+              "key": "requirement/target-size",
+              "name": "Target size",
+              "text": "If the target is a Large or smaller creature, it has the Prone condition."
+            }
+          ]
+        }
+      ],
+      "skills": {
+        "perception": 5,
+        "stealth": 4
+      },
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/skills",
+        "sense/darkvision",
+        "trait/pack-tactics",
+        "attack/advantage",
+        "requirement/ally-within-5-feet",
+        "requirement/ally-not-incapacitated",
+        "action/melee-attack",
+        "effect/piercing-damage",
+        "condition/prone",
+        "requirement/target-size"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/djinni",
+      "name": "Djinni",
+      "source_pages": [
+        280,
+        280
+      ],
+      "sizes": [
+        "large"
+      ],
+      "type": "elemental",
+      "alignment": "Neutral",
+      "ac": 17,
+      "hp": {
+        "average": 218,
+        "dice": 19,
+        "sides": 10,
+        "modifier": 114
+      },
+      "initiative": {
+        "modifier": 2,
+        "score": 12
+      },
+      "speeds": {
+        "walk": 30,
+        "fly": 90
+      },
+      "abilities": {
+        "str": {
+          "score": 21,
+          "modifier": 5,
+          "save": 5
+        },
+        "dex": {
+          "score": 15,
+          "modifier": 2,
+          "save": 6
+        },
+        "con": {
+          "score": 22,
+          "modifier": 6,
+          "save": 6
+        },
+        "int": {
+          "score": 15,
+          "modifier": 2,
+          "save": 2
+        },
+        "wis": {
+          "score": 16,
+          "modifier": 3,
+          "save": 7
+        },
+        "cha": {
+          "score": 20,
+          "modifier": 5,
+          "save": 5
+        }
+      },
+      "senses": {
+        "passive_perception": 13,
+        "special": {
+          "darkvision": 120
+        }
+      },
+      "languages": [
+        "Primordial (Auran)"
+      ],
+      "gear": [],
+      "cr": "11",
+      "xp": 7200,
+      "proficiency_bonus": 4,
+      "traits": [
+        {
+          "key": "trait/elemental-restoration",
+          "name": "Elemental Restoration",
+          "text": "Elemental Restoration. If the djinni dies outside the Elemental Plane of Air, its body dissolves into mist, and it gains a new body in 1d4 days, reviving with all its Hit Points somewhere on the Plane of Air.",
+          "requires": [
+            "effect/revive",
+            "effect/revival-delay"
+          ]
+        },
+        {
+          "key": "trait/magic-resistance",
+          "name": "Magic Resistance",
+          "text": "Magic Resistance. The djinni has Advantage on saving throws against spells and other magical effects.",
+          "requires": [
+            "save/advantage-against-magic"
+          ]
+        },
+        {
+          "key": "trait/wishes",
+          "name": "Wishes",
+          "text": "Wishes. The djinni has a 30 percent chance of knowing the Wish spell. If the djinni knows it, the djinni can cast it only on behalf of a non-genie creature who communicates a wish in a way the djinni can understand. If the djinni casts the spell for the creature, the djinni suffers none of the spell’s stress. Once the djinni has cast it three times, the djinni can’t do so again for 365 days.",
+          "requires": [
+            "spell/wish",
+            "effect/wish-chance",
+            "effect/wish-for-non-genie",
+            "effect/no-wish-stress",
+            "effect/wish-limit"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "multiattack",
+          "name": "Multiattack",
+          "text": "Multiattack. The djinni makes three attacks, using Storm Blade or Storm Bolt in any combination.",
+          "key": "action/multiattack",
+          "effects": [
+            {
+              "key": "action/melee-attack",
+              "name": "Attack",
+              "text": "The djinni makes three attacks, using Storm Blade or Storm Bolt in any combination."
+            },
+            {
+              "key": "action/ranged-attack",
+              "name": "Attack",
+              "text": "The djinni makes three attacks, using Storm Blade or Storm Bolt in any combination."
+            },
+            {
+              "key": "multiattack/any-combination",
+              "name": "Any combination",
+              "text": "The djinni makes three attacks, using Storm Blade or Storm Bolt in any combination."
+            }
+          ]
+        },
+        {
+          "id": "storm-blade",
+          "name": "Storm Blade",
+          "text": "Storm Blade. Melee Attack Roll: +9, reach 5 feet. Hit: 12 (2d6 + 5) Slashing damage plus 7 (2d6) Lightning damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 9,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 12,
+              "dice": 2,
+              "sides": 6,
+              "modifier": 5
+            },
+            "damage_type": "slashing"
+          },
+          "effects": [
+            {
+              "key": "effect/slashing-damage",
+              "name": "Slashing damage",
+              "text": "12 (2d6 + 5) Slashing damage.",
+              "dice": {
+                "average": 12,
+                "dice": 2,
+                "sides": 6,
+                "modifier": 5
+              }
+            },
+            {
+              "key": "effect/lightning-damage",
+              "name": "Lightning damage",
+              "text": "7 (2d6) Lightning damage.",
+              "dice": {
+                "average": 7,
+                "dice": 2,
+                "sides": 6,
+                "modifier": 0
+              }
+            }
+          ]
+        },
+        {
+          "id": "storm-bolt",
+          "name": "Storm Bolt",
+          "text": "Storm Bolt. Ranged Attack Roll: +9, range 120 feet. Hit: 13 (3d8) Thunder damage. If the target is a Large or smaller creature, it has the Prone condition.",
+          "key": "action/ranged-attack",
+          "attack": {
+            "kind": "ranged",
+            "bonus": 9,
+            "reach": 0,
+            "range": 120,
+            "long_range": 120,
+            "damage": {
+              "average": 13,
+              "dice": 3,
+              "sides": 8,
+              "modifier": 0
+            },
+            "damage_type": "thunder"
+          },
+          "effects": [
+            {
+              "key": "effect/thunder-damage",
+              "name": "Thunder damage",
+              "text": "13 (3d8) Thunder damage.",
+              "dice": {
+                "average": 13,
+                "dice": 3,
+                "sides": 8,
+                "modifier": 0
+              }
+            },
+            {
+              "key": "condition/prone",
+              "name": "Prone",
+              "text": "If the target is a Large or smaller creature, it has the Prone condition."
+            },
+            {
+              "key": "requirement/target-size",
+              "name": "Target size",
+              "text": "If the target is a Large or smaller creature, it has the Prone condition."
+            }
+          ]
+        },
+        {
+          "id": "create-whirlwind",
+          "name": "Create Whirlwind",
+          "text": "Create Whirlwind. The djinni conjures a whirlwind at a point it can see within 120 feet. The whirlwind fills a 20-foot-radius, 60-foot-high Cylinder centered on that point. The whirlwind lasts until the djinni’s Concentration on it ends. The djinni can move the whirlwind up to 20 feet at the start of each of its turns. Whenever the whirlwind enters a creature’s space or a creature enters the whirlwind, that creature is subjected to the following effect. Strength Saving Throw: DC 17 (a creature makes this save only once per turn, and the djinni is unaffected). Failure: While in the whirlwind, the target has the Restrained condition and moves with the whirlwind. At the start of each of its turns, the Restrained target takes 21 (6d6) Thunder damage. At the end of each of its turns, the target repeats the save, ending the effect on itself on a success.",
+          "key": "action/saving-throw",
+          "save": {
+            "ability": "str",
+            "dc": 17
+          },
+          "effects": [
+            {
+              "key": "effect/whirlwind",
+              "name": "Whirlwind",
+              "text": "The djinni conjures a whirlwind at a point it can see within 120 feet."
+            },
+            {
+              "key": "effect/concentration",
+              "name": "Concentration",
+              "text": "The whirlwind lasts until the djinni’s Concentration on it ends."
+            },
+            {
+              "key": "effect/whirlwind-move",
+              "name": "Move the whirlwind",
+              "text": "The djinni can move the whirlwind up to 20 feet at the start of each of its turns."
+            },
+            {
+              "key": "save/str",
+              "name": "Strength Saving Throw",
+              "text": "Strength Saving Throw: DC 17"
+            },
+            {
+              "key": "save/once-per-turn",
+              "name": "Once per turn",
+              "text": "a creature makes this save only once per turn, and the djinni is unaffected"
+            },
+            {
+              "key": "condition/restrained",
+              "name": "Restrained",
+              "text": "Failure: While in the whirlwind, the target has the Restrained condition and moves with the whirlwind."
+            },
+            {
+              "key": "effect/thunder-damage",
+              "name": "Thunder damage",
+              "text": "21 (6d6) Thunder damage.",
+              "dice": {
+                "average": 21,
+                "dice": 6,
+                "sides": 6,
+                "modifier": 0
+              }
+            },
+            {
+              "key": "save/repeat",
+              "name": "Repeated save",
+              "text": "At the end of each of its turns, the target repeats the save, ending the effect on itself on a success."
+            }
+          ]
+        },
+        {
+          "id": "spellcasting",
+          "name": "Spellcasting",
+          "text": "Spellcasting. The djinni casts one of the following spells, requiring no Material components and using Charisma as the spellcasting ability (spell save DC 17): At Will: Detect Evil and Good, Detect Magic 2/Day Each: Create Food and Water (can create wine instead of water), Tongues, Wind Walk 1/Day Each: Creation, Gaseous Form, Invisibility, Major Image, Plane Shift",
+          "key": "action/spellcasting",
+          "spellcasting": {
+            "ability": "cha",
+            "save_dc": 17,
+            "attack_bonus": 0,
+            "at_will": [
+              "Detect Evil and Good",
+              "Detect Magic"
+            ],
+            "per_day": [
+              {
+                "uses": 2,
+                "spells": [
+                  "Create Food and Water (can create wine instead of water)",
+                  "Tongues",
+                  "Wind Walk"
+                ]
+              },
+              {
+                "uses": 1,
+                "spells": [
+                  "Creation",
+                  "Gaseous Form",
+                  "Invisibility",
+                  "Major Image",
+                  "Plane Shift"
+                ]
+              }
+            ]
+          },
+          "effects": [
+            {
+              "key": "spellcasting/no-material-components",
+              "name": "No Material components",
+              "text": "requiring no Material components"
+            },
+            {
+              "key": "spell/detect-evil-and-good",
+              "name": "Detect Evil and Good",
+              "text": "Detect Evil and Good",
+              "requires": [
+                "spellcasting/at-will"
+              ]
+            },
+            {
+              "key": "spell/detect-magic",
+              "name": "Detect Magic",
+              "text": "Detect Magic",
+              "requires": [
+                "spellcasting/at-will"
+              ]
+            },
+            {
+              "key": "spell/create-food-and-water",
+              "name": "Create Food and Water",
+              "text": "Create Food and Water (can create wine instead of water)",
+              "requires": [
+                "limit/per-day"
+              ]
+            },
+            {
+              "key": "spell/tongues",
+              "name": "Tongues",
+              "text": "Tongues",
+              "requires": [
+                "limit/per-day"
+              ]
+            },
+            {
+              "key": "spell/wind-walk",
+              "name": "Wind Walk",
+              "text": "Wind Walk",
+              "requires": [
+                "limit/per-day"
+              ]
+            },
+            {
+              "key": "spell/creation",
+              "name": "Creation",
+              "text": "Creation",
+              "requires": [
+                "limit/per-day"
+              ]
+            },
+            {
+              "key": "spell/gaseous-form",
+              "name": "Gaseous Form",
+              "text": "Gaseous Form",
+              "requires": [
+                "limit/per-day"
+              ]
+            },
+            {
+              "key": "spell/invisibility",
+              "name": "Invisibility",
+              "text": "Invisibility",
+              "requires": [
+                "limit/per-day"
+              ]
+            },
+            {
+              "key": "spell/major-image",
+              "name": "Major Image",
+              "text": "Major Image",
+              "requires": [
+                "limit/per-day"
+              ]
+            },
+            {
+              "key": "spell/plane-shift",
+              "name": "Plane Shift",
+              "text": "Plane Shift",
+              "requires": [
+                "limit/per-day"
+              ]
+            }
+          ]
+        }
+      ],
+      "tags": [
+        "Genie"
+      ],
+      "immunities": [
+        "lightning",
+        "thunder"
+      ],
+      "hover": true,
+      "required_mechanics": [
+        "monster/stat-block",
+        "defense/damage-immunity",
+        "movement/fly",
+        "movement/hover",
+        "sense/darkvision",
+        "trait/elemental-restoration",
+        "effect/revive",
+        "effect/revival-delay",
+        "trait/magic-resistance",
+        "save/advantage-against-magic",
+        "trait/wishes",
+        "spell/wish",
+        "effect/wish-chance",
+        "effect/wish-for-non-genie",
+        "effect/no-wish-stress",
+        "effect/wish-limit",
+        "action/multiattack",
+        "action/melee-attack",
+        "action/ranged-attack",
+        "multiattack/any-combination",
+        "effect/slashing-damage",
+        "effect/lightning-damage",
+        "effect/thunder-damage",
+        "condition/prone",
+        "requirement/target-size",
+        "action/saving-throw",
+        "effect/whirlwind",
+        "effect/concentration",
+        "effect/whirlwind-move",
+        "save/str",
+        "save/once-per-turn",
+        "condition/restrained",
+        "save/repeat",
+        "action/spellcasting",
+        "spellcasting/no-material-components",
+        "spell/detect-evil-and-good",
+        "spellcasting/at-will",
+        "spell/detect-magic",
+        "spell/create-food-and-water",
+        "limit/per-day",
+        "spell/tongues",
+        "spell/wind-walk",
+        "spell/creation",
+        "spell/gaseous-form",
+        "spell/invisibility",
+        "spell/major-image",
+        "spell/plane-shift"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/doppelganger",
+      "name": "Doppelganger",
+      "source_pages": [
+        280,
+        280
+      ],
+      "sizes": [
+        "medium"
+      ],
+      "type": "monstrosity",
+      "alignment": "Neutral",
+      "ac": 14,
+      "hp": {
+        "average": 52,
+        "dice": 8,
+        "sides": 8,
+        "modifier": 16
+      },
+      "initiative": {
+        "modifier": 4,
+        "score": 14
+      },
+      "speeds": {
+        "walk": 30
+      },
+      "abilities": {
+        "str": {
+          "score": 11,
+          "modifier": 0,
+          "save": 0
+        },
+        "dex": {
+          "score": 18,
+          "modifier": 4,
+          "save": 4
+        },
+        "con": {
+          "score": 14,
+          "modifier": 2,
+          "save": 2
+        },
+        "int": {
+          "score": 11,
+          "modifier": 0,
+          "save": 0
+        },
+        "wis": {
+          "score": 12,
+          "modifier": 1,
+          "save": 1
+        },
+        "cha": {
+          "score": 14,
+          "modifier": 2,
+          "save": 2
+        }
+      },
+      "senses": {
+        "passive_perception": 11,
+        "special": {
+          "darkvision": 60
+        }
+      },
+      "languages": [
+        "Common plus three other languages"
+      ],
+      "gear": [],
+      "cr": "3",
+      "xp": 700,
+      "proficiency_bonus": 2,
+      "traits": [],
+      "actions": [
+        {
+          "id": "multiattack",
+          "name": "Multiattack",
+          "text": "Multiattack. The doppelganger makes two Slam attacks and uses Unsettling Visage if available.",
+          "key": "action/multiattack",
+          "effects": [
+            {
+              "key": "action/melee-attack",
+              "name": "Attack",
+              "text": "The doppelganger makes two Slam attacks"
+            },
+            {
+              "key": "multiattack/additional-action",
+              "name": "Additional action",
+              "text": "uses Unsettling Visage if available"
+            }
+          ]
+        },
+        {
+          "id": "slam",
+          "name": "Slam",
+          "text": "Slam. Melee Attack Roll: +6 (with Advantage during the first round of each combat), reach 5 ft. Hit: 11 (2d6 + 4) Bludgeoning damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 6,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 11,
+              "dice": 2,
+              "sides": 6,
+              "modifier": 4
+            },
+            "damage_type": "bludgeoning"
+          },
+          "effects": [
+            {
+              "key": "effect/bludgeoning-damage",
+              "name": "Bludgeoning damage",
+              "text": "11 (2d6 + 4) Bludgeoning damage.",
+              "dice": {
+                "average": 11,
+                "dice": 2,
+                "sides": 6,
+                "modifier": 4
+              }
+            },
+            {
+              "key": "attack/advantage",
+              "name": "Advantage",
+              "text": "with Advantage during the first round of each combat",
+              "requires": [
+                "requirement/first-combat-round"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "read-thoughts",
+          "name": "Read Thoughts",
+          "text": "Read Thoughts. The doppelganger casts Detect Thoughts, requiring no spell components and using Charisma as the spellcasting ability (spell save DC 12).",
+          "key": "action/special",
+          "effects": [
+            {
+              "key": "action/spellcasting",
+              "name": "Spellcasting",
+              "text": "The doppelganger casts Detect Thoughts, requiring no spell components and using Charisma as the spellcasting ability (spell save DC 12)."
+            },
+            {
+              "key": "spell/detect-thoughts",
+              "name": "Detect Thoughts",
+              "text": "Detect Thoughts"
+            },
+            {
+              "key": "spellcasting/no-components",
+              "name": "No spell components",
+              "text": "requiring no spell components"
+            },
+            {
+              "key": "spellcasting/fixed-save-dc",
+              "name": "Spell save DC",
+              "text": "using Charisma as the spellcasting ability (spell save DC 12)"
+            }
+          ]
+        },
+        {
+          "id": "unsettling-visage",
+          "name": "Unsettling Visage",
+          "text": "Unsettling Visage (Recharge 6). Wisdom Saving Throw: DC 12, each creature in a 15-foot Emanation originating from the doppelganger that can see the doppelganger. Failure: The target has the Frightened condition and repeats the save at the end of each of its turns, ending the effect on itself on a success. After 1 minute, it succeeds automatically.",
+          "key": "action/saving-throw",
+          "save": {
+            "ability": "wis",
+            "dc": 12
+          },
+          "target": {
+            "shape": "emanation",
+            "size": 15,
+            "width": 0,
+            "range": 0
+          },
+          "uses": {
+            "per_day": 0,
+            "lair_per_day": 0,
+            "recharge": 6
+          },
+          "effects": [
+            {
+              "key": "save/wis",
+              "name": "Wisdom Saving Throw",
+              "text": "Wisdom Saving Throw: DC 12"
+            },
+            {
+              "key": "area/emanation",
+              "name": "Target",
+              "text": "each creature in a 15-foot Emanation originating from the doppelganger that can see the doppelganger.",
+              "requires": [
+                "requirement/target-sees-source"
+              ]
+            },
+            {
+              "key": "limit/recharge",
+              "name": "Recharge",
+              "text": "(Recharge 6)"
+            },
+            {
+              "key": "condition/frightened",
+              "name": "Frightened",
+              "text": "Failure: The target has the Frightened condition and repeats the save at the end of each of its turns, ending the effect on itself on a success."
+            },
+            {
+              "key": "save/repeat",
+              "name": "Repeated save",
+              "text": "repeats the save at the end of each of its turns, ending the effect on itself on a success"
+            },
+            {
+              "key": "effect/timed-automatic-success",
+              "name": "Automatic success",
+              "text": "After 1 minute, it succeeds automatically."
+            }
+          ]
+        }
+      ],
+      "skills": {
+        "deception": 6,
+        "insight": 3
+      },
+      "condition_immunities": [
+        "charmed"
+      ],
+      "bonus_actions": [
+        {
+          "id": "shape-shift",
+          "name": "Shape-Shift",
+          "text": "Shape-Shift. The doppelganger shape-shifts into a Medium or Small Humanoid, or it returns to its true form. Its game statistics, other than its size, are the same in each form. Any equipment it is wearing or carrying isn’t transformed.",
+          "key": "action/special",
+          "effects": [
+            {
+              "key": "effect/shape-shift",
+              "name": "Shape-shift",
+              "text": "The doppelganger shape-shifts into a Medium or Small Humanoid, or it returns to its true form."
+            },
+            {
+              "key": "effect/shapechange-form-limits",
+              "name": "Form limits",
+              "text": "Its game statistics, other than its size, are the same in each form."
+            },
+            {
+              "key": "effect/equipment-not-transformed",
+              "name": "Equipment not transformed",
+              "text": "Any equipment it is wearing or carrying isn’t transformed."
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/skills",
+        "defense/condition-immunity",
+        "sense/darkvision",
+        "action/bonus-action",
+        "action/multiattack",
+        "action/melee-attack",
+        "multiattack/additional-action",
+        "effect/bludgeoning-damage",
+        "attack/advantage",
+        "requirement/first-combat-round",
+        "action/special",
+        "action/spellcasting",
+        "spell/detect-thoughts",
+        "spellcasting/no-components",
+        "spellcasting/fixed-save-dc",
+        "action/saving-throw",
+        "save/wis",
+        "area/emanation",
+        "requirement/target-sees-source",
+        "limit/recharge",
+        "condition/frightened",
+        "save/repeat",
+        "effect/timed-automatic-success",
+        "effect/shape-shift",
+        "effect/shapechange-form-limits",
+        "effect/equipment-not-transformed"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/animals/draft-horse",
+      "name": "Draft Horse",
+      "source_pages": [
+        347,
+        348
+      ],
+      "sizes": [
+        "large"
+      ],
+      "type": "beast",
+      "alignment": "Unaligned",
+      "ac": 10,
+      "hp": {
+        "average": 15,
+        "dice": 2,
+        "sides": 10,
+        "modifier": 4
+      },
+      "initiative": {
+        "modifier": 0,
+        "score": 10
+      },
+      "speeds": {
+        "walk": 40
+      },
+      "abilities": {
+        "str": {
+          "score": 18,
+          "modifier": 4,
+          "save": 4
+        },
+        "dex": {
+          "score": 10,
+          "modifier": 0,
+          "save": 0
+        },
+        "con": {
+          "score": 15,
+          "modifier": 2,
+          "save": 2
+        },
+        "int": {
+          "score": 2,
+          "modifier": -4,
+          "save": -4
+        },
+        "wis": {
+          "score": 11,
+          "modifier": 0,
+          "save": 0
+        },
+        "cha": {
+          "score": 7,
+          "modifier": -2,
+          "save": -2
+        }
+      },
+      "senses": {
+        "passive_perception": 10,
+        "special": {}
+      },
+      "languages": [],
+      "gear": [],
+      "cr": "1/4",
+      "xp": 50,
+      "proficiency_bonus": 2,
+      "traits": [],
+      "actions": [
+        {
+          "id": "hooves",
+          "name": "Hooves",
+          "text": "Hooves. Melee Attack Roll: +6, reach 5 ft. Hit: 6 (1d4 + 4) Bludgeoning damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 6,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 6,
+              "dice": 1,
+              "sides": 4,
+              "modifier": 4
+            },
+            "damage_type": "bludgeoning"
+          },
+          "effects": [
+            {
+              "key": "effect/bludgeoning-damage",
+              "name": "Bludgeoning damage",
+              "text": "6 (1d4 + 4) Bludgeoning damage.",
+              "dice": {
+                "average": 6,
+                "dice": 1,
+                "sides": 4,
+                "modifier": 4
+              }
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "action/melee-attack",
+        "effect/bludgeoning-damage"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/dragon-turtle",
+      "name": "Dragon Turtle",
+      "source_pages": [
+        281,
+        281
+      ],
+      "sizes": [
+        "gargantuan"
+      ],
+      "type": "dragon",
+      "alignment": "Neutral",
+      "ac": 20,
+      "hp": {
+        "average": 356,
+        "dice": 23,
+        "sides": 20,
+        "modifier": 115
+      },
+      "initiative": {
+        "modifier": 6,
+        "score": 16
+      },
+      "speeds": {
+        "walk": 20,
+        "swim": 50
+      },
+      "abilities": {
+        "str": {
+          "score": 25,
+          "modifier": 7,
+          "save": 7
+        },
+        "dex": {
+          "score": 10,
+          "modifier": 0,
+          "save": 0
+        },
+        "con": {
+          "score": 20,
+          "modifier": 5,
+          "save": 11
+        },
+        "int": {
+          "score": 10,
+          "modifier": 0,
+          "save": 0
+        },
+        "wis": {
+          "score": 12,
+          "modifier": 1,
+          "save": 7
+        },
+        "cha": {
+          "score": 12,
+          "modifier": 1,
+          "save": 1
+        }
+      },
+      "senses": {
+        "passive_perception": 11,
+        "special": {
+          "darkvision": 120
+        }
+      },
+      "languages": [
+        "Draconic",
+        "Primordial (Aquan)"
+      ],
+      "gear": [],
+      "cr": "17",
+      "xp": 18000,
+      "proficiency_bonus": 6,
+      "traits": [
+        {
+          "key": "trait/amphibious",
+          "name": "Amphibious",
+          "text": "Amphibious. The dragon can breathe air and water.",
+          "requires": [
+            "effect/breathe-air-and-water"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "multiattack",
+          "name": "Multiattack",
+          "text": "Multiattack. The dragon makes three Bite attacks. It can replace one attack with a Tail attack.",
+          "key": "action/multiattack",
+          "effects": [
+            {
+              "key": "action/melee-attack",
+              "name": "Attack",
+              "text": "The dragon makes three Bite attacks."
+            },
+            {
+              "key": "multiattack/replace-attack",
+              "name": "Replace attack",
+              "text": "It can replace one attack with a Tail attack."
+            }
+          ]
+        },
+        {
+          "id": "bite",
+          "name": "Bite",
+          "text": "Bite. Melee Attack Roll: +13, reach 15 ft. Hit: 23 (3d10 + 7) Piercing damage plus 7 (2d6) Fire damage. Being underwater doesn’t grant Resistance to this Fire damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 13,
+            "reach": 15,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 23,
+              "dice": 3,
+              "sides": 10,
+              "modifier": 7
+            },
+            "damage_type": "piercing"
+          },
+          "effects": [
+            {
+              "key": "effect/piercing-damage",
+              "name": "Piercing damage",
+              "text": "23 (3d10 + 7) Piercing damage.",
+              "dice": {
+                "average": 23,
+                "dice": 3,
+                "sides": 10,
+                "modifier": 7
+              }
+            },
+            {
+              "key": "effect/fire-damage",
+              "name": "Fire damage",
+              "text": "7 (2d6) Fire damage.",
+              "dice": {
+                "average": 7,
+                "dice": 2,
+                "sides": 6,
+                "modifier": 0
+              }
+            },
+            {
+              "key": "effect/underwater-no-resistance",
+              "name": "No underwater Resistance",
+              "text": "Being underwater doesn’t grant Resistance to this Fire damage."
+            }
+          ]
+        },
+        {
+          "id": "tail",
+          "name": "Tail",
+          "text": "Tail. Melee Attack Roll: +13, reach 15 ft. Hit: 18 (2d10 + 7) Bludgeoning damage. If the target is a Huge or smaller creature, it has the Prone condition.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 13,
+            "reach": 15,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 18,
+              "dice": 2,
+              "sides": 10,
+              "modifier": 7
+            },
+            "damage_type": "bludgeoning"
+          },
+          "effects": [
+            {
+              "key": "effect/bludgeoning-damage",
+              "name": "Bludgeoning damage",
+              "text": "18 (2d10 + 7) Bludgeoning damage.",
+              "dice": {
+                "average": 18,
+                "dice": 2,
+                "sides": 10,
+                "modifier": 7
+              }
+            },
+            {
+              "key": "condition/prone",
+              "name": "Prone",
+              "text": "If the target is a Huge or smaller creature, it has the Prone condition."
+            },
+            {
+              "key": "requirement/target-size",
+              "name": "Target size",
+              "text": "If the target is a Huge or smaller creature, it has the Prone condition."
+            }
+          ]
+        },
+        {
+          "id": "steam-breath",
+          "name": "Steam Breath",
+          "text": "Steam Breath (Recharge 5–6). Constitution Saving Throw: DC 19, each creature in a 60-foot Cone. Failure: 56 (16d6) Fire damage. Success: Half damage. Failure or Success: Being underwater doesn’t grant Resistance to this Fire damage.",
+          "key": "action/saving-throw",
+          "save": {
+            "ability": "con",
+            "dc": 19
+          },
+          "target": {
+            "shape": "cone",
+            "size": 60,
+            "width": 0,
+            "range": 0
+          },
+          "uses": {
+            "per_day": 0,
+            "lair_per_day": 0,
+            "recharge": 5
+          },
+          "effects": [
+            {
+              "key": "save/con",
+              "name": "Constitution Saving Throw",
+              "text": "Constitution Saving Throw: DC 19"
+            },
+            {
+              "key": "area/cone",
+              "name": "Target",
+              "text": "each creature in a 60-foot Cone."
+            },
+            {
+              "key": "limit/recharge",
+              "name": "Recharge",
+              "text": "(Recharge 5–6)"
+            },
+            {
+              "key": "effect/fire-damage",
+              "name": "Fire damage",
+              "text": "56 (16d6) Fire damage.",
+              "dice": {
+                "average": 56,
+                "dice": 16,
+                "sides": 6,
+                "modifier": 0
+              }
+            },
+            {
+              "key": "save/half-damage",
+              "name": "Half damage",
+              "text": "Success: Half damage."
+            },
+            {
+              "key": "effect/underwater-no-resistance",
+              "name": "No underwater Resistance",
+              "text": "Failure or Success: Being underwater doesn’t grant Resistance to this Fire damage."
+            }
+          ]
+        }
+      ],
+      "resistances": [
+        "fire"
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "defense/damage-resistance",
+        "movement/swim",
+        "sense/darkvision",
+        "trait/amphibious",
+        "effect/breathe-air-and-water",
+        "action/multiattack",
+        "action/melee-attack",
+        "multiattack/replace-attack",
+        "effect/piercing-damage",
+        "effect/fire-damage",
+        "effect/underwater-no-resistance",
+        "effect/bludgeoning-damage",
+        "condition/prone",
+        "requirement/target-size",
+        "action/saving-throw",
+        "save/con",
+        "area/cone",
+        "limit/recharge",
+        "save/half-damage"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/dretch",
+      "name": "Dretch",
+      "source_pages": [
+        281,
+        281
+      ],
+      "sizes": [
+        "small"
+      ],
+      "type": "fiend",
+      "alignment": "Chaotic Evil",
+      "ac": 11,
+      "hp": {
+        "average": 18,
+        "dice": 4,
+        "sides": 6,
+        "modifier": 4
+      },
+      "initiative": {
+        "modifier": 0,
+        "score": 10
+      },
+      "speeds": {
+        "walk": 20
+      },
+      "abilities": {
+        "str": {
+          "score": 12,
+          "modifier": 1,
+          "save": 1
+        },
+        "dex": {
+          "score": 11,
+          "modifier": 0,
+          "save": 0
+        },
+        "con": {
+          "score": 12,
+          "modifier": 1,
+          "save": 1
+        },
+        "int": {
+          "score": 5,
+          "modifier": -3,
+          "save": -3
+        },
+        "wis": {
+          "score": 8,
+          "modifier": -1,
+          "save": -1
+        },
+        "cha": {
+          "score": 3,
+          "modifier": -4,
+          "save": -4
+        }
+      },
+      "senses": {
+        "passive_perception": 9,
+        "special": {
+          "darkvision": 60
+        }
+      },
+      "languages": [
+        "Abyssal"
+      ],
+      "gear": [],
+      "cr": "1/4",
+      "xp": 50,
+      "proficiency_bonus": 2,
+      "traits": [],
+      "actions": [
+        {
+          "id": "rend",
+          "name": "Rend",
+          "text": "Rend. Melee Attack Roll: +3, reach 5 ft. Hit: 4 (1d6 + 1) Slashing damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 3,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 4,
+              "dice": 1,
+              "sides": 6,
+              "modifier": 1
+            },
+            "damage_type": "slashing"
+          },
+          "effects": [
+            {
+              "key": "effect/slashing-damage",
+              "name": "Slashing damage",
+              "text": "4 (1d6 + 1) Slashing damage.",
+              "dice": {
+                "average": 4,
+                "dice": 1,
+                "sides": 6,
+                "modifier": 1
+              }
+            }
+          ]
+        },
+        {
+          "id": "fetid-cloud",
+          "name": "Fetid Cloud",
+          "text": "Fetid Cloud (1/Day). Constitution Saving Throw: DC 11, each creature in a 10-foot Emanation originating from the dretch. Failure: The target has the Poisoned condition until the end of its next turn. While Poisoned, the creature can take either an action or a Bonus Action on its turn, not both, and it can’t take Reactions.",
+          "key": "action/saving-throw",
+          "save": {
+            "ability": "con",
+            "dc": 11
+          },
+          "target": {
+            "shape": "emanation",
+            "size": 10,
+            "width": 0,
+            "range": 0
+          },
+          "uses": {
+            "per_day": 1,
+            "lair_per_day": 0,
+            "recharge": 0
+          },
+          "effects": [
+            {
+              "key": "save/con",
+              "name": "Constitution Saving Throw",
+              "text": "Constitution Saving Throw: DC 11"
+            },
+            {
+              "key": "area/emanation",
+              "name": "Target",
+              "text": "each creature in a 10-foot Emanation originating from the dretch."
+            },
+            {
+              "key": "limit/per-day",
+              "name": "Daily uses",
+              "text": "(1/Day)"
+            },
+            {
+              "key": "condition/poisoned",
+              "name": "Poisoned",
+              "text": "Failure: The target has the Poisoned condition until the end of its next turn."
+            },
+            {
+              "key": "effect/action-or-bonus-action",
+              "name": "Action or Bonus Action",
+              "text": "While Poisoned, the creature can take either an action or a Bonus Action on its turn, not both"
+            },
+            {
+              "key": "effect/no-reactions",
+              "name": "No Reactions",
+              "text": "it can’t take Reactions"
+            }
+          ]
+        }
+      ],
+      "tags": [
+        "Demon"
+      ],
+      "resistances": [
+        "cold",
+        "fire",
+        "lightning"
+      ],
+      "immunities": [
+        "poison"
+      ],
+      "condition_immunities": [
+        "poisoned"
+      ],
+      "telepathy": 60,
+      "telepathy_note": "works only with creatures that understand Abyssal",
+      "required_mechanics": [
+        "monster/stat-block",
+        "defense/damage-resistance",
+        "defense/damage-immunity",
+        "defense/condition-immunity",
+        "sense/darkvision",
+        "language/telepathy",
+        "language/telepathy-condition",
+        "action/melee-attack",
+        "effect/slashing-damage",
+        "action/saving-throw",
+        "save/con",
+        "area/emanation",
+        "limit/per-day",
+        "condition/poisoned",
+        "effect/action-or-bonus-action",
+        "effect/no-reactions"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/drider",
+      "name": "Drider",
+      "source_pages": [
+        281,
+        281
+      ],
+      "sizes": [
+        "large"
+      ],
+      "type": "monstrosity",
+      "alignment": "Chaotic Evil",
+      "ac": 19,
+      "hp": {
+        "average": 123,
+        "dice": 13,
+        "sides": 10,
+        "modifier": 52
+      },
+      "initiative": {
+        "modifier": 4,
+        "score": 14
+      },
+      "speeds": {
+        "walk": 30,
+        "climb": 30
+      },
+      "abilities": {
+        "str": {
+          "score": 16,
+          "modifier": 3,
+          "save": 3
+        },
+        "dex": {
+          "score": 19,
+          "modifier": 4,
+          "save": 4
+        },
+        "con": {
+          "score": 18,
+          "modifier": 4,
+          "save": 4
+        },
+        "int": {
+          "score": 13,
+          "modifier": 1,
+          "save": 1
+        },
+        "wis": {
+          "score": 16,
+          "modifier": 3,
+          "save": 3
+        },
+        "cha": {
+          "score": 12,
+          "modifier": 1,
+          "save": 1
+        }
+      },
+      "senses": {
+        "passive_perception": 16,
+        "special": {
+          "darkvision": 120
+        }
+      },
+      "languages": [
+        "Elvish",
+        "Undercommon"
+      ],
+      "gear": [],
+      "cr": "6",
+      "xp": 2300,
+      "proficiency_bonus": 3,
+      "traits": [
+        {
+          "key": "trait/spider-climb",
+          "name": "Spider Climb",
+          "text": "Spider Climb. The drider can climb difficult surfaces, including along ceilings, without needing to make an ability check.",
+          "requires": [
+            "effect/climb-without-check"
+          ]
+        },
+        {
+          "key": "trait/sunlight-sensitivity",
+          "name": "Sunlight Sensitivity",
+          "text": "Sunlight Sensitivity. While in sunlight, the drider has Disadvantage on ability checks and attack rolls.",
+          "requires": [
+            "requirement/in-sunlight",
+            "check/disadvantage",
+            "attack/disadvantage"
+          ]
+        },
+        {
+          "key": "trait/web-walker",
+          "name": "Web Walker",
+          "text": "Web Walker. The drider ignores movement restrictions caused by webs, and the drider knows the location of any other creature in contact with the same web.",
+          "requires": [
+            "effect/ignore-web-restrictions",
+            "effect/know-web-contacts"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "multiattack",
+          "name": "Multiattack",
+          "text": "Multiattack. The drider makes three attacks, using Foreleg or Poison Burst in any combination.",
+          "key": "action/multiattack",
+          "effects": [
+            {
+              "key": "action/melee-attack",
+              "name": "Attack",
+              "text": "The drider makes three attacks, using Foreleg or Poison Burst in any combination."
+            },
+            {
+              "key": "action/ranged-attack",
+              "name": "Attack",
+              "text": "The drider makes three attacks, using Foreleg or Poison Burst in any combination."
+            },
+            {
+              "key": "multiattack/any-combination",
+              "name": "Any combination",
+              "text": "The drider makes three attacks, using Foreleg or Poison Burst in any combination."
+            }
+          ]
+        },
+        {
+          "id": "foreleg",
+          "name": "Foreleg",
+          "text": "Foreleg. Melee Attack Roll: +7, reach 10 ft. Hit: 13 (2d8 + 4) Piercing damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 7,
+            "reach": 10,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 13,
+              "dice": 2,
+              "sides": 8,
+              "modifier": 4
+            },
+            "damage_type": "piercing"
+          },
+          "effects": [
+            {
+              "key": "effect/piercing-damage",
+              "name": "Piercing damage",
+              "text": "13 (2d8 + 4) Piercing damage.",
+              "dice": {
+                "average": 13,
+                "dice": 2,
+                "sides": 8,
+                "modifier": 4
+              }
+            }
+          ]
+        },
+        {
+          "id": "poison-burst",
+          "name": "Poison Burst",
+          "text": "Poison Burst. Ranged Attack Roll: +6, range 120 ft. Hit: 13 (3d6 + 3) Poison damage.",
+          "key": "action/ranged-attack",
+          "attack": {
+            "kind": "ranged",
+            "bonus": 6,
+            "reach": 0,
+            "range": 120,
+            "long_range": 120,
+            "damage": {
+              "average": 13,
+              "dice": 3,
+              "sides": 6,
+              "modifier": 3
+            },
+            "damage_type": "poison"
+          },
+          "effects": [
+            {
+              "key": "effect/poison-damage",
+              "name": "Poison damage",
+              "text": "13 (3d6 + 3) Poison damage.",
+              "dice": {
+                "average": 13,
+                "dice": 3,
+                "sides": 6,
+                "modifier": 3
+              }
+            }
+          ]
+        }
+      ],
+      "skills": {
+        "perception": 6,
+        "stealth": 10
+      },
+      "bonus_actions": [
+        {
+          "id": "magic-of-the-spider-queen",
+          "name": "Magic of the Spider Queen",
+          "text": "Magic of the Spider Queen (Recharge 5–6). The drider casts Darkness, Faerie Fire, or Web, requiring no Material components and using Wisdom as the spellcasting ability (spell save DC 14).",
+          "key": "action/special",
+          "uses": {
+            "per_day": 0,
+            "lair_per_day": 0,
+            "recharge": 5
+          },
+          "effects": [
+            {
+              "key": "limit/recharge",
+              "name": "Recharge",
+              "text": "(Recharge 5–6)"
+            },
+            {
+              "key": "action/spellcasting",
+              "name": "Spellcasting",
+              "text": "The drider casts Darkness, Faerie Fire, or Web, requiring no Material components and using Wisdom as the spellcasting ability (spell save DC 14)."
+            },
+            {
+              "key": "spell/darkness",
+              "name": "Darkness",
+              "text": "Darkness"
+            },
+            {
+              "key": "spell/faerie-fire",
+              "name": "Faerie Fire",
+              "text": "Faerie Fire"
+            },
+            {
+              "key": "spell/web",
+              "name": "Web",
+              "text": "Web"
+            },
+            {
+              "key": "spellcasting/no-material-components",
+              "name": "No Material components",
+              "text": "requiring no Material components"
+            },
+            {
+              "key": "spellcasting/fixed-save-dc",
+              "name": "Spell save DC",
+              "text": "using Wisdom as the spellcasting ability (spell save DC 14)"
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/skills",
+        "movement/climb",
+        "sense/darkvision",
+        "action/bonus-action",
+        "trait/spider-climb",
+        "effect/climb-without-check",
+        "trait/sunlight-sensitivity",
+        "requirement/in-sunlight",
+        "check/disadvantage",
+        "attack/disadvantage",
+        "trait/web-walker",
+        "effect/ignore-web-restrictions",
+        "effect/know-web-contacts",
+        "action/multiattack",
+        "action/melee-attack",
+        "action/ranged-attack",
+        "multiattack/any-combination",
+        "effect/piercing-damage",
+        "effect/poison-damage",
+        "action/special",
+        "limit/recharge",
+        "action/spellcasting",
+        "spell/darkness",
+        "spell/faerie-fire",
+        "spell/web",
+        "spellcasting/no-material-components",
+        "spellcasting/fixed-save-dc"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/druid",
+      "name": "Druid",
+      "source_pages": [
+        282,
+        282
+      ],
+      "sizes": [
+        "medium",
+        "small"
+      ],
+      "type": "humanoid",
+      "alignment": "Neutral",
+      "ac": 13,
+      "hp": {
+        "average": 44,
+        "dice": 8,
+        "sides": 8,
+        "modifier": 8
+      },
+      "initiative": {
+        "modifier": 1,
+        "score": 11
+      },
+      "speeds": {
+        "walk": 30
+      },
+      "abilities": {
+        "str": {
+          "score": 10,
+          "modifier": 0,
+          "save": 0
+        },
+        "dex": {
+          "score": 12,
+          "modifier": 1,
+          "save": 1
+        },
+        "con": {
+          "score": 13,
+          "modifier": 1,
+          "save": 1
+        },
+        "int": {
+          "score": 12,
+          "modifier": 1,
+          "save": 1
+        },
+        "wis": {
+          "score": 16,
+          "modifier": 3,
+          "save": 3
+        },
+        "cha": {
+          "score": 11,
+          "modifier": 0,
+          "save": 0
+        }
+      },
+      "senses": {
+        "passive_perception": 15,
+        "special": {}
+      },
+      "languages": [
+        "Common",
+        "Druidic",
+        "Sylvan"
+      ],
+      "gear": [
+        "Studded Leather Armor"
+      ],
+      "cr": "2",
+      "xp": 450,
+      "proficiency_bonus": 2,
+      "traits": [],
+      "actions": [
+        {
+          "id": "multiattack",
+          "name": "Multiattack",
+          "text": "Multiattack. The druid makes two attacks, using Vine Staff or Verdant Wisp in any combination.",
+          "key": "action/multiattack",
+          "effects": [
+            {
+              "key": "action/melee-attack",
+              "name": "Attack",
+              "text": "The druid makes two attacks, using Vine Staff or Verdant Wisp in any combination."
+            },
+            {
+              "key": "action/ranged-attack",
+              "name": "Attack",
+              "text": "The druid makes two attacks, using Vine Staff or Verdant Wisp in any combination."
+            },
+            {
+              "key": "multiattack/any-combination",
+              "name": "Any combination",
+              "text": "The druid makes two attacks, using Vine Staff or Verdant Wisp in any combination."
+            }
+          ]
+        },
+        {
+          "id": "vine-staff",
+          "name": "Vine Staff",
+          "text": "Vine Staff. Melee Attack Roll: +5, reach 5 ft. Hit: 7 (1d8 + 3) Bludgeoning damage plus 2 (1d4) Poison damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 5,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 7,
+              "dice": 1,
+              "sides": 8,
+              "modifier": 3
+            },
+            "damage_type": "bludgeoning"
+          },
+          "effects": [
+            {
+              "key": "effect/bludgeoning-damage",
+              "name": "Bludgeoning damage",
+              "text": "7 (1d8 + 3) Bludgeoning damage.",
+              "dice": {
+                "average": 7,
+                "dice": 1,
+                "sides": 8,
+                "modifier": 3
+              }
+            },
+            {
+              "key": "effect/poison-damage",
+              "name": "Poison damage",
+              "text": "2 (1d4) Poison damage.",
+              "dice": {
+                "average": 2,
+                "dice": 1,
+                "sides": 4,
+                "modifier": 0
+              }
+            }
+          ]
+        },
+        {
+          "id": "verdant-wisp",
+          "name": "Verdant Wisp",
+          "text": "Verdant Wisp. Ranged Attack Roll: +5, range 90 ft. Hit: 10 (3d6) Radiant damage.",
+          "key": "action/ranged-attack",
+          "attack": {
+            "kind": "ranged",
+            "bonus": 5,
+            "reach": 0,
+            "range": 90,
+            "long_range": 90,
+            "damage": {
+              "average": 10,
+              "dice": 3,
+              "sides": 6,
+              "modifier": 0
+            },
+            "damage_type": "radiant"
+          },
+          "effects": [
+            {
+              "key": "effect/radiant-damage",
+              "name": "Radiant damage",
+              "text": "10 (3d6) Radiant damage.",
+              "dice": {
+                "average": 10,
+                "dice": 3,
+                "sides": 6,
+                "modifier": 0
+              }
+            }
+          ]
+        },
+        {
+          "id": "spellcasting",
+          "name": "Spellcasting",
+          "text": "Spellcasting. The druid casts one of the following spells, using Wisdom as the spellcasting ability (spell save DC 13): At Will: Druidcraft, Speak with Animals 2/Day Each: Entangle, Thunderwave 1/Day Each: Animal Messenger, Longstrider, Moonbeam",
+          "key": "action/spellcasting",
+          "spellcasting": {
+            "ability": "wis",
+            "save_dc": 13,
+            "attack_bonus": 0,
+            "at_will": [
+              "Druidcraft",
+              "Speak with Animals"
+            ],
+            "per_day": [
+              {
+                "uses": 2,
+                "spells": [
+                  "Entangle",
+                  "Thunderwave"
+                ]
+              },
+              {
+                "uses": 1,
+                "spells": [
+                  "Animal Messenger",
+                  "Longstrider",
+                  "Moonbeam"
+                ]
+              }
+            ]
+          },
+          "effects": [
+            {
+              "key": "spell/druidcraft",
+              "name": "Druidcraft",
+              "text": "Druidcraft",
+              "requires": [
+                "spellcasting/at-will"
+              ]
+            },
+            {
+              "key": "spell/speak-with-animals",
+              "name": "Speak with Animals",
+              "text": "Speak with Animals",
+              "requires": [
+                "spellcasting/at-will"
+              ]
+            },
+            {
+              "key": "spell/entangle",
+              "name": "Entangle",
+              "text": "Entangle",
+              "requires": [
+                "limit/per-day"
+              ]
+            },
+            {
+              "key": "spell/thunderwave",
+              "name": "Thunderwave",
+              "text": "Thunderwave",
+              "requires": [
+                "limit/per-day"
+              ]
+            },
+            {
+              "key": "spell/animal-messenger",
+              "name": "Animal Messenger",
+              "text": "Animal Messenger",
+              "requires": [
+                "limit/per-day"
+              ]
+            },
+            {
+              "key": "spell/longstrider",
+              "name": "Longstrider",
+              "text": "Longstrider",
+              "requires": [
+                "limit/per-day"
+              ]
+            },
+            {
+              "key": "spell/moonbeam",
+              "name": "Moonbeam",
+              "text": "Moonbeam",
+              "requires": [
+                "limit/per-day"
+              ]
+            }
+          ]
+        }
+      ],
+      "tags": [
+        "Druid"
+      ],
+      "skills": {
+        "medicine": 5,
+        "nature": 3,
+        "perception": 5
+      },
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/skills",
+        "action/multiattack",
+        "action/melee-attack",
+        "action/ranged-attack",
+        "multiattack/any-combination",
+        "effect/bludgeoning-damage",
+        "effect/poison-damage",
+        "effect/radiant-damage",
+        "action/spellcasting",
+        "spell/druidcraft",
+        "spellcasting/at-will",
+        "spell/speak-with-animals",
+        "spell/entangle",
+        "limit/per-day",
+        "spell/thunderwave",
+        "spell/animal-messenger",
+        "spell/longstrider",
+        "spell/moonbeam"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/dryad",
+      "name": "Dryad",
+      "source_pages": [
+        282,
+        282
+      ],
+      "sizes": [
+        "medium"
+      ],
+      "type": "fey",
+      "alignment": "Neutral",
+      "ac": 16,
+      "hp": {
+        "average": 22,
+        "dice": 5,
+        "sides": 8,
+        "modifier": 0
+      },
+      "initiative": {
+        "modifier": 1,
+        "score": 11
+      },
+      "speeds": {
+        "walk": 30
+      },
+      "abilities": {
+        "str": {
+          "score": 10,
+          "modifier": 0,
+          "save": 0
+        },
+        "dex": {
+          "score": 12,
+          "modifier": 1,
+          "save": 1
+        },
+        "con": {
+          "score": 11,
+          "modifier": 0,
+          "save": 0
+        },
+        "int": {
+          "score": 14,
+          "modifier": 2,
+          "save": 2
+        },
+        "wis": {
+          "score": 15,
+          "modifier": 2,
+          "save": 2
+        },
+        "cha": {
+          "score": 18,
+          "modifier": 4,
+          "save": 4
+        }
+      },
+      "senses": {
+        "passive_perception": 14,
+        "special": {
+          "darkvision": 60
+        }
+      },
+      "languages": [
+        "Elvish",
+        "Sylvan"
+      ],
+      "gear": [],
+      "cr": "1",
+      "xp": 200,
+      "proficiency_bonus": 2,
+      "traits": [
+        {
+          "key": "trait/magic-resistance",
+          "name": "Magic Resistance",
+          "text": "Magic Resistance. The dryad has Advantage on saving throws against spells and other magical effects.",
+          "requires": [
+            "save/advantage-against-magic"
+          ]
+        },
+        {
+          "key": "trait/speak-with-beasts-and-plants",
+          "name": "Speak with Beasts and Plants",
+          "text": "Speak with Beasts and Plants. The dryad can communicate with Beasts and Plants as if they shared a language.",
+          "requires": [
+            "effect/communicate-with-beasts-and-plants"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "multiattack",
+          "name": "Multiattack",
+          "text": "Multiattack. The dryad makes one Vine Lash or Thorn Burst attack, and it can use Spellcasting to cast Charm Monster.",
+          "key": "action/multiattack",
+          "effects": [
+            {
+              "key": "action/melee-attack",
+              "name": "Melee attack",
+              "text": "The dryad makes one Vine Lash or Thorn Burst attack"
+            },
+            {
+              "key": "action/ranged-attack",
+              "name": "Ranged attack",
+              "text": "The dryad makes one Vine Lash or Thorn Burst attack"
+            },
+            {
+              "key": "multiattack/additional-action",
+              "name": "Additional action",
+              "text": "it can use Spellcasting to cast Charm Monster"
+            },
+            {
+              "key": "action/spellcasting",
+              "name": "Spellcasting",
+              "text": "it can use Spellcasting to cast Charm Monster"
+            }
+          ]
+        },
+        {
+          "id": "vine-lash",
+          "name": "Vine Lash",
+          "text": "Vine Lash. Melee Attack Roll: +6, reach 10 ft. Hit: 8 (1d8 + 4) Slashing damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 6,
+            "reach": 10,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 8,
+              "dice": 1,
+              "sides": 8,
+              "modifier": 4
+            },
+            "damage_type": "slashing"
+          },
+          "effects": [
+            {
+              "key": "effect/slashing-damage",
+              "name": "Slashing damage",
+              "text": "8 (1d8 + 4) Slashing damage.",
+              "dice": {
+                "average": 8,
+                "dice": 1,
+                "sides": 8,
+                "modifier": 4
+              }
+            }
+          ]
+        },
+        {
+          "id": "thorn-burst",
+          "name": "Thorn Burst",
+          "text": "Thorn Burst. Ranged Attack Roll: +6, range 60 ft. Hit: 7 (1d6 + 4) Piercing damage.",
+          "key": "action/ranged-attack",
+          "attack": {
+            "kind": "ranged",
+            "bonus": 6,
+            "reach": 0,
+            "range": 60,
+            "long_range": 60,
+            "damage": {
+              "average": 7,
+              "dice": 1,
+              "sides": 6,
+              "modifier": 4
+            },
+            "damage_type": "piercing"
+          },
+          "effects": [
+            {
+              "key": "effect/piercing-damage",
+              "name": "Piercing damage",
+              "text": "7 (1d6 + 4) Piercing damage.",
+              "dice": {
+                "average": 7,
+                "dice": 1,
+                "sides": 6,
+                "modifier": 4
+              }
+            }
+          ]
+        },
+        {
+          "id": "spellcasting",
+          "name": "Spellcasting",
+          "text": "Spellcasting. The dryad casts one of the following spells, requiring no Material components and using Charisma as the spellcasting ability (spell save DC 14): At Will: Animal Friendship, Charm Monster (lasts 24 hours; ends early if the dryad casts the spell again), Druidcraft 1/Day Each: Entangle, Pass without Trace",
+          "key": "action/spellcasting",
+          "spellcasting": {
+            "ability": "cha",
+            "save_dc": 14,
+            "attack_bonus": 0,
+            "at_will": [
+              "Animal Friendship",
+              "Charm Monster (lasts 24 hours; ends early if the dryad casts the spell again)",
+              "Druidcraft"
+            ],
+            "per_day": [
+              {
+                "uses": 1,
+                "spells": [
+                  "Entangle",
+                  "Pass without Trace"
+                ]
+              }
+            ]
+          },
+          "effects": [
+            {
+              "key": "spellcasting/no-material-components",
+              "name": "No Material components",
+              "text": "requiring no Material components"
+            },
+            {
+              "key": "spell/animal-friendship",
+              "name": "Animal Friendship",
+              "text": "Animal Friendship",
+              "requires": [
+                "spellcasting/at-will"
+              ]
+            },
+            {
+              "key": "spell/charm-monster",
+              "name": "Charm Monster",
+              "text": "Charm Monster (lasts 24 hours; ends early if the dryad casts the spell again)",
+              "requires": [
+                "spellcasting/at-will"
+              ]
+            },
+            {
+              "key": "spell/druidcraft",
+              "name": "Druidcraft",
+              "text": "Druidcraft",
+              "requires": [
+                "spellcasting/at-will"
+              ]
+            },
+            {
+              "key": "spell/entangle",
+              "name": "Entangle",
+              "text": "Entangle",
+              "requires": [
+                "limit/per-day"
+              ]
+            },
+            {
+              "key": "spell/pass-without-trace",
+              "name": "Pass without Trace",
+              "text": "Pass without Trace",
+              "requires": [
+                "limit/per-day"
+              ]
+            }
+          ]
+        }
+      ],
+      "skills": {
+        "perception": 4,
+        "stealth": 5
+      },
+      "bonus_actions": [
+        {
+          "id": "tree-stride",
+          "name": "Tree Stride",
+          "text": "Tree Stride. If within 5 feet of a Large or bigger tree, the dryad teleports to an unoccupied space within 5 feet of a second Large or bigger tree that is within 60 feet of the previous tree.",
+          "key": "action/special",
+          "effects": [
+            {
+              "key": "effect/teleport",
+              "name": "Teleport",
+              "text": "the dryad teleports to an unoccupied space within 5 feet of a second Large or bigger tree that is within 60 feet of the previous tree."
+            },
+            {
+              "key": "requirement/near-large-tree",
+              "name": "Near a Large tree",
+              "text": "If within 5 feet of a Large or bigger tree"
+            },
+            {
+              "key": "requirement/unoccupied-space",
+              "name": "Unoccupied space",
+              "text": "an unoccupied space within 5 feet of a second Large or bigger tree"
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/skills",
+        "sense/darkvision",
+        "action/bonus-action",
+        "trait/magic-resistance",
+        "save/advantage-against-magic",
+        "trait/speak-with-beasts-and-plants",
+        "effect/communicate-with-beasts-and-plants",
+        "action/multiattack",
+        "action/melee-attack",
+        "action/ranged-attack",
+        "multiattack/additional-action",
+        "action/spellcasting",
+        "effect/slashing-damage",
+        "effect/piercing-damage",
+        "spellcasting/no-material-components",
+        "spell/animal-friendship",
+        "spellcasting/at-will",
+        "spell/charm-monster",
+        "spell/druidcraft",
+        "spell/entangle",
+        "limit/per-day",
+        "spell/pass-without-trace",
+        "action/special",
+        "effect/teleport",
+        "requirement/near-large-tree",
+        "requirement/unoccupied-space"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/dust-mephit",
+      "name": "Dust Mephit",
+      "source_pages": [
+        307,
+        307
+      ],
+      "sizes": [
+        "small"
+      ],
+      "type": "elemental",
+      "alignment": "Neutral Evil",
+      "ac": 12,
+      "hp": {
+        "average": 17,
+        "dice": 5,
+        "sides": 6,
+        "modifier": 0
+      },
+      "initiative": {
+        "modifier": 2,
+        "score": 12
+      },
+      "speeds": {
+        "walk": 30,
+        "fly": 30
+      },
+      "abilities": {
+        "str": {
+          "score": 5,
+          "modifier": -3,
+          "save": -3
+        },
+        "dex": {
+          "score": 14,
+          "modifier": 2,
+          "save": 2
+        },
+        "con": {
+          "score": 10,
+          "modifier": 0,
+          "save": 0
+        },
+        "int": {
+          "score": 9,
+          "modifier": -1,
+          "save": -1
+        },
+        "wis": {
+          "score": 11,
+          "modifier": 0,
+          "save": 0
+        },
+        "cha": {
+          "score": 10,
+          "modifier": 0,
+          "save": 0
+        }
+      },
+      "senses": {
+        "passive_perception": 12,
+        "special": {
+          "darkvision": 60
+        }
+      },
+      "languages": [
+        "Primordial (Auran, Terran)"
+      ],
+      "gear": [],
+      "cr": "1/2",
+      "xp": 100,
+      "proficiency_bonus": 2,
+      "traits": [
+        {
+          "key": "trait/death-burst",
+          "name": "Death Burst",
+          "text": "Death Burst. The mephit explodes when it dies. Dexterity Saving Throw: DC 10, each creature in a 5-foot Emanation originating from the mephit. Failure: 5 (2d4) Bludgeoning damage. Success: Half damage.",
+          "save": {
+            "ability": "dex",
+            "dc": 10
+          },
+          "target": {
+            "shape": "emanation",
+            "size": 5,
+            "width": 0,
+            "range": 0
+          },
+          "dice": {
+            "average": 5,
+            "dice": 2,
+            "sides": 4,
+            "modifier": 0
+          },
+          "requires": [
+            "trigger/death",
+            "save/dex",
+            "area/emanation",
+            "effect/bludgeoning-damage",
+            "save/half-damage"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "claw",
+          "name": "Claw",
+          "text": "Claw. Melee Attack Roll: +4, reach 5 ft. Hit: 4 (1d4 + 2) Slashing damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 4,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 4,
+              "dice": 1,
+              "sides": 4,
+              "modifier": 2
+            },
+            "damage_type": "slashing"
+          },
+          "effects": [
+            {
+              "key": "effect/slashing-damage",
+              "name": "Slashing damage",
+              "text": "4 (1d4 + 2) Slashing damage.",
+              "dice": {
+                "average": 4,
+                "dice": 1,
+                "sides": 4,
+                "modifier": 2
+              }
+            }
+          ]
+        },
+        {
+          "id": "blinding-breath",
+          "name": "Blinding Breath",
+          "text": "Blinding Breath (Recharge 6). Dexterity Saving Throw: DC 10, each creature in a 15-foot Cone. Failure: The target has the Blinded condition until the end of the mephit’s next turn.",
+          "key": "action/saving-throw",
+          "save": {
+            "ability": "dex",
+            "dc": 10
+          },
+          "target": {
+            "shape": "cone",
+            "size": 15,
+            "width": 0,
+            "range": 0
+          },
+          "uses": {
+            "per_day": 0,
+            "lair_per_day": 0,
+            "recharge": 6
+          },
+          "effects": [
+            {
+              "key": "save/dex",
+              "name": "Dexterity Saving Throw",
+              "text": "Dexterity Saving Throw: DC 10"
+            },
+            {
+              "key": "area/cone",
+              "name": "Target",
+              "text": "each creature in a 15-foot Cone."
+            },
+            {
+              "key": "limit/recharge",
+              "name": "Recharge",
+              "text": "(Recharge 6)"
+            },
+            {
+              "key": "condition/blinded",
+              "name": "Blinded",
+              "text": "Failure: The target has the Blinded condition until the end of the mephit’s next turn."
+            }
+          ]
+        },
+        {
+          "id": "sleep",
+          "name": "Sleep",
+          "text": "Sleep (1/Day). The mephit casts the Sleep spell, requiring no spell components and using Charisma as the spellcasting ability (spell save DC 10).",
+          "key": "action/special",
+          "uses": {
+            "per_day": 1,
+            "lair_per_day": 0,
+            "recharge": 0
+          },
+          "effects": [
+            {
+              "key": "limit/per-day",
+              "name": "Daily uses",
+              "text": "(1/Day)"
+            },
+            {
+              "key": "action/spellcasting",
+              "name": "Spellcasting",
+              "text": "The mephit casts the Sleep spell, requiring no spell components and using Charisma as the spellcasting ability (spell save DC 10)."
+            },
+            {
+              "key": "spell/sleep",
+              "name": "Sleep",
+              "text": "Sleep"
+            },
+            {
+              "key": "spellcasting/no-components",
+              "name": "No spell components",
+              "text": "requiring no spell components"
+            },
+            {
+              "key": "spellcasting/fixed-save-dc",
+              "name": "Spell save DC",
+              "text": "using Charisma as the spellcasting ability (spell save DC 10)"
+            }
+          ]
+        }
+      ],
+      "skills": {
+        "perception": 2,
+        "stealth": 4
+      },
+      "vulnerabilities": [
+        "fire"
+      ],
+      "immunities": [
+        "poison"
+      ],
+      "condition_immunities": [
+        "exhaustion",
+        "poisoned"
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/skills",
+        "defense/damage-vulnerability",
+        "defense/damage-immunity",
+        "defense/condition-immunity",
+        "movement/fly",
+        "sense/darkvision",
+        "trait/death-burst",
+        "trigger/death",
+        "save/dex",
+        "area/emanation",
+        "effect/bludgeoning-damage",
+        "save/half-damage",
+        "action/melee-attack",
+        "effect/slashing-damage",
+        "action/saving-throw",
+        "area/cone",
+        "limit/recharge",
+        "condition/blinded",
+        "action/special",
+        "limit/per-day",
+        "action/spellcasting",
+        "spell/sleep",
+        "spellcasting/no-components",
+        "spellcasting/fixed-save-dc"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/animals/eagle",
+      "name": "Eagle",
+      "source_pages": [
+        348,
+        348
+      ],
+      "sizes": [
+        "small"
+      ],
+      "type": "beast",
+      "alignment": "Unaligned",
+      "ac": 12,
+      "hp": {
+        "average": 4,
+        "dice": 1,
+        "sides": 6,
+        "modifier": 1
+      },
+      "initiative": {
+        "modifier": 2,
+        "score": 12
+      },
+      "speeds": {
+        "walk": 10,
+        "fly": 60
+      },
+      "abilities": {
+        "str": {
+          "score": 6,
+          "modifier": -2,
+          "save": -2
+        },
+        "dex": {
+          "score": 15,
+          "modifier": 2,
+          "save": 2
+        },
+        "con": {
+          "score": 12,
+          "modifier": 1,
+          "save": 1
+        },
+        "int": {
+          "score": 2,
+          "modifier": -4,
+          "save": -4
+        },
+        "wis": {
+          "score": 14,
+          "modifier": 2,
+          "save": 2
+        },
+        "cha": {
+          "score": 7,
+          "modifier": -2,
+          "save": -2
+        }
+      },
+      "senses": {
+        "passive_perception": 16,
+        "special": {}
+      },
+      "languages": [],
+      "gear": [],
+      "cr": "0",
+      "xp": 10,
+      "proficiency_bonus": 2,
+      "traits": [],
+      "actions": [
+        {
+          "id": "talons",
+          "name": "Talons",
+          "text": "Talons. Melee Attack Roll: +4, reach 5 feet. Hit: 4 (1d4 + 2) Slashing damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 4,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 4,
+              "dice": 1,
+              "sides": 4,
+              "modifier": 2
+            },
+            "damage_type": "slashing"
+          },
+          "effects": [
+            {
+              "key": "effect/slashing-damage",
+              "name": "Slashing damage",
+              "text": "4 (1d4 + 2) Slashing damage.",
+              "dice": {
+                "average": 4,
+                "dice": 1,
+                "sides": 4,
+                "modifier": 2
+              }
+            }
+          ]
+        }
+      ],
+      "skills": {
+        "perception": 6
+      },
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/skills",
+        "movement/fly",
+        "action/melee-attack",
+        "effect/slashing-damage"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/earth-elemental",
+      "name": "Earth Elemental",
+      "source_pages": [
+        282,
+        283
+      ],
+      "sizes": [
+        "large"
+      ],
+      "type": "elemental",
+      "alignment": "Neutral",
+      "ac": 17,
+      "hp": {
+        "average": 147,
+        "dice": 14,
+        "sides": 10,
+        "modifier": 70
+      },
+      "initiative": {
+        "modifier": -1,
+        "score": 9
+      },
+      "speeds": {
+        "walk": 30,
+        "burrow": 30
+      },
+      "abilities": {
+        "str": {
+          "score": 20,
+          "modifier": 5,
+          "save": 5
+        },
+        "dex": {
+          "score": 8,
+          "modifier": -1,
+          "save": -1
+        },
+        "con": {
+          "score": 20,
+          "modifier": 5,
+          "save": 5
+        },
+        "int": {
+          "score": 5,
+          "modifier": -3,
+          "save": -3
+        },
+        "wis": {
+          "score": 10,
+          "modifier": 0,
+          "save": 0
+        },
+        "cha": {
+          "score": 5,
+          "modifier": -3,
+          "save": -3
+        }
+      },
+      "senses": {
+        "passive_perception": 10,
+        "special": {
+          "darkvision": 60,
+          "tremorsense": 60
+        }
+      },
+      "languages": [
+        "Primordial (Terran)"
+      ],
+      "gear": [],
+      "cr": "5",
+      "xp": 1800,
+      "proficiency_bonus": 3,
+      "traits": [
+        {
+          "key": "trait/earth-glide",
+          "name": "Earth Glide",
+          "text": "Earth Glide. The elemental can burrow through nonmagical, unworked earth and stone. While doing so, the elemental doesn’t disturb the material it moves through.",
+          "requires": [
+            "movement/burrow-through-earth-and-stone",
+            "effect/no-disturbance"
+          ]
+        },
+        {
+          "key": "trait/siege-monster",
+          "name": "Siege Monster",
+          "text": "Siege Monster. The elemental deals double damage to objects and structures.",
+          "requires": [
+            "effect/double-damage-to-objects"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "multiattack",
+          "name": "Multiattack",
+          "text": "Multiattack. The elemental makes two attacks, using Slam or Rock Launch in any combination.",
+          "key": "action/multiattack",
+          "effects": [
+            {
+              "key": "action/melee-attack",
+              "name": "Attack",
+              "text": "The elemental makes two attacks, using Slam or Rock Launch in any combination."
+            },
+            {
+              "key": "action/ranged-attack",
+              "name": "Attack",
+              "text": "The elemental makes two attacks, using Slam or Rock Launch in any combination."
+            },
+            {
+              "key": "multiattack/any-combination",
+              "name": "Any combination",
+              "text": "The elemental makes two attacks, using Slam or Rock Launch in any combination."
+            }
+          ]
+        },
+        {
+          "id": "slam",
+          "name": "Slam",
+          "text": "Slam. Melee Attack Roll: +8, reach 10 ft. Hit: 14 (2d8 + 5) Bludgeoning damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 8,
+            "reach": 10,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 14,
+              "dice": 2,
+              "sides": 8,
+              "modifier": 5
+            },
+            "damage_type": "bludgeoning"
+          },
+          "effects": [
+            {
+              "key": "effect/bludgeoning-damage",
+              "name": "Bludgeoning damage",
+              "text": "14 (2d8 + 5) Bludgeoning damage.",
+              "dice": {
+                "average": 14,
+                "dice": 2,
+                "sides": 8,
+                "modifier": 5
+              }
+            }
+          ]
+        },
+        {
+          "id": "rock-launch",
+          "name": "Rock Launch",
+          "text": "Rock Launch. Ranged Attack Roll: +8, range 60 ft. Hit: 8 (1d6 + 5) Bludgeoning damage. If the target is a Large or smaller creature, it has the Prone condition.",
+          "key": "action/ranged-attack",
+          "attack": {
+            "kind": "ranged",
+            "bonus": 8,
+            "reach": 0,
+            "range": 60,
+            "long_range": 60,
+            "damage": {
+              "average": 8,
+              "dice": 1,
+              "sides": 6,
+              "modifier": 5
+            },
+            "damage_type": "bludgeoning"
+          },
+          "effects": [
+            {
+              "key": "effect/bludgeoning-damage",
+              "name": "Bludgeoning damage",
+              "text": "8 (1d6 + 5) Bludgeoning damage.",
+              "dice": {
+                "average": 8,
+                "dice": 1,
+                "sides": 6,
+                "modifier": 5
+              }
+            },
+            {
+              "key": "condition/prone",
+              "name": "Prone",
+              "text": "If the target is a Large or smaller creature, it has the Prone condition."
+            },
+            {
+              "key": "requirement/target-size",
+              "name": "Target size",
+              "text": "If the target is a Large or smaller creature, it has the Prone condition."
+            }
+          ]
+        }
+      ],
+      "vulnerabilities": [
+        "thunder"
+      ],
+      "immunities": [
+        "poison"
+      ],
+      "condition_immunities": [
+        "exhaustion",
+        "paralyzed",
+        "petrified",
+        "poisoned",
+        "unconscious"
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "defense/damage-vulnerability",
+        "defense/damage-immunity",
+        "defense/condition-immunity",
+        "movement/burrow",
+        "sense/darkvision",
+        "sense/tremorsense",
+        "trait/earth-glide",
+        "movement/burrow-through-earth-and-stone",
+        "effect/no-disturbance",
+        "trait/siege-monster",
+        "effect/double-damage-to-objects",
+        "action/multiattack",
+        "action/melee-attack",
+        "action/ranged-attack",
+        "multiattack/any-combination",
+        "effect/bludgeoning-damage",
+        "condition/prone",
+        "requirement/target-size"
+      ]
+    }
+  ]
+}

@@ -55,6 +55,7 @@ type Monster struct {
 	ConditionImmunities []string          `json:"condition_immunities,omitempty"`
 	Hover               bool              `json:"hover,omitempty"`
 	Telepathy           int               `json:"telepathy,omitempty"`
+	TelepathyNote       string            `json:"telepathy_note,omitempty"`
 	LairXP              int               `json:"lair_xp,omitempty"`
 	BonusActions        []MonsterAction   `json:"bonus_actions,omitempty"`
 	Reactions           []MonsterAction   `json:"reactions,omitempty"`
