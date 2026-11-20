@@ -148,6 +148,7 @@ type SpellClairvoyance struct {
 
 // SpellClone retains Clone's typed SRD source facts without implementing them.
 // Only the diamond is consumed; the vessel is a separate required object.
+// The aggregate material.consumed flag means "includes a consumed component"; the split lives here.
 type SpellClone struct {
 	SourcePages             []int    `json:"source_pages"`
 	TargetChoices           []string `json:"target_choices"`
