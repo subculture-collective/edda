@@ -593,7 +593,7 @@ func TestMonsters157MalformedFixtures(t *testing.T) {
 }
 
 // The batch composes with the #143 Bandit catalogue and stat-block batches 01
-// to 04 without entering the embedded runtime catalogue. Batch 04 repeats the
+// to 06 without entering the embedded runtime catalogue. Batch 04 repeats the
 // Bandit revision #143 pinned, so composition keeps that one copy.
 func TestMonsters157ComposesWithEarlierBatches(t *testing.T) {
 	base, err := LoadMonsters()
@@ -613,14 +613,15 @@ func TestMonsters157ComposesWithEarlierBatches(t *testing.T) {
 		second = append(second, sb.Monster)
 	}
 	first, third, fourth := loadMonsters151(t), loadMonsters153(t), loadMonsters154(t)
-	for _, c := range []MonsterCatalogue{base, first, third, fourth} {
+	fifth, sixth := loadMonsters155(t), loadMonsters156(t)
+	for _, c := range []MonsterCatalogue{base, first, third, fourth, fifth, sixth} {
 		a, b := c.Source, batch.Source
 		a.Changes, b.Changes = "", ""
 		if a != b {
 			t.Fatal("batches must share one source pin")
 		}
 	}
-	earlier := slices.Concat(base.Monsters, first.Monsters, second, third.Monsters, slices.Concat(fourth.Monsters[:4], fourth.Monsters[5:]))
+	earlier := slices.Concat(base.Monsters, first.Monsters, second, third.Monsters, slices.Concat(fourth.Monsters[:4], fourth.Monsters[5:]), fifth.Monsters, sixth.Monsters)
 	combined := MonsterCatalogue{SchemaVersion: 1, Source: batch.Source, Monsters: slices.Concat(earlier, batch.Monsters)}
 	if err := combined.Validate(); err != nil || len(combined.Monsters) != len(earlier)+12 {
 		t.Fatal("batch must compose with the earlier catalogues:", err)
