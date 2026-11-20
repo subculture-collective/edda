@@ -38,7 +38,7 @@ and requires a mechanic key for every speed, sense, skill, immunity, trait,
 action and effect. The Go test compares each block with literal source values,
 checks the twelve identities and pages against the inventory, rejects malformed
 and loosely decoded input, and confirms the batch composes with the Bandit
-catalogue without duplicate IDs. The Python comparator reads the PDF columns,
+catalogue and the twelve #151 blocks (24 records) without duplicate IDs. The Python comparator reads the PDF columns,
 rebuilds every record and compares the whole file.
 
 ```sh

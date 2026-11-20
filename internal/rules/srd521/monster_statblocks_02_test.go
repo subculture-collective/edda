@@ -512,14 +512,27 @@ func TestMonsterBatch02MechanicKeysStayUnavailable(t *testing.T) {
 	if !reflect.DeepEqual(counts, []int{9, 47, 42, 55, 55, 53, 59, 46, 41, 55, 36}) || len(union) != 152 {
 		t.Fatalf("required key counts = %v, union = %d", counts, len(union))
 	}
-	// Composition with the earlier Bandit record: disjoint IDs, Bandit untouched.
+	// Composition with the earlier Bandit record and the #151 batch: disjoint
+	// IDs under one pinned source, Bandit untouched.
 	base, err := LoadMonsters()
 	if err != nil {
 		t.Fatal(err)
 	}
+	batch01 := loadMonsters151(t)
 	ids := map[string]bool{}
-	for _, m := range base.Monsters {
+	for _, m := range slices.Concat(base.Monsters, batch01.Monsters) {
 		ids[m.ID] = true
+	}
+	combined := MonsterCatalogue{SchemaVersion: 1, Source: batch01.Source, Monsters: slices.Concat(base.Monsters, batch01.Monsters)}
+	for _, s := range b.StatBlocks {
+		combined.Monsters = append(combined.Monsters, s.Monster)
+	}
+	if err := combined.Validate(); err != nil || len(combined.Monsters) != 24 {
+		t.Fatal("batch must compose with the earlier catalogues:", err)
+	}
+	samePin := func(a, b Source) bool { a.Changes, b.Changes = "", ""; return a == b }
+	if len(batch01.Monsters) != 12 || !samePin(batch01.Source, b.Source) {
+		t.Fatal("batch must share the #151 batch's source pin")
 	}
 	for _, s := range b.StatBlocks {
 		if ids[s.Monster.ID] {
@@ -527,8 +540,8 @@ func TestMonsterBatch02MechanicKeysStayUnavailable(t *testing.T) {
 		}
 		ids[s.Monster.ID] = true
 	}
-	if len(base.Monsters) != 1 || len(ids) != 12 || base.Source != func() Source { s := b.Source; s.Changes = base.Source.Changes; return s }() {
-		t.Fatal("batch must compose with the Bandit catalogue under one pinned source")
+	if len(base.Monsters) != 1 || len(ids) != 24 || base.Source != func() Source { s := b.Source; s.Changes = base.Source.Changes; return s }() {
+		t.Fatal("batch must compose with the Bandit catalogue and the #151 batch under one pinned source")
 	}
 }
 
