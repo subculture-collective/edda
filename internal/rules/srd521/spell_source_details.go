@@ -36,6 +36,18 @@ type SpellSourceDetails struct {
 	Blink           *SpellBlink        `json:"blink,omitempty"`
 	Blur            *SpellBlur         `json:"blur,omitempty"`
 	Burning         *SpellBurning      `json:"burning,omitempty"`
+	Lightning       *SpellLightning    `json:"lightning,omitempty"`
+	Calm            *SpellCalm         `json:"calm,omitempty"`
+	Chain           *SpellChain        `json:"chain,omitempty"`
+	Monster         *SpellCharm        `json:"monster,omitempty"`
+	Person          *SpellCharm        `json:"person,omitempty"`
+	Chill           *SpellChill        `json:"chill,omitempty"`
+	Orb             *SpellOrb          `json:"orb,omitempty"`
+	Death           *SpellDeath        `json:"death,omitempty"`
+	Clairvoyance    *SpellClairvoyance `json:"clairvoyance,omitempty"`
+	Clone           *SpellClone        `json:"clone,omitempty"`
+	Cloudkill       *SpellCloudkill    `json:"cloudkill,omitempty"`
+	Spray           *SpellSpray        `json:"spray,omitempty"`
 	CastingSeconds  int                `json:"casting_seconds"`
 	CastingTriggers []string           `json:"casting_triggers"`
 	EndTiming       string             `json:"end_timing"`
@@ -249,7 +261,7 @@ func (s *SpellSourceDetails) UnmarshalJSON(data []byte) error {
 		}
 	}
 	templates := map[string]any{"rays": SpellRays{}, "scrying": SpellScrying{}, "smite": SpellSmite{}, "chest": SpellChest{}, "vision": SpellVision{}, "seeming": SpellSeeming{}, "sending": SpellSending{}, "sequester": SpellSequester{}, "shapechange": SpellShapechange{}, "shatter": SpellShatter{}, "shield": SpellShield{}, "faith": SpellFaith{}}
-	for _, batch := range []map[string]any{spell196Templates(), spell197Templates(), spell198Templates()} {
+	for _, batch := range []map[string]any{spell196Templates(), spell197Templates(), spell198Templates(), spell199Templates()} {
 		for key, template := range batch {
 			if raw, ok := fields[key]; ok {
 				if err := requireSpell198Fields(raw, reflect.TypeOf(template)); err != nil {
@@ -337,11 +349,17 @@ func validSpellTarget(t SpellTarget) bool {
 	case "wall":
 		return t.Count == 0 && t.Eligibility == "creatures-in-wall"
 	case "cone":
-		return t.Count == 0 && t.Eligibility == "creatures-and-flammable-unattended-objects"
+		return t.Count == 0 && (t.Eligibility == "creatures-and-flammable-unattended-objects" || t.Eligibility == "creatures-in-cone")
+	case "cylinder":
+		return t.Count == 0 && t.Eligibility == "creatures-within-5-feet-of-chosen-point-under-cloud"
+	case "chain":
+		return t.Count == 1 && t.Eligibility == "visible-creature-or-object-in-range"
+	case "location":
+		return t.Count == 1 && t.Eligibility == "familiar-or-obvious-location-in-range"
 	case "up-to-count":
-		return (t.Count == 3 && t.Eligibility == "creatures-in-range") || (t.Count == 1 && t.Eligibility == "visible-creatures-in-range")
+		return (t.Count == 3 && t.Eligibility == "creatures-in-range") || (t.Count == 1 && (t.Eligibility == "visible-creatures-in-range" || t.Eligibility == "visible-humanoids-in-range"))
 	case "single":
-		return t.Count == 1 && slices.Contains([]string{"target-in-range", "creature-in-range", "conscious-self", "self", "hit-target", "object-or-willing-creature", "chest-and-replica", "willing-creature-touch", "creature-touch", "visible-creature-in-range", "visible-beast-in-range", "visible-tiny-beast-in-range"}, t.Eligibility)
+		return t.Count == 1 && slices.Contains([]string{"target-in-range", "creature-in-range", "conscious-self", "self", "hit-target", "object-or-willing-creature", "chest-and-replica", "willing-creature-touch", "creature-touch", "visible-creature-in-range", "visible-beast-in-range", "visible-tiny-beast-in-range", "target-within-reach", "creature-or-flesh-touch"}, t.Eligibility)
 	case "rays":
 		return t.Count == 3 && t.Eligibility == "targets-in-range"
 	case "choice":
@@ -349,7 +367,7 @@ func validSpellTarget(t SpellTarget) bool {
 	case "selected-creatures":
 		return t.Count == 0 && slices.Contains([]string{"visible-creatures-in-range", "creatures-in-range", "visible-willing-creatures-in-range"}, t.Eligibility)
 	case "sphere":
-		return t.Count == 0 && (t.Eligibility == "creatures-and-eligible-objects" || t.Eligibility == "creatures-in-sphere")
+		return t.Count == 0 && (t.Eligibility == "creatures-and-eligible-objects" || t.Eligibility == "creatures-in-sphere" || t.Eligibility == "humanoids-in-sphere")
 	case "selected-objects":
 		return t.Count == 0 && t.Eligibility == "eligible-nonmagical-objects-in-range"
 	case "emanation":
@@ -367,6 +385,9 @@ func (s SpellRecord) validateSourceDetails() error {
 		return err
 	}
 	if handled, err := s.validateSpell198(); handled || err != nil {
+		return err
+	}
+	if handled, err := s.validateSpell199(); handled || err != nil {
 		return err
 	}
 	d := s.SourceDetails
