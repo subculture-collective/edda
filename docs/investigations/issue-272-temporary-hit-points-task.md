@@ -16,7 +16,7 @@ Every grant owner keeps its own amount, trigger, eligibility, per-source non-sta
 
 Two consequences are Edda adaptations of "Temporary Hit Points aren't Hit Points", not source sentences: the Hit Point maximum does not cap the pool, and a grant fires no trigger that depends on healing or on regaining Hit Points. Healing stays capped at the maximum (PDF17) regardless of the pool.
 
-Future consumer: the open splitter #358 must name this task as a hard prerequisite of its Heroism start-of-turn child and wire that child to #279 and #280. Until then this task reaches spell qualification #279 only indirectly; see the decision.
+Future consumer: Heroism #912, the published owner that decision #358 reused unchanged, raises the keep-or-replace choice at every turn start and must consume this task; it must neither auto-keep nor auto-replace. #912 has no native edge to this task, so this task reaches spell qualification #279 only indirectly; see the decision.
 
 ## Deterministic fixtures
 
