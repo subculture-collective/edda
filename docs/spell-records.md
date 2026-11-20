@@ -636,7 +636,9 @@ Schema version 1 gains only shapes present in this batch, on top of #202:
 
 Validation pins each record's whole printed value, including header, scaling
 row, effects, required mechanics and typed payload, so a positive but wrong value
-is rejected. A batch payload on a record of another batch is rejected too.
+is rejected. The #204 verifier script checks identities, pages, printed headers and
+anchor phrases only; typed payload values (slot-duration tables, fissure numbers,
+option lists) are verified by the literal fixtures and pins, not by the script. A batch payload on a record of another batch is rejected too.
 Composition of the bounded fixtures with #196, #218, #198, #199, #200, #201,
 #202 and #204 yields 108 unique records. Every imported record remains
 unavailable: no resolver, action, entitlement, tool, inventory, coverage or Full
