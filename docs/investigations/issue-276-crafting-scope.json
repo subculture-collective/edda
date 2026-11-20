@@ -2,7 +2,7 @@
   "schema_version": 1,
   "decision": 276,
   "status": "SOURCE_DRAFT_PENDING_NATIVE_PUBLICATION",
-  "observed_at": "2026-11-20T07:34:53.940062+00:00",
+  "observed_at": "2026-11-20T07:49:20.071220+00:00",
   "source": {
     "sha256": "8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87",
     "attribution": "docs/srd-5.2.1-conformance.md",
@@ -19,12 +19,17 @@
       "93": [
         "Craft. This entry lists what, if anything, you can craft with the tool",
         "Craft: Ink, Spell Scroll",
-        "Smith’s Tools (20 GP)"
+        "Smith’s Tools (20 GP)",
+        "Craft: Antitoxin",
+        "Craft: Arcane Focus, Holy Symbol",
+        "Craft: Druidic Focus, Holy Symbol",
+        "Craft: Club, Greatclub, Quarterstaff, Barrel"
       ],
       "94": [
         "Any Melee weapon (except Club, Greatclub, Quarterstaff, and Whip), Medium armor (except Hide), Heavy armor",
         "Ranged weapons (except Pistol, Musket, and Sling)",
-        "Craft: Antitoxin, Candle, Healer’s Kit, Potion of Healing"
+        "Craft: Antitoxin, Candle, Healer’s Kit, Potion of Healing",
+        "Craft: Club, Greatclub, Quarterstaff, Ranged weapons"
       ],
       "95": [
         "Spell Scroll (Cantrip) — 30 GP",
@@ -33,6 +38,7 @@
       ],
       "99": [
         "Potion of Healing (50 GP)",
+        "A Spell Scroll (Cantrip) or Spell Scroll (Level 1) is a magic item",
         "regains 2d4 + 2 Hit Points",
         "the spell save DC is 13, and the attack bonus is +5"
       ],
@@ -49,7 +55,10 @@
         "Scribing Spell Scrolls",
         "For each day of inscription, you must work for 8 hours.",
         "you must have proficiency in the Arcana skill or with Calligrapher’s Supplies and have the spell prepared on each day of the inscription",
-        "they are consumed only when you complete the scroll",
+        "You must also have at hand any Material components required by the spell; if the spell consumes its Material components, they are consumed only when you complete the scroll.",
+        "A spellcaster can transfer a spell to a scroll and create a Spell Scroll",
+        "The GM assigns required tools for items not listed there.",
+        "you make the item, and you can use it or sell it at its normal price",
         "The scroll’s spell uses your spell save DC and spell attack bonus.",
         "the version on the scroll works as if the caster were your level",
         "Spell Scroll Costs"
@@ -58,6 +67,7 @@
         "Detect Magic"
       ],
       "159": [
+        "Level 3 Necromancy (Cleric, Druid, Paladin, Ranger)",
         "Sacred Flame Evocation Cantrip (Cleric)",
         "Sanctuary Level 1 Abjuration (Cleric)",
         "a shard of glass from a mirror",
@@ -67,10 +77,13 @@
         "Crafting Magic Items",
         "“Equipment” contains rules on brewing Potions of Healing and scribing Spell Scrolls.",
         "To craft a magic item, you and any assistants must have proficiency in the Arcana skill.",
+        "You must use the required tool to make an item and have proficiency with that tool. Any assistants must also have proficiency with it.",
         "The value of a Spell Scroll is double what it costs to scribe the scroll"
       ],
       "207": [
         "Magic Item Tools",
+        "For each day of crafting, you must work for 8 hours. If an item requires multiple days, those days needn’t be consecutive.",
+        "The cost in the table represents the raw materials needed to make a magic item. The GM determines whether appropriate raw materials are available.",
         "you must have all those spells prepared every day you spend crafting the item",
         "The time and cost are halved for a consumable item other than a Spell Scroll",
         "In a city, there is a 75 percent chance that the materials are available, and in any other settlement, that chance is 25 percent.",
@@ -86,6 +99,7 @@
         "Potion of Resistance Potion, Uncommon"
       ],
       "244": [
+        "Spell Scroll Scroll, Rarity Varies",
         "The level of the spell on the scroll determines the spell’s saving throw DC and attack bonus, as well as the scroll’s rarity"
       ],
       "251": [
@@ -186,6 +200,25 @@
   },
   "scopes": [
     {
+      "scope": "shared crafting project record, payment point and recorded GM rulings",
+      "PDF": [
+        103,
+        206,
+        207
+      ],
+      "existing_executable_owner": null,
+      "data_owners": [
+        195
+      ],
+      "adjacent": [
+        34,
+        275
+      ],
+      "planned": [
+        "crafting-project-ledger"
+      ]
+    },
+    {
       "scope": "nonmagical crafting",
       "PDF": [
         91,
@@ -215,7 +248,7 @@
       ],
       "planned": [
         "nonmagical-crafting",
-        "crafting-qualification"
+        "craft-roster-spike"
       ]
     },
     {
@@ -223,7 +256,10 @@
       "PDF": [
         94,
         99,
-        103
+        103,
+        206,
+        207,
+        236
       ],
       "existing_executable_owner": null,
       "data_owners": [
@@ -245,32 +281,48 @@
         103,
         159,
         206,
+        207,
         244
       ],
       "existing_executable_owner": null,
       "data_owners": [
         217,
+        242,
         253,
         262
       ],
       "adjacent": [
+        557,
+        618,
+        957,
         1142,
-        1770,
+        1447,
         1726,
-        557
+        1770
       ],
       "planned": [
-        "scroll-scribing"
+        "scroll-scribing",
+        "scribed-scroll-reading",
+        "scribing-coverage-spike"
       ]
     },
     {
       "scope": "magic item crafting",
       "PDF": [
+        92,
+        93,
+        94,
+        103,
+        123,
         206,
-        207
+        207,
+        210,
+        236,
+        251
       ],
       "existing_executable_owner": null,
       "data_owners": [
+        202,
         225,
         238,
         245,
@@ -284,7 +336,9 @@
         1140
       ],
       "planned": [
-        "magic-item-crafting"
+        "magic-item-crafting",
+        "magic-item-material-availability",
+        "magic-item-coverage-spike"
       ]
     },
     {
@@ -308,6 +362,17 @@
     }
   ],
   "existing_owners": {
+    "34": {
+      "number": 34,
+      "title": "Report failures when campaign rules, clock or starting abilities cannot be initialized",
+      "state": "CLOSED",
+      "parent": 51,
+      "blocked_by": [
+        31
+      ],
+      "blocking_count": 1,
+      "body_sha256": "85a50225d84167a8d423efbd95c5ed22841cb1c9d1ccd47f4c6184d2e62c1cc0"
+    },
     "195": {
       "number": 195,
       "title": "Validate versioned item families and explicit variant identities",
@@ -318,6 +383,17 @@
       ],
       "blocking_count": 61,
       "body_sha256": "554b45122c2a301ffd11b6b8b717b254f44fa54a21f0e623227613ca14464b5a"
+    },
+    "202": {
+      "number": 202,
+      "title": "Catalogue SRD spells 07: Cure Wounds to Detect Thoughts",
+      "state": "OPEN",
+      "parent": 191,
+      "blocked_by": [
+        194
+      ],
+      "blocking_count": 5,
+      "body_sha256": "3a426970d65f8bf0cd06e32faa4782c5caf93b635a35b09458a1b8c0c72b3ffc"
     },
     "217": {
       "number": 217,
@@ -351,6 +427,17 @@
       ],
       "blocking_count": 1,
       "body_sha256": "5833431b10af6e8bc55700bb93de34525b63472fed766e179ac165ecd16c9b76"
+    },
+    "242": {
+      "number": 242,
+      "title": "Catalogue SRD magic-items 18: Shield, +1, +2, or +3 to Staff of Striking",
+      "state": "OPEN",
+      "parent": 192,
+      "blocked_by": [
+        195
+      ],
+      "blocking_count": 1,
+      "body_sha256": "889010aa37fb8e76c5735ff28f4ead2b7f9bdda21f20e67289f329da1d1a1495"
     },
     "245": {
       "number": 245,
@@ -625,6 +712,32 @@
       "blocking_count": 24,
       "body_sha256": "4ce9d2b7119d13f7f3ea9df92fdfe1c7ad1d2014bb4afc8ef80b583a9583a450"
     },
+    "618": {
+      "number": 618,
+      "title": "Resolve Revivify one recent death",
+      "state": "OPEN",
+      "parent": 191,
+      "blocked_by": [
+        194,
+        195,
+        217,
+        273
+      ],
+      "blocking_count": 9,
+      "body_sha256": "6fe2f210bf55b90248ceacd9203fee22693f6a5cf2cd4a7fe02f5487efe916ae"
+    },
+    "957": {
+      "number": 957,
+      "title": "Resolve Sacred Flame sacred flame",
+      "state": "OPEN",
+      "parent": 850,
+      "blocked_by": [
+        61,
+        67
+      ],
+      "blocking_count": 4,
+      "body_sha256": "ce5e5d3db7debfccc8a3a9bca745e6104989e74d6b1e13c9d8f9a46224f84190"
+    },
     "1140": {
       "number": 1140,
       "title": "Rogue: magic item",
@@ -732,11 +845,42 @@
   },
   "planned_tasks": [
     {
+      "key": "crafting-project-ledger",
+      "marker": "edda-276:crafting-project-ledger",
+      "title": "Record one crafting project: start, 8-hour workdays, payment and completion",
+      "type": "Task",
+      "labels": [],
+      "size": "M",
+      "pdf_pages": [
+        103,
+        206,
+        207
+      ],
+      "parent": 276,
+      "blocked_by": [
+        195,
+        275
+      ],
+      "blocked_by_planned": [],
+      "blocks": [],
+      "body_file": "docs/investigations/issue-276-crafting-project-ledger-task.md",
+      "body_sha256": "d7fd57ac334b323bd23b9d8d1ad1c78ecf141e3b184c0c3c4f9cb4fba6350528",
+      "number": null
+    },
+    {
       "key": "nonmagical-crafting",
       "marker": "edda-276:nonmagical-crafting",
       "title": "Craft one nonmagical item with a required tool, raw materials and workdays",
       "type": "Task",
+      "labels": [],
       "size": "M",
+      "pdf_pages": [
+        91,
+        92,
+        93,
+        94,
+        103
+      ],
       "parent": 276,
       "blocked_by": [
         195,
@@ -745,10 +889,12 @@
         254,
         255
       ],
-      "blocked_by_planned": [],
+      "blocked_by_planned": [
+        "crafting-project-ledger"
+      ],
       "blocks": [],
       "body_file": "docs/investigations/issue-276-nonmagical-crafting-task.md",
-      "body_sha256": "910845f6aaeea112649e9cbda1c6bf3b490465a597b49ed4267371fc461ab3c5",
+      "body_sha256": "183362f6c5ffc07f472b8d32cae8e67354e5a4d4e6ff57ec6c9d29ac5c5f4e85",
       "number": null
     },
     {
@@ -756,7 +902,16 @@
       "marker": "edda-276:potion-brewing",
       "title": "Brew one Potion of Healing with a Herbalism Kit",
       "type": "Task",
-      "size": "S",
+      "labels": [],
+      "size": "M",
+      "pdf_pages": [
+        94,
+        99,
+        103,
+        206,
+        207,
+        236
+      ],
       "parent": 276,
       "blocked_by": [
         195,
@@ -764,34 +919,73 @@
         261
       ],
       "blocked_by_planned": [
-        "nonmagical-crafting"
+        "crafting-project-ledger"
       ],
       "blocks": [],
       "body_file": "docs/investigations/issue-276-potion-brewing-task.md",
-      "body_sha256": "290035558604db2797839616e6a525acb8c5bb5ed419bad4a3641af768a6abdd",
+      "body_sha256": "25989ad20d67f21c46552fa4db1b1e424fa7587bb750d82916282b1d3fcfb502",
       "number": null
     },
     {
       "key": "scroll-scribing",
       "marker": "edda-276:scroll-scribing",
-      "title": "Scribe one Spell Scroll from a prepared spell",
+      "title": "Scribe one Spell Scroll from a prepared Cleric spell",
       "type": "Task",
+      "labels": [],
       "size": "M",
+      "pdf_pages": [
+        93,
+        99,
+        103,
+        159,
+        206,
+        207,
+        244
+      ],
       "parent": 276,
       "blocked_by": [
         195,
         217,
+        242,
         253,
         262,
         557,
-        1142
+        618,
+        1142,
+        1447
       ],
       "blocked_by_planned": [
-        "nonmagical-crafting"
+        "crafting-project-ledger"
       ],
       "blocks": [],
       "body_file": "docs/investigations/issue-276-scroll-scribing-task.md",
-      "body_sha256": "02c9d376a7ede9280a078cdb72f181b7138b2afab607e7733b75b7a9d32f67b2",
+      "body_sha256": "9fc7304fe8063596b3744a159c34f6d1e970047e78f890b2c5ca6253b136366d",
+      "number": null
+    },
+    {
+      "key": "scribed-scroll-reading",
+      "marker": "edda-276:scribed-scroll-reading",
+      "title": "Read one scribed Spell Scroll with its saved scribe values",
+      "type": "Task",
+      "labels": [],
+      "size": "M",
+      "pdf_pages": [
+        99,
+        103,
+        159,
+        244
+      ],
+      "parent": 276,
+      "blocked_by": [
+        957,
+        1142
+      ],
+      "blocked_by_planned": [
+        "scroll-scribing"
+      ],
+      "blocks": [],
+      "body_file": "docs/investigations/issue-276-scribed-scroll-reading-task.md",
+      "body_sha256": "4cc6a1d1c8869bcfb0b3a5589115042f66123359818d883a66d8a401a5b70bdd",
       "number": null
     },
     {
@@ -799,10 +993,24 @@
       "marker": "edda-276:magic-item-crafting",
       "title": "Craft one magic item by rarity with Arcana, a category tool and prepared spells",
       "type": "Task",
+      "labels": [],
       "size": "M",
+      "pdf_pages": [
+        92,
+        93,
+        94,
+        103,
+        123,
+        206,
+        207,
+        210,
+        236,
+        251
+      ],
       "parent": 276,
       "blocked_by": [
         195,
+        202,
         225,
         238,
         245,
@@ -813,11 +1021,105 @@
         557
       ],
       "blocked_by_planned": [
+        "crafting-project-ledger",
         "nonmagical-crafting"
       ],
       "blocks": [],
       "body_file": "docs/investigations/issue-276-magic-item-crafting-task.md",
-      "body_sha256": "47c2a000dc97b781019618701f13be3f55aac2abfb1952985d7a7bd47a402451",
+      "body_sha256": "064a61d35bcbc2a68cbdaa5abf1dae1af753690131d65ae9e2d630eaed3a87d7",
+      "number": null
+    },
+    {
+      "key": "magic-item-material-availability",
+      "marker": "edda-276:magic-item-material-availability",
+      "title": "Check magic-item raw material availability by settlement",
+      "type": "Task",
+      "labels": [],
+      "size": "M",
+      "pdf_pages": [
+        207
+      ],
+      "parent": 276,
+      "blocked_by": [],
+      "blocked_by_planned": [
+        "crafting-project-ledger",
+        "magic-item-crafting"
+      ],
+      "blocks": [],
+      "body_file": "docs/investigations/issue-276-material-availability-task.md",
+      "body_sha256": "579dc120444963212bfe9394baee32c538bfa12be22f9385fd142295de194315",
+      "number": null
+    },
+    {
+      "key": "craft-roster-spike",
+      "marker": "edda-276:craft-roster-spike",
+      "title": "Split the remaining tool Craft entries into bounded crafting PRs",
+      "type": "Task",
+      "labels": [
+        "Planning/Spike"
+      ],
+      "size": "M",
+      "pdf_pages": [
+        91,
+        92,
+        93,
+        94,
+        95,
+        96,
+        97,
+        98,
+        99,
+        100,
+        103
+      ],
+      "parent": 276,
+      "blocked_by": [],
+      "blocked_by_planned": [],
+      "blocks": [],
+      "body_file": "docs/investigations/issue-276-craft-roster-spike.md",
+      "body_sha256": "33a188b56caec9f5a4e5d7cb9cab98a75cad19181b50803431bf5428826e6957",
+      "number": null
+    },
+    {
+      "key": "scribing-coverage-spike",
+      "marker": "edda-276:scribing-coverage-spike",
+      "title": "Split Spell Scroll scribing for other classes and spell levels",
+      "type": "Task",
+      "labels": [
+        "Planning/Spike"
+      ],
+      "size": "M",
+      "pdf_pages": [
+        103,
+        244
+      ],
+      "parent": 276,
+      "blocked_by": [],
+      "blocked_by_planned": [],
+      "blocks": [],
+      "body_file": "docs/investigations/issue-276-scribing-coverage-spike.md",
+      "body_sha256": "9bdc172c631d136d6fdb4a3cf14137fc3a9605ec246c7e5def942b7435f09fea",
+      "number": null
+    },
+    {
+      "key": "magic-item-coverage-spike",
+      "marker": "edda-276:magic-item-coverage-spike",
+      "title": "Split magic-item crafting for the remaining categories and rarities",
+      "type": "Task",
+      "labels": [
+        "Planning/Spike"
+      ],
+      "size": "M",
+      "pdf_pages": [
+        206,
+        207
+      ],
+      "parent": 276,
+      "blocked_by": [],
+      "blocked_by_planned": [],
+      "blocks": [],
+      "body_file": "docs/investigations/issue-276-magic-item-coverage-spike.md",
+      "body_sha256": "3d1d18972f4602b0e1ee826231d3e2b70dce41ebf9db4a645b20035782e071af",
       "number": null
     },
     {
@@ -825,9 +1127,23 @@
       "marker": "edda-276:crafting-qualification",
       "title": "Qualify the finite crafting, brewing and scribing outputs",
       "type": "Task",
+      "labels": [],
       "size": "M",
+      "pdf_pages": [
+        91,
+        92,
+        93,
+        94,
+        95,
+        99,
+        103,
+        206,
+        207,
+        244
+      ],
       "parent": 276,
       "blocked_by": [
+        242,
         247,
         248,
         249,
@@ -846,28 +1162,47 @@
         262
       ],
       "blocked_by_planned": [
+        "crafting-project-ledger",
         "nonmagical-crafting",
         "potion-brewing",
         "scroll-scribing",
-        "magic-item-crafting"
+        "scribed-scroll-reading",
+        "magic-item-crafting",
+        "magic-item-material-availability",
+        "craft-roster-spike",
+        "scribing-coverage-spike",
+        "magic-item-coverage-spike"
       ],
       "blocks": [
         280
       ],
       "body_file": "docs/investigations/issue-276-crafting-qualification-task.md",
-      "body_sha256": "0142e4e007365938859889b23540692281fc1544b6390e47664861be36034918",
+      "body_sha256": "6de4aa8157f95ade9d7352a60d735d96e1de1cdd21711d08ee6f78c4874e66e4",
       "number": null
     }
   ],
   "planned_native_edges": {
     "sub_issues_of_276": [
+      "crafting-project-ledger",
       "nonmagical-crafting",
       "potion-brewing",
       "scroll-scribing",
+      "scribed-scroll-reading",
       "magic-item-crafting",
+      "magic-item-material-availability",
+      "craft-roster-spike",
+      "scribing-coverage-spike",
+      "magic-item-coverage-spike",
       "crafting-qualification"
     ],
     "blocked_by": {
+      "crafting-project-ledger": {
+        "existing": [
+          195,
+          275
+        ],
+        "planned": []
+      },
       "nonmagical-crafting": {
         "existing": [
           195,
@@ -876,7 +1211,9 @@
           254,
           255
         ],
-        "planned": []
+        "planned": [
+          "crafting-project-ledger"
+        ]
       },
       "potion-brewing": {
         "existing": [
@@ -885,25 +1222,38 @@
           261
         ],
         "planned": [
-          "nonmagical-crafting"
+          "crafting-project-ledger"
         ]
       },
       "scroll-scribing": {
         "existing": [
           195,
           217,
+          242,
           253,
           262,
           557,
+          618,
+          1142,
+          1447
+        ],
+        "planned": [
+          "crafting-project-ledger"
+        ]
+      },
+      "scribed-scroll-reading": {
+        "existing": [
+          957,
           1142
         ],
         "planned": [
-          "nonmagical-crafting"
+          "scroll-scribing"
         ]
       },
       "magic-item-crafting": {
         "existing": [
           195,
+          202,
           225,
           238,
           245,
@@ -914,11 +1264,32 @@
           557
         ],
         "planned": [
+          "crafting-project-ledger",
           "nonmagical-crafting"
         ]
       },
+      "magic-item-material-availability": {
+        "existing": [],
+        "planned": [
+          "crafting-project-ledger",
+          "magic-item-crafting"
+        ]
+      },
+      "craft-roster-spike": {
+        "existing": [],
+        "planned": []
+      },
+      "scribing-coverage-spike": {
+        "existing": [],
+        "planned": []
+      },
+      "magic-item-coverage-spike": {
+        "existing": [],
+        "planned": []
+      },
       "crafting-qualification": {
         "existing": [
+          242,
           247,
           248,
           249,
@@ -937,31 +1308,59 @@
           262
         ],
         "planned": [
+          "crafting-project-ledger",
           "nonmagical-crafting",
           "potion-brewing",
           "scroll-scribing",
-          "magic-item-crafting"
+          "scribed-scroll-reading",
+          "magic-item-crafting",
+          "magic-item-material-availability",
+          "craft-roster-spike",
+          "scribing-coverage-spike",
+          "magic-item-coverage-spike"
         ]
       }
     },
     "blocks_280": [
       "crafting-qualification"
+    ],
+    "pending_external": [
+      {
+        "task": "crafting-project-ledger",
+        "blocked_by_marker": "edda-275:coin-payment-sale",
+        "decision": 275,
+        "rule": "Resolve the marker to its native number at publication and add it as a blocker of the ledger task. Until it exists the ledger task stays blocked by #275 and the edge is recorded as pending in the link verification."
+      }
+    ],
+    "existing_edges_kept": [
+      {
+        "issue": 276,
+        "blocks": 280,
+        "note": "#276, #274 and #275 are already among the 96 blockers of #280; this edge is not removed or replaced."
+      }
     ]
   },
   "caps_observed": {
     "limit": 100,
     "blocked_by_280": 96,
+    "blocked_by_280_includes_splitters": [
+      274,
+      275,
+      276
+    ],
     "blocked_by_280_after": 97,
     "sub_issues_276": 0,
-    "sub_issues_276_after": 5,
+    "sub_issues_276_after": 11,
     "sub_issues_193": 30,
     "blocked_by_279": 100,
-    "max_planned_blocked_by": 20,
+    "max_planned_blocked_by": 27,
     "prerequisite_blocking_after": {
-      "195": 65,
+      "195": 66,
+      "202": 6,
       "217": 6,
       "225": 2,
       "238": 2,
+      "242": 3,
       "245": 2,
       "247": 14,
       "248": 14,
@@ -979,17 +1378,37 @@
       "260": 2,
       "261": 6,
       "262": 3,
+      "275": 2,
       "557": 26,
-      "1142": 3
+      "618": 10,
+      "957": 5,
+      "1142": 4,
+      "1447": 8
     }
   },
   "unknowns": [
-    "PDF103 does not state the denomination used to round half the purchase cost down.",
-    "PDF103 and PDF207 give no rounding for crafting time divided among workers, or halved for a consumable, when the result is not a whole day.",
-    "PDF103 does not say when raw materials are paid; the single debit at project start is an Edda accounting adaptation.",
-    "PDF103 requires a spell prepared for scribing while cantrips are known rather than prepared; the Cantrips clause is read as permitting a known cantrip.",
+    "PDF103 does not name the unit used to round half the purchase cost down. A half that is an exact number of Copper Pieces needs no rounding; any other price needs a recorded GM amount.",
+    "PDF103 and PDF207 give no rounding for crafting time divided among workers, or halved for a consumable, when the result is not a whole day. Such a project needs a recorded GM day count.",
+    "PDF103 says only that the required tool must be used; it does not say what applies when two tools list one product (Club, Greatclub, Quarterstaff, Antitoxin, Holy Symbol, Arcane Focus, Druidic Focus). No executed fixture is listed twice; the products stay with the Craft roster spike.",
+    "PDF103 does not say when raw materials or scribing costs are paid, and defines no refund, abandonment, check or failure for any procedure.",
+    "PDF103 requires a spell prepared for scribing while cantrips are known rather than prepared.",
+    "PDF103 ties 'on each day of the inscription' to preparation only. It gives no timing for having Material components at hand, except that consumed components are consumed on completion.",
+    "PDF103 does not say whether a Component Pouch or Spellcasting Focus can stand in for a Material component during scribing.",
+    "PDF93 lists Spell Scroll under Calligrapher's Supplies and PDF103 names only proficiency. Whether a scribe who qualifies through the supplies must hold them is not stated.",
+    "PDF103 says a scribed cantrip works as if the caster were 'your level' and does not say which level a multiclass scribe uses. Only a single-class scribe executes; the question stays with the scribing coverage spike.",
     "PDF103 names the basic Potion of Healing only; brewing the stronger PDF236 variants is not stated.",
-    "No source rule covers refunds, abandonment, checks or failure for any of the four procedures."
+    "PDF207 does not say whether the 7-day wait after a failed availability check applies per item, per settlement or per crafter, and names no chance outside a settlement.",
+    "Neither PDF103 nor PDF207 says whether a character can work two 8-hour days on one calendar day."
+  ],
+  "edda_adaptations": [
+    "The cost is paid once, in the transaction that starts the project, through the coin payment that decision #275 assigns.",
+    "A participant records at most one 8-hour workday per campaign day across all projects.",
+    "A known cantrip is accepted for scribing only when it is among the scribe's own qualified Cleric cantrips on that day.",
+    "A scribing workday other than the last with a Material component absent needs a recorded GM ruling; completion always requires the components.",
+    "A scribe who qualifies only through Calligrapher's Supplies proficiency must hold the supplies, or have a recorded GM ruling.",
+    "A Component Pouch or Spellcasting Focus does not stand in for a Material component during scribing.",
+    "The saved cantrip level is the scribe's total character level, and only single-class scribes execute.",
+    "A rolled availability check maps an injected percentile 1-75 to success in a city and 1-25 in another settlement, and the 7-day wait is tracked per crafter and item."
   ],
   "findings_outside_scope": [
     {
