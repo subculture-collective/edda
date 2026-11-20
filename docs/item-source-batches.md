@@ -601,6 +601,61 @@ Deck continues across its page break.
 rtk proxy python3 -I scripts/verify_srd_items_235.py /path/to/SRD_CC_v5.2.1.pdf
 ```
 
+## Magic items 12 (#236), pp. 233–235
+
+Twelve families and 12 variants, in planning inventory order. Files:
+`item_details_236.go`, `testdata/items_236.json`, `items_236_test.go` and
+`scripts/verify_srd_items_236.py`. `item_source.go` is unchanged.
+
+| Family | Page | Variants | Typed payload |
+| --- | --- | --- | --- |
+| Oil of Sharpness | 233 | `standard` (Very Rare) | `oil_of_sharpness`: +3 weapon and ammunition |
+| Oil of Slipperiness | 233 | `standard` (Uncommon) | `oil_of_slipperiness`: Freedom of Movement and Grease |
+| Pearl of Power | 234 | `standard` (Uncommon, attunement) | `pearl_of_power` |
+| Periapt of Health | 234 | `standard` (Uncommon, attunement) | `periapt_of_health` |
+| Periapt of Proof against Poison | 234 | `standard` (Rare, attunement) | `periapt_of_proof_against_poison` |
+| Periapt of Wound Closure | 234 | `standard` (Uncommon, attunement) | `periapt_of_wound_closure`: Life Preservation and Natural Healing Boost |
+| Philter of Love | 234 | `standard` (Uncommon) | `philter_of_love` |
+| Pipes of Haunting | 234 | `standard` (Uncommon) | `pipes_of_haunting`: 3 charges |
+| Pipes of the Sewers | 234 | `standard` (Uncommon, attunement) | `pipes_of_the_sewers`: 3 charges |
+| Plate Armor of Etherealness | 234 | `standard` (Legendary, attunement) | `plate_armor_of_etherealness` |
+| Portable Hole | 234 | `standard` (Rare) | `portable_hole` |
+| Potion of Animal Friendship | 235 | `standard` (Uncommon) | `potion_of_animal_friendship`: level 3, save DC 13 |
+
+Variant rules used in this batch:
+
+- No family prints more than one variant, so each has the single variant
+  `standard`. Potion of Giant Strength, which has a variant table, is outside
+  this batch.
+- The Oil of Slipperiness starts on p. 233 and ends on p. 234; its payload
+  records `source_pages` 233 and 234. The Portable Hole starts on p. 234 and
+  ends on p. 235; its payload records `source_pages` 234 and 235. Both keep
+  their heading page as the presentation page.
+- The Plate Armor of Etherealness base armor options (Half Plate Armor, Plate
+  Armor) are base item options, not variants.
+- The Pearl of Power's "Requires Attunement by a Spellcaster" qualifier is the
+  payload's `attunement_by_any_of`; the shared attunement restriction list stays
+  empty, as in earlier batches.
+
+Pipes of Haunting and Pipes of the Sewers are the only families with a charge
+pool: 3 charges, regaining 1d3 at dawn. Their `per_use` is 1, the least a use
+costs; the Pipes of the Sewers accept 1 to 3 charges, recorded in the payload.
+Once-until-dawn limits (Pearl of Power, Periapt of Health, Plate Armor of
+Etherealness) are use limits, not charge pools. Potion and oil quantities are
+not charge pools. No family lists a price, so every cost stays unspecified.
+
+Composing the Healing contract fixture with batches #225 to #231 and this batch
+yields 97 families and 135 variants with no shared identity. The Healing fixture,
+`ResolveHealingPotion` and the coverage register are unchanged.
+
+The comparison script reads pp. 233–235 as one text stream, column by column, so
+the Oil of Slipperiness, the Pipes of Haunting and the Portable Hole continue
+across their column and page breaks.
+
+```sh
+rtk proxy python3 -I scripts/verify_srd_items_236.py /path/to/SRD_CC_v5.2.1.pdf
+```
+
 This work includes material from the System Reference Document 5.2.1 (“SRD
 5.2.1”) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd.
 The SRD 5.2.1 is licensed under the Creative Commons Attribution 4.0 International
