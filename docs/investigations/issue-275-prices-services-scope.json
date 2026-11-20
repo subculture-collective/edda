@@ -21,15 +21,38 @@
         "retain their full value in the marketplace",
         "\"Magic Items\" has prices for magic items"
       ],
+      "28": [
+        "(B) 75 GP"
+      ],
       "91": [
         "Longsword"
       ],
+      "92": [
+        "Plate Armor"
+      ],
       "95": [
-        "Candle"
+        "Candle",
+        "Potion of Healing"
+      ],
+      "96": [
+        "Candle (1 CP)"
+      ],
+      "99": [
+        "Potion of Healing (50 GP)",
+        "This potion is a magic item"
+      ],
+      "103": [
+        "you can use it or sell it at its normal price"
+      ],
+      "142": [
+        "Identify",
+        "a pearl worth 100+ GP"
       ],
       "101": [
         "At the start of each week or month (GM's choice)",
         "Lifestyles have no inherent consequences",
+        "pay the price to sustain that lifestyle",
+        "gives prices for food and a single night's lodging",
         "Wretched (Free)",
         "Squalid (1 SP per Day)",
         "Poor (2 SP per Day)",
@@ -72,13 +95,26 @@
       ],
       "205": [
         "If you allow characters to buy and sell magic items in your campaign",
-        "a seller might ask for a service rather than coin as payment"
+        "a seller might ask for a service rather than coin as payment",
+        "Common magic items can often be bought in a town or city",
+        "Uncommon and Rare magic items are usually found only in cities",
+        "rarer magic items might be sold only in wondrous locations",
+        "add that item's cost to the magic item's value"
       ],
       "206": [
         "Magic Item Rarities and Values",
         "Halve the value for a consumable item other than a Spell Scroll",
         "5,500 GP",
-        "Priceless"
+        "Priceless",
+        "The value of a Spell Scroll is double what it costs to scribe the scroll",
+        "the cost of Plate Armor (1,500 GP)"
+      ],
+      "210": [
+        "Armor, +1, +2, or +3",
+        "Rare (+1)"
+      ],
+      "236": [
+        "Potions of Healing"
       ]
     },
     "tables": {
@@ -173,21 +209,68 @@
         "Very Rare": 40000,
         "Legendary": 200000,
         "Artifact": null
-      }
+      },
+      "magic_item_availability_guide_only": "Common magic items can often be bought in a town or city. Uncommon and Rare magic items are usually found only in cities, and rarer magic items might be sold only in wondrous locations, such as a city on another plane of existence."
     }
   },
   "scopes": [
     {
-      "scope": "coins/selling",
+      "scope": "coins",
+      "PDF": [
+        89
+      ],
+      "existing_owners": [],
+      "creation_grant_owners_not_spending": [
+        433,
+        508,
+        554,
+        635,
+        730,
+        785,
+        853,
+        982,
+        1101,
+        1177,
+        1480,
+        1762,
+        2053
+      ],
+      "residual_task": "edda-275:coin-holdings-payment"
+    },
+    {
+      "scope": "selling",
       "PDF": [
         89,
         91,
         95,
-        205,
-        206
+        96,
+        99,
+        103
       ],
       "existing_owners": [],
-      "residual_task": "edda-275:coin-payment-sale"
+      "residual_task": "edda-275:equipment-purchase-sale",
+      "excluded_to": {
+        "crafted-item sale at normal price (PDF103)": 276
+      }
+    },
+    {
+      "scope": "named follow-up: magic-item values by rarity",
+      "PDF": [
+        89,
+        92,
+        95,
+        99,
+        205,
+        206,
+        210,
+        236
+      ],
+      "existing_owners": [],
+      "residual_task": "edda-275:magic-item-value-guide",
+      "in_named_scopes": false,
+      "unavailable_until": {
+        "Spell Scroll guide value": "scribing owner from decision #276; no edge to an unpublished issue"
+      }
     },
     {
       "scope": "lifestyle",
@@ -218,6 +301,7 @@
       "scope": "spellcasting services",
       "PDF": [
         102,
+        142,
         159
       ],
       "existing_owners": [],
@@ -234,6 +318,17 @@
       "existing_owners": [],
       "residual_task": "edda-275:economy-qualification"
     }
+  ],
+  "edda_adaptations": [
+    "one canonical GP record shared with creation owners and the legacy srd521_gold value; four new denomination counts beside it",
+    "GM-recorded charge, offer, valuable, lifestyle period, inclusion mark, magic-item policy, service offer and settlement class; no existing issue owns any of them",
+    "a lifestyle choice the holding cannot cover is rejected and nothing is recorded",
+    "inclusion of an inn stay or meal is a GM mark; no automatic row mapping or daily quantity",
+    "an odd half-cost sale is unavailable",
+    "sale of an item whose acquisition record names a crafting receipt is unavailable here",
+    "a 'worth N+ GP' component adds N unless the GM offer names a higher value",
+    "a hired higher-level slot has no price",
+    "magic-item rarity values and availability text are shown to the GM and never applied or enforced"
   ],
   "owner_search": {
     "observed_issue_count": 1892,
@@ -295,9 +390,182 @@
       "(?i)malnutrition|dehydration": [
         1001
       ],
-      "(?i)carrying capacity": []
+      "(?i)carrying capacity": [],
+      "mechanic/currency/gp": [
+        508,
+        554,
+        635,
+        785,
+        853,
+        982,
+        1101,
+        1177,
+        1480,
+        1762
+      ],
+      "(?i)\\bcurrency\\b|inventory/gold|\\bmoney\\b": [
+        433,
+        508,
+        554,
+        635,
+        785,
+        853,
+        982,
+        1101,
+        1177,
+        1480,
+        1762,
+        2053
+      ],
+      "(?i)\\bgold\\b": [
+        151,
+        152,
+        163,
+        178,
+        554,
+        635,
+        730,
+        853,
+        1177,
+        1791,
+        1832
+      ],
+      "\\bGP\\b": [
+        352,
+        1071,
+        1086,
+        1267,
+        1363,
+        1421,
+        1422,
+        1423,
+        1428,
+        1437,
+        1438,
+        1439,
+        1440,
+        1441,
+        1442,
+        1443,
+        1578,
+        1579,
+        1580,
+        1586,
+        1587,
+        1588,
+        1589,
+        1598,
+        1599,
+        1600,
+        1601,
+        1613,
+        1614,
+        1615,
+        1616,
+        1617,
+        1618,
+        1619,
+        1620,
+        1621,
+        1622,
+        1623,
+        1628,
+        1629,
+        1630,
+        1633,
+        1634,
+        1635,
+        1832,
+        1833,
+        1834,
+        1838,
+        1839,
+        1848,
+        1849,
+        1856,
+        1857,
+        1858,
+        1859,
+        1868,
+        1869,
+        1877,
+        1878,
+        1879,
+        1880,
+        1881,
+        1882,
+        1883,
+        1884,
+        1885,
+        1886,
+        1888,
+        1889,
+        1890,
+        1891,
+        1892,
+        1893,
+        1894,
+        1895,
+        1898,
+        1899,
+        1900,
+        1901,
+        1902,
+        1903,
+        1904,
+        1905,
+        1906,
+        1907,
+        1908,
+        1909,
+        1910,
+        1946,
+        1947,
+        1948,
+        1949,
+        1950,
+        1951,
+        1952,
+        1959,
+        1960,
+        1961,
+        1965,
+        1966,
+        1967,
+        1968,
+        1969,
+        1970,
+        1971,
+        1972,
+        1973,
+        1974,
+        1975,
+        1977,
+        1978,
+        1979,
+        1980,
+        1981,
+        1982,
+        1983,
+        1984,
+        1985
+      ],
+      "(?i)calendar": [
+        1423,
+        1681,
+        1688,
+        1717
+      ],
+      "(?i)settlement|\\bvillage\\b|\\btown\\b|\\bcity\\b": [
+        1037,
+        1038,
+        1040
+      ],
+      "(?i)NPC (caster|spellcast)|non-player caster|monster spellcasting": [],
+      "(?i)crafted|normal price": []
     },
-    "result": "No existing issue owns any of the five named scopes. Every match is #275 itself, a roadmap list that names #275, an unrelated spell, or a boundary mention recorded under adjacent_issues."
+    "result": "No existing issue owns coin denominations, payment, purchase, sale, lifestyle, lodging, hirelings, spellcasting services or the magic-item value table. Thirteen creation owners own a once-only GP grant and spend nothing; they are recorded under adjacent_issues. Every other match is #275 itself, a roadmap list that names #275, a stat-block or spell text, a costly spell component, or a boundary mention.",
+    "gp_matches_classified_by": "matched context: creation grant, or a 'worth N GP' component or item value"
   },
   "adjacent_issues": {
     "80": {
@@ -547,6 +815,61 @@
       "body_sha256": "6822469be2b3e75b9f37da60335e01fbe3f27bc5d8cb735a44dc4171f1657046",
       "role": "Long Rest owner; an inn stay grants no rest"
     },
+    "225": {
+      "number": 225,
+      "title": "Catalogue SRD magic-items 01: Adamantine Armor to Armor, +1, +2, or +3",
+      "state": "OPEN",
+      "parent": 192,
+      "blocked_by": [
+        195
+      ],
+      "body_sha256": "9ad4332f0be68acd7ca6b2d208af3c68a8cc62f2e73bc9d914ecefbe770ef21d",
+      "role": "Armor, +1, +2, or +3 catalogue record (PDF210); prerequisite of the value-guide task"
+    },
+    "238": {
+      "number": 238,
+      "title": "Catalogue SRD magic-items 14: Potion of Poison to Ring of Feather Falling",
+      "state": "OPEN",
+      "parent": 192,
+      "blocked_by": [
+        195
+      ],
+      "body_sha256": "5833431b10af6e8bc55700bb93de34525b63472fed766e179ac165ecd16c9b76",
+      "role": "Potions of Healing magic-item catalogue record (PDF236); prerequisite of the value-guide task"
+    },
+    "251": {
+      "number": 251,
+      "title": "Catalogue SRD armor 01: Breastplate to Splint Armor",
+      "state": "OPEN",
+      "parent": 192,
+      "blocked_by": [
+        195
+      ],
+      "body_sha256": "6ffdf7edd95812b5a870c5d57bed84d709228980d0037fa4d41d6de7b32a8366",
+      "role": "Plate Armor catalogue record (PDF92, 1,500 GP); prerequisite of the value-guide task"
+    },
+    "257": {
+      "number": 257,
+      "title": "Catalogue SRD adventuring-gear 02: Block and Tackle to Climber’s Kit",
+      "state": "OPEN",
+      "parent": 192,
+      "blocked_by": [
+        195
+      ],
+      "body_sha256": "f6398f5af790858a09fb8be5c69a5fe997640ca002f792708a3f7856c55ce5f6",
+      "role": "Candle catalogue record (PDF95-96, 1 CP); prerequisite of the sale task"
+    },
+    "261": {
+      "number": 261,
+      "title": "Catalogue SRD adventuring-gear 06: Potion of Healing to Signal Whistle",
+      "state": "OPEN",
+      "parent": 192,
+      "blocked_by": [
+        195
+      ],
+      "body_sha256": "8b594f815e007dc94282252b07ab61ba95e3f8cf991641642cfc3df27b7d2c59",
+      "role": "Potion of Healing gear catalogue record (PDF95/99, 50 GP); prerequisite of the sale and value-guide tasks"
+    },
     "433": {
       "number": 433,
       "title": "Confirm either Barbarian starting equipment package",
@@ -560,7 +883,140 @@
         308
       ],
       "body_sha256": "d06d432ab0df04ce2e4e34fbf6b0ded4efce591f1ca16df974c48b9d71f0dd2e",
-      "role": "example class starting-equipment coin grant; unchanged"
+      "role": "Barbarian creation GP grant (inventory/currency); owns the once-only grant, spends nothing; unchanged, no edge"
+    },
+    "508": {
+      "number": 508,
+      "title": "Confirm first-class Bard traits skills instruments and equipment",
+      "state": "OPEN",
+      "parent": 501,
+      "blocked_by": [
+        195,
+        267,
+        278,
+        287,
+        333,
+        430,
+        507
+      ],
+      "body_sha256": "8f90cc9008b5ea6ac194df775c79666c732ae9813be087968ab79b553dd4b75c",
+      "role": "Bard creation GP grant; names srd-5.2.1:mechanic/currency/gp among its owned keys for the creation grant only; unchanged, no edge"
+    },
+    "554": {
+      "number": 554,
+      "title": "Confirm either Cleric starting equipment package",
+      "state": "OPEN",
+      "parent": 551,
+      "blocked_by": [
+        195,
+        259,
+        261,
+        267
+      ],
+      "body_sha256": "18d891d0f774f43ed8a1da6458d8261daabe9da83b3ac9ac6147972f6f0bb09c",
+      "role": "Cleric creation GP grant; names srd-5.2.1:mechanic/currency/gp among its owned keys for the creation grant only; unchanged, no edge"
+    },
+    "635": {
+      "number": 635,
+      "title": "Confirm either Druid starting equipment package",
+      "state": "OPEN",
+      "parent": 630,
+      "blocked_by": [
+        195,
+        259,
+        261,
+        267
+      ],
+      "body_sha256": "f243000daa58a503bfbb487537061d16719cc29dd6661988517ffff500eb6796",
+      "role": "Druid creation GP grant; names srd-5.2.1:mechanic/currency/gp among its owned keys for the creation grant only; unchanged, no edge"
+    },
+    "785": {
+      "number": 785,
+      "title": "Confirm exact Monk starting equipment package",
+      "state": "OPEN",
+      "parent": 776,
+      "blocked_by": [
+        430,
+        784
+      ],
+      "body_sha256": "b7bf40cdc187347235d43c20bd0130299ebe6a02fc206242715a3f83bd6ede01",
+      "role": "Monk creation GP grant; names srd-5.2.1:mechanic/currency/gp among its owned keys for the creation grant only; unchanged, no edge"
+    },
+    "853": {
+      "number": 853,
+      "title": "Confirm either Paladin starting equipment package",
+      "state": "OPEN",
+      "parent": 846,
+      "blocked_by": [
+        267,
+        430
+      ],
+      "body_sha256": "f5b1828ca761e12d8933cd48cf07f0cfafa4f17b705217c631fdc9ef1d8a175c",
+      "role": "Paladin creation GP grant; lists srd-5.2.1:mechanic/currency/gp; unchanged, no edge"
+    },
+    "982": {
+      "number": 982,
+      "title": "Choose Ranger exact starting equipment",
+      "state": "OPEN",
+      "parent": 971,
+      "blocked_by": [],
+      "body_sha256": "a906eb459288429f32a87ab0d866c2dc358870193b2d4f7d4ee1975881451d38",
+      "role": "Ranger creation GP grant; lists srd-5.2.1:mechanic/currency/gp; unchanged, no edge"
+    },
+    "1101": {
+      "number": 1101,
+      "title": "Rogue: equipment",
+      "state": "OPEN",
+      "parent": 1094,
+      "blocked_by": [
+        195,
+        430
+      ],
+      "body_sha256": "9cf732a20d050c1f12fde33e77d10aab81a535be4e19a464a7d5eba986fa2b0e",
+      "role": "Rogue creation GP grant; lists srd-5.2.1:mechanic/currency/gp; unchanged, no edge"
+    },
+    "1177": {
+      "number": 1177,
+      "title": "Starting equipment alternatives",
+      "state": "OPEN",
+      "parent": 330,
+      "blocked_by": [],
+      "body_sha256": "1f64653929f3529493dfc7bcbfd5d11d9e48874c0b22f35dabad1661d3fc82e4",
+      "role": "Sorcerer creation GP grant; lists srd-5.2.1:mechanic/currency/gp; unchanged, no edge"
+    },
+    "1480": {
+      "number": 1480,
+      "title": "Implement Warlock equipment",
+      "state": "OPEN",
+      "parent": 1748,
+      "blocked_by": [
+        1718,
+        1719,
+        1720,
+        1721,
+        1722,
+        1723,
+        1724,
+        1725,
+        1726,
+        1727,
+        1728,
+        1729,
+        1730,
+        1734,
+        1738
+      ],
+      "body_sha256": "3369b7c55c6cbac6df091e4bd97c6ea41694d0a26af5c2ccc4b57709db231801",
+      "role": "Warlock creation GP grant; lists srd-5.2.1:mechanic/currency/gp; unchanged, no edge"
+    },
+    "1762": {
+      "number": 1762,
+      "title": "Implement Wizard equipment",
+      "state": "OPEN",
+      "parent": 2034,
+      "blocked_by": [],
+      "body_sha256": "cce28fd93eeaebc59d67a9007e02b2590770bfabb6f18d9cc416dcb9700f7a75",
+      "role": "Wizard creation GP grant; lists srd-5.2.1:mechanic/currency/gp; unchanged, no edge"
     },
     "618": {
       "number": 618,
@@ -586,7 +1042,7 @@
         430
       ],
       "body_sha256": "ebc9630e6fa610cf36e90d31a23952ffcce6b193cc0b558fc404cb0f344531ab",
-      "role": "example class starting-equipment coin grant; unchanged"
+      "role": "Fighter creation GP grant ('gold is not a purchase'); unchanged, no edge"
     },
     "1001": {
       "number": 1001,
@@ -638,30 +1094,78 @@
         2036
       ],
       "body_sha256": "33dcb87cf5e7fbf2ce8b188522bc171060043545e958e4212a1f91e8cec135df",
-      "role": "optional higher-level starting money guide; unchanged"
+      "role": "optional higher-level starting money guide (equipment/money); unchanged, no edge"
     }
   },
   "new_tasks": [
     {
-      "key": "edda-275:coin-payment-sale",
+      "key": "edda-275:coin-holdings-payment",
       "number": null,
-      "title": "Confirm coin holdings, listed-price payment and equipment sale",
+      "title": "Confirm coin holdings and exact listed-price payment",
       "type": "Task",
-      "size": "L",
+      "size": "M",
       "parent": 275,
       "blocked_by_existing": [
-        195,
-        248
+        195
       ],
       "blocked_by_new": [],
       "blocks_new": [
+        "edda-275:equipment-purchase-sale",
         "edda-275:lifestyle-lodging",
         "edda-275:hired-services",
         "edda-275:economy-qualification"
       ],
       "blocks_existing": [],
       "body_file": "docs/investigations/issue-275-coin-payment-task.md",
-      "body_sha256": "0378441d3b44afc3ed3698e063be51784a708e71b7ccdca33ac4fe839f1d3be6"
+      "body_sha256": "e0d01a62168b18df9f851931c61afe508dac7c51e485b228b521fe060aeda676"
+    },
+    {
+      "key": "edda-275:equipment-purchase-sale",
+      "number": null,
+      "title": "Confirm equipment purchase and half-cost or full-value sale",
+      "type": "Task",
+      "size": "M",
+      "parent": 275,
+      "blocked_by_existing": [
+        195,
+        248,
+        257,
+        261
+      ],
+      "blocked_by_new": [
+        "edda-275:coin-holdings-payment"
+      ],
+      "blocks_new": [
+        "edda-275:magic-item-value-guide",
+        "edda-275:economy-qualification"
+      ],
+      "blocks_existing": [],
+      "body_file": "docs/investigations/issue-275-equipment-sale-task.md",
+      "body_sha256": "e8cd93ca6c34e607453c27fde6630384d8d61a6ad4aca61b4f85f92bb7ee308d"
+    },
+    {
+      "key": "edda-275:magic-item-value-guide",
+      "number": null,
+      "title": "Show magic-item values by rarity for GM-priced purchase and sale",
+      "type": "Task",
+      "size": "S",
+      "parent": 275,
+      "blocked_by_existing": [
+        195,
+        225,
+        238,
+        251,
+        261
+      ],
+      "blocked_by_new": [
+        "edda-275:equipment-purchase-sale"
+      ],
+      "blocks_new": [
+        "edda-275:economy-qualification"
+      ],
+      "blocks_existing": [],
+      "body_file": "docs/investigations/issue-275-magic-item-value-task.md",
+      "body_sha256": "ab95801e5c7cb5f7166c2e35795721a9557ed4cdeab6d24c1b7563290e63b3c7"
     },
     {
       "key": "edda-275:lifestyle-lodging",
@@ -672,14 +1176,14 @@
       "parent": 275,
       "blocked_by_existing": [],
       "blocked_by_new": [
-        "edda-275:coin-payment-sale"
+        "edda-275:coin-holdings-payment"
       ],
       "blocks_new": [
         "edda-275:economy-qualification"
       ],
       "blocks_existing": [],
       "body_file": "docs/investigations/issue-275-lifestyle-lodging-task.md",
-      "body_sha256": "76b5097f64bb7b63874150687440cb4ef41e6dc49dec7bbd05174428dd11fde0"
+      "body_sha256": "c9c238d52fa1aa4540902854696c28b19bc952fa6ff10746064bb57b96d43fe6"
     },
     {
       "key": "edda-275:hired-services",
@@ -692,14 +1196,14 @@
         618
       ],
       "blocked_by_new": [
-        "edda-275:coin-payment-sale"
+        "edda-275:coin-holdings-payment"
       ],
       "blocks_new": [
         "edda-275:economy-qualification"
       ],
       "blocks_existing": [],
       "body_file": "docs/investigations/issue-275-hired-services-task.md",
-      "body_sha256": "447bd861542a64a8ede642560e0013106fa4f6ac225a60979446b88fb69b2562"
+      "body_sha256": "fe96a2c3ce47e49a737685eba3edf7afd7ae0dac0217ff905fb524284163333f"
     },
     {
       "key": "edda-275:economy-qualification",
@@ -710,7 +1214,9 @@
       "parent": 275,
       "blocked_by_existing": [],
       "blocked_by_new": [
-        "edda-275:coin-payment-sale",
+        "edda-275:coin-holdings-payment",
+        "edda-275:equipment-purchase-sale",
+        "edda-275:magic-item-value-guide",
         "edda-275:lifestyle-lodging",
         "edda-275:hired-services"
       ],
@@ -719,30 +1225,48 @@
         280
       ],
       "body_file": "docs/investigations/issue-275-economy-qualification-task.md",
-      "body_sha256": "3939394f3941293777fd4649da038b5fca58895137911180efe1e19725bb8a13"
+      "body_sha256": "9d3e19cc1b90c95f85743bdfe391012cee20c1b53b4654512974c3873bae7432"
     }
   ],
   "planned_native_edges": {
     "sub_issues_of_275": [
-      "edda-275:coin-payment-sale",
+      "edda-275:coin-holdings-payment",
+      "edda-275:equipment-purchase-sale",
+      "edda-275:magic-item-value-guide",
       "edda-275:lifestyle-lodging",
       "edda-275:hired-services",
       "edda-275:economy-qualification"
     ],
     "blocked_by": {
-      "edda-275:coin-payment-sale": [
+      "edda-275:coin-holdings-payment": [
+        195
+      ],
+      "edda-275:equipment-purchase-sale": [
         195,
-        248
+        248,
+        257,
+        261,
+        "edda-275:coin-holdings-payment"
+      ],
+      "edda-275:magic-item-value-guide": [
+        195,
+        225,
+        238,
+        251,
+        261,
+        "edda-275:equipment-purchase-sale"
       ],
       "edda-275:lifestyle-lodging": [
-        "edda-275:coin-payment-sale"
+        "edda-275:coin-holdings-payment"
       ],
       "edda-275:hired-services": [
         618,
-        "edda-275:coin-payment-sale"
+        "edda-275:coin-holdings-payment"
       ],
       "edda-275:economy-qualification": [
-        "edda-275:coin-payment-sale",
+        "edda-275:coin-holdings-payment",
+        "edda-275:equipment-purchase-sale",
+        "edda-275:magic-item-value-guide",
         "edda-275:lifestyle-lodging",
         "edda-275:hired-services"
       ]
@@ -755,20 +1279,32 @@
     ]
   },
   "caps_before_publication": {
-    "observed_from": "GraphQL issue dump",
+    "observed_from": "GraphQL issue dump, re-read live 2026-11-20",
     "280_blocked_by": 96,
     "279_blocked_by": 100,
     "275_sub_issues": 0,
     "193_sub_issues": 30,
     "195_blocking": 61,
     "248_blocking": 12,
+    "257_blocking": 1,
+    "261_blocking": 4,
+    "225_blocking": 1,
+    "238_blocking": 1,
+    "251_blocking": 2,
     "618_blocking": 9
   },
   "caps_after_publication_planned": {
     "280_blocked_by": 97,
-    "275_sub_issues": 4,
-    "195_blocking": 62,
+    "280_slots_left_for_274_and_276": 3,
+    "275_sub_issues": 6,
+    "max_new_task_blocked_by": 6,
+    "195_blocking": 64,
     "248_blocking": 13,
+    "257_blocking": 2,
+    "261_blocking": 6,
+    "225_blocking": 2,
+    "238_blocking": 2,
+    "251_blocking": 3,
     "618_blocking": 10
   },
   "graph_checks": {
@@ -790,7 +1326,11 @@
     "hireling stat blocks, control and crew automation",
     "spell effects without their own qualified resolver",
     "mount, vehicle and passenger prices (#274)",
-    "crafting and scribing costs (#276)"
+    "crafting and scribing costs, and crafted-item sale at normal price (#276)",
+    "Spell Scroll guide value until #276's scribing owner exists",
+    "enforced magic-item location",
+    "automatic lifestyle inclusion",
+    "non-player caster operands; #618 is used unchanged"
   ],
   "runtime_qualified": false
 }
