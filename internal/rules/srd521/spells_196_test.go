@@ -23,6 +23,25 @@ func loadSpells196(t *testing.T) SpellRecords {
 	return r
 }
 
+// spells196Single wraps one fixture record in its own document and requires the
+// unmutated document to decode, so a later rejection is caused by the mutation.
+func spells196Single(t *testing.T, root, record map[string]any) map[string]any {
+	t.Helper()
+	doc := map[string]any{}
+	for key, value := range root {
+		doc[key] = value
+	}
+	doc["records"] = []any{record}
+	b, err := json.Marshal(doc)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if _, err := DecodeSpellRecords(bytes.NewReader(b)); err != nil {
+		t.Fatalf("single-record document rejected: %v", err)
+	}
+	return doc
+}
+
 var spells196Names = []string{"Acid Arrow", "Acid Splash", "Aid", "Alarm", "Alter Self", "Animal Friendship", "Animal Messenger", "Animal Shapes", "Animate Dead", "Animate Objects", "Antilife Shell", "Antimagic Field"}
 
 // Literal PDF pp.107-109 value fixtures include every choice, variant, effect,
@@ -203,9 +222,11 @@ func TestSpells196MalformedFields(t *testing.T) {
 	for index, record := range root["records"].([]any) {
 		r := record.(map[string]any)
 		var walk func(map[string]any, string)
+		// Only the mutated record is decoded; the other eleven are unchanged.
+		doc := spells196Single(t, root, r)
 		reject := func(label string) {
 			t.Helper()
-			b, err := json.Marshal(root)
+			b, err := json.Marshal(doc)
 			if err != nil {
 				t.Fatal(err)
 			}
@@ -386,6 +407,7 @@ func TestSpells196RequiredNumbersAndFlags(t *testing.T) {
 	}
 	for index, item := range root["records"].([]any) {
 		r := item.(map[string]any)
+		doc := spells196Single(t, root, r)
 		objects := []map[string]any{r, r["range"].(map[string]any), r["target"].(map[string]any), r["scaling"].(map[string]any), r["components"].(map[string]any)}
 		for _, effect := range r["effects"].([]any) {
 			objects = append(objects, effect.(map[string]any))
@@ -409,7 +431,7 @@ func TestSpells196RequiredNumbersAndFlags(t *testing.T) {
 					} else {
 						obj[key] = nil
 					}
-					b, err := json.Marshal(root)
+					b, err := json.Marshal(doc)
 					if err != nil {
 						t.Fatal(err)
 					}
@@ -504,5 +526,97 @@ func TestSpells196RejectContradictoryScaling(t *testing.T) {
 				t.Error("contradictory scaling decoded")
 			}
 		})
+	}
+}
+
+// Validation pins the printed PDF pp.107-109 values, so a structurally valid
+// record carrying a different number, save, header or immunity is rejected and
+// never becomes available.
+func TestSpells196PinnedSourceValues(t *testing.T) {
+	yes, no := true, false
+	for _, tc := range []struct {
+		name   string
+		index  int
+		change func(*SpellRecord)
+	}{
+		{"acid arrow range 91 feet", 0, func(s *SpellRecord) { s.Range.Feet = 91 }},
+		{"acid arrow initial 5d4", 0, func(s *SpellRecord) { s.Effects[0].DiceCount = 5 }},
+		{"acid arrow later 3d4", 0, func(s *SpellRecord) { s.Effects[1].DiceCount = 3 }},
+		{"acid arrow slot die", 0, func(s *SpellRecord) { s.Scaling.DieSides = 6 }},
+		{"acid arrow level", 0, func(s *SpellRecord) {
+			s.Level, s.Scaling.AboveLevel, s.SlotLevels = 3, 3, []int{3, 4, 5, 6, 7, 8, 9}
+		}},
+		{"acid splash radius 10", 1, func(s *SpellRecord) { s.SourceDetails.Splash.RadiusFeet = 10 }},
+		{"acid splash save wisdom", 1, func(s *SpellRecord) { s.SourceDetails.Splash.Save = "wisdom" }},
+		{"acid splash range", 1, func(s *SpellRecord) { s.Range.Feet = 30 }},
+		{"acid splash upgrade die", 1, func(s *SpellRecord) { s.Scaling.DieSides = 8 }},
+		{"aid plus 7 hit points", 2, func(s *SpellRecord) {
+			s.SourceDetails.Aid.HitPointMaximumIncrease, s.SourceDetails.Aid.CurrentHitPointIncrease = 7, 7
+		}},
+		{"aid slot increment", 2, func(s *SpellRecord) { s.SourceDetails.Aid.AdditionalHitPointsPerSlot = 7 }},
+		{"aid one-hour duration", 2, func(s *SpellRecord) { s.DurationSeconds = 3600 }},
+		{"aid name", 2, func(s *SpellRecord) { s.Name = "Aids" }},
+		{"alarm 30-foot cube", 3, func(s *SpellRecord) { s.SourceDetails.Alarm.AreaMaxCubeFeet = 30 }},
+		{"alarm handbell seconds", 3, func(s *SpellRecord) { s.SourceDetails.Alarm.Modes[0].SignalSeconds = 6 }},
+		{"alarm audible distance", 3, func(s *SpellRecord) { s.SourceDetails.Alarm.Modes[0].DistanceFeet = 30 }},
+		{"alarm mental distance", 3, func(s *SpellRecord) { s.SourceDetails.Alarm.Modes[1].DistanceMiles = 2 }},
+		{"natural weapon die", 4, func(s *SpellRecord) { s.SourceDetails.Alter.Weapons.DieSides = 8 }},
+		{"alter self concentration", 4, func(s *SpellRecord) { s.Concentration = &no }},
+		{"friendship save charisma", 5, func(s *SpellRecord) { s.SourceDetails.Friendship.Save = "charisma" }},
+		{"friendship page", 5, func(s *SpellRecord) { s.SourcePage = 108 }},
+		{"messenger 30 words", 6, func(s *SpellRecord) { s.SourceDetails.Messenger.MaxWords = 30 }},
+		{"messenger save wisdom", 6, func(s *SpellRecord) { s.SourceDetails.Messenger.Save = "wisdom" }},
+		{"messenger miles", 6, func(s *SpellRecord) { s.SourceDetails.Messenger.MilesPer24Hours = 24 }},
+		{"messenger flying miles", 6, func(s *SpellRecord) { s.SourceDetails.Messenger.FlyingMilesPer24Hours = 60 }},
+		{"messenger slot hours", 6, func(s *SpellRecord) { s.SourceDetails.Messenger.AdditionalDurationSecondsPerSlot = 86400 }},
+		{"animal shapes CR 5", 7, func(s *SpellRecord) { s.SourceDetails.Shapes.FormMaxCR = 5 }},
+		{"animal shapes level 7", 7, func(s *SpellRecord) { s.Level, s.SlotLevels = 7, []int{7, 8, 9} }},
+		{"animate dead command range", 8, func(s *SpellRecord) { s.SourceDetails.Dead.CommandRangeFeet = 30 }},
+		{"animate dead control hours", 8, func(s *SpellRecord) { s.SourceDetails.Dead.ControlHours = 8 }},
+		{"animate dead reassert hours", 8, func(s *SpellRecord) { s.SourceDetails.Dead.ReassertHours = 8 }},
+		{"animate dead reassert count 5", 8, func(s *SpellRecord) { s.SourceDetails.Dead.ReassertCount = 5 }},
+		{"animate dead slot creatures", 8, func(s *SpellRecord) { s.SourceDetails.Dead.AdditionalCreaturesPerSlot = 1 }},
+		{"animate objects command range", 9, func(s *SpellRecord) { s.SourceDetails.Objects.CommandRangeFeet = 60 }},
+		{"animated object AC 16", 9, func(s *SpellRecord) { s.SourceDetails.Objects.AnimatedObject.ArmorClass = 16 }},
+		{"animated object speed", 9, func(s *SpellRecord) { s.SourceDetails.Objects.AnimatedObject.SpeedFeet = 25 }},
+		{"animated object blindsight", 9, func(s *SpellRecord) { s.SourceDetails.Objects.AnimatedObject.BlindsightFeet = 60 }},
+		{"animated object passive perception", 9, func(s *SpellRecord) { s.SourceDetails.Objects.AnimatedObject.PassivePerception = 10 }},
+		{"animated object reach", 9, func(s *SpellRecord) { s.SourceDetails.Objects.AnimatedObject.Slam.ReachFeet = 10 }},
+		{"animated object XP", 9, func(s *SpellRecord) { s.SourceDetails.Objects.AnimatedObject.XP = 10 }},
+		{"animated object dropped condition immunity", 9, func(s *SpellRecord) {
+			b := &s.SourceDetails.Objects.AnimatedObject
+			b.ConditionImmunities = b.ConditionImmunities[:4]
+		}},
+		{"animated object damage immunity", 9, func(s *SpellRecord) { s.SourceDetails.Objects.AnimatedObject.DamageImmunities[1] = "force" }},
+		{"animate objects duration", 9, func(s *SpellRecord) { s.DurationSeconds = 600 }},
+		{"antilife 20-foot emanation", 10, func(s *SpellRecord) { s.SourceDetails.Antilife.EmanationFeet = 20 }},
+		{"antimagic 20-foot emanation", 11, func(s *SpellRecord) { s.SourceDetails.Antimagic.EmanationFeet = 20 }},
+		{"antimagic page 110", 11, func(s *SpellRecord) { s.SourcePage = 110 }},
+		{"antimagic concentration", 11, func(s *SpellRecord) { s.Concentration = &no }},
+		{"aid concentration", 2, func(s *SpellRecord) { s.Concentration = &yes }},
+	} {
+		t.Run(tc.name, func(t *testing.T) {
+			r := loadSpells196(t)
+			tc.change(&r.Records[tc.index])
+			if r.Validate() == nil {
+				t.Error("changed source value validated")
+			}
+			b, err := json.Marshal(r)
+			if err != nil {
+				t.Fatal(err)
+			}
+			if _, err := DecodeSpellRecords(bytes.NewReader(b)); err == nil {
+				t.Error("changed source value decoded")
+			}
+			if r.Records[tc.index].MechanicsAvailable() {
+				t.Error("changed source value available")
+			}
+		})
+	}
+	// The pins are scoped to complete source records under the twelve IDs.
+	other := loadSpells196(t).Records[2]
+	other.ID, other.SourceID, other.Name = prefix+"spells/unlisted", prefix+"spells/unlisted", "Unlisted"
+	if !other.validSpell196Header() {
+		t.Error("header pin applied to an ID outside the batch")
 	}
 }

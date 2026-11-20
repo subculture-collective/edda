@@ -245,7 +245,14 @@ Schema version 1 gains only shapes present in this batch:
   Validation pins the whole Animated Object ability table, so a changed sign or
   value fails rather than passing as a valid negative.
 
-Each payload is tied to its own spell ID and its source scaling kind. The
+Each payload is tied to its own spell ID and its source scaling kind. Each of
+the twelve IDs is also bound to its printed name, page, level, range, duration
+and concentration, and validation compares the printed numbers, saves and
+immunity lists by equality (for example the 5-foot Sphere, Aid's 5 Hit Points,
+the 20-foot Cube, twenty-five words, Challenge Rating 4, four reasserted
+creatures, AC 15 and both 10-foot Emanations), so a structurally valid record
+with a different source value is rejected. Acid Arrow has no payload; its
+4d4, 2d4 and 1d4 dice are pinned with its header. The
 recursive presence, null, blank, empty-list, duplicate-key, alias and unknown-field
 guards from #198 apply to every new field. Composition of #196, #218 and #198
 yields 36 unique complete source records. Every imported record remains

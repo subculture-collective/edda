@@ -323,9 +323,55 @@ var spell196Scaling = map[string]string{
 	"antimagic":  "none",
 }
 
+// spell196Header is the printed header of one #196 family (PDF pp.107-109).
+type spell196Header struct {
+	name            string
+	page, level     int
+	rangeFeet       int
+	durationSeconds int
+	concentration   bool
+}
+
+// spell196Headers binds each #196 ID to its printed name, page, level, range,
+// duration and concentration, so a structurally valid record cannot carry
+// another spell's header under one of these IDs.
+var spell196Headers = map[string]spell196Header{
+	"acid-arrow":        {"Acid Arrow", 107, 2, 90, 0, false},
+	"acid-splash":       {"Acid Splash", 107, 0, 60, 0, false},
+	"aid":               {"Aid", 107, 2, 30, 28800, false},
+	"alarm":             {"Alarm", 107, 1, 30, 28800, false},
+	"alter-self":        {"Alter Self", 107, 2, 0, 3600, true},
+	"animal-friendship": {"Animal Friendship", 107, 1, 30, 86400, false},
+	"animal-messenger":  {"Animal Messenger", 108, 2, 30, 86400, false},
+	"animal-shapes":     {"Animal Shapes", 108, 8, 30, 86400, false},
+	"animate-dead":      {"Animate Dead", 108, 3, 10, 0, false},
+	"animate-objects":   {"Animate Objects", 108, 5, 120, 60, true},
+	"antilife-shell":    {"Antilife Shell", 109, 5, 0, 3600, true},
+	"antimagic-field":   {"Antimagic Field", 109, 8, 0, 3600, true},
+}
+
+// validSpell196Header pins the printed header of a complete #196 record. Acid
+// Arrow has no typed payload, so its printed dice are pinned here as well.
+func (s SpellRecord) validSpell196Header() bool {
+	h, ok := spell196Headers[strings.TrimPrefix(s.ID, prefix+"spells/")]
+	if !ok || !strings.HasPrefix(s.ID, prefix+"spells/") || s.Scope != "complete-source-record" {
+		return true
+	}
+	if s.Name != h.name || s.SourcePage != h.page || s.Level != h.level || s.Range.Feet != h.rangeFeet || s.DurationSeconds != h.durationSeconds || s.Concentration == nil || *s.Concentration != h.concentration {
+		return false
+	}
+	if h.name != "Acid Arrow" {
+		return true
+	}
+	return len(s.Effects) == 2 && s.Effects[0].DiceCount == 4 && s.Effects[0].DieSides == 4 && s.Effects[1].DiceCount == 2 && s.Effects[1].DieSides == 4 && s.Scaling.DiceCount == 1 && s.Scaling.DieSides == 4
+}
+
 // validateSpell196 checks the #196 payloads. Acid Arrow, the twelfth family,
 // uses only the common record fields and therefore has no typed payload.
 func (s SpellRecord) validateSpell196() (bool, error) {
+	if !s.validSpell196Header() {
+		return true, fmt.Errorf("batch 196 header differs from source")
+	}
 	names := map[string]string{"splash": "acid-splash", "aid": "aid", "alarm": "alarm", "alter": "alter-self", "friendship": "animal-friendship", "messenger": "animal-messenger", "shapes": "animal-shapes", "dead": "animate-dead", "objects": "animate-objects", "antilife": "antilife-shell", "antimagic": "antimagic-field"}
 	expected := ""
 	for key, name := range names {
@@ -388,40 +434,40 @@ func (s SpellRecord) validateSpell196() (bool, error) {
 	}
 	switch {
 	case d.Splash != nil:
-		if d.Splash.RadiusFeet <= 0 || s.Level != 0 || !slices.Equal(d.Splash.Upgrades, []SpellSplashUpgrade{{5, 2, 6}, {11, 3, 6}, {17, 4, 6}}) {
+		if d.Splash.RadiusFeet != 5 || d.Splash.Save != "dexterity" || s.Scaling.DiceCount != 1 || s.Scaling.DieSides != 6 || s.Level != 0 || !slices.Equal(d.Splash.Upgrades, []SpellSplashUpgrade{{5, 2, 6}, {11, 3, 6}, {17, 4, 6}}) {
 			return true, fmt.Errorf("invalid cantrip area or upgrades")
 		}
 	case d.Aid != nil:
-		if d.Aid.BaseTargets != s.Target.Count || d.Aid.HitPointMaximumIncrease <= 0 || d.Aid.CurrentHitPointIncrease != d.Aid.HitPointMaximumIncrease {
+		if d.Aid.BaseTargets != s.Target.Count || d.Aid.BaseTargets != 3 || d.Aid.HitPointMaximumIncrease != 5 || d.Aid.AdditionalHitPointsPerSlot != 5 || d.Aid.CurrentHitPointIncrease != d.Aid.HitPointMaximumIncrease {
 			return true, fmt.Errorf("invalid aid targets or increase")
 		}
 	case d.Alarm != nil:
 		a := d.Alarm
-		if !slices.Equal(a.WardChoices, []string{"door", "window", "area"}) || a.ChooseCount != 1 || len(a.Modes) != 2 || a.Modes[0].Choice != "audible" || a.Modes[1].Choice != "mental" || a.AreaMaxCubeFeet <= 0 || !*s.Ritual || !a.RitualAlternative {
+		if !slices.Equal(a.WardChoices, []string{"door", "window", "area"}) || a.ChooseCount != 1 || len(a.Modes) != 2 || a.Modes[0].Choice != "audible" || a.Modes[1].Choice != "mental" || a.AreaMaxCubeFeet != 20 || a.Modes[0].SignalSeconds != 10 || a.Modes[0].DistanceFeet != 60 || a.Modes[0].DistanceMiles != 0 || a.Modes[1].SignalSeconds != 0 || a.Modes[1].DistanceFeet != 0 || a.Modes[1].DistanceMiles != 1 || !*s.Ritual || !a.RitualAlternative {
 			return true, fmt.Errorf("invalid alarm ward or mode variants")
 		}
 	case d.Alter != nil:
 		a := d.Alter
 		growths := []SpellAlterGrowth{{"claws", "slashing"}, {"fangs", "piercing"}, {"horns", "piercing"}, {"hooves", "bludgeoning"}}
-		if a.ChooseCount != 1 || a.Aquatic.Choice != "aquatic-adaptation" || a.Appearance.Choice != "change-appearance" || a.Weapons.Choice != "natural-weapons" || !slices.Equal(a.Weapons.Growths, growths) || a.Weapons.DiceCount <= 0 || !slices.Contains([]int{4, 6, 8, 10, 12, 20}, a.Weapons.DieSides) {
+		if a.ChooseCount != 1 || a.Aquatic.Choice != "aquatic-adaptation" || a.Appearance.Choice != "change-appearance" || a.Weapons.Choice != "natural-weapons" || !slices.Equal(a.Weapons.Growths, growths) || a.Weapons.DiceCount != 1 || a.Weapons.DieSides != 6 {
 			return true, fmt.Errorf("invalid alter self options")
 		}
 	case d.Friendship != nil:
-		if !slices.Equal(d.Friendship.SourcePages, []int{107, 108}) || len(d.Friendship.EndTriggers) != 2 {
+		if d.Friendship.Save != "wisdom" || d.Friendship.BaseTargets != 1 || d.Friendship.AdditionalTargetsPerSlot != 1 || !slices.Equal(d.Friendship.SourcePages, []int{107, 108}) || len(d.Friendship.EndTriggers) != 2 {
 			return true, fmt.Errorf("invalid friendship pages or endings")
 		}
 	case d.Messenger != nil:
 		m := d.Messenger
-		if m.MaxWords <= 0 || m.MilesPer24Hours <= 0 || m.FlyingMilesPer24Hours <= m.MilesPer24Hours || m.AdditionalDurationSecondsPerSlot <= 0 || !*s.Ritual || !m.RitualAlternative {
+		if m.Save != "charisma" || m.MaxWords != 25 || m.MilesPer24Hours != 25 || m.FlyingMilesPer24Hours != 50 || m.AdditionalDurationSecondsPerSlot != 172800 || !*s.Ritual || !m.RitualAlternative {
 			return true, fmt.Errorf("invalid messenger limits")
 		}
 	case d.Shapes != nil:
-		if d.Shapes.FormMaxCR <= 0 || d.Shapes.CanCastSpells || len(d.Shapes.Retained) != 8 {
+		if d.Shapes.FormMaxCR != 4 || d.Shapes.CanCastSpells || len(d.Shapes.Retained) != 8 {
 			return true, fmt.Errorf("invalid animal form limits")
 		}
 	case d.Dead != nil:
 		a := d.Dead
-		if !slices.Equal(a.TargetChoices, []SpellAnimateDeadChoice{{"pile-of-bones", "skeleton"}, {"corpse", "zombie"}}) || !slices.Equal(a.RemainsSizes, []string{"medium", "small"}) || len(a.CommandChoices) != 2 || a.CommandRangeFeet <= 0 || a.ControlHours <= 0 || a.ReassertHours <= 0 || a.ReassertCount <= 0 || a.AdditionalCreaturesPerSlot <= 0 {
+		if !slices.Equal(a.TargetChoices, []SpellAnimateDeadChoice{{"pile-of-bones", "skeleton"}, {"corpse", "zombie"}}) || !slices.Equal(a.RemainsSizes, []string{"medium", "small"}) || len(a.CommandChoices) != 2 || a.CommandRangeFeet != 60 || a.ControlHours != 24 || a.ReassertHours != 24 || a.ReassertCount != 4 || a.AdditionalCreaturesPerSlot != 2 {
 			return true, fmt.Errorf("invalid animate dead choices or control")
 		}
 	case d.Objects != nil:
@@ -430,18 +476,18 @@ func (s SpellRecord) validateSpell196() (bool, error) {
 		abilities := []SpellStatAbility{{"strength", 16, 3, 3}, {"dexterity", 10, 0, 0}, {"constitution", 10, 0, 0}, {"intelligence", 3, -4, -4}, {"wisdom", 3, -4, -4}, {"charisma", 1, -5, -5}}
 		slot := []SpellSizeDice{{"medium-or-smaller", 1, 4, 0, false}, {"large", 1, 6, 0, false}, {"huge", 1, 12, 0, false}}
 		slam := []SpellSizeDice{{"medium-or-smaller", 1, 4, 3, false}, {"large", 2, 6, 3, true}, {"huge", 2, 12, 3, true}}
-		if !slices.Equal(o.SourcePages, []int{108, 109}) || !sizes(o.SizeCosts, 1, 2, 3) || !slices.Equal(o.SlotDamage, slot) || o.CommandRangeFeet <= 0 {
+		if !slices.Equal(o.SourcePages, []int{108, 109}) || !sizes(o.SizeCosts, 1, 2, 3) || !slices.Equal(o.SlotDamage, slot) || o.CommandRangeFeet != 500 {
 			return true, fmt.Errorf("invalid animate objects pages, sizes or scaling")
 		}
-		if !slices.Equal(block.Abilities, abilities) || !sizes(block.HitPoints, 10, 20, 40) || !slices.Equal(block.Slam.Damage, slam) || block.ArmorClass <= 0 || block.SpeedFeet <= 0 || block.Slam.ReachFeet <= 0 {
+		if !slices.Equal(block.Abilities, abilities) || !sizes(block.HitPoints, 10, 20, 40) || !slices.Equal(block.Slam.Damage, slam) || block.ArmorClass != 15 || block.SpeedFeet != 30 || block.Slam.ReachFeet != 5 || block.BlindsightFeet != 30 || block.PassivePerception != 6 || block.XP != 0 || !slices.Equal(block.DamageImmunities, []string{"poison", "psychic"}) || !slices.Equal(block.ConditionImmunities, []string{"charmed", "exhaustion", "frightened", "paralyzed", "poisoned"}) {
 			return true, fmt.Errorf("invalid animated object stat block")
 		}
 	case d.Antilife != nil:
-		if d.Antilife.EmanationFeet <= 0 || !slices.Equal(d.Antilife.ExemptTypes, []string{"construct", "undead"}) {
+		if d.Antilife.EmanationFeet != 10 || !slices.Equal(d.Antilife.ExemptTypes, []string{"construct", "undead"}) {
 			return true, fmt.Errorf("invalid antilife aura or exemptions")
 		}
 	case d.Antimagic != nil:
-		if d.Antimagic.EmanationFeet <= 0 || d.Antimagic.SuppressedFunctions || !slices.Equal(d.Antimagic.SuppressionExceptions, []string{"cast-by-artifact", "cast-by-deity"}) {
+		if d.Antimagic.EmanationFeet != 10 || d.Antimagic.SuppressedFunctions || !slices.Equal(d.Antimagic.SuppressionExceptions, []string{"cast-by-artifact", "cast-by-deity"}) {
 			return true, fmt.Errorf("invalid antimagic aura or exceptions")
 		}
 	}
