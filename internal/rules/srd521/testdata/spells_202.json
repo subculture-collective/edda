@@ -1,0 +1,1337 @@
+{
+  "schema_version": 1,
+  "source": {
+    "version": "5.2.1",
+    "language": "en",
+    "landing_url": "https://www.dndbeyond.com/srd",
+    "artifact_url": "https://media.dndbeyond.com/compendium-images/srd/5.2/SRD_CC_v5.2.1.pdf",
+    "sha256": "8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87",
+    "bytes": 6031375,
+    "pages": 364,
+    "retrieved_at": "2026-11-15",
+    "license": "CC-BY-4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/legalcode",
+    "attribution": "This work includes material from the System Reference Document 5.2.1 (“SRD 5.2.1”) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd. The SRD 5.2.1 is licensed under the Creative Commons Attribution 4.0 International License, available at https://creativecommons.org/licenses/by/4.0/legalcode.",
+    "changes": "SRD 5.2.1 PDF pp.121-123 adapted into twelve complete offline spell families for issue #202, including Dancing Lights, Demiplane and Detect Poison and Disease continuation text. No executable effects or availability grants."
+  },
+  "records": [
+    {
+      "id": "srd-5.2.1:content/spells/cure-wounds",
+      "name": "Cure Wounds",
+      "source_id": "srd-5.2.1:content/spells/cure-wounds",
+      "source_page": 121,
+      "scope": "complete-source-record",
+      "level": 1,
+      "school": "abjuration",
+      "lists": [
+        "bard",
+        "cleric",
+        "druid",
+        "paladin",
+        "ranger"
+      ],
+      "casting_time": "action",
+      "range": {
+        "kind": "touch",
+        "feet": 0
+      },
+      "target": {
+        "shape": "single",
+        "count": 1,
+        "eligibility": "creature-touch"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": null
+      },
+      "ritual": false,
+      "concentration": false,
+      "duration": "instantaneous",
+      "duration_seconds": 0,
+      "scaling": {
+        "kind": "slot",
+        "above_level": 1,
+        "dice_count": 2,
+        "die_sides": 8,
+        "effect_ids": [
+          "healing"
+        ]
+      },
+      "effects": [
+        {
+          "id": "healing",
+          "mechanic": "healing.cure-wounds",
+          "timing": "immediate",
+          "dice_count": 2,
+          "die_sides": 8,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": true,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "healing.cure-wounds",
+        "scaling.per-slot"
+      ],
+      "slot_levels": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 0,
+        "casting_triggers": [],
+        "end_timing": "instantaneous",
+        "cure": {
+          "target": "creature-touched",
+          "healing_dice_count": 2,
+          "healing_die_sides": 8,
+          "healing_modifier": "spellcasting-ability-modifier",
+          "slot_dice_count": 2,
+          "slot_die_sides": 8
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/dancing-lights",
+      "name": "Dancing Lights",
+      "source_id": "srd-5.2.1:content/spells/dancing-lights",
+      "source_page": 121,
+      "scope": "complete-source-record",
+      "level": 0,
+      "school": "illusion",
+      "lists": [
+        "bard",
+        "sorcerer",
+        "wizard"
+      ],
+      "casting_time": "action",
+      "range": {
+        "kind": "feet",
+        "feet": 120
+      },
+      "target": {
+        "shape": "created-effect",
+        "count": 4,
+        "eligibility": "torch-size-lights-in-range"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": {
+          "description": "a bit of phosphorus",
+          "cost_cp": 0,
+          "consumed": false
+        }
+      },
+      "ritual": false,
+      "concentration": true,
+      "duration": "timed",
+      "duration_seconds": 60,
+      "scaling": {
+        "kind": "none",
+        "above_level": 0,
+        "dice_count": 0,
+        "die_sides": 0,
+        "effect_ids": []
+      },
+      "effects": [
+        {
+          "id": "lights",
+          "mechanic": "light.dancing-lights",
+          "timing": "for-duration",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "move",
+          "mechanic": "movement.dancing-lights-bonus-action",
+          "timing": "bonus-action-each-turn",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "light.dancing-lights",
+        "movement.dancing-lights-bonus-action",
+        "light.dim-10-foot-radius",
+        "concentration.source-duration",
+        "components.material"
+      ],
+      "slot_levels": [],
+      "source_details": {
+        "casting_seconds": 0,
+        "casting_triggers": [],
+        "end_timing": "duration-or-concentration-ended",
+        "lights": {
+          "source_pages": [
+            121,
+            122
+          ],
+          "light_count": 4,
+          "light_size": "torch",
+          "forms": [
+            "torches",
+            "lanterns",
+            "glowing-orbs"
+          ],
+          "combined_form": "vaguely-humanlike",
+          "combined_size": "medium",
+          "light_level": "dim-light",
+          "light_radius_feet": 10,
+          "move_action": "bonus-action",
+          "move_feet": 60,
+          "move_destination": "space-within-range",
+          "max_separation_feet": 20,
+          "separation_from": "another-light-created-by-spell",
+          "vanishes_when": "exceeds-spell-range"
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/darkness",
+      "name": "Darkness",
+      "source_id": "srd-5.2.1:content/spells/darkness",
+      "source_page": 122,
+      "scope": "complete-source-record",
+      "level": 2,
+      "school": "evocation",
+      "lists": [
+        "sorcerer",
+        "warlock",
+        "wizard"
+      ],
+      "casting_time": "action",
+      "range": {
+        "kind": "feet",
+        "feet": 60
+      },
+      "target": {
+        "shape": "choice",
+        "count": 1,
+        "eligibility": "point-in-range-or-unattended-object"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": false,
+        "material": {
+          "description": "bat fur and a piece of coal",
+          "cost_cp": 0,
+          "consumed": false
+        }
+      },
+      "ritual": false,
+      "concentration": true,
+      "duration": "timed",
+      "duration_seconds": 600,
+      "scaling": {
+        "kind": "none",
+        "above_level": 0,
+        "dice_count": 0,
+        "die_sides": 0,
+        "effect_ids": []
+      },
+      "effects": [
+        {
+          "id": "darkness",
+          "mechanic": "area.magical-darkness-sphere-15",
+          "timing": "for-duration",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "object-darkness",
+          "mechanic": "area.magical-darkness-emanation-15",
+          "timing": "for-duration-from-unattended-object",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "dispel",
+          "mechanic": "dispel.overlapping-light-spell-level-2-or-lower",
+          "timing": "on-overlap",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "area.magical-darkness-sphere-15",
+        "area.magical-darkness-emanation-15",
+        "dispel.overlapping-light-spell-level-2-or-lower",
+        "concentration.source-duration",
+        "components.material"
+      ],
+      "slot_levels": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 0,
+        "casting_triggers": [],
+        "end_timing": "duration-or-concentration-ended",
+        "darkness": {
+          "darkness_kind": "magical-darkness",
+          "sphere_radius_feet": 15,
+          "sphere_origin": "point-in-range",
+          "darkvision": "cannot-see-through",
+          "nonmagical_light": "cannot-illuminate",
+          "object_alternative": "object-not-worn-or-carried",
+          "emanation_feet": 15,
+          "object_blocker": "covered-by-opaque-item",
+          "blocker_examples": [
+            "bowl",
+            "helm"
+          ],
+          "dispels_lights": [
+            "bright-light",
+            "dim-light"
+          ],
+          "dispels_up_to_level": 2
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/darkvision",
+      "name": "Darkvision",
+      "source_id": "srd-5.2.1:content/spells/darkvision",
+      "source_page": 122,
+      "scope": "complete-source-record",
+      "level": 2,
+      "school": "transmutation",
+      "lists": [
+        "druid",
+        "ranger",
+        "sorcerer",
+        "wizard"
+      ],
+      "casting_time": "action",
+      "range": {
+        "kind": "touch",
+        "feet": 0
+      },
+      "target": {
+        "shape": "single",
+        "count": 1,
+        "eligibility": "willing-creature-touch"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": {
+          "description": "a dried carrot",
+          "cost_cp": 0,
+          "consumed": false
+        }
+      },
+      "ritual": false,
+      "concentration": false,
+      "duration": "timed",
+      "duration_seconds": 28800,
+      "scaling": {
+        "kind": "none",
+        "above_level": 0,
+        "dice_count": 0,
+        "die_sides": 0,
+        "effect_ids": []
+      },
+      "effects": [
+        {
+          "id": "darkvision",
+          "mechanic": "sense.darkvision-150",
+          "timing": "for-duration",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "sense.darkvision-150",
+        "components.material"
+      ],
+      "slot_levels": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 0,
+        "casting_triggers": [],
+        "end_timing": "duration-ended",
+        "darkvision": {
+          "target": "willing-creature-touched",
+          "sense": "darkvision",
+          "sense_range_feet": 150
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/daylight",
+      "name": "Daylight",
+      "source_id": "srd-5.2.1:content/spells/daylight",
+      "source_page": 122,
+      "scope": "complete-source-record",
+      "level": 3,
+      "school": "evocation",
+      "lists": [
+        "cleric",
+        "druid",
+        "paladin",
+        "ranger",
+        "sorcerer"
+      ],
+      "casting_time": "action",
+      "range": {
+        "kind": "feet",
+        "feet": 60
+      },
+      "target": {
+        "shape": "choice",
+        "count": 1,
+        "eligibility": "point-in-range-or-unattended-object"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": null
+      },
+      "ritual": false,
+      "concentration": false,
+      "duration": "timed",
+      "duration_seconds": 3600,
+      "scaling": {
+        "kind": "none",
+        "above_level": 0,
+        "dice_count": 0,
+        "die_sides": 0,
+        "effect_ids": []
+      },
+      "effects": [
+        {
+          "id": "daylight",
+          "mechanic": "area.sunlight-sphere-60",
+          "timing": "for-duration",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "object-daylight",
+          "mechanic": "area.sunlight-emanation-60",
+          "timing": "for-duration-from-unattended-object",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "dispel",
+          "mechanic": "dispel.overlapping-darkness-spell-level-3-or-lower",
+          "timing": "on-overlap",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "area.sunlight-sphere-60",
+        "area.sunlight-emanation-60",
+        "dispel.overlapping-darkness-spell-level-3-or-lower"
+      ],
+      "slot_levels": [
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 0,
+        "casting_triggers": [],
+        "end_timing": "duration-ended",
+        "daylight": {
+          "light_kind": "sunlight",
+          "sphere_radius_feet": 60,
+          "sphere_origin": "point-in-range",
+          "sphere_light": "bright-light",
+          "dim_light_extra_feet": 60,
+          "object_alternative": "object-not-worn-or-carried",
+          "emanation_feet": 60,
+          "object_blocker": "covered-by-opaque-item",
+          "blocker_examples": [
+            "bowl",
+            "helm"
+          ],
+          "dispels_darkness": "darkness-from-spell",
+          "dispels_up_to_level": 3
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/death-ward",
+      "name": "Death Ward",
+      "source_id": "srd-5.2.1:content/spells/death-ward",
+      "source_page": 122,
+      "scope": "complete-source-record",
+      "level": 4,
+      "school": "abjuration",
+      "lists": [
+        "cleric",
+        "paladin"
+      ],
+      "casting_time": "action",
+      "range": {
+        "kind": "touch",
+        "feet": 0
+      },
+      "target": {
+        "shape": "single",
+        "count": 1,
+        "eligibility": "creature-touch"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": null
+      },
+      "ritual": false,
+      "concentration": false,
+      "duration": "timed",
+      "duration_seconds": 28800,
+      "scaling": {
+        "kind": "none",
+        "above_level": 0,
+        "dice_count": 0,
+        "die_sides": 0,
+        "effect_ids": []
+      },
+      "effects": [
+        {
+          "id": "drop-to-one",
+          "mechanic": "protection.death-ward-drop-to-1",
+          "timing": "first-time-target-would-drop-to-0-hit-points",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "instant-death",
+          "mechanic": "protection.death-ward-negate-instant-death",
+          "timing": "effect-that-kills-instantly-without-damage",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "protection.death-ward-drop-to-1",
+        "protection.death-ward-negate-instant-death"
+      ],
+      "slot_levels": [
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 0,
+        "casting_triggers": [],
+        "end_timing": "duration-ended",
+        "death_ward": {
+          "target": "creature-touched",
+          "drop_trigger": "would-drop-to-0-hit-points-first-time",
+          "replacement_hit_points": 1,
+          "drop_ends_spell": true,
+          "instant_death_trigger": "effect-that-would-kill-instantly-without-dealing-damage",
+          "instant_death_result": "effect-negated",
+          "instant_death_ends_spell": true
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/delayed-blast-fireball",
+      "name": "Delayed Blast Fireball",
+      "source_id": "srd-5.2.1:content/spells/delayed-blast-fireball",
+      "source_page": 122,
+      "scope": "complete-source-record",
+      "level": 7,
+      "school": "evocation",
+      "lists": [
+        "sorcerer",
+        "wizard"
+      ],
+      "casting_time": "action",
+      "range": {
+        "kind": "feet",
+        "feet": 150
+      },
+      "target": {
+        "shape": "sphere",
+        "count": 0,
+        "eligibility": "creatures-in-sphere"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": {
+          "description": "a ball of bat guano and sulfur",
+          "cost_cp": 0,
+          "consumed": false
+        }
+      },
+      "ritual": false,
+      "concentration": true,
+      "duration": "timed",
+      "duration_seconds": 60,
+      "scaling": {
+        "kind": "slot",
+        "above_level": 7,
+        "dice_count": 1,
+        "die_sides": 6,
+        "effect_ids": [
+          "damage"
+        ]
+      },
+      "effects": [
+        {
+          "id": "damage",
+          "mechanic": "damage.delayed-blast-fireball",
+          "timing": "spell-ends-bead-explodes-save-half-on-success",
+          "dice_count": 12,
+          "die_sides": 6,
+          "damage_type": "fire",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "growth",
+          "mechanic": "damage.delayed-blast-fireball-growth",
+          "timing": "whenever-caster-turn-ends-and-spell-has-not-ended",
+          "dice_count": 1,
+          "die_sides": 6,
+          "damage_type": "fire",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "touch",
+          "mechanic": "interaction.delayed-blast-bead-touch",
+          "timing": "creature-touches-bead-before-spell-ends",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "ignite",
+          "mechanic": "ignite.flammable-objects",
+          "timing": "when-bead-explodes",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "damage.delayed-blast-fireball",
+        "damage.delayed-blast-fireball-growth",
+        "interaction.delayed-blast-bead-touch",
+        "ignite.flammable-objects",
+        "area.sphere-20-radius",
+        "save.dexterity-half",
+        "scaling.per-slot",
+        "concentration.source-duration",
+        "components.material"
+      ],
+      "slot_levels": [
+        7,
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 0,
+        "casting_triggers": [],
+        "end_timing": "duration-or-concentration-ended",
+        "fireball": {
+          "bead_origin": "beam-of-yellow-light-from-caster",
+          "bead_point": "chosen-point-in-range",
+          "explosion_trigger": "spell-ends",
+          "radius_feet": 20,
+          "save": "dexterity",
+          "damage_type": "fire",
+          "fail_damage": "total-accumulated-damage",
+          "success_damage": "half-accumulated-damage",
+          "base_dice_count": 12,
+          "base_die_sides": 6,
+          "growth_dice_count": 1,
+          "growth_die_sides": 6,
+          "growth_timing": "whenever-caster-turn-ends-and-spell-has-not-ended",
+          "touch_save": "dexterity",
+          "touch_failure": "spell-ends-and-bead-explodes",
+          "touch_success": "creature-can-throw-bead",
+          "throw_feet": 40,
+          "thrown_end": "enters-creature-space-or-collides-with-solid-object",
+          "thrown_result": "spell-ends-and-bead-explodes",
+          "ignites": "flammable-objects-not-worn-or-carried-in-explosion",
+          "slot_base_dice_count": 1,
+          "slot_base_die_sides": 6
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/demiplane",
+      "name": "Demiplane",
+      "source_id": "srd-5.2.1:content/spells/demiplane",
+      "source_page": 122,
+      "scope": "complete-source-record",
+      "level": 8,
+      "school": "conjuration",
+      "lists": [
+        "sorcerer",
+        "warlock",
+        "wizard"
+      ],
+      "casting_time": "action",
+      "range": {
+        "kind": "feet",
+        "feet": 60
+      },
+      "target": {
+        "shape": "created-effect",
+        "count": 1,
+        "eligibility": "visible-flat-solid-surface-in-range"
+      },
+      "components": {
+        "verbal": false,
+        "somatic": true,
+        "material": null
+      },
+      "ritual": false,
+      "concentration": false,
+      "duration": "timed",
+      "duration_seconds": 3600,
+      "scaling": {
+        "kind": "none",
+        "above_level": 0,
+        "dice_count": 0,
+        "die_sides": 0,
+        "effect_ids": []
+      },
+      "effects": [
+        {
+          "id": "door",
+          "mechanic": "portal.demiplane-door",
+          "timing": "for-duration",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "demiplane",
+          "mechanic": "space.demiplane-room",
+          "timing": "for-duration",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "ending",
+          "mechanic": "ending.demiplane-door-vanishes",
+          "timing": "when-spell-ends",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "portal.demiplane-door",
+        "space.demiplane-room",
+        "ending.demiplane-door-vanishes",
+        "condition.prone-on-shunt"
+      ],
+      "slot_levels": [
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 0,
+        "casting_triggers": [],
+        "end_timing": "duration-ended",
+        "demiplane": {
+          "source_pages": [
+            122,
+            123
+          ],
+          "surface": "flat-solid-surface-visible-in-range",
+          "door_size": "medium",
+          "door_appearance": "shadowy",
+          "door_operation": "opened-and-closed",
+          "room_kind": "empty-room",
+          "room_dimension_feet": 30,
+          "room_material_choices": [
+            "wood",
+            "stone"
+          ],
+          "spell_end_door": "vanishes",
+          "objects_inside": "remain",
+          "creatures_inside": "remain-unless-they-opt-to-be-shunted-through-door",
+          "shunted_condition": "prone",
+          "shunted_landing": "unoccupied-spaces-closest-to-former-door-space",
+          "connection_choices": [
+            "new-demiplane",
+            "demiplane-from-previous-casting",
+            "demiplane-by-another-creature"
+          ],
+          "other_creature_needs": "know-nature-and-contents"
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/detect-evil-and-good",
+      "name": "Detect Evil and Good",
+      "source_id": "srd-5.2.1:content/spells/detect-evil-and-good",
+      "source_page": 123,
+      "scope": "complete-source-record",
+      "level": 1,
+      "school": "divination",
+      "lists": [
+        "cleric",
+        "paladin"
+      ],
+      "casting_time": "action",
+      "range": {
+        "kind": "self",
+        "feet": 0
+      },
+      "target": {
+        "shape": "single",
+        "count": 1,
+        "eligibility": "self"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": null
+      },
+      "ritual": false,
+      "concentration": true,
+      "duration": "timed",
+      "duration_seconds": 600,
+      "scaling": {
+        "kind": "none",
+        "above_level": 0,
+        "dice_count": 0,
+        "die_sides": 0,
+        "effect_ids": []
+      },
+      "effects": [
+        {
+          "id": "sense",
+          "mechanic": "sense.detect-evil-and-good",
+          "timing": "for-duration",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "sense.detect-evil-and-good",
+        "sense.hallow-active",
+        "blocker.detection-barriers",
+        "concentration.source-duration"
+      ],
+      "slot_levels": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 0,
+        "casting_triggers": [],
+        "end_timing": "duration-or-concentration-ended",
+        "detect_evil": {
+          "sense_radius_feet": 30,
+          "detected_types": [
+            "aberration",
+            "celestial",
+            "elemental",
+            "fey",
+            "fiend",
+            "undead"
+          ],
+          "sensed_info": "location",
+          "hallow_detection": "whether-active-and-where",
+          "blockers": [
+            {
+              "material": "stone-dirt-or-wood",
+              "thickness": "1-foot"
+            },
+            {
+              "material": "metal",
+              "thickness": "1-inch"
+            },
+            {
+              "material": "lead",
+              "thickness": "thin-sheet"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/detect-magic",
+      "name": "Detect Magic",
+      "source_id": "srd-5.2.1:content/spells/detect-magic",
+      "source_page": 123,
+      "scope": "complete-source-record",
+      "level": 1,
+      "school": "divination",
+      "lists": [
+        "bard",
+        "cleric",
+        "druid",
+        "paladin",
+        "ranger",
+        "sorcerer",
+        "warlock",
+        "wizard"
+      ],
+      "casting_time": "action",
+      "range": {
+        "kind": "self",
+        "feet": 0
+      },
+      "target": {
+        "shape": "single",
+        "count": 1,
+        "eligibility": "self"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": null
+      },
+      "ritual": true,
+      "concentration": true,
+      "duration": "timed",
+      "duration_seconds": 600,
+      "scaling": {
+        "kind": "none",
+        "above_level": 0,
+        "dice_count": 0,
+        "die_sides": 0,
+        "effect_ids": []
+      },
+      "effects": [
+        {
+          "id": "sense",
+          "mechanic": "sense.detect-magic",
+          "timing": "for-duration",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "aura",
+          "mechanic": "sense.detect-magic-aura-school",
+          "timing": "magic-action-when-effects-sensed",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "sense.detect-magic",
+        "sense.detect-magic-aura-school",
+        "blocker.detection-barriers",
+        "cast.ritual",
+        "concentration.source-duration"
+      ],
+      "slot_levels": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 0,
+        "casting_triggers": [],
+        "end_timing": "duration-or-concentration-ended",
+        "detect_magic": {
+          "sense_radius_feet": 30,
+          "senses": "presence-of-magical-effects",
+          "follow_up_action": "magic-action",
+          "aura_subjects": "visible-creature-or-object-bearing-the-magic",
+          "aura_appearance": "faint-aura",
+          "school_learned": "school-of-magic-if-effect-created-by-spell",
+          "blockers": [
+            {
+              "material": "stone-dirt-or-wood",
+              "thickness": "1-foot"
+            },
+            {
+              "material": "metal",
+              "thickness": "1-inch"
+            },
+            {
+              "material": "lead",
+              "thickness": "thin-sheet"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/detect-poison-and-disease",
+      "name": "Detect Poison and Disease",
+      "source_id": "srd-5.2.1:content/spells/detect-poison-and-disease",
+      "source_page": 123,
+      "scope": "complete-source-record",
+      "level": 1,
+      "school": "divination",
+      "lists": [
+        "cleric",
+        "druid",
+        "paladin",
+        "ranger"
+      ],
+      "casting_time": "action",
+      "range": {
+        "kind": "self",
+        "feet": 0
+      },
+      "target": {
+        "shape": "single",
+        "count": 1,
+        "eligibility": "self"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": {
+          "description": "a yew leaf",
+          "cost_cp": 0,
+          "consumed": false
+        }
+      },
+      "ritual": true,
+      "concentration": true,
+      "duration": "timed",
+      "duration_seconds": 600,
+      "scaling": {
+        "kind": "none",
+        "above_level": 0,
+        "dice_count": 0,
+        "die_sides": 0,
+        "effect_ids": []
+      },
+      "effects": [
+        {
+          "id": "sense",
+          "mechanic": "sense.detect-poison-and-disease",
+          "timing": "for-duration",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "sense.detect-poison-and-disease",
+        "blocker.detection-barriers",
+        "cast.ritual",
+        "concentration.source-duration",
+        "components.material"
+      ],
+      "slot_levels": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 0,
+        "casting_triggers": [],
+        "end_timing": "duration-or-concentration-ended",
+        "detect_poison": {
+          "sense_radius_feet": 30,
+          "detected": [
+            "poisons",
+            "poisonous-or-venomous-creatures",
+            "magical-contagions"
+          ],
+          "sensed_info": "location",
+          "kind_sensed": "kind-of-poison-creature-or-contagion",
+          "blockers": [
+            {
+              "material": "stone-dirt-or-wood",
+              "thickness": "1-foot"
+            },
+            {
+              "material": "metal",
+              "thickness": "1-inch"
+            },
+            {
+              "material": "lead",
+              "thickness": "thin-sheet"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/detect-thoughts",
+      "name": "Detect Thoughts",
+      "source_id": "srd-5.2.1:content/spells/detect-thoughts",
+      "source_page": 123,
+      "scope": "complete-source-record",
+      "level": 2,
+      "school": "divination",
+      "lists": [
+        "bard",
+        "sorcerer",
+        "wizard"
+      ],
+      "casting_time": "action",
+      "range": {
+        "kind": "self",
+        "feet": 0
+      },
+      "target": {
+        "shape": "single",
+        "count": 1,
+        "eligibility": "self"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": {
+          "description": "1 Copper Piece",
+          "cost_cp": 1,
+          "consumed": false
+        }
+      },
+      "ritual": false,
+      "concentration": true,
+      "duration": "timed",
+      "duration_seconds": 60,
+      "scaling": {
+        "kind": "none",
+        "above_level": 0,
+        "dice_count": 0,
+        "die_sides": 0,
+        "effect_ids": []
+      },
+      "effects": [
+        {
+          "id": "sense",
+          "mechanic": "sense.thoughts",
+          "timing": "sense-thoughts-option-for-duration",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "read",
+          "mechanic": "read.thoughts",
+          "timing": "read-thoughts-option-for-duration",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "probe",
+          "mechanic": "probe.thoughts-wisdom-save",
+          "timing": "magic-action-on-next-turn-after-reading",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "sense.thoughts",
+        "read.thoughts",
+        "probe.thoughts-wisdom-save",
+        "check.arcana-ends-probe",
+        "blocker.detection-barriers",
+        "concentration.source-duration",
+        "components.material"
+      ],
+      "slot_levels": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 0,
+        "casting_triggers": [],
+        "end_timing": "duration-or-concentration-ended",
+        "detect_thoughts": {
+          "activation_action": "magic-action-on-later-turns",
+          "options": [
+            "sense-thoughts",
+            "read-thoughts"
+          ],
+          "sense_radius_feet": 30,
+          "sense_subjects": "thoughts-of-creatures-that-know-languages-or-are-telepathic",
+          "sense_reads_content": false,
+          "sense_blockers": [
+            {
+              "material": "stone-dirt-or-wood",
+              "thickness": "1-foot"
+            },
+            {
+              "material": "metal",
+              "thickness": "1-inch"
+            },
+            {
+              "material": "lead",
+              "thickness": "thin-sheet"
+            }
+          ],
+          "read_range_feet": 30,
+          "read_targets": [
+            "visible-creature",
+            "creature-detected-with-sense-thoughts"
+          ],
+          "read_learns": "what-is-most-on-targets-mind-right-now",
+          "read_no_language_result": "learn-nothing",
+          "probe_action": "magic-action-on-next-turn",
+          "probe_save": "wisdom",
+          "probe_failure": [
+            "reasoning",
+            "emotions",
+            "something-that-looms-large"
+          ],
+          "probe_failure_examples": [
+            "worry",
+            "love",
+            "hate"
+          ],
+          "probe_success": "spell-ends",
+          "target_knows_probed": true,
+          "target_check_action": "action-on-its-turn",
+          "target_check": "intelligence-arcana",
+          "target_check_dc": "caster-spell-save-dc",
+          "target_check_success": "spell-ends",
+          "target_check_window": "until-caster-shifts-attention-from-target-mind"
+        }
+      }
+    }
+  ]
+}
