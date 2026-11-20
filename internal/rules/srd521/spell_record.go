@@ -173,7 +173,7 @@ func (s SpellRecord) validate() error {
 			return fmt.Errorf("invalid spell list")
 		}
 	}
-	if !slices.Contains([]string{"action", "bonus-action", "reaction", "1-minute", "10-minutes", "1-hour", "8-hours"}, s.CastingTime) || !slices.Contains([]string{"feet", "touch", "self", "unlimited"}, s.Range.Kind) || s.Range.Feet < 0 || (s.Range.Kind == "feet" && s.Range.Feet == 0) || (s.Range.Kind != "feet" && s.Range.Feet != 0) || !validSpellTarget(s.Target) {
+	if !slices.Contains([]string{"action", "bonus-action", "reaction", "1-minute", "10-minutes", "1-hour", "8-hours"}, s.CastingTime) || !slices.Contains([]string{"feet", "touch", "self", "unlimited", "special"}, s.Range.Kind) || s.Range.Feet < 0 || (s.Range.Kind == "feet" && s.Range.Feet == 0) || (s.Range.Kind != "feet" && s.Range.Feet != 0) || !validSpellTarget(s.Target) {
 		return fmt.Errorf("invalid casting, range or target shape")
 	}
 	if s.Components.Verbal == nil || s.Components.Somatic == nil || s.Ritual == nil || s.Concentration == nil {
@@ -219,7 +219,7 @@ func (s SpellRecord) validate() error {
 		effects[e.ID] = true
 	}
 	sc := s.Scaling
-	if s.Level == 0 && sc.Kind != "none" && sc.Kind != "cantrip-upgrade" {
+	if s.Level == 0 && sc.Kind != "none" && sc.Kind != "cantrip-upgrade" && sc.Kind != "cantrip-beams" {
 		return fmt.Errorf("cantrip cannot scale by slot")
 	}
 	switch sc.Kind {
@@ -234,6 +234,10 @@ func (s SpellRecord) validate() error {
 	case "slot-auto-end", "slot-duration-table":
 		if !s.validSpell203Scaling(effects) {
 			return fmt.Errorf("invalid typed batch 203 scaling")
+		}
+	case "cantrip-beams":
+		if !s.validSpell204Scaling(effects) {
+			return fmt.Errorf("invalid typed batch 204 scaling")
 		}
 	case "none":
 		if sc.AboveLevel != 0 || sc.DiceCount != 0 || sc.DieSides != 0 || len(sc.EffectIDs) != 0 {
@@ -260,6 +264,8 @@ func (s SpellRecord) validate() error {
 				base, additional = d.Monster.BaseTargets, d.Monster.AdditionalTargetsPerSlot
 			} else if d.Person != nil {
 				base, additional = d.Person.BaseTargets, d.Person.AdditionalTargetsPerSlot
+			} else if d.Enhance != nil {
+				base, additional = d.Enhance.BaseTargets, d.Enhance.AdditionalTargetsPerSlot
 			}
 			if base != s.Target.Count || additional <= 0 || !slices.Contains(s.RequiredMechanics, "scaling.targets-per-slot") {
 				return fmt.Errorf("target scaling requires consistent base and positive increment")
@@ -267,7 +273,8 @@ func (s SpellRecord) validate() error {
 		}
 		curse := d.Curse != nil && slices.Contains(s.RequiredMechanics, "scaling.curse-slot-duration-concentration")
 		messenger := d.Messenger != nil && d.Messenger.AdditionalDurationSecondsPerSlot > 0 && slices.Contains(s.RequiredMechanics, "scaling.duration-per-slot")
-		if sc.Kind == "slot-duration" && !curse && !messenger {
+		dominate := d.Dominate != nil && len(d.Dominate.SlotDurations) == 3 && slices.Contains(s.RequiredMechanics, "scaling.duration-by-slot")
+		if sc.Kind == "slot-duration" && !curse && !messenger && !dominate {
 			return fmt.Errorf("duration scaling requires typed slot table or increment")
 		}
 		for _, id := range sc.EffectIDs {

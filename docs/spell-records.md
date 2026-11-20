@@ -5,7 +5,7 @@ Issue #194 defines `SpellRecords`, decoded by `DecodeSpellRecords(io.Reader)` in
 runtime consumers, action registration, database writes or coverage promotion.
 `testdata/spell_records.json` contains one complete new source record, Acid Arrow,
 and adaptations of the two existing bounded fixtures. Subsequent catalogue
-imports are separately owned; the #218, #198, #196, #199, #200, #201, #202 and #203 batches are described below.
+imports are separately owned; the #218, #198, #196, #199, #200, #201, #202, #203 and #204 batches are described below.
 
 The envelope retains the exact `Source` pin, license, attribution and adaptation
 notice checked by the conformance register. Each record has its own stable
@@ -593,6 +593,60 @@ run:
 
 ```sh
 rtk proxy python3 scripts/verify_srd_spells_203.py /path/to/SRD_CC_v5.2.1.pdf
+```
+
+The same limits as #198 apply: the source check supplements the offline literal
+fixtures and is not an automatic conformance proof.
+
+## Issue #204: Dominate Person through Enthrall
+
+`testdata/spells_204.json` imports the twelve families the issue-80 inventory
+assigns to #204, on PDF pp.126-128: Dominate Person, Dragon's Breath, Dream,
+Druidcraft, Earthquake, Eldritch Blast, Elementalism, Enhance Ability,
+Enlarge/Reduce, Ensnaring Strike, Entangle and Enthrall. Enlarge/Reduce keeps
+its p.127 to p.128 continuation in an explicit `source_pages` list; every other
+family sits on one page. `spells_204_test.go` supplies literal source-value
+fixtures for every header, option, effect and scaling value, and checks the
+family list and pages against the decision inventory.
+
+The typed payloads retain Dominate Person's link, commands and per-slot
+duration table; Dragon's Breath's five damage types and cone; Dream's trance,
+dream and terror options; the option lists of Druidcraft and Elementalism;
+Earthquake's terrain, fissures, structure damage and collapse; Eldritch Blast's
+beam count by character level; Enhance Ability's extra targets; both
+Enlarge/Reduce effects; and the vines, area and save of Ensnaring Strike,
+Entangle and Enthrall.
+
+Schema version 1 gains only shapes present in this batch, on top of #202:
+
+- Range kind `special` (Dream). It carries `feet = 0` and requires
+  `range.special`.
+- Target eligibilities `visible-humanoid-in-range`, `known-creature-same-plane`,
+  `creature-or-object-in-range` and `visible-creature-or-object-in-range` on a
+  `single` target, and `visible-ground-point-in-range` on a `created-effect`.
+- Scaling kind `cantrip-beams` (Eldritch Blast) uses zero dice fields, names the
+  beam effect and requires `scaling.cantrip-beams`; the three beam steps are in
+  the typed payload. `slot-duration` also accepts Dominate Person's typed table,
+  and `slot-targets` accepts Enhance Ability's typed target increment.
+- Earthquake's flat 50 structure damage is stored as `bonus` on a zero-dice
+  effect.
+- Enthrall's `-10` Wisdom (Perception) penalty is a signed payload value.
+- Ensnaring Strike keeps its Bonus Action trigger in `casting_triggers`.
+- Dream is a one-minute cast with `casting_seconds = 60`.
+
+Validation pins each record's whole printed value, including header, scaling
+row, effects, required mechanics and typed payload, so a positive but wrong value
+is rejected. A batch payload on a record of another batch is rejected too.
+Composition of the bounded fixtures with #196, #218, #198, #199, #200, #201,
+#202 and #204 yields 108 unique records. Every imported record remains
+unavailable: no resolver, action, entitlement, tool, inventory, coverage or Full
+Rules behavior is added.
+
+To recheck the PDF pin, identities, pages, printed headers and source anchors,
+run:
+
+```sh
+rtk proxy python3 scripts/verify_srd_spells_204.py /path/to/SRD_CC_v5.2.1.pdf
 ```
 
 The same limits as #198 apply: the source check supplements the offline literal

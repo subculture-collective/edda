@@ -12,105 +12,117 @@ import (
 // SpellSourceDetails retains the batch's additional source shapes as offline
 // metadata. These fields never select or implement a runtime resolver.
 type SpellSourceDetails struct {
-	Antipathy         *SpellAntipathy      `json:"antipathy,omitempty"`
-	Eye               *SpellEye            `json:"eye,omitempty"`
-	Hand              *SpellHand           `json:"hand,omitempty"`
-	Lock              *SpellLock           `json:"lock,omitempty"`
-	Sword             *SpellSword          `json:"sword,omitempty"`
-	MagicAura         *SpellMagicAura      `json:"magic_aura,omitempty"`
-	Astral            *SpellAstral         `json:"astral,omitempty"`
-	Augury            *SpellAugury         `json:"augury,omitempty"`
-	Life              *SpellLife           `json:"life,omitempty"`
-	Awaken            *SpellAwaken         `json:"awaken,omitempty"`
-	Bane              *SpellBane           `json:"bane,omitempty"`
-	Banishment        *SpellBanishment     `json:"banishment,omitempty"`
-	Barkskin          *SpellBarkskin       `json:"barkskin,omitempty"`
-	Beacon            *SpellBeacon         `json:"beacon,omitempty"`
-	Befuddlement      *SpellBefuddlement   `json:"befuddlement,omitempty"`
-	Curse             *SpellCurse          `json:"curse,omitempty"`
-	Tentacles         *SpellTentacles      `json:"tentacles,omitempty"`
-	Barrier           *SpellBarrier        `json:"barrier,omitempty"`
-	Bless             *SpellBless          `json:"bless,omitempty"`
-	Blight            *SpellBlight         `json:"blight,omitempty"`
-	Blindness         *SpellBlindness      `json:"blindness,omitempty"`
-	Blink             *SpellBlink          `json:"blink,omitempty"`
-	Blur              *SpellBlur           `json:"blur,omitempty"`
-	Burning           *SpellBurning        `json:"burning,omitempty"`
-	Lightning         *SpellLightning      `json:"lightning,omitempty"`
-	Calm              *SpellCalm           `json:"calm,omitempty"`
-	Chain             *SpellChain          `json:"chain,omitempty"`
-	Monster           *SpellCharm          `json:"monster,omitempty"`
-	Person            *SpellCharm          `json:"person,omitempty"`
-	Chill             *SpellChill          `json:"chill,omitempty"`
-	Orb               *SpellOrb            `json:"orb,omitempty"`
-	Death             *SpellDeath          `json:"death,omitempty"`
-	Clairvoyance      *SpellClairvoyance   `json:"clairvoyance,omitempty"`
-	Clone             *SpellClone          `json:"clone,omitempty"`
-	Cloudkill         *SpellCloudkill      `json:"cloudkill,omitempty"`
-	Spray             *SpellSpray          `json:"spray,omitempty"`
-	Command           *SpellCommand        `json:"command,omitempty"`
-	Commune           *SpellCommune        `json:"commune,omitempty"`
-	Nature            *SpellNature         `json:"nature,omitempty"`
-	Comprehend        *SpellComprehend     `json:"comprehend,omitempty"`
-	Compulsion        *SpellCompulsion     `json:"compulsion,omitempty"`
-	Cone              *SpellCone           `json:"cone,omitempty"`
-	Confusion         *SpellConfusion      `json:"confusion,omitempty"`
-	Animals           *SpellAnimals        `json:"animals,omitempty"`
-	Celestial         *SpellCelestial      `json:"celestial,omitempty"`
-	Elemental         *SpellElemental      `json:"elemental,omitempty"`
-	Fey               *SpellFey            `json:"fey,omitempty"`
-	Minor             *SpellMinor          `json:"minor,omitempty"`
-	Woodland          *SpellWoodland       `json:"woodland,omitempty"`
-	OtherPlane        *SpellOtherPlane     `json:"other_plane,omitempty"`
-	Contagion         *SpellContagion      `json:"contagion,omitempty"`
-	Contingency       *SpellContingency    `json:"contingency,omitempty"`
-	Flame             *SpellFlame          `json:"flame,omitempty"`
-	WaterControl      *SpellWaterControl   `json:"water_control,omitempty"`
-	Weather           *SpellWeather        `json:"weather,omitempty"`
-	Counter           *SpellCounter        `json:"counter,omitempty"`
-	Provisions        *SpellProvisions     `json:"provisions,omitempty"`
-	Undead            *SpellUndead         `json:"undead,omitempty"`
-	WaterCreate       *SpellWaterCreate    `json:"water_create,omitempty"`
-	Creation          *SpellCreation       `json:"creation,omitempty"`
-	CastingSeconds    int                  `json:"casting_seconds"`
-	CastingTriggers   []string             `json:"casting_triggers"`
-	EndTiming         string               `json:"end_timing"`
-	Rays              *SpellRays           `json:"rays,omitempty"`
-	Scrying           *SpellScrying        `json:"scrying,omitempty"`
-	Smite             *SpellSmite          `json:"smite,omitempty"`
-	Chest             *SpellChest          `json:"chest,omitempty"`
-	Vision            *SpellVision         `json:"vision,omitempty"`
-	Seeming           *SpellSeeming        `json:"seeming,omitempty"`
-	Sending           *SpellSending        `json:"sending,omitempty"`
-	Sequester         *SpellSequester      `json:"sequester,omitempty"`
-	Shapechange       *SpellShapechange    `json:"shapechange,omitempty"`
-	Shatter           *SpellShatter        `json:"shatter,omitempty"`
-	Shield            *SpellShield         `json:"shield,omitempty"`
-	Faith             *SpellFaith          `json:"faith,omitempty"`
-	Cure              *SpellCure           `json:"cure,omitempty"`
-	Lights            *SpellLights         `json:"lights,omitempty"`
-	Darkness          *SpellDarkness       `json:"darkness,omitempty"`
-	Darkvision        *SpellDarkvision     `json:"darkvision,omitempty"`
-	Daylight          *SpellDaylight       `json:"daylight,omitempty"`
-	DeathWard         *SpellDeathWard      `json:"death_ward,omitempty"`
-	Fireball          *SpellFireball       `json:"fireball,omitempty"`
-	Demiplane         *SpellDemiplane      `json:"demiplane,omitempty"`
-	DetectEvil        *SpellDetectEvil     `json:"detect_evil,omitempty"`
-	DetectMagic       *SpellDetectMagic    `json:"detect_magic,omitempty"`
-	DetectPoison      *SpellDetectPoison   `json:"detect_poison,omitempty"`
-	DetectThoughts    *SpellDetectThoughts `json:"detect_thoughts,omitempty"`
-	DimensionDoor     *SpellDimensionDoor  `json:"dimension_door,omitempty"`
-	DisguiseSelf      *SpellDisguiseSelf   `json:"disguise_self,omitempty"`
-	Disintegrate      *SpellDisintegrate   `json:"disintegrate,omitempty"`
-	DispelEvil        *SpellDispelEvil     `json:"dispel_evil,omitempty"`
-	DispelMagic       *SpellDispelMagic    `json:"dispel_magic,omitempty"`
-	DissonantWhispers *SpellWhispers       `json:"dissonant_whispers,omitempty"`
-	Divination        *SpellDivination     `json:"divination,omitempty"`
-	DivineFavor       *SpellDivineFavor    `json:"divine_favor,omitempty"`
-	DivineSmite       *SpellDivineSmite    `json:"divine_smite,omitempty"`
-	DivineWord        *SpellDivineWord     `json:"divine_word,omitempty"`
-	DominateBeast     *SpellDominate       `json:"dominate_beast,omitempty"`
-	DominateMonster   *SpellDominate       `json:"dominate_monster,omitempty"`
+	Antipathy         *SpellAntipathy       `json:"antipathy,omitempty"`
+	Eye               *SpellEye             `json:"eye,omitempty"`
+	Hand              *SpellHand            `json:"hand,omitempty"`
+	Lock              *SpellLock            `json:"lock,omitempty"`
+	Sword             *SpellSword           `json:"sword,omitempty"`
+	MagicAura         *SpellMagicAura       `json:"magic_aura,omitempty"`
+	Astral            *SpellAstral          `json:"astral,omitempty"`
+	Augury            *SpellAugury          `json:"augury,omitempty"`
+	Life              *SpellLife            `json:"life,omitempty"`
+	Awaken            *SpellAwaken          `json:"awaken,omitempty"`
+	Bane              *SpellBane            `json:"bane,omitempty"`
+	Banishment        *SpellBanishment      `json:"banishment,omitempty"`
+	Barkskin          *SpellBarkskin        `json:"barkskin,omitempty"`
+	Beacon            *SpellBeacon          `json:"beacon,omitempty"`
+	Befuddlement      *SpellBefuddlement    `json:"befuddlement,omitempty"`
+	Curse             *SpellCurse           `json:"curse,omitempty"`
+	Tentacles         *SpellTentacles       `json:"tentacles,omitempty"`
+	Barrier           *SpellBarrier         `json:"barrier,omitempty"`
+	Bless             *SpellBless           `json:"bless,omitempty"`
+	Blight            *SpellBlight          `json:"blight,omitempty"`
+	Blindness         *SpellBlindness       `json:"blindness,omitempty"`
+	Blink             *SpellBlink           `json:"blink,omitempty"`
+	Blur              *SpellBlur            `json:"blur,omitempty"`
+	Burning           *SpellBurning         `json:"burning,omitempty"`
+	Lightning         *SpellLightning       `json:"lightning,omitempty"`
+	Calm              *SpellCalm            `json:"calm,omitempty"`
+	Chain             *SpellChain           `json:"chain,omitempty"`
+	Monster           *SpellCharm           `json:"monster,omitempty"`
+	Person            *SpellCharm           `json:"person,omitempty"`
+	Chill             *SpellChill           `json:"chill,omitempty"`
+	Orb               *SpellOrb             `json:"orb,omitempty"`
+	Death             *SpellDeath           `json:"death,omitempty"`
+	Clairvoyance      *SpellClairvoyance    `json:"clairvoyance,omitempty"`
+	Clone             *SpellClone           `json:"clone,omitempty"`
+	Cloudkill         *SpellCloudkill       `json:"cloudkill,omitempty"`
+	Spray             *SpellSpray           `json:"spray,omitempty"`
+	Command           *SpellCommand         `json:"command,omitempty"`
+	Commune           *SpellCommune         `json:"commune,omitempty"`
+	Nature            *SpellNature          `json:"nature,omitempty"`
+	Comprehend        *SpellComprehend      `json:"comprehend,omitempty"`
+	Compulsion        *SpellCompulsion      `json:"compulsion,omitempty"`
+	Cone              *SpellCone            `json:"cone,omitempty"`
+	Confusion         *SpellConfusion       `json:"confusion,omitempty"`
+	Animals           *SpellAnimals         `json:"animals,omitempty"`
+	Celestial         *SpellCelestial       `json:"celestial,omitempty"`
+	Elemental         *SpellElemental       `json:"elemental,omitempty"`
+	Fey               *SpellFey             `json:"fey,omitempty"`
+	Minor             *SpellMinor           `json:"minor,omitempty"`
+	Woodland          *SpellWoodland        `json:"woodland,omitempty"`
+	OtherPlane        *SpellOtherPlane      `json:"other_plane,omitempty"`
+	Contagion         *SpellContagion       `json:"contagion,omitempty"`
+	Contingency       *SpellContingency     `json:"contingency,omitempty"`
+	Flame             *SpellFlame           `json:"flame,omitempty"`
+	WaterControl      *SpellWaterControl    `json:"water_control,omitempty"`
+	Weather           *SpellWeather         `json:"weather,omitempty"`
+	Counter           *SpellCounter         `json:"counter,omitempty"`
+	Provisions        *SpellProvisions      `json:"provisions,omitempty"`
+	Undead            *SpellUndead          `json:"undead,omitempty"`
+	WaterCreate       *SpellWaterCreate     `json:"water_create,omitempty"`
+	Creation          *SpellCreation        `json:"creation,omitempty"`
+	CastingSeconds    int                   `json:"casting_seconds"`
+	CastingTriggers   []string              `json:"casting_triggers"`
+	EndTiming         string                `json:"end_timing"`
+	Rays              *SpellRays            `json:"rays,omitempty"`
+	Scrying           *SpellScrying         `json:"scrying,omitempty"`
+	Smite             *SpellSmite           `json:"smite,omitempty"`
+	Chest             *SpellChest           `json:"chest,omitempty"`
+	Vision            *SpellVision          `json:"vision,omitempty"`
+	Seeming           *SpellSeeming         `json:"seeming,omitempty"`
+	Sending           *SpellSending         `json:"sending,omitempty"`
+	Sequester         *SpellSequester       `json:"sequester,omitempty"`
+	Shapechange       *SpellShapechange     `json:"shapechange,omitempty"`
+	Shatter           *SpellShatter         `json:"shatter,omitempty"`
+	Shield            *SpellShield          `json:"shield,omitempty"`
+	Faith             *SpellFaith           `json:"faith,omitempty"`
+	Cure              *SpellCure            `json:"cure,omitempty"`
+	Lights            *SpellLights          `json:"lights,omitempty"`
+	Darkness          *SpellDarkness        `json:"darkness,omitempty"`
+	Darkvision        *SpellDarkvision      `json:"darkvision,omitempty"`
+	Daylight          *SpellDaylight        `json:"daylight,omitempty"`
+	DeathWard         *SpellDeathWard       `json:"death_ward,omitempty"`
+	Fireball          *SpellFireball        `json:"fireball,omitempty"`
+	Demiplane         *SpellDemiplane       `json:"demiplane,omitempty"`
+	DetectEvil        *SpellDetectEvil      `json:"detect_evil,omitempty"`
+	DetectMagic       *SpellDetectMagic     `json:"detect_magic,omitempty"`
+	DetectPoison      *SpellDetectPoison    `json:"detect_poison,omitempty"`
+	DetectThoughts    *SpellDetectThoughts  `json:"detect_thoughts,omitempty"`
+	DimensionDoor     *SpellDimensionDoor   `json:"dimension_door,omitempty"`
+	DisguiseSelf      *SpellDisguiseSelf    `json:"disguise_self,omitempty"`
+	Disintegrate      *SpellDisintegrate    `json:"disintegrate,omitempty"`
+	DispelEvil        *SpellDispelEvil      `json:"dispel_evil,omitempty"`
+	DispelMagic       *SpellDispelMagic     `json:"dispel_magic,omitempty"`
+	DissonantWhispers *SpellWhispers        `json:"dissonant_whispers,omitempty"`
+	Divination        *SpellDivination      `json:"divination,omitempty"`
+	DivineFavor       *SpellDivineFavor     `json:"divine_favor,omitempty"`
+	DivineSmite       *SpellDivineSmite     `json:"divine_smite,omitempty"`
+	DivineWord        *SpellDivineWord      `json:"divine_word,omitempty"`
+	DominateBeast     *SpellDominate        `json:"dominate_beast,omitempty"`
+	DominateMonster   *SpellDominate        `json:"dominate_monster,omitempty"`
+	Dominate          *SpellDominatePerson  `json:"dominate,omitempty"`
+	Breath            *SpellDragonsBreath   `json:"breath,omitempty"`
+	Dream             *SpellDream           `json:"dream,omitempty"`
+	Druidcraft        *SpellDruidcraft      `json:"druidcraft,omitempty"`
+	Earthquake        *SpellEarthquake      `json:"earthquake,omitempty"`
+	Blast             *SpellEldritchBlast   `json:"blast,omitempty"`
+	Elementalism      *SpellElementalism    `json:"elementalism,omitempty"`
+	Enhance           *SpellEnhanceAbility  `json:"enhance,omitempty"`
+	Enlarge           *SpellEnlargeReduce   `json:"enlarge,omitempty"`
+	Ensnaring         *SpellEnsnaringStrike `json:"ensnaring,omitempty"`
+	Entangle          *SpellEntangle        `json:"entangle,omitempty"`
+	Enthrall          *SpellEnthrall        `json:"enthrall,omitempty"`
 
 	// Issue #196 payloads. Acid Arrow needs only the common record fields.
 	Splash     *SpellSplash         `json:"splash,omitempty"`
@@ -309,7 +321,7 @@ func (s *SpellSourceDetails) UnmarshalJSON(data []byte) error {
 		}
 	}
 	templates := map[string]any{"rays": SpellRays{}, "scrying": SpellScrying{}, "smite": SpellSmite{}, "chest": SpellChest{}, "vision": SpellVision{}, "seeming": SpellSeeming{}, "sending": SpellSending{}, "sequester": SpellSequester{}, "shapechange": SpellShapechange{}, "shatter": SpellShatter{}, "shield": SpellShield{}, "faith": SpellFaith{}}
-	for _, batch := range []map[string]any{spell196Templates(), spell197Templates(), spell198Templates(), spell199Templates(), spell200Templates(), spell201Templates(), spell202Templates(), spell203Templates()} {
+	for _, batch := range []map[string]any{spell196Templates(), spell197Templates(), spell198Templates(), spell199Templates(), spell200Templates(), spell201Templates(), spell202Templates(), spell204Templates(), spell203Templates()} {
 		for key, template := range batch {
 			if raw, ok := fields[key]; ok {
 				if err := requireSpell198Fields(raw, reflect.TypeOf(template)); err != nil {
@@ -388,7 +400,7 @@ func (s *SpellSourceDetails) UnmarshalJSON(data []byte) error {
 }
 
 func validSpellTarget(t SpellTarget) bool {
-	if validSpell197Target(t) || validSpell200Target(t) || validSpell202Target(t) || validSpell203Target(t) {
+	if validSpell197Target(t) || validSpell200Target(t) || validSpell202Target(t) || validSpell203Target(t) || validSpell204Target(t) {
 		return true
 	}
 	switch t.Shape {
@@ -452,12 +464,15 @@ func (s SpellRecord) validateSourceDetails() error {
 	if handled, err := s.validateSpell203(); handled || err != nil {
 		return err
 	}
+	if handled, err := s.validateSpell204(); handled || err != nil {
+		return err
+	}
 	d := s.SourceDetails
 	if d == nil {
 		if s.Scope == "complete-source-record" && slices.Contains([]string{"Scorching Ray", "Scrying", "Searing Smite", "Secret Chest", "See Invisibility", "Seeming", "Sending", "Sequester", "Shapechange", "Shatter", "Shield", "Shield of Faith"}, s.Name) {
 			return fmt.Errorf("batch source details required")
 		}
-		if s.CastingTime == "reaction" || s.CastingTime == "10-minutes" || s.CastingTime == "1-minute" || spell197CastingSeconds[s.CastingTime] != 0 || s.Duration == "until-dispelled" || s.Duration == "special" || s.Range.Kind == "unlimited" || s.Target.Shape != "single" {
+		if s.CastingTime == "reaction" || s.CastingTime == "10-minutes" || s.CastingTime == "1-minute" || spell197CastingSeconds[s.CastingTime] != 0 || s.Duration == "until-dispelled" || s.Duration == "special" || s.Range.Kind == "unlimited" || s.Range.Kind == "special" || s.Target.Shape != "single" {
 			return fmt.Errorf("source details required for extended shape")
 		}
 		return nil
