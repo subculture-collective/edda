@@ -1,0 +1,18 @@
+<!-- edda-333:species-drow-faerie-fire -->
+Decision #333; roadmap #47. One implementation PR; Task / Size S.
+
+Source: English SRD 5.2.1 PDF85 (Elven Lineages table, Drow, level3) and129 (Faerie Fire, Level 1 Evocation); SHA-256 `8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87`. Retain CC-BY-4.0 attribution and adaptation notice in `docs/srd-5.2.1-conformance.md`. Fixture and ownership decisions are Edda additions.
+
+Implement the one lineage grant whose spell has no published effect owner. A Drow at character level3 learns Faerie Fire, always has it prepared, can cast it once without a spell slot, regaining that use on a completed Long Rest, and can also cast it with any spell slot of level1 or higher. The spellcasting ability is the one chosen for Elven Lineage.
+
+Ownership: this task owns only the Drow eligibility, the free use and its recovery, reusing the per-spell free-use mechanism of the #333 Elf lineage spell task. The Faerie Fire effect itself is not implemented here. The open spell splitter #277 assigns its key and must publish its effect owner. A search of every issue title and body found Faerie Fire only in the catalogue issue #205.
+
+Closing condition: this task stays open until the Faerie Fire effect owner published by #277 exists, has been added as a native blocked-by of this task by that decision, and is merged, and the level3 Drow cast executes through it. A recorded grant whose cast is still unavailable does not satisfy this task. Because this task directly blocks #337, character qualification cannot pass while the Drow level3 cast is unavailable.
+
+Positive fixtures: Drow level3 with a qualified Faerie Fire owner casts it once without a slot through that owner, with the lineage ability setting the save DC; a second cast needs a level1 or higher slot; a completed Long Rest restores the free use. At level5 the Darkness free use from the lineage spell task is separate and unaffected. Reject: the cast at level2; a High Elf or Wood Elf; a free use restored by a Short Rest; a free use shared with Darkness; any Faerie Fire effect resolved inside this task; closing with the cast unavailable, or with the effect owner unpublished, unlinked or unmerged.
+
+Preview is inert: no dice, writes or history. Confirm revalidates campaign, actor, player/GM authority, source version, every choice and the expected revision, then persists choices, injected dice, grants, resource deltas, derived sheet and public history atomically. Fail at each stage and prove full isolated PostgreSQL rollback. Same-ID retry/reload/reconnect returns the saved receipt without reroll, regrant or recharge; a conflicting payload rejects and concurrent confirmations commit once. Shared web and trusted TUI expose only qualified choices and explicit unavailable reasons, with accessible cancel/confirm/reconnect and desktop/phone checks for changed web. Keep private GM facts, hidden actors and private choices out of discovery, preview, errors and public history. Tests use explicit isolated entitlements and grant no production admission.
+
+Native parent #333; directly block #337. Hard prerequisites: the #333 Elf lineage spell task published by this decision, #277, and the Faerie Fire effect owner that #277 publishes and adds as a blocker of this task. Existing bodies, parents and edges remain unchanged. No new #283 child.
+
+Implementation verification: deterministic source/numeric/choice tests with injectable dice, isolated PostgreSQL atomic rollback/replay/concurrency/reload, shared web/TUI disclosure/confirmation checks, `GOMAXPROCS=2 go test -p 2 -short -race ./...` and `GOMAXPROCS=2 go vet -p 2 ./...`. Short tests do not qualify PostgreSQL or devices. No production grant, deployment or Full Rules promotion.

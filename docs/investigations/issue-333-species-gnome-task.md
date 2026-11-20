@@ -3,7 +3,7 @@ Decision #333; roadmap #47. One implementation PR; Task / Size M.
 
 Source: English SRD 5.2.1 PDF85 (Gnome); SHA-256 `8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87`. Retain CC-BY-4.0 attribution and adaptation notice in `docs/srd-5.2.1-conformance.md`. Fixture and ownership decisions are Edda additions.
 
-This task owns only the species identity, its nested choices and the traits named here. Class creation and level applications consume its output and apply each grant once; it grants no class, background or feat. The creation provenance contract stays with #430. Gnome is Humanoid, Small, Speed30.
+This task owns only the species identity, its nested choices and the traits named here. Class creation and level applications consume its output and apply each grant once; it grants no class, background or feat. The creation provenance contract stays with #430 and is consumed through the #333 creation provenance output. Gnome is Humanoid, Small, Speed30.
 
 - Darkvision 60 feet.
 - Gnomish Cunning: Advantage on Intelligence, Wisdom and Charisma saving throws.
@@ -17,6 +17,6 @@ Positive fixtures: an Intelligence save rolls with Advantage and a Dexterity sav
 
 Preview is inert: no dice, writes or history. Confirm revalidates campaign, actor, player/GM authority, source version, every choice and the expected revision, then persists choices, injected dice, grants, resource deltas, derived sheet and public history atomically. Fail at each stage and prove full isolated PostgreSQL rollback. Same-ID retry/reload/reconnect returns the saved receipt without reroll, regrant or recharge; a conflicting payload rejects and concurrent confirmations commit once. Shared web and trusted TUI expose only qualified choices and explicit unavailable reasons, with accessible cancel/confirm/reconnect and desktop/phone checks for changed web. Keep private GM facts, hidden actors and private choices out of discovery, preview, errors and public history. Tests use explicit isolated entitlements and grant no production admission.
 
-Native parent #333; directly block #337. Hard prerequisites: #61, #66, #145, #307, #428, #430, #700, #955, #1375, #1376, #1384, #1385, #1386 and #1448. Existing bodies, parents and edges remain unchanged. No new #283 child.
+Native parent #333; directly block #337. Hard prerequisites: the #333 creation provenance output task published by this decision, #61, #66, #145, #307, #428, #700, #955, #1375, #1376, #1384, #1385, #1386 and #1448. Existing bodies, parents and edges remain unchanged. No new #283 child.
 
 Implementation verification: deterministic source/numeric/choice tests with injectable dice, isolated PostgreSQL atomic rollback/replay/concurrency/reload, shared web/TUI disclosure/confirmation checks, `GOMAXPROCS=2 go test -p 2 -short -race ./...` and `GOMAXPROCS=2 go vet -p 2 ./...`. Short tests do not qualify PostgreSQL or devices. No production grant, deployment or Full Rules promotion.

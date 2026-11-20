@@ -3,7 +3,7 @@ Decision #333; roadmap #47. One implementation PR; Task / Size S.
 
 Source: English SRD 5.2.1 PDF86 (Human); SHA-256 `8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87`. Retain CC-BY-4.0 attribution and adaptation notice in `docs/srd-5.2.1-conformance.md`. Fixture and ownership decisions are Edda additions.
 
-This task owns only the species identity, its nested choices and the traits named here. Class creation and level applications consume its output and apply each grant once; it grants no class, background or feat. The creation provenance contract stays with #430. Human is Humanoid, Speed30. The existing fixed Human Soldier Fighter and Human Acolyte Cleric builds keep working and gain no wider admission from this task.
+This task owns only the species identity, its nested choices and the traits named here. Class creation and level applications consume its output and apply each grant once; it grants no class, background or feat. The creation provenance contract stays with #430 and is consumed through the #333 creation provenance output. Human is Humanoid, Speed30. The existing fixed Human Soldier Fighter and Human Acolyte Cleric builds keep working and gain no wider admission from this task.
 
 - Size: Medium or Small, chosen when the species is selected and fixed afterwards.
 - Resourceful: gains Heroic Inspiration whenever the Human finishes a Long Rest.
@@ -16,6 +16,6 @@ Positive fixtures: Small Human records size Small with Speed30. A completed Long
 
 Preview is inert: no dice, writes or history. Confirm revalidates campaign, actor, player/GM authority, source version, every choice and the expected revision, then persists choices, injected dice, grants, resource deltas, derived sheet and public history atomically. Fail at each stage and prove full isolated PostgreSQL rollback. Same-ID retry/reload/reconnect returns the saved receipt without reroll, regrant or recharge; a conflicting payload rejects and concurrent confirmations commit once. Shared web and trusted TUI expose only qualified choices and explicit unavailable reasons, with accessible cancel/confirm/reconnect and desktop/phone checks for changed web. Keep private GM facts, hidden actors and private choices out of discovery, preview, errors and public history. Tests use explicit isolated entitlements and grant no production admission.
 
-Native parent #333; directly block #337. Hard prerequisites: #307, #384, #385, #386, #387, #388, #428, #430 and #774. Existing bodies, parents and edges remain unchanged. No new #283 child.
+Native parent #333; directly block #337. Hard prerequisites: the #333 creation provenance output task published by this decision, #307, #384, #385, #386, #387, #388, #428 and #774. Existing bodies, parents and edges remain unchanged. No new #283 child.
 
 Implementation verification: deterministic source/numeric/choice tests with injectable dice, isolated PostgreSQL atomic rollback/replay/concurrency/reload, shared web/TUI disclosure/confirmation checks, `GOMAXPROCS=2 go test -p 2 -short -race ./...` and `GOMAXPROCS=2 go vet -p 2 ./...`. Short tests do not qualify PostgreSQL or devices. No production grant, deployment or Full Rules promotion.

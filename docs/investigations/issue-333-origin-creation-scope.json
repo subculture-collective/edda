@@ -2,12 +2,14 @@
  "schema_version": 1,
  "decision": 333,
  "status": "SOURCE_RECONCILED_PUBLICATION_PENDING",
- "observed_at": "2026-11-20T07:39:21.551633+00:00",
+ "observed_at": "2026-11-20T08:00:37.093295+00:00",
  "observed_base": "7b14aba4f4a3f69c138354ed9d2bc3484fa7b84c",
  "source": {
   "PDF_SHA256": "8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87",
   "pages": [
+   5,
    8,
+   14,
    17,
    18,
    19,
@@ -19,14 +21,21 @@
    25,
    26,
    27,
+   79,
    83,
    84,
    85,
    86,
    87,
    94,
+   129,
    178,
+   179,
+   182,
+   183,
+   184,
    186,
+   187,
    190,
    192,
    193
@@ -43,6 +52,7 @@
    "internal/rules/srd521/testdata/character-origin-feats.json": "31e457961f27081c10dc85a42c19f947ddb11749d07128a8555ffcee8526ce45"
   }
  },
+ "graph_observed": "live GraphQL read of all issues with blockedBy, blocking and subIssues counts",
  "decision_blockers": [
   {
    "number": 306,
@@ -66,25 +76,31 @@
    "language and alignment choice",
    "trinkets",
    "GM-authored backgrounds",
-   "player Passive Perception"
+   "player Passive Perception",
+   "typed Resistance projection (only a comment in attack.go)"
   ]
  },
  "clause_matrix": [
   {
-   "clause": "Character sheet, Class Overview likes/complexity, Imagine Your Past and Present, Tiers of Play",
+   "clause": "Character sheet, Class Overview likes/complexity, Ability Scores and Backgrounds table, Imagine Your Past and Present, Tiers of Play, species age and life span",
    "pages": [
     19,
     20,
     23,
-    24
+    24,
+    83
    ],
    "kind": "non-mechanical",
    "owners": [],
-   "note": "Narrative guidance with no rule to execute; no owner required.",
+   "note": "No rule to execute; no owner required. Age is descriptive and unvalidated: the SRD species entries give no life spans. The Ability Scores and Backgrounds table on PDF19-20 lists only Acolyte and Soldier; it is a suggestion and never restricts background or ability choice, which follow the four background records on PDF83.",
    "witnesses": [
     {
      "page": 19,
      "text": "Choose a Character Sheet"
+    },
+    {
+     "page": 19,
+     "text": "Ability Scores and Backgrounds table shows which backgrounds benefit which ability scores"
     },
     {
      "page": 20,
@@ -93,6 +109,10 @@
     {
      "page": 24,
      "text": "These tiers don't have any rules associated with them"
+    },
+    {
+     "page": 83,
+     "text": "Your character can be any age that isn't beyond their species' normal life span"
     }
    ]
   },
@@ -179,6 +199,9 @@
     387,
     430
    ],
+   "consumed_through": [
+    "creation-output"
+   ],
    "note": "No published owner executes any background grant; runtime admits only fixed Human Soldier Fighter and Human Acolyte Cleric.",
    "witnesses": [
     {
@@ -243,8 +266,12 @@
     987,
     1105
    ],
-   "note": "Feature-granted languages keep their owners.",
+   "note": "This task owns the one record of the Standard and Rare Languages tables (key srd-5.2.1:mechanic/languages/character-creation-tables). #987 and #1105 consume that record and are not ordered after this task by any existing edge; whichever lands first, one record remains. #640 grants Druidic.",
    "witnesses": [
+    {
+     "page": 20,
+     "text": "communicate in it, read it, and write it"
+    },
     {
      "page": 20,
      "text": "Common plus two languages you roll or choose from the Standard Languages table"
@@ -473,6 +500,14 @@
     {
      "page": 24,
      "text": "Multiclassing allows you to gain levels in multiple classes"
+    },
+    {
+     "page": 25,
+     "text": "The Experience Point cost to gain a level is based on your total character level"
+    },
+    {
+     "page": 26,
+     "text": "you have four level 1 spell slots, three level 2 slots, and two level 3 slots"
     }
    ]
   },
@@ -556,24 +591,61 @@
   {
    "clause": "Dragonborn: Draconic Ancestry (10), Breath Weapon, Damage Resistance, Darkvision, Draconic Flight",
    "pages": [
-    84
+    5,
+    17,
+    84,
+    179,
+    182,
+    184,
+    187
    ],
    "kind": "new",
    "owners": [
     {
      "new_task": "dragonborn"
     },
+    {
+     "new_task": "typed-resistance"
+    },
     61,
     65,
     66,
+    67,
     145,
-    147,
     428,
     487,
     968
    ],
-   "note": "",
+   "note": "#147 excludes flying, so a fall when flight ends in the air has no owner and stays unavailable. #67 scene facts are consumed without a native edge (#67 outgoing cap is full).",
    "witnesses": [
+    {
+     "page": 84,
+     "text": "you can replace one of your attacks with an exhalation"
+    },
+    {
+     "page": 5,
+     "text": "round down if you end up with a fraction"
+    },
+    {
+     "page": 17,
+     "text": "Resistance is applied second"
+    },
+    {
+     "page": 179,
+     "text": "A Cone is an area of effect"
+    },
+    {
+     "page": 182,
+     "text": "While you have a Fly Speed, you can stay aloft until you land, fall, or die"
+    },
+    {
+     "page": 184,
+     "text": "A Line is an area of effect"
+    },
+    {
+     "page": 187,
+     "text": "Resistance is applied only once to an instance of damage"
+    },
     {
      "page": 84,
      "text": "DC 8 plus your Constitution modifier and Proficiency Bonus"
@@ -595,13 +667,18 @@
   {
    "clause": "Dwarf: Darkvision, Dwarven Resilience, Dwarven Toughness, Stonecunning",
    "pages": [
+    17,
     84,
+    187,
     190
    ],
    "kind": "new",
    "owners": [
     {
      "new_task": "dwarf"
+    },
+    {
+     "new_task": "typed-resistance"
     },
     61,
     66,
@@ -613,6 +690,18 @@
    ],
    "note": "",
    "witnesses": [
+    {
+     "page": 84,
+     "text": "You have Resistance to Poison damage"
+    },
+    {
+     "page": 17,
+     "text": "Resistance is applied second"
+    },
+    {
+     "page": 187,
+     "text": "damage of that type is halved against you (round down)"
+    },
     {
      "page": 84,
      "text": "it increases by 1 again whenever you gain a level"
@@ -628,7 +717,7 @@
    ]
   },
   {
-   "clause": "Elf: Darkvision, Elven Lineage (Drow, High Elf, Wood Elf, levels 1/3/5, ability choice), Fey Ancestry, Keen Senses, Trance",
+   "clause": "Elf: Darkvision, Elven Lineage choice with ability choice and level1 benefits (Drow, High Elf, Wood Elf), Fey Ancestry, Keen Senses, Trance",
    "pages": [
     84,
     85
@@ -640,31 +729,68 @@
     },
     61,
     145,
-    265,
-    277,
     428,
     430,
     488,
+    1049,
+    1050,
+    1281,
+    1384,
+    1385,
+    1386
+   ],
+   "consumed_through": [
+    "creation-output",
+    "condition-output"
+   ],
+   "note": "",
+   "witnesses": [
+    {
+     "page": 84,
+     "text": "Choose a lineage from the Elven Lineages table"
+    },
+    {
+     "page": 85,
+     "text": "You also know the Dancing Lights cantrip"
+    },
+    {
+     "page": 85,
+     "text": "You have proficiency in the Insight, Perception, or Survival skill"
+    },
+    {
+     "page": 85,
+     "text": "You can finish a Long Rest in 4 hours"
+    }
+   ]
+  },
+  {
+   "clause": "Elf: level3 and level5 lineage spells with one free cast each (all but Faerie Fire) and High Elf cantrip replacement",
+   "pages": [
+    79,
+    84,
+    85
+   ],
+   "kind": "new",
+   "owners": [
+    {
+     "new_task": "elf-lineage-spells"
+    },
+    {
+     "new_task": "elf"
+    },
+    265,
+    428,
     688,
     906,
     968,
-    1049,
-    1050,
     1066,
     1072,
-    1281,
     1282,
-    1384,
-    1385,
-    1386,
-    1448
+    1448,
+    1766
    ],
-   "note": "Faerie Fire has no published effect owner; its key is still assigned by open splitter #277.",
+   "note": "Each replacement cantrip is offered only while its own effect owner is qualified; Dancing Lights #1281 is required through the Elf task so the offer cannot be empty. #1766 keeps the Wizard class's own cantrip replacement.",
    "witnesses": [
-    {
-     "page": 85,
-     "text": "Faerie Fire"
-    },
     {
      "page": 85,
      "text": "Pass without Trace"
@@ -675,11 +801,39 @@
     },
     {
      "page": 85,
-     "text": "You have proficiency in the Insight, Perception, or Survival skill"
+     "text": "you can replace that cantrip with a different cantrip from the Wizard spell list"
     },
     {
+     "page": 79,
+     "text": "Cantrips (Level 0 Wizard Spells)"
+    }
+   ]
+  },
+  {
+   "clause": "Elf: Drow level3 Faerie Fire",
+   "pages": [
+    85,
+    129
+   ],
+   "kind": "new",
+   "owners": [
+    {
+     "new_task": "drow-faerie-fire"
+    },
+    {
+     "new_task": "elf-lineage-spells"
+    },
+    277
+   ],
+   "note": "Faerie Fire has no published effect owner (found only in catalogue #205); open splitter #277 assigns its key. The task stays open until that owner is published, linked as its blocker and merged, and it blocks #337 directly.",
+   "witnesses": [
+    {
      "page": 85,
-     "text": "You can finish a Long Rest in 4 hours"
+     "text": "Faerie Fire"
+    },
+    {
+     "page": 129,
+     "text": "Level 1 Evocation (Bard, Druid)"
     }
    ]
   },
@@ -723,7 +877,7 @@
    ]
   },
   {
-   "clause": "Goliath: Giant Ancestry (six options), Large Form, Powerful Build",
+   "clause": "Goliath: Giant Ancestry choice and use pool, Fire's Burn, Frost's Chill, Hill's Tumble, Powerful Build",
    "pages": [
     85,
     86,
@@ -737,13 +891,60 @@
     61,
     65,
     66,
-    81,
+    67,
     428,
     488,
-    778,
-    968
+    778
    ],
-   "note": "",
+   "consumed_through": [
+    "creation-output",
+    "condition-output"
+   ],
+   "note": "Carrying capacity and the timed Speed reduction have no published owner and are consumed in a bounded way.",
+   "witnesses": [
+    {
+     "page": 85,
+     "text": "Fire's Burn (Fire Giant)"
+    },
+    {
+     "page": 85,
+     "text": "reduce its Speed by 10 feet until the start of your next turn"
+    },
+    {
+     "page": 85,
+     "text": "you can give that target the Prone condition"
+    },
+    {
+     "page": 86,
+     "text": "count as one size larger when determining your carrying capacity"
+    },
+    {
+     "page": 178,
+     "text": "Carrying Capacity"
+    }
+   ]
+  },
+  {
+   "clause": "Goliath: Cloud's Jaunt, Stone's Endurance, Storm's Thunder",
+   "pages": [
+    17,
+    85,
+    86,
+    190
+   ],
+   "kind": "new",
+   "owners": [
+    {
+     "new_task": "goliath-reactions"
+    },
+    {
+     "new_task": "goliath"
+    },
+    66,
+    67,
+    81
+   ],
+   "note": "Teleportation has no published shared owner and is consumed in a bounded way.",
    "witnesses": [
     {
      "page": 85,
@@ -758,24 +959,57 @@
      "text": "Storm's Thunder (Storm Giant)"
     },
     {
+     "page": 190,
+     "text": "teleportation never provokes Opportunity Attacks"
+    },
+    {
+     "page": 17,
+     "text": "adjustments such as bonuses, penalties, or multipliers are applied first"
+    }
+   ]
+  },
+  {
+   "clause": "Goliath: Large Form",
+   "pages": [
+    86,
+    178
+   ],
+   "kind": "new",
+   "owners": [
+    {
+     "new_task": "goliath-large-form"
+    },
+    {
+     "new_task": "goliath"
+    },
+    61,
+    66,
+    67,
+    968
+   ],
+   "note": "",
+   "witnesses": [
+    {
      "page": 86,
      "text": "Starting at character level 5, you can change your size to Large"
     },
     {
      "page": 86,
-     "text": "count as one size larger when determining your carrying capacity"
+     "text": "you have Advantage on Strength checks, and your Speed increases by 10 feet"
     },
     {
      "page": 178,
-     "text": "Carrying Capacity"
+     "text": "Huge Str. × 60 lb."
     }
    ]
   },
   {
    "clause": "Halfling: Brave, Halfling Nimbleness, Luck, Naturally Stealthy",
    "pages": [
+    8,
+    14,
     86,
-    8
+    183
    ],
    "kind": "new",
    "owners": [
@@ -787,8 +1021,20 @@
     488,
     1137
    ],
-   "note": "",
+   "consumed_through": [
+    "creation-output",
+    "condition-output"
+   ],
+   "note": "#67 scene facts are consumed without a native edge: #67 has 100 outgoing relations and is required transitively through #1137. The source is silent on a Luck reroll that is also a 1; the no-chain rule is an Edda decision.",
    "witnesses": [
+    {
+     "page": 14,
+     "text": "a creature that is two sizes larger or smaller than you"
+    },
+    {
+     "page": 183,
+     "text": "while you're Heavily Obscured or behind Three-Quarters Cover or Total Cover"
+    },
     {
      "page": 86,
      "text": "When you roll a 1 on the d20 of a D20 Test, you can reroll the die, and you must use the new roll"
@@ -851,10 +1097,12 @@
     {
      "new_task": "orc"
     },
+    65,
     66,
     145,
     427,
     428,
+    487,
     780
    ],
    "note": "",
@@ -884,12 +1132,17 @@
   {
    "clause": "Tiefling: size choice, Darkvision, Fiendish Legacy (Abyssal, Chthonic, Infernal, levels 1/3/5, ability choice), Otherworldly Presence",
    "pages": [
-    86
+    17,
+    86,
+    187
    ],
    "kind": "new",
    "owners": [
     {
      "new_task": "tiefling"
+    },
+    {
+     "new_task": "typed-resistance"
     },
     145,
     428,
@@ -920,6 +1173,14 @@
     {
      "page": 86,
      "text": "You know the Thaumaturgy cantrip"
+    },
+    {
+     "page": 187,
+     "text": "If you have Resistance to a damage type"
+    },
+    {
+     "page": 17,
+     "text": "Resistance is applied second"
     }
    ]
   },
@@ -962,6 +1223,22 @@
     {
      "new_task": "backgrounds"
     },
+    247,
+    248,
+    249,
+    250,
+    251,
+    252,
+    253,
+    254,
+    255,
+    256,
+    257,
+    258,
+    259,
+    260,
+    261,
+    262,
     301,
     384,
     385,
@@ -1001,13 +1278,80 @@
    ],
    "kind": "existing",
    "owners": [
-    430
+    430,
+    {
+     "new_task": "creation-output"
+    }
    ],
-   "note": "Existing native child of #333; unchanged.",
+   "note": "#430 keeps the contract and stays a native child of #333, unchanged. It has 98 outgoing relations, so the thirteen origin consumers reach it through the qualification-only creation-output task.",
    "witnesses": [
     {
      "page": 20,
      "text": "Your class also gives proficiencies"
+    }
+   ]
+  },
+  {
+   "clause": "Charmed, Frightened and Prone as consumed by Fey Ancestry, Brave and Hill's Tumble",
+   "pages": [
+    178,
+    182,
+    186
+   ],
+   "kind": "existing",
+   "owners": [
+    488,
+    {
+     "new_task": "condition-output"
+    }
+   ],
+   "note": "#488 keeps the contract. It has 97 outgoing relations, so the three origin consumers reach it through the qualification-only condition-output task.",
+   "witnesses": [
+    {
+     "page": 178,
+     "text": "Charmed [Condition]"
+    },
+    {
+     "page": 182,
+     "text": "Frightened [Condition]"
+    },
+    {
+     "page": 186,
+     "text": "Prone [Condition]"
+    }
+   ]
+  },
+  {
+   "clause": "Typed damage Resistance: halve, round down, once per instance, after other adjustments",
+   "pages": [
+    5,
+    17,
+    187
+   ],
+   "kind": "new",
+   "owners": [
+    {
+     "new_task": "typed-resistance"
+    },
+    65
+   ],
+   "note": "No published owner: #435 and other features only consume it, and the runtime has no projection. One shared owner replaces three species-local copies. Vulnerability and Immunity stay unowned and unavailable.",
+   "witnesses": [
+    {
+     "page": 5,
+     "text": "Round Down"
+    },
+    {
+     "page": 17,
+     "text": "If you have Resistance to a damage type, damage of that type is halved against you (round down)"
+    },
+    {
+     "page": 17,
+     "text": "then halved for the creature's Resistance (and rounded down to 11)"
+    },
+    {
+     "page": 187,
+     "text": "Resistance is applied only once to an instance of damage"
     }
    ]
   }
@@ -1056,12 +1400,6 @@
    "body_sha256": "9f63504d26e1574206eb87dca30ba5f2f919bd3a3437da7dde552867d6a72d2c"
   },
   {
-   "number": 147,
-   "title": "Resolve one declared fall with inspectable damage and Prone state",
-   "state": "OPEN",
-   "body_sha256": "c31bdc6b1573df92eb9e0845fde0e5a313fab298a615a21375653b175f18fb26"
-  },
-  {
    "number": 195,
    "title": "Validate versioned item families and explicit variant identities",
    "state": "CLOSED",
@@ -1074,10 +1412,34 @@
    "body_sha256": "80672ba5d3c4ef15071e87279ff824548b47e1c4ea8f4b532fae1ba1a8008509"
   },
   {
+   "number": 248,
+   "title": "Catalogue SRD weapons 02: Handaxe to Pike",
+   "state": "OPEN",
+   "body_sha256": "748b9dde4f07d45fc9482492b5e19fe3ddf31dd29e6589305fa047d7c3eddbd3"
+  },
+  {
    "number": 249,
    "title": "Catalogue SRD weapons 03: Pistol to Warhammer",
    "state": "OPEN",
    "body_sha256": "1735bcba3d2abdb9bfc734927bb097354ace12a1ecfee831aeb9687db6c7b3d9"
+  },
+  {
+   "number": 250,
+   "title": "Catalogue SRD weapons 04: Whip to Whip",
+   "state": "OPEN",
+   "body_sha256": "235fd52cc186e345c7d81cdf2f29c5d539a0439f31ad7726f82dcf7eccf59a4a"
+  },
+  {
+   "number": 251,
+   "title": "Catalogue SRD armor 01: Breastplate to Splint Armor",
+   "state": "OPEN",
+   "body_sha256": "6ffdf7edd95812b5a870c5d57bed84d709228980d0037fa4d41d6de7b32a8366"
+  },
+  {
+   "number": 252,
+   "title": "Catalogue SRD armor 02: Studded Leather Armor to Studded Leather Armor",
+   "state": "OPEN",
+   "body_sha256": "41fe26211b372bf74e5f696d3251c05887ff6df621fb4dafef405ca6f4c3bd1d"
   },
   {
    "number": 253,
@@ -1090,6 +1452,12 @@
    "title": "Catalogue SRD tools 02: Jeweler’s Tools to Weaver’s Tools",
    "state": "OPEN",
    "body_sha256": "fe8260bac384fd461c4f9f4f99befd1bb1e320dc7749831a353a0541ba55f787"
+  },
+  {
+   "number": 255,
+   "title": "Catalogue SRD tools 03: Woodcarver’s Tools to Woodcarver’s Tools",
+   "state": "OPEN",
+   "body_sha256": "8c2b766a859510c7c7b00243090c0004a942eddadb8dbb954cb3d9833fbbe49f"
   },
   {
    "number": 256,
@@ -1126,6 +1494,12 @@
    "title": "Catalogue SRD adventuring-gear 06: Potion of Healing to Signal Whistle",
    "state": "OPEN",
    "body_sha256": "8b594f815e007dc94282252b07ab61ba95e3f8cf991641642cfc3df27b7d2c59"
+  },
+  {
+   "number": 262,
+   "title": "Catalogue SRD adventuring-gear 07: Spell Scroll to Waterskin",
+   "state": "OPEN",
+   "body_sha256": "9ef2163417eb1218c0e5973a346eacecae1ab6d69ca3293b700d9c2e1b0cd713"
   },
   {
    "number": 265,
@@ -1596,6 +1970,12 @@
    "body_sha256": "cce28fd93eeaebc59d67a9007e02b2590770bfabb6f18d9cc416dcb9700f7a75"
   },
   {
+   "number": 1766,
+   "title": "Implement Wizard cantrips",
+   "state": "OPEN",
+   "body_sha256": "7b01ad7f9d47105c39ecd2dacbfbef34e4317c834928cf2529dfe544699dfc3a"
+  },
+  {
    "number": 2036,
    "title": "Qualify Wizard class-gate",
    "state": "OPEN",
@@ -1623,6 +2003,63 @@
  "new_implementation_tasks": [
   {
    "number": null,
+   "key": "creation-output",
+   "marker": "edda-333:creation-output",
+   "title": "Qualify creation provenance output for origin consumers",
+   "type": "Task",
+   "size": "S",
+   "parent": 333,
+   "blocked_by": [
+    430
+   ],
+   "blocked_by_new_tasks": [],
+   "pending_blockers": [],
+   "qualifies": [
+    337
+   ],
+   "body_file": "docs/investigations/issue-333-creation-output-task.md",
+   "body_sha256": "c9fe7e876eacec190c2ab1ed185f8b96a17b12830e81783d6b0afff763e43843"
+  },
+  {
+   "number": null,
+   "key": "condition-output",
+   "marker": "edda-333:condition-output",
+   "title": "Qualify Charmed, Frightened and Prone outputs for origin consumers",
+   "type": "Task",
+   "size": "S",
+   "parent": 333,
+   "blocked_by": [
+    488
+   ],
+   "blocked_by_new_tasks": [],
+   "pending_blockers": [],
+   "qualifies": [
+    337
+   ],
+   "body_file": "docs/investigations/issue-333-condition-output-task.md",
+   "body_sha256": "d0a2d4552fcef41966af0a6f54ba30c3622697405a2be4f4bf0b9c52210c47a5"
+  },
+  {
+   "number": null,
+   "key": "typed-resistance",
+   "marker": "edda-333:typed-resistance",
+   "title": "Apply typed damage Resistance once per damage instance",
+   "type": "Task",
+   "size": "S",
+   "parent": 333,
+   "blocked_by": [
+    65
+   ],
+   "blocked_by_new_tasks": [],
+   "pending_blockers": [],
+   "qualifies": [
+    337
+   ],
+   "body_file": "docs/investigations/issue-333-typed-resistance-task.md",
+   "body_sha256": "03c81fb6b2ee28054d1e43ff8d15aefb7e4eae2e66ff5bf4676a4387ebb0ca35"
+  },
+  {
+   "number": null,
    "key": "ability-scores",
    "marker": "edda-333:ability-scores",
    "title": "Confirm creation ability scores by Standard Array, 4d6 or 27-point cost",
@@ -1631,15 +2068,17 @@
    "parent": 333,
    "blocked_by": [
     284,
-    306,
-    430
+    306
    ],
-   "blocked_by_new_tasks": [],
+   "blocked_by_new_tasks": [
+    "creation-output"
+   ],
+   "pending_blockers": [],
    "qualifies": [
     337
    ],
    "body_file": "docs/investigations/issue-333-ability-scores-task.md",
-   "body_sha256": "3714cce7f68a12ee63e7e6276a3e57b04e809a9bb079139ebd593bd3c277fe45"
+   "body_sha256": "01de8b25d730c984d65f9860b2902f64a78e472cf21b855044948f86154c5cc2"
   },
   {
    "number": null,
@@ -1665,15 +2104,17 @@
     384,
     385,
     386,
-    387,
-    430
+    387
    ],
-   "blocked_by_new_tasks": [],
+   "blocked_by_new_tasks": [
+    "creation-output"
+   ],
+   "pending_blockers": [],
    "qualifies": [
     337
    ],
    "body_file": "docs/investigations/issue-333-backgrounds-task.md",
-   "body_sha256": "ee1356f83fa490626132215af655848180a164c246c631f861ea4995ad65e3c9"
+   "body_sha256": "cd37236a679b208363791bb315f7239e77ca173b4a2822d840d6113e19b8e014"
   },
   {
    "number": null,
@@ -1684,15 +2125,17 @@
    "size": "S",
    "parent": 333,
    "blocked_by": [
-    284,
-    430
+    284
    ],
-   "blocked_by_new_tasks": [],
+   "blocked_by_new_tasks": [
+    "creation-output"
+   ],
+   "pending_blockers": [],
    "qualifies": [
     337
    ],
    "body_file": "docs/investigations/issue-333-languages-alignment-task.md",
-   "body_sha256": "6bc9641cf7ccdc01a194fccff67df2f910a9fcc044c71a3279355a33732918cb"
+   "body_sha256": "f2e05c7cd961cf69345c91aca6cfdabe79a94bdc29b382e57dff07e821953d29"
   },
   {
    "number": null,
@@ -1707,11 +2150,32 @@
     284
    ],
    "blocked_by_new_tasks": [],
+   "pending_blockers": [],
    "qualifies": [
     337
    ],
    "body_file": "docs/investigations/issue-333-trinket-task.md",
    "body_sha256": "c169db80e6cade6d32b1f41cb7ef54ea002118137d280214d24fcf1274e7c605"
+  },
+  {
+   "number": null,
+   "key": "passive-perception",
+   "marker": "edda-333:passive-perception",
+   "title": "Project player Passive Perception on the derived sheet",
+   "type": "Task",
+   "size": "S",
+   "parent": 333,
+   "blocked_by": [
+    61,
+    284
+   ],
+   "blocked_by_new_tasks": [],
+   "pending_blockers": [],
+   "qualifies": [
+    337
+   ],
+   "body_file": "docs/investigations/issue-333-passive-perception-task.md",
+   "body_sha256": "2b999229bc99d54dfa10a06d7d504e7415b49912c731721aa41a1c70d308be08"
   },
   {
    "number": null,
@@ -1722,24 +2186,41 @@
    "size": "M",
    "parent": 333,
    "blocked_by": [
+    247,
+    248,
+    249,
+    250,
+    251,
+    252,
+    253,
+    254,
+    255,
+    256,
+    257,
+    258,
+    259,
+    260,
+    261,
+    262,
     301,
     306,
     384,
     385,
     386,
     387,
-    388,
-    430
+    388
    ],
    "blocked_by_new_tasks": [
+    "creation-output",
     "ability-scores",
     "backgrounds"
    ],
+   "pending_blockers": [],
    "qualifies": [
     337
    ],
    "body_file": "docs/investigations/issue-333-custom-background-task.md",
-   "body_sha256": "3ab0eb3707a1abb17ae734799045fbf7fbb751db3b96f20c93bf99fa506dd8a0"
+   "body_sha256": "737fd4c74c03aa2ec87f687ffee9982454b292aebb3f32dc524752720741dde2"
   },
   {
    "number": null,
@@ -1754,19 +2235,21 @@
     65,
     66,
     145,
-    147,
     307,
     428,
-    430,
     487,
     968
    ],
-   "blocked_by_new_tasks": [],
+   "blocked_by_new_tasks": [
+    "creation-output",
+    "typed-resistance"
+   ],
+   "pending_blockers": [],
    "qualifies": [
     337
    ],
    "body_file": "docs/investigations/issue-333-species-dragonborn-task.md",
-   "body_sha256": "9f7fcc2cb9a45ce388393a47e574a7c2ca20f185f5538b54c816c0f03cd25f09"
+   "body_sha256": "7e4752d264a20ec9ecd48b19f0557381dc6ef7a6b1126aab6b946a1bc1a83bd2"
   },
   {
    "number": null,
@@ -1782,55 +2265,108 @@
     145,
     307,
     428,
-    430,
     504,
     727,
     968
    ],
-   "blocked_by_new_tasks": [],
+   "blocked_by_new_tasks": [
+    "creation-output",
+    "typed-resistance"
+   ],
+   "pending_blockers": [],
    "qualifies": [
     337
    ],
    "body_file": "docs/investigations/issue-333-species-dwarf-task.md",
-   "body_sha256": "90d1a8d2ec551bfbfaa7f55dbf765e7f6c2c2cfdd7cc95264489766e26a25d4d"
+   "body_sha256": "698fc384815c1f9b1cdc484c1f76b9effc5bf894abe73760a04a386e166a21e3"
   },
   {
    "number": null,
    "key": "elf",
    "marker": "edda-333:species-elf",
-   "title": "Confirm Elf lineage spells, Keen Senses, Fey Ancestry and Trance",
+   "title": "Confirm Elf lineage choice, cantrips, Fey Ancestry, Keen Senses and Trance",
    "type": "Task",
-   "size": "L",
+   "size": "M",
    "parent": 333,
    "blocked_by": [
     61,
     145,
-    265,
-    277,
     307,
     428,
-    430,
-    488,
-    688,
-    906,
-    968,
     1049,
     1050,
-    1066,
-    1072,
     1281,
-    1282,
     1384,
     1385,
-    1386,
-    1448
+    1386
    ],
-   "blocked_by_new_tasks": [],
+   "blocked_by_new_tasks": [
+    "creation-output",
+    "condition-output"
+   ],
+   "pending_blockers": [],
    "qualifies": [
     337
    ],
    "body_file": "docs/investigations/issue-333-species-elf-task.md",
-   "body_sha256": "f2c24ec37a300a0faa61ff2cf5506747b4f9a7b10c2a4bcdcfea81745046db33"
+   "body_sha256": "888ae1fc2f319435ae9abab2264f144730351faf2fc5d217f12d83baa3222e7f"
+  },
+  {
+   "number": null,
+   "key": "elf-lineage-spells",
+   "marker": "edda-333:species-elf-lineage-spells",
+   "title": "Confirm Elf level 3 and 5 lineage spell uses and High Elf cantrip replacement",
+   "type": "Task",
+   "size": "M",
+   "parent": 333,
+   "blocked_by": [
+    265,
+    428,
+    688,
+    906,
+    968,
+    1066,
+    1072,
+    1282,
+    1448
+   ],
+   "blocked_by_new_tasks": [
+    "elf"
+   ],
+   "pending_blockers": [],
+   "qualifies": [
+    337
+   ],
+   "body_file": "docs/investigations/issue-333-species-elf-lineage-spells-task.md",
+   "body_sha256": "bcbf368f67ca3a46e907fff2fb5de0ea2911cd7471210830cad3a2bc7ba043bf"
+  },
+  {
+   "number": null,
+   "key": "drow-faerie-fire",
+   "marker": "edda-333:species-drow-faerie-fire",
+   "title": "Enable the Drow level 3 Faerie Fire lineage cast",
+   "type": "Task",
+   "size": "S",
+   "parent": 333,
+   "blocked_by": [
+    277
+   ],
+   "blocked_by_new_tasks": [
+    "elf-lineage-spells"
+   ],
+   "pending_blockers": [
+    {
+     "published_by": 277,
+     "what": "the Faerie Fire effect owner (SRD 5.2.1 PDF129); no issue owns it yet",
+     "edge": "that owner blocks this task",
+     "added_by": "the #277 decision when it publishes the owner"
+    }
+   ],
+   "qualifies": [
+    337
+   ],
+   "body_file": "docs/investigations/issue-333-species-drow-faerie-fire-task.md",
+   "body_sha256": "6de6f973e44db6898db30da0458951b7b84ae6294b2eb63e92f149b3cca0d6d7"
   },
   {
    "number": null,
@@ -1846,7 +2382,6 @@
     145,
     307,
     428,
-    430,
     700,
     955,
     1375,
@@ -1856,39 +2391,87 @@
     1386,
     1448
    ],
-   "blocked_by_new_tasks": [],
+   "blocked_by_new_tasks": [
+    "creation-output"
+   ],
+   "pending_blockers": [],
    "qualifies": [
     337
    ],
    "body_file": "docs/investigations/issue-333-species-gnome-task.md",
-   "body_sha256": "2e56da5efab56f2b9bd663987419d22eb90494d89ce0e834c6a1b3daeeda2526"
+   "body_sha256": "f45b1126dafd21030e9015dc9eba893c4a0ec17d042b9af2daa034a3411ef30a"
   },
   {
    "number": null,
    "key": "goliath",
    "marker": "edda-333:species-goliath",
-   "title": "Confirm Goliath Giant Ancestry options, Large Form and Powerful Build",
+   "title": "Confirm Goliath Powerful Build, Giant Ancestry choice and on-hit boons",
    "type": "Task",
-   "size": "L",
+   "size": "M",
    "parent": 333,
    "blocked_by": [
     61,
     65,
     66,
-    81,
     307,
     428,
-    430,
-    488,
-    778,
-    968
+    778
    ],
-   "blocked_by_new_tasks": [],
+   "blocked_by_new_tasks": [
+    "creation-output",
+    "condition-output"
+   ],
+   "pending_blockers": [],
    "qualifies": [
     337
    ],
    "body_file": "docs/investigations/issue-333-species-goliath-task.md",
-   "body_sha256": "87121e5babc5eed82a79e00b68c304cc1667e4c815da1c77d567113494ee69af"
+   "body_sha256": "bf402e6d77f239f53e96cab74fc8fc16fdd29719d8ffe0ff4b485edf33ce2f6a"
+  },
+  {
+   "number": null,
+   "key": "goliath-reactions",
+   "marker": "edda-333:species-goliath-reactions",
+   "title": "Resolve Goliath Cloud's Jaunt, Stone's Endurance and Storm's Thunder",
+   "type": "Task",
+   "size": "M",
+   "parent": 333,
+   "blocked_by": [
+    66,
+    81
+   ],
+   "blocked_by_new_tasks": [
+    "goliath"
+   ],
+   "pending_blockers": [],
+   "qualifies": [
+    337
+   ],
+   "body_file": "docs/investigations/issue-333-species-goliath-reactions-task.md",
+   "body_sha256": "a75cadc326241f57c64d576e103b65d891f7c1aa99723db0794b125fbe16a48f"
+  },
+  {
+   "number": null,
+   "key": "goliath-large-form",
+   "marker": "edda-333:species-goliath-large-form",
+   "title": "Confirm Goliath Large Form size change at character level 5",
+   "type": "Task",
+   "size": "M",
+   "parent": 333,
+   "blocked_by": [
+    61,
+    66,
+    968
+   ],
+   "blocked_by_new_tasks": [
+    "goliath"
+   ],
+   "pending_blockers": [],
+   "qualifies": [
+    337
+   ],
+   "body_file": "docs/investigations/issue-333-species-goliath-large-form-task.md",
+   "body_sha256": "61f4628c64e5e4fe4f281be5a064774530d935c354695da1667eedc2a8757570"
   },
   {
    "number": null,
@@ -1900,18 +2483,19 @@
    "parent": 333,
    "blocked_by": [
     61,
-    67,
     307,
-    430,
-    488,
     1137
    ],
-   "blocked_by_new_tasks": [],
+   "blocked_by_new_tasks": [
+    "creation-output",
+    "condition-output"
+   ],
+   "pending_blockers": [],
    "qualifies": [
     337
    ],
    "body_file": "docs/investigations/issue-333-species-halfling-task.md",
-   "body_sha256": "da0be5ab931cdfeba79c9350f550c803be02909df6fa02ba4a73af14cfde4800"
+   "body_sha256": "861e1bd8b047d5172814c48480c00436cf75c02220e6902620d2589f33c832cb"
   },
   {
    "number": null,
@@ -1929,15 +2513,17 @@
     387,
     388,
     428,
-    430,
     774
    ],
-   "blocked_by_new_tasks": [],
+   "blocked_by_new_tasks": [
+    "creation-output"
+   ],
+   "pending_blockers": [],
    "qualifies": [
     337
    ],
    "body_file": "docs/investigations/issue-333-species-human-task.md",
-   "body_sha256": "8b770647d57ba5fe221659c4fe403c9e3512d62240a0320f5f181a8e6a682f35"
+   "body_sha256": "9229b6ad321827c7ecf124a0942208e3d5f5ac6909c30973ddfeb7d4356f91ae"
   },
   {
    "number": null,
@@ -1948,20 +2534,24 @@
    "size": "M",
    "parent": 333,
    "blocked_by": [
+    65,
     66,
     145,
     307,
     427,
     428,
-    430,
+    487,
     780
    ],
-   "blocked_by_new_tasks": [],
+   "blocked_by_new_tasks": [
+    "creation-output"
+   ],
+   "pending_blockers": [],
    "qualifies": [
     337
    ],
    "body_file": "docs/investigations/issue-333-species-orc-task.md",
-   "body_sha256": "17a6156b6a199526afe725add9d6dba894b020439b6fbbc0eded9664f9b0fa9c"
+   "body_sha256": "ba597b26d2a641de2f4577176020cce810ab6f07f0050eaab2b4f971afd3d136"
   },
   {
    "number": null,
@@ -1975,7 +2565,6 @@
     145,
     307,
     428,
-    430,
     678,
     683,
     695,
@@ -1990,38 +2579,27 @@
     1631,
     1632
    ],
-   "blocked_by_new_tasks": [],
+   "blocked_by_new_tasks": [
+    "creation-output",
+    "typed-resistance"
+   ],
+   "pending_blockers": [],
    "qualifies": [
     337
    ],
    "body_file": "docs/investigations/issue-333-species-tiefling-task.md",
-   "body_sha256": "8a2a2fb7a105e67c01c72ba60057acf92fcef96ee15d6c6963b8de1c32053f65"
-  },
-  {
-   "number": null,
-   "key": "passive-perception",
-   "marker": "edda-333:passive-perception",
-   "title": "Project player Passive Perception on the derived sheet",
-   "type": "Task",
-   "size": "S",
-   "parent": 333,
-   "blocked_by": [
-    61,
-    284
-   ],
-   "blocked_by_new_tasks": [],
-   "qualifies": [
-    337
-   ],
-   "body_file": "docs/investigations/issue-333-passive-perception-task.md",
-   "body_sha256": "2b999229bc99d54dfa10a06d7d504e7415b49912c731721aa41a1c70d308be08"
+   "body_sha256": "2f6eecd867cbba653092610e2f98031c119e424f7a629014e476b9ddd1cca66f"
   }
  ],
  "publication_order": [
+  "creation-output",
+  "condition-output",
+  "typed-resistance",
+  "trinket",
+  "passive-perception",
   "ability-scores",
   "backgrounds",
   "languages-alignment",
-  "trinket",
   "dragonborn",
   "dwarf",
   "elf",
@@ -2031,31 +2609,385 @@
   "human",
   "orc",
   "tiefling",
-  "passive-perception",
-  "custom-background"
+  "custom-background",
+  "elf-lineage-spells",
+  "goliath-reactions",
+  "goliath-large-form",
+  "drow-faerie-fire"
  ],
  "planned_native_edges": {
-  "sub_issues_of_333": 15,
-  "blocked_by_edges_to_existing": 137,
-  "blocked_by_edges_between_new": 2,
-  "new_blockers_of_337": 15
+  "sub_issues_of_333": 22,
+  "blocked_by_edges_to_existing": 144,
+  "blocked_by_edges_between_new": 25,
+  "new_blockers_of_337": 22,
+  "pending_blocked_by_edges": 1
  },
  "caps": {
   "limit": 100,
   "issue_337_blocked_by": {
    "before": 62,
-   "after": 77
+   "after": 84
   },
   "issue_333_sub_issues": {
    "before": 1,
-   "after": 16
+   "after": 23
   },
   "issue_283_sub_issues": {
    "before": 95,
    "after": 95
   },
-  "largest_new_task_blocked_by": 21,
-  "shared_aggregate_needed": false
+  "largest_new_task_blocked_by": 26,
+  "largest_new_task_outgoing": 14,
+  "new_task_outgoing": {
+   "creation-output": 14,
+   "condition-output": 4,
+   "typed-resistance": 4,
+   "ability-scores": 2,
+   "backgrounds": 2,
+   "languages-alignment": 1,
+   "trinket": 1,
+   "passive-perception": 1,
+   "custom-background": 1,
+   "dragonborn": 1,
+   "dwarf": 1,
+   "elf": 2,
+   "elf-lineage-spells": 2,
+   "drow-faerie-fire": 1,
+   "gnome": 1,
+   "goliath": 3,
+   "goliath-reactions": 1,
+   "goliath-large-form": 1,
+   "halfling": 1,
+   "human": 1,
+   "orc": 1,
+   "tiefling": 1
+  },
+  "existing_outgoing": {
+   "61": {
+    "before": 84,
+    "after": 92
+   },
+   "65": {
+    "before": 73,
+    "after": 77
+   },
+   "66": {
+    "before": 62,
+    "after": 69
+   },
+   "81": {
+    "before": 2,
+    "after": 3
+   },
+   "145": {
+    "before": 12,
+    "after": 18
+   },
+   "195": {
+    "before": 61,
+    "after": 63
+   },
+   "247": {
+    "before": 13,
+    "after": 15
+   },
+   "248": {
+    "before": 12,
+    "after": 13
+   },
+   "249": {
+    "before": 9,
+    "after": 11
+   },
+   "250": {
+    "before": 1,
+    "after": 2
+   },
+   "251": {
+    "before": 2,
+    "after": 3
+   },
+   "252": {
+    "before": 2,
+    "after": 3
+   },
+   "253": {
+    "before": 1,
+    "after": 3
+   },
+   "254": {
+    "before": 1,
+    "after": 3
+   },
+   "255": {
+    "before": 1,
+    "after": 2
+   },
+   "256": {
+    "before": 1,
+    "after": 3
+   },
+   "257": {
+    "before": 1,
+    "after": 3
+   },
+   "258": {
+    "before": 1,
+    "after": 3
+   },
+   "259": {
+    "before": 4,
+    "after": 6
+   },
+   "260": {
+    "before": 1,
+    "after": 3
+   },
+   "261": {
+    "before": 4,
+    "after": 6
+   },
+   "262": {
+    "before": 1,
+    "after": 2
+   },
+   "265": {
+    "before": 7,
+    "after": 8
+   },
+   "277": {
+    "before": 3,
+    "after": 4
+   },
+   "284": {
+    "before": 37,
+    "after": 41
+   },
+   "301": {
+    "before": 2,
+    "after": 3
+   },
+   "306": {
+    "before": 1,
+    "after": 4
+   },
+   "307": {
+    "before": 1,
+    "after": 10
+   },
+   "384": {
+    "before": 67,
+    "after": 70
+   },
+   "385": {
+    "before": 30,
+    "after": 33
+   },
+   "386": {
+    "before": 32,
+    "after": 35
+   },
+   "387": {
+    "before": 31,
+    "after": 34
+   },
+   "388": {
+    "before": 30,
+    "after": 32
+   },
+   "427": {
+    "before": 34,
+    "after": 35
+   },
+   "428": {
+    "before": 81,
+    "after": 90
+   },
+   "430": {
+    "before": 98,
+    "after": 99
+   },
+   "487": {
+    "before": 87,
+    "after": 89
+   },
+   "488": {
+    "before": 97,
+    "after": 98
+   },
+   "504": {
+    "before": 54,
+    "after": 55
+   },
+   "678": {
+    "before": 7,
+    "after": 8
+   },
+   "683": {
+    "before": 7,
+    "after": 8
+   },
+   "688": {
+    "before": 7,
+    "after": 8
+   },
+   "695": {
+    "before": 6,
+    "after": 7
+   },
+   "700": {
+    "before": 7,
+    "after": 8
+   },
+   "727": {
+    "before": 33,
+    "after": 34
+   },
+   "774": {
+    "before": 13,
+    "after": 14
+   },
+   "778": {
+    "before": 14,
+    "after": 15
+   },
+   "780": {
+    "before": 10,
+    "after": 11
+   },
+   "906": {
+    "before": 9,
+    "after": 10
+   },
+   "955": {
+    "before": 8,
+    "after": 9
+   },
+   "959": {
+    "before": 4,
+    "after": 5
+   },
+   "968": {
+    "before": 7,
+    "after": 12
+   },
+   "1049": {
+    "before": 4,
+    "after": 5
+   },
+   "1050": {
+    "before": 3,
+    "after": 4
+   },
+   "1066": {
+    "before": 3,
+    "after": 4
+   },
+   "1072": {
+    "before": 2,
+    "after": 3
+   },
+   "1075": {
+    "before": 5,
+    "after": 6
+   },
+   "1137": {
+    "before": 4,
+    "after": 5
+   },
+   "1264": {
+    "before": 3,
+    "after": 4
+   },
+   "1281": {
+    "before": 4,
+    "after": 5
+   },
+   "1282": {
+    "before": 4,
+    "after": 6
+   },
+   "1318": {
+    "before": 4,
+    "after": 5
+   },
+   "1375": {
+    "before": 4,
+    "after": 5
+   },
+   "1376": {
+    "before": 3,
+    "after": 4
+   },
+   "1384": {
+    "before": 5,
+    "after": 7
+   },
+   "1385": {
+    "before": 3,
+    "after": 5
+   },
+   "1386": {
+    "before": 3,
+    "after": 5
+   },
+   "1448": {
+    "before": 7,
+    "after": 10
+   },
+   "1607": {
+    "before": 2,
+    "after": 3
+   },
+   "1631": {
+    "before": 3,
+    "after": 4
+   },
+   "1632": {
+    "before": 3,
+    "after": 4
+   }
+  },
+  "full_and_untouched": {
+   "issue_67_outgoing": 100
+  },
+  "shared_aggregate_needed": true,
+  "output_gateways": [
+   {
+    "key": "creation-output",
+    "shields": 430,
+    "shielded_outgoing_before": 98,
+    "shielded_outgoing_after": 99,
+    "direct_edges_avoided": 13,
+    "consumers": [
+     "ability-scores",
+     "backgrounds",
+     "languages-alignment",
+     "custom-background",
+     "dragonborn",
+     "dwarf",
+     "elf",
+     "gnome",
+     "goliath",
+     "halfling",
+     "human",
+     "orc",
+     "tiefling"
+    ]
+   },
+   {
+    "key": "condition-output",
+    "shields": 488,
+    "shielded_outgoing_before": 97,
+    "shielded_outgoing_after": 98,
+    "direct_edges_avoided": 3,
+    "consumers": [
+     "elf",
+     "goliath",
+     "halfling"
+    ]
+   }
+  ]
  },
  "dag_check": {
   "graph_nodes": 1892,
@@ -2092,6 +3024,48 @@
    "title": "Split ritual casting and costly or consumed components",
    "state": "CLOSED",
    "body_sha256": "2ee52b1ad4d4c9de6dd7d92bc9ce9d2ef4c4bd01770278e19d86c6f7b3e0ac46"
+  },
+  {
+   "number": 67,
+   "title": "Validate narrative combat targets, ranges and scene facts",
+   "state": "CLOSED",
+   "body_sha256": "aa7bfb66a1b5d6aafd22ca8dc6f7530ce938d0710ee917867fbb899490376096"
+  },
+  {
+   "number": 147,
+   "title": "Resolve one declared fall with inspectable damage and Prone state",
+   "state": "OPEN",
+   "body_sha256": "c31bdc6b1573df92eb9e0845fde0e5a313fab298a615a21375653b175f18fb26"
+  },
+  {
+   "number": 205,
+   "title": "Catalogue SRD spells 10: Etherealness to Find Traps",
+   "state": "OPEN",
+   "body_sha256": "c8095377a6fa883a860bfa8954afe4e175dc400bd0a820b28f45a15efb35b9e0"
+  },
+  {
+   "number": 435,
+   "title": "Apply Rage resistance Strength damage and advantage",
+   "state": "OPEN",
+   "body_sha256": "939e71f240e28532cacce9a3b7ea5692a69fade01c45f72e3dd155f188012827"
+  },
+  {
+   "number": 1738,
+   "title": "Qualify finite Warlock source grant provenance",
+   "state": "OPEN",
+   "body_sha256": "692eddad579377cbade3b0d3f0ae68bedaef3970ee8b57080c3d7dca2742b7c0"
+  },
+  {
+   "number": 333,
+   "title": "Split remaining origin and creation choices into exact playable fixtures",
+   "state": "OPEN",
+   "body_sha256": "94abc0e367616f161cef0ccd1294218acea5b3e8e10c4c77e3cdfb2da54f4a3f"
+  },
+  {
+   "number": 337,
+   "title": "Qualify all SRD character origins classes levels and multiclass coverage",
+   "state": "OPEN",
+   "body_sha256": "7b73e50fc1c12be4d7a8175f7ddb9b22fec60194d222402e6d7d0bbf59c9a242"
   }
  ],
  "unchanged": {
