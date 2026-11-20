@@ -39,6 +39,19 @@ type SpellSourceDetails struct {
 	Shatter         *SpellShatter      `json:"shatter,omitempty"`
 	Shield          *SpellShield       `json:"shield,omitempty"`
 	Faith           *SpellFaith        `json:"faith,omitempty"`
+
+	// Issue #196 payloads. Acid Arrow needs only the common record fields.
+	Splash     *SpellSplash         `json:"splash,omitempty"`
+	Aid        *SpellAid            `json:"aid,omitempty"`
+	Alarm      *SpellAlarm          `json:"alarm,omitempty"`
+	Alter      *SpellAlterSelf      `json:"alter,omitempty"`
+	Friendship *SpellFriendship     `json:"friendship,omitempty"`
+	Messenger  *SpellMessenger      `json:"messenger,omitempty"`
+	Shapes     *SpellShapes         `json:"shapes,omitempty"`
+	Dead       *SpellAnimateDead    `json:"dead,omitempty"`
+	Objects    *SpellAnimateObjects `json:"objects,omitempty"`
+	Antilife   *SpellAntilife       `json:"antilife,omitempty"`
+	Antimagic  *SpellAntimagic      `json:"antimagic,omitempty"`
 }
 
 // SpellRays describes independently aimed ranged spell attacks.
@@ -224,10 +237,12 @@ func (s *SpellSourceDetails) UnmarshalJSON(data []byte) error {
 		}
 	}
 	templates := map[string]any{"rays": SpellRays{}, "scrying": SpellScrying{}, "smite": SpellSmite{}, "chest": SpellChest{}, "vision": SpellVision{}, "seeming": SpellSeeming{}, "sending": SpellSending{}, "sequester": SpellSequester{}, "shapechange": SpellShapechange{}, "shatter": SpellShatter{}, "shield": SpellShield{}, "faith": SpellFaith{}}
-	for key, template := range spell198Templates() {
-		if raw, ok := fields[key]; ok {
-			if err := requireSpell198Fields(raw, reflect.TypeOf(template)); err != nil {
-				return err
+	for _, batch := range []map[string]any{spell196Templates(), spell198Templates()} {
+		for key, template := range batch {
+			if raw, ok := fields[key]; ok {
+				if err := requireSpell198Fields(raw, reflect.TypeOf(template)); err != nil {
+					return fmt.Errorf("%s: %w", key, err)
+				}
 			}
 		}
 	}
@@ -311,21 +326,28 @@ func validSpellTarget(t SpellTarget) bool {
 	case "up-to-count":
 		return (t.Count == 3 && t.Eligibility == "creatures-in-range") || (t.Count == 1 && t.Eligibility == "visible-creatures-in-range")
 	case "single":
-		return t.Count == 1 && slices.Contains([]string{"target-in-range", "creature-in-range", "conscious-self", "self", "hit-target", "object-or-willing-creature", "chest-and-replica", "willing-creature-touch", "creature-touch", "visible-creature-in-range"}, t.Eligibility)
+		return t.Count == 1 && slices.Contains([]string{"target-in-range", "creature-in-range", "conscious-self", "self", "hit-target", "object-or-willing-creature", "chest-and-replica", "willing-creature-touch", "creature-touch", "visible-creature-in-range", "visible-beast-in-range", "visible-tiny-beast-in-range"}, t.Eligibility)
 	case "rays":
 		return t.Count == 3 && t.Eligibility == "targets-in-range"
 	case "choice":
-		return t.Count == 1 && (t.Eligibility == "same-plane-creature-or-seen-location" || t.Eligibility == "visible-creature-or-nonmagical-noncreature-plant")
+		return t.Count == 1 && slices.Contains([]string{"same-plane-creature-or-seen-location", "visible-creature-or-nonmagical-noncreature-plant", "door-window-or-area-in-range", "bones-or-corpse-of-medium-or-small-humanoid-in-range"}, t.Eligibility)
 	case "selected-creatures":
-		return t.Count == 0 && (t.Eligibility == "visible-creatures-in-range" || t.Eligibility == "creatures-in-range")
+		return t.Count == 0 && slices.Contains([]string{"visible-creatures-in-range", "creatures-in-range", "visible-willing-creatures-in-range"}, t.Eligibility)
 	case "sphere":
-		return t.Count == 0 && t.Eligibility == "creatures-and-eligible-objects"
+		return t.Count == 0 && (t.Eligibility == "creatures-and-eligible-objects" || t.Eligibility == "creatures-in-sphere")
+	case "selected-objects":
+		return t.Count == 0 && t.Eligibility == "eligible-nonmagical-objects-in-range"
+	case "emanation":
+		return t.Count == 0 && (t.Eligibility == "creatures-other-than-constructs-and-undead" || t.Eligibility == "everything-in-aura")
 	default:
 		return false
 	}
 }
 
 func (s SpellRecord) validateSourceDetails() error {
+	if handled, err := s.validateSpell196(); handled || err != nil {
+		return err
+	}
 	if handled, err := s.validateSpell198(); handled || err != nil {
 		return err
 	}
@@ -334,7 +356,7 @@ func (s SpellRecord) validateSourceDetails() error {
 		if s.Scope == "complete-source-record" && slices.Contains([]string{"Scorching Ray", "Scrying", "Searing Smite", "Secret Chest", "See Invisibility", "Seeming", "Sending", "Sequester", "Shapechange", "Shatter", "Shield", "Shield of Faith"}, s.Name) {
 			return fmt.Errorf("batch source details required")
 		}
-		if s.CastingTime == "reaction" || s.CastingTime == "10-minutes" || s.Duration == "until-dispelled" || s.Range.Kind == "unlimited" || s.Target.Shape != "single" {
+		if s.CastingTime == "reaction" || s.CastingTime == "10-minutes" || s.CastingTime == "1-minute" || s.Duration == "until-dispelled" || s.Range.Kind == "unlimited" || s.Target.Shape != "single" {
 			return fmt.Errorf("source details required for extended shape")
 		}
 		return nil

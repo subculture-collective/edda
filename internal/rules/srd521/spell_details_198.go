@@ -191,6 +191,15 @@ func requireSpell198Fields(raw []byte, typ reflect.Type) error {
 		for i := 0; i < typ.NumField(); i++ {
 			f := typ.Field(i)
 			key := strings.Split(f.Tag.Get("json"), ",")[0]
+			// Signed stat block quantities need presence, not a sign check;
+			// validation pins their exact source values.
+			if f.Tag.Get("srd") == "signed" {
+				var value int
+				if raw := bytes.TrimSpace(fields[key]); len(raw) == 0 || bytes.Equal(raw, []byte("null")) || json.Unmarshal(raw, &value) != nil {
+					return fmt.Errorf("%s: required signed source value missing or invalid", key)
+				}
+				continue
+			}
 			if err := requireSpell198Fields(fields[key], f.Type); err != nil {
 				return fmt.Errorf("%s: %w", key, err)
 			}

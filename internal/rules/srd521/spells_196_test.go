@@ -1,0 +1,508 @@
+package srd521
+
+import (
+	"bytes"
+	"encoding/json"
+	"fmt"
+	"os"
+	"reflect"
+	"slices"
+	"testing"
+)
+
+func loadSpells196(t *testing.T) SpellRecords {
+	t.Helper()
+	b, err := os.ReadFile("testdata/spells_196.json")
+	if err != nil {
+		t.Fatal(err)
+	}
+	r, err := DecodeSpellRecords(bytes.NewReader(b))
+	if err != nil {
+		t.Fatal(err)
+	}
+	return r
+}
+
+var spells196Names = []string{"Acid Arrow", "Acid Splash", "Aid", "Alarm", "Alter Self", "Animal Friendship", "Animal Messenger", "Animal Shapes", "Animate Dead", "Animate Objects", "Antilife Shell", "Antimagic Field"}
+
+// Literal PDF pp.107-109 value fixtures include every choice, variant, effect,
+// stat block and scaling value, independently of decoder defaults and
+// structural validation.
+func TestSpells196SourceValues(t *testing.T) {
+	expected := []string{
+		`{"id":"srd-5.2.1:content/spells/acid-arrow","name":"Acid Arrow","source_id":"srd-5.2.1:content/spells/acid-arrow","source_page":107,"scope":"complete-source-record","level":2,"school":"evocation","lists":["wizard"],"casting_time":"action","range":{"kind":"feet","feet":90},"target":{"shape":"single","count":1,"eligibility":"target-in-range"},"components":{"verbal":true,"somatic":true,"material":{"description":"powdered rhubarb leaf","cost_cp":0,"consumed":false}},"ritual":false,"concentration":false,"duration":"instantaneous","duration_seconds":0,"scaling":{"kind":"slot","above_level":2,"dice_count":1,"die_sides":4,"effect_ids":["initial","later"]},"effects":[{"id":"initial","mechanic":"attack.ranged-spell","timing":"on-hit","dice_count":4,"die_sides":4,"damage_type":"acid","bonus":0,"add_casting_modifier":false,"half_initial_only":true},{"id":"later","mechanic":"damage.end-next-target-turn","timing":"on-hit-end-next-target-turn","dice_count":2,"die_sides":4,"damage_type":"acid","bonus":0,"add_casting_modifier":false,"half_initial_only":false}],"required_mechanics":["attack.ranged-spell","damage.acid","damage.end-next-target-turn","damage.miss-half-initial-only","scaling.per-slot","components.material"],"slot_levels":[2,3,4,5,6,7,8,9]}`,
+		`{"id":"srd-5.2.1:content/spells/acid-splash","name":"Acid Splash","source_id":"srd-5.2.1:content/spells/acid-splash","source_page":107,"scope":"complete-source-record","level":0,"school":"evocation","lists":["sorcerer","wizard"],"casting_time":"action","range":{"kind":"feet","feet":60},"target":{"shape":"sphere","count":0,"eligibility":"creatures-in-sphere"},"components":{"verbal":true,"somatic":true,"material":null},"ritual":false,"concentration":false,"duration":"instantaneous","duration_seconds":0,"scaling":{"kind":"cantrip-upgrade","above_level":0,"dice_count":1,"die_sides":6,"effect_ids":["damage"]},"effects":[{"id":"damage","mechanic":"damage.acid-splash","timing":"sphere-failed-save","dice_count":1,"die_sides":6,"damage_type":"acid","bonus":0,"add_casting_modifier":false,"half_initial_only":false}],"required_mechanics":["damage.acid-splash","damage.acid","area.sphere-5","save.dexterity-negates","scaling.cantrip-upgrade"],"slot_levels":[],"source_details":{"casting_seconds":0,"casting_triggers":[],"end_timing":"instantaneous","splash":{"center":"point-in-range","radius_feet":5,"save":"dexterity","save_success":"no-damage","upgrades":[{"character_level":5,"dice_count":2,"die_sides":6},{"character_level":11,"dice_count":3,"die_sides":6},{"character_level":17,"dice_count":4,"die_sides":6}],"appearance":"acidic-bubble-explodes"}}}`,
+		`{"id":"srd-5.2.1:content/spells/aid","name":"Aid","source_id":"srd-5.2.1:content/spells/aid","source_page":107,"scope":"complete-source-record","level":2,"school":"abjuration","lists":["bard","cleric","druid","paladin","ranger"],"casting_time":"action","range":{"kind":"feet","feet":30},"target":{"shape":"up-to-count","count":3,"eligibility":"creatures-in-range"},"components":{"verbal":true,"somatic":true,"material":{"description":"a strip of white cloth","cost_cp":0,"consumed":false}},"ritual":false,"concentration":false,"duration":"timed","duration_seconds":28800,"scaling":{"kind":"slot-bonus","above_level":2,"dice_count":0,"die_sides":0,"effect_ids":["hit-points"]},"effects":[{"id":"hit-points","mechanic":"hit-points.aid-maximum-and-current","timing":"for-duration","dice_count":0,"die_sides":0,"damage_type":"","bonus":5,"add_casting_modifier":false,"half_initial_only":false}],"required_mechanics":["hit-points.aid-maximum-and-current","target.up-to-three-creatures","components.material","scaling.bonus-per-slot"],"slot_levels":[2,3,4,5,6,7,8,9],"source_details":{"casting_seconds":0,"casting_triggers":[],"end_timing":"duration-ended","aid":{"base_targets":3,"target_choice":"up-to-three-creatures-in-range","hit_point_maximum_increase":5,"current_hit_point_increase":5,"additional_hit_points_per_slot":5}}}`,
+		`{"id":"srd-5.2.1:content/spells/alarm","name":"Alarm","source_id":"srd-5.2.1:content/spells/alarm","source_page":107,"scope":"complete-source-record","level":1,"school":"abjuration","lists":["ranger","wizard"],"casting_time":"1-minute","range":{"kind":"feet","feet":30},"target":{"shape":"choice","count":1,"eligibility":"door-window-or-area-in-range"},"components":{"verbal":true,"somatic":true,"material":{"description":"a bell and silver wire","cost_cp":0,"consumed":false}},"ritual":true,"concentration":false,"duration":"timed","duration_seconds":28800,"scaling":{"kind":"none","above_level":0,"dice_count":0,"die_sides":0,"effect_ids":[]},"effects":[{"id":"alarm","mechanic":"ward.alarm","timing":"creature-touches-or-enters-warded-area","dice_count":0,"die_sides":0,"damage_type":"","bonus":0,"add_casting_modifier":false,"half_initial_only":false}],"required_mechanics":["ward.alarm","ward.alarm-audible","ward.alarm-mental","ward.exempt-creatures","cast.one-minute","cast.ritual","components.material"],"slot_levels":[1,2,3,4,5,6,7,8,9],"source_details":{"casting_seconds":60,"casting_triggers":[],"end_timing":"duration-ended","alarm":{"ward_choices":["door","window","area"],"area_max_cube_feet":20,"triggers":["creature-touches-warded-area","creature-enters-warded-area"],"designate_exempt":true,"exemption_timing":"when-cast","choose_count":1,"modes":[{"choice":"audible","signal":"handbell-sound","signal_seconds":10,"distance_feet":60,"distance_miles":0,"distance_measure":"sound-within-distance-of-warded-area","awakens_caster":false},{"choice":"mental","signal":"mental-ping","signal_seconds":0,"distance_feet":0,"distance_miles":1,"distance_measure":"caster-within-distance-of-warded-area","awakens_caster":true}],"ritual_alternative":true,"alerted_creature":"caster"}}}`,
+		`{"id":"srd-5.2.1:content/spells/alter-self","name":"Alter Self","source_id":"srd-5.2.1:content/spells/alter-self","source_page":107,"scope":"complete-source-record","level":2,"school":"transmutation","lists":["sorcerer","wizard"],"casting_time":"action","range":{"kind":"self","feet":0},"target":{"shape":"single","count":1,"eligibility":"self"},"components":{"verbal":true,"somatic":true,"material":null},"ritual":false,"concentration":true,"duration":"timed","duration_seconds":3600,"scaling":{"kind":"none","above_level":0,"dice_count":0,"die_sides":0,"effect_ids":[]},"effects":[{"id":"option","mechanic":"form.alter-self-option","timing":"for-duration-replaceable-by-magic-action","dice_count":0,"die_sides":0,"damage_type":"","bonus":0,"add_casting_modifier":false,"half_initial_only":false},{"id":"natural-weapon","mechanic":"damage.alter-self-natural-weapon","timing":"unarmed-strike-damage-with-growth","dice_count":1,"die_sides":6,"damage_type":"","bonus":0,"add_casting_modifier":true,"half_initial_only":false}],"required_mechanics":["form.alter-self-option","damage.alter-self-natural-weapon","movement.swim-speed","environment.breathe-underwater","appearance.change","action.magic-replace-option","concentration.source-duration"],"slot_levels":[2,3,4,5,6,7,8,9],"source_details":{"casting_seconds":0,"casting_triggers":[],"end_timing":"duration-or-concentration-ended","alter":{"choose_count":1,"replace_action":"magic","aquatic":{"choice":"aquatic-adaptation","appearance":"gills-and-webbed-fingers","breathe_underwater":true,"swim_speed":"equal-to-speed"},"appearance":{"choice":"change-appearance","controls":["height","weight","facial-features","voice-sound","hair-length","coloration","other-distinguishing-characteristics"],"appear_as_other_species":true,"statistics_change":false,"different_size":false,"basic_shape_changes":false,"shape_example":"bipedal-cannot-become-quadrupedal","repeat_action":"magic"},"weapons":{"choice":"natural-weapons","growths":[{"growth":"claws","damage_type":"slashing"},{"growth":"fangs","damage_type":"piercing"},{"growth":"horns","damage_type":"piercing"},{"growth":"hooves","damage_type":"bludgeoning"}],"trigger":"unarmed-strike-damage-with-growth","dice_count":1,"die_sides":6,"replaces_normal_damage":true,"attack_damage_ability":"spellcasting-ability-modifier","instead_of":"strength"}}}}`,
+		`{"id":"srd-5.2.1:content/spells/animal-friendship","name":"Animal Friendship","source_id":"srd-5.2.1:content/spells/animal-friendship","source_page":107,"scope":"complete-source-record","level":1,"school":"enchantment","lists":["bard","druid","ranger"],"casting_time":"action","range":{"kind":"feet","feet":30},"target":{"shape":"single","count":1,"eligibility":"visible-beast-in-range"},"components":{"verbal":true,"somatic":true,"material":{"description":"a morsel of food","cost_cp":0,"consumed":false}},"ritual":false,"concentration":false,"duration":"timed","duration_seconds":86400,"scaling":{"kind":"slot-targets","above_level":1,"dice_count":0,"die_sides":0,"effect_ids":["charm"]},"effects":[{"id":"charm","mechanic":"condition.charmed","timing":"failed-save-for-duration","dice_count":0,"die_sides":0,"damage_type":"","bonus":0,"add_casting_modifier":false,"half_initial_only":false}],"required_mechanics":["condition.charmed","save.wisdom-negates","target.visible-beast","effect.ends-on-caster-or-ally-damage","components.material","scaling.targets-per-slot"],"slot_levels":[1,2,3,4,5,6,7,8,9],"source_details":{"casting_seconds":0,"casting_triggers":[],"end_timing":"duration-ended-or-caster-or-ally-damages-target","friendship":{"source_pages":[107,108],"base_targets":1,"additional_targets_per_slot":1,"target_type":"beast","save":"wisdom","save_success":"no-effect","condition":"charmed","end_triggers":["caster-deals-damage-to-target","caster-ally-deals-damage-to-target"]}}}`,
+		`{"id":"srd-5.2.1:content/spells/animal-messenger","name":"Animal Messenger","source_id":"srd-5.2.1:content/spells/animal-messenger","source_page":108,"scope":"complete-source-record","level":2,"school":"enchantment","lists":["bard","druid","ranger"],"casting_time":"action","range":{"kind":"feet","feet":30},"target":{"shape":"single","count":1,"eligibility":"visible-tiny-beast-in-range"},"components":{"verbal":true,"somatic":true,"material":{"description":"a morsel of food","cost_cp":0,"consumed":false}},"ritual":true,"concentration":false,"duration":"timed","duration_seconds":86400,"scaling":{"kind":"slot-duration","above_level":2,"dice_count":0,"die_sides":0,"effect_ids":["message"]},"effects":[{"id":"message","mechanic":"delivery.animal-messenger","timing":"failed-save-travels-for-duration","dice_count":0,"die_sides":0,"damage_type":"","bonus":0,"add_casting_modifier":false,"half_initial_only":false}],"required_mechanics":["delivery.animal-messenger","save.charisma-negates","save.automatic-success-nonzero-challenge-rating","target.visible-tiny-beast","travel.overland-rate","cast.ritual","components.material","scaling.duration-per-slot"],"slot_levels":[2,3,4,5,6,7,8,9],"source_details":{"casting_seconds":0,"casting_triggers":[],"end_timing":"duration-ended","messenger":{"target_size":"tiny","target_type":"beast","save":"charisma","save_success":"no-effect","automatic_success":"challenge-rating-not-0","destination":"location-caster-has-visited","recipient":"matches-general-description","recipient_examples":["person-dressed-in-town-guard-uniform","red-haired-dwarf-wearing-pointed-hat"],"max_words":25,"travel_precision":"about","miles_per_24_hours":25,"flying_miles_per_24_hours":50,"delivery":"to-described-creature-mimicking-caster-communication","failure":"message-lost-and-beast-returns-to-casting-location","ritual_alternative":true,"additional_duration_seconds_per_slot":172800}}}`,
+		`{"id":"srd-5.2.1:content/spells/animal-shapes","name":"Animal Shapes","source_id":"srd-5.2.1:content/spells/animal-shapes","source_page":108,"scope":"complete-source-record","level":8,"school":"transmutation","lists":["druid"],"casting_time":"action","range":{"kind":"feet","feet":30},"target":{"shape":"selected-creatures","count":0,"eligibility":"visible-willing-creatures-in-range"},"components":{"verbal":true,"somatic":true,"material":null},"ritual":false,"concentration":false,"duration":"timed","duration_seconds":86400,"scaling":{"kind":"none","above_level":0,"dice_count":0,"die_sides":0,"effect_ids":[]},"effects":[{"id":"transform","mechanic":"form.animal-shapes","timing":"on-cast-and-magic-action-on-later-turns","dice_count":0,"die_sides":0,"damage_type":"","bonus":0,"add_casting_modifier":false,"half_initial_only":false},{"id":"temporary-hp","mechanic":"hit-points.temporary-first-form","timing":"first-form-shape-shift","dice_count":0,"die_sides":0,"damage_type":"","bonus":0,"add_casting_modifier":false,"half_initial_only":false}],"required_mechanics":["form.animal-shapes","hit-points.temporary-first-form","target.visible-willing-creatures","form.beast-statistics-replacement","action.magic-retransform","action.bonus-end-transformation","equipment.melds-into-form"],"slot_levels":[8,9],"source_details":{"casting_seconds":0,"casting_triggers":[],"end_timing":"duration-ended-or-target-bonus-action","shapes":{"target_choice":"any-number-of-visible-willing-creatures-in-range","form_max_size":"large","form_type":"beast","form_max_cr":4,"different_form_per_target":true,"retransform_action":"magic","retransform_timing":"later-turns","replace_statistics":"chosen-beast-statistics","retained":["creature-type","hit-points","hit-point-dice","alignment","ability-to-communicate","intelligence-score","wisdom-score","charisma-score"],"actions_limited_by":"beast-form-anatomy","can_cast_spells":false,"equipment":"melds-into-form-and-unusable","temporary_hp":"hit-points-of-first-form","temporary_hp_ends_with_spell":true,"target_end_action":"bonus-action"}}}`,
+		`{"id":"srd-5.2.1:content/spells/animate-dead","name":"Animate Dead","source_id":"srd-5.2.1:content/spells/animate-dead","source_page":108,"scope":"complete-source-record","level":3,"school":"necromancy","lists":["cleric","wizard"],"casting_time":"1-minute","range":{"kind":"feet","feet":10},"target":{"shape":"choice","count":1,"eligibility":"bones-or-corpse-of-medium-or-small-humanoid-in-range"},"components":{"verbal":true,"somatic":true,"material":{"description":"a drop of blood, a piece of flesh, and a pinch of bone dust","cost_cp":0,"consumed":false}},"ritual":false,"concentration":false,"duration":"instantaneous","duration_seconds":0,"scaling":{"kind":"slot-creatures","above_level":3,"dice_count":0,"die_sides":0,"effect_ids":["animate","reassert"]},"effects":[{"id":"animate","mechanic":"summon.animate-dead","timing":"on-cast","dice_count":0,"die_sides":0,"damage_type":"","bonus":0,"add_casting_modifier":false,"half_initial_only":false},{"id":"command","mechanic":"control.animate-dead-command","timing":"bonus-action-each-caster-turn","dice_count":0,"die_sides":0,"damage_type":"","bonus":0,"add_casting_modifier":false,"half_initial_only":false},{"id":"reassert","mechanic":"control.animate-dead-reassert","timing":"recast-before-control-period-ends","dice_count":0,"die_sides":0,"damage_type":"","bonus":0,"add_casting_modifier":false,"half_initial_only":false}],"required_mechanics":["summon.animate-dead","control.animate-dead-command","control.animate-dead-reassert","creature.skeleton-stat-block","creature.zombie-stat-block","control.24-hour-period","cast.one-minute","components.material","scaling.creatures-per-slot"],"slot_levels":[3,4,5,6,7,8,9],"source_details":{"casting_seconds":60,"casting_triggers":[],"end_timing":"instantaneous","dead":{"target_choices":[{"choice":"pile-of-bones","creature":"skeleton"},{"choice":"corpse","creature":"zombie"}],"remains_sizes":["medium","small"],"remains_type":"humanoid","creature_type":"undead","stat_blocks":"monsters","command_action":"bonus-action","command_timing":"each-caster-turn","command_range_feet":60,"command_multiple":"same-command-to-any-controlled-at-same-time","command_choices":["action-and-movement-on-next-turn","general-command"],"general_command_examples":["guard-chamber","guard-corridor"],"no_command":"dodge-and-move-only-to-avoid-harm","order_persistence":"until-task-complete","control_hours":24,"control_end":"stops-obeying-commands","reassert_by":"recast-on-creature-before-control-period-ends","reassert_hours":24,"reassert_count":4,"reassert_replaces_animating":true,"additional_creatures_per_slot":2,"additional_source":"each-from-different-corpse-or-pile-of-bones"}}}`,
+		`{"id":"srd-5.2.1:content/spells/animate-objects","name":"Animate Objects","source_id":"srd-5.2.1:content/spells/animate-objects","source_page":108,"scope":"complete-source-record","level":5,"school":"transmutation","lists":["bard","sorcerer","wizard"],"casting_time":"action","range":{"kind":"feet","feet":120},"target":{"shape":"selected-objects","count":0,"eligibility":"eligible-nonmagical-objects-in-range"},"components":{"verbal":true,"somatic":true,"material":null},"ritual":false,"concentration":true,"duration":"timed","duration_seconds":60,"scaling":{"kind":"slot-dice-by-size","above_level":5,"dice_count":0,"die_sides":0,"effect_ids":["slam"]},"effects":[{"id":"animate","mechanic":"summon.animate-objects","timing":"on-cast","dice_count":0,"die_sides":0,"damage_type":"","bonus":0,"add_casting_modifier":false,"half_initial_only":false},{"id":"command","mechanic":"control.animate-objects-command","timing":"bonus-action-until-spell-ends","dice_count":0,"die_sides":0,"damage_type":"","bonus":0,"add_casting_modifier":false,"half_initial_only":false},{"id":"slam","mechanic":"damage.animated-object-slam","timing":"animated-object-melee-attack-hit","dice_count":0,"die_sides":0,"damage_type":"force","bonus":3,"add_casting_modifier":false,"half_initial_only":false}],"required_mechanics":["summon.animate-objects","control.animate-objects-command","damage.animated-object-slam","creature.animated-object-stat-block","initiative.shared-after-caster","object.revert-at-zero-hit-points","concentration.source-duration","scaling.per-slot-by-size"],"slot_levels":[5,6,7,8,9],"source_details":{"casting_seconds":0,"casting_triggers":[],"end_timing":"duration-or-concentration-ended","objects":{"source_pages":[108,109],"object_requirements":["nonmagical","in-range","not-worn","not-carried","not-fixed-to-surface","not-gargantuan"],"max_objects":"spellcasting-ability-modifier","size_costs":[{"size":"medium-or-smaller","count":1},{"size":"large","count":2},{"size":"huge","count":3}],"appearance":"sprouts-legs","creature_type":"construct","stat_block":"animated-object","control_ends":["spell-ends","reduced-to-0-hit-points"],"ally":"caster-and-caster-allies","initiative":"shares-caster-count-turn-immediately-after-caster","command_action":"bonus-action","command_range_feet":500,"command_multiple":"same-command-to-any-controlled-at-same-time","no_command":"dodge-and-move-only-to-avoid-harm","at_zero_hit_points":"reverts-to-object-form-remaining-damage-carries-over","slot_damage":[{"size":"medium-or-smaller","dice_count":1,"die_sides":4,"bonus":0,"add_spellcasting_modifier":false},{"size":"large","dice_count":1,"die_sides":6,"bonus":0,"add_spellcasting_modifier":false},{"size":"huge","dice_count":1,"die_sides":12,"bonus":0,"add_spellcasting_modifier":false}],"animated_object":{"name":"Animated Object","sizes":"huge-or-smaller","creature_type":"construct","alignment":"unaligned","armor_class":15,"hit_points":[{"size":"medium-or-smaller","count":10},{"size":"large","count":20},{"size":"huge","count":40}],"speed_feet":30,"abilities":[{"ability":"strength","score":16,"modifier":3,"save":3},{"ability":"dexterity","score":10,"modifier":0,"save":0},{"ability":"constitution","score":10,"modifier":0,"save":0},{"ability":"intelligence","score":3,"modifier":-4,"save":-4},{"ability":"wisdom","score":3,"modifier":-4,"save":-4},{"ability":"charisma","score":1,"modifier":-5,"save":-5}],"damage_immunities":["poison","psychic"],"condition_immunities":["charmed","exhaustion","frightened","paralyzed","poisoned"],"blindsight_feet":30,"passive_perception":6,"languages":"understands-languages-caster-knows","challenge_rating":"none","xp":0,"proficiency_bonus":"equals-caster-proficiency-bonus","slam":{"attack_kind":"melee-attack-roll","attack_bonus":"caster-spell-attack-modifier","reach_feet":5,"damage_type":"force","damage":[{"size":"medium-or-smaller","dice_count":1,"die_sides":4,"bonus":3,"add_spellcasting_modifier":false},{"size":"large","dice_count":2,"die_sides":6,"bonus":3,"add_spellcasting_modifier":true},{"size":"huge","dice_count":2,"die_sides":12,"bonus":3,"add_spellcasting_modifier":true}]}}}}}`,
+		`{"id":"srd-5.2.1:content/spells/antilife-shell","name":"Antilife Shell","source_id":"srd-5.2.1:content/spells/antilife-shell","source_page":109,"scope":"complete-source-record","level":5,"school":"abjuration","lists":["druid"],"casting_time":"action","range":{"kind":"self","feet":0},"target":{"shape":"emanation","count":0,"eligibility":"creatures-other-than-constructs-and-undead"},"components":{"verbal":true,"somatic":true,"material":null},"ritual":false,"concentration":true,"duration":"timed","duration_seconds":3600,"scaling":{"kind":"none","above_level":0,"dice_count":0,"die_sides":0,"effect_ids":[]},"effects":[{"id":"barrier","mechanic":"area.antilife-barrier","timing":"for-duration","dice_count":0,"die_sides":0,"damage_type":"","bonus":0,"add_casting_modifier":false,"half_initial_only":false}],"required_mechanics":["area.antilife-barrier","area.emanation-10","movement.prevent-passing-or-reaching","effect.ends-on-forced-passage","concentration.source-duration"],"slot_levels":[5,6,7,8,9],"source_details":{"casting_seconds":0,"casting_triggers":[],"end_timing":"duration-or-concentration-ended-or-forced-passage","antilife":{"emanation_feet":10,"origin":"caster","prevents":["passing-through","reaching-through"],"exempt_types":["construct","undead"],"affected_may":["cast-spells-through-barrier","attack-with-ranged-weapons-through-barrier","attack-with-reach-weapons-through-barrier"],"end_trigger":"caster-moves-forcing-affected-creature-through-barrier"}}}`,
+		`{"id":"srd-5.2.1:content/spells/antimagic-field","name":"Antimagic Field","source_id":"srd-5.2.1:content/spells/antimagic-field","source_page":109,"scope":"complete-source-record","level":8,"school":"abjuration","lists":["cleric","wizard"],"casting_time":"action","range":{"kind":"self","feet":0},"target":{"shape":"emanation","count":0,"eligibility":"everything-in-aura"},"components":{"verbal":true,"somatic":true,"material":{"description":"iron filings","cost_cp":0,"consumed":false}},"ritual":false,"concentration":true,"duration":"timed","duration_seconds":3600,"scaling":{"kind":"none","above_level":0,"dice_count":0,"die_sides":0,"effect_ids":[]},"effects":[{"id":"antimagic","mechanic":"area.antimagic-aura","timing":"for-duration","dice_count":0,"die_sides":0,"damage_type":"","bonus":0,"add_casting_modifier":false,"half_initial_only":false}],"required_mechanics":["area.antimagic-aura","area.emanation-10","magic.prevent-casting-and-magic-actions","magic.item-properties-suppressed","magic.block-areas-of-effect","transport.block-teleport-and-planar-travel","magic.suppress-ongoing-spells","magic.dispel-magic-immunity","components.material","concentration.source-duration"],"slot_levels":[8,9],"source_details":{"casting_seconds":0,"casting_triggers":[],"end_timing":"duration-or-concentration-ended","antimagic":{"emanation_feet":10,"origin":"caster","prohibited":["cast-spells","take-magic-actions","create-other-magical-effects"],"outside_effects":"cannot-target-or-affect-anything-inside","magic_items":"magical-properties-do-not-work-inside-or-on-anything-inside","areas_of_effect":"cannot-extend-into-aura","teleportation":"none-into-or-out-of-aura","planar_travel":"unusable-in-aura","portals":"close-temporarily-while-in-aura","ongoing_spells":"suppressed-in-area","suppression_exceptions":["cast-by-artifact","cast-by-deity"],"suppressed_functions":false,"suppressed_time_counts_against_duration":true,"dispel_magic":"no-effect-on-aura","other_antimagic_fields":"auras-do-not-nullify-each-other"}}}`,
+	}
+	batch := loadSpells196(t)
+	if len(batch.Records) != 12 || len(expected) != 12 {
+		t.Fatal("exact twelve families required")
+	}
+	for i, r := range batch.Records {
+		t.Run(spells196Names[i], func(t *testing.T) {
+			var want SpellRecord
+			if err := json.Unmarshal([]byte(expected[i]), &want); err != nil {
+				t.Fatal(err)
+			}
+			if r.Name != spells196Names[i] || !reflect.DeepEqual(r, want) {
+				t.Fatalf("PDF p.%d source values differ", want.SourcePage)
+			}
+			if r.MechanicsAvailable() {
+				t.Fatal("source effect available")
+			}
+			// Cantrips use no spell slot; every other spell lists its level to 9.
+			slots := []int{}
+			for level := r.Level; level <= 9 && r.Level > 0; level++ {
+				slots = append(slots, level)
+			}
+			if !slices.Equal(r.SlotLevels, slots) || r.SlotLevels == nil {
+				t.Fatal("source slot metadata incomplete")
+			}
+		})
+	}
+}
+
+// The decision inventory owns the batch's exact family list, IDs and pages.
+func TestSpells196InventoryCompleteness(t *testing.T) {
+	b, err := os.ReadFile("../../../docs/investigations/issue-80-spell-item-inventory.json")
+	if err != nil {
+		t.Fatal(err)
+	}
+	var inventory struct {
+		Records []struct {
+			Family         string `json:"family"`
+			Name           string `json:"name"`
+			SourcePage     int    `json:"source_page"`
+			BatchKey       string `json:"batch_key"`
+			ID             string `json:"id"`
+			CatalogueIssue int    `json:"catalogue_issue"`
+		} `json:"records"`
+	}
+	if err := json.Unmarshal(b, &inventory); err != nil {
+		t.Fatal(err)
+	}
+	type identity struct {
+		id, name string
+		page     int
+	}
+	var want, got []identity
+	for _, r := range inventory.Records {
+		if r.CatalogueIssue == 196 {
+			if r.Family != "spells" || r.BatchKey != "data-spells-01" {
+				t.Fatalf("unexpected inventory family for %s", r.ID)
+			}
+			want = append(want, identity{r.ID, r.Name, r.SourcePage})
+		}
+	}
+	batch := loadSpells196(t)
+	pages := []int{107, 107, 107, 107, 107, 107, 108, 108, 108, 108, 109, 109}
+	for i, r := range batch.Records {
+		got = append(got, identity{r.ID, r.Name, r.SourcePage})
+		if r.Name != spells196Names[i] || r.SourcePage != pages[i] {
+			t.Fatalf("issue family %d is %s on p.%d", i, r.Name, r.SourcePage)
+		}
+		if r.Scope != "complete-source-record" || r.SourceID != r.ID {
+			t.Fatalf("%s lost its source identity", r.ID)
+		}
+	}
+	if len(want) != 12 || !slices.Equal(got, want) {
+		t.Fatalf("batch differs from inventory: %v", got)
+	}
+	if batch.Source.SHA256 != "8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87" || batch.Source.License != "CC-BY-4.0" || batch.Source.Attribution == "" || batch.Source.Changes == "" {
+		t.Fatal("pin, license, attribution or adaptation notice lost")
+	}
+	// Continuation text and source-listed variants stay data in this batch.
+	friendship, objects := batch.Records[5].SourceDetails.Friendship, batch.Records[9].SourceDetails.Objects
+	if !slices.Equal(friendship.SourcePages, []int{107, 108}) || !slices.Equal(objects.SourcePages, []int{108, 109}) {
+		t.Fatal("continuation pages lost")
+	}
+	variants := map[string]int{
+		"alarm wards":          len(batch.Records[3].SourceDetails.Alarm.WardChoices),
+		"alarm modes":          len(batch.Records[3].SourceDetails.Alarm.Modes),
+		"natural weapons":      len(batch.Records[4].SourceDetails.Alter.Weapons.Growths),
+		"animate dead remains": len(batch.Records[8].SourceDetails.Dead.TargetChoices),
+		"object sizes":         len(objects.SizeCosts),
+		"slam sizes":           len(objects.AnimatedObject.Slam.Damage),
+		"stat abilities":       len(objects.AnimatedObject.Abilities),
+		"cantrip upgrades":     len(batch.Records[1].SourceDetails.Splash.Upgrades),
+	}
+	for name, count := range map[string]int{"alarm wards": 3, "alarm modes": 2, "natural weapons": 4, "animate dead remains": 2, "object sizes": 3, "slam sizes": 3, "stat abilities": 6, "cantrip upgrades": 3} {
+		if variants[name] != count {
+			t.Fatalf("%s: %d source variants, want %d", name, variants[name], count)
+		}
+	}
+}
+
+func TestSpells196CompositionBoundaries(t *testing.T) {
+	legacy := loadSpellRecords(t)
+	batch := loadSpells196(t)
+	// The #194 fixture already holds the complete Acid Arrow record. This batch
+	// restates it unchanged, so the two can never be composed together.
+	if !reflect.DeepEqual(legacy.Records[0], batch.Records[0]) {
+		t.Fatal("Acid Arrow differs from the #194 source record")
+	}
+	if _, err := ComposeSpellSourceCatalogue(legacy, batch); err == nil {
+		t.Fatal("duplicate Acid Arrow accepted")
+	}
+	bounded := legacy
+	bounded.Records = legacy.Records[1:]
+	all, err := ComposeSpellSourceCatalogue(bounded, batch, loadSpells218(t), loadSpells198(t))
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(all.Records) != 36 {
+		t.Fatalf("expected three twelve-family batches, got %d", len(all.Records))
+	}
+	seen := map[string]bool{}
+	for _, r := range all.Records {
+		if r.Scope != "complete-source-record" || r.MechanicsAvailable() || seen[r.ID] {
+			t.Fatal("source granted availability or repeated")
+		}
+		seen[r.ID] = true
+	}
+	if _, err := ComposeSpellSourceCatalogue(batch, batch); err == nil {
+		t.Fatal("duplicate canonical IDs accepted")
+	}
+	for _, r := range bounded.Records {
+		if !r.MechanicsAvailable() {
+			t.Fatal("bounded availability changed")
+		}
+		r.SourceDetails = batch.Records[2].SourceDetails
+		if r.MechanicsAvailable() {
+			t.Fatal("bounded fixture accepted source extension")
+		}
+	}
+	for _, r := range batch.Records {
+		r.RequiredMechanics = append(r.RequiredMechanics, "cast.cleric-self-slot-1", "unknown.future")
+		if r.MechanicsAvailable() {
+			t.Fatal("unsupported source available")
+		}
+	}
+}
+
+// Mutate each field, recursively, rather than only the top-level payload.
+// The valid input covers explicit false, zero and signed stat block values.
+func TestSpells196MalformedFields(t *testing.T) {
+	original, err := os.ReadFile("testdata/spells_196.json")
+	if err != nil {
+		t.Fatal(err)
+	}
+	var root map[string]any
+	if err := json.Unmarshal(original, &root); err != nil {
+		t.Fatal(err)
+	}
+	for index, record := range root["records"].([]any) {
+		r := record.(map[string]any)
+		var walk func(map[string]any, string)
+		reject := func(label string) {
+			t.Helper()
+			b, err := json.Marshal(root)
+			if err != nil {
+				t.Fatal(err)
+			}
+			if _, err := DecodeSpellRecords(bytes.NewReader(b)); err == nil {
+				t.Fatalf("record %d accepted %s", index, label)
+			}
+		}
+		walk = func(fields map[string]any, path string) {
+			for key, value := range fields {
+				fieldPath := path + "/" + key
+				delete(fields, key)
+				reject("omitted " + fieldPath)
+				fields[key] = nil
+				reject("null " + fieldPath)
+				fields[key] = value
+				switch v := value.(type) {
+				case float64:
+					fields[key] = -1
+					reject("negative " + fieldPath)
+					fields[key] = value
+				case string:
+					for _, bad := range []string{"", "   "} {
+						fields[key] = bad
+						reject("blank " + fieldPath)
+					}
+					fields[key] = value
+				case map[string]any:
+					walk(v, fieldPath)
+				case []any:
+					if len(v) == 0 {
+						continue
+					}
+					for _, bad := range []any{[]any{}, []any{nil}, []any{""}, []any{"   "}, []any{v[0], nil}, []any{v[0], map[string]any{"mixed": true}}} {
+						fields[key] = bad
+						reject("malformed list " + fieldPath)
+					}
+					fields[key] = value
+					for j, item := range v {
+						if nested, ok := item.(map[string]any); ok {
+							walk(nested, fmt.Sprintf("%s/%d", fieldPath, j))
+						}
+					}
+				}
+			}
+		}
+		keys := []string{"effects", "required_mechanics", "slot_levels", "lists"}
+		// Acid Arrow needs only the common fields and has no typed payload.
+		if details, ok := r["source_details"].(map[string]any); ok {
+			keys = append(keys, "source_details")
+			for key, payload := range details {
+				if obj, ok := payload.(map[string]any); ok {
+					walk(obj, key)
+				}
+			}
+		} else if index != 0 {
+			t.Fatalf("record %d has no typed payload", index)
+		}
+		for _, key := range keys {
+			value := r[key]
+			delete(r, key)
+			reject("omitted " + key)
+			r[key] = nil
+			reject("null " + key)
+			r[key] = value
+		}
+	}
+}
+
+func TestSpells196JSONGuards(t *testing.T) {
+	original, err := os.ReadFile("testdata/spells_196.json")
+	if err != nil {
+		t.Fatal(err)
+	}
+	for _, pair := range [][2]string{
+		{`"radius_feet": 5`, `"radius_feet": 5, "radius_feet": 10`},
+		{`"radius_feet": 5`, `"radius_feet": 5, "RADIUS_FEET": 10`},
+		{`"radius_feet": 5`, `"radius_feet": 5, "unknown": true`},
+		{`"exempt_types": [
+            "construct",
+            "undead"
+          ]`, `"exempt_types": [ ]`},
+		{`"source_id": "srd-5.2.1:content/spells/acid-splash"`, `"source_id": "srd-5.2.1:content/spells/unknown"`},
+		{`"effect_ids": [
+          "hit-points"
+        ]`, `"effect_ids": ["unknown"]`},
+		{`"modifier": -5`, `"modifier": null`},
+		{`"modifier": -5`, `"modifier": "-5"`},
+		{`"save": -5`, `"unknown": -5`},
+		{`"slot_levels": []`, `"slot_levels": null`},
+		{`"slot_levels": []`, `"slot_levels": [0]`},
+		{`"slot_levels": []`, `"slot_levels": [1]`},
+		{`"casting_time": "1-minute"`, `"casting_time": "action"`},
+		{`"casting_seconds": 60`, `"casting_seconds": 0`},
+		{`"casting_seconds": 60`, `"casting_seconds": 600`},
+	} {
+		t.Run(pair[1], func(t *testing.T) {
+			b := bytes.Replace(original, []byte(pair[0]), []byte(pair[1]), 1)
+			if bytes.Equal(b, original) {
+				t.Fatal("fixture mutation did not match")
+			}
+			if _, err := DecodeSpellRecords(bytes.NewReader(b)); err == nil {
+				t.Fatal("invalid JSON/source graph accepted")
+			}
+		})
+	}
+}
+
+func TestSpells196InvalidTypedVariants(t *testing.T) {
+	for _, tc := range []struct {
+		name   string
+		index  int
+		change func(*SpellRecord)
+	}{
+		{"arrow given a payload", 0, func(s *SpellRecord) {
+			s.SourceDetails = &SpellSourceDetails{CastingTriggers: []string{}, EndTiming: "instantaneous", Aid: &SpellAid{3, "x", 5, 5, 5}}
+		}},
+		{"cantrip upgrade tier", 1, func(s *SpellRecord) { s.SourceDetails.Splash.Upgrades[0].CharacterLevel = 4 }},
+		{"cantrip with slots", 1, func(s *SpellRecord) { s.SlotLevels = []int{1} }},
+		{"cantrip slot scaling", 1, func(s *SpellRecord) { s.Scaling.Kind = "slot" }},
+		{"levelled spell without slots", 2, func(s *SpellRecord) { s.SlotLevels = []int{} }},
+		{"levelled cantrip upgrade", 2, func(s *SpellRecord) { s.Scaling.Kind = "cantrip-upgrade" }},
+		{"aid unscaled", 2, func(s *SpellRecord) { s.Scaling = SpellScaling{Kind: "none"} }},
+		{"aid unequal increase", 2, func(s *SpellRecord) { s.SourceDetails.Aid.CurrentHitPointIncrease = 4 }},
+		{"aid scaling dependency", 2, func(s *SpellRecord) { s.RequiredMechanics = s.RequiredMechanics[:3] }},
+		{"alarm mode variant", 3, func(s *SpellRecord) { s.SourceDetails.Alarm.Modes[0].Choice = "unknown" }},
+		{"alarm ward variant", 3, func(s *SpellRecord) { s.SourceDetails.Alarm.WardChoices = []string{"door", "window"} }},
+		{"alarm ritual flag", 3, func(s *SpellRecord) { no := false; s.Ritual = &no }},
+		{"alarm casting seconds", 3, func(s *SpellRecord) { s.SourceDetails.CastingSeconds = 0 }},
+		{"natural weapon damage type", 4, func(s *SpellRecord) { s.SourceDetails.Alter.Weapons.Growths[0].DamageType = "piercing" }},
+		{"alter option", 4, func(s *SpellRecord) { s.SourceDetails.Alter.Aquatic.Choice = "unknown" }},
+		{"friendship continuation", 5, func(s *SpellRecord) { s.SourceDetails.Friendship.SourcePages = []int{107} }},
+		{"messenger ritual flag", 6, func(s *SpellRecord) { s.SourceDetails.Messenger.RitualAlternative = false }},
+		{"messenger flying rate", 6, func(s *SpellRecord) { s.SourceDetails.Messenger.FlyingMilesPer24Hours = 25 }},
+		{"animal shapes spellcasting", 7, func(s *SpellRecord) { s.SourceDetails.Shapes.CanCastSpells = true }},
+		{"animate dead creature", 8, func(s *SpellRecord) { s.SourceDetails.Dead.TargetChoices[1].Creature = "skeleton" }},
+		{"animate dead casting time", 8, func(s *SpellRecord) { s.CastingTime = "action" }},
+		{"animated object modifier", 9, func(s *SpellRecord) { s.SourceDetails.Objects.AnimatedObject.Abilities[3].Modifier = 4 }},
+		{"animated object save", 9, func(s *SpellRecord) { s.SourceDetails.Objects.AnimatedObject.Abilities[5].Save = 0 }},
+		{"animated object hit points", 9, func(s *SpellRecord) { s.SourceDetails.Objects.AnimatedObject.HitPoints[1].Count = 10 }},
+		{"slam modifier", 9, func(s *SpellRecord) {
+			s.SourceDetails.Objects.AnimatedObject.Slam.Damage[0].AddSpellcastingModifier = true
+		}},
+		{"slot die by size", 9, func(s *SpellRecord) { s.SourceDetails.Objects.SlotDamage[2].DieSides = 10 }},
+		{"object size cost", 9, func(s *SpellRecord) { s.SourceDetails.Objects.SizeCosts[1].Count = 1 }},
+		{"object continuation", 9, func(s *SpellRecord) { s.SourceDetails.Objects.SourcePages = []int{108} }},
+		{"antilife exemption", 10, func(s *SpellRecord) { s.SourceDetails.Antilife.ExemptTypes[0] = "beast" }},
+		{"antilife missing payload", 10, func(s *SpellRecord) { s.SourceDetails = nil }},
+		{"antimagic suppressed function", 11, func(s *SpellRecord) { s.SourceDetails.Antimagic.SuppressedFunctions = true }},
+		{"antimagic exception", 11, func(s *SpellRecord) { s.SourceDetails.Antimagic.SuppressionExceptions = []string{"cast-by-artifact"} }},
+		{"multiple payloads", 1, func(s *SpellRecord) { s.SourceDetails.Aid = &SpellAid{3, "x", 5, 5, 5} }},
+		{"earlier batch payload", 2, func(s *SpellRecord) { s.SourceDetails.Blink = &SpellBlink{} }},
+		{"mismatched payload", 10, func(s *SpellRecord) {
+			s.SourceDetails.Antimagic, s.SourceDetails.Antilife = &SpellAntimagic{}, nil
+		}},
+		{"casting trigger", 4, func(s *SpellRecord) { s.SourceDetails.CastingTriggers = []string{"unknown"} }},
+		{"source link", 1, func(s *SpellRecord) { s.SourceID = "unknown" }},
+		{"effect graph", 1, func(s *SpellRecord) { s.Effects[0].Mechanic = "unknown" }},
+		{"target shape", 11, func(s *SpellRecord) { s.Target.Eligibility = "creatures-in-range" }},
+	} {
+		t.Run(tc.name, func(t *testing.T) {
+			r := loadSpells196(t)
+			tc.change(&r.Records[tc.index])
+			if r.Validate() == nil || r.Records[tc.index].MechanicsAvailable() {
+				t.Fatal("invalid source accepted")
+			}
+		})
+	}
+}
+
+func TestSpells196RequiredNumbersAndFlags(t *testing.T) {
+	original, err := os.ReadFile("testdata/spells_196.json")
+	if err != nil {
+		t.Fatal(err)
+	}
+	var root map[string]any
+	if err := json.Unmarshal(original, &root); err != nil {
+		t.Fatal(err)
+	}
+	for index, item := range root["records"].([]any) {
+		r := item.(map[string]any)
+		objects := []map[string]any{r, r["range"].(map[string]any), r["target"].(map[string]any), r["scaling"].(map[string]any), r["components"].(map[string]any)}
+		for _, effect := range r["effects"].([]any) {
+			objects = append(objects, effect.(map[string]any))
+		}
+		if material, ok := r["components"].(map[string]any)["material"].(map[string]any); ok {
+			objects = append(objects, material)
+		}
+		if details, ok := r["source_details"].(map[string]any); ok {
+			objects = append(objects, details)
+		}
+		for _, obj := range objects {
+			for key, value := range obj {
+				switch value.(type) {
+				case float64, bool:
+				default:
+					continue
+				}
+				for _, omit := range []bool{true, false} {
+					if omit {
+						delete(obj, key)
+					} else {
+						obj[key] = nil
+					}
+					b, err := json.Marshal(root)
+					if err != nil {
+						t.Fatal(err)
+					}
+					if _, err := DecodeSpellRecords(bytes.NewReader(b)); err == nil {
+						t.Fatalf("record %d accepted missing/null %s", index, key)
+					}
+					obj[key] = value
+				}
+			}
+		}
+	}
+}
+
+func TestSpells196WhitespaceEmptyListsAndNestedGuards(t *testing.T) {
+	original, err := os.ReadFile("testdata/spells_196.json")
+	if err != nil {
+		t.Fatal(err)
+	}
+	var root map[string]any
+	if err := json.Unmarshal(original, &root); err != nil {
+		t.Fatal(err)
+	}
+	var walk func(any)
+	walk = func(node any) {
+		switch node := node.(type) {
+		case map[string]any:
+			for key, value := range node {
+				if list, ok := value.([]any); ok && len(list) > 0 {
+					node[key] = "empty-list-marker"
+					b, err := json.Marshal(root)
+					node[key] = value
+					if err != nil {
+						t.Fatal(err)
+					}
+					b = bytes.Replace(b, []byte(`"empty-list-marker"`), []byte(`[ ]`), 1)
+					// Lists that are validly empty (the cantrip's slots, unscaled
+					// effect references, absent triggers) never reach this branch.
+					if _, err := DecodeSpellRecords(bytes.NewReader(b)); err == nil {
+						t.Fatalf("accepted whitespace empty %s", key)
+					}
+				}
+				walk(value)
+			}
+		case []any:
+			for _, item := range node {
+				walk(item)
+			}
+		}
+	}
+	walk(root)
+	for _, replacement := range []string{
+		`"choice": "audible", "choice": "unknown"`,
+		`"choice": "audible", "CHOICE": "unknown"`,
+		`"choice": "audible", "unknown": true`,
+	} {
+		b := bytes.Replace(original, []byte(`"choice": "audible"`), []byte(replacement), 1)
+		if bytes.Equal(b, original) {
+			t.Fatal("fixture mutation did not match")
+		}
+		if _, err := DecodeSpellRecords(bytes.NewReader(b)); err == nil {
+			t.Fatal("nested duplicate/alias/unknown accepted")
+		}
+	}
+}
+
+// Each typed increment must agree with the common scaling fields.
+func TestSpells196RejectContradictoryScaling(t *testing.T) {
+	for _, tc := range []struct {
+		name   string
+		index  int
+		change func(*SpellSourceDetails)
+	}{
+		{"aid zero increment", 2, func(d *SpellSourceDetails) { d.Aid.AdditionalHitPointsPerSlot = 0 }},
+		{"aid mismatched base", 2, func(d *SpellSourceDetails) { d.Aid.BaseTargets = 99 }},
+		{"friendship zero increment", 5, func(d *SpellSourceDetails) { d.Friendship.AdditionalTargetsPerSlot = 0 }},
+		{"friendship mismatched base", 5, func(d *SpellSourceDetails) { d.Friendship.BaseTargets = 99 }},
+		{"messenger zero increment", 6, func(d *SpellSourceDetails) { d.Messenger.AdditionalDurationSecondsPerSlot = 0 }},
+		{"animate dead zero increment", 8, func(d *SpellSourceDetails) { d.Dead.AdditionalCreaturesPerSlot = 0 }},
+		{"animate objects missing size", 9, func(d *SpellSourceDetails) { d.Objects.SlotDamage = d.Objects.SlotDamage[:2] }},
+	} {
+		t.Run(tc.name, func(t *testing.T) {
+			r := loadSpells196(t)
+			tc.change(r.Records[tc.index].SourceDetails)
+			if err := r.Validate(); err == nil {
+				t.Error("contradictory scaling validated")
+			}
+			b, err := json.Marshal(r)
+			if err != nil {
+				t.Fatal(err)
+			}
+			if _, err := DecodeSpellRecords(bytes.NewReader(b)); err == nil {
+				t.Error("contradictory scaling decoded")
+			}
+		})
+	}
+}

@@ -5,7 +5,7 @@ Issue #194 defines `SpellRecords`, decoded by `DecodeSpellRecords(io.Reader)` in
 runtime consumers, action registration, database writes or coverage promotion.
 `testdata/spell_records.json` contains one complete new source record, Acid Arrow,
 and adaptations of the two existing bounded fixtures. Subsequent catalogue
-imports are separately owned by #196 and #202; the #218 batch is described below.
+imports are separately owned; the #218, #198 and #196 batches are described below.
 
 The envelope retains the exact `Source` pin, license, attribution and adaptation
 notice checked by the conformance register. Each record has its own stable
@@ -29,9 +29,9 @@ or casting abilities. See [the source pin](srd-5.2.1-conformance.md) and
 | `slot_levels` | Ordered unique data slot levels; bounded fixtures require exactly `[1]` |
 
 The initial version covers the shapes needed by these three fixtures. The #218
-extensions below add reaction triggers, long casting times and area shapes.
-Cantrip upgrades and other new spell-specific payloads still need explicit
-contract extensions and offline fixtures before import.
+extensions below add reaction triggers, long casting times and area shapes; #196
+adds cantrip upgrades, one-minute casts and Emanations. Other new spell-specific
+payloads still need explicit contract extensions and offline fixtures before import.
 A structurally valid record is not proof of complete source transcription.
 Reviewers must compare the actual source and preserve every required mechanic.
 Unknown JSON fields, invalid shapes, duplicate IDs, missing source links and
@@ -199,3 +199,66 @@ rtk proxy python3 scripts/verify_srd_spells_198.py /tmp/edda-wave1/SRD_CC_v5.2.1
 The source check supplements the full offline literal fixtures; it is not an
 automatic conformance proof. The PDF and extracted text are not vendored. No
 network, inference, UI or database tests are needed for this data-only batch.
+
+## Issue #196: Acid Arrow through Antimagic Field
+
+`testdata/spells_196.json` imports the exact twelve families the issue-80
+inventory assigns to #196, on PDF pp.107–109. Animal Friendship retains its p.108
+continuation and Animate Objects its p.109 continuation, including the Animated
+Object stat block printed with that spell, in explicit `source_pages` lists.
+`spells_196_test.go` supplies literal source-value fixtures for every header,
+choice, variant, effect, dependency and scaling value, and checks the batch's IDs,
+names and pages against the inventory.
+
+Acid Arrow is restated unchanged from the #194 fixture and has no typed payload:
+the common fields already hold its whole source entry. The two files therefore
+cannot be composed together; a later composition uses this batch for Acid Arrow
+and `spell_records.json` only for its two bounded compatibility fixtures.
+
+The typed extensions retain Acid Splash's five-foot Sphere, Dexterity save and
+three cantrip upgrade tiers; Aid's three targets and equal maximum/current Hit
+Point increase; Alarm's door/window/area choice, exemptions and both audible and
+mental variants; all three Alter Self options, including the four natural weapons
+and their damage types; Animal Friendship's Wisdom save and damage ending; Animal
+Messenger's Charisma save, Challenge Rating exception, message limit and both
+travel rates; Animal Shapes' form limits, retained statistics and Temporary Hit
+Points; Animate Dead's bones/corpse choice, commands and 24-hour control with
+reassertion of up to four creatures; Animate Objects' eligibility, size costs,
+commands and the full Animated Object stat block with its per-size Hit Points and
+Slam damage; Antilife Shell's exempt creature types and forced-passage ending;
+and each Antimagic Field prohibition, suppression rule and exception.
+
+Schema version 1 gains only shapes present in this batch:
+
+- A cantrip has level 0 and an explicitly empty `slot_levels` list; every other
+  spell still needs a nonempty one. `slot_levels` must be present and non-null.
+  `cantrip-upgrade` scaling carries the per-tier die and references the typed tiers.
+- `casting_time = 1-minute` requires `casting_seconds = 60`, and the reverse.
+  `ritual = true` records the source's "or Ritual" alternative.
+- `slot-bonus` (Aid), `slot-creatures` (Animate Dead) and `slot-dice-by-size`
+  (Animate Objects) use zero common dice and reference a typed increment.
+  `slot-targets` and `slot-duration` now also accept Animal Friendship's target
+  increment and Animal Messenger's 48-hour increment.
+- New target shapes: `emanation`, `selected-objects`, and further eligibility
+  labels for the existing `single`, `choice`, `sphere` and `selected-creatures`.
+- Stat block ability modifiers and saves are the only signed payload values.
+  Validation pins the whole Animated Object ability table, so a changed sign or
+  value fails rather than passing as a valid negative.
+
+Each payload is tied to its own spell ID and its source scaling kind. The
+recursive presence, null, blank, empty-list, duplicate-key, alias and unknown-field
+guards from #198 apply to every new field. Composition of #196, #218 and #198
+yields 36 unique complete source records. Every imported record remains
+unavailable: no resolver, action, entitlement, tool, inventory, coverage or Full
+Rules behavior is added, and the bounded fixtures' availability checks are
+unchanged.
+
+To recheck the PDF pin, inventory identities/pages, all twelve source headers and
+edition-specific source anchors, run:
+
+```sh
+rtk proxy python3 scripts/verify_srd_spells_196.py /path/to/SRD_CC_v5.2.1.pdf
+```
+
+The same limits as #198 apply: the source check supplements the offline literal
+fixtures and is not an automatic conformance proof.

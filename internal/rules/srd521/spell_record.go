@@ -172,7 +172,7 @@ func (s SpellRecord) validate() error {
 			return fmt.Errorf("invalid spell list")
 		}
 	}
-	if !slices.Contains([]string{"action", "bonus-action", "reaction", "10-minutes"}, s.CastingTime) || !slices.Contains([]string{"feet", "touch", "self", "unlimited"}, s.Range.Kind) || s.Range.Feet < 0 || (s.Range.Kind == "feet" && s.Range.Feet == 0) || (s.Range.Kind != "feet" && s.Range.Feet != 0) || !validSpellTarget(s.Target) {
+	if !slices.Contains([]string{"action", "bonus-action", "reaction", "1-minute", "10-minutes"}, s.CastingTime) || !slices.Contains([]string{"feet", "touch", "self", "unlimited"}, s.Range.Kind) || s.Range.Feet < 0 || (s.Range.Kind == "feet" && s.Range.Feet == 0) || (s.Range.Kind != "feet" && s.Range.Feet != 0) || !validSpellTarget(s.Target) {
 		return fmt.Errorf("invalid casting, range or target shape")
 	}
 	if s.Components.Verbal == nil || s.Components.Somatic == nil || s.Ritual == nil || s.Concentration == nil {
@@ -192,7 +192,12 @@ func (s SpellRecord) validate() error {
 	if err := s.validateSourceDetails(); err != nil {
 		return err
 	}
-	if len(s.RequiredMechanics) == 0 || !uniqueNames(s.RequiredMechanics) || len(s.Effects) == 0 || len(s.SlotLevels) == 0 {
+	// A one-minute cast and its typed 60 seconds must always agree.
+	if (s.CastingTime == "1-minute") != (s.SourceDetails != nil && s.SourceDetails.CastingSeconds == 60) {
+		return fmt.Errorf("invalid one-minute casting details")
+	}
+	// Cantrips use no spell slot: their slot list is explicitly empty.
+	if len(s.RequiredMechanics) == 0 || !uniqueNames(s.RequiredMechanics) || len(s.Effects) == 0 || (len(s.SlotLevels) == 0) != (s.Level == 0) {
 		return fmt.Errorf("mechanics, effects and slots required")
 	}
 	last := -1
@@ -210,7 +215,14 @@ func (s SpellRecord) validate() error {
 		effects[e.ID] = true
 	}
 	sc := s.Scaling
+	if s.Level == 0 && sc.Kind != "none" && sc.Kind != "cantrip-upgrade" {
+		return fmt.Errorf("cantrip cannot scale by slot")
+	}
 	switch sc.Kind {
+	case "cantrip-upgrade", "slot-bonus", "slot-creatures", "slot-dice-by-size":
+		if !s.validSpell196Scaling(effects) {
+			return fmt.Errorf("invalid typed batch 196 scaling")
+		}
 	case "none":
 		if sc.AboveLevel != 0 || sc.DiceCount != 0 || sc.DieSides != 0 || len(sc.EffectIDs) != 0 {
 			return fmt.Errorf("unexpected scaling payload")
@@ -226,13 +238,17 @@ func (s SpellRecord) validate() error {
 				base, additional = d.Bless.BaseTargets, d.Bless.AdditionalTargetsPerSlot
 			} else if d.Blindness != nil {
 				base, additional = d.Blindness.BaseTargets, d.Blindness.AdditionalTargetsPerSlot
+			} else if d.Friendship != nil {
+				base, additional = d.Friendship.BaseTargets, d.Friendship.AdditionalTargetsPerSlot
 			}
 			if base != s.Target.Count || additional <= 0 || !slices.Contains(s.RequiredMechanics, "scaling.targets-per-slot") {
 				return fmt.Errorf("target scaling requires consistent base and positive increment")
 			}
 		}
-		if sc.Kind == "slot-duration" && (d.Curse == nil || !slices.Contains(s.RequiredMechanics, "scaling.curse-slot-duration-concentration")) {
-			return fmt.Errorf("duration scaling requires typed slot table")
+		curse := d.Curse != nil && slices.Contains(s.RequiredMechanics, "scaling.curse-slot-duration-concentration")
+		messenger := d.Messenger != nil && d.Messenger.AdditionalDurationSecondsPerSlot > 0 && slices.Contains(s.RequiredMechanics, "scaling.duration-per-slot")
+		if sc.Kind == "slot-duration" && !curse && !messenger {
+			return fmt.Errorf("duration scaling requires typed slot table or increment")
 		}
 		for _, id := range sc.EffectIDs {
 			if !effects[id] {
@@ -353,7 +369,7 @@ func (s *SpellRecord) UnmarshalJSON(data []byte) error {
 		}
 		return nil
 	}
-	if err := require(fields, "level", "source_page", "duration_seconds"); err != nil {
+	if err := require(fields, "level", "source_page", "duration_seconds", "slot_levels"); err != nil {
 		return err
 	}
 	for object, keys := range map[string][]string{"range": {"feet"}, "target": {"count"}, "scaling": {"above_level", "dice_count", "die_sides"}} {
