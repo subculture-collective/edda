@@ -2,7 +2,7 @@
   "schema_version": 1,
   "decision": 358,
   "status": "SOURCE_PASS_NATIVE_PUBLICATION_PENDING",
-  "observed_at": "2026-11-20T07:39:32Z",
+  "observed_at": "2026-11-20T07:48:54Z",
   "observed_issue_count": 1892,
   "source": {
     "sha256": "8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87",
@@ -25,14 +25,33 @@
       "21": [
         "one identifies morality (good, evil, or neutral)"
       ],
+      "22": [
+        "Unaligned Creatures",
+        "they are unaligned",
+        "Lawful Evil (LE)",
+        "Neutral Evil (NE)",
+        "Chaotic Evil (CE)"
+      ],
+      "36": [
+        "Cleric Features",
+        "Sear Undead",
+        "Blessed Strikes"
+      ],
+      "39": [
+        "Spirit Guardians"
+      ],
       "104": [
         "Casting Time"
       ],
       "105": [
-        "On a turn, you can expend only one spell slot to cast"
+        "On a turn, you can expend only one spell slot to cast",
+        "The spellcaster must have a hand free to access them",
+        "a spellcaster can use a Component Pouch"
       ],
       "106": [
-        "the effects of the same spell cast multiple times don’t combine"
+        "the effects of the same spell cast multiple times don’t combine",
+        "spellcaster can substitute a Spellcasting Focus if the caster has a feature that allows that substitution",
+        "Spell save DC = 8 + your spellcasting ability modifier + your Proficiency Bonus"
       ],
       "140": [
         "Heroism",
@@ -70,6 +89,7 @@
         "an obstruction must provide Total Cover"
       ],
       "179": [
+        "If you take damage, you must succeed on a Constitution saving throw to maintain Concentration",
         "If the effect’s creator loses Concentration, the effect ends",
         "The creator can end Concentration at any time (no action required)"
       ],
@@ -83,10 +103,16 @@
       ],
       "188": [
         "If an effect increases or decreases your Speed for a time, any special speed you have increases or decreases by an equal amount",
-        "subtract the distance already moved from the new speed"
+        "subtract the distance already moved from the new speed",
+        "If the result is 0 or less, you can’t use the new speed during the current move"
       ],
       "190": [
         "Temporary Hit Points are granted by certain effects and act as a buffer against losing real Hit Points"
+      ],
+      "316": [
+        "Priest",
+        "spell save DC 13",
+        "1/Day: Spirit Guardians"
       ]
     }
   },
@@ -127,11 +153,9 @@
       "new_tasks": []
     },
     {
-      "scope": "Heroism recipient start-turn Temporary Hit Points and non-stacking",
+      "scope": "Heroism recipient start-turn grant: amount, no invented minimum, no permanent stacking, none after expiry",
       "PDF": [
-        18,
-        140,
-        190
+        140
       ],
       "owners": [
         912
@@ -139,39 +163,55 @@
       "new_tasks": []
     },
     {
-      "scope": "Temporary Hit Points ending at a finished Long Rest",
+      "scope": "Temporary Hit Points pool rules: lost before Hit Points, keep-or-replace choice on each new grant, last until depleted or a finished Long Rest (so they persist after Heroism ends), not healing",
       "PDF": [
-        18
+        18,
+        190
       ],
       "owners": [
         272,
         428
       ],
       "new_tasks": [],
-      "note": "Open splitter #272 names temporary HP recovery boundaries; #428 owns the completed Long Rest. Not reassigned here."
+      "note": "Not stated in #912's body. Assigned by name to open splitter #272 as an explicit residual; #428 owns the completed Long Rest. #912 is not edited and cannot qualify until the #272 pool owner exists. No pool task is published by #358."
     },
     {
-      "scope": "Spirit Guardians record and Cleric production eligibility",
+      "scope": "Spirit Guardians record and list membership",
       "PDF": [
+        39,
         164
       ],
       "owners": [
         220,
-        503,
+        503
+      ],
+      "new_tasks": []
+    },
+    {
+      "scope": "Spirit Guardians Cleric casting modes: slot level, one slot per turn, V/S/M, prayer scroll or Component Pouch or allowed Spellcasting Focus with a free hand, DC 8 + PB + WIS, preparation, slots, level transitions",
+      "PDF": [
+        36,
+        105,
+        106,
+        164
+      ],
+      "owners": [
         556,
         557,
         558,
         597
       ],
-      "new_tasks": []
+      "new_tasks": [],
+      "note": "#556's body does not name the Component Pouch; it is part of its cited PDF104-106 obligation. #556 is not a native prerequisite of the new tasks because #556 <- #503 <- #277 <- terminal would close a cycle."
     },
     {
-      "scope": "Spirit Guardians cast, designation, Emanation membership, three triggers, once-per-turn Wisdom save, damage, upcast, ending",
+      "scope": "Spirit Guardians designation, Emanation membership, three triggers, once-per-turn Wisdom save, alignment-typed damage, upcast, ending",
       "PDF": [
         5,
         16,
         21,
-        104,
+        22,
+        36,
         105,
         106,
         164,
@@ -201,6 +241,19 @@
       ]
     },
     {
+      "scope": "Priest stat block casts Spirit Guardians 1/Day at spell save DC 13 without a slot",
+      "PDF": [
+        316
+      ],
+      "owners": [
+        170,
+        182,
+        183
+      ],
+      "new_tasks": [],
+      "note": "Catalogue #170 holds the record; monster spellcasting fixtures belong to open splitter #182, which feeds #183. Out of #358's stated targets and unavailable; consumes the two new tasks."
+    },
+    {
       "scope": "Concentration ending for both spells",
       "PDF": [
         179
@@ -217,10 +270,8 @@
         187
       ],
       "owners": [],
-      "new_tasks": [
-        "spirit-guardians-saves"
-      ],
-      "note": "Turn owner's explicit choice inside the one new fixture; no universal scheduler and no change to #912."
+      "new_tasks": [],
+      "note": "No ordering owner exists and none is invented. In the saves task a colliding action stays unavailable with an explicit reason. #912 unchanged."
     },
     {
       "scope": "General same-spell potency ordering and every other spell key",
@@ -402,6 +453,136 @@
           337,
           267,
           77
+        ]
+      }
+    },
+    "170": {
+      "number": 170,
+      "title": "Catalogue SRD stat blocks 20: Polar Bear to Red Dragon Wyrmling",
+      "state": "OPEN",
+      "parent": 54,
+      "blocked_by": [
+        143
+      ],
+      "body_sha256": "5ac06699b2e81828bff9f645adf986c7dd608562edba3118cf9735cfd0b64535",
+      "root_paths": {
+        "279": [
+          279,
+          725,
+          183,
+          182,
+          170
+        ],
+        "280": [
+          280,
+          725,
+          183,
+          182,
+          170
+        ],
+        "337": [
+          337,
+          630,
+          183,
+          182,
+          170
+        ]
+      }
+    },
+    "182": {
+      "number": 182,
+      "title": "Split unimplemented monster mechanic keys into exact fixture PRs",
+      "state": "OPEN",
+      "parent": 54,
+      "blocked_by": [
+        151,
+        152,
+        153,
+        154,
+        155,
+        156,
+        157,
+        158,
+        159,
+        160,
+        161,
+        162,
+        163,
+        164,
+        165,
+        166,
+        167,
+        168,
+        169,
+        170,
+        171,
+        172,
+        173,
+        174,
+        175,
+        176,
+        177,
+        178,
+        184
+      ],
+      "body_sha256": "69af93107731b8418a429951ab118d37bab27bb48b82303f949983a717ef8ab0",
+      "root_paths": {
+        "279": [
+          279,
+          725,
+          183,
+          182
+        ],
+        "280": [
+          280,
+          725,
+          183,
+          182
+        ],
+        "337": [
+          337,
+          630,
+          183,
+          182
+        ]
+      }
+    },
+    "183": {
+      "number": 183,
+      "title": "Qualify complete monster and exploration coverage before advertising full support",
+      "state": "OPEN",
+      "parent": 54,
+      "blocked_by": [
+        145,
+        146,
+        149,
+        150,
+        179,
+        180,
+        181,
+        182,
+        185,
+        583,
+        584,
+        589,
+        590
+      ],
+      "body_sha256": "dfcd77e1cce70f649b4e5acd3f5a5291ebca05bf777063de1a4f6e5e4b627a43",
+      "root_paths": {
+        "279": [
+          279,
+          725,
+          183
+        ],
+        "280": [
+          280,
+          725,
+          183
+        ],
+        "337": [
+          337,
+          630,
+          183
         ]
       }
     },
@@ -918,7 +1099,7 @@
       "number": null,
       "title": "Resolve Spirit Guardians cast, exclusions and once-per-turn Emanation saves",
       "type": "Task",
-      "size": "L",
+      "size": "M",
       "parent": 193,
       "blocked_by": [
         220,
@@ -928,7 +1109,7 @@
         "spirit-guardians-speed"
       ],
       "task_file": "docs/investigations/issue-358-spirit-guardians-saves-task.md",
-      "template_body_sha256": "84f79addf2ad6700779c1c5ade8befae7585644d722f968c0ba35596c3ef7714"
+      "template_body_sha256": "b23c441fa0b9b7b834beac8f8a356b464f7ad93038e524adcaa528d862d31149"
     },
     {
       "key": "spirit-guardians-speed",
@@ -942,10 +1123,11 @@
         "spirit-guardians-saves"
       ],
       "blocks": [
-        280
+        280,
+        277
       ],
       "task_file": "docs/investigations/issue-358-spirit-guardians-speed-task.md",
-      "template_body_sha256": "9d641d6542dbc9f1784bfc699ff86a4fc0ea2c46e0b9b7b6dce5d16f057c4134"
+      "template_body_sha256": "853834e9fd98e0ac1e0bbb5fed9e6a67c1df8517a39f0b2da6fcfee669cd3ec9"
     }
   ],
   "planned_native_edges": {
@@ -975,9 +1157,13 @@
       [
         280,
         "spirit-guardians-speed"
+      ],
+      [
+        277,
+        "spirit-guardians-speed"
       ]
     ],
-    "unchanged": "No existing body, parent or edge changes other than the one addition to #280 and two sub-issues of #193."
+    "unchanged": "No existing body, parent or edge changes other than one added blocker on #280, one added blocker on #277 and two sub-issues of #193. No edge is removed."
   },
   "caps": {
     "limit": 100,
@@ -990,6 +1176,11 @@
       "blocked_by": 96,
       "blocking": 3,
       "sub_issues": 0
+    },
+    "277": {
+      "blocked_by": 30,
+      "blocking": 3,
+      "sub_issues": 31
     },
     "193": {
       "blocked_by": 0,
@@ -1026,22 +1217,48 @@
       "193_sub_issues": 32,
       "220_blocking": 4,
       "353_blocking": 77,
+      "277_blocked_by": 31,
       "279_blocked_by": 100
     },
-    "279_note": "#279 holds 100 native blockers, the platform maximum, so no direct edge can be added. No existing aggregate covers a Cleric-only spell: #1477 is fixed to the 245-identity Sorcerer/Warlock/Wizard union and #848-#850/#973/#1096 are finite class rosters. The new terminal's native mandatory path is #280, which #279 itself blocks. #358's own #279 edge is left untouched; replacing it with the new terminal needs explicit owner approval because it removes an existing edge."
+    "279_note": "#279 holds 100 native blockers, the platform maximum, so no direct edge can be added. A #280-only path is insufficient because #279 blocks #280 and not the reverse. No finite aggregate covers this spell: #1477 is fixed to the 245-identity Sorcerer/Warlock/Wizard union and #848-#850/#973/#1096 are finite class rosters. The terminal therefore blocks #277, an existing open direct blocker of #279 that must wire every remaining spell key to the spell gate: #279 -> #277 -> terminal -> saves. #277 cannot close before the terminal qualifies."
+  },
+  "gate_path_279": {
+    "chosen": "terminal blocks #277 (additive; #277 already blocks #279)",
+    "issues_waiting_on_279_without_280": [
+      571,
+      574,
+      577,
+      578,
+      579,
+      582,
+      656
+    ],
+    "alternative_requiring_owner_approval": "Replace #358's own #279 blocker slot with the terminal at publication (count stays 100). It removes an existing edge, so it is not part of this plan; if approved, the #277 edge is not added.",
+    "publication_readback_must_assert": [
+      "#279 reaches the terminal and the saves task",
+      "#280 reaches the terminal and the saves task",
+      "all cap counts re-read immediately before and after publication",
+      "both acyclicity checks rerun"
+    ]
   },
   "recorded_ambiguities": [
     "PDF164-165 list three save triggers and no cast-time trigger; a creature already inside when the spell is cast does not save at the cast.",
-    "PDF187 lets the person whose turn it is order same-moment events; the new task requires that explicit choice and builds no scheduler.",
-    "No page states how a Speed that changes mid-move is accounted; the Speed task applies the PDF188 switching subtraction as a labelled Edda adaptation.",
-    "PDF140 states no removal of Heroism's Temporary Hit Points when the spell ends; PDF18 duration applies. #912 owns the fixture and is unchanged.",
+    "PDF187 lets the person whose turn it is order same-moment events; no ordering owner exists, so in the saves task a colliding action stays unavailable with an explicit reason and no scheduler is built.",
+    "PDF181 lets the creator include the Emanation's origin; the saves task keeps including the caster unavailable as a labelled Edda restriction, not a source prohibition.",
+    "PDF164 sets no limit on designated creatures; limiting the choice to creatures the caster's player already knows is a labelled Edda disclosure adaptation.",
+    "PDF164-165 give no damage type for an unaligned caster (PDF22); that cast stays unavailable. No published issue owns a player character's alignment fact, so the fixture supplies it and a production cast stays unavailable until an owner exists.",
+    "No page states how a Speed that changes mid-move is accounted; the Speed task applies the PDF188 switching subtraction as a labelled Edda adaptation, and a five-foot step needs at least 5 feet remaining.",
+    "PDF18 keep-or-replace choice at each Heroism turn start and persistence of its Temporary Hit Points after the spell ends are not spelled out in #912's body; they belong to the named #272 residual and must be neither auto-replaced nor auto-kept.",
     "Edda stores an exact pairwise distance, not a grid; inside means 15 feet or less without Total Cover from the caster.",
-    "PDF106 potency ordering for overlapping same-spell casts stays with #277; the new task admits one active Spirit Guardians per encounter."
+    "PDF106 potency ordering for overlapping same-spell casts stays with #277; the new task admits one active Spirit Guardians per encounter.",
+    "Entries from forced movement and teleportation stay unavailable until their own owners emit trusted position changes."
   ],
   "runtime_qualified": false,
   "graph_checks": {
     "dependency_dag_with_planned_edges": "PASS",
     "parent_hierarchy": "PASS",
+    "gate_279_reaches_both_tasks": "PASS",
+    "gate_280_reaches_both_tasks": "PASS",
     "issues_checked": 1892
   }
 }
