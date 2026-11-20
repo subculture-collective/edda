@@ -2,7 +2,7 @@
   "schema_version": 1,
   "decision": 272,
   "status": "SOURCE_PASS_NATIVE_PUBLICATION_PENDING",
-  "observed_at": "2026-11-20T07:26:45Z",
+  "observed_at": "2026-11-20T07:50:53Z",
   "source": {
     "sha256": "8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87",
     "attribution": "docs/srd-5.2.1-conformance.md",
@@ -16,17 +16,28 @@
         "A creature dies if its Hit Point maximum reaches 0"
       ],
       "18": [
+        "A Stable creature that isn’t healed regains 1 Hit Point after 1d4 hours",
+        "those points are lost first, and any leftover damage carries over to your Hit Points",
+        "you decide whether to keep the ones you have or to gain the new ones",
+        "receiving Temporary Hit Points doesn’t count as healing",
+        "a creature can be at full Hit Points and receive Temporary Hit Points",
         "Lose Temporary Hit Points First",
         "Temporary Hit Points last until they’re depleted or you finish a Long Rest",
         "Temporary Hit Points can’t be added together",
         "healing can’t restore them",
         "receiving Temporary Hit Points doesn’t restore you to consciousness"
       ],
+      "59": [
+        "Whenever you finish a Short Rest, your Exhaustion level, if any, decreases by 1"
+      ],
       "85": [
         "You can finish a Long Rest in 4 hours"
       ],
       "102": [
         "If the Short Rest is interrupted, the Attunement attempt fails"
+      ],
+      "107": [
+        "This ping awakens you if you’re asleep"
       ],
       "129": [
         "You gain 2d4 + 4 Temporary Hit Points"
@@ -36,7 +47,8 @@
         "The spell creates one more dart for each spell slot level above 1"
       ],
       "181": [
-        "Finishing a Long Rest removes 1 of your Exhaustion levels"
+        "Finishing a Long Rest removes 1 of your Exhaustion levels",
+        "Exhaustion caused by dehydration can’t be removed until the creature drinks the full amount of water required for a day"
       ],
       "183": [
         "A creature can spend Hit Dice during a Short Rest to regain Hit Points"
@@ -73,6 +85,9 @@
         "Some features are recharged by a Short Rest",
         "An interrupted Short Rest confers no benefits"
       ],
+      "189": [
+        "When a creature can breathe again, it removes all levels of Exhaustion it gained from suffocating"
+      ],
       "190": [
         "Temporary Hit Points are granted by certain effects and act as a buffer against losing real Hit Points"
       ],
@@ -97,8 +112,16 @@
         "This wand has 7 charges. While holding it, you can expend no more than 3 charges to cast Magic Missile from it",
         "The wand regains 1d6 + 1 expended charges daily at dawn. If you expend the wand’s last charge, roll 1d20. On a 1, the wand crumbles into ashes and is destroyed"
       ],
+      "253": [
+        "The weapon magically awakens each subject who is sleeping naturally when combat begins"
+      ],
       "257": [
-        "a monster must finish a Long Rest to regain expended uses"
+        "a monster must finish a Long Rest to regain expended uses",
+        "which also recharges when the monster finishes a Short or Long Rest",
+        "Recharge after a Short or Long Rest. This notation means the monster can use the stat block part once and must then finish a Short or Long Rest to use it again"
+      ],
+      "341": [
+        "the target’s Hit Point maximum decreases by an amount equal to the damage taken"
       ]
     },
     "absent_clause_checks": {
@@ -198,23 +221,36 @@
         1148
       ],
       "residual": [
-        "wand-charges"
+        "wand-dawn"
       ]
     },
     {
-      "scope": "Charge expenditure and what a creature knows about charges",
+      "scope": "Charge expenditure",
       "PDF": [
         206,
         251
       ],
       "owners": [
         1132,
-        1140,
-        1613
+        1140
       ],
       "residual": [
-        "wand-charges"
+        "wand-cast"
       ]
+    },
+    {
+      "scope": "What a creature knows about charges: Identify and Attunement are the only stated reveal paths",
+      "PDF": [
+        206
+      ],
+      "owners": [
+        1613
+      ],
+      "retained_planning_owner": [
+        278
+      ],
+      "residual": [],
+      "edda_adaptation": "A holder with neither path learns nothing; kept as a negative disclosure fixture of wand-cast, not a source rule."
     },
     {
       "scope": "Last-charge depletion and destruction",
@@ -224,7 +260,7 @@
       ],
       "owners": [],
       "residual": [
-        "wand-charges"
+        "wand-cast"
       ]
     },
     {
@@ -250,10 +286,49 @@
         428,
         627
       ],
+      "reduction_owners": [
+        1705,
+        1709
+      ],
       "residual": []
     },
     {
-      "scope": "Temporary Hit Points: damage order, no stacking, not healing, duration to Long Rest",
+      "scope": "Hit Point maximum of 0: the creature dies",
+      "PDF": [
+        17
+      ],
+      "owners": [],
+      "residual": [
+        "hit-point-maximum-zero"
+      ]
+    },
+    {
+      "scope": "Temporary Hit Points: per-source amount, non-stacking and source-stated ending",
+      "PDF": [
+        18
+      ],
+      "owners": [
+        573,
+        645,
+        698,
+        724,
+        725,
+        807,
+        912,
+        1000,
+        1318,
+        1497,
+        1638,
+        1639,
+        1640,
+        1641,
+        1642,
+        1969
+      ],
+      "residual": []
+    },
+    {
+      "scope": "Temporary Hit Points: damage order with carry-over, healing cannot restore, keep-or-replace across sources, removal on a completed Long Rest",
       "PDF": [
         18,
         190
@@ -262,31 +337,58 @@
       "residual": [
         "temporary-hit-points"
       ],
-      "source_grant_owners": [
-        645,
-        725,
-        807,
-        1000,
-        1318,
-        1969
-      ]
+      "future_consumer": 358
     },
     {
-      "scope": "Exhaustion reduction on rest and its malnutrition exception",
+      "scope": "Exhaustion: 1 level removed on a completed Long Rest",
       "PDF": [
         181,
         185
       ],
       "owners": [
-        428,
-        623,
-        1001
-      ],
-      "retained_planning_owner": [
-        150,
-        270
+        428
       ],
       "residual": []
+    },
+    {
+      "scope": "Exhaustion: 1 level removed on a completed Short Rest by Tireless, with the malnutrition hold named",
+      "PDF": [
+        59,
+        185
+      ],
+      "owners": [
+        1001
+      ],
+      "residual": []
+    },
+    {
+      "scope": "Exhaustion holds on a Long Rest (dehydration PDF181, malnutrition PDF185) and removal when breathing resumes (PDF189)",
+      "PDF": [
+        181,
+        185,
+        189
+      ],
+      "owners": [],
+      "retained_planning_owner": [
+        150
+      ],
+      "residual": [],
+      "limit": "#428 states no exception and cannot be qualified against hazard-sourced Exhaustion until the food, water and suffocation children of #150 exist; recovery-qualification carries the contrary control. #623 is Greater Restoration (PDF137), not a rest rule."
+    },
+    {
+      "scope": "Waking a natural sleeper: Alarm ping and Weapon of Warning",
+      "PDF": [
+        107,
+        253
+      ],
+      "owners": [
+        1035
+      ],
+      "retained_planning_owner": [
+        278
+      ],
+      "residual": [],
+      "note": "long-rest-sleep accepts the trusted waking fact these owners supply and implements neither."
     }
   ],
   "retained_wider_scope": [
@@ -299,11 +401,27 @@
       "owner": 278
     },
     {
+      "scope": "Weapon of Warning awakens each naturally sleeping subject when combat begins (PDF253)",
+      "owner": 278
+    },
+    {
       "scope": "Elf Trance four-hour Long Rest without sleep (PDF85)",
       "owner": 333
     },
     {
-      "scope": "Malnutrition, dehydration and other named hazards that add or hold Exhaustion (PDF185, 192–201)",
+      "scope": "Exhaustion caused by dehydration can’t be removed until the creature drinks the full amount of water required for a day (PDF181)",
+      "owner": 150
+    },
+    {
+      "scope": "Exhaustion caused by malnutrition can’t be removed until the creature eats the full amount of food required for a day (PDF185)",
+      "owner": 150
+    },
+    {
+      "scope": "When a creature can breathe again, it removes all levels of Exhaustion it gained from suffocating (PDF189)",
+      "owner": 150
+    },
+    {
+      "scope": "Other named hazards that add Exhaustion (PDF192–201)",
       "owner": 150
     },
     {
@@ -311,9 +429,94 @@
       "owner": 270
     },
     {
-      "scope": "Monster Recharge X–Y at turn start (PDF257)",
+      "scope": "Monster Recharge X–Y, including its Short or Long Rest recharge, and Recharge after a Short or Long Rest (PDF257)",
       "owner": 182
     }
+  ],
+  "assigned_content_keys": [
+    {
+      "key": "srd-5.2.1:content/magic-items/wand-of-magic-missiles",
+      "catalogue_issue": 245,
+      "tasks": [
+        "wand-cast",
+        "wand-dawn"
+      ],
+      "note": "#278 reconciliation must reuse these owners and not publish a second one."
+    }
+  ],
+  "out_of_scope_unowned": [
+    {
+      "scope": "Death Saving Throws, Stabilizing a Character (Help action, DC 10 Wisdom (Medicine)), Stable status and the rule that a Stable creature regains 1 Hit Point after 1d4 hours (PDF17–18)",
+      "owner": null,
+      "evidence": "No issue body states them. #958 defers Stable to #487, whose body does not mention it. Legacy internal/combat tracks death saves. The pages are in the source range of world qualification #183 only.",
+      "action": "Owner decision needed; not one of the five named #272 scopes and not assigned here."
+    }
+  ],
+  "healing_witness_limit": "The closed healing fixtures #263 and #266 admit only a conscious ally. knock-out tests its healing ending with an injected committed event; a player-facing path waits on a healing owner that admits an Unconscious target (#615 widens Cure Wounds targets).",
+  "spell_gate_limit": {
+    "gate": 279,
+    "native_blockers": 100,
+    "cap": 100,
+    "contains_272": true,
+    "blocks_280": true,
+    "planned_path_from_279_to_new_task_with_272_closed": null,
+    "existing_paths_kept": {
+      "427": [
+        279,
+        849,
+        926,
+        427
+      ],
+      "428": [
+        279,
+        848,
+        921,
+        428
+      ],
+      "1318": [
+        279,
+        1477,
+        1474,
+        1462,
+        1318
+      ],
+      "1368": [
+        279,
+        1477,
+        1474,
+        1465,
+        1368
+      ],
+      "1705": [
+        279,
+        1477,
+        1757,
+        1745,
+        1705
+      ]
+    },
+    "tasks_gated_by_279_but_not_280": [
+      571,
+      574,
+      577,
+      578,
+      579,
+      582,
+      656
+    ],
+    "repair_owner": 358,
+    "repair_owner_blocks": [
+      279,
+      280
+    ],
+    "repair_obligation": "The Heroism start-of-turn child of #358 must name the Temporary Hit Point task as a hard prerequisite and be wired to #279 and #280.",
+    "not_added": "An edge from the qualification task to an existing open #279 blocker with headroom needs owner approval and is not planned."
+  },
+  "publication_order": [
+    "Create the six implementation tasks (wand-cast before wand-dawn).",
+    "Create recovery-qualification and add its eight blocked-by edges.",
+    "Recheck the #280 blocked-by count, then add recovery-qualification as a blocker of #280.",
+    "Read back 26 blocked-by edges, 7 parent links and 1 gate addition; record that each implementation task reaches #280 only through recovery-qualification."
   ],
   "existing_owners": {
     "61": {
@@ -435,6 +638,45 @@
         ]
       }
     },
+    "183": {
+      "number": 183,
+      "title": "Qualify complete monster and exploration coverage before advertising full support",
+      "state": "OPEN",
+      "parent": 54,
+      "blocked_by": [
+        145,
+        146,
+        149,
+        150,
+        179,
+        180,
+        181,
+        182,
+        185,
+        583,
+        584,
+        589,
+        590
+      ],
+      "body_sha256": "dfcd77e1cce70f649b4e5acd3f5a5291ebca05bf777063de1a4f6e5e4b627a43",
+      "root_paths": {
+        "279": [
+          279,
+          681,
+          183
+        ],
+        "280": [
+          280,
+          681,
+          183
+        ],
+        "337": [
+          337,
+          551,
+          183
+        ]
+      }
+    },
     "195": {
       "number": 195,
       "title": "Validate versioned item families and explicit variant identities",
@@ -444,6 +686,17 @@
         80
       ],
       "body_sha256": "554b45122c2a301ffd11b6b8b717b254f44fa54a21f0e623227613ca14464b5a"
+    },
+    "263": {
+      "number": 263,
+      "title": "Cast level-one Cure Wounds on one willing adjacent ally",
+      "state": "CLOSED",
+      "parent": 191,
+      "blocked_by": [
+        67,
+        194
+      ],
+      "body_sha256": "395e0f454293dd5fa7b71a6bfca2820a1eea2788f3acc53a2c8137961137cfea"
     },
     "266": {
       "number": 266,
@@ -456,6 +709,32 @@
         263
       ],
       "body_sha256": "a46d14f46153a9327540bbe7d21612e2a981c6ac0fa00b4d46b45902ee74a0fe"
+    },
+    "270": {
+      "number": 270,
+      "title": "Split remaining bodily condition effects into fixture PRs",
+      "state": "OPEN",
+      "parent": 193,
+      "blocked_by": [
+        80
+      ],
+      "body_sha256": "a43ab57a7c1bf8cafac3bea579a1688f8915c632378a1f00422d1eaf8da30309",
+      "root_paths": {
+        "279": [
+          279,
+          270
+        ],
+        "280": [
+          280,
+          279,
+          270
+        ],
+        "337": [
+          337,
+          390,
+          270
+        ]
+      }
     },
     "278": {
       "number": 278,
@@ -553,6 +832,30 @@
         ]
       }
     },
+    "358": {
+      "number": 358,
+      "title": "Split Heroism start-turn and Spirit Guardians entry/end timing fixtures",
+      "state": "OPEN",
+      "parent": 193,
+      "blocked_by": [],
+      "body_sha256": "2448589849d443e2eb1cf272fd804e102eca9e21691026a364d8743777180fe8",
+      "root_paths": {
+        "279": [
+          279,
+          358
+        ],
+        "280": [
+          280,
+          358
+        ],
+        "337": [
+          337,
+          551,
+          279,
+          358
+        ]
+      }
+    },
     "427": {
       "number": 427,
       "title": "Complete source-correct Short Rest and publish recharge events",
@@ -644,6 +947,81 @@
         ]
       }
     },
+    "573": {
+      "number": 573,
+      "title": "Confirm improved Potent vitality after Cleric cantrip damage",
+      "state": "OPEN",
+      "parent": 551,
+      "blocked_by": [
+        353,
+        571
+      ],
+      "body_sha256": "8275c5459c903e70cdd98cb363edca8e3c72719234219ca903a661219fc5a496",
+      "root_paths": {
+        "337": [
+          337,
+          551,
+          573
+        ]
+      }
+    },
+    "615": {
+      "number": 615,
+      "title": "Resolve Cure Wounds beyond existing narrow targets",
+      "state": "OPEN",
+      "parent": 191,
+      "blocked_by": [
+        194,
+        202,
+        263
+      ],
+      "body_sha256": "abc8e5eff794c4633b83c5d75ef5c8c8f515b0b6d57af80977deb0e316288274",
+      "root_paths": {
+        "279": [
+          279,
+          615
+        ],
+        "280": [
+          280,
+          615
+        ],
+        "337": [
+          337,
+          551,
+          279,
+          615
+        ]
+      }
+    },
+    "618": {
+      "number": 618,
+      "title": "Resolve Revivify one recent death",
+      "state": "OPEN",
+      "parent": 191,
+      "blocked_by": [
+        194,
+        195,
+        217,
+        273
+      ],
+      "body_sha256": "6fe2f210bf55b90248ceacd9203fee22693f6a5cf2cd4a7fe02f5487efe916ae",
+      "root_paths": {
+        "279": [
+          279,
+          618
+        ],
+        "280": [
+          280,
+          618
+        ],
+        "337": [
+          337,
+          551,
+          279,
+          618
+        ]
+      }
+    },
     "623": {
       "number": 623,
       "title": "End Greater Restoration one Exhaustion level",
@@ -715,6 +1093,73 @@
         ]
       }
     },
+    "698": {
+      "number": 698,
+      "title": "Resolve Polymorph exact source effect",
+      "state": "OPEN",
+      "parent": 191,
+      "blocked_by": [
+        183,
+        194,
+        215,
+        351,
+        353,
+        487,
+        488,
+        504
+      ],
+      "body_sha256": "4bee230b3f16b0c5749f27a36b9b124f2f77dee599cf51dd5b333c5f11682125",
+      "root_paths": {
+        "279": [
+          279,
+          698
+        ],
+        "280": [
+          280,
+          698
+        ],
+        "337": [
+          337,
+          551,
+          279,
+          698
+        ]
+      }
+    },
+    "724": {
+      "number": 724,
+      "title": "Project Polymorph Beast stats anatomy and melded gear",
+      "state": "OPEN",
+      "parent": 191,
+      "blocked_by": [
+        183,
+        194,
+        215,
+        351,
+        353,
+        487,
+        488,
+        504,
+        698
+      ],
+      "body_sha256": "da962f1d19583d7d0f3c98ae72d08047607da945d56b9f45c893215bc546fa4d",
+      "root_paths": {
+        "279": [
+          279,
+          724
+        ],
+        "280": [
+          280,
+          724
+        ],
+        "337": [
+          337,
+          551,
+          279,
+          724
+        ]
+      }
+    },
     "725": {
       "number": 725,
       "title": "Resolve Polymorph temporary HP and exact ending",
@@ -769,6 +1214,66 @@
         ]
       }
     },
+    "906": {
+      "number": 906,
+      "title": "Resolve Detect Magic detect extension",
+      "state": "OPEN",
+      "parent": 848,
+      "blocked_by": [
+        265,
+        273
+      ],
+      "body_sha256": "6341163472e337b9dd5046203244d2e35d5ac15f74b1d1a9948e17dba55037dc",
+      "root_paths": {
+        "279": [
+          279,
+          848,
+          906
+        ],
+        "280": [
+          280,
+          848,
+          906
+        ],
+        "337": [
+          337,
+          970,
+          973,
+          906
+        ]
+      }
+    },
+    "912": {
+      "number": 912,
+      "title": "Resolve Heroism heroism",
+      "state": "OPEN",
+      "parent": 848,
+      "blocked_by": [
+        66,
+        353,
+        488
+      ],
+      "body_sha256": "d4702c1675cad871986496bb43777f7fba4760aba26069026a0c10fe263657f4",
+      "root_paths": {
+        "279": [
+          279,
+          848,
+          912
+        ],
+        "280": [
+          280,
+          848,
+          912
+        ],
+        "337": [
+          337,
+          551,
+          279,
+          848,
+          912
+        ]
+      }
+    },
     "926": {
       "number": 926,
       "title": "Resolve Prayer of Healing prayer rest",
@@ -797,6 +1302,35 @@
           279,
           849,
           926
+        ]
+      }
+    },
+    "958": {
+      "number": 958,
+      "title": "Resolve Spare the Dying spare dying",
+      "state": "OPEN",
+      "parent": 850,
+      "blocked_by": [
+        67,
+        487
+      ],
+      "body_sha256": "dfea7fed4a285f8b5f9c2d2340c681376f9323b0129203c29e1266edec6d1c48",
+      "root_paths": {
+        "279": [
+          279,
+          850,
+          958
+        ],
+        "280": [
+          280,
+          850,
+          958
+        ],
+        "337": [
+          337,
+          970,
+          973,
+          958
         ]
       }
     },
@@ -835,6 +1369,74 @@
           970,
           971,
           1001
+        ]
+      }
+    },
+    "1035": {
+      "number": 1035,
+      "title": "Resolve Alarm effect",
+      "state": "OPEN",
+      "parent": 974,
+      "blocked_by": [
+        978
+      ],
+      "body_sha256": "a3a82120f00a0c57d4e9e8327e600a2c96ad76b8b850049534b0bcc3d6c5d268",
+      "root_paths": {
+        "279": [
+          279,
+          973,
+          974,
+          1035
+        ],
+        "280": [
+          280,
+          973,
+          974,
+          1035
+        ],
+        "337": [
+          337,
+          970,
+          971,
+          984,
+          1035
+        ]
+      }
+    },
+    "1097": {
+      "number": 1097,
+      "title": "Qualify finite Rogue execution contracts",
+      "state": "OPEN",
+      "parent": 329,
+      "blocked_by": [
+        61,
+        64,
+        65,
+        66,
+        67,
+        273,
+        353
+      ],
+      "body_sha256": "04845ffa3b5ae485da0f5044feeb09361fd7b8ac71917848a3474842ffe3d1ae",
+      "root_paths": {
+        "279": [
+          279,
+          1096,
+          1137,
+          1097
+        ],
+        "280": [
+          280,
+          1096,
+          1137,
+          1097
+        ],
+        "337": [
+          337,
+          1093,
+          1094,
+          1103,
+          1097
         ]
       }
     },
@@ -1045,6 +1647,24 @@
         ]
       }
     },
+    "1497": {
+      "number": 1497,
+      "title": "Implement Warlock dark ones blessing",
+      "state": "OPEN",
+      "parent": 1748,
+      "blocked_by": [
+        1733
+      ],
+      "body_sha256": "5258ae800f3e6a3cfd69d94671a7fa8e4f000e22d249700e0de240824bfd1073",
+      "root_paths": {
+        "337": [
+          337,
+          1758,
+          1748,
+          1497
+        ]
+      }
+    },
     "1613": {
       "number": 1613,
       "title": "Resolve Identify object",
@@ -1076,6 +1696,180 @@
           1757,
           1740,
           1613
+        ]
+      }
+    },
+    "1638": {
+      "number": 1638,
+      "title": "Resolve True Polymorph admission-duration",
+      "state": "OPEN",
+      "parent": 1742,
+      "blocked_by": [
+        1735,
+        1737
+      ],
+      "body_sha256": "3f0eaf0247be23d4e3d3dafd5351263eef6b0723a55c8b540ca33e8cd859a3f0",
+      "root_paths": {
+        "279": [
+          279,
+          1477,
+          1757,
+          1742,
+          1638
+        ],
+        "280": [
+          280,
+          1477,
+          1757,
+          1742,
+          1638
+        ],
+        "337": [
+          337,
+          1758,
+          1757,
+          1742,
+          1638
+        ]
+      }
+    },
+    "1639": {
+      "number": 1639,
+      "title": "Resolve True Polymorph creature-form",
+      "state": "OPEN",
+      "parent": 1742,
+      "blocked_by": [
+        1663,
+        1735,
+        1737
+      ],
+      "body_sha256": "56d1ce3f3bddde861370d3892d430f98efd36355e451ac8ffc14e9f680d6e8f6",
+      "root_paths": {
+        "279": [
+          279,
+          1477,
+          1757,
+          1742,
+          1639
+        ],
+        "280": [
+          280,
+          1477,
+          1757,
+          1742,
+          1639
+        ],
+        "337": [
+          337,
+          1758,
+          1757,
+          1742,
+          1639
+        ]
+      }
+    },
+    "1640": {
+      "number": 1640,
+      "title": "Resolve True Polymorph equipment",
+      "state": "OPEN",
+      "parent": 1742,
+      "blocked_by": [
+        1735,
+        1737
+      ],
+      "body_sha256": "9e3ee98e4ee7cdf816ae5a89a17a1b26043d9a63171b5b27a08be31d949acc49",
+      "root_paths": {
+        "279": [
+          279,
+          1477,
+          1757,
+          1742,
+          1640
+        ],
+        "280": [
+          280,
+          1477,
+          1757,
+          1742,
+          1640
+        ],
+        "337": [
+          337,
+          1758,
+          1757,
+          1742,
+          1640
+        ]
+      }
+    },
+    "1641": {
+      "number": 1641,
+      "title": "Resolve True Polymorph object-creature",
+      "state": "OPEN",
+      "parent": 1742,
+      "blocked_by": [
+        1663,
+        1731,
+        1735,
+        1737
+      ],
+      "body_sha256": "79491f9b058cd23af4c2b536af30cfb60dd59ba3a400b2a432a705427106a8e7",
+      "root_paths": {
+        "279": [
+          279,
+          1477,
+          1757,
+          1742,
+          1641
+        ],
+        "280": [
+          280,
+          1477,
+          1757,
+          1742,
+          1641
+        ],
+        "337": [
+          337,
+          1758,
+          1757,
+          1742,
+          1641
+        ]
+      }
+    },
+    "1642": {
+      "number": 1642,
+      "title": "Resolve True Polymorph creature-object",
+      "state": "OPEN",
+      "parent": 1742,
+      "blocked_by": [
+        1731,
+        1735,
+        1737
+      ],
+      "body_sha256": "4e415ba0a6a6270623252723763e7000be45969d22084f07f0e6bd849b92a550",
+      "root_paths": {
+        "279": [
+          279,
+          1477,
+          1757,
+          1742,
+          1642
+        ],
+        "280": [
+          280,
+          1477,
+          1757,
+          1742,
+          1642
+        ],
+        "337": [
+          337,
+          1758,
+          1757,
+          1742,
+          1642
         ]
       }
     },
@@ -1144,6 +1938,75 @@
           1748,
           1534,
           1688
+        ]
+      }
+    },
+    "1705": {
+      "number": 1705,
+      "title": "Resolve Wight life-drain",
+      "state": "OPEN",
+      "parent": 1745,
+      "blocked_by": [
+        1733
+      ],
+      "body_sha256": "d3e305e22f62df1c53168f6fb81ee06cef0843fe9f1a6f51c86a20f937f107f2",
+      "root_paths": {
+        "279": [
+          279,
+          1477,
+          1757,
+          1745,
+          1705
+        ],
+        "280": [
+          280,
+          1477,
+          1757,
+          1745,
+          1705
+        ],
+        "337": [
+          337,
+          1758,
+          1757,
+          1745,
+          1705
+        ]
+      }
+    },
+    "1709": {
+      "number": 1709,
+      "title": "Resolve Mummy rot-curse",
+      "state": "OPEN",
+      "parent": 1746,
+      "blocked_by": [
+        428,
+        625,
+        937,
+        1733
+      ],
+      "body_sha256": "7182586a602a2179ff22efb9df389a6d4fb8ac998865e884c84c64e948fd3903",
+      "root_paths": {
+        "279": [
+          279,
+          1477,
+          1757,
+          1746,
+          1709
+        ],
+        "280": [
+          280,
+          1477,
+          1757,
+          1746,
+          1709
+        ],
+        "337": [
+          337,
+          1758,
+          1757,
+          1746,
+          1709
         ]
       }
     },
@@ -1260,26 +2123,29 @@
       "blocks": [
         "recovery-qualification"
       ],
-      "body_sha256": "37b863be1d6586eae801ffb705fc64314adca07ecef046c4bb99a8f319dd446f",
-      "body": "<!-- edda-272:knock-out-short-rest -->\nDecision #272; roadmap #47. One implementation PR; Task / Size M.\n\nSource: English SRD 5.2.1, PDF 17, 184, 187, 191; SHA-256 `8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87`. CC-BY-4.0 attribution and adaptation: `docs/srd-5.2.1-conformance.md`. The deterministic fixtures below are Edda adaptations.\n\n## Bounded outcome\n\nImplement only the general Knocking Out a Creature rule. When a confirmed melee attack hit would reduce a creature that has at least 1 Hit Point to 0 Hit Points, the attacker may choose, in that same confirmation, to reduce it to 1 Hit Point instead. The creature then has the Unconscious condition and starts a Short Rest. No other attack option, damage type, class feature or monster trait is enabled. Rogue Knock Out #1120 is a different Cunning Strike effect and is not consumed, widened or replaced.\n\nThe choice belongs to the attacker and exists only for a melee attack. Without the choice, the ordinary 0 Hit Point flow applies unchanged. With it, the target is at exactly 1 Hit Point: the remaining damage is discarded, and no Death Saving Throw, instant-death or monster-death evaluation occurs for that hit. Consume the shared Unconscious output #487 for one source-bound instance; do not copy its Incapacitated, Prone, dropped-object, Speed, attack, save or critical-hit consequences. Start the canonical Short Rest #427 at the authoritative clock; do not create a second rest model or a fabricated elapsed hour.\n\nThe condition ends in exactly these source ways. PDF17: when that Short Rest finishes, as part of the completed #427 rest. PDF17/184: early, when the creature regains any Hit Points, or when another creature takes an action to administer first aid and succeeds on a DC 10 Wisdom (Medicine) check through the existing check receipt #61. A failed check spends the action and changes nothing. Ending the instance leaves the creature Prone, as #487 already states. Receiving healing is not one of the three Short Rest interruptions; the rest continues or stops only under #427's own predicates. If the rest is interrupted, it confers no benefits and the rest-end ending is no longer available for that rest: the creature remains Unconscious until it regains Hit Points or receives successful first aid. The source states no timer, no automatic wake and no ending by a later rest; none is invented. Any other ending requires an explicit trusted GM ruling event and is otherwise unavailable.\n\n## Deterministic fixtures\n\n- Target at 5 of 12 Hit Points takes a confirmed 9-damage melee hit with the option chosen: Hit Points 1, one knock-out Unconscious instance, one Short Rest started at T0. At T0 + 1 hour without interruption the rest completes through #427, the instance ends and the creature remains Prone.\n- Healing 1 Hit Point at T0 + 10 minutes ends the instance at once (Hit Points 2); the rest record is not stopped by the healing itself.\n- First aid with Wisdom +2: injected d20 7 totals 9 and fails, spending the action; injected d20 8 totals 10 and ends the instance.\n- Initiative rolled at T0 + 20 minutes stops the rest with no benefits; the creature stays Unconscious, and a later uninterrupted hour does not end the instance by inference.\n- Reject the option for a ranged attack, a saving-throw or area effect, hazard or ongoing damage, a hit that leaves the target above 0, a target already at 0, a non-attacker's request, a choice made after the damage committed, and a client-declared attack kind. Reject an invented nonlethal damage type, Stable status, 1d4-hour recovery, automatic waking, Temporary Hit Points counting as regained Hit Points, a second Short Rest record, removal of a foreign Unconscious instance, or first aid by the unconscious creature itself.\n\n## Durable implementation acceptance\n\nPreview is inert and never rolls, writes or reveals private facts. Confirm revalidates campaign, actor, source version, clock, targets, attack kind, pre-hit Hit Points, the attacker option and expected revisions. Commit the damage replacement, Hit Points, condition instance, rest start, or the check/ending, and public history atomically. Inject a failure after each stage and prove full isolated PostgreSQL rollback. The same action ID and payload after retry, reload or reconnect returns the same receipt with no reroll; a conflicting payload rejects; racing confirmations commit once. A source-triggered ending belongs to its triggering event (rest completion, healing or the first-aid check), with no optional activation. Web and trusted TUI share availability, unavailable reasons and confirm/cancel/reconnect behavior. Changed web requires a focused build, lint and desktop/phone checks. Public history omits private HP, hidden actors, private checks and undisclosed item facts.\n\nHard prerequisites: #61 check receipts, #65 melee attack resolution, #427 canonical Short Rest, #487 shared Unconscious output. Parent: #272. Block the rest/recovery qualification task published with this decision; that task blocks #280 and #337. Do not add a direct #279, #280, #67 or #429 edge and do not alter any existing owner. An existing Temporary Hit Point pool is resolved by its own owner before this predicate; this task adds no pool rule.\n\nValidation for the implementation PR: focused deterministic rules tests; isolated PostgreSQL rollback/concurrency/replay/reload tests; shared web/TUI confirmation and disclosure fixtures; `GOMAXPROCS=2 go test -p 2 -short -race ./...` and `GOMAXPROCS=2 go vet -p 2 ./...`. Short tests alone do not qualify PostgreSQL or devices. Runtime remains unavailable until this task and its callers qualify. No deployment, source inference or Full Rules promotion.\n"
+      "body_sha256": "4b0875bd11c0040532ee0dc04d2cc92529eeb921aec4e13551cdd284872db0ff",
+      "body": "<!-- edda-272:knock-out-short-rest -->\nDecision #272; roadmap #47. One implementation PR; Task / Size M.\n\nSource: English SRD 5.2.1, PDF 17, 184, 187, 191; SHA-256 `8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87`. CC-BY-4.0 attribution and adaptation: `docs/srd-5.2.1-conformance.md`. The deterministic fixtures below are Edda adaptations.\n\n## Bounded outcome\n\nImplement only the general Knocking Out a Creature rule. When a confirmed melee attack hit would reduce a creature that has at least 1 Hit Point to 0 Hit Points, the attacker may choose, in that same confirmation, to reduce it to 1 Hit Point instead. The creature then has the Unconscious condition and starts a Short Rest. No other attack option, damage type, class feature or monster trait is enabled. Rogue Knock Out #1120 is a different Cunning Strike effect and is not consumed, widened or replaced.\n\nThe choice belongs to the attacker and exists only for a melee attack. Without the choice, the ordinary 0 Hit Point flow applies unchanged. With it, the target is at exactly 1 Hit Point: the remaining damage is discarded, and no Death Saving Throw, instant-death or monster-death evaluation occurs for that hit. Consume the shared Unconscious output #487 for one source-bound instance; do not copy its Incapacitated, Prone, dropped-object, Speed, attack, save or critical-hit consequences. Start the canonical Short Rest #427 at the authoritative clock; do not create a second rest model or a fabricated elapsed hour.\n\nThe condition ends in exactly these source ways. PDF17: when that Short Rest finishes, as part of the completed #427 rest. PDF17/184: early, when the creature regains any Hit Points, or when another creature takes an action to administer first aid and succeeds on a DC 10 Wisdom (Medicine) check through the existing check receipt #61. A failed check spends the action and changes nothing. Ending the instance leaves the creature Prone, as #487 already states. Receiving healing is not one of the three Short Rest interruptions; the rest continues or stops only under #427's own predicates. If the rest is interrupted, it confers no benefits and the rest-end ending is no longer available for that rest: the creature remains Unconscious until it regains Hit Points or receives successful first aid. The source states no timer, no automatic wake and no ending by a later rest; none is invented. Any other ending requires an explicit trusted GM ruling event and is otherwise unavailable.\n\n## Deterministic fixtures\n\n- Target at 5 of 12 Hit Points takes a confirmed 9-damage melee hit with the option chosen: Hit Points 1, one knock-out Unconscious instance, one Short Rest started at T0. At T0 + 1 hour without interruption the rest completes through #427, the instance ends and the creature remains Prone.\n- A committed healing event of 1 Hit Point at T0 + 10 minutes ends the instance at once (Hit Points 2); the rest record is not stopped by the healing itself. This task consumes the event and adds no healing source. The closed fixtures #263 and #266 heal only a conscious ally, so the test injects a trusted committed healing event, and a player-facing way to heal the knocked-out creature stays unavailable until a healing owner admits an Unconscious target (Cure Wounds beyond its narrow targets is #615).\n- First aid with Wisdom +2: injected d20 7 totals 9 and fails, spending the action; injected d20 8 totals 10 and ends the instance.\n- Initiative rolled at T0 + 20 minutes stops the rest with no benefits; the creature stays Unconscious, and a later uninterrupted hour does not end the instance by inference.\n- Reject the option for a ranged attack, a saving-throw or area effect, hazard or ongoing damage, a hit that leaves the target above 0, a target already at 0, a non-attacker's request, a choice made after the damage committed, and a client-declared attack kind. Reject an invented nonlethal damage type, Stable status or the 1d4-hour Stable recovery of PDF18 (a 0 Hit Point rule that this creature, at 1 Hit Point, never enters), automatic waking, Temporary Hit Points counting as regained Hit Points, a second Short Rest record, removal of a foreign Unconscious instance, or first aid by the unconscious creature itself.\n\n## Durable implementation acceptance\n\nPreview is inert and never rolls, writes or reveals private facts. Confirm revalidates campaign, actor, source version, clock, targets, attack kind, pre-hit Hit Points, the attacker option and expected revisions. Commit the damage replacement, Hit Points, condition instance, rest start, or the check/ending, and public history atomically. Inject a failure after each stage and prove full isolated PostgreSQL rollback. The same action ID and payload after retry, reload or reconnect returns the same receipt with no reroll; a conflicting payload rejects; racing confirmations commit once. A source-triggered ending belongs to its triggering event (rest completion, healing or the first-aid check), with no optional activation. Web and trusted TUI share availability, unavailable reasons and confirm/cancel/reconnect behavior. Changed web requires a focused build, lint and desktop/phone checks. Public history omits private HP, hidden actors, private checks and undisclosed item facts.\n\nHard prerequisites: #61 check receipts, #65 melee attack resolution, #427 canonical Short Rest, #487 shared Unconscious output. Parent: #272. Block the rest/recovery qualification task published with this decision; that task blocks #280. Do not add a direct #279, #280, #67 or #429 edge and do not alter any existing owner. An existing Temporary Hit Point pool is resolved by its own owner before this predicate; this task adds no pool rule.\n\nValidation for the implementation PR: focused deterministic rules tests; isolated PostgreSQL rollback/concurrency/replay/reload tests; shared web/TUI confirmation and disclosure fixtures; `GOMAXPROCS=2 go test -p 2 -short -race ./...` and `GOMAXPROCS=2 go vet -p 2 ./...`. Short tests alone do not qualify PostgreSQL or devices. Runtime remains unavailable until this task and its callers qualify. No deployment, source inference or Full Rules promotion.\n"
     },
     {
       "key": "temporary-hit-points",
       "task_file": "docs/investigations/issue-272-temporary-hit-points-task.md",
       "number": null,
-      "title": "Resolve the shared Temporary Hit Point pool and its Long Rest ending",
+      "title": "Resolve the shared Temporary Hit Point clauses and their Long Rest ending",
       "type": "Task",
       "size": "M",
       "parent": 272,
       "blocked_by": [
+        65,
+        266,
         428,
+        487,
         1318
       ],
       "blocks": [
         "recovery-qualification"
       ],
-      "body_sha256": "71fb75b5566a136eb2f71710187d2d771b49359496b5231073396716e89baa22",
-      "body": "<!-- edda-272:temporary-hit-point-pool -->\nDecision #272; roadmap #47. One implementation PR; Task / Size M.\n\nSource: English SRD 5.2.1, PDF 17–18, 129, 185, 190; SHA-256 `8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87`. CC-BY-4.0 attribution and adaptation: `docs/srd-5.2.1-conformance.md`. The deterministic fixtures below are Edda adaptations.\n\n## Bounded outcome\n\nImplement the shared Temporary Hit Point pool boundaries of PDF18 once, with one actual grant as the witness: False Life through its existing resolver #1318. Do not copy that spell's dice, slot scaling or components. This task owns only the cross-source pool rules below and the Long Rest ending; every grant keeps its own amount, trigger, eligibility and any earlier ending its source states (for example the Polymorph, Shapechange, Wild Shape and Heroism owners). No new grant source, healing effect or class feature is enabled.\n\nTemporary Hit Points are a buffer separate from Hit Points. Damage removes them first and only the leftover reduces Hit Points. They cannot be added together: a creature that already has some and receives more decides whether to keep the old amount or take the new one, and that decision is an explicit recorded choice, never a sum and never a silent default. They are not Hit Points and not healing: healing cannot restore them, receiving them triggers nothing that depends on healing or on regaining Hit Points, and a creature at full Hit Points can receive them. The Hit Point maximum does not cap the pool, and healing stays capped at the maximum (PDF17) regardless of the pool. A creature at 0 Hit Points that receives them stays at 0 with its existing Unconscious or dying state.\n\nThey last until depleted or until the creature finishes a Long Rest. Consume the canonical completed Long Rest #428: its completion removes any remaining pool in the same atomic receipt. An interrupted Long Rest, including one that grants Short Rest benefits after at least 1 hour, and a completed Short Rest do not remove the pool. Temporary Hit Points granted after the completion remain.\n\n## Deterministic fixtures\n\n- False Life with injected 2d4 = 5 gives 9. Taking 7 damage leaves 2 and unchanged Hit Points; taking 5 more leaves 0 and reduces Hit Points by 3. PDF18 example: 5 Temporary Hit Points and 7 damage lose the pool and 2 Hit Points.\n- Holding 10 and receiving 12: the recorded choice yields 12 or 10; reject 22 and reject an unrecorded automatic replacement.\n- At 14 of 20 Hit Points with a pool of 2, healing 8 gives 20 Hit Points and the pool stays 2; healing never refills the pool.\n- A completed Long Rest with a pool of 2 ends with a pool of 0 in the #428 receipt. A Long Rest interrupted in hour 3 yields Short Rest benefits and keeps the pool; a completed Short Rest keeps it.\n- At 0 Hit Points a grant of 9 leaves the creature at 0 and Unconscious, with unchanged Death Saving Throw counters.\n- Reject pool removal at Long Rest start, at dawn or on a client clock; a duplicate removal on receipt replay; conversion of the pool into Hit Points; a pool capped at the Hit Point maximum; a healing trigger fired by a grant; removing another creature's pool; and any ending for a source-owned pool other than the one its source states.\n\n## Durable implementation acceptance\n\nPreview is inert and never rolls, writes or reveals private facts. Confirm revalidates campaign, actor, source version, clock, targets, the current pool, the grant source, the recorded keep/replace choice and expected revisions. Commit the pool change, Hit Point change, recorded choice or rest-completion removal, and public history atomically. Inject a failure after each stage and prove full isolated PostgreSQL rollback. The same action ID and payload after retry, reload or reconnect returns the same receipt with no reroll; a conflicting payload rejects; racing confirmations commit once. Depletion and the Long Rest removal belong to their triggering confirmed event (the damage or the #428 completion), with no optional activation. Web and trusted TUI share availability, unavailable reasons and confirm/cancel/reconnect behavior. Changed web requires a focused build, lint and desktop/phone checks. Public history omits private HP, hidden actors, private checks and undisclosed item facts.\n\nHard prerequisites: #428 completed Long Rest output, #1318 actual False Life grant. Parent: #272. Block the rest/recovery qualification task published with this decision; that task blocks #280 and #337. Spell qualification #279 already requires the unchanged #1318 through the accepted finite shared aggregate; do not add a direct #279, #280, #67 or #429 edge and do not alter any existing grant owner.\n\nValidation for the implementation PR: focused deterministic rules tests; isolated PostgreSQL rollback/concurrency/replay/reload tests; shared web/TUI confirmation and disclosure fixtures; `GOMAXPROCS=2 go test -p 2 -short -race ./...` and `GOMAXPROCS=2 go vet -p 2 ./...`. Short tests alone do not qualify PostgreSQL or devices. Runtime remains unavailable until this task and its callers qualify. No deployment, source inference or Full Rules promotion.\n"
+      "body_sha256": "c14e42d13e8fe3618a98562ca4e99289a2ca830e8ed8136fa7e5b0a2f3c2144c",
+      "body": "<!-- edda-272:temporary-hit-point-pool -->\nDecision #272; roadmap #47. One implementation PR; Task / Size M.\n\nSource: English SRD 5.2.1, PDF 17–18, 129, 185, 190; SHA-256 `8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87`. CC-BY-4.0 attribution and adaptation: `docs/srd-5.2.1-conformance.md`. The deterministic fixtures below are Edda adaptations.\n\n## Bounded outcome\n\nImplement the cross-source Temporary Hit Point clauses of PDF18 that no published grant owner states, with one actual grant as the witness: False Life through its existing resolver #1318. Do not copy that spell's dice, slot scaling or components. No new grant source, healing effect or class feature is enabled.\n\nEvery grant owner keeps its own amount, trigger, eligibility, per-source non-stacking and duration fixture unchanged: Potent Spellcasting #573, Wild Shape #645, Polymorph #698, #724 and #725, Patient Defense #807, Heroism #912, Tireless #1000, False Life #1318, Dark One's Blessing #1497, True Polymorph #1638–#1642 and Shapechange #1969. This task is a downstream consolidation: it sits after #1318 because existing edges cannot change, and it replaces none of those fixtures. It newly owns only these clauses:\n\n- Damage removes the pool first and only the leftover carries over to Hit Points.\n- A creature that already has a pool and receives more, from the same or a different source, decides whether to keep the old amount or take the new one. The decision is an explicit recorded choice, never a sum and never a silent default.\n- Healing cannot restore the pool, and receiving Temporary Hit Points does not count as healing. A creature at full Hit Points can receive them. A creature at 0 Hit Points that receives them stays at 0 with its existing Unconscious or dying state.\n- The pool lasts until depleted or until the creature finishes a Long Rest. Consume the canonical completed Long Rest #428: its completion removes any remaining pool, whatever its source, in the same atomic receipt. An interrupted Long Rest, including one that grants Short Rest benefits after at least 1 hour, and a completed Short Rest do not remove it. Temporary Hit Points granted after the completion remain.\n\nTwo consequences are Edda adaptations of \"Temporary Hit Points aren't Hit Points\", not source sentences: the Hit Point maximum does not cap the pool, and a grant fires no trigger that depends on healing or on regaining Hit Points. Healing stays capped at the maximum (PDF17) regardless of the pool.\n\nFuture consumer: the open splitter #358 must name this task as a hard prerequisite of its Heroism start-of-turn child and wire that child to #279 and #280. Until then this task reaches spell qualification #279 only indirectly; see the decision.\n\n## Deterministic fixtures\n\n- False Life with injected 2d4 = 5 gives 9. Taking 7 damage leaves 2 and unchanged Hit Points; taking 5 more leaves 0 and reduces Hit Points by 3. PDF18 example: 5 Temporary Hit Points and 7 damage lose the pool and 2 Hit Points.\n- Holding 10 and receiving 12: the recorded choice yields 12 or 10; reject 22 and reject an unrecorded automatic replacement.\n- At 14 of 20 Hit Points with a pool of 2, the closed potion fixture #266 with injected 2d4 = 6 heals 8 on a conscious ally: 20 Hit Points and the pool stays 2; healing never refills the pool.\n- A completed Long Rest with a pool of 2 ends with a pool of 0 in the #428 receipt. A Long Rest interrupted in hour 3 yields Short Rest benefits and keeps the pool; a completed Short Rest keeps it.\n- At 0 Hit Points a grant of 9 leaves the creature at 0 and Unconscious through #487, with unchanged Death Saving Throw counters.\n- Reject pool removal at Long Rest start, at dawn or on a client clock; a duplicate removal on receipt replay; conversion of the pool into Hit Points; a pool capped at the Hit Point maximum; a healing trigger fired by a grant; removing another creature's pool; and an ending this task invents for a source-owned pool. Depletion and the completed Long Rest always apply; any earlier ending is only the one the grant's own source states.\n\n## Durable implementation acceptance\n\nPreview is inert and never rolls, writes or reveals private facts. Confirm revalidates campaign, actor, source version, clock, targets, the current pool, the grant source, the recorded keep/replace choice and expected revisions. Commit the pool change, Hit Point change, recorded choice or rest-completion removal, and public history atomically. Inject a failure after each stage and prove full isolated PostgreSQL rollback. The same action ID and payload after retry, reload or reconnect returns the same receipt with no reroll; a conflicting payload rejects; racing confirmations commit once. Depletion and the Long Rest removal belong to their triggering confirmed event (the damage or the #428 completion), with no optional activation. Web and trusted TUI share availability, unavailable reasons and confirm/cancel/reconnect behavior. Changed web requires a focused build, lint and desktop/phone checks. Public history omits private HP, hidden actors, private checks and undisclosed item facts.\n\nHard prerequisites: #65 committed attack damage, #266 healing witness, #428 completed Long Rest output, #487 Unconscious at 0 Hit Points, #1318 actual False Life grant. Parent: #272. Block the rest/recovery qualification task published with this decision; that task blocks #280. Spell qualification #279 already requires the unchanged #1318 through the accepted finite shared aggregate; do not add a direct #279, #280, #67 or #429 edge and do not alter any existing grant owner.\n\nValidation for the implementation PR: focused deterministic rules tests; isolated PostgreSQL rollback/concurrency/replay/reload tests; shared web/TUI confirmation and disclosure fixtures; `GOMAXPROCS=2 go test -p 2 -short -race ./...` and `GOMAXPROCS=2 go vet -p 2 ./...`. Short tests alone do not qualify PostgreSQL or devices. Runtime remains unavailable until this task and its callers qualify. No deployment, source inference or Full Rules promotion.\n"
     },
     {
       "key": "long-rest-sleep",
@@ -1296,28 +2162,64 @@
       "blocks": [
         "recovery-qualification"
       ],
-      "body_sha256": "0ad14bb2221cf3d97e011fffc60f2009de52783347715ae5399586e87f579979",
-      "body": "<!-- edda-272:long-rest-sleep-unconscious -->\nDecision #272; roadmap #47. One implementation PR; Task / Size S.\n\nSource: English SRD 5.2.1, PDF 185, 191; SHA-256 `8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87`. CC-BY-4.0 attribution and adaptation: `docs/srd-5.2.1-conformance.md`. The deterministic fixtures below are Edda adaptations.\n\n## Bounded outcome\n\nImplement only this Long Rest clause: during sleep, the resting creature has the Unconscious condition. The canonical Long Rest #428 already owns the 8-hour minimum, at least 6 hours of sleep, at most 2 hours of light activity, eligibility, interruption, resumption and recovery. This task binds each recorded sleep interval of that rest to one source-bound Unconscious instance from the shared output #487. It copies neither contract.\n\nWhile a sleep interval of an active Long Rest is in effect, the creature has one Unconscious instance whose source is that rest. Light-activity intervals, such as standing watch, carry none. The consequences are exactly #487's output, including Incapacitated, Prone, Speed 0, attack and saving-throw effects, critical hits from within 5 feet, being unaware, and the Concentration ending that Incapacitated already causes. Ending the instance leaves the creature Prone.\n\nThe instance ends when the authoritative rest record ends that sleep interval: at the recorded end of sleep, at completion of the rest, or when a confirmed #428 interruption or stop event records that the sleeper woke. The source names no waking trigger. Noise, an attack or damage therefore do not by themselves remove the instance; the attack resolves against an Unconscious creature, and #428 decides whether the rest is interrupted. A waking fact must be explicit and trusted; otherwise it is unavailable. A Short Rest applies no sleep instance. A feature that replaces sleep, such as Elf Trance (PDF85), and magical sleep keep their own owners and instances.\n\n## Deterministic fixtures\n\n- A Long Rest from T0 with sleep recorded T0 to T0 + 6 hours and watch for the final 2 hours: at T0 + 3 hours the creature has exactly one rest-sourced Unconscious instance; at T0 + 7 hours it has none and is Prone until it stands; at T0 + 8 hours #428 completes unchanged.\n- At T0 + 3 hours a melee hit from within 5 feet uses #487's Advantage and critical-hit output; the damage is a #428 interruption. The instance ends only with the recorded waking fact of that confirmed interruption.\n- A sleeper concentrating on a spell loses Concentration through the existing #487/#353 output when the sleep interval begins; no separate rule is added here.\n- Reject an Unconscious instance during a watch interval or a Short Rest; a rest that completes with less recorded sleep than #428 requires; automatic waking from noise, damage or a client message; a Perception penalty or other effect that #487 does not output; removal of a Sleep-spell, knock-out or 0 Hit Point Unconscious instance when the sleeper wakes; a duplicate instance on replay; and treating Trance or another sleep replacement as sleep.\n\n## Durable implementation acceptance\n\nPreview is inert and never rolls, writes or reveals private facts. Confirm revalidates campaign, actor, source version, clock, targets, the rest record, its sleep intervals, the waking fact and expected revisions. Commit the sleep interval, the condition instance or its ending, derived state and public history atomically. Inject a failure after each stage and prove full isolated PostgreSQL rollback. The same action ID and payload after retry, reload or reconnect returns the same receipt with no reroll; a conflicting payload rejects; racing confirmations commit once. Applying and ending the instance belong to the triggering confirmed rest event, with no optional activation. Web and trusted TUI share availability, unavailable reasons and confirm/cancel/reconnect behavior. Changed web requires a focused build, lint and desktop/phone checks. Public history omits private HP, hidden actors, private checks and undisclosed item facts.\n\nHard prerequisites: #428 canonical Long Rest, #487 shared Unconscious output. Parent: #272. Block the rest/recovery qualification task published with this decision; that task blocks #280 and #337. Do not add a direct #279, #280, #67 or #429 edge and do not alter any existing owner.\n\nValidation for the implementation PR: focused deterministic rules tests; isolated PostgreSQL rollback/concurrency/replay/reload tests; shared web/TUI confirmation and disclosure fixtures; `GOMAXPROCS=2 go test -p 2 -short -race ./...` and `GOMAXPROCS=2 go vet -p 2 ./...`. Short tests alone do not qualify PostgreSQL or devices. Runtime remains unavailable until this task and its callers qualify. No deployment, source inference or Full Rules promotion.\n"
+      "body_sha256": "e91d80334da6f20aadda35e0dc982ed5c9b02d13a519a2f10c71f71e6a08531b",
+      "body": "<!-- edda-272:long-rest-sleep-unconscious -->\nDecision #272; roadmap #47. One implementation PR; Task / Size S.\n\nSource: English SRD 5.2.1, PDF 107, 185, 191, 253; SHA-256 `8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87`. CC-BY-4.0 attribution and adaptation: `docs/srd-5.2.1-conformance.md`. The deterministic fixtures below are Edda adaptations.\n\n## Bounded outcome\n\nImplement only this Long Rest clause: during sleep, the resting creature has the Unconscious condition. The canonical Long Rest #428 already owns the 8-hour minimum, at least 6 hours of sleep, at most 2 hours of light activity, eligibility, interruption, resumption and recovery. This task binds each recorded sleep interval of that rest to one source-bound Unconscious instance from the shared output #487. It copies neither contract.\n\nWhile a sleep interval of an active Long Rest is in effect, the creature has one Unconscious instance whose source is that rest. Light-activity intervals, such as standing watch, carry none. The consequences are exactly #487's output, including Incapacitated, Prone, Speed 0, attack and saving-throw effects, critical hits from within 5 feet, being unaware, and the Concentration ending that Incapacitated already causes. Ending the instance leaves the creature Prone.\n\nThe instance ends when the authoritative rest record ends that sleep interval: at the recorded end of sleep, at completion of the rest, or when a confirmed #428 interruption or stop event records that the sleeper woke. The Long Rest (PDF185) and Unconscious (PDF191) entries name no waking trigger. Noise, an attack or damage therefore do not by themselves remove the instance; the attack resolves against an Unconscious creature, and #428 decides whether the rest is interrupted. A waking fact must be explicit and trusted; otherwise it is unavailable. Source-specific wakers keep their owners and supply that trusted fact when they are qualified: the Alarm spell's mental ping, which awakens its caster (PDF107, #1035), and the Weapon of Warning, which awakens each naturally sleeping subject when combat begins (PDF253, retained with #278). This task accepts such a fact and implements neither effect. A Short Rest applies no sleep instance. A feature that replaces sleep, such as Elf Trance (PDF85), and magical sleep keep their own owners and instances.\n\n## Deterministic fixtures\n\n- A Long Rest from T0 with sleep recorded T0 to T0 + 6 hours and watch for the final 2 hours: at T0 + 3 hours the creature has exactly one rest-sourced Unconscious instance; at T0 + 7 hours it has none and is Prone until it stands; at T0 + 8 hours #428 completes unchanged.\n- At T0 + 3 hours a melee hit from within 5 feet uses #487's Advantage and critical-hit output; the damage is a #428 interruption. The instance ends only with the recorded waking fact of that confirmed interruption.\n- A trusted waking fact at T0 + 2 hours, such as the one an Alarm ping from #1035 supplies, ends the instance at that time and leaves the creature Prone; whether the rest continues is #428's decision.\n- A sleeper concentrating on a spell loses Concentration through the existing #487/#353 output when the sleep interval begins; no separate rule is added here.\n- Reject an Unconscious instance during a watch interval or a Short Rest; a rest that completes with less recorded sleep than #428 requires; waking from noise, damage or a client message without a trusted waking fact; a Weapon of Warning or Alarm waking that no qualified owner produced; a Perception penalty or other effect that #487 does not output; removal of a Sleep-spell, knock-out or 0 Hit Point Unconscious instance when the sleeper wakes; a duplicate instance on replay; and treating Trance or another sleep replacement as sleep.\n\n## Durable implementation acceptance\n\nPreview is inert and never rolls, writes or reveals private facts. Confirm revalidates campaign, actor, source version, clock, targets, the rest record, its sleep intervals, the waking fact and expected revisions. Commit the sleep interval, the condition instance or its ending, derived state and public history atomically. Inject a failure after each stage and prove full isolated PostgreSQL rollback. The same action ID and payload after retry, reload or reconnect returns the same receipt with no reroll; a conflicting payload rejects; racing confirmations commit once. Applying and ending the instance belong to the triggering confirmed rest event, with no optional activation. Web and trusted TUI share availability, unavailable reasons and confirm/cancel/reconnect behavior. Changed web requires a focused build, lint and desktop/phone checks. Public history omits private HP, hidden actors, private checks and undisclosed item facts.\n\nHard prerequisites: #428 canonical Long Rest, #487 shared Unconscious output. Parent: #272. Block the rest/recovery qualification task published with this decision; that task blocks #280. Do not add a direct #279, #280, #67 or #429 edge and do not alter any existing owner.\n\nValidation for the implementation PR: focused deterministic rules tests; isolated PostgreSQL rollback/concurrency/replay/reload tests; shared web/TUI confirmation and disclosure fixtures; `GOMAXPROCS=2 go test -p 2 -short -race ./...` and `GOMAXPROCS=2 go vet -p 2 ./...`. Short tests alone do not qualify PostgreSQL or devices. Runtime remains unavailable until this task and its callers qualify. No deployment, source inference or Full Rules promotion.\n"
     },
     {
-      "key": "wand-charges",
-      "task_file": "docs/investigations/issue-272-wand-charges-task.md",
+      "key": "wand-cast",
+      "task_file": "docs/investigations/issue-272-wand-cast-task.md",
       "number": null,
-      "title": "Spend, recharge and destroy a Wand of Magic Missiles by its charges",
+      "title": "Cast Magic Missile from a Wand of Magic Missiles and roll for its last charge",
       "type": "Task",
       "size": "M",
       "parent": 272,
       "blocked_by": [
         195,
         1140,
-        1148,
         1368
+      ],
+      "blocks": [
+        "recovery-qualification",
+        "wand-dawn"
+      ],
+      "body_sha256": "5726bf0c20f659c65910ad173f92f54468ccf1ea5de416d25322f003c71b5616",
+      "body": "<!-- edda-272:wand-of-magic-missiles-cast -->\nDecision #272; roadmap #47. One implementation PR; Task / Size M.\n\nSource: English SRD 5.2.1, PDF 146, 206, 251; SHA-256 `8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87`. CC-BY-4.0 attribution and adaptation: `docs/srd-5.2.1-conformance.md`. The deterministic fixtures below are Edda adaptations.\n\n## Bounded outcome\n\nImplement only one source identity, `srd-5.2.1:content/magic-items/wand-of-magic-missiles`: an Uncommon wand that needs no Attunement and has 7 charges. While holding it, the user can expend no more than 3 charges to cast Magic Missile from it: 1 charge casts the level 1 version and each additional charge raises the spell's level by 1. Reuse the actual Magic Missile output #1368 for the darts, targets and damage; do not copy it. This task owns the wand's charge cost for that cast and its last-charge destruction. The dawn recharge is the separate task published with this decision. No other item, learned spell, class admission or unrestricted spell dispatch is enabled.\n\nPDF206 supplies the item-casting channel: no user spell slot, no components, the spell's normal casting time, range and duration. Magic Missile has no attack roll, saving throw or Concentration, so no spellcasting ability, save DC or Concentration is invented. #1140 is a build-order prerequisite, not a published generic seam: it stays limited to the Wand of Magic Detection, and this adapter extends the item charge record that task introduces instead of creating a second charge model. Neither #1140's body nor its item domain is widened.\n\nIf an expenditure removes the wand's last charge, roll 1d20 once after the charges are spent. On a 1 the wand crumbles into ashes and is destroyed; the source does not cancel the cast that spent the charge, so it still resolves. On 2–20 the wand remains with 0 charges. A destroyed wand is no longer a usable or rechargeable item. An expenditure that leaves at least 1 charge never rolls. If a separately qualified effect prevents the expenditure, as Thief #1132 does for its own entitled user, no last charge was expended and no roll occurs; this task does not implement that hook.\n\nCharge knowledge stays with its owners. PDF206 states two reveal paths: Identify (#1613) and Attunement, which this wand does not have (attuned knowledge for other items stays with #278). The source states no rule for a holder who has neither. Edda disclosure adaptation: this task adds no other reveal path, so the count is shown only from an existing authoritative disclosure fact, and an unaffordable confirmation rejects without revealing it.\n\n## Deterministic fixtures\n\n- At 7 charges, spending 3 casts the level 3 version: #1368 resolves 5 darts, and 4 charges remain. Spending 1 casts the level 1 version with 3 darts.\n- At 2 charges, spending 2 leaves 0 and rolls one d20: an injected 1 destroys the wand after the 4-dart cast resolves; an injected 2 keeps the wand at 0 charges.\n- At 3 charges, spending 2 leaves 1 and rolls no d20.\n- Reject 4 charges in one cast, a cast at 0 charges, a spend above the remaining count, a wand not held, a foreign actor or wand, a slot or component cost, an Attunement requirement, an attack roll or save DC, a d20 when charges remain, two d20 rolls for one expenditure, a cancelled cast on a roll of 1, a cast from a destroyed wand, a reroll, and a charge count disclosed by an error or unavailable reason.\n\n## Durable implementation acceptance\n\nPreview is inert and never rolls, writes or reveals private facts. Confirm revalidates campaign, actor, source version, clock, targets, item ownership, holding, charges, the chosen charge count, source-bound #1368 availability and expected revisions. Commit the charge spend, the cast and its effect, the last-charge roll and destruction, and public history atomically. Inject a failure after each stage and prove full isolated PostgreSQL rollback. The same action ID and payload after retry, reload or reconnect returns the same receipt with no reroll; a conflicting payload rejects; racing confirmations commit once. The last-charge roll belongs to its triggering confirmed expenditure, with no optional activation. Dice are injectable. Web and trusted TUI share availability, unavailable reasons and confirm/cancel/reconnect behavior. Changed web requires a focused build, lint and desktop/phone checks. Public history omits private HP, hidden actors, private checks and undisclosed item facts.\n\nHard prerequisites: #195 item contract, #1140 item charge record (build order; it brings its own prerequisites #906 and the Rogue execution cohort #1097), #1368 actual Magic Missile resolver. Parent: #272. Block the wand dawn-recharge task and the rest/recovery qualification task published with this decision; the qualification task blocks #280. Spell qualification #279 already requires the unchanged #1368 through the accepted finite shared aggregate; do not add a direct #279, #280, #67 or #429 edge and do not alter any existing owner.\n\nValidation for the implementation PR: focused deterministic rules tests; isolated PostgreSQL rollback/concurrency/replay/reload tests; shared web/TUI confirmation and disclosure fixtures; `GOMAXPROCS=2 go test -p 2 -short -race ./...` and `GOMAXPROCS=2 go vet -p 2 ./...`. Short tests alone do not qualify PostgreSQL or devices. Runtime remains unavailable until this task and its callers qualify. No deployment, source inference or Full Rules promotion.\n"
+    },
+    {
+      "key": "wand-dawn",
+      "task_file": "docs/investigations/issue-272-wand-dawn-task.md",
+      "number": null,
+      "title": "Recharge a Wand of Magic Missiles at dawn",
+      "type": "Task",
+      "size": "M",
+      "parent": 272,
+      "blocked_by": [
+        1148,
+        "wand-cast"
       ],
       "blocks": [
         "recovery-qualification"
       ],
-      "body_sha256": "61a515f771ce8153bffcc1c9a5188427acf1783902725f9f6d0ee978aded46c8",
-      "body": "<!-- edda-272:wand-of-magic-missiles-charges -->\nDecision #272; roadmap #47. One implementation PR; Task / Size M.\n\nSource: English SRD 5.2.1, PDF 146, 206, 251; SHA-256 `8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87`. CC-BY-4.0 attribution and adaptation: `docs/srd-5.2.1-conformance.md`. The deterministic fixtures below are Edda adaptations.\n\n## Bounded outcome\n\nImplement only one source identity: Wand of Magic Missiles, an Uncommon wand that needs no Attunement. It has 7 charges. While holding it, the user can expend no more than 3 charges to cast Magic Missile from it: 1 charge casts the level 1 version and each additional charge raises the spell's level by 1. Reuse the actual Magic Missile output #1368 for the darts, targets and damage; do not copy it. This adapter owns the wand's charge costs, its dawn recharge and its last-charge destruction. No other item, learned spell, class admission or unrestricted spell dispatch is enabled.\n\nPDF206 supplies the item-casting channel: no user spell slot, no components, the spell's normal casting time, range and duration. Magic Missile has no attack roll, saving throw or Concentration, so no spellcasting ability, save DC or Concentration is invented. Reuse the charge-spend seam of #1140 and the authoritative dawn event of #1148; those tasks stay limited to the Wand of Magic Detection and are not widened. The wand regains 1d6 + 1 expended charges daily at dawn, never above 7. On a world or plane where dawn does not occur, the GM determines the recharge: require a trusted explicit GM recharge event and never fabricate time.\n\nIf an expenditure removes the wand's last charge, roll 1d20 once after the charges are spent. On a 1 the wand crumbles into ashes and is destroyed; the source does not cancel the cast that spent the charge, so it still resolves. On 2–20 the wand remains with 0 charges and recharges at a later dawn. A destroyed wand is no longer a usable or rechargeable item. An expenditure that leaves at least 1 charge never rolls. If a separately qualified effect prevents the expenditure, as Thief #1132 does for its own entitled user, no last charge was expended and no roll occurs; this task does not implement that hook.\n\nPDF206 also governs what a creature knows. This wand has no Attunement, so the attuned-creature knowledge clause never applies to it. Disclose the remaining count only from an authoritative identification or disclosure fact, such as the Identify output #1613 or a trusted GM disclosure. Possession alone reveals nothing, and an unaffordable confirmation rejects without revealing the count.\n\n## Deterministic fixtures\n\n- At 7 charges, spending 3 casts the level 3 version: #1368 resolves 5 darts, and 4 charges remain. Spending 1 casts the level 1 version with 3 darts.\n- At 2 charges, spending 2 leaves 0 and rolls one d20: an injected 1 destroys the wand after the 4-dart cast resolves; an injected 2 keeps the wand at 0 charges.\n- Dawn at 0 charges with injected d6 = 3 gives 4. Dawn at 5 with d6 = 6 gives 7, not 12. Dawn at 7 stays 7.\n- Reject 4 charges in one cast, a cast at 0 charges, a spend above the remaining count, a wand not held, a foreign actor or wand, a slot or component cost, an Attunement requirement, an attack roll or save DC, a d20 when charges remain, two d20 rolls for one expenditure, a cast or recharge from a destroyed wand, recharge on a rest, a client clock, a duplicate dawn, a reroll, and a fabricated dawn on a plane without one.\n\n## Durable implementation acceptance\n\nPreview is inert and never rolls, writes or reveals private facts. Confirm revalidates campaign, actor, source version, clock, targets, item ownership, holding, charges, the chosen charge count, source-bound #1368 availability and expected revisions. Commit the charge spend, the cast and its effect, the last-charge roll and destruction, or the dawn event, die and recharge, and public history atomically. Inject a failure after each stage and prove full isolated PostgreSQL rollback. The same action ID and payload after retry, reload or reconnect returns the same receipt with no reroll; a conflicting payload rejects; racing confirmations commit once. The last-charge roll and the dawn recharge belong to their triggering confirmed event, with no optional activation. Dice are injectable. Web and trusted TUI share availability, unavailable reasons and confirm/cancel/reconnect behavior. Changed web requires a focused build, lint and desktop/phone checks. Public history omits private HP, hidden actors, private checks and undisclosed item facts.\n\nHard prerequisites: #195 item contract, #1140 charge-spend seam, #1148 authoritative dawn recharge event, #1368 actual Magic Missile resolver. Parent: #272. Block the rest/recovery qualification task published with this decision; that task blocks #280. Spell qualification #279 already requires the unchanged #1368 through the accepted finite shared aggregate; do not add a direct #279, #280, #67 or #429 edge and do not alter any existing owner.\n\nValidation for the implementation PR: focused deterministic rules tests; isolated PostgreSQL rollback/concurrency/replay/reload tests; shared web/TUI confirmation and disclosure fixtures; `GOMAXPROCS=2 go test -p 2 -short -race ./...` and `GOMAXPROCS=2 go vet -p 2 ./...`. Short tests alone do not qualify PostgreSQL or devices. Runtime remains unavailable until this task and its callers qualify. No deployment, source inference or Full Rules promotion.\n"
+      "body_sha256": "30c6f502c066318193bba3b191018780c0f0b11fa5e0b3d9b31577b1c2046c95",
+      "body": "<!-- edda-272:wand-of-magic-missiles-dawn -->\nDecision #272; roadmap #47. One implementation PR; Task / Size M.\n\nSource: English SRD 5.2.1, PDF 206, 251; SHA-256 `8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87`. CC-BY-4.0 attribution and adaptation: `docs/srd-5.2.1-conformance.md`. The deterministic fixtures below are Edda adaptations.\n\n## Bounded outcome\n\nImplement only the dawn recharge of one source identity, `srd-5.2.1:content/magic-items/wand-of-magic-missiles`: the wand regains 1d6 + 1 expended charges daily at dawn, never above its 7 charges. The cast, the charge spend and the last-charge destruction are the separate wand task published with this decision and are consumed here, not copied. No other item or recharge formula is enabled.\n\n#1148 is a build-order prerequisite, not a published generic seam: it stays limited to the Wand of Magic Detection and its 1d3 formula. This adapter extends the authoritative dawn event that task introduces instead of creating a second dawn clock. Neither #1148's body nor its item domain is widened. On a world or plane where dawn does not occur, the GM determines when the item recharges (PDF206): require a trusted explicit GM recharge event and never fabricate time.\n\nA wand that survived its last-charge roll sits at 0 charges and recharges at the next dawn like any other count. A destroyed wand no longer exists as an item and never recharges. A rest is not a recharge: neither a Short Rest nor a Long Rest changes the count, whether or not a dawn falls inside the rest.\n\n## Deterministic fixtures\n\n- Dawn at 0 charges with injected d6 = 3 gives 4. Dawn at 5 with d6 = 6 gives 7, not 12. Dawn at 7 stays 7.\n- A wand at 0 charges after a last-charge roll of 2 recharges at dawn; a wand destroyed by a roll of 1 does not.\n- A completed Long Rest with no dawn event leaves 2 charges at 2. A dawn event during that rest applies once.\n- On a plane without dawn, a trusted GM recharge event with injected d6 = 1 turns 3 charges into 5; without that event nothing recharges.\n- Reject recharge on rest start or rest completion, a client clock, a duplicate dawn for the same day, a reroll, a foreign wand, a recharge of a destroyed wand, the 1d3 formula of #1148, a total above 7, and a fabricated dawn on a plane without one.\n\n## Durable implementation acceptance\n\nPreview is inert and never rolls, writes or reveals private facts. Confirm revalidates campaign, actor, source version, clock, item identity and existence, charges, the dawn or GM recharge event and expected revisions. Commit the event, die, recharge and public history atomically. Inject a failure after each stage and prove full isolated PostgreSQL rollback. The same event ID and payload after retry, reload or reconnect returns the same receipt with no reroll; a conflicting payload rejects; racing events commit once. The recharge belongs to its triggering authoritative event, with no optional activation. Dice are injectable. Web and trusted TUI share availability, unavailable reasons and confirm/cancel/reconnect behavior. Changed web requires a focused build, lint and desktop/phone checks. Public history omits private HP, hidden actors, private checks and undisclosed item facts, including an undisclosed charge count.\n\nHard prerequisites: #1148 authoritative dawn event (build order; it brings its own prerequisites #195, #1140 and the Rogue execution cohort #1097) and the Wand of Magic Missiles cast task published with this decision. Parent: #272. Block the rest/recovery qualification task published with this decision; that task blocks #280. Do not add a direct #279, #280, #67 or #429 edge and do not alter any existing owner.\n\nValidation for the implementation PR: focused deterministic rules tests; isolated PostgreSQL rollback/concurrency/replay/reload tests; shared web/TUI confirmation and disclosure fixtures; `GOMAXPROCS=2 go test -p 2 -short -race ./...` and `GOMAXPROCS=2 go vet -p 2 ./...`. Short tests alone do not qualify PostgreSQL or devices. Runtime remains unavailable until this task and its callers qualify. No deployment, source inference or Full Rules promotion.\n"
+    },
+    {
+      "key": "hit-point-maximum-zero",
+      "task_file": "docs/investigations/issue-272-hit-point-maximum-zero-task.md",
+      "number": null,
+      "title": "Kill a creature whose Hit Point maximum reaches 0",
+      "type": "Task",
+      "size": "S",
+      "parent": 272,
+      "blocked_by": [
+        65,
+        1705
+      ],
+      "blocks": [
+        "recovery-qualification"
+      ],
+      "body_sha256": "636a4fb06613cbc1ecfaefedb5511de20b5257d8d29cb07ca105973c90650b73",
+      "body": "<!-- edda-272:hit-point-maximum-zero -->\nDecision #272; roadmap #47. One implementation PR; Task / Size S.\n\nSource: English SRD 5.2.1, PDF 17, 185, 187, 341; SHA-256 `8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87`. CC-BY-4.0 attribution and adaptation: `docs/srd-5.2.1-conformance.md`. The deterministic fixtures below are Edda adaptations.\n\n## Bounded outcome\n\nImplement only this general rule (PDF17): a creature dies if its Hit Point maximum reaches 0. The actual witness is Wight Life Drain #1705, a published reducer whose failed save lowers the target's Hit Point maximum by the damage taken. Do not copy its save, dice or Resistance handling. Every reducer keeps its own amount, trigger and restoration; this task adds only the death predicate that reads the committed maximum. No new reducer, restoration or healing effect is enabled.\n\nWhen a committed reduction leaves the creature's Hit Point maximum at 0, the creature dies in that same transaction. The rule applies to characters and monsters alike and bypasses the 0 Hit Point flow: no Death Saving Throw, no Unconscious instance and no Stable state is created for that event. A maximum of 1 or more never triggers it, even when current Hit Points are 0. Use the existing authoritative dead status that the closed attack slice #65 already commits in `internal/combat`; do not create a second death model. Edda adaptation: a reduction larger than the remaining maximum stores 0, never a negative maximum.\n\nRecovery boundary: death is not a reduced maximum waiting for a rest. A dead creature cannot start a Short or Long Rest (each needs at least 1 Hit Point), so #428's restoration of a reduced maximum never applies to it, and neither #428 nor Greater Restoration #627 returns it to life. Returning to life stays with its own owners, such as Revivify #618, and is otherwise unavailable.\n\n## Deterministic fixtures\n\n- Maximum 7, Hit Points 7, failed Life Drain save with injected d8 = 5 for 7 Necrotic damage: Hit Points 0, maximum 0, dead in that receipt with no Death Saving Throw counters and no Unconscious instance.\n- Maximum 8, Hit Points 8, the same 7 damage: Hit Points 1, maximum 1, alive.\n- Maximum 20, Hit Points 3, the same 7 damage: Hit Points 0, maximum 13. This rule does not fire; the ordinary 0 Hit Point flow applies unchanged.\n- Maximum 5, Hit Points 5, injected d8 = 8 for 10 damage halved by Resistance to 5, as #1705 computes: maximum 0, dead.\n- A successful save deals no damage, lowers nothing and kills nothing.\n- Reject death at a maximum of 1; a death deferred to a later turn, rest or dawn; a Death Saving Throw, Stable state or 1d4-hour recovery for this death; a negative stored maximum; a client-declared maximum or reduction; a second death on replay; a rest started by the dead creature; and revival by a Long Rest or by restoring the maximum.\n\n## Durable implementation acceptance\n\nPreview is inert and never rolls, writes or reveals private facts. Confirm revalidates campaign, actor, source version, clock, targets, the reducer's committed result, the current maximum and expected revisions. Commit the reduction, Hit Points, the death and public history atomically. Inject a failure after each stage and prove full isolated PostgreSQL rollback. The same action ID and payload after retry, reload or reconnect returns the same receipt with no reroll; a conflicting payload rejects; racing confirmations commit once. The death belongs to the triggering confirmed reduction, with no optional activation. Web and trusted TUI share availability, unavailable reasons and confirm/cancel/reconnect behavior. Changed web requires a focused build, lint and desktop/phone checks. Public history omits private HP and maximums, hidden actors, private checks and undisclosed item facts.\n\nHard prerequisites: #65 committed damage and dead status, #1705 actual Hit Point maximum reduction. Parent: #272. Block the rest/recovery qualification task published with this decision; that task blocks #280. Do not add a direct #279, #280, #67 or #429 edge and do not alter any existing owner.\n\nValidation for the implementation PR: focused deterministic rules tests; isolated PostgreSQL rollback/concurrency/replay/reload tests; shared web/TUI confirmation and disclosure fixtures; `GOMAXPROCS=2 go test -p 2 -short -race ./...` and `GOMAXPROCS=2 go vet -p 2 ./...`. Short tests alone do not qualify PostgreSQL or devices. Runtime remains unavailable until this task and its callers qualify. No deployment, source inference or Full Rules promotion.\n"
     },
     {
       "key": "recovery-qualification",
@@ -1333,14 +2235,15 @@
         "knock-out",
         "temporary-hit-points",
         "long-rest-sleep",
-        "wand-charges"
+        "wand-cast",
+        "wand-dawn",
+        "hit-point-maximum-zero"
       ],
       "blocks": [
-        280,
-        337
+        280
       ],
-      "body_sha256": "7f6d63a7f90eb1804df15692164ded50f4638553aa4da51c0186c7114a209b55",
-      "body": "<!-- edda-272:rest-recovery-recharge-qualification -->\nDecision #272; roadmap #47. One qualification PR; Task / Size M.\n\nSource: English SRD 5.2.1, PDF 17–18, 184–187, 190–191, 206, 251; SHA-256 `8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87`. CC-BY-4.0 attribution and adaptation: `docs/srd-5.2.1-conformance.md`. The deterministic fixtures below are Edda adaptations.\n\nQualify the finite composition of the #272 rest, recovery and recharge outputs. This task owns qualification only: no rest transaction, condition, pool, item effect, class recovery or production grant. It is the one shared head through which the six outputs below reach item qualification #280 and character qualification #337, because spell qualification #279 already has 100 native blockers and #280 has few free slots. A published task or a closed decision is not execution evidence.\n\nExact inputs: the canonical Short Rest #427 and Long Rest #428, and the four tasks published with this decision for the knocked-out Short Rest, the shared Temporary Hit Point pool and its Long Rest ending, Unconscious during Long Rest sleep, and the Wand of Magic Missiles charges. Each input keeps its own body, fixtures and prerequisites. Class and feature recoveries keep their own owners and class gates.\n\nRequired deterministic composition witnesses, run through the actual qualified rules/game/engine/handler callers with isolated explicit entitlements:\n\n- A creature knocked out at T0 completes its Short Rest at T0 + 1 hour: the knock-out instance ends, exactly one #427 recharge event is emitted and Hit Point Dice spending follows #427. The same creature can then start a Long Rest only under #428's own predicates.\n- A Long Rest with 6 recorded hours of sleep, a pool of 9 Temporary Hit Points and a held Wand of Magic Missiles at 2 charges: the sleeper has one rest-sourced Unconscious instance while asleep; completion applies #428's recovery, removes the pool in the same receipt and leaves the wand at 2 charges. Only an authoritative dawn event changes the wand, whether it falls inside or outside the rest.\n- A melee hit for 12 on that sleeper in hour 3: #487's output applies, 9 damage is absorbed by the pool and 3 reduces Hit Points, and #428 records the interruption. Having rested at least 1 hour, the creature gains Short Rest benefits at the interruption. If it resumes at once, the rest needs 1 additional hour, and Long Rest recovery applies only on completion.\n- An interrupted Short Rest confers nothing: no recharge event, no Hit Point Dice healing, no knock-out ending and no pool removal. The source gives a Short Rest no resumption rule; a later Short Rest is a new rest.\n- A second Long Rest started less than 16 hours after a completed one rejects, and neither the pool removal nor the sleep instance is applied by the rejected request.\n\nRun every witness with contrary controls: each input's negative fixtures still reject when composed, and removing any one input makes the corresponding witness unavailable rather than silently passing. Preview is inert. Confirmation revalidates actor, campaign, source version, clock and expected revisions. Injected dice, choices, resources, conditions, derived state and public history persist atomically in isolated PostgreSQL; inject each failure for full rollback; the same action ID after retry, reload or reconnect returns the saved receipt without reroll, recharge or regrant; conflicting payloads reject and racing confirmations commit once. Web and trusted TUI agree on supported choices, unavailable reasons and confirm/cancel/reconnect; changed web requires a focused build, lint and desktop/phone fixtures. No private Hit Points, hidden actors or undisclosed charge counts are exposed.\n\nNative parent #272. Directly block #280 and #337. Exact prerequisites: #427, #428 and the four tasks published with this decision. Preserve every old body, parent and prerequisite. Add no direct #279, #67 or #429 edge. Qualification must run focused source and contrary tests, isolated PostgreSQL replay/rollback/concurrency, shared web/TUI fixtures, `GOMAXPROCS=2 go test -p 2 -short -race ./...` and `GOMAXPROCS=2 go vet -p 2 ./...`; short tests alone do not qualify database or devices. No deployment, production grant or Full Rules promotion.\n"
+      "body_sha256": "04f62eedce535f421db8010c446f7081e3d5522d47ef0282107c7218edf345e7",
+      "body": "<!-- edda-272:rest-recovery-recharge-qualification -->\nDecision #272; roadmap #47. One qualification PR; Task / Size M.\n\nSource: English SRD 5.2.1, PDF 17–18, 181, 184–187, 190–191, 206, 251; SHA-256 `8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87`. CC-BY-4.0 attribution and adaptation: `docs/srd-5.2.1-conformance.md`. The deterministic fixtures below are Edda adaptations.\n\nQualify the finite composition of the #272 rest, recovery and recharge outputs. This task owns qualification only: no rest transaction, condition, pool, item effect, death rule, class recovery or production grant. It is the one shared head through which the eight outputs below reach item qualification #280, because spell qualification #279 already has 100 native blockers and #280 has few free slots. #280 in turn blocks #551, #630 and #1093, and each of those blocks character qualification #337. A published task or a closed decision is not execution evidence.\n\nExact inputs: the canonical Short Rest #427 and Long Rest #428, and the six tasks published with this decision for the knocked-out Short Rest, the shared Temporary Hit Point clauses and their Long Rest ending, Unconscious during Long Rest sleep, the Wand of Magic Missiles cast with its last-charge roll, that wand's dawn recharge, and death at a Hit Point maximum of 0. Each input keeps its own body, fixtures and prerequisites. Class and feature recoveries keep their own owners and class gates.\n\nRequired deterministic composition witnesses, run through the actual qualified rules/game/engine/handler callers with isolated explicit entitlements:\n\n- A creature knocked out at T0 completes its Short Rest at T0 + 1 hour: the knock-out instance ends, exactly one #427 recharge event is emitted and Hit Point Dice spending follows #427. The same creature can then start a Long Rest only under #428's own predicates.\n- A Long Rest with 6 recorded hours of sleep, a pool of 9 Temporary Hit Points and a held Wand of Magic Missiles at 2 charges: the sleeper has one rest-sourced Unconscious instance while asleep; completion applies #428's recovery, removes the pool in the same receipt and leaves the wand at 2 charges. Only an authoritative dawn event changes the wand, whether it falls inside or outside the rest.\n- A melee hit for 12 on that sleeper in hour 3: #487's output applies, 9 damage is absorbed by the pool and 3 reduces Hit Points, and #428 records the interruption. Having rested at least 1 hour, the creature gains Short Rest benefits at the interruption. If it resumes at once, the rest needs 1 additional hour, and Long Rest recovery applies only on completion.\n- An interrupted Short Rest confers nothing: no recharge event, no Hit Point Dice healing, no knock-out ending and no pool removal. The source gives a Short Rest no resumption rule; a later Short Rest is a new rest.\n- A second Long Rest started less than 16 hours after a completed one rejects, and neither the pool removal nor the sleep instance is applied by the rejected request.\n- A creature whose Hit Point maximum was reduced to 1 completes a Long Rest and its maximum returns to normal through #428. A creature whose maximum reached 0 is dead: it starts no rest and no rest restores it.\n- A Long Rest removes exactly 1 Exhaustion level through #428 and never removes Exhaustion that carries a dehydration (PDF181) or malnutrition (PDF185) hold. No published task records such a hold; that source stays unavailable, and this witness passes only as a rejection until the hazard children of #150 exist.\n\nRun every witness with contrary controls: each input's negative fixtures still reject when composed, and removing any one input makes the corresponding witness unavailable rather than silently passing. Preview is inert. Confirmation revalidates actor, campaign, source version, clock and expected revisions. Injected dice, choices, resources, conditions, derived state and public history persist atomically in isolated PostgreSQL; inject each failure for full rollback; the same action ID after retry, reload or reconnect returns the saved receipt without reroll, recharge or regrant; conflicting payloads reject and racing confirmations commit once. Web and trusted TUI agree on supported choices, unavailable reasons and confirm/cancel/reconnect; changed web requires a focused build, lint and desktop/phone fixtures. No private Hit Points, hidden actors or undisclosed charge counts are exposed.\n\nNative parent #272. Directly block #280 only; #337 is reached through #280's existing consumers. Exact prerequisites: #427, #428 and the six tasks published with this decision. Preserve every old body, parent and prerequisite. Add no direct #279, #337, #67 or #429 edge. Qualification must run focused source and contrary tests, isolated PostgreSQL replay/rollback/concurrency, shared web/TUI fixtures, `GOMAXPROCS=2 go test -p 2 -short -race ./...` and `GOMAXPROCS=2 go vet -p 2 ./...`; short tests alone do not qualify database or devices. No deployment, production grant or Full Rules promotion.\n"
     }
   ],
   "planned_native_edges": {
@@ -1358,7 +2261,15 @@
         272
       ],
       [
-        "wand-charges",
+        "wand-cast",
+        272
+      ],
+      [
+        "wand-dawn",
+        272
+      ],
+      [
+        "hit-point-maximum-zero",
         272
       ],
       [
@@ -1385,7 +2296,19 @@
       ],
       [
         "temporary-hit-points",
+        65
+      ],
+      [
+        "temporary-hit-points",
+        266
+      ],
+      [
+        "temporary-hit-points",
         428
+      ],
+      [
+        "temporary-hit-points",
+        487
       ],
       [
         "temporary-hit-points",
@@ -1400,20 +2323,32 @@
         487
       ],
       [
-        "wand-charges",
+        "wand-cast",
         195
       ],
       [
-        "wand-charges",
+        "wand-cast",
         1140
       ],
       [
-        "wand-charges",
+        "wand-cast",
+        1368
+      ],
+      [
+        "wand-dawn",
         1148
       ],
       [
-        "wand-charges",
-        1368
+        "wand-dawn",
+        "wand-cast"
+      ],
+      [
+        "hit-point-maximum-zero",
+        65
+      ],
+      [
+        "hit-point-maximum-zero",
+        1705
       ],
       [
         "recovery-qualification",
@@ -1437,19 +2372,28 @@
       ],
       [
         "recovery-qualification",
-        "wand-charges"
+        "wand-cast"
+      ],
+      [
+        "recovery-qualification",
+        "wand-dawn"
+      ],
+      [
+        "recovery-qualification",
+        "hit-point-maximum-zero"
       ]
     ],
     "gate_additions": [
       [
         280,
         "recovery-qualification"
-      ],
-      [
-        337,
-        "recovery-qualification"
       ]
     ],
+    "counts": {
+      "parent": 7,
+      "blocked_by": 26,
+      "gate_additions": 1
+    },
     "existing_issue_bodies_changed": [],
     "existing_edges_removed": []
   },
@@ -1462,6 +2406,8 @@
       ],
       "337": [
         337,
+        551,
+        280,
         "recovery-qualification",
         "knock-out"
       ]
@@ -1474,6 +2420,8 @@
       ],
       "337": [
         337,
+        551,
+        280,
         "recovery-qualification",
         "temporary-hit-points"
       ]
@@ -1486,20 +2434,52 @@
       ],
       "337": [
         337,
+        551,
+        280,
         "recovery-qualification",
         "long-rest-sleep"
       ]
     },
-    "wand-charges": {
+    "wand-cast": {
       "280": [
         280,
         "recovery-qualification",
-        "wand-charges"
+        "wand-cast"
       ],
       "337": [
         337,
+        551,
+        280,
         "recovery-qualification",
-        "wand-charges"
+        "wand-cast"
+      ]
+    },
+    "wand-dawn": {
+      "280": [
+        280,
+        "recovery-qualification",
+        "wand-dawn"
+      ],
+      "337": [
+        337,
+        551,
+        280,
+        "recovery-qualification",
+        "wand-dawn"
+      ]
+    },
+    "hit-point-maximum-zero": {
+      "280": [
+        280,
+        "recovery-qualification",
+        "hit-point-maximum-zero"
+      ],
+      "337": [
+        337,
+        551,
+        280,
+        "recovery-qualification",
+        "hit-point-maximum-zero"
       ]
     },
     "recovery-qualification": {
@@ -1509,10 +2489,17 @@
       ],
       "337": [
         337,
+        551,
+        280,
         "recovery-qualification"
       ]
     }
   },
+  "consumers_of_280_that_block_337": [
+    551,
+    630,
+    1093
+  ],
   "caps": {
     "nodes": 1892,
     "limit": 100,
@@ -1527,6 +2514,8 @@
       "outgoing487": 87,
       "outgoing61": 84,
       "outgoing65": 73,
+      "outgoing266": 1,
+      "outgoing1705": 2,
       "outgoing195": 61,
       "outgoing1140": 4,
       "outgoing1148": 1,
@@ -1538,14 +2527,16 @@
     "planned": {
       "incoming279": 100,
       "incoming280": 97,
-      "incoming337": 63,
-      "children272": 7,
+      "incoming337": 62,
+      "children272": 9,
       "children193": 30,
       "outgoing427": 36,
       "outgoing428": 84,
-      "outgoing487": 89,
+      "outgoing487": 90,
       "outgoing61": 85,
-      "outgoing65": 74,
+      "outgoing65": 76,
+      "outgoing266": 2,
+      "outgoing1705": 3,
       "outgoing195": 62,
       "outgoing1140": 5,
       "outgoing1148": 2,
