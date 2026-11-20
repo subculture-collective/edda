@@ -618,12 +618,27 @@ func TestMonsterBatch02Malformed(t *testing.T) {
 		"unlisted effect": func(b *MonsterBatch02) { b.StatBlocks[1].Monster.Actions[2].Effects[0].Key = "effect/new-effect" },
 		"missing keys":    func(b *MonsterBatch02) { b.StatBlocks[1].Monster.RequiredMechanics = []string{"monster/stat-block"} },
 	}
+	// Each case gets a fresh unvalidated copy and one Validate call. The
+	// decoder runs the same Validate, so its round trip is checked for a
+	// sample of cases instead of re-decoding the 223 KB document every time.
+	roundTrip := []string{"schema", "XP", "section", "spell DC", "effect text"}
+	fresh := func(t *testing.T) MonsterBatch02 {
+		t.Helper()
+		var b MonsterBatch02
+		if err := json.Unmarshal(monsterBatch02JSON, &b); err != nil {
+			t.Fatal(err)
+		}
+		return b
+	}
 	for name, mutate := range tests {
 		t.Run(name, func(t *testing.T) {
-			b := monsterBatch02(t)
+			b := fresh(t)
 			mutate(&b)
 			if b.Validate() == nil {
 				t.Fatal("accepted malformed batch")
+			}
+			if !slices.Contains(roundTrip, name) {
+				return
 			}
 			data, err := json.Marshal(b)
 			if err != nil {
@@ -634,6 +649,64 @@ func TestMonsterBatch02Malformed(t *testing.T) {
 				t.Fatal("decoder must return no batch on invalid data")
 			}
 		})
+	}
+	for _, name := range roundTrip {
+		if tests[name] == nil {
+			t.Fatalf("round-trip case %q is not in the table", name)
+		}
+	}
+}
+
+// Typed source numbers must be printed in the retained text (review of #152):
+// a self-consistent wrong number is rejected even without the literal table.
+func TestMonsterBatch02TypedNumbersFollowText(t *testing.T) {
+	for name, mutate := range map[string]func(*MonsterBatch02){
+		"breath DC":       func(b *MonsterBatch02) { b.StatBlocks[1].ActionDetails[2].Save.DC = 23 },
+		"DC prefix":       func(b *MonsterBatch02) { b.StatBlocks[1].ActionDetails[2].Save.DC = 2 },
+		"line length":     func(b *MonsterBatch02) { b.StatBlocks[1].ActionDetails[2].Area.Feet = 60 },
+		"line width":      func(b *MonsterBatch02) { b.StatBlocks[1].ActionDetails[2].Area.WidthFeet = 5 },
+		"cone length":     func(b *MonsterBatch02) { b.StatBlocks[3].ActionDetails[3].Area.Feet = 60 },
+		"sphere radius":   func(b *MonsterBatch02) { b.StatBlocks[4].ActionDetails[7].Area.Feet = 30 },
+		"sphere range":    func(b *MonsterBatch02) { b.StatBlocks[4].ActionDetails[7].Area.RangeFeet = 90 },
+		"target range":    func(b *MonsterBatch02) { b.StatBlocks[1].ActionDetails[4].TargetRangeFeet = 60 },
+		"rend reach":      func(b *MonsterBatch02) { b.StatBlocks[1].Monster.Actions[1].Attack.Reach = 10 },
+		"recharge":        func(b *MonsterBatch02) { b.StatBlocks[1].ActionDetails[2].Recharge.Min = 4 },
+		"push":            func(b *MonsterBatch02) { b.StatBlocks[4].ActionDetails[3].PushFeet = 30 },
+		"duration":        func(b *MonsterBatch02) { b.StatBlocks[3].ActionDetails[3].DurationMinutes = 1 },
+		"flat penalty":    func(b *MonsterBatch02) { b.StatBlocks[7].ActionDetails[5].Penalties[0].Flat = 4 },
+		"rolled penalty":  func(b *MonsterBatch02) { b.StatBlocks[5].ActionDetails[5].Penalties[0].Sides = 6 },
+		"resistance uses": func(b *MonsterBatch02) { b.StatBlocks[1].Legendary.ResistanceUses = 3 },
+		"lair resistance": func(b *MonsterBatch02) { b.StatBlocks[1].Legendary.ResistanceLairUses = 6 },
+		"legendary uses":  func(b *MonsterBatch02) { b.StatBlocks[1].Legendary.Uses = 2 },
+		"save damage": func(b *MonsterBatch02) {
+			b.StatBlocks[1].ActionDetails[2].Damage[0] = MonsterBatch02Damage{Average: 72, Dice: 16, Sides: 8, Type: "acid", Trigger: "failure"}
+		},
+		"extra hit damage": func(b *MonsterBatch02) {
+			r := &b.StatBlocks[1].ActionDetails[1].Damage[1]
+			r.Average, r.Dice, r.Sides = 7, 2, 6
+		},
+	} {
+		t.Run(name, func(t *testing.T) {
+			var b MonsterBatch02
+			if err := json.Unmarshal(monsterBatch02JSON, &b); err != nil {
+				t.Fatal(err)
+			}
+			mutate(&b)
+			if b.Validate() == nil {
+				t.Fatal("accepted a typed number the source text does not print")
+			}
+		})
+	}
+	// The source prints "+17 to hit" for the Ancient Gold Dragon's Rend (p. 292)
+	// and "+N" elsewhere; both wordings satisfy the check.
+	gold := monsterBatch02(t).StatBlocks[6].Monster.Actions[1]
+	if !strings.HasPrefix(gold.Text, "Rend. Melee Attack Roll: +17 to hit, reach 15 ft.") {
+		t.Fatalf("unexpected text %q", gold.Text)
+	}
+	for text, phrase := range map[string]string{"DC 22,": "DC 2", "a 190-foot Cone": "90-foot Cone"} {
+		if monsterBatch02Prints(text, phrase) {
+			t.Fatalf("%q matched inside %q", phrase, text)
+		}
 	}
 }
 

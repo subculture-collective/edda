@@ -383,6 +383,12 @@ func (s MonsterBatch02StatBlock) Validate() error {
 		if legendaryActions == 0 || !resistance || l.Uses < 1 || l.LairUses < l.Uses || l.ResistanceUses < 1 || l.ResistanceLairUses < l.ResistanceUses || strings.TrimSpace(l.Text) == "" {
 			return fmt.Errorf("invalid legendary uses")
 		}
+		printed := fmt.Sprintf("(%d/Day, or %d/Day in Lair)", l.ResistanceUses, l.ResistanceLairUses)
+		if !slices.ContainsFunc(m.Traits, func(t MonsterMechanic) bool {
+			return t.Key == "trait/legendary-resistance" && strings.Contains(t.Text, printed)
+		}) || !strings.HasPrefix(l.Text, fmt.Sprintf("Legendary Action Uses: %d (%d in Lair). ", l.Uses, l.LairUses)) {
+			return fmt.Errorf("legendary uses do not match the retained source text")
+		}
 		for _, key := range []string{"monster/legendary-actions", "monster/lair-legendary-uses"} {
 			if err := needs(key); err != nil {
 				return err
@@ -542,7 +548,97 @@ func (s MonsterBatch02StatBlock) validateDetail(a MonsterAction, d MonsterBatch0
 	} else if a.ID == "spellcasting" {
 		return fmt.Errorf("Spellcasting needs its typed list")
 	}
+	return s.validateDetailText(a, d)
+}
+
+// validateDetailText requires every typed source number of a detail to be
+// printed in the retained action text, so a typed value cannot drift from it.
+func (s MonsterBatch02StatBlock) validateDetailText(a MonsterAction, d MonsterBatch02ActionDetail) error {
+	var want []string
+	if at := a.Attack; at != nil {
+		want = append(want, fmt.Sprintf("Attack Roll: +%d", at.Bonus))
+		if at.Reach > 0 {
+			want = append(want, fmt.Sprintf("reach %d ft.", at.Reach))
+		}
+		if at.Range > 0 {
+			want = append(want, fmt.Sprintf("range %d", at.Range))
+		}
+	}
+	if r := d.Recharge; r != nil {
+		if r.Min == r.Max {
+			want = append(want, fmt.Sprintf("(Recharge %d)", r.Min))
+		} else {
+			want = append(want, fmt.Sprintf("(Recharge %d–%d)", r.Min, r.Max))
+		}
+	}
+	if d.Save != nil {
+		want = append(want, fmt.Sprintf("Saving Throw: DC %d", d.Save.DC))
+	}
+	if ar := d.Area; ar != nil {
+		switch ar.Shape {
+		case "line":
+			want = append(want, fmt.Sprintf("%d-foot-long, %d-foot-wide Line", ar.Feet, ar.WidthFeet))
+		case "cone":
+			want = append(want, fmt.Sprintf("%d-foot Cone", ar.Feet))
+		case "sphere":
+			want = append(want, fmt.Sprintf("%d-foot-radius Sphere", ar.Feet), fmt.Sprintf("within %d feet", ar.RangeFeet))
+		}
+	}
+	if d.TargetRangeFeet > 0 {
+		want = append(want, fmt.Sprintf("within %d feet", d.TargetRangeFeet))
+	}
+	for _, roll := range d.Damage {
+		dice := fmt.Sprintf("%dd%d", roll.Dice, roll.Sides)
+		if roll.Modifier != 0 {
+			dice += fmt.Sprintf(" + %d", roll.Modifier)
+		}
+		want = append(want, fmt.Sprintf("%d (%s) %s%s damage", roll.Average, dice, strings.ToUpper(roll.Type[:1]), roll.Type[1:]))
+	}
+	if d.PushFeet > 0 {
+		want = append(want, fmt.Sprintf("pushed up to %d feet", d.PushFeet))
+	}
+	if d.DurationMinutes > 0 {
+		want = append(want, fmt.Sprintf("%d minute", d.DurationMinutes))
+	}
+	for _, p := range d.Penalties {
+		switch {
+		case p.Flat > 0:
+			want = append(want, fmt.Sprintf("−%d penalty", p.Flat))
+		case p.Average > 0:
+			want = append(want, fmt.Sprintf("%d (%dd%d)", p.Average, p.Dice, p.Sides))
+		default:
+			want = append(want, fmt.Sprintf("%dd%d", p.Dice, p.Sides))
+		}
+	}
+	if sc := d.Spellcasting; sc != nil {
+		want = append(want, fmt.Sprintf("spell save DC %d", sc.SaveDC))
+		if sc.AttackBonus != nil {
+			want = append(want, fmt.Sprintf("+%d to hit with spell attacks", *sc.AttackBonus))
+		}
+	}
+	for _, phrase := range want {
+		if !monsterBatch02Prints(a.Text, phrase) {
+			return fmt.Errorf("typed value %q is not printed in the action text", phrase)
+		}
+	}
 	return nil
+}
+
+// monsterBatch02Prints reports whether text contains phrase as whole numbers:
+// no digit may adjoin the match, so "DC 2" is not found in "DC 22".
+func monsterBatch02Prints(text, phrase string) bool {
+	digit := func(b byte) bool { return b >= '0' && b <= '9' }
+	for from := 0; ; {
+		i := strings.Index(text[from:], phrase)
+		if i < 0 {
+			return false
+		}
+		start, end := from+i, from+i+len(phrase)
+		if (start == 0 || !digit(text[start-1]) || !digit(phrase[0])) && (end == len(text) || !digit(text[end]) || !digit(phrase[len(phrase)-1])) {
+			return true
+		}
+		from = start + 1
+	}
 }
 
 // lists reports whether the block's Spellcasting action prints the spell at that level.
