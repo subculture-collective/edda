@@ -1,0 +1,2564 @@
+{
+  "schema_version": 1,
+  "rules_version": "srd-5.2.1",
+  "batch": "data-magic-items-09",
+  "catalogue_issue": 233,
+  "source": {
+    "version": "5.2.1",
+    "language": "en",
+    "landing_url": "https://www.dndbeyond.com/srd",
+    "artifact_url": "https://media.dndbeyond.com/compendium-images/srd/5.2/SRD_CC_v5.2.1.pdf",
+    "sha256": "8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87",
+    "bytes": 6031375,
+    "pages": 364,
+    "retrieved_at": "2026-11-15",
+    "license": "CC-BY-4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/legalcode",
+    "attribution": "This work includes material from the System Reference Document 5.2.1 (“SRD 5.2.1”) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd. The SRD 5.2.1 is licensed under the Creative Commons Attribution 4.0 International License, available at https://creativecommons.org/licenses/by/4.0/legalcode.",
+    "changes": "SRD 5.2.1 pp. 225–227, with the Ioun Stone text continued from p. 228, adapted into twelve versioned magic-item families (Helm of Brilliance through Ioun Stone) with explicit variant identities, structured requirements and typed source values. Names, numeric rules and key phrases are adapted into keys; no rules prose is reproduced. Prices are not listed and remain unspecified. Catalogue data grants no inventory, action or gameplay permissions; every record is unavailable."
+  },
+  "families": [
+    {
+      "id": "srd-5.2.1:content/items/helm-of-brilliance",
+      "name": "Helm of Brilliance",
+      "kind": "magic",
+      "category": "wondrous-item",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/helm-of-brilliance",
+          "pages": [
+            225,
+            225
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/helm-of-brilliance/variant/standard",
+          "name": "Helm of Brilliance",
+          "rarity": "very-rare",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wear",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "magic-action",
+            "restrictions": [
+              "gem-required"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              225,
+              225
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "item.wear",
+            "item.gems-1d10-diamonds-2d10-rubies-3d10-fire-opals-4d10-opals",
+            "item.loses-magic-without-gems",
+            "light.emanation-30-foot",
+            "damage.radiant-1d6-undead",
+            "action.magic",
+            "damage.fire-1d6-blazing-weapon",
+            "light.bright-10-dim-10",
+            "defense.resistance-fire",
+            "spell.save-dc-18",
+            "spell.daylight-fireball-prismatic-spray-wall-of-fire",
+            "item.gem-destroyed-on-cast",
+            "save.dexterity-dc-17",
+            "damage.radiant-per-gem"
+          ],
+          "details": {
+            "helm_of_brilliance": {
+              "source_pages": [
+                225,
+                226
+              ],
+              "gems": [
+                {
+                  "gem": "diamond",
+                  "dice": 1,
+                  "sides": 10
+                },
+                {
+                  "gem": "ruby",
+                  "dice": 2,
+                  "sides": 10
+                },
+                {
+                  "gem": "fire-opal",
+                  "dice": 3,
+                  "sides": 10
+                },
+                {
+                  "gem": "opal",
+                  "dice": 4,
+                  "sides": 10
+                }
+              ],
+              "gems_crumble_when_pried": true,
+              "loses_magic_when_all_gems_gone": true,
+              "condition": "while-wearing",
+              "diamond_light": {
+                "requires": "at-least-one-diamond",
+                "emanation_feet": 30,
+                "dim_light_when": "undead-within-emanation",
+                "damage_trigger": "undead-starts-turn-in-emanation",
+                "damage": {
+                  "dice": 1,
+                  "sides": 6,
+                  "type": "radiant"
+                }
+              },
+              "fire_opal_flames": {
+                "requires": "at-least-one-fire-opal",
+                "action": "magic",
+                "target": "one-weapon-you-are-holding",
+                "bright_light_feet": 10,
+                "dim_light_additional_feet": 10,
+                "harmless_to": [
+                  "you",
+                  "the-weapon"
+                ],
+                "extra_damage": {
+                  "dice": 1,
+                  "sides": 6,
+                  "type": "fire"
+                },
+                "extra_damage_trigger": "hit-with-attack-using-blazing-weapon",
+                "ends_on": [
+                  "bonus-action-extinguish",
+                  "drop-weapon",
+                  "stow-weapon"
+                ]
+              },
+              "ruby_resistance": {
+                "requires": "at-least-one-ruby",
+                "resistance": "fire"
+              },
+              "spells": {
+                "save_dc": 18,
+                "component": "one-helm-gem-of-specified-type",
+                "gem_destroyed_when_cast": true,
+                "gem_disappears_from_helm": true,
+                "spells": [
+                  {
+                    "spell": "daylight",
+                    "gem": "opal"
+                  },
+                  {
+                    "spell": "fireball",
+                    "gem": "fire-opal"
+                  },
+                  {
+                    "spell": "prismatic-spray",
+                    "gem": "diamond"
+                  },
+                  {
+                    "spell": "wall-of-fire",
+                    "gem": "ruby"
+                  }
+                ]
+              },
+              "taking_fire_damage": {
+                "trigger": "wearing-and-fire-damage-from-failed-save-against-spell",
+                "roll_die_sides": 20,
+                "destroyed_on_roll": 1,
+                "effect": "beams-of-light-from-remaining-gems",
+                "helm_destroyed": true,
+                "emanation_feet": 60,
+                "origin": "you",
+                "save_ability": "dexterity",
+                "save_dc": 17,
+                "damage_type": "radiant",
+                "damage": "number-of-gems-in-helm"
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/helm-of-comprehending-languages",
+      "name": "Helm of Comprehending Languages",
+      "kind": "magic",
+      "category": "wondrous-item",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/helm-of-comprehending-languages",
+          "pages": [
+            226,
+            226
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/helm-of-comprehending-languages/variant/standard",
+          "name": "Helm of Comprehending Languages",
+          "rarity": "uncommon",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wear",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "cast-spell",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              226,
+              226
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.wear",
+            "spell.cast-comprehend-languages"
+          ],
+          "details": {
+            "helm_of_comprehending_languages": {
+              "condition": "while-wearing",
+              "spell": "comprehend-languages"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/helm-of-telepathy",
+      "name": "Helm of Telepathy",
+      "kind": "magic",
+      "category": "wondrous-item",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/helm-of-telepathy",
+          "pages": [
+            226,
+            226
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/helm-of-telepathy/variant/standard",
+          "name": "Helm of Telepathy",
+          "rarity": "uncommon",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wear",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "cast-spell",
+            "restrictions": [
+              "each-spell-once-until-next-dawn"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              226,
+              226
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "item.wear",
+            "sense.telepathy-30-feet",
+            "spell.cast-detect-thoughts",
+            "spell.cast-suggestion",
+            "spell.suggestion-save-dc-13",
+            "item.once-until-next-dawn"
+          ],
+          "details": {
+            "helm_of_telepathy": {
+              "condition": "while-wearing",
+              "telepathy_range_feet": 30,
+              "spells": [
+                "detect-thoughts",
+                "suggestion"
+              ],
+              "save_dc_spell": "suggestion",
+              "save_dc": 13,
+              "spell_reuse": "that-spell-cannot-be-cast-again",
+              "spell_reuse_window": "until-next-dawn"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/helm-of-teleportation",
+      "name": "Helm of Teleportation",
+      "kind": "magic",
+      "category": "wondrous-item",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/helm-of-teleportation",
+          "pages": [
+            226,
+            226
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/helm-of-teleportation/variant/standard",
+          "name": "Helm of Teleportation",
+          "rarity": "rare",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "limited",
+            "maximum": 3,
+            "per_use": 1,
+            "recharge": "regain-1d3-at-dawn"
+          },
+          "equip": {
+            "mode": "wear",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "cast-spell",
+            "restrictions": [
+              "expend-one-charge"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              226,
+              226
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "item.wear",
+            "item.charges",
+            "spell.cast-teleport",
+            "item.regain-1d3-charges-at-dawn"
+          ],
+          "details": {
+            "helm_of_teleportation": {
+              "condition": "while-wearing",
+              "max_charges": 3,
+              "spell": "teleport",
+              "charge_cost": 1,
+              "regain_dice": {
+                "dice": 1,
+                "sides": 3,
+                "type": "charges"
+              },
+              "regain_timing": "dawn"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/holy-avenger",
+      "name": "Holy Avenger",
+      "kind": "magic",
+      "category": "weapon",
+      "base": {
+        "options": [
+          "any-simple-weapon",
+          "any-martial-weapon"
+        ],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/holy-avenger",
+          "pages": [
+            226,
+            226
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/holy-avenger/variant/standard",
+          "name": "Holy Avenger",
+          "rarity": "legendary",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wield",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "weapon-attack",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              226,
+              226
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "attunement.paladin",
+            "bonus.attack-and-damage-3",
+            "damage.radiant-2d10-fiend-undead",
+            "aura.emanation-10-foot",
+            "save.advantage-spells-and-magical-effects",
+            "aura.emanation-30-foot-paladin-17"
+          ],
+          "details": {
+            "holy_avenger": {
+              "attunement_by_any_of": [
+                "paladin"
+              ],
+              "attack_bonus": 3,
+              "damage_bonus": 3,
+              "extra_damage": {
+                "dice": 2,
+                "sides": 10,
+                "type": "radiant"
+              },
+              "extra_damage_against": [
+                "fiend",
+                "undead"
+              ],
+              "extra_damage_trigger": "hit-with-weapon",
+              "aura": {
+                "condition": "while-holding-drawn-weapon",
+                "emanation_feet": 10,
+                "origin": "you",
+                "affected": [
+                  "you",
+                  "creatures-friendly-to-you-in-emanation"
+                ],
+                "benefit": "advantage-on-saving-throws",
+                "against": [
+                  "spells",
+                  "other-magical-effects"
+                ],
+                "larger_emanation_min_paladin_levels": 17,
+                "larger_emanation_feet": 30
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/horn-of-blasting",
+      "name": "Horn of Blasting",
+      "kind": "magic",
+      "category": "wondrous-item",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/horn-of-blasting",
+          "pages": [
+            226,
+            226
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/horn-of-blasting/variant/standard",
+          "name": "Horn of Blasting",
+          "rarity": "rare",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "magic-action",
+            "restrictions": [
+              "explosion-chance-20-percent"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              226,
+              226
+            ]
+          },
+          "required_mechanic_keys": [
+            "action.magic",
+            "area.cone-30-foot",
+            "sound.audible-600-feet",
+            "save.constitution-dc-15",
+            "damage.thunder-5d8",
+            "condition.deafened",
+            "damage.thunder-10d8-glass-crystal",
+            "damage.force-10d6-explosion",
+            "item.destroyed-by-explosion"
+          ],
+          "details": {
+            "horn_of_blasting": {
+              "action": "magic",
+              "cone_feet": 30,
+              "audible_feet": 600,
+              "save_ability": "constitution",
+              "save_dc": 15,
+              "damage": {
+                "dice": 5,
+                "sides": 8,
+                "type": "thunder"
+              },
+              "condition": "deafened",
+              "condition_duration_seconds": 60,
+              "success_result": "half-damage-only",
+              "object_targets": "glass-or-crystal-in-cone-not-worn-or-carried",
+              "object_damage": {
+                "dice": 10,
+                "sides": 8,
+                "type": "thunder"
+              },
+              "explosion_chance_percent": 20,
+              "explosion_damage": {
+                "dice": 10,
+                "sides": 6,
+                "type": "force"
+              },
+              "explosion_target": "user",
+              "explosion_destroys_horn": true
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/horn-of-valhalla",
+      "name": "Horn of Valhalla",
+      "kind": "magic",
+      "category": "wondrous-item",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/horn-of-valhalla",
+          "pages": [
+            226,
+            226
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/horn-of-valhalla/variant/silver",
+          "name": "Silver",
+          "rarity": "rare",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "magic-action",
+            "restrictions": [
+              "use-cooldown"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              226,
+              226
+            ]
+          },
+          "required_mechanic_keys": [
+            "action.magic",
+            "creature.spirits-berserker-stat-block",
+            "creature.returns-to-ysgard",
+            "immunity.charmed-and-frightened",
+            "item.use-cooldown",
+            "item.type-by-gm-or-1d100-table",
+            "creature.attack-you-without-requirement",
+            "creature.friendly-with-requirement"
+          ],
+          "details": {
+            "horn_of_valhalla": {
+              "action": "magic",
+              "spawn_range_feet": 60,
+              "spirits_from_plane": "ysgard",
+              "spirit_stat_block": "berserker",
+              "spirit_appearance": "living-breathing-warriors",
+              "duration_hours": 1,
+              "return_triggers": [
+                "duration-elapsed",
+                "drops-to-0-hit-points"
+              ],
+              "spirit_immunities": [
+                "charmed",
+                "frightened"
+              ],
+              "cooldown_days": 7,
+              "types_known": 4,
+              "type": "silver",
+              "table_die_sides": 100,
+              "table_min": 1,
+              "table_max": 40,
+              "spirits": 2,
+              "requirement": "none",
+              "unmet_requirement_result": "spirits-attack-you",
+              "met_requirement_result": [
+                "friendly-to-you-and-your-allies",
+                "follow-your-commands"
+              ]
+            }
+          }
+        },
+        {
+          "id": "srd-5.2.1:content/items/horn-of-valhalla/variant/brass",
+          "name": "Brass",
+          "rarity": "rare",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "magic-action",
+            "restrictions": [
+              "use-cooldown"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              226,
+              226
+            ]
+          },
+          "required_mechanic_keys": [
+            "action.magic",
+            "creature.spirits-berserker-stat-block",
+            "creature.returns-to-ysgard",
+            "immunity.charmed-and-frightened",
+            "item.use-cooldown",
+            "item.type-by-gm-or-1d100-table",
+            "creature.attack-you-without-requirement",
+            "creature.friendly-with-requirement"
+          ],
+          "details": {
+            "horn_of_valhalla": {
+              "action": "magic",
+              "spawn_range_feet": 60,
+              "spirits_from_plane": "ysgard",
+              "spirit_stat_block": "berserker",
+              "spirit_appearance": "living-breathing-warriors",
+              "duration_hours": 1,
+              "return_triggers": [
+                "duration-elapsed",
+                "drops-to-0-hit-points"
+              ],
+              "spirit_immunities": [
+                "charmed",
+                "frightened"
+              ],
+              "cooldown_days": 7,
+              "types_known": 4,
+              "type": "brass",
+              "table_die_sides": 100,
+              "table_min": 41,
+              "table_max": 75,
+              "spirits": 3,
+              "requirement": "proficiency-with-all-simple-weapons",
+              "unmet_requirement_result": "spirits-attack-you",
+              "met_requirement_result": [
+                "friendly-to-you-and-your-allies",
+                "follow-your-commands"
+              ]
+            }
+          }
+        },
+        {
+          "id": "srd-5.2.1:content/items/horn-of-valhalla/variant/bronze",
+          "name": "Bronze",
+          "rarity": "very-rare",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "magic-action",
+            "restrictions": [
+              "use-cooldown"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              226,
+              226
+            ]
+          },
+          "required_mechanic_keys": [
+            "action.magic",
+            "creature.spirits-berserker-stat-block",
+            "creature.returns-to-ysgard",
+            "immunity.charmed-and-frightened",
+            "item.use-cooldown",
+            "item.type-by-gm-or-1d100-table",
+            "creature.attack-you-without-requirement",
+            "creature.friendly-with-requirement"
+          ],
+          "details": {
+            "horn_of_valhalla": {
+              "action": "magic",
+              "spawn_range_feet": 60,
+              "spirits_from_plane": "ysgard",
+              "spirit_stat_block": "berserker",
+              "spirit_appearance": "living-breathing-warriors",
+              "duration_hours": 1,
+              "return_triggers": [
+                "duration-elapsed",
+                "drops-to-0-hit-points"
+              ],
+              "spirit_immunities": [
+                "charmed",
+                "frightened"
+              ],
+              "cooldown_days": 7,
+              "types_known": 4,
+              "type": "bronze",
+              "table_die_sides": 100,
+              "table_min": 76,
+              "table_max": 90,
+              "spirits": 4,
+              "requirement": "training-with-all-medium-armor",
+              "unmet_requirement_result": "spirits-attack-you",
+              "met_requirement_result": [
+                "friendly-to-you-and-your-allies",
+                "follow-your-commands"
+              ]
+            }
+          }
+        },
+        {
+          "id": "srd-5.2.1:content/items/horn-of-valhalla/variant/iron",
+          "name": "Iron",
+          "rarity": "legendary",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "magic-action",
+            "restrictions": [
+              "use-cooldown"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              226,
+              226
+            ]
+          },
+          "required_mechanic_keys": [
+            "action.magic",
+            "creature.spirits-berserker-stat-block",
+            "creature.returns-to-ysgard",
+            "immunity.charmed-and-frightened",
+            "item.use-cooldown",
+            "item.type-by-gm-or-1d100-table",
+            "creature.attack-you-without-requirement",
+            "creature.friendly-with-requirement"
+          ],
+          "details": {
+            "horn_of_valhalla": {
+              "action": "magic",
+              "spawn_range_feet": 60,
+              "spirits_from_plane": "ysgard",
+              "spirit_stat_block": "berserker",
+              "spirit_appearance": "living-breathing-warriors",
+              "duration_hours": 1,
+              "return_triggers": [
+                "duration-elapsed",
+                "drops-to-0-hit-points"
+              ],
+              "spirit_immunities": [
+                "charmed",
+                "frightened"
+              ],
+              "cooldown_days": 7,
+              "types_known": 4,
+              "type": "iron",
+              "table_die_sides": 100,
+              "table_min": 91,
+              "table_max": 100,
+              "spirits": 5,
+              "requirement": "proficiency-with-all-martial-weapons",
+              "unmet_requirement_result": "spirits-attack-you",
+              "met_requirement_result": [
+                "friendly-to-you-and-your-allies",
+                "follow-your-commands"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/horseshoes-of-speed",
+      "name": "Horseshoes of Speed",
+      "kind": "magic",
+      "category": "wondrous-item",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/horseshoes-of-speed",
+          "pages": [
+            227,
+            227
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/horseshoes-of-speed/variant/standard",
+          "name": "Horseshoes of Speed",
+          "rarity": "rare",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "magic-action",
+            "restrictions": [
+              "touch-to-hoof"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              227,
+              227
+            ]
+          },
+          "required_mechanic_keys": [
+            "action.magic",
+            "item.set-of-four",
+            "item.affixes-to-hoof",
+            "speed.bonus-30-feet-with-all-four"
+          ],
+          "details": {
+            "horseshoes_of_speed": {
+              "set_size": 4,
+              "affix_action": "magic",
+              "affix_target": "hoof-of-horse-or-similar-creature",
+              "remove_action": "magic",
+              "requires_all_affixed_to_same_creature": true,
+              "speed_bonus_feet": 30
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/horseshoes-of-a-zephyr",
+      "name": "Horseshoes of a Zephyr",
+      "kind": "magic",
+      "category": "wondrous-item",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/horseshoes-of-a-zephyr",
+          "pages": [
+            226,
+            226
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/horseshoes-of-a-zephyr/variant/standard",
+          "name": "Horseshoes of a Zephyr",
+          "rarity": "very-rare",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "magic-action",
+            "restrictions": [
+              "touch-to-hoof"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              226,
+              226
+            ]
+          },
+          "required_mechanic_keys": [
+            "action.magic",
+            "item.set-of-four",
+            "item.affixes-to-hoof",
+            "movement.float-4-inches",
+            "terrain.cross-nonsolid-surfaces",
+            "movement.leaves-no-tracks",
+            "terrain.ignores-difficult",
+            "travel.12-hours-no-exhaustion"
+          ],
+          "details": {
+            "horseshoes_of_a_zephyr": {
+              "set_size": 4,
+              "affix_action": "magic",
+              "affix_target": "hoof-of-horse-or-similar-creature",
+              "remove_action": "magic",
+              "requires_all_affixed": true,
+              "float_inches": 4,
+              "moves_normally": true,
+              "cross_surfaces": "nonsolid-or-unstable",
+              "surface_examples": [
+                "water",
+                "lava"
+              ],
+              "leaves_tracks": false,
+              "ignores_difficult_terrain": true,
+              "travel_hours_per_day": 12,
+              "no_exhaustion_from": "extended-travel"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/immovable-rod",
+      "name": "Immovable Rod",
+      "kind": "magic",
+      "category": "rod",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/immovable-rod",
+          "pages": [
+            227,
+            227
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/immovable-rod/variant/standard",
+          "name": "Immovable Rod",
+          "rarity": "uncommon",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "utilize-action",
+            "restrictions": [
+              "press-button"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              227,
+              227
+            ]
+          },
+          "required_mechanic_keys": [
+            "action.utilize",
+            "item.fixed-in-place",
+            "item.holds-8000-pounds",
+            "check.strength-athletics-dc-30",
+            "movement.rod-10-feet"
+          ],
+          "details": {
+            "immovable_rod": {
+              "material": "iron",
+              "button_on": "one-end",
+              "button_action": "utilize",
+              "fixed_effect": "magically-fixed-in-place",
+              "holds_against_gravity": true,
+              "released_by": [
+                "you",
+                "another-creature"
+              ],
+              "max_weight_pounds": 8000,
+              "overload_result": "deactivates-and-falls",
+              "move_action": "utilize",
+              "move_check": {
+                "ability": "strength",
+                "skill": "athletics",
+                "dc": 30
+              },
+              "move_feet": 10,
+              "move_on": "success"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/instant-fortress",
+      "name": "Instant Fortress",
+      "kind": "magic",
+      "category": "wondrous-item",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/instant-fortress",
+          "pages": [
+            227,
+            227
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/instant-fortress/variant/standard",
+          "name": "Instant Fortress",
+          "rarity": "rare",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "magic-action",
+            "restrictions": [
+              "command-word"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              227,
+              227
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "action.magic",
+            "item.command-word",
+            "object.tower-20-foot-30-high",
+            "defense.armor-class-20",
+            "defense.hit-points-100",
+            "defense.immune-nonsiege-weapon-damage",
+            "defense.resistance-other-damage",
+            "spell.wish-repairs-tower"
+          ],
+          "details": {
+            "instant_fortress": {
+              "statuette_inches": 1,
+              "statuette_material": "adamantine",
+              "action": "magic",
+              "activation": "command-word",
+              "placed_on": "ground",
+              "tower": {
+                "shape": "square",
+                "side_feet": 20,
+                "height_feet": 30,
+                "features": [
+                  "arrow-slits-on-all-sides",
+                  "battlement-atop"
+                ],
+                "floors": 2,
+                "floor_connection_your_choice": [
+                  "ladder",
+                  "staircase",
+                  "ramp"
+                ],
+                "roof_access": "trapdoor",
+                "doors": 1,
+                "door_location": "ground-level-facing-you",
+                "door_opens_by": "your-command",
+                "door_open_action": "bonus",
+                "door_immune_to": "knock-and-similar-magic",
+                "cannot_be_tipped": true,
+                "durable_parts": [
+                  "roof",
+                  "door",
+                  "walls"
+                ],
+                "armor_class": 20,
+                "hit_points": 100,
+                "immune_to": [
+                  "bludgeoning",
+                  "piercing",
+                  "slashing"
+                ],
+                "immunity_exception": "damage-dealt-by-siege-equipment",
+                "resistant_to": "all-other-damage"
+              },
+              "revert_activation": "repeat-command-word",
+              "revert_condition": "tower-is-empty",
+              "displaced_creatures": "pushed-to-unoccupied-space-outside-next-to-tower",
+              "displaced_objects": "unworn-uncarried-objects-pushed-clear",
+              "damage_repair": {
+                "shrinking_repairs_damage": false,
+                "only_spell": "wish",
+                "counts_as_spell_level_at_most": 8,
+                "each_casting_restores": "all-hit-points"
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/ioun-stone",
+      "name": "Ioun Stone",
+      "kind": "magic",
+      "category": "wondrous-item",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/ioun-stone",
+          "pages": [
+            227,
+            227
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/ioun-stone/variant/absorption",
+          "name": "Absorption",
+          "rarity": "very-rare",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "magic-action",
+            "restrictions": [
+              "toss-into-air",
+              "up-to-three-orbiting"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              227,
+              227
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "action.magic",
+            "action.utilize",
+            "item.orbits-head",
+            "item.max-three-orbiting",
+            "item.counts-as-worn",
+            "item.type-determines-rarity-and-effects",
+            "item.attunement-end-drops-stone"
+          ],
+          "details": {
+            "ioun_stone": {
+              "source_pages": [
+                227
+              ],
+              "shared_rules": {
+                "size": "roughly-marble",
+                "activation_action": "magic",
+                "method": "toss-into-the-air",
+                "orbit_distance_dice": 1,
+                "orbit_distance_sides": 3,
+                "max_orbiting": 3,
+                "orbiting_stone_counts_as": "object-you-are-wearing",
+                "orbit_traits": [
+                  "avoids-contact-with-creatures-and-objects",
+                  "adjusts-orbit-to-avoid-collisions",
+                  "thwarts-attacks-and-snatching"
+                ],
+                "stow_action": "utilize",
+                "stow_count": "any-number-orbiting",
+                "attunement_ends_result": "stone-falls-as-if-dropped"
+              },
+              "color": "pale-lavender",
+              "shape": "ellipsoid",
+              "benefit": "cancel-spell",
+              "action": "reaction",
+              "ability": "none",
+              "facts": [
+                {
+                  "key": "max-spell-level",
+                  "amount": 4,
+                  "unit": "level"
+                },
+                {
+                  "key": "burns-out-after-levels",
+                  "amount": 20,
+                  "unit": "levels"
+                }
+              ],
+              "traits": [
+                "target-spell-cast-by-creature-you-can-see",
+                "canceled-spell-has-no-effect",
+                "resources-used-to-cast-are-wasted",
+                "burns-out-turns-dull-gray-loses-magic"
+              ]
+            }
+          }
+        },
+        {
+          "id": "srd-5.2.1:content/items/ioun-stone/variant/agility",
+          "name": "Agility",
+          "rarity": "very-rare",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "magic-action",
+            "restrictions": [
+              "toss-into-air",
+              "up-to-three-orbiting"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              227,
+              227
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "action.magic",
+            "action.utilize",
+            "item.orbits-head",
+            "item.max-three-orbiting",
+            "item.counts-as-worn",
+            "item.type-determines-rarity-and-effects",
+            "item.attunement-end-drops-stone"
+          ],
+          "details": {
+            "ioun_stone": {
+              "source_pages": [
+                227
+              ],
+              "shared_rules": {
+                "size": "roughly-marble",
+                "activation_action": "magic",
+                "method": "toss-into-the-air",
+                "orbit_distance_dice": 1,
+                "orbit_distance_sides": 3,
+                "max_orbiting": 3,
+                "orbiting_stone_counts_as": "object-you-are-wearing",
+                "orbit_traits": [
+                  "avoids-contact-with-creatures-and-objects",
+                  "adjusts-orbit-to-avoid-collisions",
+                  "thwarts-attacks-and-snatching"
+                ],
+                "stow_action": "utilize",
+                "stow_count": "any-number-orbiting",
+                "attunement_ends_result": "stone-falls-as-if-dropped"
+              },
+              "color": "deep-red",
+              "shape": "sphere",
+              "benefit": "ability-score-increase",
+              "action": "none",
+              "ability": "dexterity",
+              "facts": [
+                {
+                  "key": "increase",
+                  "amount": 2,
+                  "unit": "points"
+                },
+                {
+                  "key": "maximum-score",
+                  "amount": 20,
+                  "unit": "score"
+                }
+              ],
+              "traits": [
+                "while-orbiting-head"
+              ]
+            }
+          }
+        },
+        {
+          "id": "srd-5.2.1:content/items/ioun-stone/variant/awareness",
+          "name": "Awareness",
+          "rarity": "rare",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "magic-action",
+            "restrictions": [
+              "toss-into-air",
+              "up-to-three-orbiting"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              227,
+              227
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "action.magic",
+            "action.utilize",
+            "item.orbits-head",
+            "item.max-three-orbiting",
+            "item.counts-as-worn",
+            "item.type-determines-rarity-and-effects",
+            "item.attunement-end-drops-stone"
+          ],
+          "details": {
+            "ioun_stone": {
+              "source_pages": [
+                227
+              ],
+              "shared_rules": {
+                "size": "roughly-marble",
+                "activation_action": "magic",
+                "method": "toss-into-the-air",
+                "orbit_distance_dice": 1,
+                "orbit_distance_sides": 3,
+                "max_orbiting": 3,
+                "orbiting_stone_counts_as": "object-you-are-wearing",
+                "orbit_traits": [
+                  "avoids-contact-with-creatures-and-objects",
+                  "adjusts-orbit-to-avoid-collisions",
+                  "thwarts-attacks-and-snatching"
+                ],
+                "stow_action": "utilize",
+                "stow_count": "any-number-orbiting",
+                "attunement_ends_result": "stone-falls-as-if-dropped"
+              },
+              "color": "dark-blue",
+              "shape": "rhomboid",
+              "benefit": "advantage-on-rolls",
+              "action": "none",
+              "ability": "none",
+              "facts": [],
+              "traits": [
+                "advantage-on-initiative-rolls",
+                "advantage-on-wisdom-perception-checks",
+                "while-orbiting-head"
+              ]
+            }
+          }
+        },
+        {
+          "id": "srd-5.2.1:content/items/ioun-stone/variant/fortitude",
+          "name": "Fortitude",
+          "rarity": "very-rare",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "magic-action",
+            "restrictions": [
+              "toss-into-air",
+              "up-to-three-orbiting"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              227,
+              227
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "action.magic",
+            "action.utilize",
+            "item.orbits-head",
+            "item.max-three-orbiting",
+            "item.counts-as-worn",
+            "item.type-determines-rarity-and-effects",
+            "item.attunement-end-drops-stone"
+          ],
+          "details": {
+            "ioun_stone": {
+              "source_pages": [
+                227
+              ],
+              "shared_rules": {
+                "size": "roughly-marble",
+                "activation_action": "magic",
+                "method": "toss-into-the-air",
+                "orbit_distance_dice": 1,
+                "orbit_distance_sides": 3,
+                "max_orbiting": 3,
+                "orbiting_stone_counts_as": "object-you-are-wearing",
+                "orbit_traits": [
+                  "avoids-contact-with-creatures-and-objects",
+                  "adjusts-orbit-to-avoid-collisions",
+                  "thwarts-attacks-and-snatching"
+                ],
+                "stow_action": "utilize",
+                "stow_count": "any-number-orbiting",
+                "attunement_ends_result": "stone-falls-as-if-dropped"
+              },
+              "color": "pink",
+              "shape": "rhomboid",
+              "benefit": "ability-score-increase",
+              "action": "none",
+              "ability": "constitution",
+              "facts": [
+                {
+                  "key": "increase",
+                  "amount": 2,
+                  "unit": "points"
+                },
+                {
+                  "key": "maximum-score",
+                  "amount": 20,
+                  "unit": "score"
+                }
+              ],
+              "traits": [
+                "while-orbiting-head"
+              ]
+            }
+          }
+        },
+        {
+          "id": "srd-5.2.1:content/items/ioun-stone/variant/greater-absorption",
+          "name": "Greater Absorption",
+          "rarity": "legendary",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "magic-action",
+            "restrictions": [
+              "toss-into-air",
+              "up-to-three-orbiting"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              227,
+              227
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "action.magic",
+            "action.utilize",
+            "item.orbits-head",
+            "item.max-three-orbiting",
+            "item.counts-as-worn",
+            "item.type-determines-rarity-and-effects",
+            "item.attunement-end-drops-stone"
+          ],
+          "details": {
+            "ioun_stone": {
+              "source_pages": [
+                227
+              ],
+              "shared_rules": {
+                "size": "roughly-marble",
+                "activation_action": "magic",
+                "method": "toss-into-the-air",
+                "orbit_distance_dice": 1,
+                "orbit_distance_sides": 3,
+                "max_orbiting": 3,
+                "orbiting_stone_counts_as": "object-you-are-wearing",
+                "orbit_traits": [
+                  "avoids-contact-with-creatures-and-objects",
+                  "adjusts-orbit-to-avoid-collisions",
+                  "thwarts-attacks-and-snatching"
+                ],
+                "stow_action": "utilize",
+                "stow_count": "any-number-orbiting",
+                "attunement_ends_result": "stone-falls-as-if-dropped"
+              },
+              "color": "marbled-lavender-and-green",
+              "shape": "ellipsoid",
+              "benefit": "cancel-spell",
+              "action": "reaction",
+              "ability": "none",
+              "facts": [
+                {
+                  "key": "max-spell-level",
+                  "amount": 8,
+                  "unit": "level"
+                },
+                {
+                  "key": "burns-out-after-levels",
+                  "amount": 20,
+                  "unit": "levels"
+                }
+              ],
+              "traits": [
+                "target-spell-cast-by-creature-you-can-see",
+                "canceled-spell-has-no-effect",
+                "resources-used-to-cast-are-wasted",
+                "burns-out-turns-dull-gray-loses-magic"
+              ]
+            }
+          }
+        },
+        {
+          "id": "srd-5.2.1:content/items/ioun-stone/variant/insight",
+          "name": "Insight",
+          "rarity": "very-rare",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "magic-action",
+            "restrictions": [
+              "toss-into-air",
+              "up-to-three-orbiting"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              227,
+              227
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "action.magic",
+            "action.utilize",
+            "item.orbits-head",
+            "item.max-three-orbiting",
+            "item.counts-as-worn",
+            "item.type-determines-rarity-and-effects",
+            "item.attunement-end-drops-stone"
+          ],
+          "details": {
+            "ioun_stone": {
+              "source_pages": [
+                227
+              ],
+              "shared_rules": {
+                "size": "roughly-marble",
+                "activation_action": "magic",
+                "method": "toss-into-the-air",
+                "orbit_distance_dice": 1,
+                "orbit_distance_sides": 3,
+                "max_orbiting": 3,
+                "orbiting_stone_counts_as": "object-you-are-wearing",
+                "orbit_traits": [
+                  "avoids-contact-with-creatures-and-objects",
+                  "adjusts-orbit-to-avoid-collisions",
+                  "thwarts-attacks-and-snatching"
+                ],
+                "stow_action": "utilize",
+                "stow_count": "any-number-orbiting",
+                "attunement_ends_result": "stone-falls-as-if-dropped"
+              },
+              "color": "incandescent-blue",
+              "shape": "sphere",
+              "benefit": "ability-score-increase",
+              "action": "none",
+              "ability": "wisdom",
+              "facts": [
+                {
+                  "key": "increase",
+                  "amount": 2,
+                  "unit": "points"
+                },
+                {
+                  "key": "maximum-score",
+                  "amount": 20,
+                  "unit": "score"
+                }
+              ],
+              "traits": [
+                "while-orbiting-head"
+              ]
+            }
+          }
+        },
+        {
+          "id": "srd-5.2.1:content/items/ioun-stone/variant/intellect",
+          "name": "Intellect",
+          "rarity": "very-rare",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "magic-action",
+            "restrictions": [
+              "toss-into-air",
+              "up-to-three-orbiting"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              227,
+              227
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "action.magic",
+            "action.utilize",
+            "item.orbits-head",
+            "item.max-three-orbiting",
+            "item.counts-as-worn",
+            "item.type-determines-rarity-and-effects",
+            "item.attunement-end-drops-stone"
+          ],
+          "details": {
+            "ioun_stone": {
+              "source_pages": [
+                227
+              ],
+              "shared_rules": {
+                "size": "roughly-marble",
+                "activation_action": "magic",
+                "method": "toss-into-the-air",
+                "orbit_distance_dice": 1,
+                "orbit_distance_sides": 3,
+                "max_orbiting": 3,
+                "orbiting_stone_counts_as": "object-you-are-wearing",
+                "orbit_traits": [
+                  "avoids-contact-with-creatures-and-objects",
+                  "adjusts-orbit-to-avoid-collisions",
+                  "thwarts-attacks-and-snatching"
+                ],
+                "stow_action": "utilize",
+                "stow_count": "any-number-orbiting",
+                "attunement_ends_result": "stone-falls-as-if-dropped"
+              },
+              "color": "marbled-scarlet-and-blue",
+              "shape": "sphere",
+              "benefit": "ability-score-increase",
+              "action": "none",
+              "ability": "intelligence",
+              "facts": [
+                {
+                  "key": "increase",
+                  "amount": 2,
+                  "unit": "points"
+                },
+                {
+                  "key": "maximum-score",
+                  "amount": 20,
+                  "unit": "score"
+                }
+              ],
+              "traits": [
+                "while-orbiting-head"
+              ]
+            }
+          }
+        },
+        {
+          "id": "srd-5.2.1:content/items/ioun-stone/variant/leadership",
+          "name": "Leadership",
+          "rarity": "very-rare",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "magic-action",
+            "restrictions": [
+              "toss-into-air",
+              "up-to-three-orbiting"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              227,
+              227
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "action.magic",
+            "action.utilize",
+            "item.orbits-head",
+            "item.max-three-orbiting",
+            "item.counts-as-worn",
+            "item.type-determines-rarity-and-effects",
+            "item.attunement-end-drops-stone"
+          ],
+          "details": {
+            "ioun_stone": {
+              "source_pages": [
+                227
+              ],
+              "shared_rules": {
+                "size": "roughly-marble",
+                "activation_action": "magic",
+                "method": "toss-into-the-air",
+                "orbit_distance_dice": 1,
+                "orbit_distance_sides": 3,
+                "max_orbiting": 3,
+                "orbiting_stone_counts_as": "object-you-are-wearing",
+                "orbit_traits": [
+                  "avoids-contact-with-creatures-and-objects",
+                  "adjusts-orbit-to-avoid-collisions",
+                  "thwarts-attacks-and-snatching"
+                ],
+                "stow_action": "utilize",
+                "stow_count": "any-number-orbiting",
+                "attunement_ends_result": "stone-falls-as-if-dropped"
+              },
+              "color": "marbled-pink-and-green",
+              "shape": "sphere",
+              "benefit": "ability-score-increase",
+              "action": "none",
+              "ability": "charisma",
+              "facts": [
+                {
+                  "key": "increase",
+                  "amount": 2,
+                  "unit": "points"
+                },
+                {
+                  "key": "maximum-score",
+                  "amount": 20,
+                  "unit": "score"
+                }
+              ],
+              "traits": [
+                "while-orbiting-head"
+              ]
+            }
+          }
+        },
+        {
+          "id": "srd-5.2.1:content/items/ioun-stone/variant/mastery",
+          "name": "Mastery",
+          "rarity": "legendary",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "magic-action",
+            "restrictions": [
+              "toss-into-air",
+              "up-to-three-orbiting"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              227,
+              227
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "action.magic",
+            "action.utilize",
+            "item.orbits-head",
+            "item.max-three-orbiting",
+            "item.counts-as-worn",
+            "item.type-determines-rarity-and-effects",
+            "item.attunement-end-drops-stone"
+          ],
+          "details": {
+            "ioun_stone": {
+              "source_pages": [
+                228
+              ],
+              "shared_rules": {
+                "size": "roughly-marble",
+                "activation_action": "magic",
+                "method": "toss-into-the-air",
+                "orbit_distance_dice": 1,
+                "orbit_distance_sides": 3,
+                "max_orbiting": 3,
+                "orbiting_stone_counts_as": "object-you-are-wearing",
+                "orbit_traits": [
+                  "avoids-contact-with-creatures-and-objects",
+                  "adjusts-orbit-to-avoid-collisions",
+                  "thwarts-attacks-and-snatching"
+                ],
+                "stow_action": "utilize",
+                "stow_count": "any-number-orbiting",
+                "attunement_ends_result": "stone-falls-as-if-dropped"
+              },
+              "color": "pale-green",
+              "shape": "prism",
+              "benefit": "proficiency-bonus-increase",
+              "action": "none",
+              "ability": "none",
+              "facts": [
+                {
+                  "key": "increase",
+                  "amount": 1,
+                  "unit": "points"
+                }
+              ],
+              "traits": [
+                "while-orbiting-head"
+              ]
+            }
+          }
+        },
+        {
+          "id": "srd-5.2.1:content/items/ioun-stone/variant/protection",
+          "name": "Protection",
+          "rarity": "rare",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "magic-action",
+            "restrictions": [
+              "toss-into-air",
+              "up-to-three-orbiting"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              227,
+              227
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "action.magic",
+            "action.utilize",
+            "item.orbits-head",
+            "item.max-three-orbiting",
+            "item.counts-as-worn",
+            "item.type-determines-rarity-and-effects",
+            "item.attunement-end-drops-stone"
+          ],
+          "details": {
+            "ioun_stone": {
+              "source_pages": [
+                228
+              ],
+              "shared_rules": {
+                "size": "roughly-marble",
+                "activation_action": "magic",
+                "method": "toss-into-the-air",
+                "orbit_distance_dice": 1,
+                "orbit_distance_sides": 3,
+                "max_orbiting": 3,
+                "orbiting_stone_counts_as": "object-you-are-wearing",
+                "orbit_traits": [
+                  "avoids-contact-with-creatures-and-objects",
+                  "adjusts-orbit-to-avoid-collisions",
+                  "thwarts-attacks-and-snatching"
+                ],
+                "stow_action": "utilize",
+                "stow_count": "any-number-orbiting",
+                "attunement_ends_result": "stone-falls-as-if-dropped"
+              },
+              "color": "dusty-rose",
+              "shape": "prism",
+              "benefit": "armor-class-bonus",
+              "action": "none",
+              "ability": "none",
+              "facts": [
+                {
+                  "key": "bonus",
+                  "amount": 1,
+                  "unit": "points"
+                }
+              ],
+              "traits": [
+                "while-orbiting-head"
+              ]
+            }
+          }
+        },
+        {
+          "id": "srd-5.2.1:content/items/ioun-stone/variant/regeneration",
+          "name": "Regeneration",
+          "rarity": "legendary",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "magic-action",
+            "restrictions": [
+              "toss-into-air",
+              "up-to-three-orbiting"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              227,
+              227
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "action.magic",
+            "action.utilize",
+            "item.orbits-head",
+            "item.max-three-orbiting",
+            "item.counts-as-worn",
+            "item.type-determines-rarity-and-effects",
+            "item.attunement-end-drops-stone"
+          ],
+          "details": {
+            "ioun_stone": {
+              "source_pages": [
+                228
+              ],
+              "shared_rules": {
+                "size": "roughly-marble",
+                "activation_action": "magic",
+                "method": "toss-into-the-air",
+                "orbit_distance_dice": 1,
+                "orbit_distance_sides": 3,
+                "max_orbiting": 3,
+                "orbiting_stone_counts_as": "object-you-are-wearing",
+                "orbit_traits": [
+                  "avoids-contact-with-creatures-and-objects",
+                  "adjusts-orbit-to-avoid-collisions",
+                  "thwarts-attacks-and-snatching"
+                ],
+                "stow_action": "utilize",
+                "stow_count": "any-number-orbiting",
+                "attunement_ends_result": "stone-falls-as-if-dropped"
+              },
+              "color": "pearly-white",
+              "shape": "spindle",
+              "benefit": "regain-hit-points",
+              "action": "none",
+              "ability": "none",
+              "facts": [
+                {
+                  "key": "regain",
+                  "amount": 15,
+                  "unit": "hit-points"
+                },
+                {
+                  "key": "minimum-hit-points",
+                  "amount": 1,
+                  "unit": "hit-points"
+                }
+              ],
+              "traits": [
+                "end-of-each-hour",
+                "while-orbiting-head"
+              ]
+            }
+          }
+        },
+        {
+          "id": "srd-5.2.1:content/items/ioun-stone/variant/reserve",
+          "name": "Reserve",
+          "rarity": "rare",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "magic-action",
+            "restrictions": [
+              "toss-into-air",
+              "up-to-three-orbiting"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              227,
+              227
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "action.magic",
+            "action.utilize",
+            "item.orbits-head",
+            "item.max-three-orbiting",
+            "item.counts-as-worn",
+            "item.type-determines-rarity-and-effects",
+            "item.attunement-end-drops-stone"
+          ],
+          "details": {
+            "ioun_stone": {
+              "source_pages": [
+                228
+              ],
+              "shared_rules": {
+                "size": "roughly-marble",
+                "activation_action": "magic",
+                "method": "toss-into-the-air",
+                "orbit_distance_dice": 1,
+                "orbit_distance_sides": 3,
+                "max_orbiting": 3,
+                "orbiting_stone_counts_as": "object-you-are-wearing",
+                "orbit_traits": [
+                  "avoids-contact-with-creatures-and-objects",
+                  "adjusts-orbit-to-avoid-collisions",
+                  "thwarts-attacks-and-snatching"
+                ],
+                "stow_action": "utilize",
+                "stow_count": "any-number-orbiting",
+                "attunement_ends_result": "stone-falls-as-if-dropped"
+              },
+              "color": "vibrant-purple",
+              "shape": "prism",
+              "benefit": "store-spells",
+              "action": "none",
+              "ability": "none",
+              "facts": [
+                {
+                  "key": "capacity",
+                  "amount": 4,
+                  "unit": "levels"
+                },
+                {
+                  "key": "initial-levels-dice",
+                  "amount": 1,
+                  "unit": "dice"
+                },
+                {
+                  "key": "initial-levels-sides",
+                  "amount": 4,
+                  "unit": "sides"
+                },
+                {
+                  "key": "cast-into-min-level",
+                  "amount": 1,
+                  "unit": "level"
+                },
+                {
+                  "key": "cast-into-max-level",
+                  "amount": 4,
+                  "unit": "level"
+                }
+              ],
+              "traits": [
+                "initial-spells-chosen-by-gm",
+                "any-creature-can-cast-into-stone-by-touching-it",
+                "stored-spell-has-no-other-effect",
+                "spell-expended-without-effect-if-stone-cannot-hold-it",
+                "slot-level-determines-space-used",
+                "you-can-cast-stored-spell-while-orbiting",
+                "uses-original-caster-slot-level-save-dc-attack-bonus-and-spellcasting-ability",
+                "cast-spell-is-no-longer-stored"
+              ]
+            }
+          }
+        },
+        {
+          "id": "srd-5.2.1:content/items/ioun-stone/variant/strength",
+          "name": "Strength",
+          "rarity": "very-rare",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "magic-action",
+            "restrictions": [
+              "toss-into-air",
+              "up-to-three-orbiting"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              227,
+              227
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "action.magic",
+            "action.utilize",
+            "item.orbits-head",
+            "item.max-three-orbiting",
+            "item.counts-as-worn",
+            "item.type-determines-rarity-and-effects",
+            "item.attunement-end-drops-stone"
+          ],
+          "details": {
+            "ioun_stone": {
+              "source_pages": [
+                228
+              ],
+              "shared_rules": {
+                "size": "roughly-marble",
+                "activation_action": "magic",
+                "method": "toss-into-the-air",
+                "orbit_distance_dice": 1,
+                "orbit_distance_sides": 3,
+                "max_orbiting": 3,
+                "orbiting_stone_counts_as": "object-you-are-wearing",
+                "orbit_traits": [
+                  "avoids-contact-with-creatures-and-objects",
+                  "adjusts-orbit-to-avoid-collisions",
+                  "thwarts-attacks-and-snatching"
+                ],
+                "stow_action": "utilize",
+                "stow_count": "any-number-orbiting",
+                "attunement_ends_result": "stone-falls-as-if-dropped"
+              },
+              "color": "pale-blue",
+              "shape": "rhomboid",
+              "benefit": "ability-score-increase",
+              "action": "none",
+              "ability": "strength",
+              "facts": [
+                {
+                  "key": "increase",
+                  "amount": 2,
+                  "unit": "points"
+                },
+                {
+                  "key": "maximum-score",
+                  "amount": 20,
+                  "unit": "score"
+                }
+              ],
+              "traits": [
+                "while-orbiting-head"
+              ]
+            }
+          }
+        },
+        {
+          "id": "srd-5.2.1:content/items/ioun-stone/variant/sustenance",
+          "name": "Sustenance",
+          "rarity": "rare",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "magic-action",
+            "restrictions": [
+              "toss-into-air",
+              "up-to-three-orbiting"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              227,
+              227
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "action.magic",
+            "action.utilize",
+            "item.orbits-head",
+            "item.max-three-orbiting",
+            "item.counts-as-worn",
+            "item.type-determines-rarity-and-effects",
+            "item.attunement-end-drops-stone"
+          ],
+          "details": {
+            "ioun_stone": {
+              "source_pages": [
+                228
+              ],
+              "shared_rules": {
+                "size": "roughly-marble",
+                "activation_action": "magic",
+                "method": "toss-into-the-air",
+                "orbit_distance_dice": 1,
+                "orbit_distance_sides": 3,
+                "max_orbiting": 3,
+                "orbiting_stone_counts_as": "object-you-are-wearing",
+                "orbit_traits": [
+                  "avoids-contact-with-creatures-and-objects",
+                  "adjusts-orbit-to-avoid-collisions",
+                  "thwarts-attacks-and-snatching"
+                ],
+                "stow_action": "utilize",
+                "stow_count": "any-number-orbiting",
+                "attunement_ends_result": "stone-falls-as-if-dropped"
+              },
+              "color": "clear",
+              "shape": "spindle",
+              "benefit": "no-need-to-eat-or-drink",
+              "action": "none",
+              "ability": "none",
+              "facts": [],
+              "traits": [
+                "while-orbiting-head"
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

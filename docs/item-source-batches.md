@@ -437,6 +437,61 @@ Spells text and table continue across the p. 224 to p. 225 break.
 rtk proxy python3 -I scripts/verify_srd_items_232.py /path/to/SRD_CC_v5.2.1.pdf
 ```
 
+## Magic items 09 (#233), pp. 225–227
+
+Twelve families and 28 variants, in planning inventory order. Files:
+`item_details_233.go`, `testdata/items_233.json`, `items_233_test.go` and
+`scripts/verify_srd_items_233.py`. `item_source.go` is unchanged.
+
+| Family | Page | Variants | Typed payload |
+| --- | --- | --- | --- |
+| Helm of Brilliance | 225 | `standard` (Very Rare, attunement) | `helm_of_brilliance`: gems, four properties and the fire-damage mishap; continues onto p. 226 |
+| Helm of Comprehending Languages | 226 | `standard` (Uncommon) | `helm_of_comprehending_languages` |
+| Helm of Telepathy | 226 | `standard` (Uncommon, attunement) | `helm_of_telepathy` |
+| Helm of Teleportation | 226 | `standard` (Rare, attunement) | `helm_of_teleportation`: 3 charges |
+| Holy Avenger | 226 | `standard` (Legendary, attunement) | `holy_avenger`: class attunement and the aura |
+| Horn of Blasting | 226 | `standard` (Rare) | `horn_of_blasting` |
+| Horn of Valhalla | 226 | `silver`, `brass`, `bronze`, `iron` | `horn_of_valhalla`: shared rules and its 1d100 row |
+| Horseshoes of Speed | 227 | `standard` (Rare) | `horseshoes_of_speed` |
+| Horseshoes of a Zephyr | 226 | `standard` (Very Rare) | `horseshoes_of_a_zephyr` |
+| Immovable Rod | 227 | `standard` (Uncommon) | `immovable_rod` |
+| Instant Fortress | 227 | `standard` (Rare, attunement) | `instant_fortress`: statuette and tower |
+| Ioun Stone | 227 | fourteen printed stones, `absorption` to `sustenance` | `ioun_stone`: shared rules and one stone; continues onto p. 228 |
+
+Variant rules used in this batch:
+
+- The Horn of Valhalla prints several rarities and the Ioun Stone prints
+  "Rarity Varies". Each printed metal or stone is a variant named as printed,
+  with the rarity printed with its heading: Silver and Brass are Rare, Bronze
+  is Very Rare and Iron is Legendary. The four rows of the horn table are payload
+  data (`table_min`, `table_max`; a printed `00` is stored as 100).
+- The Ioun Stone text continues from p. 227 onto p. 228. The presentation keeps
+  the inventory page 227; each stone's `source_pages` is the page that prints it
+  (Mastery, Protection, Regeneration, Reserve, Strength and Sustenance are on
+  p. 228). Shared rules repeat in every stone's payload. Per-stone numbers are
+  `ItemFact233` entries: a key, a non-negative amount and a unit.
+- The Holy Avenger's "Requires Attunement by a Paladin" is a payload fact
+  (`attunement_by_any_of`); the shared validator keeps attunement restrictions
+  empty. Its base weapons are any Simple or Martial weapon.
+- The Helm of Brilliance text continues from p. 225 onto p. 226, so its
+  `source_pages` is `[225, 226]`. Gem counts are dice, not quantities.
+- The Helm of Teleportation is the only family with a charge pool (3 charges,
+  1 per use, regains 1d3 at dawn). Other limits, such as the Helm of Telepathy's
+  once-until-dawn spells and the Horn of Valhalla's 7 days, are use limits.
+- Horseshoes of Speed is printed after Horseshoes of a Zephyr; the catalogue
+  keeps inventory order and the comparison script handles the print order.
+
+Composing the Healing contract fixture with batches #225 to #231 and this batch
+yields 97 families and 151 variants with no shared identity. The Healing
+fixture, `ResolveHealingPotion` and the coverage register are unchanged.
+
+The comparison script reads pp. 225–228 as one text stream, so the Helm of
+Brilliance and the Ioun Stone text continue across their page breaks.
+
+```sh
+rtk proxy python3 -I scripts/verify_srd_items_233.py /path/to/SRD_CC_v5.2.1.pdf
+```
+
 This work includes material from the System Reference Document 5.2.1 (“SRD
 5.2.1”) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd.
 The SRD 5.2.1 is licensed under the Creative Commons Attribution 4.0 International
