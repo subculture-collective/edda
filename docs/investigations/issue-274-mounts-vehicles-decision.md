@@ -1,6 +1,6 @@
 # Mount, vehicle and cargo ownership (#274)
 
-The three equipment tables on PDF100–101 and the rules printed beside them have no published execution owner. The #80 inventory lists these pages as an unindexed section assigned to #274, and none of its 753 indexed families covers them. This decision assigns them to six bounded tasks and one cohort qualification, all children of #274. The cohort task is the single new blocker of item qualification #280 and of exploration qualification #183. Stat blocks, travel-pace variants and the economy keep their existing owners. Nothing is published yet: the companion scope records the planned issues and edges, and the link-verification receipt is written at publication.
+The three equipment tables on PDF100–101 and the rules printed beside them have no published execution owner. The #80 inventory lists these pages as an unindexed section assigned to #274, and none of its 753 indexed families covers them. This decision assigns them to six bounded tasks and one cohort qualification, all children of #274. The cohort task is the single new blocker of item qualification #280 and of exploration qualification #183. Stat blocks, travel-pace variants and the economy keep their existing owners. The seven tasks are published as #2074–#2080; `issue-274-link-verification.json` records the readback.
 
 ## Source and existing owners
 
@@ -23,19 +23,19 @@ The English SRD 5.2.1 PDF matches SHA-256 `8974902d109d6e63672d7c490bde9ccf05241
 
 No current runtime code resolves a mount, vehicle, carried weight, damage threshold or coin payment. Starting gold exists only as a Coin Pouch equipment entry.
 
-## Planned tasks
+## Published tasks
 
-Seven issues, each type Task under parent #274. Bodies are the companion task files. They refer to each other with `{{274:<key>}}` placeholders that publication replaces with issue numbers.
+Seven issues, each type Task under parent #274. Bodies are the companion task files, byte for byte. The reviewed files referred to each other with `{{274:<key>}}` placeholders; publication replaced them with the issue numbers below, and the scope file keeps both the template hash and the published hash.
 
-| Key | Title | Size | Blocked by |
-|---|---|---|---|
-| records | Catalogue SRD mount, tack, drawn-vehicle and large-vehicle table records | M | #195 |
-| load | Load pack animals and hitched drawn vehicles within table carrying capacity | M | records, #251, #252 |
-| ride | Mount, dismount and control one trained Riding Horse | M | records, #66, #171, #780, #781, #782, #1999 |
-| unseat | Resolve falling off a mount and the Military and Exotic Saddle rules | M | records, ride, #61, #488 |
-| hull | Apply ship damage thresholds and berthed repair to one vessel instance | M | records, #275 |
-| voyage | Sail one large-vehicle hour with crew, wind, current, passenger and cargo limits | L | records, hull, #144, #275 |
-| cohort | Qualify the mount, drawn-vehicle and ship fixture cohort | M | records, load, ride, unseat, hull, voyage |
+| Issue | Key | Title | Size | Blocked by |
+|---|---|---|---|---|
+| #2074 | records | Catalogue SRD mount, tack, drawn-vehicle and large-vehicle table records | M | #195 |
+| #2075 | load | Load pack animals and hitched drawn vehicles within table carrying capacity | M | #2074, #251, #252 |
+| #2076 | ride | Mount, dismount and control one trained Riding Horse | M | #2074, #66, #171, #780, #781, #782, #1999 |
+| #2077 | unseat | Resolve falling off a mount and the Military and Exotic Saddle rules | M | #2074, #2076, #61, #488 |
+| #2078 | hull | Apply ship damage thresholds and berthed repair to one vessel instance | M | #2074, #275 |
+| #2079 | voyage | Sail one large-vehicle hour with crew, wind, current, passenger and cargo limits | L | #2074, #2078, #144, #275 |
+| #2080 | cohort | Qualify the mount, drawn-vehicle and ship fixture cohort | M | #2074, #2075, #2076, #2077, #2078, #2079 |
 
 Deviation from #274's acceptance criteria. #274 says to inspect only its named PDF100–101 scopes and to keep wider scope as named spikes. The ride and unseat tasks implement PDF15–16 Mounted Combat as implementation children. This is deliberate: the Military and Exotic Saddle rules cannot be tested without mounting, control and the falling-off save; the search above found no owner for that text; and a spike would only restate one column. The text is split over two tasks so each stays one reviewable PR.
 
@@ -65,9 +65,9 @@ Three items lie outside the named scopes and are recorded for the item and world
 
 Counts read at 2026-11-20T07:49:40Z across 1,892 issues. #280 has 96 of 100 blocked-by entries, and the other open splitters still need edges there, so the six implementation tasks reach #280 through the cohort task on one edge, 97 after publication. The cohort task also blocks #183, 13 of 100 before and 14 after: #183's range (PDF11–18, 176–203) contains the Mounted Combat rules and the vessel-speed sentences, and its body requires implementation children to be native blockers. #183 is already a transitive blocker of #280, so the edge adds no cycle. #274 has no sub-issues and gains seven. The busiest reused prerequisite is #488 at 97 of 100 consumers, 98 after the unseat task. #1999 goes from 4 to 5 consumers and #275 from 1 to 3. #67 and #429 are at 100 consumers and #279 at 100 blockers; none gains an edge. The ride and unseat tasks use #67's merged scene facts without a native edge. No task blocks spell qualification #279, because nothing here is a spell effect.
 
-These counts are a snapshot, and other splitter decisions are publishing against the same gates. Immediately before each edge is added, publication re-reads the blocked-by counts of #280 and #183 and the consumer counts of #488, #61, #66, #195 and #1999. It stops if any is at 100 and uses the shared-aggregate route instead. The re-read values go into `issue-274-link-verification.json`.
+Those counts were a snapshot. #270 and #272 published against the same gates before this decision did, so publication re-read both ends of every edge immediately before adding it and would have stopped at 100. At publication #280 went from 98 to 99 blocked-by entries and #183 from 13 to 14; #488 went from 98 to 99 consumers, #61 from 86 to 87, #66 from 63 to 64, #195 from 62 to 63 and #1999 from 4 to 5. #280 and #488 each have one free slot left. The re-read values are in `issue-274-link-verification.json`.
 
-With the planned edges added to the full graph, the dependency graph stays acyclic and the parent chain is #274, #193, #54, #47. Closing #274 removes no obligation: every implementation task is a prerequisite of the cohort task, and the cohort task blocks #280 and #183.
+Read back at 2026-11-20T15:11:54Z across 1,912 issues, the dependency graph (10,281 edges) and the parent hierarchy (1,908 edges) are acyclic and the parent chain is #274, #193, #54, #47. Spell qualification #279 gained no edge, but it already depended on #183 through Wall of Stone #681, so the #183 edge also places the cohort task behind #279 on that existing path. Closing #274 removes no obligation: every implementation task is a prerequisite of the cohort task, and the cohort task blocks #280 and #183.
 
 ## Evidence and limits
 

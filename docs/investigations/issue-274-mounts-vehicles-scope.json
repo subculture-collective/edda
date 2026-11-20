@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "decision": 274,
-  "status": "SOURCE_PASS_NATIVE_PUBLICATION_PENDING",
+  "status": "EXACT_SOURCE_PUBLICATION_PASS",
   "source": {
     "sha256": "8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87",
     "attribution": "docs/srd-5.2.1-conformance.md",
@@ -770,7 +770,8 @@
         583,
         584,
         589,
-        590
+        590,
+        2080
       ],
       "body_sha256": "dfcd77e1cce70f649b4e5acd3f5a5291ebca05bf777063de1a4f6e5e4b627a43"
     },
@@ -973,7 +974,10 @@
         973,
         1096,
         1477,
-        2051
+        2051,
+        2059,
+        2072,
+        2080
       ],
       "body_sha256": "c37cc3230c1bc904f00471030569dacd6b60f02c1b0a7f3b3c9d675308e9a808"
     },
@@ -1098,7 +1102,9 @@
       "body_template_sha256": "dc8fbb7755d67b838cc89d2db3fbcd05ebcfebd7cc339362fa4ebe54dab8cac9",
       "placeholders": [
         "cohort"
-      ]
+      ],
+      "number": 2074,
+      "body_sha256": "add771da994fcbfb760e16a07925721ca4baaf99550913b7f8644347e7cd297f"
     },
     {
       "key": "load",
@@ -1120,7 +1126,9 @@
         "cohort",
         "records",
         "ride"
-      ]
+      ],
+      "number": 2075,
+      "body_sha256": "cf58fa0b144fe4c8cac43987f3c8b1271127229a54c1c96b858b9c8c04feb74d"
     },
     {
       "key": "ride",
@@ -1147,7 +1155,9 @@
         "load",
         "records",
         "unseat"
-      ]
+      ],
+      "number": 2076,
+      "body_sha256": "78505c5e54d6dd0eef8649be9cfebdf67a3f61fb75514b17e4c9b431beb981e2"
     },
     {
       "key": "unseat",
@@ -1170,7 +1180,9 @@
         "cohort",
         "records",
         "ride"
-      ]
+      ],
+      "number": 2077,
+      "body_sha256": "7ea448e4e03162823768ea6b2f904cedb53fd597461bde3b8bf97efa0d60807b"
     },
     {
       "key": "hull",
@@ -1191,7 +1203,9 @@
         "cohort",
         "records",
         "voyage"
-      ]
+      ],
+      "number": 2078,
+      "body_sha256": "3ea12a724ff3cd26ced33736dd0dc1a11b4a1946cd2fc951a67b1df0cb85952f"
     },
     {
       "key": "voyage",
@@ -1214,7 +1228,9 @@
         "cohort",
         "hull",
         "records"
-      ]
+      ],
+      "number": 2079,
+      "body_sha256": "56df6640a0469cb91fb13f6f58f10cbf39434740a683dd53b42c57fd91a54045"
     },
     {
       "key": "cohort",
@@ -1244,7 +1260,9 @@
         "ride",
         "unseat",
         "voyage"
-      ]
+      ],
+      "number": 2080,
+      "body_sha256": "bf3e2a28cd7883ac9132e4da698603ab382fc446face29ae361b375a8639998a"
     }
   ],
   "planned_native_edges": {
@@ -1415,7 +1433,64 @@
       "voyage": 4,
       "cohort": 6
     },
-    "publication_rule": "Immediately before each native edge is added, re-read the blocked-by count of #280 and #183 and the consumer count of #488, #61, #66, #195 and #1999. Stop if any is at 100 and use the shared-aggregate route instead of exceeding the cap. Write the re-read values into issue-274-link-verification.json."
+    "publication_rule": "Immediately before each native edge is added, re-read the blocked-by count of #280 and #183 and the consumer count of #488, #61, #66, #195 and #1999. Stop if any is at 100 and use the shared-aggregate route instead of exceeding the cap. Write the re-read values into issue-274-link-verification.json.",
+    "at_publication": {
+      "limit": 100,
+      "nodes": 1912,
+      "dependency_edges": 10281,
+      "parent_edges": 1908,
+      "incoming279": 100,
+      "incoming280": 99,
+      "incoming183": 14,
+      "incoming337": 62,
+      "outgoing488": 99,
+      "outgoing61": 87,
+      "outgoing66": 64,
+      "outgoing195": 63,
+      "outgoing1999": 5,
+      "outgoing275": 3,
+      "outgoing144": 2,
+      "outgoing171": 2,
+      "outgoing251": 3,
+      "outgoing252": 3,
+      "outgoing780": 13,
+      "outgoing781": 10,
+      "outgoing782": 8,
+      "outgoing67": 100,
+      "outgoing429": 100,
+      "children274": 7,
+      "children193": 32,
+      "max_incoming": 100,
+      "max_outgoing": 100,
+      "max_children": 95,
+      "before": {
+        "observed_at": "2026-11-20T15:08:00Z",
+        "nodes": 1905,
+        "dependency_edges": 10252,
+        "parent_edges": 1901,
+        "incoming279": 100,
+        "incoming280": 98,
+        "incoming183": 13,
+        "incoming337": 62,
+        "outgoing488": 98,
+        "outgoing61": 86,
+        "outgoing66": 63,
+        "outgoing195": 62,
+        "outgoing1999": 4,
+        "outgoing275": 1,
+        "outgoing144": 1,
+        "outgoing171": 1,
+        "outgoing251": 2,
+        "outgoing252": 2,
+        "outgoing780": 12,
+        "outgoing781": 9,
+        "outgoing782": 7,
+        "outgoing67": 100,
+        "outgoing429": 100,
+        "children274": 0,
+        "children193": 32
+      }
+    }
   },
   "graph_checks": {
     "dependency_dag_with_planned_edges": "PASS",
@@ -1425,7 +1500,63 @@
       54,
       47
     ],
-    "complete_edge_pages": "PASS"
+    "complete_edge_pages": "PASS",
+    "native_readback_dependency_acyclic": true,
+    "native_readback_parent_acyclic": true,
+    "native_readback_issues_paged": 1912
   },
-  "runtime_qualified": false
+  "runtime_qualified": false,
+  "published": {
+    "observed_at": "2026-11-20T15:11:54Z",
+    "issue_count": 1912,
+    "numbers": {
+      "records": 2074,
+      "load": 2075,
+      "ride": 2076,
+      "unseat": 2077,
+      "hull": 2078,
+      "voyage": 2079,
+      "cohort": 2080
+    },
+    "receipt": "docs/investigations/issue-274-link-verification.json",
+    "edges_added": [
+      "#2074 parent #274",
+      "#2075 parent #274",
+      "#2076 parent #274",
+      "#2077 parent #274",
+      "#2078 parent #274",
+      "#2079 parent #274",
+      "#2080 parent #274",
+      "#2074 blocked-by #195",
+      "#2075 blocked-by #251",
+      "#2075 blocked-by #252",
+      "#2075 blocked-by #2074",
+      "#2076 blocked-by #66",
+      "#2076 blocked-by #171",
+      "#2076 blocked-by #780",
+      "#2076 blocked-by #781",
+      "#2076 blocked-by #782",
+      "#2076 blocked-by #1999",
+      "#2076 blocked-by #2074",
+      "#2077 blocked-by #61",
+      "#2077 blocked-by #488",
+      "#2077 blocked-by #2074",
+      "#2077 blocked-by #2076",
+      "#2078 blocked-by #275",
+      "#2078 blocked-by #2074",
+      "#2079 blocked-by #144",
+      "#2079 blocked-by #275",
+      "#2079 blocked-by #2074",
+      "#2079 blocked-by #2078",
+      "#2080 blocked-by #2074",
+      "#2080 blocked-by #2075",
+      "#2080 blocked-by #2076",
+      "#2080 blocked-by #2077",
+      "#2080 blocked-by #2078",
+      "#2080 blocked-by #2079",
+      "#280 blocked-by #2080",
+      "#183 blocked-by #2080"
+    ],
+    "note": "Task keys in planned_children, planned_native_edges, scopes, instance_owners and follow_up_obligations resolve through numbers. The {{274:<key>}} placeholders in the task files were replaced by these numbers; body_template_sha256 is the hash of the reviewed template and body_sha256 the hash of the published body. caps holds the review read of 2026-11-20T07:49:40Z; the counts at publication are under caps.at_publication."
+  }
 }

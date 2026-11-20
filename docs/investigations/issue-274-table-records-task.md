@@ -25,6 +25,6 @@ Record the two usual passenger prices on PDF101 as source notes marked as usual 
 
 Validation runs offline against the committed data with no model call, network or production data. The catalogue loader fails closed on unknown fields, units and mechanic keys. No runtime entitlement, shop, starting-equipment grant, coverage promotion or UI affordance changes; web and trusted TUI continue to show these families as unavailable. Compare every row with its cited PDF page before closing.
 
-Hard prerequisite: #195 item-record contract. Parent: #274. The cohort qualification {{274:cohort}} requires this task and is the direct blocker of item qualification #280 and exploration qualification #183; add no gate edge here. Buying, selling and coin handling stay with the #275 economy split, and creature statistics stay with the monster catalogue and #182.
+Hard prerequisite: #195 item-record contract. Parent: #274. The cohort qualification #2080 requires this task and is the direct blocker of item qualification #280 and exploration qualification #183; add no gate edge here. Buying, selling and coin handling stay with the #275 economy split, and creature statistics stay with the monster catalogue and #182.
 
 Validation for the implementation PR: offline source, schema, name, variant and value fixtures; `GOMAXPROCS=2 go test -p 2 -short -race ./...` and `GOMAXPROCS=2 go vet -p 2 ./...`. No deployment, source inference or Full Rules promotion.
