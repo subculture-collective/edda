@@ -507,7 +507,7 @@ func (s SpellRecord) validSpell196Scaling(effects map[string]bool) bool {
 		}
 	}
 	if sc.Kind == "cantrip-upgrade" {
-		return s.Level == 0 && sc.AboveLevel == 0 && sc.DiceCount > 0 && slices.Contains([]int{4, 6, 8, 10, 12, 20}, sc.DieSides) && d.Splash != nil && slices.Contains(s.RequiredMechanics, "scaling.cantrip-upgrade")
+		return s.Level == 0 && sc.AboveLevel == 0 && sc.DiceCount > 0 && slices.Contains([]int{4, 6, 8, 10, 12, 20}, sc.DieSides) && (d.Splash != nil || d.Chill != nil) && slices.Contains(s.RequiredMechanics, "scaling.cantrip-upgrade")
 	}
 	if s.Level == 0 || sc.AboveLevel != s.Level || sc.DiceCount != 0 || sc.DieSides != 0 {
 		return false

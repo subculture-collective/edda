@@ -5,7 +5,7 @@ Issue #194 defines `SpellRecords`, decoded by `DecodeSpellRecords(io.Reader)` in
 runtime consumers, action registration, database writes or coverage promotion.
 `testdata/spell_records.json` contains one complete new source record, Acid Arrow,
 and adaptations of the two existing bounded fixtures. Subsequent catalogue
-imports are separately owned; the #218, #198 and #196 batches are described below.
+imports are separately owned; the #218, #198, #196 and #199 batches are described below.
 
 The envelope retains the exact `Source` pin, license, attribution and adaptation
 notice checked by the conformance register. Each record has its own stable
@@ -341,3 +341,52 @@ The comparator rebuilds each source header from the structured record and
 requires it to equal the PDF text. It supplements the literal offline fixtures
 and is not an automatic conformance proof. The PDF and extracted text are not
 vendored.
+## Issue #199: Call Lightning through Color Spray
+
+`testdata/spells_199.json` imports the twelve families the issue-80 inventory
+assigns to #199, on PDF pp.114-116: Call Lightning, Calm Emotions, Chain
+Lightning, Charm Monster, Charm Person, Chill Touch, Chromatic Orb, Circle of
+Death, Clairvoyance, Clone, Cloudkill and Color Spray. Charm Monster keeps its
+p.114 to p.115 continuation and Clone its p.115 to p.116 continuation in explicit
+`source_pages` lists. `spells_199_test.go` supplies literal source-value fixtures
+for every header, choice, variant, effect, dependency and scaling value.
+
+The typed payloads retain Call Lightning's cylinder cloud, bolt and storm bonus;
+Calm Emotions' two per-creature choices; Chain Lightning's three secondary bolts
+and per-slot bolt increment; the Monster and Person charm targets and endings;
+Chill Touch's three cantrip tiers; Chromatic Orb's damage types and leaps;
+Circle of Death's sphere; Clairvoyance's sensor, senses and focuses; Clone's
+choices, 120-day growth, diamond and vessel; Cloudkill's moving sphere; and Color
+Spray's cone.
+
+Schema version 1 gains only shapes present in this batch, on top of #196:
+
+- `casting_time = 1-hour` (Clone), with `casting_seconds = 3600`.
+- Target shapes `cylinder`, `chain` and `location`, plus labels for `cone`,
+  `up-to-count`, `single` and `sphere` (for example the humanoid and creature
+  sphere labels).
+- `slot-count` scaling also covers Chain Lightning's extra bolt per slot, and
+  `slot-targets` also covers the Charm Monster and Charm Person extra target.
+- Chill Touch reuses #196's `cantrip-upgrade` scaling; its tiers live in the
+  `chill` payload, which that scaling check now accepts beside Acid Splash's.
+
+Validation pins the printed measurements by equality (Call Lightning's 10-foot
+height, 60-foot radius and 5-foot bolt, the 20-foot Calm Emotions and Cloudkill
+radii, Chain Lightning's and the orb's 30-foot range, Circle of Death's 60-foot
+radius, Cloudkill's 10-foot move, the 15-foot Color Spray cone and Clone's 120
+days), so a positive but wrong value is rejected.
+
+#196 restates Acid Arrow, so the #194 fixture cannot be composed beside it.
+Composition of the two bounded compatibility fixtures with #196, #218, #198
+and #199 yields 48 unique records. Every imported record remains unavailable: no
+resolver, action, entitlement, tool, inventory, coverage or Full Rules behavior
+is added.
+
+To recheck the PDF pin, identities, pages and source anchors, run:
+
+```sh
+rtk proxy python3 scripts/verify_srd_spells_199.py /path/to/SRD_CC_v5.2.1.pdf
+```
+
+The same limits as #198 apply: the source check supplements the offline literal
+fixtures and is not an automatic conformance proof.

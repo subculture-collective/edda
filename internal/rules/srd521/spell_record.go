@@ -87,7 +87,7 @@ type SpellMaterial struct {
 }
 
 // SpellScaling identifies per-slot dice additions or references a typed ray
-// count increment in SourceDetails.Rays. Kind slot-effect-dice references the
+// or bolt count increment in SourceDetails. Kind slot-effect-dice references the
 // per-effect dice rows in SourceDetails.Hand.SlotDice.
 // Bounded fixtures use none; their higher-slot catalogue data belongs elsewhere.
 type SpellScaling struct {
@@ -243,6 +243,10 @@ func (s SpellRecord) validate() error {
 				base, additional = d.Friendship.BaseTargets, d.Friendship.AdditionalTargetsPerSlot
 			} else if b, a, ok := spell197TargetScaling(d); ok {
 				base, additional = b, a
+			} else if d.Monster != nil {
+				base, additional = d.Monster.BaseTargets, d.Monster.AdditionalTargetsPerSlot
+			} else if d.Person != nil {
+				base, additional = d.Person.BaseTargets, d.Person.AdditionalTargetsPerSlot
 			}
 			if base != s.Target.Count || additional <= 0 || !slices.Contains(s.RequiredMechanics, "scaling.targets-per-slot") {
 				return fmt.Errorf("target scaling requires consistent base and positive increment")
@@ -263,8 +267,14 @@ func (s SpellRecord) validate() error {
 			return err
 		}
 	case "slot-count":
-		if sc.AboveLevel != s.Level || sc.DiceCount != 0 || sc.DieSides != 0 || s.SourceDetails == nil || s.SourceDetails.Rays == nil || s.SourceDetails.Rays.AdditionalPerSlot <= 0 || len(sc.EffectIDs) != 1 || !effects[sc.EffectIDs[0]] || !slices.Contains(s.RequiredMechanics, "scaling.per-slot-ray") {
-			return fmt.Errorf("invalid ray scaling")
+		additional, mechanic := 0, ""
+		if d := s.SourceDetails; d != nil && d.Rays != nil {
+			additional, mechanic = d.Rays.AdditionalPerSlot, "scaling.per-slot-ray"
+		} else if d != nil && d.Chain != nil {
+			additional, mechanic = d.Chain.AdditionalBoltsPerSlot, "scaling.per-slot-bolt"
+		}
+		if sc.AboveLevel != s.Level || sc.DiceCount != 0 || sc.DieSides != 0 || additional <= 0 || len(sc.EffectIDs) != 1 || !effects[sc.EffectIDs[0]] || !slices.Contains(s.RequiredMechanics, mechanic) {
+			return fmt.Errorf("invalid ray or bolt scaling")
 		}
 	case "slot":
 		if sc.AboveLevel != s.Level || sc.DiceCount <= 0 || !slices.Contains([]int{4, 6, 8, 10, 12, 20}, sc.DieSides) || !uniqueNames(sc.EffectIDs) || len(sc.EffectIDs) == 0 || !slices.Contains(s.RequiredMechanics, "scaling.per-slot") {
