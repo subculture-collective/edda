@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "decision": 275,
-  "status": "SOURCE_DRAFT_PENDING_NATIVE_PUBLICATION",
+  "status": "EXACT_SOURCE_PUBLICATION_PASS",
   "source": {
     "sha256": "8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87",
     "attribution": "docs/srd-5.2.1-conformance.md",
@@ -614,7 +614,7 @@
     "274": {
       "number": 274,
       "title": "Split mount, vehicle and cargo rules into bounded fixtures",
-      "state": "OPEN",
+      "state": "CLOSED",
       "parent": 193,
       "blocked_by": [
         80
@@ -783,7 +783,11 @@
         973,
         1096,
         1477,
-        2051
+        2051,
+        2059,
+        2072,
+        2080,
+        2088
       ],
       "body_sha256": "c37cc3230c1bc904f00471030569dacd6b60f02c1b0a7f3b3c9d675308e9a808",
       "role": "item qualification gate; gains one blocker"
@@ -818,7 +822,7 @@
     "225": {
       "number": 225,
       "title": "Catalogue SRD magic-items 01: Adamantine Armor to Armor, +1, +2, or +3",
-      "state": "OPEN",
+      "state": "CLOSED",
       "parent": 192,
       "blocked_by": [
         195
@@ -1100,7 +1104,7 @@
   "new_tasks": [
     {
       "key": "edda-275:coin-holdings-payment",
-      "number": null,
+      "number": 2083,
       "title": "Confirm coin holdings and exact listed-price payment",
       "type": "Task",
       "size": "M",
@@ -1121,7 +1125,7 @@
     },
     {
       "key": "edda-275:equipment-purchase-sale",
-      "number": null,
+      "number": 2084,
       "title": "Confirm equipment purchase and half-cost or full-value sale",
       "type": "Task",
       "size": "M",
@@ -1145,7 +1149,7 @@
     },
     {
       "key": "edda-275:magic-item-value-guide",
-      "number": null,
+      "number": 2085,
       "title": "Show magic-item values by rarity for GM-priced purchase and sale",
       "type": "Task",
       "size": "S",
@@ -1169,7 +1173,7 @@
     },
     {
       "key": "edda-275:lifestyle-lodging",
-      "number": null,
+      "number": 2086,
       "title": "Confirm lifestyle expenses and Food, Drink, and Lodging purchases",
       "type": "Task",
       "size": "M",
@@ -1187,7 +1191,7 @@
     },
     {
       "key": "edda-275:hired-services",
-      "number": null,
+      "number": 2087,
       "title": "Confirm hireling, messenger and spellcasting service payments",
       "type": "Task",
       "size": "M",
@@ -1207,7 +1211,7 @@
     },
     {
       "key": "edda-275:economy-qualification",
-      "number": null,
+      "number": 2088,
       "title": "Qualify coin, lifestyle and service payments for item coverage",
       "type": "Task",
       "size": "M",
@@ -1315,7 +1319,10 @@
       193,
       275
     ],
-    "275_blocked_by_all_closed": true
+    "275_blocked_by_all_closed": true,
+    "native_readback_dependency_acyclic": true,
+    "native_readback_parent_acyclic": true,
+    "native_readback_issues_paged": 1918
   },
   "exclusions": [
     "shop stock, haggling, banking and debt",
@@ -1332,5 +1339,118 @@
     "automatic lifestyle inclusion",
     "non-player caster operands; #618 is used unchanged"
   ],
-  "runtime_qualified": false
+  "runtime_qualified": false,
+  "published": {
+    "observed_at": "2026-11-20T15:27:47Z",
+    "issue_count": 1918,
+    "numbers": {
+      "edda-275:coin-holdings-payment": 2083,
+      "edda-275:equipment-purchase-sale": 2084,
+      "edda-275:magic-item-value-guide": 2085,
+      "edda-275:lifestyle-lodging": 2086,
+      "edda-275:hired-services": 2087,
+      "edda-275:economy-qualification": 2088
+    },
+    "receipt": "docs/investigations/issue-275-link-verification.json",
+    "edges_added": [
+      "#2083 parent #275",
+      "#2084 parent #275",
+      "#2085 parent #275",
+      "#2086 parent #275",
+      "#2087 parent #275",
+      "#2088 parent #275",
+      "#2083 blocked-by #195",
+      "#2084 blocked-by #195",
+      "#2084 blocked-by #248",
+      "#2084 blocked-by #257",
+      "#2084 blocked-by #261",
+      "#2084 blocked-by #2083",
+      "#2085 blocked-by #195",
+      "#2085 blocked-by #225",
+      "#2085 blocked-by #238",
+      "#2085 blocked-by #251",
+      "#2085 blocked-by #261",
+      "#2085 blocked-by #2084",
+      "#2086 blocked-by #2083",
+      "#2087 blocked-by #618",
+      "#2087 blocked-by #2083",
+      "#2088 blocked-by #2083",
+      "#2088 blocked-by #2084",
+      "#2088 blocked-by #2085",
+      "#2088 blocked-by #2086",
+      "#2088 blocked-by #2087",
+      "#280 blocked-by #2088",
+      "#2078 blocked-by #2083",
+      "#2079 blocked-by #2087"
+    ],
+    "edges_added_outside_reviewed_plan": {
+      "edges": [
+        "#2078 blocked-by #2083",
+        "#2079 blocked-by #2087"
+      ],
+      "reason": "The published bodies of #2078 and #2079 (decision #274) each carry a native #275 edge that closes with this planning issue, and each says that before #275 closes its split must add its coin-payment child (#2078) or its skilled-hireling child (#2079) as a native blocker. The reviewed #275 plan predates those two issues and did not list the edges. They were added at publication so that closing #275 does not release either task early. Neither body was edited.",
+      "in_reviewed_plan": false,
+      "bodies_unchanged": true,
+      "blocked_by_after": {
+        "2078": [
+          275,
+          2074,
+          2083
+        ],
+        "2079": [
+          144,
+          275,
+          2074,
+          2078,
+          2087
+        ]
+      }
+    },
+    "note": "Task keys in new_tasks and planned_native_edges resolve through numbers. caps_before_publication and caps_after_publication_planned hold the review read; the counts at publication are under caps_at_publication."
+  },
+  "caps_at_publication": {
+    "limit": 100,
+    "nodes": 1918,
+    "dependency_edges": 10304,
+    "parent_edges": 1914,
+    "incoming279": 100,
+    "incoming280": 100,
+    "incoming337": 62,
+    "incoming2078": 3,
+    "incoming2079": 5,
+    "outgoing195": 66,
+    "outgoing248": 13,
+    "outgoing257": 2,
+    "outgoing261": 6,
+    "outgoing225": 2,
+    "outgoing238": 2,
+    "outgoing251": 4,
+    "outgoing618": 11,
+    "children275": 6,
+    "children193": 32,
+    "max_incoming": 100,
+    "max_outgoing": 100,
+    "max_children": 95,
+    "before": {
+      "observed_at": "2026-11-20T15:19:40Z",
+      "nodes": 1912,
+      "dependency_edges": 10281,
+      "parent_edges": 1908,
+      "incoming279": 100,
+      "incoming280": 99,
+      "incoming337": 62,
+      "incoming2078": 2,
+      "incoming2079": 4,
+      "outgoing195": 63,
+      "outgoing248": 12,
+      "outgoing257": 1,
+      "outgoing261": 4,
+      "outgoing225": 1,
+      "outgoing238": 1,
+      "outgoing251": 3,
+      "outgoing618": 10,
+      "children275": 0,
+      "children193": 32
+    }
+  }
 }

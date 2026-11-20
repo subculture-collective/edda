@@ -1,6 +1,6 @@
 # Coins, selling, lifestyle and priced services (#275)
 
-No published issue owns coin denominations, payment, purchase, sale, lifestyle, lodging, hirelings or spellcasting services. Thirteen creation owners own a once-only Gold Piece grant and spend nothing. A search of all 1,892 issue titles and bodies, open and closed, found nothing else beyond #275 itself, roadmap lists that name it, costly spell components and a few boundary mentions. This decision therefore assigns the five named scopes to four bounded implementation tasks, names one bounded follow-up for the magic-item value table that Selling Equipment points to, and adds one qualification task. All six become native children of #275. The qualification task is the single new blocker of item qualification #280. Their exact bodies are the six companion task files; issue numbers, publication and readback are recorded later in the link-verification receipt. Until then nothing here is published, and closing #275 supplies no runtime.
+No published issue owns coin denominations, payment, purchase, sale, lifestyle, lodging, hirelings or spellcasting services. Thirteen creation owners own a once-only Gold Piece grant and spend nothing. A search of all 1,892 issue titles and bodies, open and closed, found nothing else beyond #275 itself, roadmap lists that name it, costly spell components and a few boundary mentions. This decision therefore assigns the five named scopes to four bounded implementation tasks, names one bounded follow-up for the magic-item value table that Selling Equipment points to, and adds one qualification task. All six become native children of #275. The qualification task is the single new blocker of item qualification #280. Their exact bodies are the six companion task files; issue numbers, publication and readback are recorded later in the link-verification receipt. They were published on 2026-11-20 as #2083–#2088; the Publication section below gives the numbers and the counts that had moved since review. Closing #275 supplies no runtime.
 
 ## Source
 
@@ -68,6 +68,25 @@ New prerequisite edges land on #195 (61 dependents, becomes 64), #248 (12, becom
 
 Mount, vehicle, passenger and crew prices stay with #274. Crafting, brewing and scribing costs, and the sale of a crafted item at its normal price, stay with #276. Residual item keys stay with #278. Rests stay with #427 and #428, and a player caster's own costly materials with #1447.
 
+## Publication
+
+Published and read back on 2026-11-20 (receipt: [issue-275-link-verification.json](issue-275-link-verification.json)).
+
+| Key | Issue | Size | Blocked by |
+|---|---|---|---|
+| `edda-275:coin-holdings-payment` | #2083 | M | #195 |
+| `edda-275:equipment-purchase-sale` | #2084 | M | #195, #248, #257, #261, #2083 |
+| `edda-275:magic-item-value-guide` | #2085 | S | #195, #225, #238, #251, #261, #2084 |
+| `edda-275:lifestyle-lodging` | #2086 | M | #2083 |
+| `edda-275:hired-services` | #2087 | M | #618, #2083 |
+| `edda-275:economy-qualification` | #2088 | M | #2083–#2087; blocks #280 |
+
+Each body equals its task file byte for byte. The bodies name sibling tasks by key; the table above maps each key to its number.
+
+The counts in "Native routing and caps" are the review read. Splitters #270, #272 and #274 published between review and publication, so the live counts were higher: #280 went from 99 to 100 blockers, #195 from 63 to 66 dependents, #251 from 3 to 4 and #618 from 10 to 11. The other counts moved as planned. #280 is now full, so #276 and the other open splitters that owe it a blocker need the shared-aggregate route.
+
+Two edges were added that the reviewed plan did not list. Decision #274 published #2078 (ship repair) and #2079 (large-vehicle voyage) after this package was reviewed. Each is blocked by #275 for an output of this split, and each body says that before #275 closes its split must add the coin-payment child (#2078) or the skilled-hireling child (#2079) as a native blocker. #2078 is therefore also blocked by #2083 and #2079 by #2087. Neither body was edited. #2087 records and pays a skilled hireling; crew counting stays with #2079.
+
 ## Evidence and limits
 
-A focused check compared every listed clause and table row with the pinned PDF text, confirmed the hash, and confirmed that no existing title matches a new one and that #275's only prerequisite, #80, is closed. It did not publish or read back any native issue; that receipt follows publication. Runtime implementation remains paused. This change contains no runtime file, migration, UI behavior, production mutation or Full Rules admission. The implementation tasks keep their own PostgreSQL, web, TUI and device requirements.
+A focused check compared every listed clause and table row with the pinned PDF text, confirmed the hash, and confirmed that no existing title matches a new one and that #275's only prerequisite, #80, is closed. Publication and native readback are recorded in the link-verification receipt: a page-through of 1,918 issues shows the dependency graph and the parent hierarchy acyclic and no issue above 100 blockers, dependents or children. Runtime implementation remains paused. This change contains no runtime file, migration, UI behavior, production mutation or Full Rules admission. The implementation tasks keep their own PostgreSQL, web, TUI and device requirements.

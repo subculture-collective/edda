@@ -1,0 +1,1182 @@
+{
+  "schema_version": 1,
+  "decision": 275,
+  "status": "EXACT_SOURCE_PUBLICATION_PASS",
+  "observed_at": "2026-11-20T15:27:47Z",
+  "new_task_metadata": {
+    "2083": {
+      "id": "I_kwDOSicKg88AAAABhEkFTg",
+      "databaseId": 6514345294,
+      "number": 2083,
+      "title": "Confirm coin holdings and exact listed-price payment",
+      "body": "<!-- edda-275:coin-holdings-payment -->\nDecision #275; roadmap #47. One implementation PR; Task / Size M.\n\nSource: English SRD 5.2.1, PDF 89 (Coins) and 28 (the Barbarian 75 GP starting option used as a fixture); SHA-256 `8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87`. CC-BY-4.0 attribution and adaptation: `docs/srd-5.2.1-conformance.md`. The deterministic fixtures below are Edda adaptations.\n\n## Bounded outcome\n\nImplement one coin holding per character and one exact coin payment. The purchase, sale, magic-item, lifestyle, lodging and service tasks of #275 consume this holding and payment; none copies them. This task buys and sells nothing: no item, shop inventory, haggling, banking, debt, treasure generation, carrying-capacity enforcement or item effect is added.\n\nCoins follow PDF89 exactly: Copper Piece (CP) 1/100 GP, Silver Piece (SP) 1/10 GP, Electrum Piece (EP) 1/2 GP, Gold Piece (GP) 1 GP, Platinum Piece (PP) 10 GP. Store every amount as an integer number of CP: CP1, SP10, EP50, GP100, PP1000. A holding is a non-negative integer count of each of the five denominations. Fifty coins of any denominations weigh one pound; expose that exact fraction as a derived fact and round nothing. The source's \"about a third of an ounce\" is descriptive, not a second weight rule.\n\nOne store. Creation owners already grant Gold Pieces once and spend none: #433, #508, #554, #635, #730, #785, #853, #982, #1101, #1177, #1480, #1762 and #2053. They record the amount under source key `srd-5.2.1:mechanic/currency/gp` or as \"inventory/currency\" or \"inventory/gold\", and the two fixed creation builds store it as the integer `srd521_gold` in a Coin Pouch item's JSON. That recorded GP amount is the GP count of this holding. The ledger reads it where the merged creation owners persist it, or from `srd521_gold` while none has merged, and writes every GP change back to that same record. The CP, SP, EP and PP counts are new integer fields beside it on that record. Keep no second GP balance, convert or duplicate no existing value, change no creation owner, and preserve legacy reads and unrelated JSON.\n\nPayment. The price is an exact CP amount supplied by an authoritative caller. In this PR the only caller is one GM-recorded charge that the PR adds: campaign, payer, exact CP price and a label, opened and withdrawn by explicit GM action. The later #275 tasks supply source-row prices through the same payment. The confirmed payload names the exact coins the payer hands over and any coins returned as change; coins paid minus coins returned must equal the price. A credit names the exact coins received. The source states relative worth, not an exchange service, so no denomination is converted implicitly. Reject a payment the named coins cannot cover.\n\n## Deterministic fixtures\n\n- 3 EP + 5 SP is worth 200 CP, the same as 2 GP; 1 PP is worth 1,000 CP. 100 coins weigh 2 pounds; 49 coins weigh 49/50 pound.\n- With a GM charge of 15 GP, paying 15 GP leaves a 20 GP holding at 5 GP. Paying 2 PP with 5 GP returned as change is also exact. Paying 14 GP, 2 PP with no change, coins the payer does not hold, or a forged or withdrawn charge rejects without partial changes.\n- A character whose creation receipt granted 75 GP (the Barbarian option B on PDF28, seeded as its owner #433 records it, under an isolated test entitlement) pays 15 GP and holds 60 GP in that same record.\n- A fixed-build character with the legacy Coin Pouch `{\"srd521_gold\":29}` holds 29 GP once. Paying 15 GP leaves 14 GP in that record. The holding is never 58 GP, no second balance appears and unrelated JSON keys are unchanged.\n- A credit of 7 GP and 5 SP raises the holding by exactly those coins.\n- Reject negative, fractional, boolean or overflowing counts, an unknown denomination, a foreign payer, a missing or stale charge and an implicit exchange of one denomination for another.\n\n## Durable implementation acceptance\n\nPreview is inert: no dice, writes or disclosure of another character's holdings. Confirm revalidates campaign, actor, payer, charge, price, held coins, source version and expected revisions. Commit the coin deltas, the saved operands and public history atomically. Inject a failure after each stage and prove full isolated PostgreSQL rollback. The same action ID and payload after retry, reload or reconnect returns the saved receipt without paying again; a conflicting payload rejects; racing confirmations commit once. Web and trusted TUI share availability, unavailable reasons and confirm/cancel/reconnect behavior. Changed web requires focused build/lint and desktop/phone checks. Public history omits private holdings and GM charge internals.\n\nHard prerequisite: #195 item contract, which the Coin Pouch record follows. Parent: #275. This task is required by item qualification #280 through the other #275 tasks and the `edda-275:economy-qualification` task; it adds no direct #280, #279, #67 or #429 edge, no edge to a creation owner, and changes no existing owner. Starting-equipment coin grants stay with their class owners named above and the optional higher-level money guide with #2053. Purchase and sale belong to `edda-275:equipment-purchase-sale`.\n\nValidation for the implementation PR: focused deterministic rules tests; isolated PostgreSQL rollback/concurrency/replay/reload tests; shared web/TUI confirmation and disclosure fixtures; `GOMAXPROCS=2 go test -p 2 -short -race ./...` and `GOMAXPROCS=2 go vet -p 2 ./...`. Short tests alone do not qualify PostgreSQL or devices. Runtime remains unavailable until implementation and its callers qualify. No deployment, source inference or Full Rules promotion.\n",
+      "state": "OPEN",
+      "issueType": {
+        "name": "Task"
+      },
+      "parent": {
+        "number": 275
+      },
+      "blockedBy": {
+        "totalCount": 1,
+        "pageInfo": {
+          "hasNextPage": false
+        },
+        "nodes": [
+          {
+            "number": 195
+          }
+        ]
+      },
+      "blocking": {
+        "totalCount": 5,
+        "pageInfo": {
+          "hasNextPage": false
+        },
+        "nodes": [
+          {
+            "number": 2078
+          },
+          {
+            "number": 2088
+          },
+          {
+            "number": 2087
+          },
+          {
+            "number": 2086
+          },
+          {
+            "number": 2084
+          }
+        ]
+      },
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "projectItems": {
+        "pageInfo": {
+          "hasNextPage": false
+        },
+        "nodes": [
+          {
+            "id": "PVTI_lADODjtmGM4BrFJ2zhKgq3Q",
+            "project": {
+              "id": "PVT_kwDODjtmGM4BrFJ2",
+              "title": "edda"
+            },
+            "fieldValueByName": {
+              "name": "M"
+            }
+          }
+        ]
+      }
+    },
+    "2084": {
+      "id": "I_kwDOSicKg88AAAABhEkGow",
+      "databaseId": 6514345635,
+      "number": 2084,
+      "title": "Confirm equipment purchase and half-cost or full-value sale",
+      "body": "<!-- edda-275:equipment-purchase-sale -->\nDecision #275; roadmap #47. One implementation PR; Task / Size M.\n\nSource: English SRD 5.2.1, PDF 89 (Selling Equipment), 91 (Longsword), 95–96 (Candle), 95 and 99 (Potion of Healing, as a boundary) and 103 (sale of a crafted item, as a boundary); SHA-256 `8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87`. CC-BY-4.0 attribution and adaptation: `docs/srd-5.2.1-conformance.md`. The deterministic fixtures below are Edda adaptations.\n\n## Bounded outcome\n\nImplement one nonmagical Equipment purchase at its listed cost and one Equipment sale. Every coin movement uses the holding and payment from the `edda-275:coin-holdings-payment` task; implement no second ledger or payment. No shop inventory, stock count, haggling or item effect is added.\n\nOffer. The source prices items and does not say who is selling or buying. This PR adds one GM-recorded offer: campaign, scene, item identity, direction (the other party sells, or the other party buys), opened and withdrawn by explicit GM action. A purchase or sale needs a current offer for that identity and direction. No other issue owns such a record.\n\nPurchase. One Equipment identity with a listed cost is bought for exactly that cost. Ownership of the bought item is granted once and its acquisition record names the purchase receipt. Identity alone executes no property, mastery or effect. Named fixture: Longsword, PDF91, 15 GP, catalogue record from #248.\n\nSale (PDF89). \"Equipment fetches half its cost when sold.\" The seller receives half the listed cost as named coins. If half the listed cost is not a whole number of CP, the source gives no rounding rule and that sale stays unavailable. Trade goods and valuables such as gems and art objects keep their full value; the Equipment chapter prints no price table for them, so this PR adds one GM-recorded valuable: campaign, owner, object, class (trade good, gem or art object) and value in CP. Full-value sale needs that record. Never infer the class from a name.\n\nCrafted items. PDF103 says a crafted item can be sold \"at its normal price\", which conflicts with the half-cost rule for that item. Crafting and the sale of a crafted item stay with the crafting decision #276. Here the half-cost sale applies only to an item whose acquisition record names no crafting receipt; an item whose record names one is unavailable for sale in this task.\n\nMagic items. PDF89 defers their prices to \"Magic Items\". Buying or selling a magic item is unavailable in this task and belongs to `edda-275:magic-item-value-guide`. Potion of Healing has an Equipment row at 50 GP (PDF95) and its entry on PDF99 says \"This potion is a magic item\", so it takes the magic-item path and is unavailable here too.\n\n## Deterministic fixtures\n\n- With a selling offer for a Longsword, paying 15 GP leaves a 20 GP holding at 5 GP and grants one Longsword. Paying 2 PP with 5 GP returned as change is also exact. Paying 14 GP, or any payment with no current offer, rejects without partial changes.\n- With a buying offer, selling the Longsword credits 750 CP, received as the named 7 GP and 5 SP, and the item leaves the seller once.\n- A Candle's listed 1 CP (PDF95) has no whole-copper half: its sale is unavailable, not rounded to 0 or 1. Its purchase for 1 CP succeeds.\n- A GM-recorded gem valued at 50 GP sells for 50 GP. The same object without that record, or an ordinary Longsword claimed as a valuable, does not get full value.\n- A Longsword whose acquisition record names a crafting receipt is unavailable for sale: it fetches neither 750 CP nor 1,500 CP here.\n- A Potion of Healing is unavailable for purchase and sale here; it never sells for an automatic 25 GP.\n- Reject a foreign owner or item, a missing, stale or withdrawn offer, an offer in the wrong direction, a forged price, a duplicate grant and a sale of an item the seller no longer owns.\n\n## Durable implementation acceptance\n\nPreview is inert: no dice, writes or disclosure of another owner's holdings. Confirm revalidates campaign, actor, ownership, offer, acquisition record, valuable record, listed cost, source version and expected revisions. Commit the coin deltas, the item transfer, the saved operands and public history atomically. Inject a failure after each stage and prove full isolated PostgreSQL rollback. The same action ID and payload after retry, reload or reconnect returns the saved receipt without paying or granting again; a conflicting payload rejects; racing confirmations commit once. Web and trusted TUI share availability, unavailable reasons and confirm/cancel/reconnect behavior. Changed web requires focused build/lint and desktop/phone checks. Public history omits private holdings, GM offer internals and recorded values the GM has not disclosed.\n\nHard prerequisites: the `edda-275:coin-holdings-payment` task; #195 item contract with listed cost; catalogue records #248 (Longsword), #257 (Candle) and #261 (Potion of Healing). Parent: #275. Required by item qualification #280 through the `edda-275:economy-qualification` task; add no direct #280, #279, #67 or #429 edge and change no existing owner. Crafting costs and crafted-item sale stay with #276, ship and mount prices with #274.\n\nValidation for the implementation PR: focused deterministic rules tests; isolated PostgreSQL rollback/concurrency/replay/reload tests; shared web/TUI confirmation and disclosure fixtures; `GOMAXPROCS=2 go test -p 2 -short -race ./...` and `GOMAXPROCS=2 go vet -p 2 ./...`. Short tests alone do not qualify PostgreSQL or devices. Runtime remains unavailable until implementation and its callers qualify. No deployment, source inference or Full Rules promotion.\n",
+      "state": "OPEN",
+      "issueType": {
+        "name": "Task"
+      },
+      "parent": {
+        "number": 275
+      },
+      "blockedBy": {
+        "totalCount": 5,
+        "pageInfo": {
+          "hasNextPage": false
+        },
+        "nodes": [
+          {
+            "number": 2083
+          },
+          {
+            "number": 261
+          },
+          {
+            "number": 257
+          },
+          {
+            "number": 248
+          },
+          {
+            "number": 195
+          }
+        ]
+      },
+      "blocking": {
+        "totalCount": 2,
+        "pageInfo": {
+          "hasNextPage": false
+        },
+        "nodes": [
+          {
+            "number": 2088
+          },
+          {
+            "number": 2085
+          }
+        ]
+      },
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "projectItems": {
+        "pageInfo": {
+          "hasNextPage": false
+        },
+        "nodes": [
+          {
+            "id": "PVTI_lADODjtmGM4BrFJ2zhKgq6U",
+            "project": {
+              "id": "PVT_kwDODjtmGM4BrFJ2",
+              "title": "edda"
+            },
+            "fieldValueByName": {
+              "name": "M"
+            }
+          }
+        ]
+      }
+    },
+    "2085": {
+      "id": "I_kwDOSicKg88AAAABhEkHyg",
+      "databaseId": 6514345930,
+      "number": 2085,
+      "title": "Show magic-item values by rarity for GM-priced purchase and sale",
+      "body": "<!-- edda-275:magic-item-value-guide -->\nDecision #275; roadmap #47. One implementation PR; Task / Size S.\n\nSource: English SRD 5.2.1, PDF 89 (Selling Equipment defers magic-item prices), 205–206 (Magic Item Values by Rarity), 92 (Plate Armor), 210 (Armor, +1, +2, or +3), 95 and 99 (Potion of Healing) and 236 (Potions of Healing); SHA-256 `8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87`. CC-BY-4.0 attribution and adaptation: `docs/srd-5.2.1-conformance.md`. The deterministic fixtures below are Edda adaptations.\n\n## Bounded outcome\n\n#275 names coins and selling; PDF89 sends magic-item prices to \"Magic Items\", and no issue owns that page's value table. This task is the bounded follow-up for it. It shows the rarity values to the GM and lets a magic item change hands only at a price the GM sets. It reuses the offer, purchase and sale of `edda-275:equipment-purchase-sale` and the payment of `edda-275:coin-holdings-payment`; it adds no ledger, no item effect, no attunement and no crafting.\n\nPolicy. PDF205: \"If you allow characters to buy and sell magic items in your campaign, rarity can help you set prices for those items.\" This PR adds one GM-recorded campaign policy, off by default, set and cleared by explicit GM action. With the policy off, buying and selling a magic item stay unavailable.\n\nPrice. With the policy on, a magic-item offer must carry a GM-set price in CP; this PR adds that one field to the offer for magic-item identities only. There is no default price. The source does not say a sold magic item fetches half, so the half-cost rule is never applied to a magic item.\n\nGuide (PDF206), shown to the GM beside the offer and never applied automatically: Common 100 GP, Uncommon 400 GP, Rare 4,000 GP, Very Rare 40,000 GP, Legendary 200,000 GP, Artifact priceless. Halve the value for a consumable other than a Spell Scroll. If the item incorporates an item with an Equipment cost, add that cost. The source says a Spell Scroll is worth double its scribing cost; the scribing table belongs to the crafting decision #276, so a Spell Scroll shows no guide value until that owner exists.\n\nAvailability (PDF205), shown as guide text only: \"Common magic items can often be bought in a town or city. Uncommon and Rare magic items are usually found only in cities, and rarer magic items might be sold only in wondrous locations, such as a city on another plane of existence.\" \"Often\", \"usually\" and \"might\" leave this to the GM, so no location check is enforced. A seller who asks for a service instead of coin is a GM fact, not a transaction here.\n\n## Deterministic fixtures\n\n- Armor, +1 (Plate Armor) is Rare (PDF210) and Plate Armor costs 1,500 GP (PDF92): the guide shows 5,500 GP = 4,000 + 1,500, the source's own example. With the policy on and a GM-set price of 6,000 GP, the purchase charges 6,000 GP, not 5,500.\n- Potion of Healing is Common (PDF236) and consumable: the guide shows 50 GP, half of 100. With the policy on and a GM-set price of 40 GP it sells for 40 GP. It never sells for an automatic 25 GP.\n- An Artifact shows \"priceless\" and no number. A Spell Scroll shows no guide value.\n- With the policy off, or with the policy on and no GM-set price, a magic-item purchase or sale is unavailable and charges nothing.\n- Reject a guide value used as a price without a GM-set price, a half-cost sale of a magic item, a GM-set price on a nonmagical identity, a forged policy and a location refusal invented from the availability text.\n\n## Durable implementation acceptance\n\nPreview is inert. Confirm revalidates campaign, actor, policy, offer, GM-set price, item record and rarity, source version and expected revisions. The policy change, and each purchase or sale with its coin deltas, item transfer and public history, commits atomically. Inject a failure after each stage and prove full isolated PostgreSQL rollback. The same action ID and payload after retry, reload or reconnect returns the saved receipt without paying or granting again; a conflicting payload rejects; racing confirmations commit once. Web and trusted TUI share availability, unavailable reasons and confirm/cancel/reconnect behavior; the guide and availability text appear only to the GM. Changed web requires focused build/lint and desktop/phone checks. Public history omits private holdings, the policy's internals and undisclosed prices.\n\nHard prerequisites: the `edda-275:equipment-purchase-sale` task; #195 item contract with rarity and listed cost; catalogue records #225 (Armor, +1, +2, or +3), #251 (Plate Armor), #238 (Potions of Healing) and #261 (Potion of Healing). Parent: #275. Required by item qualification #280 through the `edda-275:economy-qualification` task; add no direct #280, #279, #67 or #429 edge and change no existing owner. Magic-item crafting and scroll scribing stay with #276.\n\nValidation for the implementation PR: focused deterministic rules tests; isolated PostgreSQL rollback/concurrency/replay/reload tests; shared web/TUI confirmation and disclosure fixtures; `GOMAXPROCS=2 go test -p 2 -short -race ./...` and `GOMAXPROCS=2 go vet -p 2 ./...`. Short tests alone do not qualify PostgreSQL or devices. Runtime remains unavailable until implementation and its callers qualify. No deployment, source inference or Full Rules promotion.\n",
+      "state": "OPEN",
+      "issueType": {
+        "name": "Task"
+      },
+      "parent": {
+        "number": 275
+      },
+      "blockedBy": {
+        "totalCount": 6,
+        "pageInfo": {
+          "hasNextPage": false
+        },
+        "nodes": [
+          {
+            "number": 2084
+          },
+          {
+            "number": 261
+          },
+          {
+            "number": 251
+          },
+          {
+            "number": 238
+          },
+          {
+            "number": 225
+          },
+          {
+            "number": 195
+          }
+        ]
+      },
+      "blocking": {
+        "totalCount": 1,
+        "pageInfo": {
+          "hasNextPage": false
+        },
+        "nodes": [
+          {
+            "number": 2088
+          }
+        ]
+      },
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "projectItems": {
+        "pageInfo": {
+          "hasNextPage": false
+        },
+        "nodes": [
+          {
+            "id": "PVTI_lADODjtmGM4BrFJ2zhKgq80",
+            "project": {
+              "id": "PVT_kwDODjtmGM4BrFJ2",
+              "title": "edda"
+            },
+            "fieldValueByName": {
+              "name": "S"
+            }
+          }
+        ]
+      }
+    },
+    "2086": {
+      "id": "I_kwDOSicKg88AAAABhEkJXQ",
+      "databaseId": 6514346333,
+      "number": 2086,
+      "title": "Confirm lifestyle expenses and Food, Drink, and Lodging purchases",
+      "body": "<!-- edda-275:lifestyle-lodging -->\nDecision #275; roadmap #47. One implementation PR; Task / Size M.\n\nSource: English SRD 5.2.1, PDF 101–102 (Lifestyle Expenses; Food, Drink, and Lodging); SHA-256 `8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87`. CC-BY-4.0 attribution and adaptation: `docs/srd-5.2.1-conformance.md`. The deterministic fixtures below are Edda adaptations.\n\n## Bounded outcome\n\nImplement the periodic lifestyle choice and the seventeen Food, Drink, and Lodging purchases. Every charge uses the holding and payment from the `edda-275:coin-holdings-payment` task; implement no second ledger or payment.\n\nLifestyle (PDF101): Wretched is free; Squalid costs 1 SP per day, Poor 2 SP, Modest 1 GP, Comfortable 2 GP, Wealthy 4 GP and Aristocratic 10 GP. At the start of each week or month, whichever the GM chose for the campaign, the character chooses one lifestyle and pays its price for that period. The source defines neither the length of a week nor of a month, and no issue owns campaign time. This PR therefore adds one GM-recorded lifestyle period per campaign: unit (week or month), day count, opened and closed by explicit GM action. No clock advances it. The charge is the daily price times that day count. The expense covers lodging, food, equipment maintenance and other necessities. Lifestyles have no inherent consequences: add no modifier, condition, rest change, risk roll, reputation score or equipment decay. The GM may take the recorded lifestyle into account; that stays a GM judgment. The source states no mid-period change, refund, arrears or automatic downgrade, so none exists here. It also states no consequence for being unable to pay. Edda adaptation: a choice the holding cannot cover is rejected and no lifestyle is recorded for that period.\n\nFood, Drink, and Lodging (PDF101–102), each a single listed-price purchase: Ale (mug) 4 CP; Bread (loaf) 2 CP; Cheese (wedge) 1 SP; Inn Stay per Day at Squalid 7 CP, Poor 1 SP, Modest 5 SP, Comfortable 8 SP, Wealthy 2 GP, Aristocratic 4 GP; Meal at Squalid 1 CP, Poor 2 CP, Modest 1 SP, Comfortable 2 SP, Wealthy 3 SP, Aristocratic 6 SP; Wine (bottle) Common 2 SP, Fine 10 GP. There is no Wretched row. An inn stay is one night's lodging and grants no rest, healing or safety by itself: Short and Long Rests stay with #427 and #428. The table gives no weight for a meal or loaf, so a purchase does not by itself satisfy or change the PDF185 Malnutrition or PDF181 Dehydration hazards. Rations and other gear keep their own Equipment rows.\n\nInclusion (PDF101). The source says only: \"The Food, Drink, and Lodging table gives prices for food and a single night's lodging. Prices for daily lodging and meals are included in your lifestyle's expenses.\" It does not say which table row a lifestyle includes, how many meals a day, or what a different grade costs a character who has already paid. Edda adaptation: inclusion is a GM-recorded fact and nothing is included automatically. During a character's recorded period the GM may mark one specific Inn Stay per Day or Meal purchase by that character as included; that purchase charges nothing and its receipt names the period and the mark. No lifestyle is mapped to a table row and no daily quantity is inferred. Without a mark, every row is bought at its table price.\n\n## Deterministic fixtures\n\n- With a GM-opened period of unit week and 7 days, Modest costs 7 GP and Squalid 7 SP. With a period of unit month and 30 days, Poor costs 60 SP (6 GP) and Aristocratic 300 GP. Wretched records the choice and charges nothing.\n- A second choice inside the same paid period, a choice with no open GM period, a period with no day count, a refund request, a lifestyle name outside the seven, or a holding that cannot cover the price rejects without partial changes. No debt, downgrade or lifestyle record is created.\n- Under a paid Modest period, a Modest inn stay the GM marked as included charges nothing. The same stay without a mark costs 5 SP, a Modest meal without a mark 1 SP, a Wealthy inn stay 2 GP and a mug of Ale 4 CP. A mark with no recorded period for that character, a mark on any row other than Inn Stay per Day or Meal, and a mark by anyone but the GM reject.\n- Fine Wine costs 10 GP and Common Wine 2 SP. Reject a Wretched inn stay or meal, an invented row, a negative or fractional quantity and a marked purchase charged or granted twice on replay.\n- A recorded Aristocratic or Wretched lifestyle leaves every d20 Test, condition, rest and Hit Point unchanged.\n\n## Durable implementation acceptance\n\nPreview is inert. Confirm revalidates campaign, actor, the GM period record and its day count, lifestyle or row identity, any GM inclusion mark, quantity, price, source version and expected revisions. Commit the choice or purchase, the coin payment, the use of an inclusion mark and public history atomically. Inject a failure after each stage and prove full isolated PostgreSQL rollback. The same action ID and payload after retry, reload or reconnect returns the saved receipt without charging again; a conflicting payload rejects; racing confirmations commit once. A period boundary creates no automatic charge: the next choice is an explicit confirmed action. Web and trusted TUI share availability, unavailable reasons and confirm/cancel/reconnect behavior. Changed web requires focused build/lint and desktop/phone checks. Public history omits private holdings and other characters' lifestyle payments unless the GM discloses them.\n\nHard prerequisite: the `edda-275:coin-holdings-payment` task. Parent: #275. Required by item qualification #280 through the `edda-275:economy-qualification` task; add no direct #280, #279, #67 or #429 edge and change no existing owner. Ship passenger fares on PDF101 stay with #274.\n\nValidation for the implementation PR: focused deterministic rules tests comparing all seven lifestyle prices and all seventeen rows with the source; isolated PostgreSQL rollback/concurrency/replay/reload tests; shared web/TUI confirmation and disclosure fixtures; `GOMAXPROCS=2 go test -p 2 -short -race ./...` and `GOMAXPROCS=2 go vet -p 2 ./...`. Short tests alone do not qualify PostgreSQL or devices. Runtime remains unavailable until implementation and its callers qualify. No deployment, source inference or Full Rules promotion.\n",
+      "state": "OPEN",
+      "issueType": {
+        "name": "Task"
+      },
+      "parent": {
+        "number": 275
+      },
+      "blockedBy": {
+        "totalCount": 1,
+        "pageInfo": {
+          "hasNextPage": false
+        },
+        "nodes": [
+          {
+            "number": 2083
+          }
+        ]
+      },
+      "blocking": {
+        "totalCount": 1,
+        "pageInfo": {
+          "hasNextPage": false
+        },
+        "nodes": [
+          {
+            "number": 2088
+          }
+        ]
+      },
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "projectItems": {
+        "pageInfo": {
+          "hasNextPage": false
+        },
+        "nodes": [
+          {
+            "id": "PVTI_lADODjtmGM4BrFJ2zhKgq-8",
+            "project": {
+              "id": "PVT_kwDODjtmGM4BrFJ2",
+              "title": "edda"
+            },
+            "fieldValueByName": {
+              "name": "M"
+            }
+          }
+        ]
+      }
+    },
+    "2087": {
+      "id": "I_kwDOSicKg88AAAABhEkKnQ",
+      "databaseId": 6514346653,
+      "number": 2087,
+      "title": "Confirm hireling, messenger and spellcasting service payments",
+      "body": "<!-- edda-275:hired-services -->\nDecision #275; roadmap #47. One implementation PR; Task / Size M.\n\nSource: English SRD 5.2.1, PDF 102 (Hirelings; Spellcasting), 159 (Revivify) and 142 (Identify, as price operands only); SHA-256 `8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87`. CC-BY-4.0 attribution and adaptation: `docs/srd-5.2.1-conformance.md`. The deterministic fixtures below are Edda adaptations.\n\n## Bounded outcome\n\nImplement the price, eligibility and payment of the three Hirelings rows and the seven Spellcasting Services rows. Every charge uses the holding and payment from the `edda-275:coin-holdings-payment` task. This task records an agreement and its payment. It creates no controllable creature, stat block, combat ally, skill check, crew automation or spell effect.\n\nHirelings (PDF102): a skilled hireling performs a service that involves a proficiency (weapon, tool or skill), such as a mercenary, artisan or scribe, and costs 2 GP per day. An untrained hireling does work that needs no particular proficiency, such as a laborer or porter, and costs 2 SP per day. A messenger costs 2 CP per mile. The table's pay is a minimum; some expert hirelings require more. This PR adds one GM-recorded service offer: campaign, scene, kind (one of the three hireling rows, or a spellcasting service with its caster and spell), price per unit and, for a caster, the actual component value; opened and withdrawn by explicit GM action. No other issue owns such a record. The offer may set a higher hireling price than the row and never a lower one. Charge whole days and whole miles; the source prices no fraction of either. Whether a willing hireling exists, what the hireling then does, and any loyalty or risk are GM facts. Ship crews of skilled hirelings stay with #274; a hired creature that acts in play needs its own qualified world and creature owners.\n\nSpellcasting Services (PDF102): Cantrip 30 GP and levels 1 and 2 at 50 GP and 200 GP in a village, town or city; level 3 at 300 GP and levels 4–5 at 2,000 GP in a town or city only; levels 6–8 at 20,000 GP and level 9 at 100,000 GP in a city only. The source adds one rule: \"If a spell has expensive components, add the cost of those components to the cost listed in the Spellcasting Services table.\" It makes no exception for a component the spell does not consume, so the cost is added whether or not the component is consumed.\n\nThree points are Edda adaptations, because the source is silent:\n\n- A component printed as \"worth N+ GP\" adds N, unless the GM offer names a higher actual value.\n- The table prices the spell's own level. A request to cast with a higher-level slot has no price and stays unavailable.\n- The table says where a caster can be found, not that one is present. No issue owns a settlement record, so this PR adds one GM-recorded settlement class for the current scene: village, town or city. A service needs that fact and a GM offer of a willing caster for that spell. An unknown settlement class is unavailable.\n\nPrice and effect are separate. The price is a function of spell level, settlement class and component cost; its fixtures below take those operands directly, are previews and commit nothing. A committed service also runs the spell, and only through that spell's own qualified resolver. The hired caster is an authoritative GM-supplied actor that must satisfy that resolver's own eligibility through the resolver's existing interface. This task does not widen #618 or any other resolver and invents no caster operands. If the resolver cannot accept the GM-supplied caster, the service is unavailable and nothing is charged. Revivify through #618 is the only committed service in this PR. A spell with a costly component that is not consumed stays price-only until its own resolver is qualified.\n\nThe service receipt binds payer, caster offer, spell identity and level, settlement class, table row, component costs and total. Catalogue presence, this price table and the payment grant no spell execution, learned spell or slot.\n\n## Deterministic fixtures\n\n- Skilled hireling for 3 days: 6 GP. An expert offered at 5 GP per day for 3 days: 15 GP. A skilled hireling offered at 1 GP per day rejects as below the minimum. Untrained hireling for 5 days: 10 SP. Messenger for 25 miles: 50 CP.\n- Zero, negative or fractional days or miles, a missing offer, an untrained price for proficient work, and a holding that cannot cover the total reject without partial changes.\n- Committed service: Revivify (PDF159, level 3, a diamond worth 300+ GP, which the spell consumes) in a town charges 300 GP + 300 GP = 600 GP once, and its effect is the single committed result of #618 under that owner's own eligibility, timing and target rules. With the offer naming a 500 GP diamond the total is 800 GP. The same request in a village rejects: level 3 is town or city only. If #618 does not accept the GM-supplied caster, the request is refused, nothing is charged and nothing is cast; the refused case then replaces the committed one.\n- Price previews from explicit operands, committing nothing: level 1 with no expensive component in a village, 50 GP; a cantrip, 30 GP; level 5 in a town, 2,000 GP plus components; level 9 in a city, 100,000 GP plus components. Level 6 in a town and level 9 anywhere but a city have no price. Identify's operands (PDF142: level 1, a pearl worth 100+ GP that the spell does not consume) in a village preview at 150 GP; the unconsumed pearl is still added.\n- Reject an invented level-10 row, a component cost omitted or counted twice, an upcast request, a committed service for a spell with no qualified resolver, a missing or forged settlement class and a payment taken when the effect cannot resolve.\n\n## Durable implementation acceptance\n\nPreview is inert and reveals no private caster, hireling or GM facts. Confirm revalidates campaign, actor, offer, settlement class, row, days or miles, spell record and component cost, resolver availability and its acceptance of the caster, price, source version and expected revisions. Commit the agreement or service receipt, the coin payment, the delegated effect's own committed result where one runs, and public history atomically. Inject a failure after each stage and prove full isolated PostgreSQL rollback. The same action ID and payload after retry, reload or reconnect returns the saved receipt without charging or casting again; a conflicting payload rejects; racing confirmations commit once. Web and trusted TUI share availability, unavailable reasons and confirm/cancel/reconnect behavior. Changed web requires focused build/lint and desktop/phone checks. Public history omits private holdings, offer internals and hidden targets.\n\nHard prerequisites: the `edda-275:coin-holdings-payment` task and #618 actual Revivify resolver, used unchanged. The price previews need no spell record or resolver. Parent: #275. Required by item qualification #280 through the `edda-275:economy-qualification` task; add no direct #280, #279, #67 or #429 edge and change no existing owner. #1447 keeps a player caster's own costly and consumed materials; scroll scribing and crafting labor stay with #276.\n\nValidation for the implementation PR: focused deterministic rules tests comparing all three hireling rows and all seven service rows with the source; isolated PostgreSQL rollback/concurrency/replay/reload tests; shared web/TUI confirmation and disclosure fixtures; `GOMAXPROCS=2 go test -p 2 -short -race ./...` and `GOMAXPROCS=2 go vet -p 2 ./...`. Short tests alone do not qualify PostgreSQL or devices. Runtime remains unavailable until implementation and its callers qualify. No deployment, source inference or Full Rules promotion.\n",
+      "state": "OPEN",
+      "issueType": {
+        "name": "Task"
+      },
+      "parent": {
+        "number": 275
+      },
+      "blockedBy": {
+        "totalCount": 2,
+        "pageInfo": {
+          "hasNextPage": false
+        },
+        "nodes": [
+          {
+            "number": 2083
+          },
+          {
+            "number": 618
+          }
+        ]
+      },
+      "blocking": {
+        "totalCount": 2,
+        "pageInfo": {
+          "hasNextPage": false
+        },
+        "nodes": [
+          {
+            "number": 2079
+          },
+          {
+            "number": 2088
+          }
+        ]
+      },
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "projectItems": {
+        "pageInfo": {
+          "hasNextPage": false
+        },
+        "nodes": [
+          {
+            "id": "PVTI_lADODjtmGM4BrFJ2zhKgrC4",
+            "project": {
+              "id": "PVT_kwDODjtmGM4BrFJ2",
+              "title": "edda"
+            },
+            "fieldValueByName": {
+              "name": "M"
+            }
+          }
+        ]
+      }
+    },
+    "2088": {
+      "id": "I_kwDOSicKg88AAAABhEkLtA",
+      "databaseId": 6514346932,
+      "number": 2088,
+      "title": "Qualify coin, lifestyle and service payments for item coverage",
+      "body": "<!-- edda-275:economy-qualification -->\nDecision #275; roadmap #47. One qualification PR; Task / Size M.\n\nSource: English SRD 5.2.1, PDF 89 and 101–102, with the consumed rows on 28, 91, 92, 95–96, 99, 103, 142, 159, 205–206, 210 and 236; SHA-256 `8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87`. CC-BY-4.0 attribution and adaptation: `docs/srd-5.2.1-conformance.md`.\n\nQualify the finite composition of the five #275 implementation outputs: `edda-275:coin-holdings-payment`, `edda-275:equipment-purchase-sale`, `edda-275:magic-item-value-guide`, `edda-275:lifestyle-lodging` and `edda-275:hired-services`. Own no ledger, price row, payment, purchase, sale, policy, lifestyle, service or spell effect. A record's presence, a merged task or the closed decision #275 is not execution evidence. This task exists so the five outputs reach item qualification #280 through one mandatory edge.\n\nRequired deterministic composition controls, run through the actual qualified rules, game, engine and handler callers with isolated explicit entitlements:\n\n- One ledger: a single holding of 2 PP, 3 GP, 4 EP, 5 SP and 6 CP (2,556 CP) pays, in order, a Longsword at 15 GP, a 7-day Modest lifestyle at 7 GP, one mug of Ale at 4 CP and a skilled hireling for 1 day at 2 GP. The named coins and change in each receipt account for exactly 2,404 CP spent and 152 CP left. No task keeps a second balance.\n- One store: a character whose creation receipt granted 75 GP pays 15 GP and holds 60 GP in the record its creation owner wrote; a legacy Coin Pouch of 29 GP is counted once.\n- Sale after purchase: the bought Longsword sells for 750 CP, half of its listed 1,500 CP, and the item leaves the seller once. A Candle's sale, a crafted Longsword's sale and a Potion of Healing's half-cost sale stay unavailable.\n- Inclusion: under the paid Modest period a Modest inn stay the GM marked as included charges nothing; the same stay without a mark charges 5 SP and a Wealthy inn stay 2 GP through the same ledger. Nothing is included without a GM mark.\n- Magic items: with the campaign policy off, Armor, +1 (Plate Armor) cannot be bought. With it on, the guide shows 5,500 GP and the purchase charges the GM-set 6,000 GP through the same ledger.\n- Service total: Revivify in a town charges 600 GP once, the 300 GP table row plus the 300 GP component, and its effect is the single committed result of #618, used unchanged. A village request and an unpayable request charge nothing and cast nothing. If #618 does not accept the GM-supplied caster, the control is the refusal: nothing charged, nothing cast.\n- Source comparison: all five coin values, the fifty-coins-per-pound rule, seven lifestyle prices, seventeen Food, Drink, and Lodging rows, three Hirelings rows, seven Spellcasting Services rows and the six rarity values match the pinned PDF text.\n- Fail-closed boundaries hold together: no implicit denomination exchange, no rounding of an odd half-cost, no automatic magic-item price, no enforced magic-item location, no automatic inclusion, no lifestyle consequence, no rest or hazard change from a meal or inn stay, no hireling stat block and no spell effect without its own qualified resolver.\n\nPreview is inert. Confirmation revalidates actor, campaign, source, offer, policy, period, inclusion mark, settlement class and expected revisions. Inject each failure for full isolated PostgreSQL rollback across the composed sequence; a same-ID retry, reload or reconnect returns each saved receipt without paying, granting or casting again; conflicts reject and racing confirmations commit once. Web and trusted TUI agree on supported choices, unavailable reasons and cancel/confirm/reconnect. Changed web requires focused build/lint and desktop/phone fixtures. Do not expose private holdings, offers or hidden state.\n\nNative parent #275; directly block #280. Exact prerequisites: the five #275 implementation tasks named above. Preserve every existing body, parent and prerequisite. No new #279, #67 or #429 edge. Mount, vehicle, cargo and crew prices stay with #274, crafting and scribing with #276 and residual item keys with #278.\n\nQualification must run focused source and contrary tests, isolated PostgreSQL replay/rollback/concurrency, shared web/TUI fixtures, `GOMAXPROCS=2 go test -p 2 -short -race ./...` and `GOMAXPROCS=2 go vet -p 2 ./...`; short tests alone do not qualify database or devices. Runtime remains unqualified until the five outputs and this integration proof pass. No deployment, production grant or Full Rules promotion.\n",
+      "state": "OPEN",
+      "issueType": {
+        "name": "Task"
+      },
+      "parent": {
+        "number": 275
+      },
+      "blockedBy": {
+        "totalCount": 5,
+        "pageInfo": {
+          "hasNextPage": false
+        },
+        "nodes": [
+          {
+            "number": 2087
+          },
+          {
+            "number": 2086
+          },
+          {
+            "number": 2085
+          },
+          {
+            "number": 2084
+          },
+          {
+            "number": 2083
+          }
+        ]
+      },
+      "blocking": {
+        "totalCount": 1,
+        "pageInfo": {
+          "hasNextPage": false
+        },
+        "nodes": [
+          {
+            "number": 280
+          }
+        ]
+      },
+      "subIssues": {
+        "totalCount": 0,
+        "nodes": []
+      },
+      "projectItems": {
+        "pageInfo": {
+          "hasNextPage": false
+        },
+        "nodes": [
+          {
+            "id": "PVTI_lADODjtmGM4BrFJ2zhKgrEw",
+            "project": {
+              "id": "PVT_kwDODjtmGM4BrFJ2",
+              "title": "edda"
+            },
+            "fieldValueByName": {
+              "name": "M"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "body_matches_task_file": {
+    "2083": {
+      "key": "edda-275:coin-holdings-payment",
+      "task_file": "docs/investigations/issue-275-coin-payment-task.md",
+      "sha256": "e0d01a62168b18df9f851931c61afe508dac7c51e485b228b521fe060aeda676",
+      "exact": true
+    },
+    "2084": {
+      "key": "edda-275:equipment-purchase-sale",
+      "task_file": "docs/investigations/issue-275-equipment-sale-task.md",
+      "sha256": "e8cd93ca6c34e607453c27fde6630384d8d61a6ad4aca61b4f85f92bb7ee308d",
+      "exact": true
+    },
+    "2085": {
+      "key": "edda-275:magic-item-value-guide",
+      "task_file": "docs/investigations/issue-275-magic-item-value-task.md",
+      "sha256": "ab95801e5c7cb5f7166c2e35795721a9557ed4cdeab6d24c1b7563290e63b3c7",
+      "exact": true
+    },
+    "2086": {
+      "key": "edda-275:lifestyle-lodging",
+      "task_file": "docs/investigations/issue-275-lifestyle-lodging-task.md",
+      "sha256": "c9c238d52fa1aa4540902854696c28b19bc952fa6ff10746064bb57b96d43fe6",
+      "exact": true
+    },
+    "2087": {
+      "key": "edda-275:hired-services",
+      "task_file": "docs/investigations/issue-275-hired-services-task.md",
+      "sha256": "fe96a2c3ce47e49a737685eba3edf7afd7ae0dac0217ff905fb524284163333f",
+      "exact": true
+    },
+    "2088": {
+      "key": "edda-275:economy-qualification",
+      "task_file": "docs/investigations/issue-275-economy-qualification-task.md",
+      "sha256": "9d3e19cc1b90c95f85743bdfe391012cee20c1b53b4654512974c3873bae7432",
+      "exact": true
+    }
+  },
+  "numbers": {
+    "edda-275:coin-holdings-payment": 2083,
+    "edda-275:equipment-purchase-sale": 2084,
+    "edda-275:magic-item-value-guide": 2085,
+    "edda-275:lifestyle-lodging": 2086,
+    "edda-275:hired-services": 2087,
+    "edda-275:economy-qualification": 2088
+  },
+  "readback_checks": {
+    "2083": {
+      "body_exact": true,
+      "title": true,
+      "open": true,
+      "type_task": true,
+      "parent_275": true,
+      "blocked_by": true,
+      "blocking": true,
+      "project_size": true
+    },
+    "2084": {
+      "body_exact": true,
+      "title": true,
+      "open": true,
+      "type_task": true,
+      "parent_275": true,
+      "blocked_by": true,
+      "blocking": true,
+      "project_size": true
+    },
+    "2085": {
+      "body_exact": true,
+      "title": true,
+      "open": true,
+      "type_task": true,
+      "parent_275": true,
+      "blocked_by": true,
+      "blocking": true,
+      "project_size": true
+    },
+    "2086": {
+      "body_exact": true,
+      "title": true,
+      "open": true,
+      "type_task": true,
+      "parent_275": true,
+      "blocked_by": true,
+      "blocking": true,
+      "project_size": true
+    },
+    "2087": {
+      "body_exact": true,
+      "title": true,
+      "open": true,
+      "type_task": true,
+      "parent_275": true,
+      "blocked_by": true,
+      "blocking": true,
+      "project_size": true
+    },
+    "2088": {
+      "body_exact": true,
+      "title": true,
+      "open": true,
+      "type_task": true,
+      "parent_275": true,
+      "blocked_by": true,
+      "blocking": true,
+      "project_size": true
+    }
+  },
+  "edges_added": [
+    "#2083 parent #275",
+    "#2084 parent #275",
+    "#2085 parent #275",
+    "#2086 parent #275",
+    "#2087 parent #275",
+    "#2088 parent #275",
+    "#2083 blocked-by #195",
+    "#2084 blocked-by #195",
+    "#2084 blocked-by #248",
+    "#2084 blocked-by #257",
+    "#2084 blocked-by #261",
+    "#2084 blocked-by #2083",
+    "#2085 blocked-by #195",
+    "#2085 blocked-by #225",
+    "#2085 blocked-by #238",
+    "#2085 blocked-by #251",
+    "#2085 blocked-by #261",
+    "#2085 blocked-by #2084",
+    "#2086 blocked-by #2083",
+    "#2087 blocked-by #618",
+    "#2087 blocked-by #2083",
+    "#2088 blocked-by #2083",
+    "#2088 blocked-by #2084",
+    "#2088 blocked-by #2085",
+    "#2088 blocked-by #2086",
+    "#2088 blocked-by #2087",
+    "#280 blocked-by #2088",
+    "#2078 blocked-by #2083",
+    "#2079 blocked-by #2087"
+  ],
+  "edges_added_counts": {
+    "parent": 6,
+    "blocked_by_planned": 20,
+    "gate_additions": 1,
+    "sibling_274_additions": 2
+  },
+  "edges_removed": [],
+  "cap_rereads_before_each_edge": [
+    {
+      "edge": "2083-blockedby-195",
+      "issue": 2083,
+      "blocker": 195,
+      "issue_blocked_by_before": 0,
+      "blocker_blocking_before": 63,
+      "at": "2026-11-20T15:24:11Z"
+    },
+    {
+      "edge": "2084-blockedby-195",
+      "issue": 2084,
+      "blocker": 195,
+      "issue_blocked_by_before": 0,
+      "blocker_blocking_before": 64,
+      "at": "2026-11-20T15:24:13Z"
+    },
+    {
+      "edge": "2084-blockedby-248",
+      "issue": 2084,
+      "blocker": 248,
+      "issue_blocked_by_before": 1,
+      "blocker_blocking_before": 12,
+      "at": "2026-11-20T15:24:16Z"
+    },
+    {
+      "edge": "2084-blockedby-257",
+      "issue": 2084,
+      "blocker": 257,
+      "issue_blocked_by_before": 2,
+      "blocker_blocking_before": 1,
+      "at": "2026-11-20T15:24:18Z"
+    },
+    {
+      "edge": "2084-blockedby-261",
+      "issue": 2084,
+      "blocker": 261,
+      "issue_blocked_by_before": 3,
+      "blocker_blocking_before": 4,
+      "at": "2026-11-20T15:24:20Z"
+    },
+    {
+      "edge": "2084-blockedby-2083",
+      "issue": 2084,
+      "blocker": 2083,
+      "issue_blocked_by_before": 4,
+      "blocker_blocking_before": 0,
+      "at": "2026-11-20T15:24:22Z"
+    },
+    {
+      "edge": "2085-blockedby-195",
+      "issue": 2085,
+      "blocker": 195,
+      "issue_blocked_by_before": 0,
+      "blocker_blocking_before": 65,
+      "at": "2026-11-20T15:24:25Z"
+    },
+    {
+      "edge": "2085-blockedby-225",
+      "issue": 2085,
+      "blocker": 225,
+      "issue_blocked_by_before": 1,
+      "blocker_blocking_before": 1,
+      "at": "2026-11-20T15:24:28Z"
+    },
+    {
+      "edge": "2085-blockedby-238",
+      "issue": 2085,
+      "blocker": 238,
+      "issue_blocked_by_before": 2,
+      "blocker_blocking_before": 1,
+      "at": "2026-11-20T15:24:30Z"
+    },
+    {
+      "edge": "2085-blockedby-251",
+      "issue": 2085,
+      "blocker": 251,
+      "issue_blocked_by_before": 3,
+      "blocker_blocking_before": 3,
+      "at": "2026-11-20T15:24:32Z"
+    },
+    {
+      "edge": "2085-blockedby-261",
+      "issue": 2085,
+      "blocker": 261,
+      "issue_blocked_by_before": 4,
+      "blocker_blocking_before": 5,
+      "at": "2026-11-20T15:24:34Z"
+    },
+    {
+      "edge": "2085-blockedby-2084",
+      "issue": 2085,
+      "blocker": 2084,
+      "issue_blocked_by_before": 5,
+      "blocker_blocking_before": 0,
+      "at": "2026-11-20T15:24:37Z"
+    },
+    {
+      "edge": "2086-blockedby-2083",
+      "issue": 2086,
+      "blocker": 2083,
+      "issue_blocked_by_before": 0,
+      "blocker_blocking_before": 1,
+      "at": "2026-11-20T15:24:39Z"
+    },
+    {
+      "edge": "2087-blockedby-618",
+      "issue": 2087,
+      "blocker": 618,
+      "issue_blocked_by_before": 0,
+      "blocker_blocking_before": 10,
+      "at": "2026-11-20T15:24:41Z"
+    },
+    {
+      "edge": "2087-blockedby-2083",
+      "issue": 2087,
+      "blocker": 2083,
+      "issue_blocked_by_before": 1,
+      "blocker_blocking_before": 2,
+      "at": "2026-11-20T15:24:43Z"
+    },
+    {
+      "edge": "2088-blockedby-2083",
+      "issue": 2088,
+      "blocker": 2083,
+      "issue_blocked_by_before": 0,
+      "blocker_blocking_before": 3,
+      "at": "2026-11-20T15:24:45Z"
+    },
+    {
+      "edge": "2088-blockedby-2084",
+      "issue": 2088,
+      "blocker": 2084,
+      "issue_blocked_by_before": 1,
+      "blocker_blocking_before": 1,
+      "at": "2026-11-20T15:24:47Z"
+    },
+    {
+      "edge": "2088-blockedby-2085",
+      "issue": 2088,
+      "blocker": 2085,
+      "issue_blocked_by_before": 2,
+      "blocker_blocking_before": 0,
+      "at": "2026-11-20T15:24:49Z"
+    },
+    {
+      "edge": "2088-blockedby-2086",
+      "issue": 2088,
+      "blocker": 2086,
+      "issue_blocked_by_before": 3,
+      "blocker_blocking_before": 0,
+      "at": "2026-11-20T15:24:51Z"
+    },
+    {
+      "edge": "2088-blockedby-2087",
+      "issue": 2088,
+      "blocker": 2087,
+      "issue_blocked_by_before": 4,
+      "blocker_blocking_before": 0,
+      "at": "2026-11-20T15:24:54Z"
+    },
+    {
+      "edge": "280-blockedby-2088",
+      "issue": 280,
+      "blocker": 2088,
+      "issue_blocked_by_before": 99,
+      "blocker_blocking_before": 0,
+      "at": "2026-11-20T15:25:15Z"
+    },
+    {
+      "edge": "2078-blockedby-2083",
+      "issue": 2078,
+      "blocker": 2083,
+      "issue_blocked_by_before": 2,
+      "blocker_blocking_before": 4,
+      "at": "2026-11-20T15:25:18Z"
+    },
+    {
+      "edge": "2079-blockedby-2087",
+      "issue": 2079,
+      "blocker": 2087,
+      "issue_blocked_by_before": 4,
+      "blocker_blocking_before": 1,
+      "at": "2026-11-20T15:25:20Z"
+    }
+  ],
+  "gate_additions": [
+    {
+      "gate": 280,
+      "added_blocked_by": 2088,
+      "blocked_by_count_immediately_before": 99,
+      "rechecked_at": "2026-11-20T15:25:15Z",
+      "blocked_by_count_after": 100,
+      "free_slots_after": 0,
+      "body_unchanged": true
+    }
+  ],
+  "sibling_274_additions": {
+    "edges": [
+      "#2078 blocked-by #2083",
+      "#2079 blocked-by #2087"
+    ],
+    "reason": "The published bodies of #2078 and #2079 (decision #274) each carry a native #275 edge that closes with this planning issue, and each says that before #275 closes its split must add its coin-payment child (#2078) or its skilled-hireling child (#2079) as a native blocker. The reviewed #275 plan predates those two issues and did not list the edges. They were added at publication so that closing #275 does not release either task early. Neither body was edited.",
+    "in_reviewed_plan": false,
+    "bodies_unchanged": true,
+    "blocked_by_after": {
+      "2078": [
+        275,
+        2074,
+        2083
+      ],
+      "2079": [
+        144,
+        275,
+        2074,
+        2078,
+        2087
+      ]
+    }
+  },
+  "gate_paths_with_275_skipped": {
+    "280": {
+      "2083": [
+        280,
+        2088,
+        2083
+      ],
+      "2084": [
+        280,
+        2088,
+        2084
+      ],
+      "2085": [
+        280,
+        2088,
+        2085
+      ],
+      "2086": [
+        280,
+        2088,
+        2086
+      ],
+      "2087": [
+        280,
+        2088,
+        2087
+      ],
+      "2088": [
+        280,
+        2088
+      ]
+    },
+    "337": {
+      "2083": [
+        337,
+        551,
+        280,
+        2088,
+        2083
+      ],
+      "2084": [
+        337,
+        551,
+        280,
+        2088,
+        2084
+      ],
+      "2085": [
+        337,
+        551,
+        280,
+        2088,
+        2085
+      ],
+      "2086": [
+        337,
+        551,
+        280,
+        2088,
+        2086
+      ],
+      "2087": [
+        337,
+        551,
+        280,
+        2088,
+        2087
+      ],
+      "2088": [
+        337,
+        551,
+        280,
+        2088
+      ]
+    }
+  },
+  "implementation_tasks_reach_280_only_through_qualification_task": {
+    "2083": true,
+    "2084": true,
+    "2085": true,
+    "2086": true,
+    "2087": true
+  },
+  "implementation_tasks_reach_280_note": "Checked with #275, the qualification task and the #274 tasks #2078 and #2079 skipped. #2083 and #2087 also reach #280 through #2078/#2079 and the #274 cohort task #2080, which is an additional path, not a replacement.",
+  "gate_279": {
+    "native_blockers": 100,
+    "edge_added": false,
+    "paths_from_279": {
+      "2083": [
+        279,
+        681,
+        183,
+        2080,
+        2078,
+        2083
+      ],
+      "2084": null,
+      "2085": null,
+      "2086": null,
+      "2087": [
+        279,
+        681,
+        183,
+        2080,
+        2079,
+        2087
+      ],
+      "2088": null
+    }
+  },
+  "caps": {
+    "limit": 100,
+    "nodes": 1918,
+    "dependency_edges": 10304,
+    "parent_edges": 1914,
+    "incoming279": 100,
+    "incoming280": 100,
+    "incoming337": 62,
+    "incoming2078": 3,
+    "incoming2079": 5,
+    "outgoing195": 66,
+    "outgoing248": 13,
+    "outgoing257": 2,
+    "outgoing261": 6,
+    "outgoing225": 2,
+    "outgoing238": 2,
+    "outgoing251": 4,
+    "outgoing618": 11,
+    "children275": 6,
+    "children193": 32,
+    "max_incoming": 100,
+    "max_outgoing": 100,
+    "max_children": 95,
+    "before": {
+      "observed_at": "2026-11-20T15:19:40Z",
+      "nodes": 1912,
+      "dependency_edges": 10281,
+      "parent_edges": 1908,
+      "incoming279": 100,
+      "incoming280": 99,
+      "incoming337": 62,
+      "incoming2078": 2,
+      "incoming2079": 4,
+      "outgoing195": 63,
+      "outgoing248": 12,
+      "outgoing257": 1,
+      "outgoing261": 4,
+      "outgoing225": 1,
+      "outgoing238": 1,
+      "outgoing251": 3,
+      "outgoing618": 10,
+      "children275": 0,
+      "children193": 32
+    }
+  },
+  "graph": {
+    "dependency_acyclic": true,
+    "parent_acyclic": true,
+    "issues_paged": 1918,
+    "parent_chain": [
+      275,
+      193,
+      54,
+      47
+    ],
+    "blocking_and_sub_issue_counts_match_edge_lists": true
+  },
+  "prior_issue_differences_between_reads": [
+    "#280 gained blocker #2088 (this publication)",
+    "#2078 gained blocker #2083 and #2079 gained blocker #2087 (this publication, required by their bodies)",
+    "#275 went from 0 to 6 sub-issues (this publication)",
+    "dependent counts of #195, #225, #238, #248, #251, #257, #261 and #618 rose by the planned edges only",
+    "no title, type, parent or body hash of an earlier issue changed",
+    "#225 changed from OPEN to CLOSED between the two reads; not caused by this publication",
+    "#274 changed from OPEN to CLOSED between the two reads; not caused by this publication"
+  ],
+  "drift_since_review": [
+    "The review read showed 1,892 issues, #280 at 96 blockers, #195 at 61 dependents, #251 at 2 and #618 at 9. Splitters #270, #272 and #274 published in between. At publication there were 1912 issues before the six new ones; #280 went from 99 to 100, #195 from 63 to 66, #251 from 3 to 4 and #618 from 10 to 11.",
+    "#280 is now full. The open splitters that still owe it a blocker (#276, #278, #359) cannot add a direct edge and need the shared-aggregate route.",
+    "The published bodies of #2078 and #2079 (decision #274) each carry a native #275 edge that closes with this planning issue, and each says that before #275 closes its split must add its coin-payment child (#2078) or its skilled-hireling child (#2079) as a native blocker. The reviewed #275 plan predates those two issues and did not list the edges. They were added at publication so that closing #275 does not release either task early. Neither body was edited.",
+    "#274 state differs from the review read (OPEN then, CLOSED at readback); not caused by this publication",
+    "#225 state differs from the review read (OPEN then, CLOSED at readback); not caused by this publication"
+  ],
+  "decision_issue": {
+    "number": 275,
+    "state": "OPEN",
+    "parent": 193,
+    "blocked_by": [
+      80
+    ],
+    "blocked_by_all_closed": true,
+    "sub_issues": [
+      2083,
+      2084,
+      2085,
+      2086,
+      2087,
+      2088
+    ],
+    "still_blocks": [
+      280,
+      2078,
+      2079
+    ],
+    "body_unchanged": true
+  },
+  "adjacent_issues_unchanged": {
+    "80": {
+      "title": "Split remaining SRD spells, items and effects into PR-sized batches",
+      "state": "CLOSED",
+      "body_sha256": "d5bbfa4e85aee825ecfe9d527c5e4ac1c0c4967773d291d7a0045a7be313b4d6",
+      "parent": 54
+    },
+    "193": {
+      "title": "Resolve remaining spell and item effect interactions",
+      "state": "OPEN",
+      "body_sha256": "38c1f17d9428b3bfc6e71292c35f517be0240a7b20cc91945e8af619205851c7",
+      "parent": 54
+    },
+    "195": {
+      "title": "Validate versioned item families and explicit variant identities",
+      "state": "CLOSED",
+      "body_sha256": "554b45122c2a301ffd11b6b8b717b254f44fa54a21f0e623227613ca14464b5a",
+      "parent": 192
+    },
+    "248": {
+      "title": "Catalogue SRD weapons 02: Handaxe to Pike",
+      "state": "OPEN",
+      "body_sha256": "748b9dde4f07d45fc9482492b5e19fe3ddf31dd29e6589305fa047d7c3eddbd3",
+      "parent": 192
+    },
+    "274": {
+      "title": "Split mount, vehicle and cargo rules into bounded fixtures",
+      "state": "CLOSED",
+      "body_sha256": "511b898020e6e6a431e02dde79c8b6a97060aea437e13c197de5eced1fc2fd81",
+      "parent": 193
+    },
+    "276": {
+      "title": "Split nonmagical crafting, potion brewing and scroll scribing",
+      "state": "OPEN",
+      "body_sha256": "5111907a572781444c22bb721f3085893983d7975499aa2cecf133f939dd7658",
+      "parent": 193
+    },
+    "278": {
+      "title": "Assign every remaining equipment and magic-item key to bounded implementation PRs",
+      "state": "OPEN",
+      "body_sha256": "b88e1f565c101b658338ecb8bc0b7da784955da7ff411bcb87bda7a2c27e565b",
+      "parent": 192
+    },
+    "280": {
+      "title": "Qualify declared SRD item families and variants before full coverage claims",
+      "state": "OPEN",
+      "body_sha256": "c37cc3230c1bc904f00471030569dacd6b60f02c1b0a7f3b3c9d675308e9a808",
+      "parent": 192
+    },
+    "427": {
+      "title": "Complete source-correct Short Rest and publish recharge events",
+      "state": "OPEN",
+      "body_sha256": "5356cf09ae69c28bac1a08c901ce3fde57fcf877f3bbf619eb29c575cfca3a75",
+      "parent": 272
+    },
+    "428": {
+      "title": "Complete source-correct Long Rest with interruption and recovery receipt",
+      "state": "OPEN",
+      "body_sha256": "6822469be2b3e75b9f37da60335e01fbe3f27bc5d8cb735a44dc4171f1657046",
+      "parent": 272
+    },
+    "225": {
+      "title": "Catalogue SRD magic-items 01: Adamantine Armor to Armor, +1, +2, or +3",
+      "state": "CLOSED",
+      "body_sha256": "9ad4332f0be68acd7ca6b2d208af3c68a8cc62f2e73bc9d914ecefbe770ef21d",
+      "parent": 192
+    },
+    "238": {
+      "title": "Catalogue SRD magic-items 14: Potion of Poison to Ring of Feather Falling",
+      "state": "OPEN",
+      "body_sha256": "5833431b10af6e8bc55700bb93de34525b63472fed766e179ac165ecd16c9b76",
+      "parent": 192
+    },
+    "251": {
+      "title": "Catalogue SRD armor 01: Breastplate to Splint Armor",
+      "state": "OPEN",
+      "body_sha256": "6ffdf7edd95812b5a870c5d57bed84d709228980d0037fa4d41d6de7b32a8366",
+      "parent": 192
+    },
+    "257": {
+      "title": "Catalogue SRD adventuring-gear 02: Block and Tackle to Climber’s Kit",
+      "state": "OPEN",
+      "body_sha256": "f6398f5af790858a09fb8be5c69a5fe997640ca002f792708a3f7856c55ce5f6",
+      "parent": 192
+    },
+    "261": {
+      "title": "Catalogue SRD adventuring-gear 06: Potion of Healing to Signal Whistle",
+      "state": "OPEN",
+      "body_sha256": "8b594f815e007dc94282252b07ab61ba95e3f8cf991641642cfc3df27b7d2c59",
+      "parent": 192
+    },
+    "433": {
+      "title": "Confirm either Barbarian starting equipment package",
+      "state": "OPEN",
+      "body_sha256": "d06d432ab0df04ce2e4e34fbf6b0ded4efce591f1ca16df974c48b9d71f0dd2e",
+      "parent": 283
+    },
+    "508": {
+      "title": "Confirm first-class Bard traits skills instruments and equipment",
+      "state": "OPEN",
+      "body_sha256": "8f90cc9008b5ea6ac194df775c79666c732ae9813be087968ab79b553dd4b75c",
+      "parent": 501
+    },
+    "554": {
+      "title": "Confirm either Cleric starting equipment package",
+      "state": "OPEN",
+      "body_sha256": "18d891d0f774f43ed8a1da6458d8261daabe9da83b3ac9ac6147972f6f0bb09c",
+      "parent": 551
+    },
+    "635": {
+      "title": "Confirm either Druid starting equipment package",
+      "state": "OPEN",
+      "body_sha256": "f243000daa58a503bfbb487537061d16719cc29dd6661988517ffff500eb6796",
+      "parent": 630
+    },
+    "785": {
+      "title": "Confirm exact Monk starting equipment package",
+      "state": "OPEN",
+      "body_sha256": "b7bf40cdc187347235d43c20bd0130299ebe6a02fc206242715a3f83bd6ede01",
+      "parent": 776
+    },
+    "853": {
+      "title": "Confirm either Paladin starting equipment package",
+      "state": "OPEN",
+      "body_sha256": "f5b1828ca761e12d8933cd48cf07f0cfafa4f17b705217c631fdc9ef1d8a175c",
+      "parent": 846
+    },
+    "982": {
+      "title": "Choose Ranger exact starting equipment",
+      "state": "OPEN",
+      "body_sha256": "a906eb459288429f32a87ab0d866c2dc358870193b2d4f7d4ee1975881451d38",
+      "parent": 971
+    },
+    "1101": {
+      "title": "Rogue: equipment",
+      "state": "OPEN",
+      "body_sha256": "9cf732a20d050c1f12fde33e77d10aab81a535be4e19a464a7d5eba986fa2b0e",
+      "parent": 1094
+    },
+    "1177": {
+      "title": "Starting equipment alternatives",
+      "state": "OPEN",
+      "body_sha256": "1f64653929f3529493dfc7bcbfd5d11d9e48874c0b22f35dabad1661d3fc82e4",
+      "parent": 330
+    },
+    "1480": {
+      "title": "Implement Warlock equipment",
+      "state": "OPEN",
+      "body_sha256": "3369b7c55c6cbac6df091e4bd97c6ea41694d0a26af5c2ccc4b57709db231801",
+      "parent": 1748
+    },
+    "1762": {
+      "title": "Implement Wizard equipment",
+      "state": "OPEN",
+      "body_sha256": "cce28fd93eeaebc59d67a9007e02b2590770bfabb6f18d9cc416dcb9700f7a75",
+      "parent": 2034
+    },
+    "618": {
+      "title": "Resolve Revivify one recent death",
+      "state": "OPEN",
+      "body_sha256": "6fe2f210bf55b90248ceacd9203fee22693f6a5cf2cd4a7fe02f5487efe916ae",
+      "parent": 191
+    },
+    "730": {
+      "title": "Fighter A/B/C starting equipment grants",
+      "state": "OPEN",
+      "body_sha256": "ebc9630e6fa610cf36e90d31a23952ffcce6b193cc0b558fc404cb0f344531ab",
+      "parent": 728
+    },
+    "1001": {
+      "title": "Resolve Tireless Short Rest Exhaustion reduction",
+      "state": "OPEN",
+      "body_sha256": "6071d0b71bfe4121fd37e6dce38a3edb5c401221d0907d4c6d672bae92f487dc",
+      "parent": 971
+    },
+    "1447": {
+      "title": "Resolve bounded cast components",
+      "state": "OPEN",
+      "body_sha256": "3061aa1f96c328eaffff56a289c64544a62e126e8277be1049a0dca6988a19be",
+      "parent": 1469
+    },
+    "2053": {
+      "title": "Confirm source-correct higher-level creation through qualified class outputs",
+      "state": "OPEN",
+      "body_sha256": "33dcb87cf5e7fbf2ce8b188522bc171060043545e958e4212a1f91e8cec135df",
+      "parent": 336
+    }
+  },
+  "mutation_journal": {
+    "steps": 47,
+    "sha256": "ecfed2e197868eea1a120d8490c44fa3ee8c5b53fe35ba561f4727fa12e177f9"
+  },
+  "runtime_qualified": false,
+  "not_run": [
+    "full Go test suite",
+    "race and vet",
+    "PostgreSQL integration",
+    "web and TUI checks",
+    "source phrase recheck at publication (done during review against the pinned PDF)"
+  ]
+}
