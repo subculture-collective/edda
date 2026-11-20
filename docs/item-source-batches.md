@@ -205,7 +205,7 @@ rarity lines, every table row and the source values, run:
 
 ```sh
 rtk proxy python3 -I scripts/verify_srd_items_227.py /path/to/SRD_CC_v5.2.1.pdf
-||||||| parent of 57d22a1 (Catalogue SRD magic items batch 04 as unavailable source records for #228)
+```
 
 ## Magic items 04 (#228), pp. 215–216
 
