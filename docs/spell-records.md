@@ -5,7 +5,7 @@ Issue #194 defines `SpellRecords`, decoded by `DecodeSpellRecords(io.Reader)` in
 runtime consumers, action registration, database writes or coverage promotion.
 `testdata/spell_records.json` contains one complete new source record, Acid Arrow,
 and adaptations of the two existing bounded fixtures. Subsequent catalogue
-imports are separately owned; the #218, #198, #196, #199, #200 and #201 batches are described below.
+imports are separately owned; the #218, #198, #196, #199, #200, #201 and #202 batches are described below.
 
 The envelope retains the exact `Source` pin, license, attribution and adaptation
 notice checked by the conformance register. Each record has its own stable
@@ -503,3 +503,48 @@ The comparator rebuilds each source header from the structured record and
 requires it to equal the PDF text. It supplements the literal offline fixtures
 and is not an automatic conformance proof. The PDF and extracted text are not
 vendored.
+
+## Issue #202: Cure Wounds through Detect Thoughts
+
+`testdata/spells_202.json` imports the twelve families the issue-80 inventory
+assigns to #202, on PDF pp.121-123: Cure Wounds, Dancing Lights, Darkness,
+Darkvision, Daylight, Death Ward, Delayed Blast Fireball, Demiplane, Detect Evil
+and Good, Detect Magic, Detect Poison and Disease and Detect Thoughts. Dancing
+Lights keeps its p.121 to p.122 continuation and Demiplane its p.122 to p.123
+continuation in explicit `source_pages` lists. `spells_202_test.go` supplies
+literal source-value fixtures for every header, variant, effect and scaling
+value, and checks the family list and pages against the decision inventory.
+
+The typed payloads retain Cure Wounds' healing and per-slot dice; Dancing
+Lights' four lights, forms and movement; Darkness' and Daylight's sphere,
+object emanation, blocker and dispelled light; Darkvision's 150-foot sense;
+Death Ward's two protections; Delayed Blast Fireball's bead, growth, touch and
+throw rules; Demiplane's door, room and connection choices; the shared barrier
+list of the three detection spells; and Detect Thoughts' two options and probe.
+
+Schema version 1 gains only shapes present in this batch, on top of #200:
+
+- Target shapes `created-effect` (four torch-size lights, or a visible flat
+  solid surface) and `choice` (a point in range or an unattended object).
+- Detect Magic and Detect Poison and Disease use `casting_time = action` with
+  `ritual = true`, as Animal Messenger does, and require `cast.ritual`.
+- The complete Cure Wounds record is separate from the bounded `cure-wounds`
+  compatibility fixture that shares its ID; composition skips the fixture, so
+  composing the fixtures with #202 yields no duplicate.
+
+Validation pins each record's header, scaling row, effects, material,
+dependency list and typed values by equality with the printed page, so a
+positive but wrong value is rejected. Composition of the bounded fixtures with
+#196, #218, #198, #199, #200, #201 and #202 yields 96 unique records. Every imported record
+remains unavailable: no resolver, action, entitlement, tool, inventory,
+coverage or Full Rules behavior is added.
+
+To recheck the PDF pin, identities, pages, printed headers and source anchors,
+run:
+
+```sh
+rtk proxy python3 scripts/verify_srd_spells_202.py /path/to/SRD_CC_v5.2.1.pdf
+```
+
+The same limits as #198 apply: the source check supplements the offline literal
+fixtures and is not an automatic conformance proof.
