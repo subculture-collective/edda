@@ -48,6 +48,18 @@ type SpellSourceDetails struct {
 	Clone           *SpellClone        `json:"clone,omitempty"`
 	Cloudkill       *SpellCloudkill    `json:"cloudkill,omitempty"`
 	Spray           *SpellSpray        `json:"spray,omitempty"`
+	Command         *SpellCommand      `json:"command,omitempty"`
+	Commune         *SpellCommune      `json:"commune,omitempty"`
+	Nature          *SpellNature       `json:"nature,omitempty"`
+	Comprehend      *SpellComprehend   `json:"comprehend,omitempty"`
+	Compulsion      *SpellCompulsion   `json:"compulsion,omitempty"`
+	Cone            *SpellCone         `json:"cone,omitempty"`
+	Confusion       *SpellConfusion    `json:"confusion,omitempty"`
+	Animals         *SpellAnimals      `json:"animals,omitempty"`
+	Celestial       *SpellCelestial    `json:"celestial,omitempty"`
+	Elemental       *SpellElemental    `json:"elemental,omitempty"`
+	Fey             *SpellFey          `json:"fey,omitempty"`
+	Minor           *SpellMinor        `json:"minor,omitempty"`
 	CastingSeconds  int                `json:"casting_seconds"`
 	CastingTriggers []string           `json:"casting_triggers"`
 	EndTiming       string             `json:"end_timing"`
@@ -261,7 +273,7 @@ func (s *SpellSourceDetails) UnmarshalJSON(data []byte) error {
 		}
 	}
 	templates := map[string]any{"rays": SpellRays{}, "scrying": SpellScrying{}, "smite": SpellSmite{}, "chest": SpellChest{}, "vision": SpellVision{}, "seeming": SpellSeeming{}, "sending": SpellSending{}, "sequester": SpellSequester{}, "shapechange": SpellShapechange{}, "shatter": SpellShatter{}, "shield": SpellShield{}, "faith": SpellFaith{}}
-	for _, batch := range []map[string]any{spell196Templates(), spell197Templates(), spell198Templates(), spell199Templates()} {
+	for _, batch := range []map[string]any{spell196Templates(), spell197Templates(), spell198Templates(), spell199Templates(), spell200Templates()} {
 		for key, template := range batch {
 			if raw, ok := fields[key]; ok {
 				if err := requireSpell198Fields(raw, reflect.TypeOf(template)); err != nil {
@@ -340,7 +352,7 @@ func (s *SpellSourceDetails) UnmarshalJSON(data []byte) error {
 }
 
 func validSpellTarget(t SpellTarget) bool {
-	if validSpell197Target(t) {
+	if validSpell197Target(t) || validSpell200Target(t) {
 		return true
 	}
 	switch t.Shape {
@@ -388,6 +400,9 @@ func (s SpellRecord) validateSourceDetails() error {
 		return err
 	}
 	if handled, err := s.validateSpell199(); handled || err != nil {
+		return err
+	}
+	if handled, err := s.validateSpell200(); handled || err != nil {
 		return err
 	}
 	d := s.SourceDetails
