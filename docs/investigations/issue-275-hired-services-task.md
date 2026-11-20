@@ -1,0 +1,38 @@
+<!-- edda-275:hired-services -->
+Decision #275; roadmap #47. One implementation PR; Task / Size M.
+
+Source: English SRD 5.2.1, PDF 102 (Hirelings; Spellcasting), 159 (Revivify) and 142 (Identify, as price operands only); SHA-256 `8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87`. CC-BY-4.0 attribution and adaptation: `docs/srd-5.2.1-conformance.md`. The deterministic fixtures below are Edda adaptations.
+
+## Bounded outcome
+
+Implement the price, eligibility and payment of the three Hirelings rows and the seven Spellcasting Services rows. Every charge uses the holding and payment from the `edda-275:coin-holdings-payment` task. This task records an agreement and its payment. It creates no controllable creature, stat block, combat ally, skill check, crew automation or spell effect.
+
+Hirelings (PDF102): a skilled hireling performs a service that involves a proficiency (weapon, tool or skill), such as a mercenary, artisan or scribe, and costs 2 GP per day. An untrained hireling does work that needs no particular proficiency, such as a laborer or porter, and costs 2 SP per day. A messenger costs 2 CP per mile. The table's pay is a minimum; some expert hirelings require more. This PR adds one GM-recorded service offer: campaign, scene, kind (one of the three hireling rows, or a spellcasting service with its caster and spell), price per unit and, for a caster, the actual component value; opened and withdrawn by explicit GM action. No other issue owns such a record. The offer may set a higher hireling price than the row and never a lower one. Charge whole days and whole miles; the source prices no fraction of either. Whether a willing hireling exists, what the hireling then does, and any loyalty or risk are GM facts. Ship crews of skilled hirelings stay with #274; a hired creature that acts in play needs its own qualified world and creature owners.
+
+Spellcasting Services (PDF102): Cantrip 30 GP and levels 1 and 2 at 50 GP and 200 GP in a village, town or city; level 3 at 300 GP and levels 4–5 at 2,000 GP in a town or city only; levels 6–8 at 20,000 GP and level 9 at 100,000 GP in a city only. The source adds one rule: "If a spell has expensive components, add the cost of those components to the cost listed in the Spellcasting Services table." It makes no exception for a component the spell does not consume, so the cost is added whether or not the component is consumed.
+
+Three points are Edda adaptations, because the source is silent:
+
+- A component printed as "worth N+ GP" adds N, unless the GM offer names a higher actual value.
+- The table prices the spell's own level. A request to cast with a higher-level slot has no price and stays unavailable.
+- The table says where a caster can be found, not that one is present. No issue owns a settlement record, so this PR adds one GM-recorded settlement class for the current scene: village, town or city. A service needs that fact and a GM offer of a willing caster for that spell. An unknown settlement class is unavailable.
+
+Price and effect are separate. The price is a function of spell level, settlement class and component cost; its fixtures below take those operands directly, are previews and commit nothing. A committed service also runs the spell, and only through that spell's own qualified resolver. The hired caster is an authoritative GM-supplied actor that must satisfy that resolver's own eligibility through the resolver's existing interface. This task does not widen #618 or any other resolver and invents no caster operands. If the resolver cannot accept the GM-supplied caster, the service is unavailable and nothing is charged. Revivify through #618 is the only committed service in this PR. A spell with a costly component that is not consumed stays price-only until its own resolver is qualified.
+
+The service receipt binds payer, caster offer, spell identity and level, settlement class, table row, component costs and total. Catalogue presence, this price table and the payment grant no spell execution, learned spell or slot.
+
+## Deterministic fixtures
+
+- Skilled hireling for 3 days: 6 GP. An expert offered at 5 GP per day for 3 days: 15 GP. A skilled hireling offered at 1 GP per day rejects as below the minimum. Untrained hireling for 5 days: 10 SP. Messenger for 25 miles: 50 CP.
+- Zero, negative or fractional days or miles, a missing offer, an untrained price for proficient work, and a holding that cannot cover the total reject without partial changes.
+- Committed service: Revivify (PDF159, level 3, a diamond worth 300+ GP, which the spell consumes) in a town charges 300 GP + 300 GP = 600 GP once, and its effect is the single committed result of #618 under that owner's own eligibility, timing and target rules. With the offer naming a 500 GP diamond the total is 800 GP. The same request in a village rejects: level 3 is town or city only. If #618 does not accept the GM-supplied caster, the request is refused, nothing is charged and nothing is cast; the refused case then replaces the committed one.
+- Price previews from explicit operands, committing nothing: level 1 with no expensive component in a village, 50 GP; a cantrip, 30 GP; level 5 in a town, 2,000 GP plus components; level 9 in a city, 100,000 GP plus components. Level 6 in a town and level 9 anywhere but a city have no price. Identify's operands (PDF142: level 1, a pearl worth 100+ GP that the spell does not consume) in a village preview at 150 GP; the unconsumed pearl is still added.
+- Reject an invented level-10 row, a component cost omitted or counted twice, an upcast request, a committed service for a spell with no qualified resolver, a missing or forged settlement class and a payment taken when the effect cannot resolve.
+
+## Durable implementation acceptance
+
+Preview is inert and reveals no private caster, hireling or GM facts. Confirm revalidates campaign, actor, offer, settlement class, row, days or miles, spell record and component cost, resolver availability and its acceptance of the caster, price, source version and expected revisions. Commit the agreement or service receipt, the coin payment, the delegated effect's own committed result where one runs, and public history atomically. Inject a failure after each stage and prove full isolated PostgreSQL rollback. The same action ID and payload after retry, reload or reconnect returns the saved receipt without charging or casting again; a conflicting payload rejects; racing confirmations commit once. Web and trusted TUI share availability, unavailable reasons and confirm/cancel/reconnect behavior. Changed web requires focused build/lint and desktop/phone checks. Public history omits private holdings, offer internals and hidden targets.
+
+Hard prerequisites: the `edda-275:coin-holdings-payment` task and #618 actual Revivify resolver, used unchanged. The price previews need no spell record or resolver. Parent: #275. Required by item qualification #280 through the `edda-275:economy-qualification` task; add no direct #280, #279, #67 or #429 edge and change no existing owner. #1447 keeps a player caster's own costly and consumed materials; scroll scribing and crafting labor stay with #276.
+
+Validation for the implementation PR: focused deterministic rules tests comparing all three hireling rows and all seven service rows with the source; isolated PostgreSQL rollback/concurrency/replay/reload tests; shared web/TUI confirmation and disclosure fixtures; `GOMAXPROCS=2 go test -p 2 -short -race ./...` and `GOMAXPROCS=2 go vet -p 2 ./...`. Short tests alone do not qualify PostgreSQL or devices. Runtime remains unavailable until implementation and its callers qualify. No deployment, source inference or Full Rules promotion.
