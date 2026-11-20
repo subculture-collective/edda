@@ -326,7 +326,6 @@ Composing the Healing contract fixture with batches #225 to #229 and #230 yields
 ```sh
 rtk proxy python3 -I scripts/verify_srd_items_230.py /path/to/SRD_CC_v5.2.1.pdf
 ```
-```
 
 ## Magic items 07 (#231), pp. 220–223
 
