@@ -9,6 +9,7 @@ import (
 	"regexp"
 	"slices"
 	"strconv"
+	"strings"
 	"testing"
 )
 
@@ -444,5 +445,27 @@ func TestSpells202MatchesDecisionInventory(t *testing.T) {
 	}
 	if len(want) != 12 || !reflect.DeepEqual(got, want) {
 		t.Fatalf("batch differs from the decision inventory: got %v want %v", got, want)
+	}
+}
+
+func TestSpells202ChangesNoteNamesOnlyPageBreakContinuations(t *testing.T) {
+	b, err := os.ReadFile("testdata/spells_202.json")
+	if err != nil {
+		t.Fatal(err)
+	}
+	var root struct {
+		Source struct {
+			Changes string `json:"changes"`
+		} `json:"source"`
+	}
+	if err := json.Unmarshal(b, &root); err != nil {
+		t.Fatal(err)
+	}
+	want := "SRD 5.2.1 PDF pp.121-123 adapted into twelve complete offline spell families for issue #202, including page-break continuation text for Dancing Lights (pp.121-122) and Demiplane (pp.122-123). No executable effects or availability grants."
+	if root.Source.Changes != want {
+		t.Fatalf("changes note = %q", root.Source.Changes)
+	}
+	if strings.Contains(root.Source.Changes, "Detect Poison") {
+		t.Fatal("Detect Poison and Disease sits on p.123 and is not a page-break continuation")
 	}
 }

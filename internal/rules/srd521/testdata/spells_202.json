@@ -12,7 +12,7 @@
     "license": "CC-BY-4.0",
     "license_url": "https://creativecommons.org/licenses/by/4.0/legalcode",
     "attribution": "This work includes material from the System Reference Document 5.2.1 (“SRD 5.2.1”) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd. The SRD 5.2.1 is licensed under the Creative Commons Attribution 4.0 International License, available at https://creativecommons.org/licenses/by/4.0/legalcode.",
-    "changes": "SRD 5.2.1 PDF pp.121-123 adapted into twelve complete offline spell families for issue #202, including Dancing Lights, Demiplane and Detect Poison and Disease continuation text. No executable effects or availability grants."
+    "changes": "SRD 5.2.1 PDF pp.121-123 adapted into twelve complete offline spell families for issue #202, including page-break continuation text for Dancing Lights (pp.121-122) and Demiplane (pp.122-123). No executable effects or availability grants."
   },
   "records": [
     {
