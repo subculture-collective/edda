@@ -258,6 +258,8 @@ func (s SpellRecord) validate() error {
 				base, additional = d.Friendship.BaseTargets, d.Friendship.AdditionalTargetsPerSlot
 			} else if b, a, ok := spell197TargetScaling(d); ok {
 				base, additional = b, a
+			} else if b, a, ok := spell205TargetScaling(d); ok {
+				base, additional = b, a
 			} else if d.Command != nil {
 				base, additional = d.Command.BaseTargets, d.Command.AdditionalTargetsPerSlot
 			} else if d.Monster != nil {

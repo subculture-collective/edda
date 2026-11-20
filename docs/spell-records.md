@@ -653,3 +653,58 @@ rtk proxy python3 scripts/verify_srd_spells_204.py /path/to/SRD_CC_v5.2.1.pdf
 
 The same limits as #198 apply: the source check supplements the offline literal
 fixtures and is not an automatic conformance proof.
+
+## Issue #205: Etherealness through Find Traps
+
+`testdata/spells_205.json` imports the twelve families the issue-80 inventory
+assigns to #205, on PDF pp.128-131: Etherealness, Expeditious Retreat, Eyebite,
+Fabricate, Faerie Fire, Faithful Hound, False Life, Fear, Feather Fall, Find
+Familiar, Find Steed and Find Traps. Each family sits wholly on one page, so no
+record needs a `source_pages` list. The Otherworldly Steed stat block and the
+tail of Find the Path on p.131 belong to other families and are not imported;
+Find Steed names the stat block as the unavailable dependency
+`stat-block.otherworldly-steed`. `spells_205_test.go` supplies literal
+source-value fixtures for every header, variant, effect and scaling value, and
+checks the family list and pages against the decision inventory.
+
+The typed payloads retain Etherealness' border-plane rules, shunt damage and
+per-slot extra targets; Expeditious Retreat's repeat Dash; Eyebite's three
+chosen effects and retargeting; Fabricate's size limits and exclusions; Faerie
+Fire's cube, colours and light; Faithful Hound's bark, bite and movement; False
+Life's dice and per-slot bonus; Fear's cone and end-of-turn save; Feather Fall's
+trigger and descent; Find Familiar's forms, telepathy and dismissal rules; Find
+Steed's summoning, combat and disappearance rules; and Find Traps' sensing and
+exclusions.
+
+Schema version 1 gains only shapes present in this batch, on top of #202:
+
+- Target shapes `choice` (visible raw materials), `cube` (objects and creatures
+  in a cube), `up-to-count` (five falling creatures) and `selected-objects`
+  (traps in line of sight in range).
+- Etherealness uses `slot-targets` scaling with a typed base and per-slot target
+  count; False Life uses `slot-bonus` scaling with a typed per-slot temporary
+  hit point increment, as Aid does for hit points.
+- Feather Fall is a `reaction` and records its trigger in `casting_triggers`.
+  Find Familiar is a one-hour cast with `ritual = true`, as Augury is for one
+  minute, and requires `cast.ritual`.
+- Find Steed keeps `scaling.kind = none`: its source text uses the slot level as
+  the stat block's spell level, which the payload and the dependency
+  `stat-block.slot-level-as-spell-level` record without implementing it.
+
+Validation pins each record's header, scaling row, effects (including timing and
+bonus), material, dependency list and every typed payload value by equality
+with the printed page, so a positive but wrong value is rejected. Composition of
+the bounded fixtures with #196, #218, #198, #199, #200, #201, #202 and #205
+yields 108 unique records. Every imported record remains unavailable: no
+resolver, action, entitlement, tool, inventory, coverage or Full Rules behavior
+is added.
+
+To recheck the PDF pin, identities, pages, printed headers and source anchors,
+run:
+
+```sh
+rtk proxy python3 scripts/verify_srd_spells_205.py /path/to/SRD_CC_v5.2.1.pdf
+```
+
+The same limits as #198 apply: the source check supplements the offline literal
+fixtures and is not an automatic conformance proof.

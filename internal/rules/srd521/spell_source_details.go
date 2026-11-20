@@ -124,6 +124,20 @@ type SpellSourceDetails struct {
 	Entangle          *SpellEntangle        `json:"entangle,omitempty"`
 	Enthrall          *SpellEnthrall        `json:"enthrall,omitempty"`
 
+	// Issue #205 payloads.
+	Etherealness *SpellEtherealness `json:"etherealness,omitempty"`
+	Retreat      *SpellRetreat      `json:"retreat,omitempty"`
+	Eyebite      *SpellEyebite      `json:"eyebite,omitempty"`
+	Fabricate    *SpellFabricate    `json:"fabricate,omitempty"`
+	FaerieFire   *SpellFaerieFire   `json:"faerie_fire,omitempty"`
+	Hound        *SpellHound        `json:"hound,omitempty"`
+	FalseLife    *SpellFalseLife    `json:"false_life,omitempty"`
+	Fear         *SpellFear         `json:"fear,omitempty"`
+	FeatherFall  *SpellFeatherFall  `json:"feather_fall,omitempty"`
+	Familiar     *SpellFamiliar     `json:"familiar,omitempty"`
+	Steed        *SpellSteed        `json:"steed,omitempty"`
+	Traps        *SpellTraps        `json:"traps,omitempty"`
+
 	// Issue #196 payloads. Acid Arrow needs only the common record fields.
 	Splash     *SpellSplash         `json:"splash,omitempty"`
 	Aid        *SpellAid            `json:"aid,omitempty"`
@@ -321,7 +335,7 @@ func (s *SpellSourceDetails) UnmarshalJSON(data []byte) error {
 		}
 	}
 	templates := map[string]any{"rays": SpellRays{}, "scrying": SpellScrying{}, "smite": SpellSmite{}, "chest": SpellChest{}, "vision": SpellVision{}, "seeming": SpellSeeming{}, "sending": SpellSending{}, "sequester": SpellSequester{}, "shapechange": SpellShapechange{}, "shatter": SpellShatter{}, "shield": SpellShield{}, "faith": SpellFaith{}}
-	for _, batch := range []map[string]any{spell196Templates(), spell197Templates(), spell198Templates(), spell199Templates(), spell200Templates(), spell201Templates(), spell202Templates(), spell204Templates(), spell203Templates()} {
+	for _, batch := range []map[string]any{spell196Templates(), spell197Templates(), spell198Templates(), spell199Templates(), spell200Templates(), spell201Templates(), spell202Templates(), spell205Templates(), spell204Templates(), spell203Templates()} {
 		for key, template := range batch {
 			if raw, ok := fields[key]; ok {
 				if err := requireSpell198Fields(raw, reflect.TypeOf(template)); err != nil {
@@ -400,7 +414,7 @@ func (s *SpellSourceDetails) UnmarshalJSON(data []byte) error {
 }
 
 func validSpellTarget(t SpellTarget) bool {
-	if validSpell197Target(t) || validSpell200Target(t) || validSpell202Target(t) || validSpell203Target(t) || validSpell204Target(t) {
+	if validSpell197Target(t) || validSpell200Target(t) || validSpell202Target(t) || validSpell203Target(t) || validSpell204Target(t) || validSpell205Target(t) {
 		return true
 	}
 	switch t.Shape {
@@ -465,6 +479,9 @@ func (s SpellRecord) validateSourceDetails() error {
 		return err
 	}
 	if handled, err := s.validateSpell204(); handled || err != nil {
+		return err
+	}
+	if handled, err := s.validateSpell205(); handled || err != nil {
 		return err
 	}
 	d := s.SourceDetails
