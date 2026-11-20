@@ -1,0 +1,2445 @@
+{
+  "schema_version": 1,
+  "rules_version": "srd-5.2.1",
+  "batch": "data-magic-items-07",
+  "catalogue_issue": 231,
+  "source": {
+    "version": "5.2.1",
+    "language": "en",
+    "landing_url": "https://www.dndbeyond.com/srd",
+    "artifact_url": "https://media.dndbeyond.com/compendium-images/srd/5.2/SRD_CC_v5.2.1.pdf",
+    "sha256": "8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87",
+    "bytes": 6031375,
+    "pages": 364,
+    "retrieved_at": "2026-11-15",
+    "license": "CC-BY-4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/legalcode",
+    "attribution": "This work includes material from the System Reference Document 5.2.1 (“SRD 5.2.1”) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd. The SRD 5.2.1 is licensed under the Creative Commons Attribution 4.0 International License, available at https://creativecommons.org/licenses/by/4.0/legalcode.",
+    "changes": "SRD 5.2.1 pp. 220–223 adapted into twelve versioned magic-item families (Energy Bow through Gem of Brightness) with explicit variant identities, structured requirements and typed source values. Names, numeric rules and key phrases are adapted into keys; no rules prose is reproduced. Prices are not listed and remain unspecified. Catalogue data grants no inventory, action or gameplay permissions; every record is unavailable."
+  },
+  "families": [
+    {
+      "id": "srd-5.2.1:content/items/energy-bow",
+      "name": "Energy Bow",
+      "kind": "magic",
+      "category": "weapon",
+      "base": {
+        "options": [
+          "longbow",
+          "shortbow"
+        ],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/energy-bow",
+          "pages": [
+            220,
+            220
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/energy-bow/variant/standard",
+          "name": "Energy Bow",
+          "rarity": "very-rare",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wield",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "weapon-attack",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              220,
+              220
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "bonus.attack-and-damage-1",
+            "weapon.no-string",
+            "weapon.energy-arrow-force-damage",
+            "light.bright-20-dim-20",
+            "property.arrow-of-restraint",
+            "save.strength-dc-15",
+            "check.strength-athletics-dc-20",
+            "property.arrow-of-transport",
+            "action.magic",
+            "property.energy-ladder"
+          ],
+          "details": {
+            "energy_bow": {
+              "attack_bonus": 1,
+              "damage_bonus": 1,
+              "has_string": false,
+              "arrow_appears": "when-arm-pulled-back-in-firing-motion",
+              "arrow_damage_type": "force",
+              "replaces_damage_type": "piercing",
+              "arrow_ends": "disappears-after-hit-or-miss",
+              "bright_light_feet": 20,
+              "dim_light_additional_feet": 20,
+              "arrow_of_restraint": {
+                "trigger": "ranged-attack-instead-of-damage",
+                "save_ability": "strength",
+                "save_dc": 15,
+                "condition": "restrained",
+                "duration_seconds": 60,
+                "escape_action": "action",
+                "escape_check": {
+                  "ability": "strength",
+                  "skill": "athletics",
+                  "dc": 20
+                },
+                "escape_ends": "effect-on-itself"
+              },
+              "arrow_of_transport": {
+                "action": "magic",
+                "range_feet": 60,
+                "targets": [
+                  "willing-medium-or-smaller-creature",
+                  "unworn-uncarried-object"
+                ],
+                "object_max_cube_feet": 5,
+                "destination": "unoccupied-space-you-can-see",
+                "destination_range_feet": 10
+              },
+              "energy_ladder": {
+                "action": "magic",
+                "wall_range_feet": 60,
+                "ladder_length_feet": 60,
+                "duration_seconds": 60,
+                "ends_with": "disappears"
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/eversmoking-bottle",
+      "name": "Eversmoking Bottle",
+      "kind": "magic",
+      "category": "wondrous-item",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/eversmoking-bottle",
+          "pages": [
+            220,
+            220
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/eversmoking-bottle/variant/standard",
+          "name": "Eversmoking Bottle",
+          "rarity": "uncommon",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "magic-action",
+            "restrictions": [
+              "open-or-close"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              220,
+              220
+            ]
+          },
+          "required_mechanic_keys": [
+            "action.magic",
+            "area.emanation-60-foot",
+            "obscurement.heavily-obscured",
+            "area.grows-10-feet-per-minute-to-120",
+            "effect.fixed-cloud-disperses-after-10-minutes",
+            "effect.strong-wind-disperses-after-1-minute"
+          ],
+          "details": {
+            "eversmoking_bottle": {
+              "source_pages": [
+                220,
+                221
+              ],
+              "action": "magic",
+              "operations": [
+                "open",
+                "close"
+              ],
+              "emanation_feet": 60,
+              "obscurement": "heavily-obscured",
+              "growth_feet_per_minute": 10,
+              "max_emanation_feet": 120,
+              "closed_state": "cloud-fixed-in-place",
+              "closed_disperses_after_seconds": 600,
+              "strong_wind_disperses_after_seconds": 60,
+              "strong_wind_example": "gust-of-wind"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/eyes-of-charming",
+      "name": "Eyes of Charming",
+      "kind": "magic",
+      "category": "wondrous-item",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/eyes-of-charming",
+          "pages": [
+            221,
+            221
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/eyes-of-charming/variant/standard",
+          "name": "Eyes of Charming",
+          "rarity": "uncommon",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "limited",
+            "maximum": 3,
+            "per_use": 1,
+            "recharge": "regain-all-at-dawn"
+          },
+          "equip": {
+            "mode": "wear",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "cast-spell",
+            "restrictions": [
+              "expend-one-or-more-charges"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              221,
+              221
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "item.wear",
+            "item.charges",
+            "spell.cast-charm-person",
+            "spell.charm-person-save-dc-13",
+            "spell.level-increases-per-extra-charge"
+          ],
+          "details": {
+            "eyes_of_charming": {
+              "appearance": "crystal-lenses-over-eyes",
+              "condition": "while-wearing",
+              "max_charges": 3,
+              "spell": "charm-person",
+              "save_dc": 13,
+              "base_spell_level": 1,
+              "base_charges": 1,
+              "levels_per_additional_charge": 1,
+              "recharge": "all-expended-charges-daily-at-dawn"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/eyes-of-minute-seeing",
+      "name": "Eyes of Minute Seeing",
+      "kind": "magic",
+      "category": "wondrous-item",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/eyes-of-minute-seeing",
+          "pages": [
+            221,
+            221
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/eyes-of-minute-seeing/variant/standard",
+          "name": "Eyes of Minute Seeing",
+          "rarity": "uncommon",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wear",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              221,
+              221
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.wear",
+            "vision.darkvision-1-foot",
+            "check.investigation-advantage-within-1-foot"
+          ],
+          "details": {
+            "eyes_of_minute_seeing": {
+              "appearance": "crystal-lenses-over-eyes",
+              "condition": "while-wearing",
+              "range_feet": 1,
+              "darkvision_within_range": true,
+              "check_ability": "intelligence",
+              "check_skill": "investigation",
+              "check_mode": "advantage",
+              "check_subject": "examine-something-within-range",
+              "check_range_feet": 1
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/eyes-of-the-eagle",
+      "name": "Eyes of the Eagle",
+      "kind": "magic",
+      "category": "wondrous-item",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/eyes-of-the-eagle",
+          "pages": [
+            221,
+            221
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/eyes-of-the-eagle/variant/standard",
+          "name": "Eyes of the Eagle",
+          "rarity": "uncommon",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wear",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              221,
+              221
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.wear",
+            "check.perception-sight-advantage",
+            "vision.make-out-details-2-feet-across"
+          ],
+          "details": {
+            "eyes_of_the_eagle": {
+              "appearance": "crystal-lenses-over-eyes",
+              "condition": "while-wearing",
+              "check_ability": "wisdom",
+              "check_skill": "perception",
+              "check_mode": "advantage",
+              "check_requirement": "relies-on-sight",
+              "detail_condition": "clear-visibility",
+              "detail_size_feet": 2,
+              "detail_subjects": "extremely-distant-creatures-and-objects"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/feather-token",
+      "name": "Feather Token",
+      "kind": "magic",
+      "category": "wondrous-item",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/feather-token",
+          "pages": [
+            221,
+            221
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/feather-token/variant/anchor",
+          "name": "Anchor",
+          "rarity": "uncommon",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "magic-action",
+            "restrictions": [
+              "single-use"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              221,
+              221
+            ]
+          },
+          "required_mechanic_keys": [
+            "action.magic",
+            "item.single-use",
+            "item.token-disappears",
+            "item.kind-by-gm-or-1d100-table"
+          ],
+          "details": {
+            "feather_token": {
+              "token": "anchor",
+              "table_die_sides": 100,
+              "table_min": 1,
+              "table_max": 20,
+              "use_limit": "single-use",
+              "action": "magic",
+              "placement": "touch-token-to-boat-or-ship",
+              "effect": "vessel-cannot-be-moved-by-any-means",
+              "dismiss_action": "none",
+              "facts": [
+                {
+                  "key": "duration",
+                  "amount": 24,
+                  "unit": "hours"
+                }
+              ],
+              "traits": [
+                "touching-vessel-again-ends-effect"
+              ],
+              "ends_on": [
+                "duration-elapsed",
+                "token-touched-to-vessel-again"
+              ]
+            }
+          }
+        },
+        {
+          "id": "srd-5.2.1:content/items/feather-token/variant/bird",
+          "name": "Bird",
+          "rarity": "rare",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "magic-action",
+            "restrictions": [
+              "single-use"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              221,
+              221
+            ]
+          },
+          "required_mechanic_keys": [
+            "action.magic",
+            "item.single-use",
+            "item.token-disappears",
+            "item.kind-by-gm-or-1d100-table"
+          ],
+          "details": {
+            "feather_token": {
+              "token": "bird",
+              "table_die_sides": 100,
+              "table_min": 21,
+              "table_max": 35,
+              "use_limit": "single-use",
+              "action": "magic",
+              "placement": "toss-token-into-air",
+              "effect": "enormous-multicolored-bird-replaces-token",
+              "dismiss_action": "magic",
+              "facts": [
+                {
+                  "key": "toss-height",
+                  "amount": 5,
+                  "unit": "feet"
+                },
+                {
+                  "key": "carry-weight-at-maximum-speed",
+                  "amount": 500,
+                  "unit": "pounds"
+                },
+                {
+                  "key": "carry-weight-at-half-speed",
+                  "amount": 1000,
+                  "unit": "pounds"
+                },
+                {
+                  "key": "maximum-flying-speed",
+                  "amount": 16,
+                  "unit": "miles-per-hour"
+                },
+                {
+                  "key": "maximum-distance-per-day",
+                  "amount": 144,
+                  "unit": "miles"
+                },
+                {
+                  "key": "flying-hours-per-rest",
+                  "amount": 3,
+                  "unit": "hours"
+                },
+                {
+                  "key": "rest-hours",
+                  "amount": 1,
+                  "unit": "hours"
+                }
+              ],
+              "traits": [
+                "statistics-of-roc",
+                "cannot-attack",
+                "obeys-simple-commands"
+              ],
+              "ends_on": [
+                "maximum-distance-flown-for-a-day",
+                "drops-to-0-hit-points"
+              ]
+            }
+          }
+        },
+        {
+          "id": "srd-5.2.1:content/items/feather-token/variant/fan",
+          "name": "Fan",
+          "rarity": "uncommon",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "magic-action",
+            "restrictions": [
+              "single-use"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              221,
+              221
+            ]
+          },
+          "required_mechanic_keys": [
+            "action.magic",
+            "item.single-use",
+            "item.token-disappears",
+            "item.kind-by-gm-or-1d100-table"
+          ],
+          "details": {
+            "feather_token": {
+              "token": "fan",
+              "table_die_sides": 100,
+              "table_min": 36,
+              "table_max": 50,
+              "use_limit": "single-use",
+              "action": "magic",
+              "placement": "toss-token-into-air-while-on-boat-or-ship",
+              "effect": "giant-flapping-fan-replaces-token",
+              "dismiss_action": "magic",
+              "facts": [
+                {
+                  "key": "toss-height",
+                  "amount": 10,
+                  "unit": "feet"
+                },
+                {
+                  "key": "ships-with-sails-filled",
+                  "amount": 1,
+                  "unit": "ship"
+                },
+                {
+                  "key": "speed-increase",
+                  "amount": 5,
+                  "unit": "miles-per-hour"
+                },
+                {
+                  "key": "duration",
+                  "amount": 8,
+                  "unit": "hours"
+                }
+              ],
+              "traits": [
+                "floats",
+                "creates-strong-wind"
+              ],
+              "ends_on": [
+                "duration-elapsed"
+              ]
+            }
+          }
+        },
+        {
+          "id": "srd-5.2.1:content/items/feather-token/variant/swan-boat",
+          "name": "Swan Boat",
+          "rarity": "rare",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "magic-action",
+            "restrictions": [
+              "single-use"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              221,
+              221
+            ]
+          },
+          "required_mechanic_keys": [
+            "action.magic",
+            "item.single-use",
+            "item.token-disappears",
+            "item.kind-by-gm-or-1d100-table"
+          ],
+          "details": {
+            "feather_token": {
+              "token": "swan-boat",
+              "table_die_sides": 100,
+              "table_min": 51,
+              "table_max": 65,
+              "use_limit": "single-use",
+              "action": "magic",
+              "placement": "touch-token-to-body-of-water",
+              "effect": "swan-shaped-boat-replaces-token",
+              "dismiss_action": "magic",
+              "facts": [
+                {
+                  "key": "minimum-water-diameter",
+                  "amount": 60,
+                  "unit": "feet"
+                },
+                {
+                  "key": "boat-length",
+                  "amount": 50,
+                  "unit": "feet"
+                },
+                {
+                  "key": "boat-width",
+                  "amount": 20,
+                  "unit": "feet"
+                },
+                {
+                  "key": "speed",
+                  "amount": 6,
+                  "unit": "miles-per-hour"
+                },
+                {
+                  "key": "maximum-turn",
+                  "amount": 90,
+                  "unit": "degrees"
+                },
+                {
+                  "key": "duration",
+                  "amount": 24,
+                  "unit": "hours"
+                }
+              ],
+              "traits": [
+                "self-propelled",
+                "moves-across-water",
+                "commanded-with-magic-action-while-aboard"
+              ],
+              "ends_on": [
+                "duration-elapsed"
+              ]
+            }
+          }
+        },
+        {
+          "id": "srd-5.2.1:content/items/feather-token/variant/tree",
+          "name": "Tree",
+          "rarity": "uncommon",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "magic-action",
+            "restrictions": [
+              "single-use"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              221,
+              221
+            ]
+          },
+          "required_mechanic_keys": [
+            "action.magic",
+            "item.single-use",
+            "item.token-disappears",
+            "item.kind-by-gm-or-1d100-table"
+          ],
+          "details": {
+            "feather_token": {
+              "token": "tree",
+              "table_die_sides": 100,
+              "table_min": 66,
+              "table_max": 90,
+              "use_limit": "single-use",
+              "action": "magic",
+              "placement": "touch-token-to-unoccupied-ground-space",
+              "effect": "nonmagical-oak-tree-replaces-token",
+              "dismiss_action": "none",
+              "facts": [
+                {
+                  "key": "tree-height",
+                  "amount": 60,
+                  "unit": "feet"
+                },
+                {
+                  "key": "trunk-diameter",
+                  "amount": 5,
+                  "unit": "feet"
+                },
+                {
+                  "key": "branch-spread-radius",
+                  "amount": 20,
+                  "unit": "feet"
+                }
+              ],
+              "traits": [
+                "must-be-outdoors",
+                "nonmagical-oak-tree"
+              ],
+              "ends_on": []
+            }
+          }
+        },
+        {
+          "id": "srd-5.2.1:content/items/feather-token/variant/whip",
+          "name": "Whip",
+          "rarity": "rare",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "magic-action",
+            "restrictions": [
+              "single-use"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              221,
+              221
+            ]
+          },
+          "required_mechanic_keys": [
+            "action.magic",
+            "item.single-use",
+            "item.token-disappears",
+            "item.kind-by-gm-or-1d100-table"
+          ],
+          "details": {
+            "feather_token": {
+              "token": "whip",
+              "table_die_sides": 100,
+              "table_min": 91,
+              "table_max": 100,
+              "use_limit": "single-use",
+              "action": "magic",
+              "placement": "throw-token-to-point-within-10-feet",
+              "effect": "floating-whip-replaces-token",
+              "dismiss_action": "magic",
+              "facts": [
+                {
+                  "key": "placement-range",
+                  "amount": 10,
+                  "unit": "feet"
+                },
+                {
+                  "key": "attack-bonus",
+                  "amount": 9,
+                  "unit": "plus"
+                },
+                {
+                  "key": "damage-dice",
+                  "amount": 1,
+                  "unit": "d6"
+                },
+                {
+                  "key": "damage-bonus",
+                  "amount": 5,
+                  "unit": "force-damage"
+                },
+                {
+                  "key": "attack-range",
+                  "amount": 10,
+                  "unit": "feet"
+                },
+                {
+                  "key": "flight-distance",
+                  "amount": 20,
+                  "unit": "feet"
+                },
+                {
+                  "key": "duration",
+                  "amount": 1,
+                  "unit": "hours"
+                }
+              ],
+              "traits": [
+                "melee-spell-attack",
+                "attack-as-bonus-action",
+                "fly-and-repeat-attack-as-bonus-action"
+              ],
+              "ends_on": [
+                "duration-elapsed",
+                "dismissed-with-magic-action",
+                "you-die",
+                "you-are-incapacitated"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/figurine-of-wondrous-power",
+      "name": "Figurine of Wondrous Power",
+      "kind": "magic",
+      "category": "wondrous-item",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/figurine-of-wondrous-power",
+          "pages": [
+            221,
+            221
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/figurine-of-wondrous-power/variant/bronze-griffon",
+          "name": "Bronze Griffon",
+          "rarity": "rare",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "magic-action",
+            "restrictions": [
+              "throw-to-point-within-60-feet",
+              "use-cooldown"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              221,
+              221
+            ]
+          },
+          "required_mechanic_keys": [
+            "action.magic",
+            "item.throw-60-feet",
+            "creature.friendly",
+            "creature.obeys-commands",
+            "creature.initiative-after-owner",
+            "creature.reverts-to-figurine",
+            "item.use-cooldown"
+          ],
+          "details": {
+            "figurine": {
+              "source_pages": [
+                221,
+                222
+              ],
+              "action": "magic",
+              "throw_range_feet": 60,
+              "throw_target": "point-on-ground",
+              "no_space_result": "figurine-does-not-become-creature",
+              "friendly_to": [
+                "you",
+                "your-allies"
+              ],
+              "understands_owner_languages": true,
+              "obeys_owner_commands": true,
+              "initiative": "immediately-after-owner",
+              "no_command_behavior": "defends-itself-and-takes-no-other-actions",
+              "revert_triggers": [
+                "duration-elapsed",
+                "creature-form-at-0-hit-points",
+                "magic-action-while-touching-creature"
+              ],
+              "revert_action": "magic",
+              "figurines_in_set": 1,
+              "forms": [
+                {
+                  "key": "bronze-griffon",
+                  "creature": "griffon",
+                  "duration_hours": 6,
+                  "cooldown_days": 5,
+                  "facts": [],
+                  "traits": []
+                }
+              ]
+            }
+          }
+        },
+        {
+          "id": "srd-5.2.1:content/items/figurine-of-wondrous-power/variant/ebony-fly",
+          "name": "Ebony Fly",
+          "rarity": "rare",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "magic-action",
+            "restrictions": [
+              "throw-to-point-within-60-feet",
+              "use-cooldown"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              221,
+              221
+            ]
+          },
+          "required_mechanic_keys": [
+            "action.magic",
+            "item.throw-60-feet",
+            "creature.friendly",
+            "creature.obeys-commands",
+            "creature.initiative-after-owner",
+            "creature.reverts-to-figurine",
+            "item.use-cooldown"
+          ],
+          "details": {
+            "figurine": {
+              "source_pages": [
+                221,
+                222
+              ],
+              "action": "magic",
+              "throw_range_feet": 60,
+              "throw_target": "point-on-ground",
+              "no_space_result": "figurine-does-not-become-creature",
+              "friendly_to": [
+                "you",
+                "your-allies"
+              ],
+              "understands_owner_languages": true,
+              "obeys_owner_commands": true,
+              "initiative": "immediately-after-owner",
+              "no_command_behavior": "defends-itself-and-takes-no-other-actions",
+              "revert_triggers": [
+                "duration-elapsed",
+                "creature-form-at-0-hit-points",
+                "magic-action-while-touching-creature"
+              ],
+              "revert_action": "magic",
+              "figurines_in_set": 1,
+              "forms": [
+                {
+                  "key": "ebony-fly",
+                  "creature": "giant-fly",
+                  "duration_hours": 12,
+                  "cooldown_days": 2,
+                  "facts": [
+                    {
+                      "key": "armor-class",
+                      "amount": 11,
+                      "unit": "ac"
+                    },
+                    {
+                      "key": "initiative-bonus",
+                      "amount": 1,
+                      "unit": "plus"
+                    },
+                    {
+                      "key": "initiative-score",
+                      "amount": 11,
+                      "unit": "score"
+                    },
+                    {
+                      "key": "hit-points",
+                      "amount": 19,
+                      "unit": "hp"
+                    },
+                    {
+                      "key": "hit-point-dice",
+                      "amount": 3,
+                      "unit": "d10"
+                    },
+                    {
+                      "key": "hit-point-bonus",
+                      "amount": 3,
+                      "unit": "points"
+                    },
+                    {
+                      "key": "speed",
+                      "amount": 30,
+                      "unit": "feet"
+                    },
+                    {
+                      "key": "fly-speed",
+                      "amount": 60,
+                      "unit": "feet"
+                    },
+                    {
+                      "key": "strength",
+                      "amount": 14,
+                      "unit": "score"
+                    },
+                    {
+                      "key": "strength-modifier",
+                      "amount": 2,
+                      "unit": "plus"
+                    },
+                    {
+                      "key": "strength-save",
+                      "amount": 2,
+                      "unit": "plus"
+                    },
+                    {
+                      "key": "dexterity",
+                      "amount": 13,
+                      "unit": "score"
+                    },
+                    {
+                      "key": "dexterity-modifier",
+                      "amount": 1,
+                      "unit": "plus"
+                    },
+                    {
+                      "key": "dexterity-save",
+                      "amount": 1,
+                      "unit": "plus"
+                    },
+                    {
+                      "key": "constitution",
+                      "amount": 13,
+                      "unit": "score"
+                    },
+                    {
+                      "key": "constitution-modifier",
+                      "amount": 1,
+                      "unit": "plus"
+                    },
+                    {
+                      "key": "constitution-save",
+                      "amount": 1,
+                      "unit": "plus"
+                    },
+                    {
+                      "key": "intelligence",
+                      "amount": 2,
+                      "unit": "score"
+                    },
+                    {
+                      "key": "intelligence-modifier",
+                      "amount": 4,
+                      "unit": "minus"
+                    },
+                    {
+                      "key": "intelligence-save",
+                      "amount": 4,
+                      "unit": "minus"
+                    },
+                    {
+                      "key": "wisdom",
+                      "amount": 10,
+                      "unit": "score"
+                    },
+                    {
+                      "key": "wisdom-modifier",
+                      "amount": 0,
+                      "unit": "plus"
+                    },
+                    {
+                      "key": "wisdom-save",
+                      "amount": 0,
+                      "unit": "plus"
+                    },
+                    {
+                      "key": "charisma",
+                      "amount": 3,
+                      "unit": "score"
+                    },
+                    {
+                      "key": "charisma-modifier",
+                      "amount": 4,
+                      "unit": "minus"
+                    },
+                    {
+                      "key": "charisma-save",
+                      "amount": 4,
+                      "unit": "minus"
+                    },
+                    {
+                      "key": "darkvision",
+                      "amount": 60,
+                      "unit": "feet"
+                    },
+                    {
+                      "key": "passive-perception",
+                      "amount": 10,
+                      "unit": "score"
+                    },
+                    {
+                      "key": "challenge-rating",
+                      "amount": 0,
+                      "unit": "cr"
+                    },
+                    {
+                      "key": "experience-points",
+                      "amount": 0,
+                      "unit": "xp"
+                    },
+                    {
+                      "key": "proficiency-bonus",
+                      "amount": 2,
+                      "unit": "plus"
+                    }
+                  ],
+                  "traits": [
+                    "can-be-ridden-as-mount",
+                    "stat-block-accompanies-item",
+                    "large-beast",
+                    "unaligned",
+                    "languages-none"
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "id": "srd-5.2.1:content/items/figurine-of-wondrous-power/variant/golden-lions",
+          "name": "Golden Lions",
+          "rarity": "rare",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "magic-action",
+            "restrictions": [
+              "throw-to-point-within-60-feet",
+              "use-cooldown"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              221,
+              221
+            ]
+          },
+          "required_mechanic_keys": [
+            "action.magic",
+            "item.throw-60-feet",
+            "creature.friendly",
+            "creature.obeys-commands",
+            "creature.initiative-after-owner",
+            "creature.reverts-to-figurine",
+            "item.use-cooldown"
+          ],
+          "details": {
+            "figurine": {
+              "source_pages": [
+                221,
+                222
+              ],
+              "action": "magic",
+              "throw_range_feet": 60,
+              "throw_target": "point-on-ground",
+              "no_space_result": "figurine-does-not-become-creature",
+              "friendly_to": [
+                "you",
+                "your-allies"
+              ],
+              "understands_owner_languages": true,
+              "obeys_owner_commands": true,
+              "initiative": "immediately-after-owner",
+              "no_command_behavior": "defends-itself-and-takes-no-other-actions",
+              "revert_triggers": [
+                "duration-elapsed",
+                "creature-form-at-0-hit-points",
+                "magic-action-while-touching-creature"
+              ],
+              "revert_action": "magic",
+              "figurines_in_set": 2,
+              "forms": [
+                {
+                  "key": "golden-lions",
+                  "creature": "lion",
+                  "duration_hours": 1,
+                  "cooldown_days": 7,
+                  "facts": [
+                    {
+                      "key": "figurines-usable-simultaneously",
+                      "amount": 2,
+                      "unit": "figurines"
+                    }
+                  ],
+                  "traits": [
+                    "cooldown-per-lion"
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "id": "srd-5.2.1:content/items/figurine-of-wondrous-power/variant/ivory-goats",
+          "name": "Ivory Goats",
+          "rarity": "rare",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "magic-action",
+            "restrictions": [
+              "throw-to-point-within-60-feet",
+              "use-cooldown"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              221,
+              221
+            ]
+          },
+          "required_mechanic_keys": [
+            "action.magic",
+            "item.throw-60-feet",
+            "creature.friendly",
+            "creature.obeys-commands",
+            "creature.initiative-after-owner",
+            "creature.reverts-to-figurine",
+            "item.use-cooldown"
+          ],
+          "details": {
+            "figurine": {
+              "source_pages": [
+                221,
+                222
+              ],
+              "action": "magic",
+              "throw_range_feet": 60,
+              "throw_target": "point-on-ground",
+              "no_space_result": "figurine-does-not-become-creature",
+              "friendly_to": [
+                "you",
+                "your-allies"
+              ],
+              "understands_owner_languages": true,
+              "obeys_owner_commands": true,
+              "initiative": "immediately-after-owner",
+              "no_command_behavior": "defends-itself-and-takes-no-other-actions",
+              "revert_triggers": [
+                "duration-elapsed",
+                "creature-form-at-0-hit-points",
+                "magic-action-while-touching-creature"
+              ],
+              "revert_action": "magic",
+              "figurines_in_set": 3,
+              "forms": [
+                {
+                  "key": "goat-of-terror",
+                  "creature": "giant-goat",
+                  "duration_hours": 3,
+                  "cooldown_days": 15,
+                  "facts": [
+                    {
+                      "key": "horn-weapons",
+                      "amount": 2,
+                      "unit": "horns"
+                    },
+                    {
+                      "key": "lance-bonus",
+                      "amount": 1,
+                      "unit": "plus"
+                    },
+                    {
+                      "key": "longsword-bonus",
+                      "amount": 2,
+                      "unit": "plus"
+                    },
+                    {
+                      "key": "fear-emanation",
+                      "amount": 30,
+                      "unit": "feet"
+                    },
+                    {
+                      "key": "save-dc",
+                      "amount": 15,
+                      "unit": "dc"
+                    },
+                    {
+                      "key": "frightened-duration",
+                      "amount": 60,
+                      "unit": "seconds"
+                    },
+                    {
+                      "key": "immunity-after-success",
+                      "amount": 24,
+                      "unit": "hours"
+                    }
+                  ],
+                  "traits": [
+                    "cannot-attack",
+                    "horns-removable-as-weapons-with-magic-action",
+                    "horn-weapons-disappear-when-goat-reverts",
+                    "frightens-hostile-creatures-starting-turn-in-emanation-while-ridden",
+                    "wisdom-save",
+                    "frightened-ends-when-no-longer-riding-or-goat-reverts",
+                    "repeats-save-at-end-of-each-turn"
+                  ]
+                },
+                {
+                  "key": "goat-of-traveling",
+                  "creature": "large-goat",
+                  "duration_hours": 0,
+                  "cooldown_days": 7,
+                  "facts": [
+                    {
+                      "key": "charges",
+                      "amount": 24,
+                      "unit": "charges"
+                    },
+                    {
+                      "key": "charge-cost-per-hour-or-portion",
+                      "amount": 1,
+                      "unit": "charges"
+                    }
+                  ],
+                  "traits": [
+                    "statistics-of-riding-horse",
+                    "usable-as-often-as-wished-while-charged",
+                    "reverts-when-out-of-charges",
+                    "regains-all-charges-after-cooldown"
+                  ]
+                },
+                {
+                  "key": "goat-of-travail",
+                  "creature": "giant-goat",
+                  "duration_hours": 3,
+                  "cooldown_days": 30,
+                  "facts": [],
+                  "traits": []
+                }
+              ]
+            }
+          }
+        },
+        {
+          "id": "srd-5.2.1:content/items/figurine-of-wondrous-power/variant/marble-elephant",
+          "name": "Marble Elephant",
+          "rarity": "rare",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "magic-action",
+            "restrictions": [
+              "throw-to-point-within-60-feet",
+              "use-cooldown"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              221,
+              221
+            ]
+          },
+          "required_mechanic_keys": [
+            "action.magic",
+            "item.throw-60-feet",
+            "creature.friendly",
+            "creature.obeys-commands",
+            "creature.initiative-after-owner",
+            "creature.reverts-to-figurine",
+            "item.use-cooldown"
+          ],
+          "details": {
+            "figurine": {
+              "source_pages": [
+                221,
+                222
+              ],
+              "action": "magic",
+              "throw_range_feet": 60,
+              "throw_target": "point-on-ground",
+              "no_space_result": "figurine-does-not-become-creature",
+              "friendly_to": [
+                "you",
+                "your-allies"
+              ],
+              "understands_owner_languages": true,
+              "obeys_owner_commands": true,
+              "initiative": "immediately-after-owner",
+              "no_command_behavior": "defends-itself-and-takes-no-other-actions",
+              "revert_triggers": [
+                "duration-elapsed",
+                "creature-form-at-0-hit-points",
+                "magic-action-while-touching-creature"
+              ],
+              "revert_action": "magic",
+              "figurines_in_set": 1,
+              "forms": [
+                {
+                  "key": "marble-elephant",
+                  "creature": "elephant",
+                  "duration_hours": 24,
+                  "cooldown_days": 7,
+                  "facts": [],
+                  "traits": []
+                }
+              ]
+            }
+          }
+        },
+        {
+          "id": "srd-5.2.1:content/items/figurine-of-wondrous-power/variant/obsidian-steed",
+          "name": "Obsidian Steed",
+          "rarity": "very-rare",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "magic-action",
+            "restrictions": [
+              "throw-to-point-within-60-feet",
+              "use-cooldown"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              221,
+              221
+            ]
+          },
+          "required_mechanic_keys": [
+            "action.magic",
+            "item.throw-60-feet",
+            "creature.friendly",
+            "creature.obeys-commands",
+            "creature.initiative-after-owner",
+            "creature.reverts-to-figurine",
+            "item.use-cooldown"
+          ],
+          "details": {
+            "figurine": {
+              "source_pages": [
+                221,
+                222
+              ],
+              "action": "magic",
+              "throw_range_feet": 60,
+              "throw_target": "point-on-ground",
+              "no_space_result": "figurine-does-not-become-creature",
+              "friendly_to": [
+                "you",
+                "your-allies"
+              ],
+              "understands_owner_languages": true,
+              "obeys_owner_commands": true,
+              "initiative": "immediately-after-owner",
+              "no_command_behavior": "defends-itself-and-takes-no-other-actions",
+              "revert_triggers": [
+                "duration-elapsed",
+                "creature-form-at-0-hit-points",
+                "magic-action-while-touching-creature"
+              ],
+              "revert_action": "magic",
+              "figurines_in_set": 1,
+              "forms": [
+                {
+                  "key": "obsidian-steed",
+                  "creature": "nightmare",
+                  "duration_hours": 24,
+                  "cooldown_days": 5,
+                  "facts": [
+                    {
+                      "key": "ignore-orders-chance",
+                      "amount": 10,
+                      "unit": "percent"
+                    }
+                  ],
+                  "traits": [
+                    "fights-only-to-defend-itself",
+                    "may-ignore-revert-command",
+                    "mounted-while-ignoring-orders-transports-to-random-location-on-plane-of-hades",
+                    "reverts-to-figurine-on-plane-of-hades"
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "id": "srd-5.2.1:content/items/figurine-of-wondrous-power/variant/onyx-dog",
+          "name": "Onyx Dog",
+          "rarity": "rare",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "magic-action",
+            "restrictions": [
+              "throw-to-point-within-60-feet",
+              "use-cooldown"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              221,
+              221
+            ]
+          },
+          "required_mechanic_keys": [
+            "action.magic",
+            "item.throw-60-feet",
+            "creature.friendly",
+            "creature.obeys-commands",
+            "creature.initiative-after-owner",
+            "creature.reverts-to-figurine",
+            "item.use-cooldown"
+          ],
+          "details": {
+            "figurine": {
+              "source_pages": [
+                221,
+                222
+              ],
+              "action": "magic",
+              "throw_range_feet": 60,
+              "throw_target": "point-on-ground",
+              "no_space_result": "figurine-does-not-become-creature",
+              "friendly_to": [
+                "you",
+                "your-allies"
+              ],
+              "understands_owner_languages": true,
+              "obeys_owner_commands": true,
+              "initiative": "immediately-after-owner",
+              "no_command_behavior": "defends-itself-and-takes-no-other-actions",
+              "revert_triggers": [
+                "duration-elapsed",
+                "creature-form-at-0-hit-points",
+                "magic-action-while-touching-creature"
+              ],
+              "revert_action": "magic",
+              "figurines_in_set": 1,
+              "forms": [
+                {
+                  "key": "onyx-dog",
+                  "creature": "mastiff",
+                  "duration_hours": 6,
+                  "cooldown_days": 7,
+                  "facts": [
+                    {
+                      "key": "intelligence",
+                      "amount": 8,
+                      "unit": "score"
+                    },
+                    {
+                      "key": "blindsight",
+                      "amount": 60,
+                      "unit": "feet"
+                    }
+                  ],
+                  "traits": [
+                    "can-speak-common"
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "id": "srd-5.2.1:content/items/figurine-of-wondrous-power/variant/serpentine-owl",
+          "name": "Serpentine Owl",
+          "rarity": "rare",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "magic-action",
+            "restrictions": [
+              "throw-to-point-within-60-feet",
+              "use-cooldown"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              221,
+              221
+            ]
+          },
+          "required_mechanic_keys": [
+            "action.magic",
+            "item.throw-60-feet",
+            "creature.friendly",
+            "creature.obeys-commands",
+            "creature.initiative-after-owner",
+            "creature.reverts-to-figurine",
+            "item.use-cooldown"
+          ],
+          "details": {
+            "figurine": {
+              "source_pages": [
+                221,
+                222
+              ],
+              "action": "magic",
+              "throw_range_feet": 60,
+              "throw_target": "point-on-ground",
+              "no_space_result": "figurine-does-not-become-creature",
+              "friendly_to": [
+                "you",
+                "your-allies"
+              ],
+              "understands_owner_languages": true,
+              "obeys_owner_commands": true,
+              "initiative": "immediately-after-owner",
+              "no_command_behavior": "defends-itself-and-takes-no-other-actions",
+              "revert_triggers": [
+                "duration-elapsed",
+                "creature-form-at-0-hit-points",
+                "magic-action-while-touching-creature"
+              ],
+              "revert_action": "magic",
+              "figurines_in_set": 1,
+              "forms": [
+                {
+                  "key": "serpentine-owl",
+                  "creature": "giant-owl",
+                  "duration_hours": 8,
+                  "cooldown_days": 2,
+                  "facts": [],
+                  "traits": [
+                    "telepathy-with-owner-at-any-range-on-same-plane"
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "id": "srd-5.2.1:content/items/figurine-of-wondrous-power/variant/silver-raven",
+          "name": "Silver Raven",
+          "rarity": "uncommon",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "magic-action",
+            "restrictions": [
+              "throw-to-point-within-60-feet",
+              "use-cooldown"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              221,
+              221
+            ]
+          },
+          "required_mechanic_keys": [
+            "action.magic",
+            "item.throw-60-feet",
+            "creature.friendly",
+            "creature.obeys-commands",
+            "creature.initiative-after-owner",
+            "creature.reverts-to-figurine",
+            "item.use-cooldown"
+          ],
+          "details": {
+            "figurine": {
+              "source_pages": [
+                221,
+                222
+              ],
+              "action": "magic",
+              "throw_range_feet": 60,
+              "throw_target": "point-on-ground",
+              "no_space_result": "figurine-does-not-become-creature",
+              "friendly_to": [
+                "you",
+                "your-allies"
+              ],
+              "understands_owner_languages": true,
+              "obeys_owner_commands": true,
+              "initiative": "immediately-after-owner",
+              "no_command_behavior": "defends-itself-and-takes-no-other-actions",
+              "revert_triggers": [
+                "duration-elapsed",
+                "creature-form-at-0-hit-points",
+                "magic-action-while-touching-creature"
+              ],
+              "revert_action": "magic",
+              "figurines_in_set": 1,
+              "forms": [
+                {
+                  "key": "silver-raven",
+                  "creature": "raven",
+                  "duration_hours": 12,
+                  "cooldown_days": 2,
+                  "facts": [],
+                  "traits": [
+                    "raven-form-grants-owner-animal-messenger-cast-on-it"
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/flame-tongue",
+      "name": "Flame Tongue",
+      "kind": "magic",
+      "category": "weapon",
+      "base": {
+        "options": [
+          "any-melee-weapon"
+        ],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/flame-tongue",
+          "pages": [
+            223,
+            223
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/flame-tongue/variant/standard",
+          "name": "Flame Tongue",
+          "rarity": "rare",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wield",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "bonus-action",
+            "restrictions": [
+              "command-word"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              223,
+              223
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "action.bonus",
+            "item.command-word",
+            "damage.fire-2d6",
+            "light.bright-40-dim-40"
+          ],
+          "details": {
+            "flame_tongue": {
+              "condition": "while-holding",
+              "action": "bonus",
+              "activation": "command-word",
+              "effect": "flames-engulf-damage-dealing-part",
+              "bright_light_feet": 40,
+              "dim_light_additional_feet": 40,
+              "extra_damage": {
+                "dice": 2,
+                "sides": 6,
+                "type": "fire"
+              },
+              "extra_damage_condition": "on-hit-while-ablaze",
+              "ends_on": [
+                "bonus-action-command-again",
+                "drop-weapon",
+                "stow-weapon",
+                "sheathe-weapon"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/folding-boat",
+      "name": "Folding Boat",
+      "kind": "magic",
+      "category": "wondrous-item",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/folding-boat",
+          "pages": [
+            223,
+            223
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/folding-boat/variant/standard",
+          "name": "Folding Boat",
+          "rarity": "rare",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "magic-action",
+            "restrictions": [
+              "command-word"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              223,
+              223
+            ]
+          },
+          "required_mechanic_keys": [
+            "action.magic",
+            "item.command-words-three",
+            "item.floats",
+            "item.container",
+            "vessel.rowboat",
+            "vessel.keelboat",
+            "item.destroyed-with-vessel"
+          ],
+          "details": {
+            "folding_boat": {
+              "length_inches": 12,
+              "width_inches": 6,
+              "depth_inches": 6,
+              "weight_pounds": 4,
+              "floats": true,
+              "stores_items_when_open": true,
+              "command_action": "magic",
+              "command_words": [
+                {
+                  "ordinal": 1,
+                  "result": "rowboat",
+                  "requires": []
+                },
+                {
+                  "ordinal": 2,
+                  "result": "keelboat",
+                  "requires": []
+                },
+                {
+                  "ordinal": 3,
+                  "result": "folds-back-into-box",
+                  "requires": [
+                    "no-creatures-aboard"
+                  ]
+                }
+              ],
+              "objects_that_fit": "stored-inside-box",
+              "objects_that_do_not_fit": "remain-outside-box",
+              "vessel_weight": "normal-weight-of-vessel-its-size",
+              "stored_items_when_vessel": "remain-in-boat",
+              "vessel_statistics_in": [
+                "equipment"
+              ],
+              "destroyed_when": "vessel-reduced-to-0-hit-points"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/frost-brand",
+      "name": "Frost Brand",
+      "kind": "magic",
+      "category": "weapon",
+      "base": {
+        "options": [
+          "glaive",
+          "greatsword",
+          "longsword",
+          "rapier",
+          "scimitar",
+          "shortsword"
+        ],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/frost-brand",
+          "pages": [
+            223,
+            223
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/frost-brand/variant/standard",
+          "name": "Frost Brand",
+          "rarity": "very-rare",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wield",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "weapon-attack",
+            "restrictions": [
+              "extinguish-once-per-hour"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              223,
+              223
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "damage.cold-1d6",
+            "defense.resistance-fire",
+            "light.bright-10-dim-10",
+            "effect.extinguish-nonmagical-flames-30-feet",
+            "item.once-per-hour"
+          ],
+          "details": {
+            "frost_brand": {
+              "extra_damage": {
+                "dice": 1,
+                "sides": 6,
+                "type": "cold"
+              },
+              "extra_damage_trigger": "hit-with-attack-roll-using-weapon",
+              "resistance_condition": "while-holding",
+              "resistance": "fire",
+              "light_condition": "freezing-temperatures",
+              "bright_light_feet": 10,
+              "dim_light_additional_feet": 10,
+              "extinguish_trigger": "draw-weapon",
+              "extinguish_targets": "nonmagical-flames",
+              "extinguish_radius_feet": 30,
+              "extinguish_uses": 1,
+              "extinguish_cooldown_hours": 1
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/gauntlets-of-ogre-power",
+      "name": "Gauntlets of Ogre Power",
+      "kind": "magic",
+      "category": "wondrous-item",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/gauntlets-of-ogre-power",
+          "pages": [
+            223,
+            223
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/gauntlets-of-ogre-power/variant/standard",
+          "name": "Gauntlets of Ogre Power",
+          "rarity": "uncommon",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wear",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              223,
+              223
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "item.wear",
+            "ability.strength-score-19"
+          ],
+          "details": {
+            "gauntlets_of_ogre_power": {
+              "condition": "while-wearing",
+              "strength_score": 19,
+              "no_effect_at_or_above_score": 19
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/gem-of-brightness",
+      "name": "Gem of Brightness",
+      "kind": "magic",
+      "category": "wondrous-item",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/gem-of-brightness",
+          "pages": [
+            223,
+            223
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/gem-of-brightness/variant/standard",
+          "name": "Gem of Brightness",
+          "rarity": "uncommon",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "limited",
+            "maximum": 50,
+            "per_use": 1,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "hold",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "magic-action",
+            "restrictions": [
+              "command-word"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              223,
+              223
+            ]
+          },
+          "required_mechanic_keys": [
+            "action.magic",
+            "item.charges",
+            "item.command-words-three",
+            "light.bright-30-dim-30",
+            "save.constitution-dc-15",
+            "condition.blinded",
+            "area.cone-30-foot",
+            "item.nonmagical-jewel-when-expended"
+          ],
+          "details": {
+            "gem_of_brightness": {
+              "condition": "while-holding",
+              "action": "magic",
+              "command_words": 3,
+              "max_charges": 50,
+              "first_command_word": {
+                "charge_cost": 0,
+                "bright_light_feet": 30,
+                "dim_light_additional_feet": 30,
+                "ends_on": [
+                  "bonus-action-repeat-command-word",
+                  "another-function-used"
+                ]
+              },
+              "second_command_word": {
+                "charge_cost": 1,
+                "target": "one-creature-you-can-see",
+                "range_feet": 60,
+                "save_ability": "constitution",
+                "save_dc": 15,
+                "condition": "blinded",
+                "duration_seconds": 60,
+                "repeat_save": "end-of-each-of-its-turns",
+                "success_ends": "effect-on-itself"
+              },
+              "third_command_word": {
+                "charge_cost": 5,
+                "shape": "cone",
+                "size_feet": 30,
+                "targets": "each-creature-in-cone",
+                "save": "as-struck-by-second-command-word-beam"
+              },
+              "when_depleted": "becomes-nonmagical-jewel",
+              "depleted_value_gp": 50
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
