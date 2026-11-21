@@ -1,0 +1,2266 @@
+{
+  "schema_version": 1,
+  "source": {
+    "version": "5.2.1",
+    "language": "en",
+    "landing_url": "https://www.dndbeyond.com/srd",
+    "artifact_url": "https://media.dndbeyond.com/compendium-images/srd/5.2/SRD_CC_v5.2.1.pdf",
+    "sha256": "8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87",
+    "bytes": 6031375,
+    "pages": 364,
+    "retrieved_at": "2026-11-15",
+    "license": "CC-BY-4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/legalcode",
+    "attribution": "This work includes material from the System Reference Document 5.2.1 (“SRD 5.2.1”) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd. The SRD 5.2.1 is licensed under the Creative Commons Attribution 4.0 International License, available at https://creativecommons.org/licenses/by/4.0/legalcode.",
+    "changes": "Adapted the twelve stat blocks of issue #162 (Giant Seahorse, Giant Shark, Giant Spider, Giant Toad, Giant Venomous Snake, Giant Vulture, Giant Wasp, Giant Weasel, Giant Wolf Spider, Gibbering Mouther, Glabrezu and Gladiator; PDF pages 288–289 and 353–355) into typed mechanical fields and implementation keys. Trait, action, bonus action and reaction entries keep their source rules text, rejoined across line, column and page breaks; descriptive prose outside the stat blocks is omitted. No playable NPC behavior is granted."
+  },
+  "monsters": [
+    {
+      "id": "srd-5.2.1:content/animals/giant-seahorse",
+      "name": "Giant Seahorse",
+      "source_pages": [
+        353,
+        353
+      ],
+      "sizes": [
+        "large"
+      ],
+      "type": "beast",
+      "alignment": "Unaligned",
+      "ac": 14,
+      "hp": {
+        "average": 16,
+        "dice": 3,
+        "sides": 10,
+        "modifier": 0
+      },
+      "initiative": {
+        "modifier": 1,
+        "score": 11
+      },
+      "speeds": {
+        "walk": 5,
+        "swim": 40
+      },
+      "abilities": {
+        "str": {
+          "score": 15,
+          "modifier": 2,
+          "save": 2
+        },
+        "dex": {
+          "score": 12,
+          "modifier": 1,
+          "save": 1
+        },
+        "con": {
+          "score": 11,
+          "modifier": 0,
+          "save": 0
+        },
+        "int": {
+          "score": 2,
+          "modifier": -4,
+          "save": -4
+        },
+        "wis": {
+          "score": 12,
+          "modifier": 1,
+          "save": 1
+        },
+        "cha": {
+          "score": 5,
+          "modifier": -3,
+          "save": -3
+        }
+      },
+      "senses": {
+        "passive_perception": 11,
+        "special": {}
+      },
+      "languages": [],
+      "gear": [],
+      "cr": "1/2",
+      "xp": 100,
+      "proficiency_bonus": 2,
+      "traits": [
+        {
+          "key": "trait/water-breathing",
+          "name": "Water Breathing",
+          "text": "Water Breathing. The seahorse can breathe only underwater.",
+          "requires": [
+            "effect/breathe-only-underwater"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "ram",
+          "name": "Ram",
+          "text": "Ram. Melee Attack Roll: +4, reach 5 ft. Hit: 9 (2d6 + 2) Bludgeoning damage, or 11 (2d8 + 2) Bludgeoning damage if the seahorse moved 20+ feet straight toward the target immediately before the hit.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 4,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 9,
+              "dice": 2,
+              "sides": 6,
+              "modifier": 2
+            },
+            "damage_type": "bludgeoning"
+          },
+          "effects": [
+            {
+              "key": "effect/bludgeoning-damage",
+              "name": "Bludgeoning damage",
+              "text": "9 (2d6 + 2) Bludgeoning damage",
+              "dice": {
+                "average": 9,
+                "dice": 2,
+                "sides": 6,
+                "modifier": 2
+              }
+            },
+            {
+              "key": "effect/charge-bludgeoning-damage",
+              "name": "Charge Bludgeoning damage",
+              "text": "11 (2d8 + 2) Bludgeoning damage if the seahorse moved 20+ feet straight toward the target immediately before the hit",
+              "dice": {
+                "average": 11,
+                "dice": 2,
+                "sides": 8,
+                "modifier": 2
+              }
+            },
+            {
+              "key": "requirement/charge-distance",
+              "name": "Charge distance",
+              "text": "the seahorse moved 20+ feet straight toward the target immediately before the hit"
+            }
+          ]
+        }
+      ],
+      "bonus_actions": [
+        {
+          "id": "bubble-dash",
+          "name": "Bubble Dash",
+          "text": "Bubble Dash. While underwater, the seahorse moves up to half its Swim Speed without provoking Opportunity Attacks.",
+          "key": "action/special",
+          "effects": [
+            {
+              "key": "requirement/underwater",
+              "name": "Underwater",
+              "text": "While underwater"
+            },
+            {
+              "key": "effect/move-half-swim-speed",
+              "name": "Move half Swim Speed",
+              "text": "the seahorse moves up to half its Swim Speed without provoking Opportunity Attacks"
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "movement/swim",
+        "action/bonus-action",
+        "trait/water-breathing",
+        "effect/breathe-only-underwater",
+        "action/melee-attack",
+        "effect/bludgeoning-damage",
+        "effect/charge-bludgeoning-damage",
+        "requirement/charge-distance",
+        "action/special",
+        "requirement/underwater",
+        "effect/move-half-swim-speed"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/animals/giant-shark",
+      "name": "Giant Shark",
+      "source_pages": [
+        353,
+        353
+      ],
+      "sizes": [
+        "huge"
+      ],
+      "type": "beast",
+      "alignment": "Unaligned",
+      "ac": 13,
+      "hp": {
+        "average": 92,
+        "dice": 8,
+        "sides": 12,
+        "modifier": 40
+      },
+      "initiative": {
+        "modifier": 3,
+        "score": 13
+      },
+      "speeds": {
+        "walk": 5,
+        "swim": 60
+      },
+      "abilities": {
+        "str": {
+          "score": 23,
+          "modifier": 6,
+          "save": 6
+        },
+        "dex": {
+          "score": 11,
+          "modifier": 0,
+          "save": 0
+        },
+        "con": {
+          "score": 21,
+          "modifier": 5,
+          "save": 5
+        },
+        "int": {
+          "score": 1,
+          "modifier": -5,
+          "save": -5
+        },
+        "wis": {
+          "score": 10,
+          "modifier": 0,
+          "save": 0
+        },
+        "cha": {
+          "score": 5,
+          "modifier": -3,
+          "save": -3
+        }
+      },
+      "senses": {
+        "passive_perception": 13,
+        "special": {
+          "blindsight": 60
+        }
+      },
+      "languages": [],
+      "gear": [],
+      "cr": "5",
+      "xp": 1800,
+      "proficiency_bonus": 3,
+      "traits": [
+        {
+          "key": "trait/water-breathing",
+          "name": "Water Breathing",
+          "text": "Water Breathing. The shark can breathe only underwater.",
+          "requires": [
+            "effect/breathe-only-underwater"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "multiattack",
+          "name": "Multiattack",
+          "text": "Multiattack. The shark makes two Bite attacks.",
+          "key": "action/multiattack",
+          "effects": [
+            {
+              "key": "action/melee-attack",
+              "name": "Attack",
+              "text": "The shark makes two Bite attacks."
+            }
+          ]
+        },
+        {
+          "id": "bite",
+          "name": "Bite",
+          "text": "Bite. Melee Attack Roll: +9 (with Advantage if the target doesn’t have all its Hit Points), reach 5 ft. Hit: 22 (3d10 + 6) Piercing damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 9,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 22,
+              "dice": 3,
+              "sides": 10,
+              "modifier": 6
+            },
+            "damage_type": "piercing"
+          },
+          "effects": [
+            {
+              "key": "effect/piercing-damage",
+              "name": "Piercing damage",
+              "text": "22 (3d10 + 6) Piercing damage",
+              "dice": {
+                "average": 22,
+                "dice": 3,
+                "sides": 10,
+                "modifier": 6
+              }
+            },
+            {
+              "key": "attack/advantage-against-target-missing-hit-points",
+              "name": "Advantage against a target missing Hit Points",
+              "text": "(with Advantage if the target doesn’t have all its Hit Points)"
+            }
+          ]
+        }
+      ],
+      "skills": {
+        "perception": 3
+      },
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/skills",
+        "movement/swim",
+        "sense/blindsight",
+        "trait/water-breathing",
+        "effect/breathe-only-underwater",
+        "action/multiattack",
+        "action/melee-attack",
+        "effect/piercing-damage",
+        "attack/advantage-against-target-missing-hit-points"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/animals/giant-spider",
+      "name": "Giant Spider",
+      "source_pages": [
+        353,
+        354
+      ],
+      "sizes": [
+        "large"
+      ],
+      "type": "beast",
+      "alignment": "Unaligned",
+      "ac": 14,
+      "hp": {
+        "average": 26,
+        "dice": 4,
+        "sides": 10,
+        "modifier": 4
+      },
+      "initiative": {
+        "modifier": 3,
+        "score": 13
+      },
+      "speeds": {
+        "walk": 30,
+        "climb": 30
+      },
+      "abilities": {
+        "str": {
+          "score": 14,
+          "modifier": 2,
+          "save": 2
+        },
+        "dex": {
+          "score": 16,
+          "modifier": 3,
+          "save": 3
+        },
+        "con": {
+          "score": 12,
+          "modifier": 1,
+          "save": 1
+        },
+        "int": {
+          "score": 2,
+          "modifier": -4,
+          "save": -4
+        },
+        "wis": {
+          "score": 11,
+          "modifier": 0,
+          "save": 0
+        },
+        "cha": {
+          "score": 4,
+          "modifier": -3,
+          "save": -3
+        }
+      },
+      "senses": {
+        "passive_perception": 14,
+        "special": {
+          "darkvision": 60
+        }
+      },
+      "languages": [],
+      "gear": [],
+      "cr": "1",
+      "xp": 200,
+      "proficiency_bonus": 2,
+      "traits": [
+        {
+          "key": "trait/spider-climb",
+          "name": "Spider Climb",
+          "text": "Spider Climb. The spider can climb difficult surfaces, including along ceilings, without needing to make an ability check.",
+          "requires": [
+            "movement/climb-difficult-surfaces",
+            "check/no-ability-check-to-climb"
+          ]
+        },
+        {
+          "key": "trait/web-walker",
+          "name": "Web Walker",
+          "text": "Web Walker. The spider ignores movement restrictions caused by webs, and it knows the location of any other creature in contact with the same web.",
+          "requires": [
+            "movement/ignore-web-restrictions",
+            "effect/know-web-contact-creature-locations"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "bite",
+          "name": "Bite",
+          "text": "Bite. Melee Attack Roll: +5, reach 5 ft. Hit: 7 (1d8 + 3) Piercing damage plus 7 (2d6) Poison damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 5,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 7,
+              "dice": 1,
+              "sides": 8,
+              "modifier": 3
+            },
+            "damage_type": "piercing"
+          },
+          "effects": [
+            {
+              "key": "effect/piercing-damage",
+              "name": "Piercing damage",
+              "text": "7 (1d8 + 3) Piercing damage",
+              "dice": {
+                "average": 7,
+                "dice": 1,
+                "sides": 8,
+                "modifier": 3
+              }
+            },
+            {
+              "key": "effect/poison-damage",
+              "name": "Poison damage",
+              "text": "7 (2d6) Poison damage",
+              "dice": {
+                "average": 7,
+                "dice": 2,
+                "sides": 6,
+                "modifier": 0
+              }
+            }
+          ]
+        },
+        {
+          "id": "web",
+          "name": "Web",
+          "text": "Web (Recharge 5–6). Dexterity Saving Throw: DC 13, one creature the spider can see within 60 feet. Failure: The target has the Restrained condition until the web is destroyed (AC 10; HP 5; Vulnerability to Fire damage; Immunity to Poison and Psychic damage).",
+          "key": "action/saving-throw",
+          "save": {
+            "ability": "dex",
+            "dc": 13
+          },
+          "target": {
+            "shape": "creature",
+            "size": 0,
+            "width": 0,
+            "range": 60
+          },
+          "uses": {
+            "per_day": 0,
+            "lair_per_day": 0,
+            "recharge": 5
+          },
+          "effects": [
+            {
+              "key": "save/dex",
+              "name": "Dexterity Saving Throw",
+              "text": "Dexterity Saving Throw: DC 13"
+            },
+            {
+              "key": "target/creature",
+              "name": "Target",
+              "text": "one creature the spider can see within 60 feet"
+            },
+            {
+              "key": "limit/recharge",
+              "name": "Recharge",
+              "text": "(Recharge 5–6)"
+            },
+            {
+              "key": "condition/restrained",
+              "name": "Restrained",
+              "text": "The target has the Restrained condition until the web is destroyed"
+            },
+            {
+              "key": "effect/web-armor-class",
+              "name": "Web Armor Class",
+              "text": "AC 10"
+            },
+            {
+              "key": "effect/web-hit-points",
+              "name": "Web Hit Points",
+              "text": "HP 5"
+            },
+            {
+              "key": "effect/web-vulnerability",
+              "name": "Web vulnerability",
+              "text": "Vulnerability to Fire damage"
+            },
+            {
+              "key": "effect/web-immunity",
+              "name": "Web immunity",
+              "text": "Immunity to Poison and Psychic damage"
+            }
+          ]
+        }
+      ],
+      "skills": {
+        "perception": 4,
+        "stealth": 7
+      },
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/skills",
+        "movement/climb",
+        "sense/darkvision",
+        "trait/spider-climb",
+        "movement/climb-difficult-surfaces",
+        "check/no-ability-check-to-climb",
+        "trait/web-walker",
+        "movement/ignore-web-restrictions",
+        "effect/know-web-contact-creature-locations",
+        "action/melee-attack",
+        "effect/piercing-damage",
+        "effect/poison-damage",
+        "action/saving-throw",
+        "save/dex",
+        "target/creature",
+        "limit/recharge",
+        "condition/restrained",
+        "effect/web-armor-class",
+        "effect/web-hit-points",
+        "effect/web-vulnerability",
+        "effect/web-immunity"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/animals/giant-toad",
+      "name": "Giant Toad",
+      "source_pages": [
+        354,
+        354
+      ],
+      "sizes": [
+        "large"
+      ],
+      "type": "beast",
+      "alignment": "Unaligned",
+      "ac": 11,
+      "hp": {
+        "average": 39,
+        "dice": 6,
+        "sides": 10,
+        "modifier": 6
+      },
+      "initiative": {
+        "modifier": 1,
+        "score": 11
+      },
+      "speeds": {
+        "walk": 30,
+        "swim": 30
+      },
+      "abilities": {
+        "str": {
+          "score": 15,
+          "modifier": 2,
+          "save": 2
+        },
+        "dex": {
+          "score": 13,
+          "modifier": 1,
+          "save": 1
+        },
+        "con": {
+          "score": 13,
+          "modifier": 1,
+          "save": 1
+        },
+        "int": {
+          "score": 2,
+          "modifier": -4,
+          "save": -4
+        },
+        "wis": {
+          "score": 10,
+          "modifier": 0,
+          "save": 0
+        },
+        "cha": {
+          "score": 3,
+          "modifier": -4,
+          "save": -4
+        }
+      },
+      "senses": {
+        "passive_perception": 10,
+        "special": {
+          "darkvision": 60
+        }
+      },
+      "languages": [],
+      "gear": [],
+      "cr": "1",
+      "xp": 200,
+      "proficiency_bonus": 2,
+      "traits": [
+        {
+          "key": "trait/amphibious",
+          "name": "Amphibious",
+          "text": "Amphibious. The toad can breathe air and water.",
+          "requires": [
+            "effect/breathe-air-and-water"
+          ]
+        },
+        {
+          "key": "trait/standing-leap",
+          "name": "Standing Leap",
+          "text": "Standing Leap. The toad’s Long Jump is up to 20 feet and its High Jump is up to 10 feet with or without a running start.",
+          "requires": [
+            "movement/long-jump-20-feet",
+            "movement/high-jump-10-feet",
+            "movement/jump-without-running-start"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "bite",
+          "name": "Bite",
+          "text": "Bite. Melee Attack Roll: +4, reach 5 ft. Hit: 5 (1d6 + 2) Piercing damage plus 5 (2d4) Poison damage. If the target is a Medium or smaller creature, it has the Grappled condition (escape DC 12).",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 4,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 5,
+              "dice": 1,
+              "sides": 6,
+              "modifier": 2
+            },
+            "damage_type": "piercing"
+          },
+          "effects": [
+            {
+              "key": "effect/piercing-damage",
+              "name": "Piercing damage",
+              "text": "5 (1d6 + 2) Piercing damage",
+              "dice": {
+                "average": 5,
+                "dice": 1,
+                "sides": 6,
+                "modifier": 2
+              }
+            },
+            {
+              "key": "effect/poison-damage",
+              "name": "Poison damage",
+              "text": "5 (2d4) Poison damage",
+              "dice": {
+                "average": 5,
+                "dice": 2,
+                "sides": 4,
+                "modifier": 0
+              }
+            },
+            {
+              "key": "requirement/target-size",
+              "name": "Target size",
+              "text": "If the target is a Medium or smaller creature, it has the Grappled condition (escape DC 12)"
+            },
+            {
+              "key": "condition/grappled",
+              "name": "Grappled",
+              "text": "it has the Grappled condition (escape DC 12)"
+            }
+          ]
+        },
+        {
+          "id": "swallow",
+          "name": "Swallow",
+          "text": "Swallow. The toad swallows a Medium or smaller target it is grappling. While swallowed, the target isn’t Grappled but has the Blinded and Restrained conditions, and it has Total Cover against attacks and other effects outside the toad. In addition, the target takes 10 (3d6) Acid damage at the end of each of the toad’s turns. The toad can have only one target swallowed at a time, and it can’t use Bite while it has a swallowed target. If the toad dies, a swallowed creature is no longer Restrained and can escape from the corpse using 5 feet of movement, exiting with the Prone condition.",
+          "key": "action/special",
+          "effects": [
+            {
+              "key": "effect/swallow",
+              "name": "Swallow",
+              "text": "The toad swallows a Medium or smaller target it is grappling."
+            },
+            {
+              "key": "requirement/target-size",
+              "name": "Target size",
+              "text": "a Medium or smaller target it is grappling"
+            },
+            {
+              "key": "requirement/grappled-creature",
+              "name": "Grappled creature",
+              "text": "a Medium or smaller target it is grappling"
+            },
+            {
+              "key": "condition/blinded",
+              "name": "Blinded",
+              "text": "has the Blinded and Restrained conditions"
+            },
+            {
+              "key": "condition/restrained",
+              "name": "Restrained",
+              "text": "has the Blinded and Restrained conditions"
+            },
+            {
+              "key": "effect/total-cover",
+              "name": "Total Cover",
+              "text": "it has Total Cover against attacks and other effects outside the toad"
+            },
+            {
+              "key": "effect/acid-damage",
+              "name": "Acid damage",
+              "text": "the target takes 10 (3d6) Acid damage at the end of each of the toad’s turns",
+              "dice": {
+                "average": 10,
+                "dice": 3,
+                "sides": 6,
+                "modifier": 0
+              }
+            },
+            {
+              "key": "limit/one-swallowed-creature",
+              "name": "One swallowed creature",
+              "text": "The toad can have only one target swallowed at a time"
+            },
+            {
+              "key": "effect/no-bite-while-swallowing",
+              "name": "No Bite while swallowing",
+              "text": "it can’t use Bite while it has a swallowed target"
+            },
+            {
+              "key": "effect/escape-corpse",
+              "name": "Escape corpse",
+              "text": "If the toad dies, a swallowed creature is no longer Restrained and can escape from the corpse using 5 feet of movement, exiting with the Prone condition"
+            },
+            {
+              "key": "condition/prone",
+              "name": "Prone",
+              "text": "exiting with the Prone condition"
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "movement/swim",
+        "sense/darkvision",
+        "trait/amphibious",
+        "effect/breathe-air-and-water",
+        "trait/standing-leap",
+        "movement/long-jump-20-feet",
+        "movement/high-jump-10-feet",
+        "movement/jump-without-running-start",
+        "action/melee-attack",
+        "effect/piercing-damage",
+        "effect/poison-damage",
+        "requirement/target-size",
+        "condition/grappled",
+        "action/special",
+        "effect/swallow",
+        "requirement/grappled-creature",
+        "condition/blinded",
+        "condition/restrained",
+        "effect/total-cover",
+        "effect/acid-damage",
+        "limit/one-swallowed-creature",
+        "effect/no-bite-while-swallowing",
+        "effect/escape-corpse",
+        "condition/prone"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/animals/giant-venomous-snake",
+      "name": "Giant Venomous Snake",
+      "source_pages": [
+        354,
+        354
+      ],
+      "sizes": [
+        "medium"
+      ],
+      "type": "beast",
+      "alignment": "Unaligned",
+      "ac": 14,
+      "hp": {
+        "average": 11,
+        "dice": 2,
+        "sides": 8,
+        "modifier": 2
+      },
+      "initiative": {
+        "modifier": 4,
+        "score": 14
+      },
+      "speeds": {
+        "walk": 40,
+        "swim": 40
+      },
+      "abilities": {
+        "str": {
+          "score": 10,
+          "modifier": 0,
+          "save": 0
+        },
+        "dex": {
+          "score": 18,
+          "modifier": 4,
+          "save": 4
+        },
+        "con": {
+          "score": 13,
+          "modifier": 1,
+          "save": 1
+        },
+        "int": {
+          "score": 2,
+          "modifier": -4,
+          "save": -4
+        },
+        "wis": {
+          "score": 10,
+          "modifier": 0,
+          "save": 0
+        },
+        "cha": {
+          "score": 3,
+          "modifier": -4,
+          "save": -4
+        }
+      },
+      "senses": {
+        "passive_perception": 12,
+        "special": {
+          "blindsight": 10
+        }
+      },
+      "languages": [],
+      "gear": [],
+      "cr": "1/4",
+      "xp": 50,
+      "proficiency_bonus": 2,
+      "traits": [],
+      "actions": [
+        {
+          "id": "bite",
+          "name": "Bite",
+          "text": "Bite. Melee Attack Roll: +6, reach 10 ft. Hit: 6 (1d4 + 4) Piercing damage plus 4 (1d8) Poison damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 6,
+            "reach": 10,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 6,
+              "dice": 1,
+              "sides": 4,
+              "modifier": 4
+            },
+            "damage_type": "piercing"
+          },
+          "effects": [
+            {
+              "key": "effect/piercing-damage",
+              "name": "Piercing damage",
+              "text": "6 (1d4 + 4) Piercing damage",
+              "dice": {
+                "average": 6,
+                "dice": 1,
+                "sides": 4,
+                "modifier": 4
+              }
+            },
+            {
+              "key": "effect/poison-damage",
+              "name": "Poison damage",
+              "text": "4 (1d8) Poison damage",
+              "dice": {
+                "average": 4,
+                "dice": 1,
+                "sides": 8,
+                "modifier": 0
+              }
+            }
+          ]
+        }
+      ],
+      "skills": {
+        "perception": 2
+      },
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/skills",
+        "movement/swim",
+        "sense/blindsight",
+        "action/melee-attack",
+        "effect/piercing-damage",
+        "effect/poison-damage"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/animals/giant-vulture",
+      "name": "Giant Vulture",
+      "source_pages": [
+        354,
+        354
+      ],
+      "sizes": [
+        "large"
+      ],
+      "type": "monstrosity",
+      "alignment": "Neutral Evil",
+      "ac": 10,
+      "hp": {
+        "average": 25,
+        "dice": 3,
+        "sides": 10,
+        "modifier": 9
+      },
+      "initiative": {
+        "modifier": 0,
+        "score": 10
+      },
+      "speeds": {
+        "walk": 10,
+        "fly": 60
+      },
+      "abilities": {
+        "str": {
+          "score": 15,
+          "modifier": 2,
+          "save": 2
+        },
+        "dex": {
+          "score": 10,
+          "modifier": 0,
+          "save": 0
+        },
+        "con": {
+          "score": 16,
+          "modifier": 3,
+          "save": 3
+        },
+        "int": {
+          "score": 6,
+          "modifier": -2,
+          "save": -2
+        },
+        "wis": {
+          "score": 12,
+          "modifier": 1,
+          "save": 1
+        },
+        "cha": {
+          "score": 7,
+          "modifier": -2,
+          "save": -2
+        }
+      },
+      "senses": {
+        "passive_perception": 13,
+        "special": {
+          "darkvision": 60
+        }
+      },
+      "languages": [
+        "Understands Common but can’t speak"
+      ],
+      "gear": [],
+      "cr": "1",
+      "xp": 200,
+      "proficiency_bonus": 2,
+      "traits": [
+        {
+          "key": "trait/pack-tactics",
+          "name": "Pack Tactics",
+          "text": "Pack Tactics. The vulture has Advantage on an attack roll against a creature if at least one of the vulture’s allies is within 5 feet of the creature and the ally doesn’t have the Incapacitated condition.",
+          "requires": [
+            "attack/advantage",
+            "requirement/ally-within-5-feet",
+            "requirement/ally-not-incapacitated"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "gouge",
+          "name": "Gouge",
+          "text": "Gouge. Melee Attack Roll: +4, reach 5 ft. Hit: 9 (2d6 + 2) Piercing damage, and the target has the Poisoned condition until the end of its next turn.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 4,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 9,
+              "dice": 2,
+              "sides": 6,
+              "modifier": 2
+            },
+            "damage_type": "piercing"
+          },
+          "effects": [
+            {
+              "key": "effect/piercing-damage",
+              "name": "Piercing damage",
+              "text": "9 (2d6 + 2) Piercing damage",
+              "dice": {
+                "average": 9,
+                "dice": 2,
+                "sides": 6,
+                "modifier": 2
+              }
+            },
+            {
+              "key": "condition/poisoned",
+              "name": "Poisoned",
+              "text": "the target has the Poisoned condition until the end of its next turn"
+            }
+          ]
+        }
+      ],
+      "skills": {
+        "perception": 3
+      },
+      "resistances": [
+        "necrotic"
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/skills",
+        "defense/damage-resistance",
+        "movement/fly",
+        "sense/darkvision",
+        "trait/pack-tactics",
+        "attack/advantage",
+        "requirement/ally-within-5-feet",
+        "requirement/ally-not-incapacitated",
+        "action/melee-attack",
+        "effect/piercing-damage",
+        "condition/poisoned"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/animals/giant-wasp",
+      "name": "Giant Wasp",
+      "source_pages": [
+        354,
+        355
+      ],
+      "sizes": [
+        "medium"
+      ],
+      "type": "beast",
+      "alignment": "Unaligned",
+      "ac": 13,
+      "hp": {
+        "average": 22,
+        "dice": 5,
+        "sides": 8,
+        "modifier": 0
+      },
+      "initiative": {
+        "modifier": 2,
+        "score": 12
+      },
+      "speeds": {
+        "walk": 10,
+        "fly": 50
+      },
+      "abilities": {
+        "str": {
+          "score": 10,
+          "modifier": 0,
+          "save": 0
+        },
+        "dex": {
+          "score": 14,
+          "modifier": 2,
+          "save": 2
+        },
+        "con": {
+          "score": 10,
+          "modifier": 0,
+          "save": 0
+        },
+        "int": {
+          "score": 1,
+          "modifier": -5,
+          "save": -5
+        },
+        "wis": {
+          "score": 10,
+          "modifier": 0,
+          "save": 0
+        },
+        "cha": {
+          "score": 3,
+          "modifier": -4,
+          "save": -4
+        }
+      },
+      "senses": {
+        "passive_perception": 10,
+        "special": {}
+      },
+      "languages": [],
+      "gear": [],
+      "cr": "1/2",
+      "xp": 100,
+      "proficiency_bonus": 2,
+      "traits": [
+        {
+          "key": "trait/flyby",
+          "name": "Flyby",
+          "text": "Flyby. The wasp doesn’t provoke an Opportunity Attack when it flies out of an enemy’s reach.",
+          "requires": [
+            "effect/no-opportunity-attack-flying-out-of-reach"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "sting",
+          "name": "Sting",
+          "text": "Sting. Melee Attack Roll: +4, reach 5 ft. Hit: 5 (1d6 + 2) Piercing damage plus 5 (2d4) Poison damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 4,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 5,
+              "dice": 1,
+              "sides": 6,
+              "modifier": 2
+            },
+            "damage_type": "piercing"
+          },
+          "effects": [
+            {
+              "key": "effect/piercing-damage",
+              "name": "Piercing damage",
+              "text": "5 (1d6 + 2) Piercing damage",
+              "dice": {
+                "average": 5,
+                "dice": 1,
+                "sides": 6,
+                "modifier": 2
+              }
+            },
+            {
+              "key": "effect/poison-damage",
+              "name": "Poison damage",
+              "text": "5 (2d4) Poison damage",
+              "dice": {
+                "average": 5,
+                "dice": 2,
+                "sides": 4,
+                "modifier": 0
+              }
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "movement/fly",
+        "trait/flyby",
+        "effect/no-opportunity-attack-flying-out-of-reach",
+        "action/melee-attack",
+        "effect/piercing-damage",
+        "effect/poison-damage"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/animals/giant-weasel",
+      "name": "Giant Weasel",
+      "source_pages": [
+        355,
+        355
+      ],
+      "sizes": [
+        "medium"
+      ],
+      "type": "beast",
+      "alignment": "Unaligned",
+      "ac": 13,
+      "hp": {
+        "average": 9,
+        "dice": 2,
+        "sides": 8,
+        "modifier": 0
+      },
+      "initiative": {
+        "modifier": 3,
+        "score": 13
+      },
+      "speeds": {
+        "walk": 40,
+        "climb": 30
+      },
+      "abilities": {
+        "str": {
+          "score": 11,
+          "modifier": 0,
+          "save": 0
+        },
+        "dex": {
+          "score": 17,
+          "modifier": 3,
+          "save": 3
+        },
+        "con": {
+          "score": 10,
+          "modifier": 0,
+          "save": 0
+        },
+        "int": {
+          "score": 4,
+          "modifier": -3,
+          "save": -3
+        },
+        "wis": {
+          "score": 12,
+          "modifier": 1,
+          "save": 1
+        },
+        "cha": {
+          "score": 5,
+          "modifier": -3,
+          "save": -3
+        }
+      },
+      "senses": {
+        "passive_perception": 13,
+        "special": {
+          "darkvision": 60
+        }
+      },
+      "languages": [],
+      "gear": [],
+      "cr": "1/8",
+      "xp": 25,
+      "proficiency_bonus": 2,
+      "traits": [],
+      "actions": [
+        {
+          "id": "bite",
+          "name": "Bite",
+          "text": "Bite. Melee Attack Roll: +5, reach 5 ft. Hit: 5 (1d4 + 3) Piercing damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 5,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 5,
+              "dice": 1,
+              "sides": 4,
+              "modifier": 3
+            },
+            "damage_type": "piercing"
+          },
+          "effects": [
+            {
+              "key": "effect/piercing-damage",
+              "name": "Piercing damage",
+              "text": "5 (1d4 + 3) Piercing damage",
+              "dice": {
+                "average": 5,
+                "dice": 1,
+                "sides": 4,
+                "modifier": 3
+              }
+            }
+          ]
+        }
+      ],
+      "skills": {
+        "acrobatics": 5,
+        "perception": 3,
+        "stealth": 5
+      },
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/skills",
+        "movement/climb",
+        "sense/darkvision",
+        "action/melee-attack",
+        "effect/piercing-damage"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/animals/giant-wolf-spider",
+      "name": "Giant Wolf Spider",
+      "source_pages": [
+        355,
+        355
+      ],
+      "sizes": [
+        "medium"
+      ],
+      "type": "beast",
+      "alignment": "Unaligned",
+      "ac": 13,
+      "hp": {
+        "average": 11,
+        "dice": 2,
+        "sides": 8,
+        "modifier": 2
+      },
+      "initiative": {
+        "modifier": 3,
+        "score": 13
+      },
+      "speeds": {
+        "walk": 40,
+        "climb": 40
+      },
+      "abilities": {
+        "str": {
+          "score": 12,
+          "modifier": 1,
+          "save": 1
+        },
+        "dex": {
+          "score": 16,
+          "modifier": 3,
+          "save": 3
+        },
+        "con": {
+          "score": 13,
+          "modifier": 1,
+          "save": 1
+        },
+        "int": {
+          "score": 3,
+          "modifier": -4,
+          "save": -4
+        },
+        "wis": {
+          "score": 12,
+          "modifier": 1,
+          "save": 1
+        },
+        "cha": {
+          "score": 4,
+          "modifier": -3,
+          "save": -3
+        }
+      },
+      "senses": {
+        "passive_perception": 13,
+        "special": {
+          "blindsight": 10,
+          "darkvision": 60
+        }
+      },
+      "languages": [],
+      "gear": [],
+      "cr": "1/4",
+      "xp": 50,
+      "proficiency_bonus": 2,
+      "traits": [
+        {
+          "key": "trait/spider-climb",
+          "name": "Spider Climb",
+          "text": "Spider Climb. The spider can climb difficult surfaces, including along ceilings, without needing to make an ability check.",
+          "requires": [
+            "movement/climb-difficult-surfaces",
+            "check/no-ability-check-to-climb"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "bite",
+          "name": "Bite",
+          "text": "Bite. Melee Attack Roll: +5, reach 5 ft. Hit: 5 (1d4 + 3) Piercing damage plus 5 (2d4) Poison damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 5,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 5,
+              "dice": 1,
+              "sides": 4,
+              "modifier": 3
+            },
+            "damage_type": "piercing"
+          },
+          "effects": [
+            {
+              "key": "effect/piercing-damage",
+              "name": "Piercing damage",
+              "text": "5 (1d4 + 3) Piercing damage",
+              "dice": {
+                "average": 5,
+                "dice": 1,
+                "sides": 4,
+                "modifier": 3
+              }
+            },
+            {
+              "key": "effect/poison-damage",
+              "name": "Poison damage",
+              "text": "5 (2d4) Poison damage",
+              "dice": {
+                "average": 5,
+                "dice": 2,
+                "sides": 4,
+                "modifier": 0
+              }
+            }
+          ]
+        }
+      ],
+      "skills": {
+        "perception": 3,
+        "stealth": 7
+      },
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/skills",
+        "movement/climb",
+        "sense/blindsight",
+        "sense/darkvision",
+        "trait/spider-climb",
+        "movement/climb-difficult-surfaces",
+        "check/no-ability-check-to-climb",
+        "action/melee-attack",
+        "effect/piercing-damage",
+        "effect/poison-damage"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/gibbering-mouther",
+      "name": "Gibbering Mouther",
+      "source_pages": [
+        288,
+        288
+      ],
+      "sizes": [
+        "medium"
+      ],
+      "type": "aberration",
+      "alignment": "Chaotic Neutral",
+      "ac": 9,
+      "hp": {
+        "average": 52,
+        "dice": 7,
+        "sides": 8,
+        "modifier": 21
+      },
+      "initiative": {
+        "modifier": -1,
+        "score": 9
+      },
+      "speeds": {
+        "walk": 20,
+        "swim": 20
+      },
+      "abilities": {
+        "str": {
+          "score": 10,
+          "modifier": 0,
+          "save": 0
+        },
+        "dex": {
+          "score": 8,
+          "modifier": -1,
+          "save": -1
+        },
+        "con": {
+          "score": 16,
+          "modifier": 3,
+          "save": 3
+        },
+        "int": {
+          "score": 3,
+          "modifier": -4,
+          "save": -4
+        },
+        "wis": {
+          "score": 10,
+          "modifier": 0,
+          "save": 0
+        },
+        "cha": {
+          "score": 6,
+          "modifier": -2,
+          "save": -2
+        }
+      },
+      "senses": {
+        "passive_perception": 10,
+        "special": {
+          "darkvision": 60
+        }
+      },
+      "languages": [],
+      "gear": [],
+      "cr": "2",
+      "xp": 450,
+      "proficiency_bonus": 2,
+      "traits": [
+        {
+          "key": "trait/aberrant-ground",
+          "name": "Aberrant Ground",
+          "text": "Aberrant Ground. The ground in a 10-foot Emanation originating from the mouther is Difficult Terrain.",
+          "requires": [
+            "area/emanation",
+            "effect/difficult-terrain"
+          ]
+        },
+        {
+          "key": "trait/gibbering",
+          "name": "Gibbering",
+          "text": "Gibbering. The mouther babbles incoherently while it doesn’t have the Incapacitated condition. Wisdom Saving Throw: DC 10, any creature that starts its turn within 20 feet of the mouther while it is babbling. Failure: The target rolls 1d8 to determine what it does during the current turn: 1–4. The target does nothing. 5–6. The target takes no action or Bonus Action and uses all its movement to move in a random direction. 7–8. The target makes a melee attack against a randomly determined creature within its reach or does nothing if it can’t make such an attack.",
+          "save": {
+            "ability": "wis",
+            "dc": 10
+          },
+          "requires": [
+            "save/wis",
+            "condition/incapacitated",
+            "effect/random-action-roll",
+            "effect/do-nothing",
+            "effect/random-direction-movement",
+            "effect/random-melee-attack"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "bite",
+          "name": "Bite",
+          "text": "Bite. Melee Attack Roll: +2, reach 5 ft. Hit: 7 (2d6) Piercing damage. If the target is a Medium or smaller creature, it has the Prone condition. The target dies if it is reduced to 0 Hit Points by this attack. Its body is then absorbed into the mouther, leaving only equipment behind.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 2,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 7,
+              "dice": 2,
+              "sides": 6,
+              "modifier": 0
+            },
+            "damage_type": "piercing"
+          },
+          "effects": [
+            {
+              "key": "effect/piercing-damage",
+              "name": "Piercing damage",
+              "text": "7 (2d6) Piercing damage",
+              "dice": {
+                "average": 7,
+                "dice": 2,
+                "sides": 6,
+                "modifier": 0
+              }
+            },
+            {
+              "key": "requirement/target-size",
+              "name": "Target size",
+              "text": "If the target is a Medium or smaller creature, it has the Prone condition"
+            },
+            {
+              "key": "condition/prone",
+              "name": "Prone",
+              "text": "it has the Prone condition"
+            },
+            {
+              "key": "effect/die-at-zero-hit-points",
+              "name": "Dies at 0 Hit Points",
+              "text": "The target dies if it is reduced to 0 Hit Points by this attack"
+            },
+            {
+              "key": "effect/absorb-body",
+              "name": "Body absorbed",
+              "text": "Its body is then absorbed into the mouther, leaving only equipment behind"
+            }
+          ]
+        },
+        {
+          "id": "blinding-spittle",
+          "name": "Blinding Spittle",
+          "text": "Blinding Spittle (Recharge 5–6). Dexterity Saving Throw: DC 10, each creature in a 10-foot-radius Sphere centered on a point within 30 feet. Failure: 7 (2d6) Radiant damage, and the target has the Blinded condition until the end of the mouther’s next turn.",
+          "key": "action/saving-throw",
+          "save": {
+            "ability": "dex",
+            "dc": 10
+          },
+          "target": {
+            "shape": "sphere",
+            "size": 10,
+            "width": 0,
+            "range": 30
+          },
+          "uses": {
+            "per_day": 0,
+            "lair_per_day": 0,
+            "recharge": 5
+          },
+          "effects": [
+            {
+              "key": "save/dex",
+              "name": "Dexterity Saving Throw",
+              "text": "Dexterity Saving Throw: DC 10"
+            },
+            {
+              "key": "area/sphere",
+              "name": "Target",
+              "text": "each creature in a 10-foot-radius Sphere centered on a point within 30 feet"
+            },
+            {
+              "key": "limit/recharge",
+              "name": "Recharge",
+              "text": "(Recharge 5–6)"
+            },
+            {
+              "key": "effect/radiant-damage",
+              "name": "Radiant damage",
+              "text": "7 (2d6) Radiant damage",
+              "dice": {
+                "average": 7,
+                "dice": 2,
+                "sides": 6,
+                "modifier": 0
+              }
+            },
+            {
+              "key": "condition/blinded",
+              "name": "Blinded",
+              "text": "the target has the Blinded condition until the end of the mouther’s next turn"
+            }
+          ]
+        }
+      ],
+      "condition_immunities": [
+        "prone"
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "defense/condition-immunity",
+        "movement/swim",
+        "sense/darkvision",
+        "trait/aberrant-ground",
+        "area/emanation",
+        "effect/difficult-terrain",
+        "trait/gibbering",
+        "save/wis",
+        "condition/incapacitated",
+        "effect/random-action-roll",
+        "effect/do-nothing",
+        "effect/random-direction-movement",
+        "effect/random-melee-attack",
+        "action/melee-attack",
+        "effect/piercing-damage",
+        "requirement/target-size",
+        "condition/prone",
+        "effect/die-at-zero-hit-points",
+        "effect/absorb-body",
+        "action/saving-throw",
+        "save/dex",
+        "area/sphere",
+        "limit/recharge",
+        "effect/radiant-damage",
+        "condition/blinded"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/glabrezu",
+      "name": "Glabrezu",
+      "source_pages": [
+        289,
+        289
+      ],
+      "sizes": [
+        "large"
+      ],
+      "type": "fiend",
+      "alignment": "Chaotic Evil",
+      "ac": 17,
+      "hp": {
+        "average": 189,
+        "dice": 18,
+        "sides": 10,
+        "modifier": 90
+      },
+      "initiative": {
+        "modifier": 6,
+        "score": 16
+      },
+      "speeds": {
+        "walk": 40
+      },
+      "abilities": {
+        "str": {
+          "score": 20,
+          "modifier": 5,
+          "save": 9
+        },
+        "dex": {
+          "score": 15,
+          "modifier": 2,
+          "save": 2
+        },
+        "con": {
+          "score": 21,
+          "modifier": 5,
+          "save": 9
+        },
+        "int": {
+          "score": 19,
+          "modifier": 4,
+          "save": 4
+        },
+        "wis": {
+          "score": 17,
+          "modifier": 3,
+          "save": 7
+        },
+        "cha": {
+          "score": 16,
+          "modifier": 3,
+          "save": 7
+        }
+      },
+      "senses": {
+        "passive_perception": 17,
+        "special": {
+          "truesight": 120
+        }
+      },
+      "languages": [
+        "Abyssal"
+      ],
+      "gear": [],
+      "cr": "9",
+      "xp": 5000,
+      "proficiency_bonus": 4,
+      "traits": [
+        {
+          "key": "trait/demonic-restoration",
+          "name": "Demonic Restoration",
+          "text": "Demonic Restoration. If the glabrezu dies outside the Abyss, its body dissolves into ichor, and it gains a new body instantly, reviving with all its Hit Points somewhere in the Abyss.",
+          "requires": [
+            "effect/revive"
+          ]
+        },
+        {
+          "key": "trait/magic-resistance",
+          "name": "Magic Resistance",
+          "text": "Magic Resistance. The glabrezu has Advantage on saving throws against spells and other magical effects.",
+          "requires": [
+            "save/advantage-against-magic"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "multiattack",
+          "name": "Multiattack",
+          "text": "Multiattack. The glabrezu makes two Pincer attacks and uses Pummel or Spellcasting.",
+          "key": "action/multiattack",
+          "effects": [
+            {
+              "key": "action/melee-attack",
+              "name": "Attack",
+              "text": "The glabrezu makes two Pincer attacks"
+            },
+            {
+              "key": "multiattack/use-pummel-or-spellcasting",
+              "name": "Pummel or Spellcasting",
+              "text": "uses Pummel or Spellcasting"
+            }
+          ]
+        },
+        {
+          "id": "pincer",
+          "name": "Pincer",
+          "text": "Pincer. Melee Attack Roll: +9, reach 10 ft. Hit: 16 (2d10 + 5) Slashing damage. If the target is a Medium or smaller creature, it has the Grappled condition (escape DC 15) from one of two pincers.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 9,
+            "reach": 10,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 16,
+              "dice": 2,
+              "sides": 10,
+              "modifier": 5
+            },
+            "damage_type": "slashing"
+          },
+          "effects": [
+            {
+              "key": "effect/slashing-damage",
+              "name": "Slashing damage",
+              "text": "16 (2d10 + 5) Slashing damage",
+              "dice": {
+                "average": 16,
+                "dice": 2,
+                "sides": 10,
+                "modifier": 5
+              }
+            },
+            {
+              "key": "requirement/target-size",
+              "name": "Target size",
+              "text": "If the target is a Medium or smaller creature, it has the Grappled condition (escape DC 15) from one of two pincers"
+            },
+            {
+              "key": "condition/grappled",
+              "name": "Grappled",
+              "text": "it has the Grappled condition (escape DC 15) from one of two pincers"
+            }
+          ]
+        },
+        {
+          "id": "pummel",
+          "name": "Pummel",
+          "text": "Pummel. Dexterity Saving Throw: DC 17, one creature Grappled by the glabrezu. Failure: 15 (3d6 + 5) Bludgeoning damage. Success: Half damage.",
+          "key": "action/saving-throw",
+          "save": {
+            "ability": "dex",
+            "dc": 17
+          },
+          "target": {
+            "shape": "creature",
+            "size": 0,
+            "width": 0,
+            "range": 0
+          },
+          "effects": [
+            {
+              "key": "save/dex",
+              "name": "Dexterity Saving Throw",
+              "text": "Dexterity Saving Throw: DC 17"
+            },
+            {
+              "key": "target/creature",
+              "name": "Target",
+              "text": "one creature Grappled by the glabrezu"
+            },
+            {
+              "key": "requirement/grappled-creature",
+              "name": "Grappled creature",
+              "text": "one creature Grappled by the glabrezu"
+            },
+            {
+              "key": "effect/bludgeoning-damage",
+              "name": "Bludgeoning damage",
+              "text": "15 (3d6 + 5) Bludgeoning damage",
+              "dice": {
+                "average": 15,
+                "dice": 3,
+                "sides": 6,
+                "modifier": 5
+              }
+            },
+            {
+              "key": "save/half-damage",
+              "name": "Half damage",
+              "text": "Success: Half damage."
+            }
+          ]
+        },
+        {
+          "id": "spellcasting",
+          "name": "Spellcasting",
+          "text": "Spellcasting. The glabrezu casts one of the following spells, requiring no Material components and using Intelligence as the spellcasting ability (spell save DC 16): At Will: Darkness, Detect Magic, Dispel Magic 1/Day Each: Confusion, Fly, Power Word Stun",
+          "key": "action/spellcasting",
+          "spellcasting": {
+            "ability": "int",
+            "save_dc": 16,
+            "attack_bonus": 0,
+            "at_will": [
+              "Darkness",
+              "Detect Magic",
+              "Dispel Magic"
+            ],
+            "per_day": [
+              {
+                "uses": 1,
+                "spells": [
+                  "Confusion",
+                  "Fly",
+                  "Power Word Stun"
+                ]
+              }
+            ]
+          },
+          "effects": [
+            {
+              "key": "spellcasting/no-material-components",
+              "name": "No Material components",
+              "text": "requiring no Material components"
+            },
+            {
+              "key": "spell/darkness",
+              "name": "Darkness",
+              "text": "Darkness",
+              "requires": [
+                "spellcasting/at-will"
+              ]
+            },
+            {
+              "key": "spell/detect-magic",
+              "name": "Detect Magic",
+              "text": "Detect Magic",
+              "requires": [
+                "spellcasting/at-will"
+              ]
+            },
+            {
+              "key": "spell/dispel-magic",
+              "name": "Dispel Magic",
+              "text": "Dispel Magic",
+              "requires": [
+                "spellcasting/at-will"
+              ]
+            },
+            {
+              "key": "spell/confusion",
+              "name": "Confusion",
+              "text": "Confusion",
+              "requires": [
+                "limit/per-day"
+              ]
+            },
+            {
+              "key": "spell/fly",
+              "name": "Fly",
+              "text": "Fly",
+              "requires": [
+                "limit/per-day"
+              ]
+            },
+            {
+              "key": "spell/power-word-stun",
+              "name": "Power Word Stun",
+              "text": "Power Word Stun",
+              "requires": [
+                "limit/per-day"
+              ]
+            }
+          ]
+        }
+      ],
+      "tags": [
+        "Demon"
+      ],
+      "skills": {
+        "deception": 7,
+        "perception": 7
+      },
+      "resistances": [
+        "cold",
+        "fire",
+        "lightning"
+      ],
+      "immunities": [
+        "poison"
+      ],
+      "condition_immunities": [
+        "poisoned"
+      ],
+      "telepathy": 120,
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/skills",
+        "defense/damage-resistance",
+        "defense/damage-immunity",
+        "defense/condition-immunity",
+        "sense/truesight",
+        "language/telepathy",
+        "trait/demonic-restoration",
+        "effect/revive",
+        "trait/magic-resistance",
+        "save/advantage-against-magic",
+        "action/multiattack",
+        "action/melee-attack",
+        "multiattack/use-pummel-or-spellcasting",
+        "effect/slashing-damage",
+        "requirement/target-size",
+        "condition/grappled",
+        "action/saving-throw",
+        "save/dex",
+        "target/creature",
+        "requirement/grappled-creature",
+        "effect/bludgeoning-damage",
+        "save/half-damage",
+        "action/spellcasting",
+        "spellcasting/no-material-components",
+        "spell/darkness",
+        "spellcasting/at-will",
+        "spell/detect-magic",
+        "spell/dispel-magic",
+        "spell/confusion",
+        "limit/per-day",
+        "spell/fly",
+        "spell/power-word-stun"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/gladiator",
+      "name": "Gladiator",
+      "source_pages": [
+        289,
+        289
+      ],
+      "sizes": [
+        "medium",
+        "small"
+      ],
+      "type": "humanoid",
+      "alignment": "Neutral",
+      "ac": 16,
+      "hp": {
+        "average": 112,
+        "dice": 15,
+        "sides": 8,
+        "modifier": 45
+      },
+      "initiative": {
+        "modifier": 5,
+        "score": 15
+      },
+      "speeds": {
+        "walk": 30
+      },
+      "abilities": {
+        "str": {
+          "score": 18,
+          "modifier": 4,
+          "save": 7
+        },
+        "dex": {
+          "score": 15,
+          "modifier": 2,
+          "save": 5
+        },
+        "con": {
+          "score": 16,
+          "modifier": 3,
+          "save": 6
+        },
+        "int": {
+          "score": 10,
+          "modifier": 0,
+          "save": 0
+        },
+        "wis": {
+          "score": 12,
+          "modifier": 1,
+          "save": 4
+        },
+        "cha": {
+          "score": 15,
+          "modifier": 2,
+          "save": 2
+        }
+      },
+      "senses": {
+        "passive_perception": 11,
+        "special": {}
+      },
+      "languages": [
+        "Common"
+      ],
+      "gear": [
+        "Shield",
+        "Spears (3)",
+        "Studded Leather Armor"
+      ],
+      "cr": "5",
+      "xp": 1800,
+      "proficiency_bonus": 3,
+      "traits": [],
+      "actions": [
+        {
+          "id": "multiattack",
+          "name": "Multiattack",
+          "text": "Multiattack. The gladiator makes three Spear attacks. It can replace one attack with a use of Shield Bash.",
+          "key": "action/multiattack",
+          "effects": [
+            {
+              "key": "action/melee-or-ranged-attack",
+              "name": "Attack",
+              "text": "The gladiator makes three Spear attacks."
+            },
+            {
+              "key": "multiattack/replace-attack",
+              "name": "Replace one attack",
+              "text": "It can replace one attack with a use of Shield Bash."
+            }
+          ]
+        },
+        {
+          "id": "spear",
+          "name": "Spear",
+          "text": "Spear. Melee or Ranged Attack Roll: +7, reach 5 ft. or range 20/60 ft. Hit: 11 (2d6 + 4) Piercing damage.",
+          "key": "action/melee-or-ranged-attack",
+          "effects": [
+            {
+              "key": "effect/piercing-damage",
+              "name": "Piercing damage",
+              "text": "11 (2d6 + 4) Piercing damage",
+              "dice": {
+                "average": 11,
+                "dice": 2,
+                "sides": 6,
+                "modifier": 4
+              }
+            }
+          ]
+        },
+        {
+          "id": "shield-bash",
+          "name": "Shield Bash",
+          "text": "Shield Bash. Strength Saving Throw: DC 15, one creature within 5 feet that the gladiator can see. Failure: 9 (2d4 + 4) Bludgeoning damage. If the target is a Medium or smaller creature, it has the Prone condition.",
+          "key": "action/saving-throw",
+          "save": {
+            "ability": "str",
+            "dc": 15
+          },
+          "target": {
+            "shape": "creature",
+            "size": 0,
+            "width": 0,
+            "range": 5
+          },
+          "effects": [
+            {
+              "key": "save/str",
+              "name": "Strength Saving Throw",
+              "text": "Strength Saving Throw: DC 15"
+            },
+            {
+              "key": "target/creature",
+              "name": "Target",
+              "text": "one creature within 5 feet that the gladiator can see"
+            },
+            {
+              "key": "effect/bludgeoning-damage",
+              "name": "Bludgeoning damage",
+              "text": "9 (2d4 + 4) Bludgeoning damage",
+              "dice": {
+                "average": 9,
+                "dice": 2,
+                "sides": 4,
+                "modifier": 4
+              }
+            },
+            {
+              "key": "requirement/target-size",
+              "name": "Target size",
+              "text": "If the target is a Medium or smaller creature, it has the Prone condition"
+            },
+            {
+              "key": "condition/prone",
+              "name": "Prone",
+              "text": "it has the Prone condition"
+            }
+          ]
+        }
+      ],
+      "skills": {
+        "athletics": 10,
+        "performance": 5
+      },
+      "reactions": [
+        {
+          "id": "parry",
+          "name": "Parry",
+          "text": "Parry. Trigger: The gladiator is hit by a melee attack roll while holding a weapon. Response: The gladiator adds 3 to its AC against that attack, possibly causing it to miss.",
+          "key": "action/special",
+          "effects": [
+            {
+              "key": "reaction/trigger",
+              "name": "Trigger",
+              "text": "Trigger: The gladiator is hit by a melee attack roll while holding a weapon."
+            },
+            {
+              "key": "requirement/holding-weapon",
+              "name": "Holding a weapon",
+              "text": "while holding a weapon"
+            },
+            {
+              "key": "effect/ac-bonus",
+              "name": "AC bonus",
+              "text": "Response: The gladiator adds 3 to its AC against that attack, possibly causing it to miss."
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/skills",
+        "action/reaction",
+        "action/multiattack",
+        "action/melee-or-ranged-attack",
+        "multiattack/replace-attack",
+        "effect/piercing-damage",
+        "action/saving-throw",
+        "save/str",
+        "target/creature",
+        "effect/bludgeoning-damage",
+        "requirement/target-size",
+        "condition/prone",
+        "action/special",
+        "reaction/trigger",
+        "requirement/holding-weapon",
+        "effect/ac-bonus"
+      ]
+    }
+  ]
+}

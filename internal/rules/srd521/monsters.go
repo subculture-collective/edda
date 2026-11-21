@@ -47,19 +47,24 @@ type Monster struct {
 	// Optional stat-block fields. Absent fields keep earlier record revisions
 	// byte-identical; monster_stat_block.go validates each one and requires its
 	// dependency key, so retained source data can never become available silently.
-	Tags                []string          `json:"tags,omitempty"`
-	Skills              map[string]int    `json:"skills,omitempty"`
-	Vulnerabilities     []string          `json:"vulnerabilities,omitempty"`
-	Resistances         []string          `json:"resistances,omitempty"`
-	Immunities          []string          `json:"immunities,omitempty"`
-	ConditionImmunities []string          `json:"condition_immunities,omitempty"`
-	Hover               bool              `json:"hover,omitempty"`
-	Telepathy           int               `json:"telepathy,omitempty"`
-	LairXP              int               `json:"lair_xp,omitempty"`
-	BonusActions        []MonsterAction   `json:"bonus_actions,omitempty"`
-	Reactions           []MonsterAction   `json:"reactions,omitempty"`
-	LegendaryActions    []MonsterAction   `json:"legendary_actions,omitempty"`
-	Legendary           *MonsterLegendary `json:"legendary,omitempty"`
+	Tags                []string       `json:"tags,omitempty"`
+	Skills              map[string]int `json:"skills,omitempty"`
+	Vulnerabilities     []string       `json:"vulnerabilities,omitempty"`
+	Resistances         []string       `json:"resistances,omitempty"`
+	Immunities          []string       `json:"immunities,omitempty"`
+	ConditionImmunities []string       `json:"condition_immunities,omitempty"`
+	Hover               bool           `json:"hover,omitempty"`
+	Telepathy           int            `json:"telepathy,omitempty"`
+	// TelepathyNote retains the parenthetical the source prints after a
+	// telepathy range, such as the Dretch's "(works only with creatures that
+	// understand Abyssal)". It requires a dependency key, so the record stays
+	// unavailable.
+	TelepathyNote    string            `json:"telepathy_note,omitempty"`
+	LairXP           int               `json:"lair_xp,omitempty"`
+	BonusActions     []MonsterAction   `json:"bonus_actions,omitempty"`
+	Reactions        []MonsterAction   `json:"reactions,omitempty"`
+	LegendaryActions []MonsterAction   `json:"legendary_actions,omitempty"`
+	Legendary        *MonsterLegendary `json:"legendary,omitempty"`
 }
 
 // MonsterHP retains both the fixed HP and its source dice expression.

@@ -1,0 +1,2355 @@
+{
+  "schema_version": 1,
+  "source": {
+    "version": "5.2.1",
+    "language": "en",
+    "landing_url": "https://www.dndbeyond.com/srd",
+    "artifact_url": "https://media.dndbeyond.com/compendium-images/srd/5.2/SRD_CC_v5.2.1.pdf",
+    "sha256": "8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87",
+    "bytes": 6031375,
+    "pages": 364,
+    "retrieved_at": "2026-11-15",
+    "license": "CC-BY-4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/legalcode",
+    "attribution": "This work includes material from the System Reference Document 5.2.1 (“SRD 5.2.1”) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd. The SRD 5.2.1 is licensed under the Creative Commons Attribution 4.0 International License, available at https://creativecommons.org/licenses/by/4.0/legalcode.",
+    "changes": "Adapted the twelve stat blocks of issue #160 (Gargoyle, Gelatinous Cube, Ghast, Ghost, Ghoul, Giant Ape, Giant Badger, Giant Bat, Giant Boar, Giant Centipede, Giant Constrictor Snake and Giant Crab; PDF pages 286–288 and 349–350) into typed mechanical fields and implementation keys. Trait, action, bonus action and reaction entries keep their source rules text, rejoined across line, column and page breaks; descriptive prose outside the stat blocks is omitted. No playable NPC behavior is granted."
+  },
+  "monsters": [
+    {
+      "id": "srd-5.2.1:content/monsters/gargoyle",
+      "name": "Gargoyle",
+      "source_pages": [
+        286,
+        286
+      ],
+      "sizes": [
+        "medium"
+      ],
+      "type": "elemental",
+      "alignment": "Chaotic Evil",
+      "ac": 15,
+      "hp": {
+        "average": 67,
+        "dice": 9,
+        "sides": 8,
+        "modifier": 27
+      },
+      "initiative": {
+        "modifier": 2,
+        "score": 12
+      },
+      "speeds": {
+        "walk": 30,
+        "fly": 60
+      },
+      "abilities": {
+        "str": {
+          "score": 15,
+          "modifier": 2,
+          "save": 2
+        },
+        "dex": {
+          "score": 11,
+          "modifier": 0,
+          "save": 0
+        },
+        "con": {
+          "score": 16,
+          "modifier": 3,
+          "save": 3
+        },
+        "int": {
+          "score": 6,
+          "modifier": -2,
+          "save": -2
+        },
+        "wis": {
+          "score": 11,
+          "modifier": 0,
+          "save": 0
+        },
+        "cha": {
+          "score": 7,
+          "modifier": -2,
+          "save": -2
+        }
+      },
+      "senses": {
+        "passive_perception": 10,
+        "special": {
+          "darkvision": 60
+        }
+      },
+      "languages": [
+        "Primordial (Terran)"
+      ],
+      "gear": [],
+      "cr": "2",
+      "xp": 450,
+      "proficiency_bonus": 2,
+      "traits": [
+        {
+          "key": "trait/flyby",
+          "name": "Flyby",
+          "text": "Flyby. The gargoyle doesn’t provoke an Opportunity Attack when it flies out of an enemy’s reach.",
+          "requires": [
+            "effect/no-opportunity-attack-leaving-reach-flying"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "multiattack",
+          "name": "Multiattack",
+          "text": "Multiattack. The gargoyle makes two Claw attacks.",
+          "key": "action/multiattack",
+          "effects": [
+            {
+              "key": "action/melee-attack",
+              "name": "Attack",
+              "text": "The gargoyle makes two Claw attacks."
+            }
+          ]
+        },
+        {
+          "id": "claw",
+          "name": "Claw",
+          "text": "Claw. Melee Attack Roll: +4, reach 5 ft. Hit: 7 (2d4 + 2) Slashing damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 4,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 7,
+              "dice": 2,
+              "sides": 4,
+              "modifier": 2
+            },
+            "damage_type": "slashing"
+          },
+          "effects": [
+            {
+              "key": "effect/slashing-damage",
+              "name": "Slashing damage",
+              "text": "7 (2d4 + 2) Slashing damage.",
+              "dice": {
+                "average": 7,
+                "dice": 2,
+                "sides": 4,
+                "modifier": 2
+              }
+            }
+          ]
+        }
+      ],
+      "skills": {
+        "stealth": 4
+      },
+      "immunities": [
+        "poison"
+      ],
+      "condition_immunities": [
+        "exhaustion",
+        "petrified",
+        "poisoned"
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/skills",
+        "defense/damage-immunity",
+        "defense/condition-immunity",
+        "movement/fly",
+        "sense/darkvision",
+        "trait/flyby",
+        "effect/no-opportunity-attack-leaving-reach-flying",
+        "action/multiattack",
+        "action/melee-attack",
+        "effect/slashing-damage"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/gelatinous-cube",
+      "name": "Gelatinous Cube",
+      "source_pages": [
+        286,
+        287
+      ],
+      "sizes": [
+        "large"
+      ],
+      "type": "ooze",
+      "alignment": "Unaligned",
+      "ac": 6,
+      "hp": {
+        "average": 63,
+        "dice": 6,
+        "sides": 10,
+        "modifier": 30
+      },
+      "initiative": {
+        "modifier": -4,
+        "score": 6
+      },
+      "speeds": {
+        "walk": 15
+      },
+      "abilities": {
+        "str": {
+          "score": 14,
+          "modifier": 2,
+          "save": 2
+        },
+        "dex": {
+          "score": 3,
+          "modifier": -4,
+          "save": -4
+        },
+        "con": {
+          "score": 20,
+          "modifier": 5,
+          "save": 5
+        },
+        "int": {
+          "score": 1,
+          "modifier": -5,
+          "save": -5
+        },
+        "wis": {
+          "score": 6,
+          "modifier": -2,
+          "save": -2
+        },
+        "cha": {
+          "score": 1,
+          "modifier": -5,
+          "save": -5
+        }
+      },
+      "senses": {
+        "passive_perception": 8,
+        "special": {
+          "blindsight": 60
+        }
+      },
+      "languages": [],
+      "gear": [],
+      "cr": "2",
+      "xp": 450,
+      "proficiency_bonus": 2,
+      "traits": [
+        {
+          "key": "trait/ooze-cube",
+          "name": "Ooze Cube",
+          "text": "Ooze Cube. The cube fills its entire space and is transparent. Other creatures can enter that space, but a creature that does so is subjected to the cube’s Engulf and has Disadvantage on the saving throw. Creatures inside the cube have Total Cover, and the cube can hold one Large creature or up to four Medium or Small creatures inside itself at a time. As an action, a creature within 5 feet of the cube can pull a creature or an object out of the cube by succeeding on a DC 12 Strength (Athletics) check, and the puller takes 10 (3d6) Acid damage.",
+          "dice": {
+            "average": 10,
+            "dice": 3,
+            "sides": 6,
+            "modifier": 0
+          },
+          "requires": [
+            "effect/fills-space",
+            "movement/enter-creature-space",
+            "save/disadvantage-against-engulf",
+            "effect/total-cover",
+            "effect/creature-capacity",
+            "effect/pull-out",
+            "check/str-athletics",
+            "effect/acid-damage"
+          ]
+        },
+        {
+          "key": "trait/transparent",
+          "name": "Transparent",
+          "text": "Transparent. Even when the cube is in plain sight, a creature must succeed on a DC 15 Wisdom (Perception) check to notice the cube if the creature hasn’t witnessed the cube move or otherwise act.",
+          "requires": [
+            "effect/transparent",
+            "check/wis-perception"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "pseudopod",
+          "name": "Pseudopod",
+          "text": "Pseudopod. Melee Attack Roll: +4, reach 5 ft. Hit: 12 (3d6 + 2) Acid damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 4,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 12,
+              "dice": 3,
+              "sides": 6,
+              "modifier": 2
+            },
+            "damage_type": "acid"
+          },
+          "effects": [
+            {
+              "key": "effect/acid-damage",
+              "name": "Acid damage",
+              "text": "12 (3d6 + 2) Acid damage.",
+              "dice": {
+                "average": 12,
+                "dice": 3,
+                "sides": 6,
+                "modifier": 2
+              }
+            }
+          ]
+        },
+        {
+          "id": "engulf",
+          "name": "Engulf",
+          "text": "Engulf. The cube moves up to its Speed without provoking Opportunity Attacks. The cube can move through the spaces of Large or smaller creatures if it has room inside itself to contain them (see the Ooze Cube trait). Dexterity Saving Throw: DC 12, each creature whose space the cube enters for the first time during this move. Failure: 10 (3d6) Acid damage, and the target is engulfed. An engulfed target is suffocating, can’t cast spells with a Verbal component, has the Restrained condition, and takes 10 (3d6) Acid damage at the start of each of the cube’s turns. When the cube moves, the engulfed target moves with it. An engulfed target can try to escape by taking an action to make a DC 12 Strength (Athletics) check. On a successful check, the target escapes and enters the nearest unoccupied space. Success: Half damage, and the target moves to an unoccupied space within 5 feet of the cube. If there is no unoccupied space, the target fails the save instead.",
+          "key": "action/saving-throw",
+          "save": {
+            "ability": "dex",
+            "dc": 12
+          },
+          "effects": [
+            {
+              "key": "effect/move-without-opportunity-attacks",
+              "name": "Move without Opportunity Attacks",
+              "text": "The cube moves up to its Speed without provoking Opportunity Attacks."
+            },
+            {
+              "key": "movement/through-creature-spaces",
+              "name": "Move through creature spaces",
+              "text": "The cube can move through the spaces of Large or smaller creatures if it has room inside itself to contain them (see the Ooze Cube trait)."
+            },
+            {
+              "key": "save/dex",
+              "name": "Dexterity Saving Throw",
+              "text": "Dexterity Saving Throw: DC 12"
+            },
+            {
+              "key": "target/creatures-entered-spaces",
+              "name": "Target",
+              "text": "each creature whose space the cube enters for the first time during this move."
+            },
+            {
+              "key": "effect/acid-damage",
+              "name": "Acid damage",
+              "text": "10 (3d6) Acid damage",
+              "dice": {
+                "average": 10,
+                "dice": 3,
+                "sides": 6,
+                "modifier": 0
+              }
+            },
+            {
+              "key": "effect/engulf",
+              "name": "Engulf",
+              "text": "the target is engulfed."
+            },
+            {
+              "key": "effect/suffocating",
+              "name": "Suffocating",
+              "text": "An engulfed target is suffocating"
+            },
+            {
+              "key": "effect/no-verbal-spells",
+              "name": "No Verbal spells",
+              "text": "can’t cast spells with a Verbal component"
+            },
+            {
+              "key": "condition/restrained",
+              "name": "Restrained",
+              "text": "has the Restrained condition"
+            },
+            {
+              "key": "effect/start-of-turn-damage",
+              "name": "Start-of-turn damage",
+              "text": "10 (3d6) Acid damage at the start of each of the cube’s turns",
+              "dice": {
+                "average": 10,
+                "dice": 3,
+                "sides": 6,
+                "modifier": 0
+              }
+            },
+            {
+              "key": "effect/move-with-cube",
+              "name": "Moves with the cube",
+              "text": "When the cube moves, the engulfed target moves with it."
+            },
+            {
+              "key": "effect/escape-engulf",
+              "name": "Escape",
+              "text": "An engulfed target can try to escape by taking an action to make a DC 12 Strength (Athletics) check."
+            },
+            {
+              "key": "check/str-athletics",
+              "name": "Strength (Athletics) check",
+              "text": "An engulfed target can try to escape by taking an action to make a DC 12 Strength (Athletics) check."
+            },
+            {
+              "key": "effect/escape-success",
+              "name": "Successful escape",
+              "text": "On a successful check, the target escapes and enters the nearest unoccupied space."
+            },
+            {
+              "key": "save/half-damage",
+              "name": "Half damage",
+              "text": "Success: Half damage"
+            },
+            {
+              "key": "effect/success-move",
+              "name": "Success movement",
+              "text": "the target moves to an unoccupied space within 5 feet of the cube."
+            },
+            {
+              "key": "effect/no-space-fails-save",
+              "name": "No unoccupied space",
+              "text": "If there is no unoccupied space, the target fails the save instead."
+            }
+          ]
+        }
+      ],
+      "immunities": [
+        "acid"
+      ],
+      "condition_immunities": [
+        "blinded",
+        "charmed",
+        "deafened",
+        "exhaustion",
+        "frightened",
+        "prone"
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "defense/damage-immunity",
+        "defense/condition-immunity",
+        "sense/blindsight",
+        "trait/ooze-cube",
+        "effect/fills-space",
+        "movement/enter-creature-space",
+        "save/disadvantage-against-engulf",
+        "effect/total-cover",
+        "effect/creature-capacity",
+        "effect/pull-out",
+        "check/str-athletics",
+        "effect/acid-damage",
+        "trait/transparent",
+        "effect/transparent",
+        "check/wis-perception",
+        "action/melee-attack",
+        "action/saving-throw",
+        "effect/move-without-opportunity-attacks",
+        "movement/through-creature-spaces",
+        "save/dex",
+        "target/creatures-entered-spaces",
+        "effect/engulf",
+        "effect/suffocating",
+        "effect/no-verbal-spells",
+        "condition/restrained",
+        "effect/start-of-turn-damage",
+        "effect/move-with-cube",
+        "effect/escape-engulf",
+        "effect/escape-success",
+        "save/half-damage",
+        "effect/success-move",
+        "effect/no-space-fails-save"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/ghast",
+      "name": "Ghast",
+      "source_pages": [
+        287,
+        287
+      ],
+      "sizes": [
+        "medium"
+      ],
+      "type": "undead",
+      "alignment": "Chaotic Evil",
+      "ac": 13,
+      "hp": {
+        "average": 36,
+        "dice": 8,
+        "sides": 8,
+        "modifier": 0
+      },
+      "initiative": {
+        "modifier": 3,
+        "score": 13
+      },
+      "speeds": {
+        "walk": 30
+      },
+      "abilities": {
+        "str": {
+          "score": 16,
+          "modifier": 3,
+          "save": 3
+        },
+        "dex": {
+          "score": 17,
+          "modifier": 3,
+          "save": 3
+        },
+        "con": {
+          "score": 10,
+          "modifier": 0,
+          "save": 0
+        },
+        "int": {
+          "score": 11,
+          "modifier": 0,
+          "save": 0
+        },
+        "wis": {
+          "score": 10,
+          "modifier": 0,
+          "save": 2
+        },
+        "cha": {
+          "score": 8,
+          "modifier": -1,
+          "save": -1
+        }
+      },
+      "senses": {
+        "passive_perception": 10,
+        "special": {
+          "darkvision": 60
+        }
+      },
+      "languages": [
+        "Common"
+      ],
+      "gear": [],
+      "cr": "2",
+      "xp": 450,
+      "proficiency_bonus": 2,
+      "traits": [
+        {
+          "key": "trait/stench",
+          "name": "Stench",
+          "text": "Stench. Constitution Saving Throw: DC 10, any creature that starts its turn in a 5-foot Emanation originating from the ghast. Failure: The target has the Poisoned condition until the start of its next turn. Success: The target is immune to this ghast’s Stench for 24 hours.",
+          "save": {
+            "ability": "con",
+            "dc": 10
+          },
+          "target": {
+            "shape": "emanation",
+            "size": 5,
+            "width": 0,
+            "range": 0
+          },
+          "requires": [
+            "save/con",
+            "area/emanation",
+            "target/creatures-starting-turn-in-area",
+            "condition/poisoned",
+            "save/success-immunity"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "bite",
+          "name": "Bite",
+          "text": "Bite. Melee Attack Roll: +5, reach 5 ft. Hit: 7 (1d8 + 3) Piercing damage plus 9 (2d8) Necrotic damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 5,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 7,
+              "dice": 1,
+              "sides": 8,
+              "modifier": 3
+            },
+            "damage_type": "piercing"
+          },
+          "effects": [
+            {
+              "key": "effect/piercing-damage",
+              "name": "Piercing damage",
+              "text": "7 (1d8 + 3) Piercing damage.",
+              "dice": {
+                "average": 7,
+                "dice": 1,
+                "sides": 8,
+                "modifier": 3
+              }
+            },
+            {
+              "key": "effect/necrotic-damage",
+              "name": "Necrotic damage",
+              "text": "9 (2d8) Necrotic damage.",
+              "dice": {
+                "average": 9,
+                "dice": 2,
+                "sides": 8,
+                "modifier": 0
+              }
+            }
+          ]
+        },
+        {
+          "id": "claw",
+          "name": "Claw",
+          "text": "Claw. Melee Attack Roll: +5, reach 5 ft. Hit: 10 (2d6 + 3) Slashing damage. If the target is a non-Undead creature, it is subjected to the following effect. Constitution Saving Throw: DC 10. Failure: The target has the Paralyzed condition until the end of its next turn.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 5,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 10,
+              "dice": 2,
+              "sides": 6,
+              "modifier": 3
+            },
+            "damage_type": "slashing"
+          },
+          "save": {
+            "ability": "con",
+            "dc": 10
+          },
+          "effects": [
+            {
+              "key": "effect/slashing-damage",
+              "name": "Slashing damage",
+              "text": "10 (2d6 + 3) Slashing damage.",
+              "dice": {
+                "average": 10,
+                "dice": 2,
+                "sides": 6,
+                "modifier": 3
+              }
+            },
+            {
+              "key": "requirement/target-non-undead",
+              "name": "Target is not Undead",
+              "text": "If the target is a non-Undead creature, it is subjected to the following effect."
+            },
+            {
+              "key": "save/con",
+              "name": "Constitution Saving Throw",
+              "text": "Constitution Saving Throw: DC 10"
+            },
+            {
+              "key": "condition/paralyzed",
+              "name": "Paralyzed",
+              "text": "Failure: The target has the Paralyzed condition until the end of its next turn."
+            }
+          ]
+        }
+      ],
+      "resistances": [
+        "necrotic"
+      ],
+      "immunities": [
+        "poison"
+      ],
+      "condition_immunities": [
+        "charmed",
+        "exhaustion",
+        "poisoned"
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "defense/damage-resistance",
+        "defense/damage-immunity",
+        "defense/condition-immunity",
+        "sense/darkvision",
+        "trait/stench",
+        "save/con",
+        "area/emanation",
+        "target/creatures-starting-turn-in-area",
+        "condition/poisoned",
+        "save/success-immunity",
+        "action/melee-attack",
+        "effect/piercing-damage",
+        "effect/necrotic-damage",
+        "effect/slashing-damage",
+        "requirement/target-non-undead",
+        "condition/paralyzed"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/ghost",
+      "name": "Ghost",
+      "source_pages": [
+        287,
+        288
+      ],
+      "sizes": [
+        "medium"
+      ],
+      "type": "undead",
+      "alignment": "Neutral",
+      "ac": 11,
+      "hp": {
+        "average": 45,
+        "dice": 10,
+        "sides": 8,
+        "modifier": 0
+      },
+      "initiative": {
+        "modifier": 1,
+        "score": 11
+      },
+      "speeds": {
+        "walk": 5,
+        "fly": 40
+      },
+      "abilities": {
+        "str": {
+          "score": 7,
+          "modifier": -2,
+          "save": -2
+        },
+        "dex": {
+          "score": 13,
+          "modifier": 1,
+          "save": 1
+        },
+        "con": {
+          "score": 10,
+          "modifier": 0,
+          "save": 0
+        },
+        "int": {
+          "score": 10,
+          "modifier": 0,
+          "save": 0
+        },
+        "wis": {
+          "score": 12,
+          "modifier": 1,
+          "save": 1
+        },
+        "cha": {
+          "score": 17,
+          "modifier": 3,
+          "save": 3
+        }
+      },
+      "senses": {
+        "passive_perception": 11,
+        "special": {
+          "darkvision": 60
+        }
+      },
+      "languages": [
+        "Common plus one other language"
+      ],
+      "gear": [],
+      "cr": "4",
+      "xp": 1100,
+      "proficiency_bonus": 2,
+      "traits": [
+        {
+          "key": "trait/ethereal-sight",
+          "name": "Ethereal Sight",
+          "text": "Ethereal Sight. The ghost can see 60 feet into the Ethereal Plane when it is on the Material Plane.",
+          "requires": [
+            "effect/see-into-ethereal-plane"
+          ]
+        },
+        {
+          "key": "trait/incorporeal-movement",
+          "name": "Incorporeal Movement",
+          "text": "Incorporeal Movement. The ghost can move through other creatures and objects as if they were Difficult Terrain. It takes 5 (1d10) Force damage if it ends its turn inside an object.",
+          "dice": {
+            "average": 5,
+            "dice": 1,
+            "sides": 10,
+            "modifier": 0
+          },
+          "requires": [
+            "movement/through-creature-spaces",
+            "movement/through-objects",
+            "effect/force-damage"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "multiattack",
+          "name": "Multiattack",
+          "text": "Multiattack. The ghost makes two Withering Touch attacks.",
+          "key": "action/multiattack",
+          "effects": [
+            {
+              "key": "action/melee-attack",
+              "name": "Attack",
+              "text": "The ghost makes two Withering Touch attacks."
+            }
+          ]
+        },
+        {
+          "id": "withering-touch",
+          "name": "Withering Touch",
+          "text": "Withering Touch. Melee Attack Roll: +5, reach 5 ft. Hit: 19 (3d10 + 3) Necrotic damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 5,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 19,
+              "dice": 3,
+              "sides": 10,
+              "modifier": 3
+            },
+            "damage_type": "necrotic"
+          },
+          "effects": [
+            {
+              "key": "effect/necrotic-damage",
+              "name": "Necrotic damage",
+              "text": "19 (3d10 + 3) Necrotic damage.",
+              "dice": {
+                "average": 19,
+                "dice": 3,
+                "sides": 10,
+                "modifier": 3
+              }
+            }
+          ]
+        },
+        {
+          "id": "etherealness",
+          "name": "Etherealness",
+          "text": "Etherealness. The ghost casts the Etherealness spell, requiring no spell components and using Charisma as the spellcasting ability. The ghost is visible on the Material Plane while on the Border Ethereal and vice versa, but it can’t affect or be affected by anything on the other plane.",
+          "key": "action/special",
+          "effects": [
+            {
+              "key": "spell/etherealness",
+              "name": "Etherealness",
+              "text": "The ghost casts the Etherealness spell"
+            },
+            {
+              "key": "spellcasting/no-components",
+              "name": "No spell components",
+              "text": "requiring no spell components"
+            },
+            {
+              "key": "spellcasting/charisma-ability",
+              "name": "Charisma ability",
+              "text": "using Charisma as the spellcasting ability"
+            },
+            {
+              "key": "effect/visible-on-both-planes",
+              "name": "Visible on both planes",
+              "text": "The ghost is visible on the Material Plane while on the Border Ethereal and vice versa"
+            },
+            {
+              "key": "effect/no-cross-plane-effects",
+              "name": "No cross-plane effects",
+              "text": "it can’t affect or be affected by anything on the other plane"
+            }
+          ]
+        },
+        {
+          "id": "horrific-visage",
+          "name": "Horrific Visage",
+          "text": "Horrific Visage. Wisdom Saving Throw: DC 13, each creature in a 60-foot Cone that can see the ghost and isn’t an Undead. Failure: 10 (2d6 + 3) Psychic damage, and the target has the Frightened condition until the start of the ghost’s next turn. Success: The target is immune to this ghost’s Horrific Visage for 24 hours.",
+          "key": "action/saving-throw",
+          "save": {
+            "ability": "wis",
+            "dc": 13
+          },
+          "target": {
+            "shape": "cone",
+            "size": 60,
+            "width": 0,
+            "range": 0
+          },
+          "effects": [
+            {
+              "key": "save/wis",
+              "name": "Wisdom Saving Throw",
+              "text": "Wisdom Saving Throw: DC 13"
+            },
+            {
+              "key": "area/cone",
+              "name": "Target",
+              "text": "each creature in a 60-foot Cone that can see the ghost and isn’t an Undead."
+            },
+            {
+              "key": "requirement/not-undead",
+              "name": "Not Undead",
+              "text": "isn’t an Undead"
+            },
+            {
+              "key": "effect/psychic-damage",
+              "name": "Psychic damage",
+              "text": "10 (2d6 + 3) Psychic damage",
+              "dice": {
+                "average": 10,
+                "dice": 2,
+                "sides": 6,
+                "modifier": 3
+              }
+            },
+            {
+              "key": "condition/frightened",
+              "name": "Frightened",
+              "text": "the target has the Frightened condition until the start of the ghost’s next turn."
+            },
+            {
+              "key": "save/success-immunity",
+              "name": "Success immunity",
+              "text": "Success: The target is immune to this ghost’s Horrific Visage for 24 hours."
+            }
+          ]
+        },
+        {
+          "id": "possession",
+          "name": "Possession",
+          "text": "Possession (Recharge 6). Charisma Saving Throw: DC 13, one Humanoid the ghost can see within 5 feet. Failure: The target is possessed by the ghost; the ghost disappears, and the target has the Incapacitated condition and loses control of its body. The ghost now controls the body, but the target retains awareness. The ghost can’t be targeted by any attack, spell, or other effect, except ones that specifically target Undead. The ghost’s game statistics are the same, except it uses the possessed target’s Speed, as well as the target’s Strength, Dexterity, and Constitution modifiers. The possession lasts until the body drops to 0 Hit Points or the ghost leaves as a Bonus Action. When the possession ends, the ghost appears in an unoccupied space within 5 feet of the target, and the target is immune to this ghost’s Possession for 24 hours. Success: The target is immune to this ghost’s Possession for 24 hours.",
+          "key": "action/saving-throw",
+          "save": {
+            "ability": "cha",
+            "dc": 13
+          },
+          "target": {
+            "shape": "creature",
+            "size": 0,
+            "width": 0,
+            "range": 5
+          },
+          "uses": {
+            "per_day": 0,
+            "lair_per_day": 0,
+            "recharge": 6
+          },
+          "effects": [
+            {
+              "key": "limit/recharge",
+              "name": "Recharge",
+              "text": "(Recharge 6)"
+            },
+            {
+              "key": "save/cha",
+              "name": "Charisma Saving Throw",
+              "text": "Charisma Saving Throw: DC 13"
+            },
+            {
+              "key": "target/creature",
+              "name": "Target",
+              "text": "one Humanoid the ghost can see within 5 feet."
+            },
+            {
+              "key": "requirement/target-humanoid",
+              "name": "Target is Humanoid",
+              "text": "one Humanoid the ghost can see within 5 feet."
+            },
+            {
+              "key": "effect/possession",
+              "name": "Possession",
+              "text": "The target is possessed by the ghost; the ghost disappears"
+            },
+            {
+              "key": "condition/incapacitated",
+              "name": "Incapacitated",
+              "text": "the target has the Incapacitated condition and loses control of its body."
+            },
+            {
+              "key": "effect/ghost-controls-body",
+              "name": "Ghost controls the body",
+              "text": "The ghost now controls the body, but the target retains awareness."
+            },
+            {
+              "key": "effect/untargetable-except-undead",
+              "name": "Untargetable except by Undead effects",
+              "text": "The ghost can’t be targeted by any attack, spell, or other effect, except ones that specifically target Undead."
+            },
+            {
+              "key": "effect/possessed-statistics",
+              "name": "Possessed statistics",
+              "text": "The ghost’s game statistics are the same, except it uses the possessed target’s Speed, as well as the target’s Strength, Dexterity, and Constitution modifiers."
+            },
+            {
+              "key": "effect/possession-duration",
+              "name": "Possession duration",
+              "text": "The possession lasts until the body drops to 0 Hit Points or the ghost leaves as a Bonus Action."
+            },
+            {
+              "key": "effect/possession-ends",
+              "name": "Possession ends",
+              "text": "When the possession ends, the ghost appears in an unoccupied space within 5 feet of the target, and the target is immune to this ghost’s Possession for 24 hours."
+            },
+            {
+              "key": "save/success-immunity",
+              "name": "Success immunity",
+              "text": "Success: The target is immune to this ghost’s Possession for 24 hours."
+            }
+          ]
+        }
+      ],
+      "resistances": [
+        "acid",
+        "bludgeoning",
+        "cold",
+        "fire",
+        "lightning",
+        "piercing",
+        "slashing",
+        "thunder"
+      ],
+      "immunities": [
+        "necrotic",
+        "poison"
+      ],
+      "condition_immunities": [
+        "charmed",
+        "exhaustion",
+        "frightened",
+        "grappled",
+        "paralyzed",
+        "petrified",
+        "poisoned",
+        "prone",
+        "restrained"
+      ],
+      "hover": true,
+      "required_mechanics": [
+        "monster/stat-block",
+        "defense/damage-resistance",
+        "defense/damage-immunity",
+        "defense/condition-immunity",
+        "movement/fly",
+        "movement/hover",
+        "sense/darkvision",
+        "trait/ethereal-sight",
+        "effect/see-into-ethereal-plane",
+        "trait/incorporeal-movement",
+        "movement/through-creature-spaces",
+        "movement/through-objects",
+        "effect/force-damage",
+        "action/multiattack",
+        "action/melee-attack",
+        "effect/necrotic-damage",
+        "action/special",
+        "spell/etherealness",
+        "spellcasting/no-components",
+        "spellcasting/charisma-ability",
+        "effect/visible-on-both-planes",
+        "effect/no-cross-plane-effects",
+        "action/saving-throw",
+        "save/wis",
+        "area/cone",
+        "requirement/not-undead",
+        "effect/psychic-damage",
+        "condition/frightened",
+        "save/success-immunity",
+        "limit/recharge",
+        "save/cha",
+        "target/creature",
+        "requirement/target-humanoid",
+        "effect/possession",
+        "condition/incapacitated",
+        "effect/ghost-controls-body",
+        "effect/untargetable-except-undead",
+        "effect/possessed-statistics",
+        "effect/possession-duration",
+        "effect/possession-ends"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/ghoul",
+      "name": "Ghoul",
+      "source_pages": [
+        288,
+        288
+      ],
+      "sizes": [
+        "medium"
+      ],
+      "type": "undead",
+      "alignment": "Chaotic Evil",
+      "ac": 12,
+      "hp": {
+        "average": 22,
+        "dice": 5,
+        "sides": 8,
+        "modifier": 0
+      },
+      "initiative": {
+        "modifier": 2,
+        "score": 12
+      },
+      "speeds": {
+        "walk": 30
+      },
+      "abilities": {
+        "str": {
+          "score": 13,
+          "modifier": 1,
+          "save": 1
+        },
+        "dex": {
+          "score": 15,
+          "modifier": 2,
+          "save": 2
+        },
+        "con": {
+          "score": 10,
+          "modifier": 0,
+          "save": 0
+        },
+        "int": {
+          "score": 7,
+          "modifier": -2,
+          "save": -2
+        },
+        "wis": {
+          "score": 10,
+          "modifier": 0,
+          "save": 0
+        },
+        "cha": {
+          "score": 6,
+          "modifier": -2,
+          "save": -2
+        }
+      },
+      "senses": {
+        "passive_perception": 10,
+        "special": {
+          "darkvision": 60
+        }
+      },
+      "languages": [
+        "Common"
+      ],
+      "gear": [],
+      "cr": "1",
+      "xp": 200,
+      "proficiency_bonus": 2,
+      "traits": [],
+      "actions": [
+        {
+          "id": "multiattack",
+          "name": "Multiattack",
+          "text": "Multiattack. The ghoul makes two Bite attacks.",
+          "key": "action/multiattack",
+          "effects": [
+            {
+              "key": "action/melee-attack",
+              "name": "Attack",
+              "text": "The ghoul makes two Bite attacks."
+            }
+          ]
+        },
+        {
+          "id": "bite",
+          "name": "Bite",
+          "text": "Bite. Melee Attack Roll: +4, reach 5 ft. Hit: 5 (1d6 + 2) Piercing damage plus 3 (1d6) Necrotic damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 4,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 5,
+              "dice": 1,
+              "sides": 6,
+              "modifier": 2
+            },
+            "damage_type": "piercing"
+          },
+          "effects": [
+            {
+              "key": "effect/piercing-damage",
+              "name": "Piercing damage",
+              "text": "5 (1d6 + 2) Piercing damage.",
+              "dice": {
+                "average": 5,
+                "dice": 1,
+                "sides": 6,
+                "modifier": 2
+              }
+            },
+            {
+              "key": "effect/necrotic-damage",
+              "name": "Necrotic damage",
+              "text": "3 (1d6) Necrotic damage.",
+              "dice": {
+                "average": 3,
+                "dice": 1,
+                "sides": 6,
+                "modifier": 0
+              }
+            }
+          ]
+        },
+        {
+          "id": "claw",
+          "name": "Claw",
+          "text": "Claw. Melee Attack Roll: +4, reach 5 ft. Hit: 4 (1d4 + 2) Slashing damage. If the target is a creature that isn’t an Undead or elf, it is subjected to the following effect. Constitution Saving Throw: DC 10. Failure: The target has the Paralyzed condition until the end of its next turn.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 4,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 4,
+              "dice": 1,
+              "sides": 4,
+              "modifier": 2
+            },
+            "damage_type": "slashing"
+          },
+          "save": {
+            "ability": "con",
+            "dc": 10
+          },
+          "effects": [
+            {
+              "key": "effect/slashing-damage",
+              "name": "Slashing damage",
+              "text": "4 (1d4 + 2) Slashing damage.",
+              "dice": {
+                "average": 4,
+                "dice": 1,
+                "sides": 4,
+                "modifier": 2
+              }
+            },
+            {
+              "key": "requirement/target-not-undead-or-elf",
+              "name": "Target is not Undead or elf",
+              "text": "If the target is a creature that isn’t an Undead or elf, it is subjected to the following effect."
+            },
+            {
+              "key": "save/con",
+              "name": "Constitution Saving Throw",
+              "text": "Constitution Saving Throw: DC 10"
+            },
+            {
+              "key": "condition/paralyzed",
+              "name": "Paralyzed",
+              "text": "Failure: The target has the Paralyzed condition until the end of its next turn."
+            }
+          ]
+        }
+      ],
+      "immunities": [
+        "poison"
+      ],
+      "condition_immunities": [
+        "charmed",
+        "exhaustion",
+        "poisoned"
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "defense/damage-immunity",
+        "defense/condition-immunity",
+        "sense/darkvision",
+        "action/multiattack",
+        "action/melee-attack",
+        "effect/piercing-damage",
+        "effect/necrotic-damage",
+        "effect/slashing-damage",
+        "requirement/target-not-undead-or-elf",
+        "save/con",
+        "condition/paralyzed"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/animals/giant-ape",
+      "name": "Giant Ape",
+      "source_pages": [
+        349,
+        349
+      ],
+      "sizes": [
+        "huge"
+      ],
+      "type": "beast",
+      "alignment": "Unaligned",
+      "ac": 12,
+      "hp": {
+        "average": 168,
+        "dice": 16,
+        "sides": 12,
+        "modifier": 64
+      },
+      "initiative": {
+        "modifier": 5,
+        "score": 15
+      },
+      "speeds": {
+        "walk": 40,
+        "climb": 40
+      },
+      "abilities": {
+        "str": {
+          "score": 23,
+          "modifier": 6,
+          "save": 6
+        },
+        "dex": {
+          "score": 14,
+          "modifier": 2,
+          "save": 2
+        },
+        "con": {
+          "score": 18,
+          "modifier": 4,
+          "save": 4
+        },
+        "int": {
+          "score": 5,
+          "modifier": -3,
+          "save": -3
+        },
+        "wis": {
+          "score": 12,
+          "modifier": 1,
+          "save": 1
+        },
+        "cha": {
+          "score": 7,
+          "modifier": -2,
+          "save": -2
+        }
+      },
+      "senses": {
+        "passive_perception": 14,
+        "special": {}
+      },
+      "languages": [],
+      "gear": [],
+      "cr": "7",
+      "xp": 2900,
+      "proficiency_bonus": 3,
+      "traits": [],
+      "actions": [
+        {
+          "id": "multiattack",
+          "name": "Multiattack",
+          "text": "Multiattack. The ape makes two Fist attacks.",
+          "key": "action/multiattack",
+          "effects": [
+            {
+              "key": "action/melee-attack",
+              "name": "Attack",
+              "text": "The ape makes two Fist attacks."
+            }
+          ]
+        },
+        {
+          "id": "fist",
+          "name": "Fist",
+          "text": "Fist. Melee Attack Roll: +9, reach 10 ft. Hit: 22 (3d10 + 6) Bludgeoning damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 9,
+            "reach": 10,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 22,
+              "dice": 3,
+              "sides": 10,
+              "modifier": 6
+            },
+            "damage_type": "bludgeoning"
+          },
+          "effects": [
+            {
+              "key": "effect/bludgeoning-damage",
+              "name": "Bludgeoning damage",
+              "text": "22 (3d10 + 6) Bludgeoning damage.",
+              "dice": {
+                "average": 22,
+                "dice": 3,
+                "sides": 10,
+                "modifier": 6
+              }
+            }
+          ]
+        },
+        {
+          "id": "boulder-toss",
+          "name": "Boulder Toss",
+          "text": "Boulder Toss (Recharge 6). The ape hurls a boulder at a point it can see within 90 feet. Dexterity Saving Throw: DC 17, each creature in a 5-foot-radius Sphere centered on that point. Failure: 24 (7d6) Bludgeoning damage. If the target is a Large or smaller creature, it has the Prone condition. Success: Half damage only.",
+          "key": "action/saving-throw",
+          "save": {
+            "ability": "dex",
+            "dc": 17
+          },
+          "target": {
+            "shape": "sphere",
+            "size": 5,
+            "width": 0,
+            "range": 90
+          },
+          "uses": {
+            "per_day": 0,
+            "lair_per_day": 0,
+            "recharge": 6
+          },
+          "effects": [
+            {
+              "key": "limit/recharge",
+              "name": "Recharge",
+              "text": "(Recharge 6)"
+            },
+            {
+              "key": "effect/hurl-boulder",
+              "name": "Hurl boulder",
+              "text": "The ape hurls a boulder at a point it can see within 90 feet."
+            },
+            {
+              "key": "save/dex",
+              "name": "Dexterity Saving Throw",
+              "text": "Dexterity Saving Throw: DC 17"
+            },
+            {
+              "key": "area/sphere",
+              "name": "Target",
+              "text": "each creature in a 5-foot-radius Sphere centered on that point."
+            },
+            {
+              "key": "effect/bludgeoning-damage",
+              "name": "Bludgeoning damage",
+              "text": "24 (7d6) Bludgeoning damage.",
+              "dice": {
+                "average": 24,
+                "dice": 7,
+                "sides": 6,
+                "modifier": 0
+              }
+            },
+            {
+              "key": "requirement/target-size",
+              "name": "Target size",
+              "text": "If the target is a Large or smaller creature, it has the Prone condition."
+            },
+            {
+              "key": "condition/prone",
+              "name": "Prone",
+              "text": "it has the Prone condition."
+            },
+            {
+              "key": "save/half-damage-only",
+              "name": "Half damage only",
+              "text": "Success: Half damage only."
+            }
+          ]
+        }
+      ],
+      "skills": {
+        "athletics": 9,
+        "perception": 4,
+        "survival": 4
+      },
+      "bonus_actions": [
+        {
+          "id": "leap",
+          "name": "Leap",
+          "text": "Leap. The ape jumps up to 30 feet by spending 10 feet of movement.",
+          "key": "action/special",
+          "effects": [
+            {
+              "key": "effect/jump",
+              "name": "Jump",
+              "text": "The ape jumps up to 30 feet by spending 10 feet of movement."
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/skills",
+        "movement/climb",
+        "action/bonus-action",
+        "action/multiattack",
+        "action/melee-attack",
+        "effect/bludgeoning-damage",
+        "action/saving-throw",
+        "limit/recharge",
+        "effect/hurl-boulder",
+        "save/dex",
+        "area/sphere",
+        "requirement/target-size",
+        "condition/prone",
+        "save/half-damage-only",
+        "action/special",
+        "effect/jump"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/animals/giant-badger",
+      "name": "Giant Badger",
+      "source_pages": [
+        349,
+        349
+      ],
+      "sizes": [
+        "medium"
+      ],
+      "type": "beast",
+      "alignment": "Unaligned",
+      "ac": 13,
+      "hp": {
+        "average": 15,
+        "dice": 2,
+        "sides": 8,
+        "modifier": 6
+      },
+      "initiative": {
+        "modifier": 0,
+        "score": 10
+      },
+      "speeds": {
+        "walk": 30,
+        "burrow": 10
+      },
+      "abilities": {
+        "str": {
+          "score": 13,
+          "modifier": 1,
+          "save": 1
+        },
+        "dex": {
+          "score": 10,
+          "modifier": 0,
+          "save": 0
+        },
+        "con": {
+          "score": 17,
+          "modifier": 3,
+          "save": 3
+        },
+        "int": {
+          "score": 2,
+          "modifier": -4,
+          "save": -4
+        },
+        "wis": {
+          "score": 12,
+          "modifier": 1,
+          "save": 1
+        },
+        "cha": {
+          "score": 5,
+          "modifier": -3,
+          "save": -3
+        }
+      },
+      "senses": {
+        "passive_perception": 13,
+        "special": {
+          "darkvision": 60
+        }
+      },
+      "languages": [],
+      "gear": [],
+      "cr": "1/4",
+      "xp": 50,
+      "proficiency_bonus": 2,
+      "traits": [],
+      "actions": [
+        {
+          "id": "bite",
+          "name": "Bite",
+          "text": "Bite. Melee Attack Roll: +3, reach 5 ft. Hit: 6 (2d4 + 1) Piercing damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 3,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 6,
+              "dice": 2,
+              "sides": 4,
+              "modifier": 1
+            },
+            "damage_type": "piercing"
+          },
+          "effects": [
+            {
+              "key": "effect/piercing-damage",
+              "name": "Piercing damage",
+              "text": "6 (2d4 + 1) Piercing damage.",
+              "dice": {
+                "average": 6,
+                "dice": 2,
+                "sides": 4,
+                "modifier": 1
+              }
+            }
+          ]
+        }
+      ],
+      "skills": {
+        "perception": 3
+      },
+      "resistances": [
+        "poison"
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/skills",
+        "defense/damage-resistance",
+        "movement/burrow",
+        "sense/darkvision",
+        "action/melee-attack",
+        "effect/piercing-damage"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/animals/giant-bat",
+      "name": "Giant Bat",
+      "source_pages": [
+        349,
+        349
+      ],
+      "sizes": [
+        "large"
+      ],
+      "type": "beast",
+      "alignment": "Unaligned",
+      "ac": 13,
+      "hp": {
+        "average": 22,
+        "dice": 4,
+        "sides": 10,
+        "modifier": 0
+      },
+      "initiative": {
+        "modifier": 3,
+        "score": 13
+      },
+      "speeds": {
+        "walk": 10,
+        "fly": 60
+      },
+      "abilities": {
+        "str": {
+          "score": 15,
+          "modifier": 2,
+          "save": 2
+        },
+        "dex": {
+          "score": 16,
+          "modifier": 3,
+          "save": 3
+        },
+        "con": {
+          "score": 11,
+          "modifier": 0,
+          "save": 0
+        },
+        "int": {
+          "score": 2,
+          "modifier": -4,
+          "save": -4
+        },
+        "wis": {
+          "score": 12,
+          "modifier": 1,
+          "save": 1
+        },
+        "cha": {
+          "score": 6,
+          "modifier": -2,
+          "save": -2
+        }
+      },
+      "senses": {
+        "passive_perception": 11,
+        "special": {
+          "blindsight": 120
+        }
+      },
+      "languages": [],
+      "gear": [],
+      "cr": "1/4",
+      "xp": 50,
+      "proficiency_bonus": 2,
+      "traits": [],
+      "actions": [
+        {
+          "id": "bite",
+          "name": "Bite",
+          "text": "Bite. Melee Attack Roll: +5, reach 5 ft. Hit: 6 (1d6 + 3) Piercing damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 5,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 6,
+              "dice": 1,
+              "sides": 6,
+              "modifier": 3
+            },
+            "damage_type": "piercing"
+          },
+          "effects": [
+            {
+              "key": "effect/piercing-damage",
+              "name": "Piercing damage",
+              "text": "6 (1d6 + 3) Piercing damage.",
+              "dice": {
+                "average": 6,
+                "dice": 1,
+                "sides": 6,
+                "modifier": 3
+              }
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "movement/fly",
+        "sense/blindsight",
+        "action/melee-attack",
+        "effect/piercing-damage"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/animals/giant-boar",
+      "name": "Giant Boar",
+      "source_pages": [
+        349,
+        349
+      ],
+      "sizes": [
+        "large"
+      ],
+      "type": "beast",
+      "alignment": "Unaligned",
+      "ac": 13,
+      "hp": {
+        "average": 42,
+        "dice": 5,
+        "sides": 10,
+        "modifier": 15
+      },
+      "initiative": {
+        "modifier": 0,
+        "score": 10
+      },
+      "speeds": {
+        "walk": 40
+      },
+      "abilities": {
+        "str": {
+          "score": 17,
+          "modifier": 3,
+          "save": 5
+        },
+        "dex": {
+          "score": 10,
+          "modifier": 0,
+          "save": 0
+        },
+        "con": {
+          "score": 16,
+          "modifier": 3,
+          "save": 3
+        },
+        "int": {
+          "score": 2,
+          "modifier": -4,
+          "save": -4
+        },
+        "wis": {
+          "score": 7,
+          "modifier": -2,
+          "save": -2
+        },
+        "cha": {
+          "score": 5,
+          "modifier": -3,
+          "save": -3
+        }
+      },
+      "senses": {
+        "passive_perception": 8,
+        "special": {}
+      },
+      "languages": [],
+      "gear": [],
+      "cr": "2",
+      "xp": 450,
+      "proficiency_bonus": 2,
+      "traits": [
+        {
+          "key": "trait/bloodied-fury",
+          "name": "Bloodied Fury",
+          "text": "Bloodied Fury. The boar has Advantage on melee attack rolls while it is Bloodied.",
+          "requires": [
+            "requirement/bloodied",
+            "attack/advantage"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "gore",
+          "name": "Gore",
+          "text": "Gore. Melee Attack Roll: +5, reach 5 ft. Hit: 10 (2d6 + 3) Piercing damage. If the target is a Large or smaller creature and the boar moved 20+ feet straight toward it immediately before the hit, the target takes an extra 7 (2d6) Piercing damage and has the Prone condition.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 5,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 10,
+              "dice": 2,
+              "sides": 6,
+              "modifier": 3
+            },
+            "damage_type": "piercing"
+          },
+          "effects": [
+            {
+              "key": "effect/piercing-damage",
+              "name": "Piercing damage",
+              "text": "10 (2d6 + 3) Piercing damage.",
+              "dice": {
+                "average": 10,
+                "dice": 2,
+                "sides": 6,
+                "modifier": 3
+              }
+            },
+            {
+              "key": "requirement/target-size",
+              "name": "Target size",
+              "text": "If the target is a Large or smaller creature"
+            },
+            {
+              "key": "requirement/charge-distance",
+              "name": "Charge distance",
+              "text": "the boar moved 20+ feet straight toward it immediately before the hit"
+            },
+            {
+              "key": "effect/extra-piercing-damage",
+              "name": "Extra Piercing damage",
+              "text": "the target takes an extra 7 (2d6) Piercing damage",
+              "dice": {
+                "average": 7,
+                "dice": 2,
+                "sides": 6,
+                "modifier": 0
+              }
+            },
+            {
+              "key": "condition/prone",
+              "name": "Prone",
+              "text": "has the Prone condition."
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "trait/bloodied-fury",
+        "requirement/bloodied",
+        "attack/advantage",
+        "action/melee-attack",
+        "effect/piercing-damage",
+        "requirement/target-size",
+        "requirement/charge-distance",
+        "effect/extra-piercing-damage",
+        "condition/prone"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/animals/giant-centipede",
+      "name": "Giant Centipede",
+      "source_pages": [
+        349,
+        350
+      ],
+      "sizes": [
+        "small"
+      ],
+      "type": "beast",
+      "alignment": "Unaligned",
+      "ac": 14,
+      "hp": {
+        "average": 9,
+        "dice": 2,
+        "sides": 6,
+        "modifier": 2
+      },
+      "initiative": {
+        "modifier": 2,
+        "score": 12
+      },
+      "speeds": {
+        "walk": 30,
+        "climb": 30
+      },
+      "abilities": {
+        "str": {
+          "score": 5,
+          "modifier": -3,
+          "save": -3
+        },
+        "dex": {
+          "score": 14,
+          "modifier": 2,
+          "save": 2
+        },
+        "con": {
+          "score": 12,
+          "modifier": 1,
+          "save": 1
+        },
+        "int": {
+          "score": 1,
+          "modifier": -5,
+          "save": -5
+        },
+        "wis": {
+          "score": 7,
+          "modifier": -2,
+          "save": -2
+        },
+        "cha": {
+          "score": 3,
+          "modifier": -4,
+          "save": -4
+        }
+      },
+      "senses": {
+        "passive_perception": 8,
+        "special": {
+          "blindsight": 30
+        }
+      },
+      "languages": [],
+      "gear": [],
+      "cr": "1/4",
+      "xp": 50,
+      "proficiency_bonus": 2,
+      "traits": [],
+      "actions": [
+        {
+          "id": "bite",
+          "name": "Bite",
+          "text": "Bite. Melee Attack Roll: +4, reach 5 ft. Hit: 4 (1d4 + 2) Piercing damage, and the target has the Poisoned condition until the start of the centipede’s next turn.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 4,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 4,
+              "dice": 1,
+              "sides": 4,
+              "modifier": 2
+            },
+            "damage_type": "piercing"
+          },
+          "effects": [
+            {
+              "key": "effect/piercing-damage",
+              "name": "Piercing damage",
+              "text": "4 (1d4 + 2) Piercing damage.",
+              "dice": {
+                "average": 4,
+                "dice": 1,
+                "sides": 4,
+                "modifier": 2
+              }
+            },
+            {
+              "key": "condition/poisoned",
+              "name": "Poisoned",
+              "text": "the target has the Poisoned condition until the start of the centipede’s next turn."
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "movement/climb",
+        "sense/blindsight",
+        "action/melee-attack",
+        "effect/piercing-damage",
+        "condition/poisoned"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/animals/giant-constrictor-snake",
+      "name": "Giant Constrictor Snake",
+      "source_pages": [
+        350,
+        350
+      ],
+      "sizes": [
+        "huge"
+      ],
+      "type": "beast",
+      "alignment": "Unaligned",
+      "ac": 12,
+      "hp": {
+        "average": 60,
+        "dice": 8,
+        "sides": 12,
+        "modifier": 8
+      },
+      "initiative": {
+        "modifier": 2,
+        "score": 12
+      },
+      "speeds": {
+        "walk": 30,
+        "swim": 30
+      },
+      "abilities": {
+        "str": {
+          "score": 19,
+          "modifier": 4,
+          "save": 4
+        },
+        "dex": {
+          "score": 14,
+          "modifier": 2,
+          "save": 2
+        },
+        "con": {
+          "score": 12,
+          "modifier": 1,
+          "save": 1
+        },
+        "int": {
+          "score": 1,
+          "modifier": -5,
+          "save": -5
+        },
+        "wis": {
+          "score": 10,
+          "modifier": 0,
+          "save": 0
+        },
+        "cha": {
+          "score": 3,
+          "modifier": -4,
+          "save": -4
+        }
+      },
+      "senses": {
+        "passive_perception": 12,
+        "special": {
+          "blindsight": 10
+        }
+      },
+      "languages": [],
+      "gear": [],
+      "cr": "2",
+      "xp": 450,
+      "proficiency_bonus": 2,
+      "traits": [],
+      "actions": [
+        {
+          "id": "multiattack",
+          "name": "Multiattack",
+          "text": "Multiattack. The snake makes one Bite attack and uses Constrict.",
+          "key": "action/multiattack",
+          "effects": [
+            {
+              "key": "action/melee-attack",
+              "name": "Attack",
+              "text": "The snake makes one Bite attack and uses Constrict."
+            },
+            {
+              "key": "multiattack/additional-action",
+              "name": "Additional action",
+              "text": "The snake makes one Bite attack and uses Constrict."
+            }
+          ]
+        },
+        {
+          "id": "bite",
+          "name": "Bite",
+          "text": "Bite. Melee Attack Roll: +6, reach 10 ft. Hit: 11 (2d6 + 4) Piercing damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 6,
+            "reach": 10,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 11,
+              "dice": 2,
+              "sides": 6,
+              "modifier": 4
+            },
+            "damage_type": "piercing"
+          },
+          "effects": [
+            {
+              "key": "effect/piercing-damage",
+              "name": "Piercing damage",
+              "text": "11 (2d6 + 4) Piercing damage.",
+              "dice": {
+                "average": 11,
+                "dice": 2,
+                "sides": 6,
+                "modifier": 4
+              }
+            }
+          ]
+        },
+        {
+          "id": "constrict",
+          "name": "Constrict",
+          "text": "Constrict. Strength Saving Throw: DC 14, one Large or smaller creature the snake can see within 10 feet. Failure: 13 (2d8 + 4) Bludgeoning damage, and the target has the Grappled condition (escape DC 14).",
+          "key": "action/saving-throw",
+          "save": {
+            "ability": "str",
+            "dc": 14
+          },
+          "target": {
+            "shape": "creature",
+            "size": 0,
+            "width": 0,
+            "range": 10
+          },
+          "effects": [
+            {
+              "key": "save/str",
+              "name": "Strength Saving Throw",
+              "text": "Strength Saving Throw: DC 14"
+            },
+            {
+              "key": "target/creature",
+              "name": "Target",
+              "text": "one Large or smaller creature the snake can see within 10 feet."
+            },
+            {
+              "key": "requirement/target-size",
+              "name": "Target size",
+              "text": "one Large or smaller creature the snake can see within 10 feet."
+            },
+            {
+              "key": "effect/bludgeoning-damage",
+              "name": "Bludgeoning damage",
+              "text": "13 (2d8 + 4) Bludgeoning damage",
+              "dice": {
+                "average": 13,
+                "dice": 2,
+                "sides": 8,
+                "modifier": 4
+              }
+            },
+            {
+              "key": "condition/grappled",
+              "name": "Grappled",
+              "text": "the target has the Grappled condition (escape DC 14)."
+            }
+          ]
+        }
+      ],
+      "skills": {
+        "perception": 2
+      },
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/skills",
+        "movement/swim",
+        "sense/blindsight",
+        "action/multiattack",
+        "action/melee-attack",
+        "multiattack/additional-action",
+        "effect/piercing-damage",
+        "action/saving-throw",
+        "save/str",
+        "target/creature",
+        "requirement/target-size",
+        "effect/bludgeoning-damage",
+        "condition/grappled"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/animals/giant-crab",
+      "name": "Giant Crab",
+      "source_pages": [
+        350,
+        350
+      ],
+      "sizes": [
+        "medium"
+      ],
+      "type": "beast",
+      "alignment": "Unaligned",
+      "ac": 15,
+      "hp": {
+        "average": 13,
+        "dice": 3,
+        "sides": 8,
+        "modifier": 0
+      },
+      "initiative": {
+        "modifier": 1,
+        "score": 11
+      },
+      "speeds": {
+        "walk": 30,
+        "swim": 30
+      },
+      "abilities": {
+        "str": {
+          "score": 13,
+          "modifier": 1,
+          "save": 1
+        },
+        "dex": {
+          "score": 13,
+          "modifier": 1,
+          "save": 1
+        },
+        "con": {
+          "score": 11,
+          "modifier": 0,
+          "save": 0
+        },
+        "int": {
+          "score": 1,
+          "modifier": -5,
+          "save": -5
+        },
+        "wis": {
+          "score": 9,
+          "modifier": -1,
+          "save": -1
+        },
+        "cha": {
+          "score": 3,
+          "modifier": -4,
+          "save": -4
+        }
+      },
+      "senses": {
+        "passive_perception": 9,
+        "special": {
+          "blindsight": 30
+        }
+      },
+      "languages": [],
+      "gear": [],
+      "cr": "1/8",
+      "xp": 25,
+      "proficiency_bonus": 2,
+      "traits": [
+        {
+          "key": "trait/amphibious",
+          "name": "Amphibious",
+          "text": "Amphibious. The crab can breathe air and water.",
+          "requires": [
+            "effect/breathe-air-and-water"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "claw",
+          "name": "Claw",
+          "text": "Claw. Melee Attack Roll: +3, reach 5 ft. Hit: 4 (1d6 + 1) Bludgeoning damage. If the target is a Medium or smaller creature, it has the Grappled condition (escape DC 11) from one of two claws.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 3,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 4,
+              "dice": 1,
+              "sides": 6,
+              "modifier": 1
+            },
+            "damage_type": "bludgeoning"
+          },
+          "effects": [
+            {
+              "key": "effect/bludgeoning-damage",
+              "name": "Bludgeoning damage",
+              "text": "4 (1d6 + 1) Bludgeoning damage.",
+              "dice": {
+                "average": 4,
+                "dice": 1,
+                "sides": 6,
+                "modifier": 1
+              }
+            },
+            {
+              "key": "requirement/target-size",
+              "name": "Target size",
+              "text": "If the target is a Medium or smaller creature"
+            },
+            {
+              "key": "condition/grappled",
+              "name": "Grappled",
+              "text": "it has the Grappled condition (escape DC 11)"
+            },
+            {
+              "key": "limit/grapple-from-one-of-two-claws",
+              "name": "One of two claws",
+              "text": "from one of two claws."
+            }
+          ]
+        }
+      ],
+      "skills": {
+        "stealth": 3
+      },
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/skills",
+        "movement/swim",
+        "sense/blindsight",
+        "trait/amphibious",
+        "effect/breathe-air-and-water",
+        "action/melee-attack",
+        "effect/bludgeoning-damage",
+        "requirement/target-size",
+        "condition/grappled",
+        "limit/grapple-from-one-of-two-claws"
+      ]
+    }
+  ]
+}
