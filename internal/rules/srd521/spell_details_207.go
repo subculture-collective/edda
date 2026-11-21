@@ -538,7 +538,7 @@ func (d *SpellSourceDetails) validateSpell207Payload(key string) error {
 		if !slices.Equal(x.SourcePages, []int{134, 135}) || x.Target != "willing-creature-touched" || x.Transforms != "target-and-everything-it-is-wearing-and-carrying" || x.Form != "misty-cloud" ||
 			!slices.Equal(x.EndsWhen, str("target-drops-to-0-hit-points", "target-takes-magic-action-to-end-spell-on-itself")) || x.MovementOnly != "fly-speed" || x.FlySpeedFeet != 10 || !x.Hover ||
 			x.EnterOccupied != "can-enter-and-occupy-space-of-another-creature" || !slices.Equal(x.Resistances, str("bludgeoning", "piercing", "slashing")) || x.ConditionImmunity != "prone" ||
-			!slices.Equal(x.SaveAdvantage, str("strength", "dexterity", "constitution")) || x.NarrowOpenings != "can-pass-through-narrow-open-openings" || x.Liquids != "treated-as-solid-surfaces" ||
+			!slices.Equal(x.SaveAdvantage, str("strength", "dexterity", "constitution")) || x.NarrowOpenings != "can-pass-through-narrow-openings" || x.Liquids != "treated-as-solid-surfaces" ||
 			!slices.Equal(x.Prohibited, str("talk", "manipulate-objects", "attack", "cast-spells")) || x.CarriedObjects != "cannot-be-dropped-used-or-interacted-with" || x.BaseTargets != 1 || x.AdditionalTargetsPerSlot != 1 {
 			return bad()
 		}

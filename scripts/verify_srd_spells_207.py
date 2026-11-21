@@ -83,7 +83,7 @@ def main():
               "unaffected by Difficult Terrain", "Swim Speed equal to its Speed", "spend 5 feet of movement", "one additional creature for each spell slot level above 4",
               "60-foot-radius Sphere", "10d6 Cold damage", "6 inches over an area 30 feet square", "lasts for 1 minute", "Strength (Athletics) check against your spell save DC",
               "(to a range of 40 feet)", "After 1 minute", "increases by 1d6 for each spell slot level above 6", "misty cloud", "drops to 0 Hit Points"],
-        135: ["Fly Speed of 10 feet", "Resistance to Bludgeoning, Piercing, and Slashing damage", "Immunity to the Prone condition", "Advantage on Strength, Dexterity, and Constitution saving",
+        135: ["Fly Speed of 10 feet", "Resistance to Bludgeoning, Piercing, and Slashing damage", "Immunity to the Prone condition", "can pass through narrow openings", "Advantage on Strength, Dexterity, and Constitution saving",
               "can’t attack or cast spells", "one additional creature for each spell slot level above 3", "5 to 20 feet in diam- eter", "pseudonym, title, or nick- name doesn’t work",
               "free to act as the GM deems appropriate", "5d10 Psychic damage", "no more than once each day", "level 7 or 8 spell slot, the duration is 365 days", "level 9 spell slot, the spell lasts until",
               "Remove Curse, Greater Restoration, or Wish", "can’t become Undead", "Raise Dead", "giant centipede, spider, or wasp", "Dodge action"],

@@ -947,7 +947,7 @@
             "dexterity",
             "constitution"
           ],
-          "narrow_openings": "can-pass-through-narrow-open-openings",
+          "narrow_openings": "can-pass-through-narrow-openings",
           "liquids": "treated-as-solid-surfaces",
           "prohibited": [
             "talk",

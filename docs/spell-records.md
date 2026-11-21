@@ -772,6 +772,11 @@ block, in explicit `source_pages` lists. `spells_207_test.go` supplies literal
 source-value fixtures for every header, effect, table row and scaling value, and
 checks the family list and pages against the decision inventory.
 
+Giant Insect's generic effect rows (`jab`, `jab-poison`, `web`) carry base dice
+only with bonus 0. The source adds +3 and the spell's level to Poison Jab and
+Web Bolt; the typed stat block (`piercing_bonus`, `bludgeoning_bonus` and the
+`*_adds_spell_level` flags) is authoritative for those values.
+
 The typed payloads retain Fog Cloud's sphere and radius increment; Forbiddance's
 ward, planar proofing, damage, password and daily recasting; Forcecage's cage and
 box forms, trapping and Charisma save; Foresight's two advantages; Freedom of
