@@ -208,16 +208,19 @@ func validateItemDetails237(family, variant string, d *ItemDetails237) error {
 	ok := true
 	switch family {
 	case "potion-of-clairvoyance":
-		ok = !d.Clairvoyance.ConcentrationRequired
+		ok = d.Clairvoyance.Spell == "clairvoyance" && !d.Clairvoyance.ConcentrationRequired
 	case "potion-of-climbing":
-		ok = d.Climbing.DurationHours == 1
+		c := d.Climbing
+		ok = c.SpeedKind == "climb" && c.SpeedEquals == "your-speed" && c.DurationHours == 1 && c.CheckAbility == "strength" && c.CheckSkill == "athletics" && c.CheckMode == "advantage" && c.CheckSubject == "climbing"
 	case "potion-of-diminution":
 		p := d.Diminution
-		ok = p.DurationDice == 1 && p.DurationDieSides == 4 && !p.ConcentrationRequired
+		ok = p.Spell == "enlarge-reduce" && p.SpellEffect == "reduce" && p.DurationDice == 1 && p.DurationDieSides == 4 && p.DurationUnit == "hours" && !p.ConcentrationRequired
 	case "potion-of-flying":
-		ok = d.Flying.DurationHours == 1 && d.Flying.CanHover
+		f := d.Flying
+		ok = f.SpeedKind == "fly" && f.SpeedEquals == "your-speed" && f.DurationHours == 1 && f.CanHover && f.FallsWhenItEnds == "when-in-the-air" && f.FallException == "other-means-of-staying-aloft"
 	case "potion-of-gaseous-form":
-		ok = d.GaseousForm.DurationHours == 1 && !d.GaseousForm.ConcentrationRequired
+		g := d.GaseousForm
+		ok = g.Spell == "gaseous-form" && g.DurationHours == 1 && g.EndsEarlyAction == "bonus" && !g.ConcentrationRequired
 	case "potion-of-giant-strength":
 		g := d.GiantStrength
 		// One row of the p. 235 table per variant: giants, Strength score.
@@ -229,22 +232,22 @@ func validateItemDetails237(family, variant string, d *ItemDetails237) error {
 			"cloud": {[]string{"cloud"}, 27}, "storm": {[]string{"storm"}, 29},
 		}
 		row := rows[variant]
-		ok = slices.Equal(g.Giants, row.giants) && g.StrengthScore == row.score && g.NoEffectAtOrAboveScore == row.score && g.DurationHours == 1
+		ok = slices.Equal(g.Giants, row.giants) && g.StrengthScore == row.score && g.NoEffectAtOrAboveScore == row.score && g.DurationHours == 1 && g.ScoreChange == "strength-score-becomes-giant-score"
 	case "potion-of-growth":
-		ok = d.Growth.DurationMinutes == 10 && !d.Growth.ConcentrationRequired
+		ok = d.Growth.Spell == "enlarge-reduce" && d.Growth.SpellEffect == "enlarge" && d.Growth.DurationMinutes == 10 && !d.Growth.ConcentrationRequired
 	case "potion-of-heroism":
 		p := d.Heroism
-		ok = p.TemporaryHitPoints == 10 && p.DurationHours == 1 && !p.ConcentrationRequired
+		ok = p.TemporaryHitPoints == 10 && p.DurationHours == 1 && p.Spell == "bless" && p.SpellDuration == "same-as-temporary-hit-points" && !p.ConcentrationRequired
 	case "potion-of-invisibility":
-		ok = d.Invisibility.DurationHours == 1 && uniqueItemKeys(d.Invisibility.EndsEarlyOn)
+		ok = d.Invisibility.Condition == "invisible" && d.Invisibility.DurationHours == 1 && slices.Equal(d.Invisibility.EndsEarlyOn, []string{"make-attack-roll", "deal-damage", "cast-spell"})
 	case "potion-of-invulnerability":
-		ok = d.Invuln.DurationMinutes == 1
+		ok = d.Invuln.Resistance == "all-damage" && d.Invuln.DurationMinutes == 1
 	case "potion-of-longevity":
 		p := d.Longevity
-		ok = p.AgeReduction == ItemAgeRoll{Dice: 1, Sides: 6, Bonus: 6} && p.AgingInstead == p.AgeReduction && p.MinimumAgeYears == 13 && p.AgingChancePercent == 10 && p.AgingChanceCumulative
+		ok = p.AgeReduction == ItemAgeRoll{Dice: 1, Sides: 6, Bonus: 6} && p.AgingInstead == p.AgeReduction && p.MinimumAgeYears == 13 && p.AgingChancePercent == 10 && p.AgingChanceCumulative && p.AgingChanceTrigger == "each-subsequent-potion-of-longevity"
 	case "potion-of-mind-reading":
 		p := d.MindReading
-		ok = p.SaveDC == 13 && p.DurationMinutes == 10 && !p.ConcentrationRequired
+		ok = p.Spell == "detect-thoughts" && p.SaveDC == 13 && p.DurationMinutes == 10 && !p.ConcentrationRequired
 	}
 	if !ok {
 		return fmt.Errorf("incomplete or duplicated source values")
