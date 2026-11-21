@@ -1,0 +1,1399 @@
+{
+  "schema_version": 1,
+  "source": {
+    "version": "5.2.1",
+    "language": "en",
+    "landing_url": "https://www.dndbeyond.com/srd",
+    "artifact_url": "https://media.dndbeyond.com/compendium-images/srd/5.2/SRD_CC_v5.2.1.pdf",
+    "sha256": "8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87",
+    "bytes": 6031375,
+    "pages": 364,
+    "retrieved_at": "2026-11-15",
+    "license": "CC-BY-4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/legalcode",
+    "attribution": "This work includes material from the System Reference Document 5.2.1 (“SRD 5.2.1”) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd. The SRD 5.2.1 is licensed under the Creative Commons Attribution 4.0 International License, available at https://creativecommons.org/licenses/by/4.0/legalcode.",
+    "changes": "SRD 5.2.1 PDF pp.123-125 adapted into twelve complete offline spell families for issue #203, including page-break continuation text for Dimension Door (pp.123-124) and Dominate Monster (pp.125-126). No executable effects or availability grants."
+  },
+  "records": [
+    {
+      "id": "srd-5.2.1:content/spells/dimension-door",
+      "name": "Dimension Door",
+      "source_id": "srd-5.2.1:content/spells/dimension-door",
+      "source_page": 123,
+      "scope": "complete-source-record",
+      "level": 4,
+      "school": "conjuration",
+      "lists": [
+        "bard",
+        "sorcerer",
+        "warlock",
+        "wizard"
+      ],
+      "casting_time": "action",
+      "range": {
+        "kind": "feet",
+        "feet": 500
+      },
+      "target": {
+        "shape": "choice",
+        "count": 1,
+        "eligibility": "destination-in-range"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": false,
+        "material": null
+      },
+      "ritual": false,
+      "concentration": false,
+      "duration": "instantaneous",
+      "duration_seconds": 0,
+      "scaling": {
+        "kind": "none",
+        "above_level": 0,
+        "dice_count": 0,
+        "die_sides": 0,
+        "effect_ids": []
+      },
+      "effects": [
+        {
+          "id": "teleport",
+          "mechanic": "teleport.dimension-door",
+          "timing": "immediate",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "companion",
+          "mechanic": "teleport.dimension-door-companion",
+          "timing": "willing-creature-within-5-feet-when-caster-teleports",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "collision",
+          "mechanic": "damage.dimension-door-collision",
+          "timing": "arrival-space-occupied-or-completely-filled",
+          "dice_count": 4,
+          "die_sides": 6,
+          "damage_type": "force",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "teleport.dimension-door",
+        "teleport.dimension-door-companion",
+        "damage.dimension-door-collision"
+      ],
+      "slot_levels": [
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 0,
+        "casting_triggers": [],
+        "end_timing": "instantaneous",
+        "dimension_door": {
+          "source_pages": [
+            123,
+            124
+          ],
+          "destination_choices": [
+            "visible-place",
+            "visualized-place",
+            "described-by-distance-and-direction"
+          ],
+          "direction_examples": [
+            "200-feet-straight-downward",
+            "300-feet-upward-to-the-northwest-at-45-degree-angle"
+          ],
+          "arrival": "exactly-the-spot-desired",
+          "companion_count": 1,
+          "companion_willing": true,
+          "companion_within_feet": 5,
+          "companion_arrival_feet": 5,
+          "companion_arrival": "space-within-5-feet-of-destination-space",
+          "collision_trigger": "arrival-space-occupied-by-creature-or-completely-filled-by-objects",
+          "collision_dice_count": 4,
+          "collision_die_sides": 6,
+          "collision_damage_type": "force",
+          "collision_damaged": "caster-and-each-traveling-creature",
+          "collision_result": "teleportation-fails"
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/disguise-self",
+      "name": "Disguise Self",
+      "source_id": "srd-5.2.1:content/spells/disguise-self",
+      "source_page": 124,
+      "scope": "complete-source-record",
+      "level": 1,
+      "school": "illusion",
+      "lists": [
+        "bard",
+        "sorcerer",
+        "wizard"
+      ],
+      "casting_time": "action",
+      "range": {
+        "kind": "self",
+        "feet": 0
+      },
+      "target": {
+        "shape": "single",
+        "count": 1,
+        "eligibility": "self"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": null
+      },
+      "ritual": false,
+      "concentration": false,
+      "duration": "timed",
+      "duration_seconds": 3600,
+      "scaling": {
+        "kind": "none",
+        "above_level": 0,
+        "dice_count": 0,
+        "die_sides": 0,
+        "effect_ids": []
+      },
+      "effects": [
+        {
+          "id": "disguise",
+          "mechanic": "illusion.disguise-self",
+          "timing": "until-spell-ends",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "inspection",
+          "mechanic": "check.disguise-self-investigation",
+          "timing": "study-action-to-inspect-appearance",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "illusion.disguise-self",
+        "check.disguise-self-investigation"
+      ],
+      "slot_levels": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 0,
+        "casting_triggers": [],
+        "end_timing": "duration-ended",
+        "disguise_self": {
+          "affects": [
+            "caster",
+            "clothing",
+            "armor",
+            "weapons",
+            "other-belongings-on-person"
+          ],
+          "height_change_feet": 1,
+          "height_changes": [
+            "shorter",
+            "taller"
+          ],
+          "weight_changes": [
+            "heavier",
+            "lighter"
+          ],
+          "form_requirement": "same-basic-arrangement-of-limbs",
+          "other_extent": "up-to-caster",
+          "physical_inspection": "changes-fail-to-hold-up",
+          "inspection_example": "added-hat-objects-pass-through-and-touch-feels-nothing",
+          "discovery_action": "study-action",
+          "discovery_check": "intelligence-investigation",
+          "discovery_dc": "caster-spell-save-dc",
+          "discovery_result": "creature-discerns-disguise"
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/disintegrate",
+      "name": "Disintegrate",
+      "source_id": "srd-5.2.1:content/spells/disintegrate",
+      "source_page": 124,
+      "scope": "complete-source-record",
+      "level": 6,
+      "school": "transmutation",
+      "lists": [
+        "sorcerer",
+        "wizard"
+      ],
+      "casting_time": "action",
+      "range": {
+        "kind": "feet",
+        "feet": 60
+      },
+      "target": {
+        "shape": "choice",
+        "count": 1,
+        "eligibility": "visible-creature-nonmagical-object-or-force-creation-in-range"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": {
+          "description": "a lodestone and dust",
+          "cost_cp": 0,
+          "consumed": false
+        }
+      },
+      "ritual": false,
+      "concentration": false,
+      "duration": "instantaneous",
+      "duration_seconds": 0,
+      "scaling": {
+        "kind": "slot",
+        "above_level": 6,
+        "dice_count": 3,
+        "die_sides": 6,
+        "effect_ids": [
+          "damage"
+        ]
+      },
+      "effects": [
+        {
+          "id": "damage",
+          "mechanic": "damage.disintegrate",
+          "timing": "failed-dexterity-save",
+          "dice_count": 10,
+          "die_sides": 6,
+          "damage_type": "force",
+          "bonus": 40,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "dust",
+          "mechanic": "disintegrate.zero-hit-points-gray-dust",
+          "timing": "damage-reduces-target-to-0-hit-points",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "object",
+          "mechanic": "disintegrate.automatic-object-or-force-creation",
+          "timing": "target-is-large-or-smaller-nonmagical-object-or-force-creation",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "damage.disintegrate",
+        "disintegrate.zero-hit-points-gray-dust",
+        "disintegrate.automatic-object-or-force-creation",
+        "save.dexterity",
+        "scaling.per-slot",
+        "components.material"
+      ],
+      "slot_levels": [
+        6,
+        7,
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 0,
+        "casting_triggers": [],
+        "end_timing": "instantaneous",
+        "disintegrate": {
+          "target_choices": [
+            "creature",
+            "nonmagical-object",
+            "creation-of-magical-force"
+          ],
+          "force_creation_example": "wall-of-force",
+          "save": "dexterity",
+          "fail_dice_count": 10,
+          "fail_die_sides": 6,
+          "fail_bonus": 40,
+          "damage_type": "force",
+          "success_damage": "none-stated",
+          "zero_hit_points_result": "disintegrated-into-gray-dust",
+          "dust_includes": "target-and-everything-nonmagical-worn-and-carried",
+          "revived_only_by": [
+            "true-resurrection",
+            "wish"
+          ],
+          "automatic_size": "large-or-smaller",
+          "automatic_targets": [
+            "nonmagical-object",
+            "creation-of-magical-force"
+          ],
+          "oversize_size": "huge-or-larger",
+          "oversize_result": "disintegrates-10-foot-cube-portion",
+          "slot_dice_count": 3,
+          "slot_die_sides": 6
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/dispel-evil-and-good",
+      "name": "Dispel Evil and Good",
+      "source_id": "srd-5.2.1:content/spells/dispel-evil-and-good",
+      "source_page": 124,
+      "scope": "complete-source-record",
+      "level": 5,
+      "school": "abjuration",
+      "lists": [
+        "cleric",
+        "paladin"
+      ],
+      "casting_time": "action",
+      "range": {
+        "kind": "self",
+        "feet": 0
+      },
+      "target": {
+        "shape": "single",
+        "count": 1,
+        "eligibility": "self"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": {
+          "description": "powdered silver and iron",
+          "cost_cp": 0,
+          "consumed": false
+        }
+      },
+      "ritual": false,
+      "concentration": true,
+      "duration": "timed",
+      "duration_seconds": 60,
+      "scaling": {
+        "kind": "none",
+        "above_level": 0,
+        "dice_count": 0,
+        "die_sides": 0,
+        "effect_ids": []
+      },
+      "effects": [
+        {
+          "id": "disadvantage",
+          "mechanic": "disadvantage.attacks-against-caster-by-listed-types",
+          "timing": "until-spell-ends",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "break",
+          "mechanic": "special.break-enchantment",
+          "timing": "magic-action-touch",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "dismissal",
+          "mechanic": "special.dismissal",
+          "timing": "magic-action-target-within-5-feet",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "disadvantage.attacks-against-caster-by-listed-types",
+        "special.break-enchantment",
+        "special.dismissal",
+        "save.charisma",
+        "concentration.source-duration",
+        "components.material"
+      ],
+      "slot_levels": [
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 0,
+        "casting_triggers": [],
+        "end_timing": "duration-or-concentration-ended",
+        "dispel_evil": {
+          "affected_types": [
+            "celestial",
+            "elemental",
+            "fey",
+            "fiend",
+            "undead"
+          ],
+          "attack_effect": "disadvantage-on-attack-rolls-against-caster",
+          "early_end": "either-special-function",
+          "break_action": "magic-action",
+          "break_target": "touched-creature-possessed-by-or-charmed-or-frightened-by-listed-types",
+          "break_results": [
+            "no-longer-possessed",
+            "no-longer-charmed",
+            "no-longer-frightened"
+          ],
+          "dismissal_action": "magic-action",
+          "dismissal_range_feet": 5,
+          "dismissal_target": "visible-creature-of-listed-type",
+          "dismissal_save": "charisma",
+          "dismissal_failure": "sent-back-to-home-plane-if-not-there",
+          "undead_elsewhere": "shadowfell",
+          "fey_elsewhere": "feywild"
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/dispel-magic",
+      "name": "Dispel Magic",
+      "source_id": "srd-5.2.1:content/spells/dispel-magic",
+      "source_page": 124,
+      "scope": "complete-source-record",
+      "level": 3,
+      "school": "abjuration",
+      "lists": [
+        "bard",
+        "cleric",
+        "druid",
+        "paladin",
+        "ranger",
+        "sorcerer",
+        "warlock",
+        "wizard"
+      ],
+      "casting_time": "action",
+      "range": {
+        "kind": "feet",
+        "feet": 120
+      },
+      "target": {
+        "shape": "choice",
+        "count": 1,
+        "eligibility": "creature-object-or-magical-effect-in-range"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": null
+      },
+      "ritual": false,
+      "concentration": false,
+      "duration": "instantaneous",
+      "duration_seconds": 0,
+      "scaling": {
+        "kind": "slot-auto-end",
+        "above_level": 3,
+        "dice_count": 0,
+        "die_sides": 0,
+        "effect_ids": [
+          "check"
+        ]
+      },
+      "effects": [
+        {
+          "id": "end",
+          "mechanic": "dispel.ongoing-spell-level-3-or-lower",
+          "timing": "immediate",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "check",
+          "mechanic": "check.dispel-ongoing-spell-level-4-or-higher",
+          "timing": "each-ongoing-spell-level-4-or-higher-on-target",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "dispel.ongoing-spell-level-3-or-lower",
+        "check.dispel-ongoing-spell-level-4-or-higher",
+        "scaling.auto-end-by-slot-level"
+      ],
+      "slot_levels": [
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 0,
+        "casting_triggers": [],
+        "end_timing": "instantaneous",
+        "dispel_magic": {
+          "target_choices": [
+            "creature",
+            "object",
+            "magical-effect"
+          ],
+          "auto_end_up_to_level": 3,
+          "check_from_level": 4,
+          "check_ability": "spellcasting-ability",
+          "check_dc_base": 10,
+          "check_dc_adds": "spell-level",
+          "check_success": "spell-ends",
+          "slot_auto_end": "spell-level-equal-to-or-less-than-slot-level"
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/dissonant-whispers",
+      "name": "Dissonant Whispers",
+      "source_id": "srd-5.2.1:content/spells/dissonant-whispers",
+      "source_page": 124,
+      "scope": "complete-source-record",
+      "level": 1,
+      "school": "enchantment",
+      "lists": [
+        "bard"
+      ],
+      "casting_time": "action",
+      "range": {
+        "kind": "feet",
+        "feet": 60
+      },
+      "target": {
+        "shape": "single",
+        "count": 1,
+        "eligibility": "visible-creature-in-range"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": false,
+        "material": null
+      },
+      "ritual": false,
+      "concentration": false,
+      "duration": "instantaneous",
+      "duration_seconds": 0,
+      "scaling": {
+        "kind": "slot",
+        "above_level": 1,
+        "dice_count": 1,
+        "die_sides": 6,
+        "effect_ids": [
+          "damage"
+        ]
+      },
+      "effects": [
+        {
+          "id": "damage",
+          "mechanic": "damage.dissonant-whispers",
+          "timing": "failed-wisdom-save-half-on-success",
+          "dice_count": 3,
+          "die_sides": 6,
+          "damage_type": "psychic",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "flee",
+          "mechanic": "movement.dissonant-whispers-reaction-flee",
+          "timing": "failed-wisdom-save",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "damage.dissonant-whispers",
+        "movement.dissonant-whispers-reaction-flee",
+        "save.wisdom-half",
+        "scaling.per-slot"
+      ],
+      "slot_levels": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 0,
+        "casting_triggers": [],
+        "end_timing": "instantaneous",
+        "dissonant_whispers": {
+          "target": "one-creature-of-choice-that-caster-can-see-in-range",
+          "perception": "hears-discordant-melody-in-its-mind",
+          "save": "wisdom",
+          "fail_dice_count": 3,
+          "fail_die_sides": 6,
+          "damage_type": "psychic",
+          "fail_movement_trigger": "must-immediately-use-reaction-if-available",
+          "fail_movement": "move-as-far-away-from-caster-as-it-can",
+          "fail_route": "safest-route",
+          "success_damage": "half-damage-only",
+          "slot_dice_count": 1,
+          "slot_die_sides": 6
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/divination",
+      "name": "Divination",
+      "source_id": "srd-5.2.1:content/spells/divination",
+      "source_page": 125,
+      "scope": "complete-source-record",
+      "level": 4,
+      "school": "divination",
+      "lists": [
+        "cleric",
+        "druid",
+        "wizard"
+      ],
+      "casting_time": "action",
+      "range": {
+        "kind": "self",
+        "feet": 0
+      },
+      "target": {
+        "shape": "single",
+        "count": 1,
+        "eligibility": "self"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": {
+          "description": "incense worth 25+ GP, which the spell consumes",
+          "cost_cp": 2500,
+          "consumed": true
+        }
+      },
+      "ritual": true,
+      "concentration": false,
+      "duration": "instantaneous",
+      "duration_seconds": 0,
+      "scaling": {
+        "kind": "none",
+        "above_level": 0,
+        "dice_count": 0,
+        "die_sides": 0,
+        "effect_ids": []
+      },
+      "effects": [
+        {
+          "id": "contact",
+          "mechanic": "divination.contact-god",
+          "timing": "immediate",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "answer",
+          "mechanic": "divination.cumulative-no-answer-chance",
+          "timing": "repeat-casting-before-long-rest",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "divination.contact-god",
+        "divination.cumulative-no-answer-chance",
+        "cast.ritual",
+        "components.material"
+      ],
+      "slot_levels": [
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 0,
+        "casting_triggers": [],
+        "end_timing": "instantaneous",
+        "divination": {
+          "contact": "god-or-gods-servants",
+          "question_count": 1,
+          "question_subject": "specific-goal-event-or-activity",
+          "question_window_days": 7,
+          "reply_by": "gm",
+          "reply_truth": "truthful",
+          "reply_forms": [
+            "short-phrase",
+            "cryptic-rhyme"
+          ],
+          "accounts_for_changed_circumstances": false,
+          "changed_circumstances_example": "casting-of-other-spells",
+          "repeat_reset": "long-rest",
+          "no_answer_chance_percent": 25,
+          "no_answer_cumulative": true,
+          "no_answer_after": "first-casting"
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/divine-favor",
+      "name": "Divine Favor",
+      "source_id": "srd-5.2.1:content/spells/divine-favor",
+      "source_page": 125,
+      "scope": "complete-source-record",
+      "level": 1,
+      "school": "transmutation",
+      "lists": [
+        "paladin"
+      ],
+      "casting_time": "bonus-action",
+      "range": {
+        "kind": "self",
+        "feet": 0
+      },
+      "target": {
+        "shape": "single",
+        "count": 1,
+        "eligibility": "self"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": null
+      },
+      "ritual": false,
+      "concentration": false,
+      "duration": "timed",
+      "duration_seconds": 60,
+      "scaling": {
+        "kind": "none",
+        "above_level": 0,
+        "dice_count": 0,
+        "die_sides": 0,
+        "effect_ids": []
+      },
+      "effects": [
+        {
+          "id": "damage",
+          "mechanic": "damage.divine-favor-weapon-hit",
+          "timing": "weapon-attack-hits-until-spell-ends",
+          "dice_count": 1,
+          "die_sides": 4,
+          "damage_type": "radiant",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "damage.divine-favor-weapon-hit"
+      ],
+      "slot_levels": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 0,
+        "casting_triggers": [],
+        "end_timing": "duration-ended",
+        "divine_favor": {
+          "attack_kind": "attacks-with-weapons",
+          "trigger": "hit",
+          "extra_dice_count": 1,
+          "extra_die_sides": 4,
+          "damage_type": "radiant",
+          "applies": "until-spell-ends"
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/divine-smite",
+      "name": "Divine Smite",
+      "source_id": "srd-5.2.1:content/spells/divine-smite",
+      "source_page": 125,
+      "scope": "complete-source-record",
+      "level": 1,
+      "school": "evocation",
+      "lists": [
+        "paladin"
+      ],
+      "casting_time": "bonus-action",
+      "range": {
+        "kind": "self",
+        "feet": 0
+      },
+      "target": {
+        "shape": "single",
+        "count": 1,
+        "eligibility": "hit-target"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": false,
+        "material": null
+      },
+      "ritual": false,
+      "concentration": false,
+      "duration": "instantaneous",
+      "duration_seconds": 0,
+      "scaling": {
+        "kind": "slot",
+        "above_level": 1,
+        "dice_count": 1,
+        "die_sides": 8,
+        "effect_ids": [
+          "damage"
+        ]
+      },
+      "effects": [
+        {
+          "id": "damage",
+          "mechanic": "damage.divine-smite",
+          "timing": "immediately-after-hit",
+          "dice_count": 2,
+          "die_sides": 8,
+          "damage_type": "radiant",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "bonus",
+          "mechanic": "damage.divine-smite-fiend-undead",
+          "timing": "target-is-fiend-or-undead",
+          "dice_count": 1,
+          "die_sides": 8,
+          "damage_type": "radiant",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "damage.divine-smite",
+        "damage.divine-smite-fiend-undead",
+        "trigger.bonus-action-after-melee-or-unarmed-hit",
+        "scaling.per-slot"
+      ],
+      "slot_levels": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 0,
+        "casting_triggers": [
+          "hit-with-melee-weapon",
+          "hit-with-unarmed-strike"
+        ],
+        "end_timing": "instantaneous",
+        "divine_smite": {
+          "trigger_hits": [
+            "melee-weapon",
+            "unarmed-strike"
+          ],
+          "trigger_timing": "immediately-after-hitting-target",
+          "extra_dice_count": 2,
+          "extra_die_sides": 8,
+          "damage_type": "radiant",
+          "type_bonus_dice_count": 1,
+          "type_bonus_die_sides": 8,
+          "type_bonus_types": [
+            "fiend",
+            "undead"
+          ],
+          "slot_dice_count": 1,
+          "slot_die_sides": 8
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/divine-word",
+      "name": "Divine Word",
+      "source_id": "srd-5.2.1:content/spells/divine-word",
+      "source_page": 125,
+      "scope": "complete-source-record",
+      "level": 7,
+      "school": "evocation",
+      "lists": [
+        "cleric"
+      ],
+      "casting_time": "bonus-action",
+      "range": {
+        "kind": "feet",
+        "feet": 30
+      },
+      "target": {
+        "shape": "selected-creatures",
+        "count": 0,
+        "eligibility": "creatures-in-range"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": false,
+        "material": null
+      },
+      "ritual": false,
+      "concentration": false,
+      "duration": "instantaneous",
+      "duration_seconds": 0,
+      "scaling": {
+        "kind": "none",
+        "above_level": 0,
+        "dice_count": 0,
+        "die_sides": 0,
+        "effect_ids": []
+      },
+      "effects": [
+        {
+          "id": "table",
+          "mechanic": "effect.divine-word-hit-point-table",
+          "timing": "failed-charisma-save-target-50-hit-points-or-fewer",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "banish",
+          "mechanic": "banish.divine-word-planar",
+          "timing": "failed-charisma-save-regardless-of-hit-points",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "effect.divine-word-hit-point-table",
+        "banish.divine-word-planar",
+        "save.charisma"
+      ],
+      "slot_levels": [
+        7,
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 0,
+        "casting_triggers": [],
+        "end_timing": "instantaneous",
+        "divine_word": {
+          "source_pages": [
+            125
+          ],
+          "affects": "each-creature-of-choice-in-range",
+          "save": "charisma",
+          "hit_point_limit": 50,
+          "limit_basis": "current-hit-points",
+          "rows": [
+            {
+              "min_hit_points": 0,
+              "max_hit_points": 20,
+              "dies": true,
+              "blinded": false,
+              "deafened": false,
+              "stunned": false,
+              "duration_seconds": 0
+            },
+            {
+              "min_hit_points": 21,
+              "max_hit_points": 30,
+              "dies": false,
+              "blinded": true,
+              "deafened": true,
+              "stunned": true,
+              "duration_seconds": 3600
+            },
+            {
+              "min_hit_points": 31,
+              "max_hit_points": 40,
+              "dies": false,
+              "blinded": true,
+              "deafened": true,
+              "stunned": false,
+              "duration_seconds": 600
+            },
+            {
+              "min_hit_points": 41,
+              "max_hit_points": 50,
+              "dies": false,
+              "blinded": false,
+              "deafened": true,
+              "stunned": false,
+              "duration_seconds": 60
+            }
+          ],
+          "banish_types": [
+            "celestial",
+            "elemental",
+            "fey",
+            "fiend"
+          ],
+          "banish_regardless_of_hit_points": true,
+          "banish_result": "forced-back-to-plane-of-origin-if-not-there",
+          "banish_return_hours": 24,
+          "banish_return_exception": "wish-spell"
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/dominate-beast",
+      "name": "Dominate Beast",
+      "source_id": "srd-5.2.1:content/spells/dominate-beast",
+      "source_page": 125,
+      "scope": "complete-source-record",
+      "level": 4,
+      "school": "enchantment",
+      "lists": [
+        "druid",
+        "ranger",
+        "sorcerer"
+      ],
+      "casting_time": "action",
+      "range": {
+        "kind": "feet",
+        "feet": 60
+      },
+      "target": {
+        "shape": "single",
+        "count": 1,
+        "eligibility": "visible-beast-in-range"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": null
+      },
+      "ritual": false,
+      "concentration": true,
+      "duration": "timed",
+      "duration_seconds": 60,
+      "scaling": {
+        "kind": "slot-duration-table",
+        "above_level": 4,
+        "dice_count": 0,
+        "die_sides": 0,
+        "effect_ids": [
+          "charm"
+        ]
+      },
+      "effects": [
+        {
+          "id": "charm",
+          "mechanic": "condition.charmed",
+          "timing": "failed-wisdom-save-for-duration",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "link",
+          "mechanic": "link.dominate-telepathic-command",
+          "timing": "caster-turn-same-plane-no-action",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "reaction",
+          "mechanic": "command.dominate-reaction",
+          "timing": "caster-spends-own-reaction",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "condition.charmed",
+        "link.dominate-telepathic-command",
+        "command.dominate-reaction",
+        "save.wisdom",
+        "save.advantage-when-fighting",
+        "save.repeat-on-damage",
+        "scaling.duration-by-slot-table",
+        "concentration.source-duration"
+      ],
+      "slot_levels": [
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 0,
+        "casting_triggers": [],
+        "end_timing": "duration-or-concentration-ended",
+        "dominate_beast": {
+          "source_pages": [
+            125
+          ],
+          "target_kind": "beast",
+          "save": "wisdom",
+          "failure_condition": "charmed",
+          "condition_duration": "spell-duration",
+          "save_advantage": "caster-or-allies-fighting-target",
+          "repeat_save": "whenever-target-takes-damage",
+          "repeat_success": "spell-ends-on-target",
+          "link": "telepathic-while-same-plane",
+          "command_timing": "caster-turn",
+          "command_action": "no-action-required",
+          "command_examples": [
+            "Attack that creature",
+            "Move over there",
+            "Fetch that object"
+          ],
+          "obey": "target-does-its-best-to-obey-on-its-turn",
+          "idle": "acts-and-moves-as-it-likes-focusing-on-protecting-itself",
+          "reaction_command": "caster-can-command-target-to-take-reaction",
+          "reaction_cost": "caster-must-take-own-reaction",
+          "slot_durations": [
+            {
+              "slot_level": 5,
+              "duration_seconds": 600,
+              "or_higher": false
+            },
+            {
+              "slot_level": 6,
+              "duration_seconds": 3600,
+              "or_higher": false
+            },
+            {
+              "slot_level": 7,
+              "duration_seconds": 28800,
+              "or_higher": true
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/dominate-monster",
+      "name": "Dominate Monster",
+      "source_id": "srd-5.2.1:content/spells/dominate-monster",
+      "source_page": 125,
+      "scope": "complete-source-record",
+      "level": 8,
+      "school": "enchantment",
+      "lists": [
+        "bard",
+        "sorcerer",
+        "warlock",
+        "wizard"
+      ],
+      "casting_time": "action",
+      "range": {
+        "kind": "feet",
+        "feet": 60
+      },
+      "target": {
+        "shape": "single",
+        "count": 1,
+        "eligibility": "visible-creature-in-range"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": null
+      },
+      "ritual": false,
+      "concentration": true,
+      "duration": "timed",
+      "duration_seconds": 3600,
+      "scaling": {
+        "kind": "slot-duration-table",
+        "above_level": 8,
+        "dice_count": 0,
+        "die_sides": 0,
+        "effect_ids": [
+          "charm"
+        ]
+      },
+      "effects": [
+        {
+          "id": "charm",
+          "mechanic": "condition.charmed",
+          "timing": "failed-wisdom-save-for-duration",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "link",
+          "mechanic": "link.dominate-telepathic-command",
+          "timing": "caster-turn-same-plane-no-action",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "reaction",
+          "mechanic": "command.dominate-reaction",
+          "timing": "caster-spends-own-reaction",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "condition.charmed",
+        "link.dominate-telepathic-command",
+        "command.dominate-reaction",
+        "save.wisdom",
+        "save.advantage-when-fighting",
+        "save.repeat-on-damage",
+        "scaling.duration-by-slot-table",
+        "concentration.source-duration"
+      ],
+      "slot_levels": [
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 0,
+        "casting_triggers": [],
+        "end_timing": "duration-or-concentration-ended",
+        "dominate_monster": {
+          "source_pages": [
+            125,
+            126
+          ],
+          "target_kind": "creature",
+          "save": "wisdom",
+          "failure_condition": "charmed",
+          "condition_duration": "spell-duration",
+          "save_advantage": "caster-or-allies-fighting-target",
+          "repeat_save": "whenever-target-takes-damage",
+          "repeat_success": "spell-ends-on-target",
+          "link": "telepathic-while-same-plane",
+          "command_timing": "caster-turn",
+          "command_action": "no-action-required",
+          "command_examples": [
+            "Attack that creature",
+            "Move over there",
+            "Fetch that object"
+          ],
+          "obey": "target-does-its-best-to-obey-on-its-turn",
+          "idle": "acts-and-moves-as-it-likes-focusing-on-protecting-itself",
+          "reaction_command": "caster-can-command-target-to-take-reaction",
+          "reaction_cost": "caster-must-take-own-reaction",
+          "slot_durations": [
+            {
+              "slot_level": 9,
+              "duration_seconds": 28800,
+              "or_higher": false
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

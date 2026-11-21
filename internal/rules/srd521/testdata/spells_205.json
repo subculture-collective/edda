@@ -1,0 +1,1558 @@
+{
+  "schema_version": 1,
+  "source": {
+    "version": "5.2.1",
+    "language": "en",
+    "landing_url": "https://www.dndbeyond.com/srd",
+    "artifact_url": "https://media.dndbeyond.com/compendium-images/srd/5.2/SRD_CC_v5.2.1.pdf",
+    "sha256": "8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87",
+    "bytes": 6031375,
+    "pages": 364,
+    "retrieved_at": "2026-11-15",
+    "license": "CC-BY-4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/legalcode",
+    "attribution": "This work includes material from the System Reference Document 5.2.1 (\u201cSRD 5.2.1\u201d) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd. The SRD 5.2.1 is licensed under the Creative Commons Attribution 4.0 International License, available at https://creativecommons.org/licenses/by/4.0/legalcode.",
+    "changes": "SRD 5.2.1 PDF pp.128-131 adapted into twelve complete offline spell families for issue #205. No executable effects or availability grants."
+  },
+  "records": [
+    {
+      "id": "srd-5.2.1:content/spells/etherealness",
+      "name": "Etherealness",
+      "source_id": "srd-5.2.1:content/spells/etherealness",
+      "source_page": 128,
+      "scope": "complete-source-record",
+      "level": 7,
+      "school": "conjuration",
+      "lists": [
+        "bard",
+        "cleric",
+        "sorcerer",
+        "warlock",
+        "wizard"
+      ],
+      "casting_time": "action",
+      "range": {
+        "kind": "self",
+        "feet": 0
+      },
+      "target": {
+        "shape": "single",
+        "count": 1,
+        "eligibility": "self"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": null
+      },
+      "ritual": false,
+      "concentration": false,
+      "duration": "timed",
+      "duration_seconds": 28800,
+      "scaling": {
+        "kind": "slot-targets",
+        "above_level": 7,
+        "dice_count": 0,
+        "die_sides": 0,
+        "effect_ids": [
+          "targets"
+        ]
+      },
+      "effects": [
+        {
+          "id": "border",
+          "mechanic": "plane.border-ethereal",
+          "timing": "for-duration",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "interaction",
+          "mechanic": "interaction.ethereal-only",
+          "timing": "while-on-ethereal-plane",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "return",
+          "mechanic": "return.shunt-force-damage",
+          "timing": "when-spell-ends-in-occupied-space",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "ending",
+          "mechanic": "ending.instant-on-unsupported-plane",
+          "timing": "when-cast-on-ethereal-plane-or-plane-that-does-not-border-it",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "targets",
+          "mechanic": "targets.willing-creatures-per-slot",
+          "timing": "slot-level-above-7",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "plane.border-ethereal",
+        "interaction.ethereal-only",
+        "return.shunt-force-damage",
+        "ending.instant-on-unsupported-plane",
+        "targets.willing-creatures-per-slot",
+        "scaling.targets-per-slot"
+      ],
+      "slot_levels": [
+        7,
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 0,
+        "casting_triggers": [],
+        "end_timing": "duration-ended",
+        "etherealness": {
+          "region": "border-ethereal-where-it-overlaps-your-current-plane",
+          "movement": "any-direction",
+          "vertical_extra_feet_per_foot": 1,
+          "perceived_plane_appearance": "gray",
+          "perceived_plane_limit_feet": 60,
+          "affects_and_affected_by": "only-creatures-objects-and-effects-on-the-ethereal-plane",
+          "outside_creatures": "cannot-perceive-or-interact-unless-a-feature-allows",
+          "return_place": "plane-you-left-in-space-corresponding-to-your-border-ethereal-space",
+          "occupied_result": "shunted-to-nearest-unoccupied-space",
+          "shunt_damage_type": "force",
+          "shunt_damage_per_foot_moved": 2,
+          "instant_end_conditions": [
+            "cast-while-on-the-ethereal-plane",
+            "cast-on-plane-that-does-not-border-the-ethereal-plane"
+          ],
+          "instant_end_example": "outer-planes",
+          "base_targets": 1,
+          "additional_targets_per_slot": 3,
+          "slot_target_kind": "willing-creatures-including-you",
+          "slot_target_range_feet": 10
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/expeditious-retreat",
+      "name": "Expeditious Retreat",
+      "source_id": "srd-5.2.1:content/spells/expeditious-retreat",
+      "source_page": 129,
+      "scope": "complete-source-record",
+      "level": 1,
+      "school": "transmutation",
+      "lists": [
+        "sorcerer",
+        "warlock",
+        "wizard"
+      ],
+      "casting_time": "bonus-action",
+      "range": {
+        "kind": "self",
+        "feet": 0
+      },
+      "target": {
+        "shape": "single",
+        "count": 1,
+        "eligibility": "self"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": null
+      },
+      "ritual": false,
+      "concentration": true,
+      "duration": "timed",
+      "duration_seconds": 600,
+      "scaling": {
+        "kind": "none",
+        "above_level": 0,
+        "dice_count": 0,
+        "die_sides": 0,
+        "effect_ids": []
+      },
+      "effects": [
+        {
+          "id": "dash",
+          "mechanic": "action.dash-on-cast",
+          "timing": "immediate",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "repeat",
+          "mechanic": "action.dash-as-bonus-action",
+          "timing": "bonus-action-each-turn-until-spell-ends",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "action.dash-on-cast",
+        "action.dash-as-bonus-action",
+        "concentration.source-duration"
+      ],
+      "slot_levels": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 0,
+        "casting_triggers": [],
+        "end_timing": "duration-or-concentration-ended",
+        "retreat": {
+          "cast_action": "dash",
+          "repeat_action": "dash",
+          "repeat_action_type": "bonus-action",
+          "repeat_while": "until-spell-ends"
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/eyebite",
+      "name": "Eyebite",
+      "source_id": "srd-5.2.1:content/spells/eyebite",
+      "source_page": 129,
+      "scope": "complete-source-record",
+      "level": 6,
+      "school": "necromancy",
+      "lists": [
+        "bard",
+        "sorcerer",
+        "warlock",
+        "wizard"
+      ],
+      "casting_time": "action",
+      "range": {
+        "kind": "self",
+        "feet": 0
+      },
+      "target": {
+        "shape": "single",
+        "count": 1,
+        "eligibility": "visible-creature-in-range"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": null
+      },
+      "ritual": false,
+      "concentration": true,
+      "duration": "timed",
+      "duration_seconds": 60,
+      "scaling": {
+        "kind": "none",
+        "above_level": 0,
+        "dice_count": 0,
+        "die_sides": 0,
+        "effect_ids": []
+      },
+      "effects": [
+        {
+          "id": "save",
+          "mechanic": "save.eyebite-wisdom",
+          "timing": "on-cast",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "asleep",
+          "mechanic": "condition.eyebite-unconscious",
+          "timing": "failed-save-if-asleep-chosen",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "panicked",
+          "mechanic": "condition.eyebite-frightened-dash-away",
+          "timing": "failed-save-if-panicked-chosen",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "sickened",
+          "mechanic": "condition.eyebite-poisoned",
+          "timing": "failed-save-if-sickened-chosen",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "retarget",
+          "mechanic": "target.eyebite-magic-action-retarget",
+          "timing": "each-of-your-turns-until-spell-ends",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "save.eyebite-wisdom",
+        "condition.eyebite-unconscious",
+        "condition.eyebite-frightened-dash-away",
+        "condition.eyebite-poisoned",
+        "target.eyebite-magic-action-retarget",
+        "concentration.source-duration"
+      ],
+      "slot_levels": [
+        6,
+        7,
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 0,
+        "casting_triggers": [],
+        "end_timing": "duration-or-concentration-ended",
+        "eyebite": {
+          "appearance": "your-eyes-become-an-inky-void",
+          "target_range_feet": 60,
+          "target_origin": "within-60-feet-of-you",
+          "target_visibility": "you-can-see",
+          "save": "wisdom",
+          "failure": "affected-by-one-chosen-effect-for-the-duration",
+          "options": [
+            "asleep",
+            "panicked",
+            "sickened"
+          ],
+          "retarget_action": "magic-action",
+          "retarget_timing": "each-of-your-turns-until-the-spell-ends",
+          "retarget_exclusion": "creature-that-succeeded-on-a-save-against-this-casting",
+          "asleep_condition": "unconscious",
+          "asleep_wakes_when": [
+            "it-takes-any-damage",
+            "another-creature-takes-an-action-to-shake-it-awake"
+          ],
+          "panicked_condition": "frightened",
+          "panicked_turn_action": "take-dash-action-and-move-away-from-you-by-safest-and-shortest-route",
+          "panicked_end_distance_feet": 60,
+          "panicked_end_when": "moves-to-a-space-at-least-60-feet-away-where-it-cannot-see-you",
+          "sickened_condition": "poisoned"
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/fabricate",
+      "name": "Fabricate",
+      "source_id": "srd-5.2.1:content/spells/fabricate",
+      "source_page": 129,
+      "scope": "complete-source-record",
+      "level": 4,
+      "school": "transmutation",
+      "lists": [
+        "wizard"
+      ],
+      "casting_time": "10-minutes",
+      "range": {
+        "kind": "feet",
+        "feet": 120
+      },
+      "target": {
+        "shape": "choice",
+        "count": 1,
+        "eligibility": "visible-raw-materials-in-range"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": null
+      },
+      "ritual": false,
+      "concentration": false,
+      "duration": "instantaneous",
+      "duration_seconds": 0,
+      "scaling": {
+        "kind": "none",
+        "above_level": 0,
+        "dice_count": 0,
+        "die_sides": 0,
+        "effect_ids": []
+      },
+      "effects": [
+        {
+          "id": "convert",
+          "mechanic": "craft.fabricate-same-material",
+          "timing": "immediate",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "size",
+          "mechanic": "limit.fabricate-object-size",
+          "timing": "on-cast",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "restriction",
+          "mechanic": "restriction.fabricate-skilled-items-need-tool-proficiency",
+          "timing": "on-cast",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "craft.fabricate-same-material",
+        "limit.fabricate-object-size",
+        "restriction.fabricate-skilled-items-need-tool-proficiency",
+        "cast.ten-minutes"
+      ],
+      "slot_levels": [
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 600,
+        "casting_triggers": [],
+        "end_timing": "instantaneous",
+        "fabricate": {
+          "input": "raw-materials-you-can-see-within-range",
+          "output": "products-of-the-same-material",
+          "examples": [
+            "wooden-bridge-from-a-clump-of-trees",
+            "rope-from-a-patch-of-hemp",
+            "clothes-from-flax-or-wool"
+          ],
+          "object_size": "large-or-smaller",
+          "object_cube_feet": 10,
+          "connected_cube_count": 8,
+          "connected_cube_feet": 5,
+          "quantity": "sufficient-quantity-of-material",
+          "mineral_kinds": [
+            "metal",
+            "stone",
+            "other-mineral-substance"
+          ],
+          "mineral_object_size": "medium-or-smaller",
+          "mineral_cube_feet": 5,
+          "quality": "based-on-the-quality-of-the-raw-materials",
+          "cannot_create": [
+            "creatures",
+            "magic-items"
+          ],
+          "skilled_items": "items-requiring-a-high-degree-of-skill-such-as-weapons-and-armor",
+          "skilled_items_exception": "proficiency-with-the-type-of-artisans-tools-used-to-craft-such-objects"
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/faerie-fire",
+      "name": "Faerie Fire",
+      "source_id": "srd-5.2.1:content/spells/faerie-fire",
+      "source_page": 129,
+      "scope": "complete-source-record",
+      "level": 1,
+      "school": "evocation",
+      "lists": [
+        "bard",
+        "druid"
+      ],
+      "casting_time": "action",
+      "range": {
+        "kind": "feet",
+        "feet": 60
+      },
+      "target": {
+        "shape": "cube",
+        "count": 0,
+        "eligibility": "objects-and-creatures-in-cube"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": false,
+        "material": null
+      },
+      "ritual": false,
+      "concentration": true,
+      "duration": "timed",
+      "duration_seconds": 60,
+      "scaling": {
+        "kind": "none",
+        "above_level": 0,
+        "dice_count": 0,
+        "die_sides": 0,
+        "effect_ids": []
+      },
+      "effects": [
+        {
+          "id": "outline",
+          "mechanic": "outline.faerie-fire-objects-and-failed-save-creatures",
+          "timing": "on-cast",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "light",
+          "mechanic": "light.dim-10-foot-radius",
+          "timing": "for-duration",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "invisibility",
+          "mechanic": "condition.faerie-fire-blocks-invisible",
+          "timing": "for-duration",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "advantage",
+          "mechanic": "roll.attack-advantage-if-attacker-sees-target",
+          "timing": "for-duration",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "outline.faerie-fire-objects-and-failed-save-creatures",
+        "light.dim-10-foot-radius",
+        "condition.faerie-fire-blocks-invisible",
+        "roll.attack-advantage-if-attacker-sees-target",
+        "save.dexterity",
+        "concentration.source-duration"
+      ],
+      "slot_levels": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 0,
+        "casting_triggers": [],
+        "end_timing": "duration-or-concentration-ended",
+        "faerie_fire": {
+          "cube_feet": 20,
+          "objects_outlined": "all-objects-in-the-cube",
+          "creature_outline": "each-creature-in-the-cube-that-fails-the-save",
+          "save": "dexterity",
+          "outline_colors": [
+            "blue",
+            "green",
+            "violet"
+          ],
+          "color_choice": "your-choice",
+          "light_kind": "dim-light",
+          "light_radius_feet": 10,
+          "light_source": "objects-and-affected-creatures",
+          "blocked_condition": "invisible",
+          "attack_roll_effect": "advantage-if-the-attacker-can-see-it",
+          "attack_roll_target": "affected-creature-or-object"
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/faithful-hound",
+      "name": "Faithful Hound",
+      "source_id": "srd-5.2.1:content/spells/faithful-hound",
+      "source_page": 129,
+      "scope": "complete-source-record",
+      "level": 4,
+      "school": "conjuration",
+      "lists": [
+        "wizard"
+      ],
+      "casting_time": "action",
+      "range": {
+        "kind": "feet",
+        "feet": 30
+      },
+      "target": {
+        "shape": "created-effect",
+        "count": 1,
+        "eligibility": "visible-unoccupied-space-in-range"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": {
+          "description": "a silver whistle",
+          "cost_cp": 0,
+          "consumed": false
+        }
+      },
+      "ritual": false,
+      "concentration": false,
+      "duration": "timed",
+      "duration_seconds": 28800,
+      "scaling": {
+        "kind": "none",
+        "above_level": 0,
+        "dice_count": 0,
+        "die_sides": 0,
+        "effect_ids": []
+      },
+      "effects": [
+        {
+          "id": "hound",
+          "mechanic": "summon.faithful-hound",
+          "timing": "on-cast",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "alarm",
+          "mechanic": "alarm.faithful-hound-bark",
+          "timing": "small-or-larger-creature-within-30-feet-without-password",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "bite",
+          "mechanic": "damage.faithful-hound-bite",
+          "timing": "start-of-each-of-your-turns",
+          "dice_count": 4,
+          "die_sides": 8,
+          "damage_type": "force",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "move",
+          "mechanic": "movement.faithful-hound-magic-action",
+          "timing": "magic-action-on-your-later-turns",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "summon.faithful-hound",
+        "alarm.faithful-hound-bark",
+        "damage.faithful-hound-bite",
+        "movement.faithful-hound-magic-action",
+        "save.dexterity",
+        "components.material"
+      ],
+      "slot_levels": [
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 0,
+        "casting_triggers": [],
+        "end_timing": "duration-ended-or-caster-and-hound-more-than-300-feet-apart",
+        "hound": {
+          "form": "phantom-watchdog",
+          "placement": "unoccupied-space-you-can-see-within-range",
+          "ends_when": [
+            "the-duration-ends",
+            "you-and-the-hound-are-more-than-300-feet-apart"
+          ],
+          "separation_feet": 300,
+          "visible_to": "only-you",
+          "traits": [
+            "intangible",
+            "invulnerable"
+          ],
+          "bark_trigger": "small-or-larger-creature-comes-within-30-feet-without-first-speaking-the-password",
+          "bark_trigger_feet": 30,
+          "password": "specified-by-you-when-you-cast-the-spell",
+          "bark_result": "hound-starts-barking-loudly",
+          "truesight_feet": 30,
+          "bite_timing": "start-of-each-of-your-turns",
+          "bite_target": "one-enemy-within-5-feet-of-the-hound",
+          "bite_reach_feet": 5,
+          "bite_save": "dexterity",
+          "bite_failure_damage_dice_count": 4,
+          "bite_failure_damage_die_sides": 8,
+          "bite_failure_damage_type": "force",
+          "move_action": "magic-action",
+          "move_timing": "your-later-turns",
+          "move_feet": 30
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/false-life",
+      "name": "False Life",
+      "source_id": "srd-5.2.1:content/spells/false-life",
+      "source_page": 129,
+      "scope": "complete-source-record",
+      "level": 1,
+      "school": "necromancy",
+      "lists": [
+        "sorcerer",
+        "wizard"
+      ],
+      "casting_time": "action",
+      "range": {
+        "kind": "self",
+        "feet": 0
+      },
+      "target": {
+        "shape": "single",
+        "count": 1,
+        "eligibility": "self"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": {
+          "description": "a drop of alcohol",
+          "cost_cp": 0,
+          "consumed": false
+        }
+      },
+      "ritual": false,
+      "concentration": false,
+      "duration": "instantaneous",
+      "duration_seconds": 0,
+      "scaling": {
+        "kind": "slot-bonus",
+        "above_level": 1,
+        "dice_count": 0,
+        "die_sides": 0,
+        "effect_ids": [
+          "temporary-hit-points"
+        ]
+      },
+      "effects": [
+        {
+          "id": "temporary-hit-points",
+          "mechanic": "temporary-hit-points.false-life",
+          "timing": "immediate",
+          "dice_count": 2,
+          "die_sides": 4,
+          "damage_type": "",
+          "bonus": 4,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "temporary-hit-points.false-life",
+        "scaling.bonus-per-slot",
+        "components.material"
+      ],
+      "slot_levels": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 0,
+        "casting_triggers": [],
+        "end_timing": "instantaneous",
+        "false_life": {
+          "recipient": "you",
+          "temporary_hit_points_dice_count": 2,
+          "temporary_hit_points_die_sides": 4,
+          "temporary_hit_points_bonus": 4,
+          "additional_temporary_hit_points_per_slot": 5
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/fear",
+      "name": "Fear",
+      "source_id": "srd-5.2.1:content/spells/fear",
+      "source_page": 130,
+      "scope": "complete-source-record",
+      "level": 3,
+      "school": "illusion",
+      "lists": [
+        "bard",
+        "sorcerer",
+        "warlock",
+        "wizard"
+      ],
+      "casting_time": "action",
+      "range": {
+        "kind": "self",
+        "feet": 0
+      },
+      "target": {
+        "shape": "cone",
+        "count": 0,
+        "eligibility": "creatures-in-cone"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": {
+          "description": "a white feather",
+          "cost_cp": 0,
+          "consumed": false
+        }
+      },
+      "ritual": false,
+      "concentration": true,
+      "duration": "timed",
+      "duration_seconds": 60,
+      "scaling": {
+        "kind": "none",
+        "above_level": 0,
+        "dice_count": 0,
+        "die_sides": 0,
+        "effect_ids": []
+      },
+      "effects": [
+        {
+          "id": "save",
+          "mechanic": "save.fear-wisdom",
+          "timing": "on-cast",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "drop",
+          "mechanic": "drop.fear-held-items",
+          "timing": "failed-save-on-cast",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "frightened",
+          "mechanic": "condition.fear-frightened-dash-away",
+          "timing": "failed-save-for-duration",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "recheck",
+          "mechanic": "save.fear-end-turn-without-line-of-sight",
+          "timing": "end-of-creature-turn-without-line-of-sight",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "save.fear-wisdom",
+        "drop.fear-held-items",
+        "condition.fear-frightened-dash-away",
+        "save.fear-end-turn-without-line-of-sight",
+        "area.cone-30",
+        "concentration.source-duration",
+        "components.material"
+      ],
+      "slot_levels": [
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 0,
+        "casting_triggers": [],
+        "end_timing": "duration-or-concentration-ended",
+        "fear": {
+          "cone_feet": 30,
+          "origin": "you",
+          "save": "wisdom",
+          "failure_effects": [
+            "drop-whatever-it-is-holding",
+            "frightened-condition-for-the-duration"
+          ],
+          "condition": "frightened",
+          "turn_action": "take-dash-action-and-move-away-from-you-by-the-safest-route",
+          "turn_action_exception": "nowhere-to-move",
+          "end_turn_trigger": "ends-its-turn-in-a-space-without-line-of-sight-to-you",
+          "end_turn_save": "wisdom",
+          "end_turn_save_success": "spell-ends-on-that-creature"
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/feather-fall",
+      "name": "Feather Fall",
+      "source_id": "srd-5.2.1:content/spells/feather-fall",
+      "source_page": 130,
+      "scope": "complete-source-record",
+      "level": 1,
+      "school": "transmutation",
+      "lists": [
+        "bard",
+        "sorcerer",
+        "wizard"
+      ],
+      "casting_time": "reaction",
+      "range": {
+        "kind": "feet",
+        "feet": 60
+      },
+      "target": {
+        "shape": "up-to-count",
+        "count": 5,
+        "eligibility": "falling-creatures-in-range"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": false,
+        "material": {
+          "description": "a small feather or piece of down",
+          "cost_cp": 0,
+          "consumed": false
+        }
+      },
+      "ritual": false,
+      "concentration": false,
+      "duration": "timed",
+      "duration_seconds": 60,
+      "scaling": {
+        "kind": "none",
+        "above_level": 0,
+        "dice_count": 0,
+        "die_sides": 0,
+        "effect_ids": []
+      },
+      "effects": [
+        {
+          "id": "descent",
+          "mechanic": "descent.feather-fall-60-feet-per-round",
+          "timing": "for-duration",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "landing",
+          "mechanic": "landing.feather-fall-no-damage-ends-for-creature",
+          "timing": "creature-lands-before-spell-ends",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "descent.feather-fall-60-feet-per-round",
+        "landing.feather-fall-no-damage-ends-for-creature",
+        "cast.reaction-trigger",
+        "components.material"
+      ],
+      "slot_levels": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 0,
+        "casting_triggers": [
+          "you-or-a-creature-you-can-see-within-60-feet-of-you-falls"
+        ],
+        "end_timing": "duration-ended-or-creature-lands",
+        "feather_fall": {
+          "trigger_range_feet": 60,
+          "trigger": "you-or-a-creature-you-can-see-within-range-falls",
+          "max_targets": 5,
+          "target_state": "falling-creatures-within-range",
+          "descent_feet_per_round": 60,
+          "descent_until": "spell-ends",
+          "landing_result": "no-fall-damage-and-spell-ends-for-that-creature"
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/find-familiar",
+      "name": "Find Familiar",
+      "source_id": "srd-5.2.1:content/spells/find-familiar",
+      "source_page": 130,
+      "scope": "complete-source-record",
+      "level": 1,
+      "school": "conjuration",
+      "lists": [
+        "wizard"
+      ],
+      "casting_time": "1-hour",
+      "range": {
+        "kind": "feet",
+        "feet": 10
+      },
+      "target": {
+        "shape": "created-effect",
+        "count": 1,
+        "eligibility": "unoccupied-space-in-range"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": {
+          "description": "burning incense worth 10+ GP, which the spell consumes",
+          "cost_cp": 1000,
+          "consumed": true
+        }
+      },
+      "ritual": true,
+      "concentration": false,
+      "duration": "instantaneous",
+      "duration_seconds": 0,
+      "scaling": {
+        "kind": "none",
+        "above_level": 0,
+        "dice_count": 0,
+        "die_sides": 0,
+        "effect_ids": []
+      },
+      "effects": [
+        {
+          "id": "familiar",
+          "mechanic": "summon.find-familiar",
+          "timing": "on-cast",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "telepathy",
+          "mechanic": "communication.familiar-telepathy-100-feet",
+          "timing": "while-familiar-within-100-feet",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "senses",
+          "mechanic": "sense.familiar-eyes-and-ears-bonus-action",
+          "timing": "bonus-action-until-start-of-your-next-turn",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "touch",
+          "mechanic": "delivery.familiar-touch-spells",
+          "timing": "reaction-when-you-cast-a-touch-spell-with-familiar-within-100-feet",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "combat",
+          "mechanic": "combat.familiar-ally-own-initiative",
+          "timing": "while-familiar-exists",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "disappearance",
+          "mechanic": "state.familiar-disappears-at-zero-hit-points",
+          "timing": "familiar-drops-to-0-hit-points",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "dismissal",
+          "mechanic": "action.familiar-dismiss-and-recall",
+          "timing": "magic-action",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "limit",
+          "mechanic": "limit.one-familiar-only",
+          "timing": "when-cast-while-you-have-a-familiar",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "summon.find-familiar",
+        "communication.familiar-telepathy-100-feet",
+        "sense.familiar-eyes-and-ears-bonus-action",
+        "delivery.familiar-touch-spells",
+        "combat.familiar-ally-own-initiative",
+        "state.familiar-disappears-at-zero-hit-points",
+        "action.familiar-dismiss-and-recall",
+        "limit.one-familiar-only",
+        "cast.one-hour",
+        "cast.ritual",
+        "components.consumed-priced-material",
+        "components.material"
+      ],
+      "slot_levels": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 3600,
+        "casting_triggers": [],
+        "end_timing": "instantaneous",
+        "familiar": {
+          "form_choices": [
+            "bat",
+            "cat",
+            "frog",
+            "hawk",
+            "lizard",
+            "octopus",
+            "owl",
+            "rat",
+            "raven",
+            "spider",
+            "weasel",
+            "other-beast-with-challenge-rating-0"
+          ],
+          "appearance": "unoccupied-space-within-range",
+          "statistics": "stat-block-of-the-chosen-form",
+          "creature_type_choices": [
+            "celestial",
+            "fey",
+            "fiend"
+          ],
+          "creature_type_replaces": "beast",
+          "independence": "acts-independently-but-obeys-your-commands",
+          "telepathy_range_feet": 100,
+          "see_through_action": "bonus-action",
+          "see_through_duration": "until-the-start-of-your-next-turn",
+          "see_through_benefit": "benefits-of-any-special-senses-it-has",
+          "touch_delivery": "familiar-delivers-spells-with-a-range-of-touch",
+          "touch_delivery_range_feet": 100,
+          "touch_delivery_action": "reaction",
+          "touch_delivery_timing": "when-you-cast-the-spell",
+          "combat_role": "ally-to-you-and-your-allies",
+          "combat_initiative": "rolls-its-own-initiative-and-acts-on-its-own-turn",
+          "attack_restriction": "cannot-attack-but-can-take-other-actions",
+          "zero_hit_points": "disappears",
+          "reappears_when": "you-cast-this-spell-again",
+          "dismiss_action": "magic-action",
+          "dismiss_options": [
+            "temporarily-to-a-pocket-dimension",
+            "forever"
+          ],
+          "recall_action": "magic-action-while-temporarily-dismissed",
+          "recall_range_feet": 30,
+          "recall_space": "unoccupied-space",
+          "leaves_behind": "anything-it-was-wearing-or-carrying",
+          "leaves_behind_when": [
+            "drops-to-0-hit-points",
+            "disappears-into-the-pocket-dimension"
+          ],
+          "familiar_limit": "cannot-have-more-than-one-familiar-at-a-time",
+          "recast_result": "existing-familiar-adopts-a-new-eligible-form"
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/find-steed",
+      "name": "Find Steed",
+      "source_id": "srd-5.2.1:content/spells/find-steed",
+      "source_page": 130,
+      "scope": "complete-source-record",
+      "level": 2,
+      "school": "conjuration",
+      "lists": [
+        "paladin"
+      ],
+      "casting_time": "action",
+      "range": {
+        "kind": "feet",
+        "feet": 30
+      },
+      "target": {
+        "shape": "created-effect",
+        "count": 1,
+        "eligibility": "unoccupied-space-in-range"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": null
+      },
+      "ritual": false,
+      "concentration": false,
+      "duration": "instantaneous",
+      "duration_seconds": 0,
+      "scaling": {
+        "kind": "none",
+        "above_level": 0,
+        "dice_count": 0,
+        "die_sides": 0,
+        "effect_ids": []
+      },
+      "effects": [
+        {
+          "id": "steed",
+          "mechanic": "summon.find-steed",
+          "timing": "on-cast",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "replacement",
+          "mechanic": "limit.one-steed-replaced-by-new-one",
+          "timing": "when-cast-while-you-have-a-steed",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "combat",
+          "mechanic": "combat.steed-ally-shared-initiative-controlled-mount",
+          "timing": "while-steed-exists",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "disappearance",
+          "mechanic": "state.steed-disappears-at-zero-hit-points-or-caster-death",
+          "timing": "steed-drops-to-0-hit-points-or-you-die",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "slot-level",
+          "mechanic": "stat-block.slot-level-as-spell-level",
+          "timing": "on-cast",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "summon.find-steed",
+        "limit.one-steed-replaced-by-new-one",
+        "combat.steed-ally-shared-initiative-controlled-mount",
+        "state.steed-disappears-at-zero-hit-points-or-caster-death",
+        "stat-block.otherworldly-steed",
+        "stat-block.slot-level-as-spell-level"
+      ],
+      "slot_levels": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 0,
+        "casting_triggers": [],
+        "end_timing": "instantaneous",
+        "steed": {
+          "summons": "otherworldly-being-that-appears-as-a-loyal-steed",
+          "placement": "unoccupied-space-of-your-choice-within-range",
+          "stat_block": "otherworldly-steed",
+          "replaces_existing": "steed-from-this-spell-is-replaced-by-the-new-one",
+          "appearance": "large-rideable-animal-of-your-choice",
+          "appearance_examples": [
+            "horse",
+            "camel",
+            "dire-wolf",
+            "elk"
+          ],
+          "creature_type_choices": [
+            "celestial",
+            "fey",
+            "fiend"
+          ],
+          "creature_type_timing": "whenever-you-cast-the-spell",
+          "combat_role": "ally-to-you-and-your-allies",
+          "initiative": "shares-your-initiative-count",
+          "mount_function": "controlled-mount-while-you-ride-it",
+          "incapacitated_behavior": "takes-its-turn-immediately-after-yours-and-acts-independently-focusing-on-protecting-you",
+          "disappears_when": [
+            "drops-to-0-hit-points",
+            "you-die"
+          ],
+          "leaves_behind": "anything-it-was-wearing-or-carrying",
+          "recast_choice": "summon-the-steed-that-disappeared-or-a-different-one",
+          "slot_level_use": "spell-slot-level-is-the-spell-level-in-the-stat-block"
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/find-traps",
+      "name": "Find Traps",
+      "source_id": "srd-5.2.1:content/spells/find-traps",
+      "source_page": 131,
+      "scope": "complete-source-record",
+      "level": 2,
+      "school": "divination",
+      "lists": [
+        "cleric",
+        "druid",
+        "ranger"
+      ],
+      "casting_time": "action",
+      "range": {
+        "kind": "feet",
+        "feet": 120
+      },
+      "target": {
+        "shape": "selected-objects",
+        "count": 0,
+        "eligibility": "traps-in-line-of-sight-in-range"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": null
+      },
+      "ritual": false,
+      "concentration": false,
+      "duration": "instantaneous",
+      "duration_seconds": 0,
+      "scaling": {
+        "kind": "none",
+        "above_level": 0,
+        "dice_count": 0,
+        "die_sides": 0,
+        "effect_ids": []
+      },
+      "effects": [
+        {
+          "id": "presence",
+          "mechanic": "sense.find-traps-presence",
+          "timing": "immediate",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "nature",
+          "mechanic": "sense.find-traps-general-nature-of-danger",
+          "timing": "immediate",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "sense.find-traps-presence",
+        "sense.find-traps-general-nature-of-danger"
+      ],
+      "slot_levels": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 0,
+        "casting_triggers": [],
+        "end_timing": "instantaneous",
+        "traps": {
+          "senses": "any-trap-within-range-and-line-of-sight",
+          "trap_definition": "object-or-mechanism-created-to-cause-damage-or-other-danger",
+          "sensed_examples": [
+            "alarm-spell",
+            "glyph-of-warding-spell",
+            "mechanical-pit-trap"
+          ],
+          "not_sensed_examples": [
+            "natural-weakness-in-the-floor",
+            "unstable-ceiling",
+            "hidden-sinkhole"
+          ],
+          "reveals": "that-a-trap-is-present",
+          "does_not_reveal": "trap-location",
+          "learns": "general-nature-of-the-danger-posed-by-a-sensed-trap"
+        }
+      }
+    }
+  ]
+}

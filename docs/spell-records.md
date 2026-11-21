@@ -5,7 +5,7 @@ Issue #194 defines `SpellRecords`, decoded by `DecodeSpellRecords(io.Reader)` in
 runtime consumers, action registration, database writes or coverage promotion.
 `testdata/spell_records.json` contains one complete new source record, Acid Arrow,
 and adaptations of the two existing bounded fixtures. Subsequent catalogue
-imports are separately owned; the #218, #198, #196, #199, #200, #201 and #202 batches are described below.
+imports are separately owned; the #218, #198, #196, #199, #200, #201, #202, #203, #204, #205, #206, #207 and #208 batches are described below.
 
 The envelope retains the exact `Source` pin, license, attribution and adaptation
 notice checked by the conformance register. Each record has its own stable
@@ -544,6 +544,330 @@ run:
 
 ```sh
 rtk proxy python3 scripts/verify_srd_spells_202.py /path/to/SRD_CC_v5.2.1.pdf
+```
+
+The same limits as #198 apply: the source check supplements the offline literal
+fixtures and is not an automatic conformance proof.
+
+## Issue #203: Dimension Door through Dominate Monster
+
+`testdata/spells_203.json` imports the twelve families the issue-80 inventory
+assigns to #203, on PDF pp.123-125: Dimension Door, Disguise Self, Disintegrate,
+Dispel Evil and Good, Dispel Magic, Dissonant Whispers, Divination, Divine Favor,
+Divine Smite, Divine Word, Dominate Beast and Dominate Monster. Dimension Door
+keeps its p.123 to p.124 continuation and Dominate Monster its p.125 to p.126
+continuation in explicit `source_pages` lists. `spells_203_test.go` supplies
+literal source-value fixtures for every header, variant, effect and scaling value,
+and checks the family list and pages against the decision inventory.
+
+The typed payloads retain Dimension Door's destination choices, companion rule and
+collision damage; Disguise Self's appearance limits and Study check; Disintegrate's
+failed-save damage, dust and object rules; Dispel Evil and Good's two special
+functions; Dispel Magic's automatic and checked endings; Dissonant Whispers' damage
+and forced move; Divination's question and cumulative no-answer chance; Divine
+Favor's and Divine Smite's extra damage and triggers; Divine Word's hit-point table
+and banishment; and the shared Dominate shape with each spell's slot-duration table.
+
+Schema version 1 gains only shapes present in this batch, on top of #202:
+
+- Target shape `choice` with the eligibilities `destination-in-range`,
+  `visible-creature-nonmagical-object-or-force-creation-in-range` and
+  `creature-object-or-magical-effect-in-range`.
+- Scaling kind `slot-auto-end` (Dispel Magic), which requires the typed Dispel Magic
+  payload and `scaling.auto-end-by-slot-level`; and `slot-duration-table`
+  (Dominate Beast and Dominate Monster), which requires a typed slot-duration table
+  and `scaling.duration-by-slot-table`.
+- Disintegrate's printed +40 is the effect `bonus`; Divine Smite keeps its printed
+  hit trigger in `casting_triggers`; Divination uses `casting_time = action` with
+  `ritual = true` and a consumed 25 GP material.
+
+Validation pins each record's header, scaling row, effects, material, trigger list,
+dependency list and typed values by equality with the printed page, so a positive
+but wrong value is rejected. Composition of the bounded fixtures with #196, #218,
+#198, #199, #200, #201, #202 and #203 through #208 yield 168 unique records. Every imported
+record remains unavailable: no resolver, action, entitlement, tool, inventory,
+coverage or Full Rules behavior is added.
+
+To recheck the PDF pin, identities, pages, printed headers and source anchors,
+run:
+
+```sh
+rtk proxy python3 scripts/verify_srd_spells_203.py /path/to/SRD_CC_v5.2.1.pdf
+```
+
+The same limits as #198 apply: the source check supplements the offline literal
+fixtures and is not an automatic conformance proof.
+
+## Issue #204: Dominate Person through Enthrall
+
+`testdata/spells_204.json` imports the twelve families the issue-80 inventory
+assigns to #204, on PDF pp.126-128: Dominate Person, Dragon's Breath, Dream,
+Druidcraft, Earthquake, Eldritch Blast, Elementalism, Enhance Ability,
+Enlarge/Reduce, Ensnaring Strike, Entangle and Enthrall. Enlarge/Reduce keeps
+its p.127 to p.128 continuation in an explicit `source_pages` list; every other
+family sits on one page. `spells_204_test.go` supplies literal source-value
+fixtures for every header, option, effect and scaling value, and checks the
+family list and pages against the decision inventory.
+
+The typed payloads retain Dominate Person's link, commands and per-slot
+duration table; Dragon's Breath's five damage types and cone; Dream's trance,
+dream and terror options; the option lists of Druidcraft and Elementalism;
+Earthquake's terrain, fissures, structure damage and collapse; Eldritch Blast's
+beam count by character level; Enhance Ability's extra targets; both
+Enlarge/Reduce effects; and the vines, area and save of Ensnaring Strike,
+Entangle and Enthrall.
+
+Schema version 1 gains only shapes present in this batch, on top of #202:
+
+- Range kind `special` (Dream). It carries `feet = 0` and requires
+  `range.special`.
+- Target eligibilities `visible-humanoid-in-range`, `known-creature-same-plane`,
+  `creature-or-object-in-range` and `visible-creature-or-object-in-range` on a
+  `single` target, and `visible-ground-point-in-range` on a `created-effect`.
+- Scaling kind `cantrip-beams` (Eldritch Blast) uses zero dice fields, names the
+  beam effect and requires `scaling.cantrip-beams`; the three beam steps are in
+  the typed payload. `slot-duration` also accepts Dominate Person's typed table,
+  and `slot-targets` accepts Enhance Ability's typed target increment.
+- Earthquake's flat 50 structure damage is stored as `bonus` on a zero-dice
+  effect.
+- Enthrall's `-10` Wisdom (Perception) penalty is a signed payload value.
+- Ensnaring Strike keeps its Bonus Action trigger in `casting_triggers`.
+- Dream is a one-minute cast with `casting_seconds = 60`.
+
+Validation pins each record's whole printed value, including header, scaling
+row, effects, required mechanics and typed payload, so a positive but wrong value
+is rejected. The #204 verifier script checks identities, pages, printed headers and
+anchor phrases only; typed payload values (slot-duration tables, fissure numbers,
+option lists) are verified by the literal fixtures and pins, not by the script. A batch payload on a record of another batch is rejected too.
+Composition of the bounded fixtures with #196, #218, #198, #199, #200, #201,
+#202 and #203 through #208 yield 168 unique records. Every imported record remains
+unavailable: no resolver, action, entitlement, tool, inventory, coverage or Full
+Rules behavior is added.
+
+To recheck the PDF pin, identities, pages, printed headers and source anchors,
+run:
+
+```sh
+rtk proxy python3 scripts/verify_srd_spells_204.py /path/to/SRD_CC_v5.2.1.pdf
+```
+
+The same limits as #198 apply: the source check supplements the offline literal
+fixtures and is not an automatic conformance proof.
+
+## Issue #205: Etherealness through Find Traps
+
+`testdata/spells_205.json` imports the twelve families the issue-80 inventory
+assigns to #205, on PDF pp.128-131: Etherealness, Expeditious Retreat, Eyebite,
+Fabricate, Faerie Fire, Faithful Hound, False Life, Fear, Feather Fall, Find
+Familiar, Find Steed and Find Traps. Each family sits wholly on one page, so no
+record needs a `source_pages` list. The Otherworldly Steed stat block and the
+tail of Find the Path on p.131 belong to other families and are not imported;
+Find Steed names the stat block as the unavailable dependency
+`stat-block.otherworldly-steed`. `spells_205_test.go` supplies literal
+source-value fixtures for every header, variant, effect and scaling value, and
+checks the family list and pages against the decision inventory.
+
+The typed payloads retain Etherealness' border-plane rules, shunt damage and
+per-slot extra targets; Expeditious Retreat's repeat Dash; Eyebite's three
+chosen effects and retargeting; Fabricate's size limits and exclusions; Faerie
+Fire's cube, colours and light; Faithful Hound's bark, bite and movement; False
+Life's dice and per-slot bonus; Fear's cone and end-of-turn save; Feather Fall's
+trigger and descent; Find Familiar's forms, telepathy and dismissal rules; Find
+Steed's summoning, combat and disappearance rules; and Find Traps' sensing and
+exclusions.
+
+Schema version 1 gains only shapes present in this batch, on top of #202:
+
+- Target shapes `choice` (visible raw materials), `cube` (objects and creatures
+  in a cube), `up-to-count` (five falling creatures) and `selected-objects`
+  (traps in line of sight in range).
+- Etherealness uses `slot-targets` scaling with a typed base and per-slot target
+  count; False Life uses `slot-bonus` scaling with a typed per-slot temporary
+  hit point increment, as Aid does for hit points.
+- Feather Fall is a `reaction` and records its trigger in `casting_triggers`.
+  Find Familiar is a one-hour cast with `ritual = true`, as Augury is for one
+  minute, and requires `cast.ritual`.
+- Find Steed keeps `scaling.kind = none`: its source text uses the slot level as
+  the stat block's spell level, which the payload and the dependency
+  `stat-block.slot-level-as-spell-level` record without implementing it.
+
+Validation pins each record's header, scaling row, effects (including timing and
+bonus), material, dependency list and every typed payload value by equality
+with the printed page, so a positive but wrong value is rejected. Composition of
+the bounded fixtures with #196, #218, #198, #199, #200, #201, #202 and #203 through #208
+yields 168 unique records. Every imported record remains unavailable: no
+resolver, action, entitlement, tool, inventory, coverage or Full Rules behavior
+is added.
+
+To recheck the PDF pin, identities, pages, printed headers and source anchors,
+run:
+
+```sh
+rtk proxy python3 scripts/verify_srd_spells_205.py /path/to/SRD_CC_v5.2.1.pdf
+```
+
+The same limits as #198 apply: the source check supplements the offline literal
+fixtures and is not an automatic conformance proof.
+
+## Issue #206: Find the Path through Fly
+
+`testdata/spells_206.json` imports the twelve families the issue-80 inventory
+assigns to #206, on PDF pp.131-133: Find the Path, Finger of Death, Fire Bolt,
+Fire Shield, Fire Storm, Fireball, Flame Blade, Flame Strike, Flaming Sphere,
+Flesh to Stone, Floating Disk and Fly. Find Traps, Fog Cloud and Forbiddance
+share these pages but belong to other batches and are not imported here. Every
+family sits on a single page, so no `source_pages` continuation lists are used.
+`spells_206_test.go` supplies literal source-value fixtures for every header,
+variant, effect and scaling value, and checks the family list and pages against
+the decision inventory.
+
+The typed payloads retain Find the Path's route, invalid destinations and
+known information; Finger of Death's damage, flat bonus and Zombie; Fire Bolt's
+attack, ignition and three cantrip tiers; Fire Shield's two shield choices,
+resistances and retaliation; Fire Storm's ten contiguous cubes; Fireball's
+sphere and per-slot dice; Flame Blade's blade, attack and light; Flame Strike's
+cylinder with separate Fire and Radiant dice; Flaming Sphere's damage,
+movement, barriers and light; Flesh to Stone's repeating save and its
+three-of-a-kind counts; Floating Disk's size, capacity, following and ending
+distances; and Fly's speed, hover and per-slot target increase. The Fireball
+payload is `fireball_burst` because `fireball` already names the Delayed Blast
+Fireball payload.
+
+Schema version 1 gains only shapes present in this batch, on top of #202:
+
+- Target shapes `choice` (a creature or object in range), `cubes` (up to ten
+  contiguous 10-foot Cubes), `cylinder` and `created-effect` (an unoccupied
+  ground space in range).
+- Find the Path uses `casting_time = 1-minute` with `casting_seconds = 60` and
+  a one-day (86,400 second) concentration duration; Flame Blade uses
+  `bonus-action`; Floating Disk uses `action` with `ritual = true`.
+- Fire Bolt uses `cantrip-upgrade` scaling and Fly uses `slot-targets` scaling,
+  each tied to its own typed payload.
+
+Validation pins each record's header, scaling row, effects, material,
+dependency list and typed values by equality with the printed page, so a
+positive but wrong value is rejected. Composition of the bounded fixtures with
+#196, #218, #198, #199, #200, #201, #202 and #203 through #208 yield 168 unique records.
+Every imported record remains unavailable: no resolver, action, entitlement,
+tool, inventory, coverage or Full Rules behavior is added.
+
+To recheck the PDF pin, identities, pages, printed headers and source anchors,
+run:
+
+```sh
+rtk proxy python3 scripts/verify_srd_spells_206.py /path/to/SRD_CC_v5.2.1.pdf
+```
+
+The same limits as #198 apply: the source check supplements the offline literal
+fixtures and is not an automatic conformance proof.
+
+## Issue #207: Fog Cloud through Glibness
+
+`testdata/spells_207.json` imports the twelve families the issue-80 inventory
+assigns to #207, on PDF pp.133-136: Fog Cloud, Forbiddance, Forcecage, Foresight,
+Freedom of Movement, Freezing Sphere, Gaseous Form, Gate, Geas, Gentle Repose,
+Giant Insect and Glibness. Gaseous Form keeps its p.134 to p.135 continuation and
+Giant Insect its p.135 to p.136 continuation, including the Giant Insect stat
+block, in explicit `source_pages` lists. `spells_207_test.go` supplies literal
+source-value fixtures for every header, effect, table row and scaling value, and
+checks the family list and pages against the decision inventory.
+
+Giant Insect's generic effect rows (`jab`, `jab-poison`, `web`) carry base dice
+only with bonus 0. The source adds +3 and the spell's level to Poison Jab and
+Web Bolt; the typed stat block (`piercing_bonus`, `bludgeoning_bonus` and the
+`*_adds_spell_level` flags) is authoritative for those values.
+
+The typed payloads retain Fog Cloud's sphere and radius increment; Forbiddance's
+ward, planar proofing, damage, password and daily recasting; Forcecage's cage and
+box forms, trapping and Charisma save; Foresight's two advantages; Freedom of
+Movement's protections, swim speed and escape; Freezing Sphere's blast, ice,
+break-free check and held globe; Gaseous Form's cloud form, defenses and limits;
+Gate's portal, named-creature option and planar rulers; Geas' command, damage,
+enders and per-slot durations; Gentle Repose's protections; Giant Insect's forms,
+commands and its full stat block with the Poison Jab, Web Bolt and Venomous Spew
+actions; and Glibness' Charisma check and truth rule.
+
+Schema version 1 gains only shapes present in this batch, on top of #202:
+
+- Target shapes `created-effect` (a floor area of up to 40,000 square feet, or an
+  area in range) and `single` (a corpse or remains by touch).
+- Casting times `10-minutes` with `ritual = true` (Forbiddance) and `1-minute`
+  (Foresight, Geas) use the typed `casting_seconds` of 600 and 60; Gentle Repose
+  uses `action` with `ritual = true`.
+- `slot-radius` also accepts Fog Cloud's `additional_radius_feet_per_slot`;
+  `slot-targets` also accepts the per-slot extra creature of Freedom of Movement
+  and Gaseous Form; `slot-duration` also accepts Geas' typed slot table and
+  requires `scaling.geas-slot-duration`.
+- Scaling kind `slot-spell-level` (Giant Insect) records that the slot's level is
+  the spell's level in the stat block, and requires
+  `scaling.stat-block-spell-level`. Its effect carries no dice.
+
+Validation pins each record's header, scaling row, effects, material,
+dependency list and typed values, including every stat block row, by equality
+with the printed pages, so a positive but wrong value is rejected. Composition of
+the bounded fixtures with #196, #218, #198, #199, #200, #201, #202 and #203 through #208
+yields 168 unique records. Every imported record remains unavailable: no
+resolver, action, entitlement, tool, inventory, coverage or Full Rules behavior
+is added.
+
+To recheck the PDF pin, identities, pages, printed headers and source anchors,
+run:
+
+```sh
+rtk proxy python3 scripts/verify_srd_spells_207.py /path/to/SRD_CC_v5.2.1.pdf
+```
+
+The same limits as #198 apply: the source check supplements the offline literal
+fixtures and is not an automatic conformance proof.
+
+## Issue #208: Globe of Invulnerability through Hallow
+
+`testdata/spells_208.json` imports the twelve families the issue-80 inventory
+assigns to #208, on PDF pp.136-138: Globe of Invulnerability, Glyph of Warding,
+Goodberry, Grease, Greater Invisibility, Greater Restoration, Guardian of Faith,
+Guards and Wards, Guidance, Guiding Bolt, Gust of Wind and Hallow. Glyph of
+Warding keeps its p.136 to p.137 continuation, Guards and Wards its p.137 to
+p.138 continuation and Hallow its p.138 to p.139 continuation in explicit
+`source_pages` lists. `spells_208_test.go` supplies literal source-value
+fixtures for every header, variant, effect and scaling value, and checks the
+family list and pages against the decision inventory.
+
+The typed payloads retain Globe of Invulnerability's barrier and per-slot spell
+level limit; Glyph of Warding's inscription, triggers, explosive rune and stored
+spell; Goodberry's berries; Grease's square and save; Greater Invisibility's
+condition; Greater Restoration's five removable effects; Guardian of Faith's
+guardian, trigger and 60-damage ending; Guards and Wards' area, password, four
+effects and 365-day extension; Guidance's d4 bonus; Guiding Bolt's attack,
+damage and Advantage window; Gust of Wind's line, push and flame rules; and
+Hallow's ward and all ten extra-effect choices.
+
+Schema version 1 gains only shapes present in this batch, on top of #202:
+
+- Casting time `24-hours` (Hallow), with `casting_seconds = 86400`.
+- Scaling kind `slot-limit`: a spell-level limit that rises by a typed amount per
+  slot level above the base (Globe of Invulnerability), alongside the existing
+  `slot` dice scaling used by Glyph of Warding and Guiding Bolt.
+- Target shapes `emanation`, `choice`, `square`, `created-effect` and `line`
+  with the eligibilities this batch lists. Hallow's "area around" a touched
+  point is `created-effect` with count 0, not `sphere`: the page never names a
+  sphere. Glyph of Warding's
+  `until-dispelled` duration records `dispelled-or-triggered` as its end timing.
+- Flat quantities that are not dice, such as Guardian of Faith's 20 Radiant
+  damage and Goodberry's 1 Hit Point, live in the typed payload; their effects
+  carry no dice and no bonus.
+
+Validation pins each record's header, scaling row, effects, material,
+dependency list and typed values by equality with the printed page, so a
+positive but wrong value is rejected. Composition of the bounded fixtures with
+#196, #218, #198, #199, #200, #201, #202 and #203 through #208 yield 168 unique records.
+Every imported record remains unavailable: no resolver, action, entitlement,
+tool, inventory, coverage or Full Rules behavior is added.
+
+To recheck the PDF pin, identities, pages, printed headers and source anchors,
+run:
+
+```sh
+rtk proxy python3 scripts/verify_srd_spells_208.py /path/to/SRD_CC_v5.2.1.pdf
 ```
 
 The same limits as #198 apply: the source check supplements the offline literal

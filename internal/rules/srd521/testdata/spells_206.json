@@ -1,0 +1,1326 @@
+{
+  "schema_version": 1,
+  "source": {
+    "version": "5.2.1",
+    "language": "en",
+    "landing_url": "https://www.dndbeyond.com/srd",
+    "artifact_url": "https://media.dndbeyond.com/compendium-images/srd/5.2/SRD_CC_v5.2.1.pdf",
+    "sha256": "8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87",
+    "bytes": 6031375,
+    "pages": 364,
+    "retrieved_at": "2026-11-15",
+    "license": "CC-BY-4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/legalcode",
+    "attribution": "This work includes material from the System Reference Document 5.2.1 (“SRD 5.2.1”) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd. The SRD 5.2.1 is licensed under the Creative Commons Attribution 4.0 International License, available at https://creativecommons.org/licenses/by/4.0/legalcode.",
+    "changes": "SRD 5.2.1 PDF pp.131-133 adapted into twelve complete offline spell families for issue #206. Every family sits on a single page, so no page-break continuation text is involved. No executable effects or availability grants."
+  },
+  "records": [
+    {
+      "id": "srd-5.2.1:content/spells/find-the-path",
+      "name": "Find the Path",
+      "source_id": "srd-5.2.1:content/spells/find-the-path",
+      "source_page": 131,
+      "scope": "complete-source-record",
+      "level": 6,
+      "school": "divination",
+      "lists": [
+        "bard",
+        "cleric",
+        "druid"
+      ],
+      "casting_time": "1-minute",
+      "range": {
+        "kind": "self",
+        "feet": 0
+      },
+      "target": {
+        "shape": "single",
+        "count": 1,
+        "eligibility": "self"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": {
+          "description": "a set of divination tools—such as cards or runes—worth 100+ GP",
+          "cost_cp": 10000,
+          "consumed": false
+        }
+      },
+      "ritual": false,
+      "concentration": true,
+      "duration": "timed",
+      "duration_seconds": 86400,
+      "scaling": {
+        "kind": "none",
+        "above_level": 0,
+        "dice_count": 0,
+        "die_sides": 0,
+        "effect_ids": []
+      },
+      "effects": [
+        {
+          "id": "route",
+          "mechanic": "sense.find-the-path-route",
+          "timing": "duration-on-same-plane",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "sense.find-the-path-route",
+        "sense.find-the-path-invalid-destinations",
+        "cast.one-minute",
+        "concentration.source-duration",
+        "components.material"
+      ],
+      "slot_levels": [
+        6,
+        7,
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 60,
+        "casting_triggers": [],
+        "end_timing": "duration-or-concentration-ended",
+        "find_path": {
+          "destination": "location-you-name",
+          "familiarity_required": true,
+          "route_sensed": "most-direct-physical-route",
+          "failing_destinations": [
+            "destination-on-another-plane",
+            "moving-destination",
+            "unspecific-destination"
+          ],
+          "known_while_on_same_plane": [
+            "distance",
+            "direction"
+          ],
+          "plane_requirement": "same-plane-as-destination",
+          "path_choice": "know-which-path-is-most-direct-at-each-choice"
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/finger-of-death",
+      "name": "Finger of Death",
+      "source_id": "srd-5.2.1:content/spells/finger-of-death",
+      "source_page": 131,
+      "scope": "complete-source-record",
+      "level": 7,
+      "school": "necromancy",
+      "lists": [
+        "sorcerer",
+        "warlock",
+        "wizard"
+      ],
+      "casting_time": "action",
+      "range": {
+        "kind": "feet",
+        "feet": 60
+      },
+      "target": {
+        "shape": "single",
+        "count": 1,
+        "eligibility": "visible-creature-in-range"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": null
+      },
+      "ritual": false,
+      "concentration": false,
+      "duration": "instantaneous",
+      "duration_seconds": 0,
+      "scaling": {
+        "kind": "none",
+        "above_level": 0,
+        "dice_count": 0,
+        "die_sides": 0,
+        "effect_ids": []
+      },
+      "effects": [
+        {
+          "id": "damage",
+          "mechanic": "damage.finger-of-death",
+          "timing": "failed-save-full-damage-success-half",
+          "dice_count": 7,
+          "die_sides": 8,
+          "damage_type": "necrotic",
+          "bonus": 30,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "zombie",
+          "mechanic": "summon.finger-of-death-zombie",
+          "timing": "humanoid-killed-rises-at-start-of-caster-next-turn",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "damage.finger-of-death",
+        "damage.necrotic",
+        "save.constitution-half",
+        "summon.finger-of-death-zombie"
+      ],
+      "slot_levels": [
+        7,
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 0,
+        "casting_triggers": [],
+        "end_timing": "instantaneous",
+        "finger_of_death": {
+          "target_sight": "creature-you-can-see-in-range",
+          "save": "constitution",
+          "damage_type": "necrotic",
+          "dice_count": 7,
+          "die_sides": 8,
+          "flat_bonus": 30,
+          "success_damage": "half-damage",
+          "raised_creature": "humanoid-killed-by-spell",
+          "rises_when": "start-of-caster-next-turn",
+          "rises_as": "zombie",
+          "zombie_reference": "monsters-section",
+          "zombie_obeys": "caster-verbal-orders"
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/fire-bolt",
+      "name": "Fire Bolt",
+      "source_id": "srd-5.2.1:content/spells/fire-bolt",
+      "source_page": 132,
+      "scope": "complete-source-record",
+      "level": 0,
+      "school": "evocation",
+      "lists": [
+        "sorcerer",
+        "wizard"
+      ],
+      "casting_time": "action",
+      "range": {
+        "kind": "feet",
+        "feet": 120
+      },
+      "target": {
+        "shape": "choice",
+        "count": 1,
+        "eligibility": "creature-or-object-in-range"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": null
+      },
+      "ritual": false,
+      "concentration": false,
+      "duration": "instantaneous",
+      "duration_seconds": 0,
+      "scaling": {
+        "kind": "cantrip-upgrade",
+        "above_level": 0,
+        "dice_count": 1,
+        "die_sides": 10,
+        "effect_ids": [
+          "damage"
+        ]
+      },
+      "effects": [
+        {
+          "id": "damage",
+          "mechanic": "damage.fire-bolt",
+          "timing": "ranged-spell-attack-hit",
+          "dice_count": 1,
+          "die_sides": 10,
+          "damage_type": "fire",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "ignite",
+          "mechanic": "ignite.flammable-objects",
+          "timing": "flammable-object-hit-not-worn-or-carried",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "damage.fire-bolt",
+        "damage.fire",
+        "attack.ranged-spell",
+        "ignite.flammable-objects",
+        "scaling.cantrip-upgrade"
+      ],
+      "slot_levels": [],
+      "source_details": {
+        "casting_seconds": 0,
+        "casting_triggers": [],
+        "end_timing": "instantaneous",
+        "fire_bolt": {
+          "attack": "ranged-spell-attack",
+          "target_kind": "creature-or-object-in-range",
+          "damage_type": "fire",
+          "ignites": "flammable-object-hit-that-is-not-worn-or-carried",
+          "upgrades": [
+            {
+              "character_level": 5,
+              "dice_count": 2,
+              "die_sides": 10
+            },
+            {
+              "character_level": 11,
+              "dice_count": 3,
+              "die_sides": 10
+            },
+            {
+              "character_level": 17,
+              "dice_count": 4,
+              "die_sides": 10
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/fire-shield",
+      "name": "Fire Shield",
+      "source_id": "srd-5.2.1:content/spells/fire-shield",
+      "source_page": 132,
+      "scope": "complete-source-record",
+      "level": 4,
+      "school": "evocation",
+      "lists": [
+        "druid",
+        "sorcerer",
+        "wizard"
+      ],
+      "casting_time": "action",
+      "range": {
+        "kind": "self",
+        "feet": 0
+      },
+      "target": {
+        "shape": "single",
+        "count": 1,
+        "eligibility": "self"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": {
+          "description": "a bit of phosphorus or a firefly",
+          "cost_cp": 0,
+          "consumed": false
+        }
+      },
+      "ritual": false,
+      "concentration": false,
+      "duration": "timed",
+      "duration_seconds": 600,
+      "scaling": {
+        "kind": "none",
+        "above_level": 0,
+        "dice_count": 0,
+        "die_sides": 0,
+        "effect_ids": []
+      },
+      "effects": [
+        {
+          "id": "light",
+          "mechanic": "light.fire-shield",
+          "timing": "duration",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "resistance",
+          "mechanic": "resistance.fire-shield",
+          "timing": "duration-per-chosen-shield",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "warm-retaliation",
+          "mechanic": "damage.fire-shield-warm-retaliation",
+          "timing": "creature-within-5-feet-hits-you-with-melee-attack-roll",
+          "dice_count": 2,
+          "die_sides": 8,
+          "damage_type": "fire",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "chill-retaliation",
+          "mechanic": "damage.fire-shield-chill-retaliation",
+          "timing": "creature-within-5-feet-hits-you-with-melee-attack-roll",
+          "dice_count": 2,
+          "die_sides": 8,
+          "damage_type": "cold",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "light.fire-shield",
+        "resistance.fire-shield",
+        "damage.fire-shield-warm-retaliation",
+        "damage.fire-shield-chill-retaliation",
+        "components.material"
+      ],
+      "slot_levels": [
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 0,
+        "casting_triggers": [],
+        "end_timing": "duration-ended",
+        "fire_shield": {
+          "bright_light_radius_feet": 10,
+          "dim_light_extra_feet": 10,
+          "shield_choices": [
+            "warm-shield",
+            "chill-shield"
+          ],
+          "warm_resistance": "cold",
+          "chill_resistance": "fire",
+          "retaliation_trigger": "creature-within-5-feet-hits-you-with-melee-attack-roll",
+          "retaliation_range_feet": 5,
+          "retaliation_dice_count": 2,
+          "retaliation_die_sides": 8,
+          "warm_damage_type": "fire",
+          "chill_damage_type": "cold"
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/fire-storm",
+      "name": "Fire Storm",
+      "source_id": "srd-5.2.1:content/spells/fire-storm",
+      "source_page": 132,
+      "scope": "complete-source-record",
+      "level": 7,
+      "school": "evocation",
+      "lists": [
+        "cleric",
+        "druid",
+        "sorcerer"
+      ],
+      "casting_time": "action",
+      "range": {
+        "kind": "feet",
+        "feet": 150
+      },
+      "target": {
+        "shape": "cubes",
+        "count": 10,
+        "eligibility": "creatures-in-contiguous-cubes"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": null
+      },
+      "ritual": false,
+      "concentration": false,
+      "duration": "instantaneous",
+      "duration_seconds": 0,
+      "scaling": {
+        "kind": "none",
+        "above_level": 0,
+        "dice_count": 0,
+        "die_sides": 0,
+        "effect_ids": []
+      },
+      "effects": [
+        {
+          "id": "damage",
+          "mechanic": "damage.fire-storm",
+          "timing": "failed-save-full-damage-success-half",
+          "dice_count": 7,
+          "die_sides": 10,
+          "damage_type": "fire",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "ignite",
+          "mechanic": "ignite.flammable-objects",
+          "timing": "flammable-objects-in-area-not-worn-or-carried",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "damage.fire-storm",
+        "damage.fire",
+        "area.fire-storm-cubes",
+        "save.dexterity-half",
+        "ignite.flammable-objects"
+      ],
+      "slot_levels": [
+        7,
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 0,
+        "casting_triggers": [],
+        "end_timing": "instantaneous",
+        "fire_storm": {
+          "max_cubes": 10,
+          "cube_size_feet": 10,
+          "arrangement": "as-you-like",
+          "contiguity": "each-cube-contiguous-with-at-least-one-other-cube",
+          "save": "dexterity",
+          "damage_type": "fire",
+          "dice_count": 7,
+          "die_sides": 10,
+          "success_damage": "half-damage",
+          "ignites": "flammable-objects-in-area-not-worn-or-carried"
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/fireball",
+      "name": "Fireball",
+      "source_id": "srd-5.2.1:content/spells/fireball",
+      "source_page": 131,
+      "scope": "complete-source-record",
+      "level": 3,
+      "school": "evocation",
+      "lists": [
+        "sorcerer",
+        "wizard"
+      ],
+      "casting_time": "action",
+      "range": {
+        "kind": "feet",
+        "feet": 150
+      },
+      "target": {
+        "shape": "sphere",
+        "count": 0,
+        "eligibility": "creatures-in-sphere"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": {
+          "description": "a ball of bat guano and sulfur",
+          "cost_cp": 0,
+          "consumed": false
+        }
+      },
+      "ritual": false,
+      "concentration": false,
+      "duration": "instantaneous",
+      "duration_seconds": 0,
+      "scaling": {
+        "kind": "slot",
+        "above_level": 3,
+        "dice_count": 1,
+        "die_sides": 6,
+        "effect_ids": [
+          "damage"
+        ]
+      },
+      "effects": [
+        {
+          "id": "damage",
+          "mechanic": "damage.fireball",
+          "timing": "failed-save-full-damage-success-half",
+          "dice_count": 8,
+          "die_sides": 6,
+          "damage_type": "fire",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "ignite",
+          "mechanic": "ignite.flammable-objects",
+          "timing": "flammable-objects-in-area-not-worn-or-carried",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "damage.fireball",
+        "damage.fire",
+        "area.sphere-20-radius",
+        "save.dexterity-half",
+        "ignite.flammable-objects",
+        "scaling.per-slot",
+        "components.material"
+      ],
+      "slot_levels": [
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 0,
+        "casting_triggers": [],
+        "end_timing": "instantaneous",
+        "fireball_burst": {
+          "origin": "bright-streak-from-caster-to-chosen-point-in-range",
+          "center": "point-in-range",
+          "radius_feet": 20,
+          "save": "dexterity",
+          "damage_type": "fire",
+          "dice_count": 8,
+          "die_sides": 6,
+          "success_damage": "half-damage",
+          "ignites": "flammable-objects-in-area-not-worn-or-carried",
+          "slot_above_level": 3,
+          "slot_dice_count": 1,
+          "slot_die_sides": 6
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/flame-blade",
+      "name": "Flame Blade",
+      "source_id": "srd-5.2.1:content/spells/flame-blade",
+      "source_page": 132,
+      "scope": "complete-source-record",
+      "level": 2,
+      "school": "evocation",
+      "lists": [
+        "druid",
+        "sorcerer"
+      ],
+      "casting_time": "bonus-action",
+      "range": {
+        "kind": "self",
+        "feet": 0
+      },
+      "target": {
+        "shape": "single",
+        "count": 1,
+        "eligibility": "self"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": {
+          "description": "a sumac leaf",
+          "cost_cp": 0,
+          "consumed": false
+        }
+      },
+      "ritual": false,
+      "concentration": true,
+      "duration": "timed",
+      "duration_seconds": 600,
+      "scaling": {
+        "kind": "slot",
+        "above_level": 2,
+        "dice_count": 1,
+        "die_sides": 6,
+        "effect_ids": [
+          "damage"
+        ]
+      },
+      "effects": [
+        {
+          "id": "blade",
+          "mechanic": "weapon.flame-blade",
+          "timing": "duration",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "damage",
+          "mechanic": "damage.flame-blade",
+          "timing": "melee-spell-attack-hit",
+          "dice_count": 3,
+          "die_sides": 6,
+          "damage_type": "fire",
+          "bonus": 0,
+          "add_casting_modifier": true,
+          "half_initial_only": false
+        },
+        {
+          "id": "light",
+          "mechanic": "light.flame-blade",
+          "timing": "duration",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "weapon.flame-blade",
+        "damage.flame-blade",
+        "damage.fire",
+        "attack.melee-spell",
+        "light.flame-blade",
+        "scaling.per-slot",
+        "concentration.source-duration",
+        "components.material"
+      ],
+      "slot_levels": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 0,
+        "casting_triggers": [],
+        "end_timing": "duration-or-concentration-ended",
+        "flame_blade": {
+          "blade_form": "fiery-blade-in-free-hand",
+          "blade_shape": "similar-in-size-and-shape-to-scimitar",
+          "release": "disappears-if-you-let-go",
+          "reevoke_action": "bonus-action",
+          "attack_action": "magic-action",
+          "attack": "melee-spell-attack",
+          "damage_type": "fire",
+          "dice_count": 3,
+          "die_sides": 6,
+          "damage_modifier": "spellcasting-ability-modifier",
+          "bright_light_radius_feet": 10,
+          "dim_light_extra_feet": 10,
+          "slot_above_level": 2,
+          "slot_dice_count": 1,
+          "slot_die_sides": 6
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/flame-strike",
+      "name": "Flame Strike",
+      "source_id": "srd-5.2.1:content/spells/flame-strike",
+      "source_page": 132,
+      "scope": "complete-source-record",
+      "level": 5,
+      "school": "evocation",
+      "lists": [
+        "cleric"
+      ],
+      "casting_time": "action",
+      "range": {
+        "kind": "feet",
+        "feet": 60
+      },
+      "target": {
+        "shape": "cylinder",
+        "count": 0,
+        "eligibility": "creatures-in-cylinder"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": {
+          "description": "a pinch of sulfur",
+          "cost_cp": 0,
+          "consumed": false
+        }
+      },
+      "ritual": false,
+      "concentration": false,
+      "duration": "instantaneous",
+      "duration_seconds": 0,
+      "scaling": {
+        "kind": "slot",
+        "above_level": 5,
+        "dice_count": 1,
+        "die_sides": 6,
+        "effect_ids": [
+          "fire",
+          "radiant"
+        ]
+      },
+      "effects": [
+        {
+          "id": "fire",
+          "mechanic": "damage.flame-strike-fire",
+          "timing": "failed-save-full-damage-success-half",
+          "dice_count": 5,
+          "die_sides": 6,
+          "damage_type": "fire",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "radiant",
+          "mechanic": "damage.flame-strike-radiant",
+          "timing": "failed-save-full-damage-success-half",
+          "dice_count": 5,
+          "die_sides": 6,
+          "damage_type": "radiant",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "damage.flame-strike-fire",
+        "damage.flame-strike-radiant",
+        "area.cylinder-10-radius-40-high",
+        "save.dexterity-half",
+        "scaling.per-slot",
+        "components.material"
+      ],
+      "slot_levels": [
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 0,
+        "casting_triggers": [],
+        "end_timing": "instantaneous",
+        "flame_strike": {
+          "origin": "vertical-column-of-fire-from-above",
+          "center": "point-in-range",
+          "radius_feet": 10,
+          "height_feet": 40,
+          "save": "dexterity",
+          "fire_dice_count": 5,
+          "fire_die_sides": 6,
+          "radiant_dice_count": 5,
+          "radiant_die_sides": 6,
+          "success_damage": "half-damage",
+          "slot_above_level": 5,
+          "slot_dice_count": 1,
+          "slot_die_sides": 6,
+          "slot_applies_to": [
+            "fire",
+            "radiant"
+          ]
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/flaming-sphere",
+      "name": "Flaming Sphere",
+      "source_id": "srd-5.2.1:content/spells/flaming-sphere",
+      "source_page": 132,
+      "scope": "complete-source-record",
+      "level": 2,
+      "school": "conjuration",
+      "lists": [
+        "druid",
+        "sorcerer",
+        "wizard"
+      ],
+      "casting_time": "action",
+      "range": {
+        "kind": "feet",
+        "feet": 60
+      },
+      "target": {
+        "shape": "created-effect",
+        "count": 1,
+        "eligibility": "unoccupied-ground-space-in-range"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": {
+          "description": "a ball of wax",
+          "cost_cp": 0,
+          "consumed": false
+        }
+      },
+      "ritual": false,
+      "concentration": true,
+      "duration": "timed",
+      "duration_seconds": 60,
+      "scaling": {
+        "kind": "slot",
+        "above_level": 2,
+        "dice_count": 1,
+        "die_sides": 6,
+        "effect_ids": [
+          "damage"
+        ]
+      },
+      "effects": [
+        {
+          "id": "sphere",
+          "mechanic": "object.flaming-sphere",
+          "timing": "duration",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "damage",
+          "mechanic": "damage.flaming-sphere",
+          "timing": "creature-ends-turn-within-5-feet-or-sphere-moves-into-space",
+          "dice_count": 2,
+          "die_sides": 6,
+          "damage_type": "fire",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "move",
+          "mechanic": "movement.flaming-sphere-bonus-action",
+          "timing": "bonus-action",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "ignite",
+          "mechanic": "ignite.flammable-objects",
+          "timing": "flammable-objects-not-worn-or-carried-touched-by-sphere",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "light",
+          "mechanic": "light.flaming-sphere",
+          "timing": "duration",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "object.flaming-sphere",
+        "damage.flaming-sphere",
+        "damage.fire",
+        "save.dexterity-half",
+        "movement.flaming-sphere-bonus-action",
+        "ignite.flammable-objects",
+        "light.flaming-sphere",
+        "scaling.per-slot",
+        "concentration.source-duration",
+        "components.material"
+      ],
+      "slot_levels": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 0,
+        "casting_triggers": [],
+        "end_timing": "duration-or-concentration-ended",
+        "flaming_sphere": {
+          "diameter_feet": 5,
+          "space": "unoccupied-space-on-the-ground-in-range",
+          "damage_trigger_feet": 5,
+          "damage_trigger": "creature-ends-its-turn-within-distance-of-sphere",
+          "save": "dexterity",
+          "damage_type": "fire",
+          "dice_count": 2,
+          "die_sides": 6,
+          "success_damage": "half-damage",
+          "move_action": "bonus-action",
+          "move_feet": 30,
+          "move_mode": "rolling-along-the-ground",
+          "move_into_creature": "creature-makes-the-save-and-sphere-stops-moving-for-the-turn",
+          "barrier_height_feet": 5,
+          "pit_width_feet": 10,
+          "ignites": "flammable-objects-not-worn-or-carried-touched-by-sphere",
+          "bright_light_radius_feet": 20,
+          "dim_light_extra_feet": 20,
+          "slot_above_level": 2,
+          "slot_dice_count": 1,
+          "slot_die_sides": 6
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/flesh-to-stone",
+      "name": "Flesh to Stone",
+      "source_id": "srd-5.2.1:content/spells/flesh-to-stone",
+      "source_page": 133,
+      "scope": "complete-source-record",
+      "level": 6,
+      "school": "transmutation",
+      "lists": [
+        "druid",
+        "sorcerer",
+        "wizard"
+      ],
+      "casting_time": "action",
+      "range": {
+        "kind": "feet",
+        "feet": 60
+      },
+      "target": {
+        "shape": "single",
+        "count": 1,
+        "eligibility": "visible-creature-in-range"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": {
+          "description": "a cockatrice feather",
+          "cost_cp": 0,
+          "consumed": false
+        }
+      },
+      "ritual": false,
+      "concentration": true,
+      "duration": "timed",
+      "duration_seconds": 60,
+      "scaling": {
+        "kind": "none",
+        "above_level": 0,
+        "dice_count": 0,
+        "die_sides": 0,
+        "effect_ids": []
+      },
+      "effects": [
+        {
+          "id": "restrain",
+          "mechanic": "condition.flesh-to-stone-restrained",
+          "timing": "failed-save-for-duration",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "slow",
+          "mechanic": "speed.flesh-to-stone-zero",
+          "timing": "successful-save-until-start-of-caster-next-turn",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "petrify",
+          "mechanic": "condition.flesh-to-stone-petrified",
+          "timing": "three-failed-saves",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "condition.flesh-to-stone-restrained",
+        "speed.flesh-to-stone-zero",
+        "condition.flesh-to-stone-petrified",
+        "save.constitution-repeating",
+        "construct.automatic-success",
+        "concentration.source-duration",
+        "components.material"
+      ],
+      "slot_levels": [
+        6,
+        7,
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 0,
+        "casting_triggers": [],
+        "end_timing": "duration-or-concentration-ended",
+        "flesh_to_stone": {
+          "target_sight": "one-creature-you-can-see-in-range",
+          "save": "constitution",
+          "failure_condition": "restrained",
+          "success_effect": "speed-0-until-start-of-caster-next-turn",
+          "constructs_automatically_succeed": true,
+          "repeat_save_timing": "end-of-each-restrained-target-turn",
+          "successes_to_end": 3,
+          "failures_to_petrify": 3,
+          "results_consecutive": false,
+          "petrified_condition": "petrified-for-the-duration",
+          "full_duration_result": "petrified-until-ended-by-greater-restoration-or-similar-magic"
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/floating-disk",
+      "name": "Floating Disk",
+      "source_id": "srd-5.2.1:content/spells/floating-disk",
+      "source_page": 133,
+      "scope": "complete-source-record",
+      "level": 1,
+      "school": "conjuration",
+      "lists": [
+        "wizard"
+      ],
+      "casting_time": "action",
+      "range": {
+        "kind": "feet",
+        "feet": 30
+      },
+      "target": {
+        "shape": "created-effect",
+        "count": 1,
+        "eligibility": "visible-unoccupied-space-in-range"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": {
+          "description": "a drop of mercury",
+          "cost_cp": 0,
+          "consumed": false
+        }
+      },
+      "ritual": true,
+      "concentration": false,
+      "duration": "timed",
+      "duration_seconds": 3600,
+      "scaling": {
+        "kind": "none",
+        "above_level": 0,
+        "dice_count": 0,
+        "die_sides": 0,
+        "effect_ids": []
+      },
+      "effects": [
+        {
+          "id": "disk",
+          "mechanic": "object.floating-disk",
+          "timing": "duration",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "follow",
+          "mechanic": "movement.floating-disk-follow",
+          "timing": "caster-moves-more-than-20-feet-away",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "ending",
+          "mechanic": "ending.floating-disk-overload-or-distance",
+          "timing": "weight-over-500-pounds-or-caster-more-than-100-feet-away",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "object.floating-disk",
+        "movement.floating-disk-follow",
+        "ending.floating-disk-overload-or-distance",
+        "cast.ritual",
+        "components.material"
+      ],
+      "slot_levels": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 0,
+        "casting_triggers": [],
+        "end_timing": "duration-ended",
+        "floating_disk": {
+          "plane": "circular-horizontal-plane-of-force",
+          "diameter_feet": 3,
+          "thickness_inches": 1,
+          "height_above_ground_feet": 3,
+          "space": "unoccupied-space-you-can-see-in-range",
+          "capacity_pounds": 500,
+          "overload_result": "spell-ends-and-everything-on-the-disk-falls",
+          "immobile_within_feet": 20,
+          "follow_distance_feet": 20,
+          "terrain": "uneven-terrain-stairs-and-slopes",
+          "elevation_change_limit_feet": 10,
+          "spell_ends_beyond_feet": 100
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/fly",
+      "name": "Fly",
+      "source_id": "srd-5.2.1:content/spells/fly",
+      "source_page": 133,
+      "scope": "complete-source-record",
+      "level": 3,
+      "school": "transmutation",
+      "lists": [
+        "sorcerer",
+        "warlock",
+        "wizard"
+      ],
+      "casting_time": "action",
+      "range": {
+        "kind": "touch",
+        "feet": 0
+      },
+      "target": {
+        "shape": "single",
+        "count": 1,
+        "eligibility": "willing-creature-touch"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": {
+          "description": "a feather",
+          "cost_cp": 0,
+          "consumed": false
+        }
+      },
+      "ritual": false,
+      "concentration": true,
+      "duration": "timed",
+      "duration_seconds": 600,
+      "scaling": {
+        "kind": "slot-targets",
+        "above_level": 3,
+        "dice_count": 0,
+        "die_sides": 0,
+        "effect_ids": [
+          "fly"
+        ]
+      },
+      "effects": [
+        {
+          "id": "fly",
+          "mechanic": "speed.fly-60-hover",
+          "timing": "duration",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "speed.fly-60-hover",
+        "scaling.targets-per-slot",
+        "concentration.source-duration",
+        "components.material"
+      ],
+      "slot_levels": [
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 0,
+        "casting_triggers": [],
+        "end_timing": "duration-or-concentration-ended",
+        "fly": {
+          "target": "willing-creature-touched",
+          "fly_speed_feet": 60,
+          "hover": true,
+          "ending": "falls-if-still-aloft-unless-it-can-stop-the-fall",
+          "base_targets": 1,
+          "additional_targets_per_slot": 1
+        }
+      }
+    }
+  ]
+}
