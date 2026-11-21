@@ -5,7 +5,7 @@ Issue #194 defines `SpellRecords`, decoded by `DecodeSpellRecords(io.Reader)` in
 runtime consumers, action registration, database writes or coverage promotion.
 `testdata/spell_records.json` contains one complete new source record, Acid Arrow,
 and adaptations of the two existing bounded fixtures. Subsequent catalogue
-imports are separately owned; the #218, #198, #196, #199, #200, #201, #202, #203 and #204 batches are described below.
+imports are separately owned; the #218, #198, #196, #199, #200, #201, #202, #203, #204, #205, #206, #207 and #208 batches are described below.
 
 The envelope retains the exact `Source` pin, license, attribution and adaptation
 notice checked by the conformance register. Each record has its own stable
@@ -584,7 +584,7 @@ Schema version 1 gains only shapes present in this batch, on top of #202:
 Validation pins each record's header, scaling row, effects, material, trigger list,
 dependency list and typed values by equality with the printed page, so a positive
 but wrong value is rejected. Composition of the bounded fixtures with #196, #218,
-#198, #199, #200, #201, #202 and #203 yields 108 unique records. Every imported
+#198, #199, #200, #201, #202 and #203 through #208 yield 168 unique records. Every imported
 record remains unavailable: no resolver, action, entitlement, tool, inventory,
 coverage or Full Rules behavior is added.
 
@@ -640,7 +640,7 @@ is rejected. The #204 verifier script checks identities, pages, printed headers 
 anchor phrases only; typed payload values (slot-duration tables, fissure numbers,
 option lists) are verified by the literal fixtures and pins, not by the script. A batch payload on a record of another batch is rejected too.
 Composition of the bounded fixtures with #196, #218, #198, #199, #200, #201,
-#202 and #204 yields 108 unique records. Every imported record remains
+#202 and #203 through #208 yield 168 unique records. Every imported record remains
 unavailable: no resolver, action, entitlement, tool, inventory, coverage or Full
 Rules behavior is added.
 
@@ -694,8 +694,8 @@ Schema version 1 gains only shapes present in this batch, on top of #202:
 Validation pins each record's header, scaling row, effects (including timing and
 bonus), material, dependency list and every typed payload value by equality
 with the printed page, so a positive but wrong value is rejected. Composition of
-the bounded fixtures with #196, #218, #198, #199, #200, #201, #202 and #205
-yields 108 unique records. Every imported record remains unavailable: no
+the bounded fixtures with #196, #218, #198, #199, #200, #201, #202 and #203 through #208
+yields 168 unique records. Every imported record remains unavailable: no
 resolver, action, entitlement, tool, inventory, coverage or Full Rules behavior
 is added.
 
@@ -747,7 +747,7 @@ Schema version 1 gains only shapes present in this batch, on top of #202:
 Validation pins each record's header, scaling row, effects, material,
 dependency list and typed values by equality with the printed page, so a
 positive but wrong value is rejected. Composition of the bounded fixtures with
-#196, #218, #198, #199, #200, #201, #202 and #206 yields 108 unique records.
+#196, #218, #198, #199, #200, #201, #202 and #203 through #208 yield 168 unique records.
 Every imported record remains unavailable: no resolver, action, entitlement,
 tool, inventory, coverage or Full Rules behavior is added.
 
@@ -805,8 +805,8 @@ Schema version 1 gains only shapes present in this batch, on top of #202:
 Validation pins each record's header, scaling row, effects, material,
 dependency list and typed values, including every stat block row, by equality
 with the printed pages, so a positive but wrong value is rejected. Composition of
-the bounded fixtures with #196, #218, #198, #199, #200, #201, #202 and #207
-yields 108 unique records. Every imported record remains unavailable: no
+the bounded fixtures with #196, #218, #198, #199, #200, #201, #202 and #203 through #208
+yields 168 unique records. Every imported record remains unavailable: no
 resolver, action, entitlement, tool, inventory, coverage or Full Rules behavior
 is added.
 
@@ -859,7 +859,7 @@ Schema version 1 gains only shapes present in this batch, on top of #202:
 Validation pins each record's header, scaling row, effects, material,
 dependency list and typed values by equality with the printed page, so a
 positive but wrong value is rejected. Composition of the bounded fixtures with
-#196, #218, #198, #199, #200, #201, #202 and #208 yields 108 unique records.
+#196, #218, #198, #199, #200, #201, #202 and #203 through #208 yield 168 unique records.
 Every imported record remains unavailable: no resolver, action, entitlement,
 tool, inventory, coverage or Full Rules behavior is added.
 

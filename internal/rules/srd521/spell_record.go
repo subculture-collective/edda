@@ -173,7 +173,7 @@ func (s SpellRecord) validate() error {
 			return fmt.Errorf("invalid spell list")
 		}
 	}
-	if !slices.Contains([]string{"action", "bonus-action", "reaction", "1-minute", "10-minutes", "1-hour", "8-hours"}, s.CastingTime) || !slices.Contains([]string{"feet", "touch", "self", "unlimited", "special"}, s.Range.Kind) || s.Range.Feet < 0 || (s.Range.Kind == "feet" && s.Range.Feet == 0) || (s.Range.Kind != "feet" && s.Range.Feet != 0) || !validSpellTarget(s.Target) {
+	if !slices.Contains([]string{"action", "bonus-action", "reaction", "1-minute", "10-minutes", "1-hour", "8-hours", "24-hours"}, s.CastingTime) || !slices.Contains([]string{"feet", "touch", "self", "unlimited", "special"}, s.Range.Kind) || s.Range.Feet < 0 || (s.Range.Kind == "feet" && s.Range.Feet == 0) || (s.Range.Kind != "feet" && s.Range.Feet != 0) || !validSpellTarget(s.Target) {
 		return fmt.Errorf("invalid casting, range or target shape")
 	}
 	if s.Components.Verbal == nil || s.Components.Somatic == nil || s.Ritual == nil || s.Concentration == nil {
