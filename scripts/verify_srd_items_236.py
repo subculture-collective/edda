@@ -115,7 +115,7 @@ def main():
     tied([c["body_spell"]], {"freedom-of-movement": "gains the effect of the Freedom of Movement spell for 8 hours"}, b, "slipperiness body")
     assert c["body_duration_hours"] == 8
     tied([c["pour_action"]], {"magic": "poured on the ground as a Magic action"}, b, "slipperiness pour")
-    assert c["pour_area_square_feet"] == 10 and "where it covers a 10-foot square" in b
+    assert c["pour_area_square_side_feet"] == 10 and "where it covers a 10-foot square" in b
     tied([c["pour_spell"]], {"grease": "duplicating the effect of the Grease spell"}, b, "slipperiness grease")
     assert c["pour_duration_hours"] == 8
     tied([c["appearance"]], {"sticky-black-unguent-thick-and-heavy-flows-quickly-when-poured": "This sticky, black unguent is thick and heavy, but it flows quickly when poured"}, b, "slipperiness appearance")

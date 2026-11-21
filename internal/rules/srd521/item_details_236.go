@@ -60,7 +60,7 @@ type ItemOilSlipperiness struct {
 	BodySpell          string          `json:"body_spell"`
 	BodyDurationHours  int             `json:"body_duration_hours"`
 	PourAction         string          `json:"pour_action"`
-	PourAreaFeet       int             `json:"pour_area_square_feet"`
+	PourAreaSideFeet   int             `json:"pour_area_square_side_feet"`
 	PourSpell          string          `json:"pour_spell"`
 	PourDurationHours  int             `json:"pour_duration_hours"`
 	Appearance         string          `json:"appearance"`
@@ -334,7 +334,7 @@ func validateItemDetails236(family, _ string, d *ItemDetails236) error {
 		ok = positive(o.CoatsMeleeWeapons, o.CoatsAmmunition, o.ApplicationMinutes) && uniqueItemKeys(o.DamageTypes) && o.WeaponBonus == 3 && o.AmmunitionBonus == 3 // p. 233; named by the mechanic keys
 	case "oil-of-slipperiness":
 		o := d.Slipperiness
-		ok = slices.Equal(o.SourcePages, []int{233, 234}) && positive(o.ApplicationMinutes, o.BodyDurationHours, o.PourAreaFeet, o.PourDurationHours) && o.ApplicationMinutes == 10 && o.BodyDurationHours == 8 && o.PourDurationHours == 8
+		ok = slices.Equal(o.SourcePages, []int{233, 234}) && positive(o.ApplicationMinutes, o.BodyDurationHours, o.PourAreaSideFeet, o.PourDurationHours) && o.ApplicationMinutes == 10 && o.BodyDurationHours == 8 && o.PourDurationHours == 8 && o.PourAreaSideFeet == 10
 	case "pearl-of-power":
 		p := d.Pearl
 		ok = uniqueItemKeys(p.AttunementBy) && positive(p.SlotsRegained, p.MaxSlotLevel, p.UseLimit) && p.MaxSlotLevel == 3
@@ -352,17 +352,17 @@ func validateItemDetails236(family, _ string, d *ItemDetails236) error {
 		ok = positive(p.WindowMinutes, p.DurationHours) && p.WindowMinutes == 10 && p.DurationHours == 1
 	case "pipes-of-haunting":
 		p := d.Haunting
-		ok = positive(p.ChargeCost, p.RangeFeet, p.Save.DC, p.DurationSeconds, p.ImmunityHours) && p.Save.DC == 15 && p.ChargeCost == 1
+		ok = positive(p.ChargeCost, p.RangeFeet, p.Save.DC, p.DurationSeconds, p.ImmunityHours) && p.Save.DC == 15 && p.ChargeCost == 1 && p.DurationSeconds == 60 && p.RangeFeet == 30 && p.Save.Ability == "wisdom"
 	case "pipes-of-the-sewers":
 		p := d.Sewers
 		ok = uniqueItemKeys(p.Passive.Creatures) && positive(p.Call.MinCharges, p.Call.MaxCharges, p.Call.SwarmsPerCharge, p.Sway.TriggerFeet, p.Sway.Save.DC, p.Sway.ImmunityHours, p.Sway.ControlEndFeet) &&
-			p.Call.MaxCharges >= p.Call.MinCharges && p.Sway.Save.DC == 15
+			p.Call.MaxCharges >= p.Call.MinCharges && p.Sway.Save.DC == 15 && p.Sway.Save.Ability == "wisdom"
 	case "plate-armor-of-etherealness":
 		p := d.PlateArmor
 		ok = uniqueItemKeys(p.EndsOn) && positive(p.UseLimit)
 	case "portable-hole":
 		p := d.PortableHole
-		ok = slices.Equal(p.SourcePages, []int{234, 235}) && positive(p.DiameterFt, p.Unfold.DepthFeet, p.Escape.Check.DC, p.Escape.WithinFeet, p.Escape.AirHours, p.Nesting.PullFeet) && uniqueItemKeys(p.Nesting.Containers) && p.Escape.Check.DC == 10 && p.Unfold.DepthFeet == 10
+		ok = slices.Equal(p.SourcePages, []int{234, 235}) && positive(p.DiameterFt, p.Unfold.DepthFeet, p.Escape.Check.DC, p.Escape.WithinFeet, p.Escape.AirHours, p.Nesting.PullFeet) && uniqueItemKeys(p.Nesting.Containers) && p.Escape.Check.DC == 10 && p.Unfold.DepthFeet == 10 && p.DiameterFt == 6
 	case "potion-of-animal-friendship":
 		p := d.AnimalFriend
 		ok = positive(p.SpellLevel, p.SaveDC) && uniqueItemKeys(p.AppearanceItems) && p.SpellLevel == 3 && p.SaveDC == 13

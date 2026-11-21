@@ -173,7 +173,7 @@
               "body_spell": "freedom-of-movement",
               "body_duration_hours": 8,
               "pour_action": "magic",
-              "pour_area_square_feet": 10,
+              "pour_area_square_side_feet": 10,
               "pour_spell": "grease",
               "pour_duration_hours": 8,
               "appearance": "sticky-black-unguent-thick-and-heavy-flows-quickly-when-poured"
