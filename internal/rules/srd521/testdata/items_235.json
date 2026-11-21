@@ -1,0 +1,1730 @@
+{
+  "schema_version": 1,
+  "rules_version": "srd-5.2.1",
+  "batch": "data-magic-items-11",
+  "catalogue_issue": 235,
+  "source": {
+    "version": "5.2.1",
+    "language": "en",
+    "landing_url": "https://www.dndbeyond.com/srd",
+    "artifact_url": "https://media.dndbeyond.com/compendium-images/srd/5.2/SRD_CC_v5.2.1.pdf",
+    "sha256": "8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87",
+    "bytes": 6031375,
+    "pages": 364,
+    "retrieved_at": "2026-11-15",
+    "license": "CC-BY-4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/legalcode",
+    "attribution": "This work includes material from the System Reference Document 5.2.1 (“SRD 5.2.1”) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd. The SRD 5.2.1 is licensed under the Creative Commons Attribution 4.0 International License, available at https://creativecommons.org/licenses/by/4.0/legalcode.",
+    "changes": "SRD 5.2.1 pp. 230–233 adapted into twelve versioned magic-item families (Manual of Quickness of Action through Oil of Etherealness) with explicit variant identities, structured requirements and typed source values. Names, numeric rules and key phrases are adapted into keys; no rules prose is reproduced. Prices are not listed and remain unspecified. Catalogue data grants no inventory, action or gameplay permissions; every record is unavailable."
+  },
+  "families": [
+    {
+      "id": "srd-5.2.1:content/items/manual-of-quickness-of-action",
+      "name": "Manual of Quickness of Action",
+      "kind": "magic",
+      "category": "wondrous-item",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/manual-of-quickness-of-action",
+          "pages": [
+            230,
+            230
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/manual-of-quickness-of-action/variant/standard",
+          "name": "Manual of Quickness of Action",
+          "rarity": "very-rare",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "study",
+            "restrictions": [
+              "48-hours-within-6-days"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              230,
+              230
+            ]
+          },
+          "required_mechanic_keys": [
+            "study.48-hours-within-6-days",
+            "ability.dexterity-increase-2",
+            "ability.dexterity-maximum-30",
+            "item.loses-magic-after-use",
+            "item.regains-magic-after-a-century"
+          ],
+          "details": {
+            "manual_of_quickness_of_action": {
+              "study_hours": 48,
+              "study_within_days": 6,
+              "ability": "dexterity",
+              "increase": 2,
+              "max_score": 30,
+              "loses_magic_after_use": true,
+              "regains_magic_after_years": 100
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/marvelous-pigments",
+      "name": "Marvelous Pigments",
+      "kind": "magic",
+      "category": "wondrous-item",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/marvelous-pigments",
+          "pages": [
+            230,
+            230
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/marvelous-pigments/variant/standard",
+          "name": "Marvelous Pigments",
+          "rarity": "very-rare",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "paint",
+            "restrictions": [
+              "expend-one-pot",
+              "concentration",
+              "remain-in-cube"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              230,
+              230
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.pots-1d4",
+            "action.expend-one-pot",
+            "area.cube-20-foot",
+            "time.10-minutes",
+            "concentration.required",
+            "effect.paintings-become-real",
+            "object.value-limit-25-gp",
+            "object.total-value-limit-500-gp",
+            "effect.energy-dissipates"
+          ],
+          "details": {
+            "marvelous_pigments": {
+              "container": "fine-wooden-box",
+              "pots": {
+                "dice": 1,
+                "sides": 4,
+                "bonus": 0
+              },
+              "pots_and_brush_weight_pounds": 1,
+              "pots_expended_per_painting": 1,
+              "cube_feet": 20,
+              "painting_minutes": 10,
+              "requires_concentration": true,
+              "must_remain_in_cube": true,
+              "failure_triggers": [
+                "concentration-broken",
+                "leave-cube-before-work-done"
+              ],
+              "failure_result": "all-painted-elements-vanish-and-pot-is-wasted",
+              "completion_result": "painted-objects-and-terrain-features-become-real",
+              "object_max_value_gp": 25,
+              "total_max_value_per_pot_gp": 500,
+              "over_value_result": "look-authentic-but-are-paste-cookies-or-other-worthless-material",
+              "energy_result": "energy-dissipates-when-painting-completes-doing-no-harm"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/medallion-of-thoughts",
+      "name": "Medallion of Thoughts",
+      "kind": "magic",
+      "category": "wondrous-item",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/medallion-of-thoughts",
+          "pages": [
+            230,
+            230
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/medallion-of-thoughts/variant/standard",
+          "name": "Medallion of Thoughts",
+          "rarity": "uncommon",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "limited",
+            "maximum": 5,
+            "per_use": 1,
+            "recharge": "regain-1d4-at-dawn"
+          },
+          "equip": {
+            "mode": "wear",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "cast-spell",
+            "restrictions": [
+              "expend-one-charge"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              230,
+              230
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "item.wear",
+            "item.charges",
+            "spell.cast-detect-thoughts",
+            "spell.detect-thoughts-save-dc-13"
+          ],
+          "details": {
+            "medallion_of_thoughts": {
+              "condition": "while-wearing",
+              "max_charges": 5,
+              "charges_per_cast": 1,
+              "spell": "detect-thoughts",
+              "save_dc": 13,
+              "recharge_amount": {
+                "dice": 1,
+                "sides": 4,
+                "bonus": 0
+              },
+              "recharge_time": "daily-at-dawn"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/mirror-of-life-trapping",
+      "name": "Mirror of Life Trapping",
+      "kind": "magic",
+      "category": "wondrous-item",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/mirror-of-life-trapping",
+          "pages": [
+            230,
+            230
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/mirror-of-life-trapping/variant/standard",
+          "name": "Mirror of Life Trapping",
+          "rarity": "very-rare",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "magic-action",
+            "restrictions": [
+              "command-word",
+              "hanging-on-vertical-surface",
+              "within-5-feet"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              230,
+              230
+            ]
+          },
+          "required_mechanic_keys": [
+            "action.magic",
+            "item.command-word",
+            "save.charisma-dc-15",
+            "effect.trapped-in-extradimensional-cell",
+            "area.cells-12",
+            "effect.free-one-trapped-creature",
+            "effect.destroys-bag-of-holding-and-portable-hole",
+            "effect.gate-to-astral-plane"
+          ],
+          "details": {
+            "mirror_of_life_trapping": {
+              "height_feet": 4,
+              "width_feet": 2,
+              "weight_pounds": 50,
+              "ac": 11,
+              "hp": 10,
+              "immunities": [
+                "poison",
+                "psychic"
+              ],
+              "vulnerabilities": [
+                "bludgeoning"
+              ],
+              "destroyed_when": "reduced-to-0-hit-points",
+              "activate_action": "magic",
+              "activate_requires": [
+                "command-word",
+                "hanging-on-vertical-surface"
+              ],
+              "activate_range_feet": 5,
+              "deactivate_action": "magic",
+              "reflection_range_feet": 30,
+              "save_ability": "charisma",
+              "save_dc": 15,
+              "save_failure": "trapped-with-worn-and-carried-items-in-extradimensional-cell",
+              "save_advantage_when": "knows-the-mirrors-nature",
+              "save_auto_succeed": [
+                "constructs"
+              ],
+              "cells": 12,
+              "cell_description": "infinite-expanse-of-thick-fog",
+              "cell_visibility_feet": 10,
+              "trapped_creatures_age": false,
+              "trapped_creatures_need_food_drink_or_sleep": false,
+              "escape_method": "magic-that-permits-planar-travel",
+              "otherwise_confined": "until-freed",
+              "full_cells_result": "frees-one-trapped-creature-at-random",
+              "freed_creature_appears": "unoccupied-space-within-sight-of-mirror-facing-away",
+              "shatter_result": "all-creatures-freed-in-unoccupied-spaces-near-mirror",
+              "name_action": "magic",
+              "name_range_feet": 5,
+              "name_result": "named-creature-or-cell-occupant-appears-as-image-and-can-communicate",
+              "free_action": "magic",
+              "free_command_word_ordinal": 2,
+              "free_result": "creature-appears-with-possessions-in-nearest-unoccupied-space-facing-away",
+              "extradimensional_items_destroyed": [
+                "bag-of-holding",
+                "portable-hole",
+                "similar-item"
+              ],
+              "gate_to": "astral-plane",
+              "gate_radius_feet": 10,
+              "gate_affected": "creatures-not-behind-total-cover-sucked-to-random-location",
+              "gate_after": "closes",
+              "gate_one_way": true,
+              "gate_can_reopen": false
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/mithral-armor",
+      "name": "Mithral Armor",
+      "kind": "magic",
+      "category": "armor",
+      "base": {
+        "options": [
+          "any-medium-armor",
+          "any-heavy-armor"
+        ],
+        "excluded": [
+          "hide-armor"
+        ]
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/mithral-armor",
+          "pages": [
+            231,
+            231
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/mithral-armor/variant/standard",
+          "name": "Mithral Armor",
+          "rarity": "uncommon",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wear",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              231,
+              231
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.wear",
+            "item.worn-under-clothes",
+            "armor.no-stealth-disadvantage",
+            "armor.no-strength-requirement"
+          ],
+          "details": {
+            "mithral_armor": {
+              "wearable": "under-normal-clothes",
+              "stealth_disadvantage": "not-imposed",
+              "strength_requirement": "does-not-apply"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/mysterious-deck",
+      "name": "Mysterious Deck",
+      "kind": "magic",
+      "category": "wondrous-item",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/mysterious-deck",
+          "pages": [
+            231,
+            231
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/mysterious-deck/variant/standard",
+          "name": "Mysterious Deck",
+          "rarity": "legendary",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "draw-card",
+            "restrictions": [
+              "declare-draw-count",
+              "draw-within-1-hour-of-previous"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              231,
+              231
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.deck-13-or-22-cards",
+            "table.mysterious-deck-1d100",
+            "action.declare-draws",
+            "card.effects-22",
+            "card.fool-and-jester-leave-deck",
+            "creature.avatar-of-death"
+          ],
+          "details": {
+            "mysterious_deck": {
+              "source_pages": [
+                231,
+                232
+              ],
+              "card_materials": [
+                "ivory",
+                "vellum"
+              ],
+              "deck_sizes": [
+                13,
+                22
+              ],
+              "thirteen_card_percent": 75,
+              "table_die_sides": 100,
+              "deck_13_cards": [
+                {
+                  "card": "euryale",
+                  "min": 1,
+                  "max": 8
+                },
+                {
+                  "card": "flames",
+                  "min": 9,
+                  "max": 16
+                },
+                {
+                  "card": "jester",
+                  "min": 17,
+                  "max": 24
+                },
+                {
+                  "card": "key",
+                  "min": 25,
+                  "max": 32
+                },
+                {
+                  "card": "knight",
+                  "min": 33,
+                  "max": 40
+                },
+                {
+                  "card": "moon",
+                  "min": 41,
+                  "max": 48
+                },
+                {
+                  "card": "rogue",
+                  "min": 49,
+                  "max": 56
+                },
+                {
+                  "card": "ruin",
+                  "min": 57,
+                  "max": 64
+                },
+                {
+                  "card": "skull",
+                  "min": 65,
+                  "max": 72
+                },
+                {
+                  "card": "star",
+                  "min": 73,
+                  "max": 80
+                },
+                {
+                  "card": "sun",
+                  "min": 81,
+                  "max": 88
+                },
+                {
+                  "card": "throne",
+                  "min": 89,
+                  "max": 96
+                },
+                {
+                  "card": "void",
+                  "min": 97,
+                  "max": 100
+                }
+              ],
+              "deck_22_cards": [
+                {
+                  "card": "balance",
+                  "min": 1,
+                  "max": 5
+                },
+                {
+                  "card": "comet",
+                  "min": 6,
+                  "max": 10
+                },
+                {
+                  "card": "donjon",
+                  "min": 11,
+                  "max": 14
+                },
+                {
+                  "card": "euryale",
+                  "min": 15,
+                  "max": 18
+                },
+                {
+                  "card": "fates",
+                  "min": 19,
+                  "max": 23
+                },
+                {
+                  "card": "flames",
+                  "min": 24,
+                  "max": 27
+                },
+                {
+                  "card": "fool",
+                  "min": 28,
+                  "max": 31
+                },
+                {
+                  "card": "gem",
+                  "min": 32,
+                  "max": 36
+                },
+                {
+                  "card": "jester",
+                  "min": 37,
+                  "max": 41
+                },
+                {
+                  "card": "key",
+                  "min": 42,
+                  "max": 46
+                },
+                {
+                  "card": "knight",
+                  "min": 47,
+                  "max": 51
+                },
+                {
+                  "card": "moon",
+                  "min": 52,
+                  "max": 56
+                },
+                {
+                  "card": "puzzle",
+                  "min": 57,
+                  "max": 60
+                },
+                {
+                  "card": "rogue",
+                  "min": 61,
+                  "max": 64
+                },
+                {
+                  "card": "ruin",
+                  "min": 65,
+                  "max": 68
+                },
+                {
+                  "card": "sage",
+                  "min": 69,
+                  "max": 73
+                },
+                {
+                  "card": "skull",
+                  "min": 74,
+                  "max": 77
+                },
+                {
+                  "card": "star",
+                  "min": 78,
+                  "max": 82
+                },
+                {
+                  "card": "sun",
+                  "min": 83,
+                  "max": 87
+                },
+                {
+                  "card": "talons",
+                  "min": 88,
+                  "max": 91
+                },
+                {
+                  "card": "throne",
+                  "min": 92,
+                  "max": 96
+                },
+                {
+                  "card": "void",
+                  "min": 97,
+                  "max": 100
+                }
+              ],
+              "declare_draw_count_before_drawing": true,
+              "excess_draws_have_no_effect": true,
+              "max_hours_between_draws": 1,
+              "undrawn_cards_result": "remaining-cards-fly-from-deck-and-take-effect-at-once",
+              "drawn_card_disappears": true,
+              "does_not_reappear": [
+                "fool",
+                "jester"
+              ],
+              "reroll_when_gone": [
+                "fool",
+                "jester"
+              ],
+              "cards": [
+                {
+                  "card": "balance",
+                  "effects": [
+                    "increase-one-ability-score-while-decreasing-another",
+                    "may-choose-not-to-adjust-scores-for-no-effect"
+                  ],
+                  "facts": [
+                    {
+                      "key": "increase",
+                      "amount": 2,
+                      "unit": "points"
+                    },
+                    {
+                      "key": "maximum-score",
+                      "amount": 22,
+                      "unit": "score"
+                    },
+                    {
+                      "key": "decrease",
+                      "amount": 2,
+                      "unit": "points"
+                    },
+                    {
+                      "key": "cannot-decrease-at-or-below-score",
+                      "amount": 5,
+                      "unit": "score"
+                    }
+                  ]
+                },
+                {
+                  "card": "comet",
+                  "effects": [
+                    "next-combat-against-hostile-creatures-select-one-as-foe-at-initiative",
+                    "reducing-foe-to-0-hit-points-grants-advantage-on-death-saving-throws",
+                    "no-effect-if-someone-else-reduces-foe-or-no-foe-chosen"
+                  ],
+                  "facts": [
+                    {
+                      "key": "advantage-duration",
+                      "amount": 1,
+                      "unit": "year"
+                    }
+                  ]
+                },
+                {
+                  "card": "donjon",
+                  "effects": [
+                    "entombed-in-suspended-animation-in-extradimensional-sphere",
+                    "wearing-and-carrying-disappears-except-artifacts",
+                    "artifacts-stay-in-space-you-occupied",
+                    "imprisoned-until-found-and-removed-from-sphere",
+                    "not-locatable-by-divination",
+                    "wish-spell-reveals-prison-location",
+                    "draw-no-more-cards"
+                  ],
+                  "facts": []
+                },
+                {
+                  "card": "euryale",
+                  "effects": [
+                    "medusa-like-visage-curses-you",
+                    "penalty-to-saving-throws-while-cursed",
+                    "only-a-god-or-fates-card-ends-curse"
+                  ],
+                  "facts": [
+                    {
+                      "key": "saving-throw-penalty",
+                      "amount": 2,
+                      "unit": "minus"
+                    }
+                  ]
+                },
+                {
+                  "card": "fates",
+                  "effects": [
+                    "avoid-or-erase-one-event",
+                    "use-when-drawn-or-any-time-before-you-die"
+                  ],
+                  "facts": []
+                },
+                {
+                  "card": "flames",
+                  "effects": [
+                    "powerful-devil-becomes-your-enemy",
+                    "devil-seeks-your-ruin-and-torments-you-before-attempting-to-slay-you",
+                    "enmity-lasts-until-you-or-the-devil-dies"
+                  ],
+                  "facts": []
+                },
+                {
+                  "card": "fool",
+                  "effects": [
+                    "disadvantage-on-d20-tests",
+                    "draw-another-card-not-counted-as-declared-draw"
+                  ],
+                  "facts": [
+                    {
+                      "key": "duration",
+                      "amount": 72,
+                      "unit": "hours"
+                    },
+                    {
+                      "key": "additional-draws",
+                      "amount": 1,
+                      "unit": "cards"
+                    }
+                  ]
+                },
+                {
+                  "card": "gem",
+                  "effects": [
+                    "jewelry-or-gems-appear-at-your-feet"
+                  ],
+                  "facts": [
+                    {
+                      "key": "jewelry-pieces",
+                      "amount": 25,
+                      "unit": "pieces"
+                    },
+                    {
+                      "key": "jewelry-value-each",
+                      "amount": 2000,
+                      "unit": "gp"
+                    },
+                    {
+                      "key": "gems",
+                      "amount": 50,
+                      "unit": "pieces"
+                    },
+                    {
+                      "key": "gem-value-each",
+                      "amount": 1000,
+                      "unit": "gp"
+                    }
+                  ]
+                },
+                {
+                  "card": "jester",
+                  "effects": [
+                    "advantage-on-d20-tests-or-draw-additional-cards-beyond-declared-draws"
+                  ],
+                  "facts": [
+                    {
+                      "key": "duration",
+                      "amount": 72,
+                      "unit": "hours"
+                    },
+                    {
+                      "key": "additional-draws",
+                      "amount": 2,
+                      "unit": "cards"
+                    }
+                  ]
+                },
+                {
+                  "card": "key",
+                  "effects": [
+                    "rare-or-rarer-magic-weapon-you-are-proficient-with-appears-on-your-person",
+                    "gm-chooses-the-weapon"
+                  ],
+                  "facts": []
+                },
+                {
+                  "card": "knight",
+                  "effects": [
+                    "gain-service-of-a-knight-in-unoccupied-space-you-choose",
+                    "same-alignment-as-you",
+                    "serves-you-loyally-until-death",
+                    "work-with-gm-on-name-and-backstory",
+                    "gm-may-use-a-different-stat-block"
+                  ],
+                  "facts": [
+                    {
+                      "key": "appears-within",
+                      "amount": 30,
+                      "unit": "feet"
+                    }
+                  ]
+                },
+                {
+                  "card": "moon",
+                  "effects": [
+                    "gain-ability-to-cast-wish"
+                  ],
+                  "facts": [
+                    {
+                      "key": "wish-casts",
+                      "amount": 1,
+                      "unit": "d3"
+                    }
+                  ]
+                },
+                {
+                  "card": "puzzle",
+                  "effects": [
+                    "permanently-reduce-intelligence-or-wisdom",
+                    "draw-one-additional-card-beyond-declared-draws"
+                  ],
+                  "facts": [
+                    {
+                      "key": "reduction",
+                      "amount": 1,
+                      "unit": "d4"
+                    },
+                    {
+                      "key": "reduction-bonus",
+                      "amount": 1,
+                      "unit": "points"
+                    },
+                    {
+                      "key": "minimum-score",
+                      "amount": 1,
+                      "unit": "score"
+                    },
+                    {
+                      "key": "additional-draws",
+                      "amount": 1,
+                      "unit": "cards"
+                    }
+                  ]
+                },
+                {
+                  "card": "rogue",
+                  "effects": [
+                    "npc-of-gm-choice-becomes-hostile-toward-you",
+                    "identity-unknown-until-revealed",
+                    "only-wish-or-divine-intervention-ends-hostility"
+                  ],
+                  "facts": []
+                },
+                {
+                  "card": "ruin",
+                  "effects": [
+                    "lose-all-wealth-other-than-magic-items",
+                    "portable-property-vanishes",
+                    "businesses-buildings-and-land-lost-in-way-that-alters-reality-least",
+                    "documentation-proving-ownership-disappears"
+                  ],
+                  "facts": []
+                },
+                {
+                  "card": "sage",
+                  "effects": [
+                    "ask-one-question-in-meditation-and-mentally-receive-truthful-answer"
+                  ],
+                  "facts": [
+                    {
+                      "key": "window",
+                      "amount": 1,
+                      "unit": "year"
+                    }
+                  ]
+                },
+                {
+                  "card": "skull",
+                  "effects": [
+                    "avatar-of-death-appears-in-unoccupied-space-as-close-to-you-as-possible",
+                    "avatar-targets-only-you",
+                    "avatar-appears-as-ghostly-skeleton-in-tattered-black-robe-with-spectral-scythe",
+                    "avatar-disappears-at-0-hit-points-or-when-you-die",
+                    "ally-damaging-avatar-summons-another-avatar-that-targets-only-that-ally",
+                    "each-creature-summons-only-one-avatar-from-this-draw",
+                    "creature-slain-by-avatar-cannot-be-restored-to-life"
+                  ],
+                  "facts": []
+                },
+                {
+                  "card": "star",
+                  "effects": [
+                    "increase-one-ability-score"
+                  ],
+                  "facts": [
+                    {
+                      "key": "increase",
+                      "amount": 2,
+                      "unit": "points"
+                    },
+                    {
+                      "key": "maximum-score",
+                      "amount": 24,
+                      "unit": "score"
+                    }
+                  ]
+                },
+                {
+                  "card": "sun",
+                  "effects": [
+                    "magic-item-chosen-by-gm-appears-on-your-person",
+                    "gain-temporary-hit-points-daily-at-dawn-until-you-die"
+                  ],
+                  "facts": [
+                    {
+                      "key": "temporary-hit-points",
+                      "amount": 10,
+                      "unit": "hit-points"
+                    }
+                  ]
+                },
+                {
+                  "card": "talons",
+                  "effects": [
+                    "every-magic-item-you-wear-or-carry-disintegrates",
+                    "artifacts-in-your-possession-vanish-instead"
+                  ],
+                  "facts": []
+                },
+                {
+                  "card": "throne",
+                  "effects": [
+                    "gain-proficiency-and-expertise-in-history-insight-intimidation-or-persuasion",
+                    "gain-rightful-ownership-of-a-small-keep",
+                    "keep-is-home-to-monsters-that-must-be-cleared-before-claiming-it"
+                  ],
+                  "facts": []
+                },
+                {
+                  "card": "void",
+                  "effects": [
+                    "soul-drawn-from-body-and-contained-in-object-in-place-of-gm-choice",
+                    "powerful-beings-guard-the-place",
+                    "body-inert-ceases-aging-and-requires-no-food-air-or-water",
+                    "wish-cannot-return-soul-but-reveals-object-location",
+                    "draw-no-more-cards"
+                  ],
+                  "facts": []
+                }
+              ],
+              "avatar_of_death": {
+                "size": "medium",
+                "creature_type": "undead",
+                "alignment": "neutral-evil",
+                "ac": 20,
+                "initiative_modifier": 3,
+                "initiative_score": 13,
+                "hit_points": "half-the-hp-maximum-of-its-summoner",
+                "speed_feet": 60,
+                "fly_speed_feet": 60,
+                "hover": true,
+                "abilities": [
+                  {
+                    "ability": "strength",
+                    "score": 16,
+                    "mod": 3,
+                    "save": 3
+                  },
+                  {
+                    "ability": "dexterity",
+                    "score": 16,
+                    "mod": 3,
+                    "save": 3
+                  },
+                  {
+                    "ability": "constitution",
+                    "score": 16,
+                    "mod": 3,
+                    "save": 3
+                  },
+                  {
+                    "ability": "intelligence",
+                    "score": 16,
+                    "mod": 3,
+                    "save": 3
+                  },
+                  {
+                    "ability": "wisdom",
+                    "score": 16,
+                    "mod": 3,
+                    "save": 3
+                  },
+                  {
+                    "ability": "charisma",
+                    "score": 16,
+                    "mod": 3,
+                    "save": 3
+                  }
+                ],
+                "damage_immunities": [
+                  "necrotic",
+                  "poison"
+                ],
+                "condition_immunities": [
+                  "charmed",
+                  "exhaustion",
+                  "frightened",
+                  "paralyzed",
+                  "petrified",
+                  "poisoned",
+                  "unconscious"
+                ],
+                "truesight_feet": 60,
+                "passive_perception": 13,
+                "languages": "all-languages-known-to-its-summoner",
+                "challenge_rating": "none",
+                "xp": 0,
+                "proficiency_bonus": "equals-its-summoners",
+                "incorporeal_movement": "move-through-creatures-and-objects-as-difficult-terrain",
+                "incorporeal_damage_ending_turn_inside_object": {
+                  "average": 5,
+                  "dice": 1,
+                  "sides": 10,
+                  "bonus": 0,
+                  "type": "force"
+                },
+                "multiattack_count": "half-the-summoners-proficiency-bonus-rounded-up",
+                "multiattack_attack": "reaping-scythe",
+                "reaping_scythe_attack": "melee-attack-roll",
+                "reaping_scythe_automatic_hit": true,
+                "reaping_scythe_reach_feet": 5,
+                "reaping_scythe_damage": {
+                  "average": 7,
+                  "dice": 1,
+                  "sides": 8,
+                  "bonus": 3,
+                  "type": "slashing"
+                },
+                "reaping_scythe_extra_damage": {
+                  "average": 4,
+                  "dice": 1,
+                  "sides": 8,
+                  "bonus": 0,
+                  "type": "necrotic"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/necklace-of-adaptation",
+      "name": "Necklace of Adaptation",
+      "kind": "magic",
+      "category": "wondrous-item",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/necklace-of-adaptation",
+          "pages": [
+            232,
+            232
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/necklace-of-adaptation/variant/standard",
+          "name": "Necklace of Adaptation",
+          "rarity": "uncommon",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wear",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              232,
+              232
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "item.wear",
+            "breath.any-environment",
+            "save.advantage-poisoned"
+          ],
+          "details": {
+            "necklace_of_adaptation": {
+              "condition": "while-wearing",
+              "breathe_normally_in": "any-environment",
+              "advantage_on_saves_to": [
+                "avoid",
+                "end"
+              ],
+              "advantage_against_condition": "poisoned"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/necklace-of-fireballs",
+      "name": "Necklace of Fireballs",
+      "kind": "magic",
+      "category": "wondrous-item",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/necklace-of-fireballs",
+          "pages": [
+            233,
+            233
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/necklace-of-fireballs/variant/standard",
+          "name": "Necklace of Fireballs",
+          "rarity": "rare",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "magic-action",
+            "restrictions": [
+              "detach-bead",
+              "throw-within-60-feet"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              233,
+              233
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.beads-1d6-plus-3",
+            "action.magic",
+            "spell.fireball-level-3",
+            "save.dexterity-dc-15",
+            "damage.extra-1d6-per-extra-bead",
+            "damage.maximum-12d6"
+          ],
+          "details": {
+            "necklace_of_fireballs": {
+              "beads": {
+                "dice": 1,
+                "sides": 6,
+                "bonus": 3
+              },
+              "detach_action": "magic",
+              "throw_range_feet": 60,
+              "spell": "fireball",
+              "spell_level": 3,
+              "save_dc": 15,
+              "multiple_beads": "can-hurl-multiple-beads-or-whole-necklace-at-one-time",
+              "extra_damage_per_bead_after_first": {
+                "dice": 1,
+                "sides": 6,
+                "bonus": 0
+              },
+              "maximum_damage": {
+                "dice": 12,
+                "sides": 6,
+                "bonus": 0
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/necklace-of-prayer-beads",
+      "name": "Necklace of Prayer Beads",
+      "kind": "magic",
+      "category": "wondrous-item",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/necklace-of-prayer-beads",
+          "pages": [
+            233,
+            233
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/necklace-of-prayer-beads/variant/standard",
+          "name": "Necklace of Prayer Beads",
+          "rarity": "rare",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wear",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "cast-spell",
+            "restrictions": [
+              "bonus-action",
+              "once-per-bead-until-next-dawn"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              233,
+              233
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement-by-cleric-druid-or-paladin",
+            "item.wear",
+            "item.beads-1d4-plus-2",
+            "table.bead-type-1d20",
+            "spell.cast-from-bead",
+            "item.bead-loses-magic-when-removed"
+          ],
+          "details": {
+            "necklace_of_prayer_beads": {
+              "attunement_by_any_of": [
+                "cleric",
+                "druid",
+                "paladin"
+              ],
+              "magic_beads": {
+                "dice": 1,
+                "sides": 4,
+                "bonus": 2
+              },
+              "magic_bead_materials": [
+                "aquamarine",
+                "black-pearl",
+                "topaz"
+              ],
+              "nonmagical_bead_examples": [
+                "amber",
+                "bloodstone",
+                "citrine",
+                "coral",
+                "jade",
+                "pearl",
+                "quartz"
+              ],
+              "removed_bead_loses_magic": true,
+              "bead_types": 6,
+              "type_selection": [
+                "gm-decides",
+                "roll-on-table"
+              ],
+              "necklace_may_have_repeated_types": true,
+              "requires_wearing": true,
+              "cast_action": "bonus",
+              "save_dc": "your-spell-save-dc",
+              "uses_per_bead": 1,
+              "bead_recharge": "next-dawn",
+              "table_die_sides": 20,
+              "beads_table": [
+                {
+                  "min": 1,
+                  "max": 6,
+                  "bead": "bead-of-blessing",
+                  "spell": "bless",
+                  "spell_level": 0
+                },
+                {
+                  "min": 7,
+                  "max": 12,
+                  "bead": "bead-of-curing",
+                  "spell": "cure-wounds",
+                  "spell_level": 2
+                },
+                {
+                  "min": 13,
+                  "max": 16,
+                  "bead": "bead-of-favor",
+                  "spell": "greater-restoration",
+                  "spell_level": 0
+                },
+                {
+                  "min": 17,
+                  "max": 18,
+                  "bead": "bead-of-smiting",
+                  "spell": "shining-smite",
+                  "spell_level": 0
+                },
+                {
+                  "min": 19,
+                  "max": 19,
+                  "bead": "bead-of-summons",
+                  "spell": "guardian-of-faith",
+                  "spell_level": 0
+                },
+                {
+                  "min": 20,
+                  "max": 20,
+                  "bead": "bead-of-wind-walking",
+                  "spell": "wind-walk",
+                  "spell_level": 0
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/nine-lives-stealer",
+      "name": "Nine Lives Stealer",
+      "kind": "magic",
+      "category": "weapon",
+      "base": {
+        "options": [
+          "any-simple-weapon",
+          "any-martial-weapon"
+        ],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/nine-lives-stealer",
+          "pages": [
+            233,
+            233
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/nine-lives-stealer/variant/standard",
+          "name": "Nine Lives Stealer",
+          "rarity": "very-rare",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "limited",
+            "maximum": 9,
+            "per_use": 1,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wield",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "weapon-attack",
+            "restrictions": [
+              "natural-20-against-creature-under-100-hit-points"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              233,
+              233
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "item.charges-1d8-plus-1",
+            "bonus.attack-and-damage-2",
+            "save.constitution-dc-15",
+            "effect.slain-instantly",
+            "effect.constructs-and-undead-succeed",
+            "effect.loses-property-without-charges"
+          ],
+          "details": {
+            "nine_lives_stealer": {
+              "attack_bonus": 2,
+              "damage_bonus": 2,
+              "property": "life-stealing",
+              "charges": {
+                "dice": 1,
+                "sides": 8,
+                "bonus": 1
+              },
+              "target_hit_points_below": 100,
+              "trigger_d20_roll": 20,
+              "save_ability": "constitution",
+              "save_dc": 15,
+              "save_failure": "slain-instantly",
+              "save_auto_succeed": [
+                "constructs",
+                "undead"
+              ],
+              "charge_lost_when": "creature-is-slain",
+              "charges_lost": 1,
+              "when_no_charges": "weapon-loses-this-property"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/oathbow",
+      "name": "Oathbow",
+      "kind": "magic",
+      "category": "weapon",
+      "base": {
+        "options": [
+          "longbow",
+          "shortbow"
+        ],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/oathbow",
+          "pages": [
+            233,
+            233
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/oathbow/variant/standard",
+          "name": "Oathbow",
+          "rarity": "very-rare",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wield",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "weapon-attack",
+            "restrictions": [
+              "command-words-on-ranged-attack"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              233,
+              233
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "effect.sworn-enemy",
+            "attack.advantage-against-sworn-enemy",
+            "cover.ignored-against-sworn-enemy",
+            "damage.extra-3d6",
+            "attack.disadvantage-with-other-weapons"
+          ],
+          "details": {
+            "oathbow": {
+              "nocked_effect": "whispers-in-elvish-swift-defeat-to-my-enemies",
+              "command_trigger": "ranged-attack-with-this-weapon",
+              "command_methods": [
+                "utter",
+                "sign"
+              ],
+              "sworn_enemy": "target-of-the-attack",
+              "sworn_enemy_ends": [
+                "until-it-dies",
+                "until-dawn-7-days-later"
+              ],
+              "sworn_enemy_days": 7,
+              "max_sworn_enemies": 1,
+              "new_enemy_when": "after-the-next-dawn-once-sworn-enemy-dies",
+              "ranged_attack_advantage_against_sworn_enemy": true,
+              "cover_ignored": [
+                "half-cover",
+                "three-quarters-cover"
+              ],
+              "no_long_range_disadvantage": true,
+              "extra_damage": {
+                "dice": 3,
+                "sides": 6,
+                "type": "piercing"
+              },
+              "extra_damage_when": "attack-hits-sworn-enemy",
+              "other_weapons": "disadvantage-on-attack-rolls",
+              "other_weapons_while": "sworn-enemy-lives"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/oil-of-etherealness",
+      "name": "Oil of Etherealness",
+      "kind": "magic",
+      "category": "potion",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/oil-of-etherealness",
+          "pages": [
+            233,
+            233
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/oil-of-etherealness/variant/standard",
+          "name": "Oil of Etherealness",
+          "rarity": "rare",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "apply",
+            "restrictions": [
+              "10-minutes",
+              "one-vial-covers-medium-or-smaller"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              233,
+              233
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.vials-per-size-above-medium",
+            "time.apply-10-minutes",
+            "spell.etherealness",
+            "duration.1-hour"
+          ],
+          "details": {
+            "oil_of_etherealness": {
+              "covers": "one-medium-or-smaller-creature-with-worn-and-carried-equipment",
+              "extra_vials_per_size_above_medium": 1,
+              "apply_minutes": 10,
+              "spell": "etherealness",
+              "duration_hours": 1,
+              "appearance": "cloudy-gray-oil-beads-form-outside-container-and-quickly-evaporate"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

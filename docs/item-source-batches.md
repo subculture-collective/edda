@@ -386,6 +386,322 @@ Bottle and the figurine text continue across their page breaks.
 rtk proxy python3 -I scripts/verify_srd_items_231.py /path/to/SRD_CC_v5.2.1.pdf
 ```
 
+## Magic items 08 (#232), pp. 223–225
+
+Twelve families and 12 variants, in planning inventory order. Files:
+`item_details_232.go`, `testdata/items_232.json`, `items_232_test.go` and
+`scripts/verify_srd_items_232.py`. `item_source.go` is unchanged.
+
+| Family | Page | Variants | Typed payload |
+| --- | --- | --- | --- |
+| Gem of Seeing | 223 | `standard` (Rare, attunement) | `gem_of_seeing`: 3 charges, regains 1d3 at dawn |
+| Giant Slayer | 223 | `standard` (Rare) | `giant_slayer` |
+| Glamoured Studded Leather | 223 | `standard` (Rare) | `glamoured_studded_leather` |
+| Gloves of Missile Snaring | 224 | `standard` (Uncommon, attunement) | `gloves_of_missile_snaring` |
+| Gloves of Swimming and Climbing | 224 | `standard` (Uncommon, attunement) | `gloves_of_swimming_and_climbing` |
+| Gloves of Thievery | 224 | `standard` (Uncommon) | `gloves_of_thievery` |
+| Goggles of Night | 224 | `standard` (Uncommon) | `goggles_of_night` |
+| Hammer of Thunderbolts | 224 | `standard` (Legendary, attunement) | `hammer_of_thunderbolts`: 5 charges, regains 1d4 + 1 at dawn |
+| Handy Haversack | 224 | `standard` (Rare) | `handy_haversack`: pouches and the nested-space gate |
+| Hat of Disguise | 224 | `standard` (Uncommon, attunement) | `hat_of_disguise` |
+| Hat of Many Spells | 224 | `standard` (Very Rare, attunement by a Wizard) | `hat_of_many_spells`: continues onto p. 225 |
+| Headband of Intellect | 225 | `standard` (Uncommon, attunement) | `headband_of_intellect` |
+
+Variant rules used in this batch:
+
+- No family in this batch prints several kinds or "Rarity Varies", so each has one
+  `standard` variant named as printed.
+- The Hat of Many Spells is attuned by a Wizard. The shared attunement field has
+  no class slot and stays `required` with no restrictions; the class is the
+  payload fact `attunement_class` and the mechanic key `attunement.wizard`.
+- The Hat's failure table is payload data: eleven rows (`min`, `max`; a printed
+  `00` is stored as 100) whose further rolls (d10, d4 and d6) are `outcomes`
+  that must cover their die exactly once. The Hat is listed on p. 224; its text
+  and table continue on p. 225, recorded as `source_pages` [224, 225].
+- Gem of Seeing (3 charges) and Hammer of Thunderbolts (5 charges) are the only
+  families with a charge pool. Their `per_use` is 1. The Hammer's Giant's Bane
+  benefits are payload data of the Hammer, not separate records. The 50 GP gem and
+  1,000 GP component limit in the Hat's rows are payload facts, not prices: every
+  cost stays unspecified.
+- Belt of Giant Strength, Gauntlets of Ogre Power, Bag of Holding and Portable Hole
+  appear only as keys; they are not links to item records.
+
+Composing the Healing contract fixture with batches #225 to #231 and this batch yields 97
+families and 135 variants with no shared identity. The Healing fixture,
+`ResolveHealingPotion` and the coverage register are unchanged.
+
+The comparison script reads pp. 223–225 as one text stream, so the Hat of Many
+Spells text and table continue across the p. 224 to p. 225 break.
+
+```sh
+rtk proxy python3 -I scripts/verify_srd_items_232.py /path/to/SRD_CC_v5.2.1.pdf
+```
+
+## Magic items 09 (#233), pp. 225–227
+
+Twelve families and 28 variants, in planning inventory order. Files:
+`item_details_233.go`, `testdata/items_233.json`, `items_233_test.go` and
+`scripts/verify_srd_items_233.py`. `item_source.go` is unchanged.
+
+| Family | Page | Variants | Typed payload |
+| --- | --- | --- | --- |
+| Helm of Brilliance | 225 | `standard` (Very Rare, attunement) | `helm_of_brilliance`: gems, four properties and the fire-damage mishap; continues onto p. 226 |
+| Helm of Comprehending Languages | 226 | `standard` (Uncommon) | `helm_of_comprehending_languages` |
+| Helm of Telepathy | 226 | `standard` (Uncommon, attunement) | `helm_of_telepathy` |
+| Helm of Teleportation | 226 | `standard` (Rare, attunement) | `helm_of_teleportation`: 3 charges |
+| Holy Avenger | 226 | `standard` (Legendary, attunement) | `holy_avenger`: class attunement and the aura |
+| Horn of Blasting | 226 | `standard` (Rare) | `horn_of_blasting` |
+| Horn of Valhalla | 226 | `silver`, `brass`, `bronze`, `iron` | `horn_of_valhalla`: shared rules and its 1d100 row |
+| Horseshoes of Speed | 227 | `standard` (Rare) | `horseshoes_of_speed` |
+| Horseshoes of a Zephyr | 226 | `standard` (Very Rare) | `horseshoes_of_a_zephyr` |
+| Immovable Rod | 227 | `standard` (Uncommon) | `immovable_rod` |
+| Instant Fortress | 227 | `standard` (Rare, attunement) | `instant_fortress`: statuette and tower |
+| Ioun Stone | 227 | fourteen printed stones, `absorption` to `sustenance` | `ioun_stone`: shared rules and one stone; continues onto p. 228 |
+
+Variant rules used in this batch:
+
+- The Horn of Valhalla prints several rarities and the Ioun Stone prints
+  "Rarity Varies". Each printed metal or stone is a variant named as printed,
+  with the rarity printed with its heading: Silver and Brass are Rare, Bronze
+  is Very Rare and Iron is Legendary. The four rows of the horn table are payload
+  data (`table_min`, `table_max`; a printed `00` is stored as 100).
+- The Ioun Stone text continues from p. 227 onto p. 228. The presentation keeps
+  the inventory page 227; each stone's `source_pages` is the page that prints it
+  (Mastery, Protection, Regeneration, Reserve, Strength and Sustenance are on
+  p. 228). Shared rules repeat in every stone's payload. Per-stone numbers are
+  `ItemFact233` entries: a key, a non-negative amount and a unit.
+- The Holy Avenger's "Requires Attunement by a Paladin" is a payload fact
+  (`attunement_by_any_of`); the shared validator keeps attunement restrictions
+  empty. Its base weapons are any Simple or Martial weapon.
+- The Helm of Brilliance text continues from p. 225 onto p. 226, so its
+  `source_pages` is `[225, 226]`. Gem counts are dice, not quantities.
+- The Helm of Teleportation is the only family with a charge pool (3 charges,
+  1 per use, regains 1d3 at dawn). Other limits, such as the Helm of Telepathy's
+  once-until-dawn spells and the Horn of Valhalla's 7 days, are use limits.
+- Horseshoes of Speed is printed after Horseshoes of a Zephyr; the catalogue
+  keeps inventory order and the comparison script handles the print order.
+
+Composing the Healing contract fixture with batches #225 to #231 and this batch
+yields 97 families and 151 variants with no shared identity. The Healing
+fixture, `ResolveHealingPotion` and the coverage register are unchanged.
+
+The comparison script reads pp. 225–228 as one text stream, so the Helm of
+Brilliance and the Ioun Stone text continue across their page breaks.
+
+```sh
+rtk proxy python3 -I scripts/verify_srd_items_233.py /path/to/SRD_CC_v5.2.1.pdf
+```
+
+## Magic items 10 (#234), pp. 228–229
+
+Twelve families and 12 variants, in planning inventory order. Files:
+`item_details_234.go`, `testdata/items_234.json`, `items_234_test.go` and
+`scripts/verify_srd_items_234.py`. `item_source.go` is unchanged.
+
+| Family | Page | Variants | Typed payload |
+| --- | --- | --- | --- |
+| Iron Bands | 228 | `standard` (Rare) | `iron_bands` |
+| Iron Flask | 228 | `standard` (Legendary) | `iron_flask` |
+| Javelin of Lightning | 228 | `standard` (Uncommon) | `javelin_of_lightning`: Lightning Bolt property |
+| Lantern of Revealing | 228 | `standard` (Uncommon) | `lantern_of_revealing` |
+| Luck Blade | 229 | `standard` (Legendary, attunement) | `luck_blade`: Luck and Wish properties |
+| Mace of Disruption | 229 | `standard` (Rare, attunement) | `mace_of_disruption` |
+| Mace of Smiting | 229 | `standard` (Rare) | `mace_of_smiting` |
+| Mace of Terror | 229 | `standard` (Rare, attunement) | `mace_of_terror`: 3 charges |
+| Mantle of Spell Resistance | 229 | `standard` (Rare, attunement) | `mantle_of_spell_resistance` |
+| Manual of Bodily Health | 229 | `standard` (Very Rare) | `manual_of_bodily_health` |
+| Manual of Gainful Exercise | 229 | `standard` (Very Rare) | `manual_of_gainful_exercise` |
+| Manual of Golems | 229 | `standard` (Very Rare) | `manual_of_golems`: 1d20 table on p. 230 |
+
+Variant rules used in this batch:
+
+- No family prints more than one variant. The four golems of the Manual of
+  Golems are rows of its 1d20 table, kept as payload data (`golems`) with their
+  roll range, days and supplies cost; the book is one item, one rarity.
+- The Manual of Golems table is printed at the top of p. 230, so its payload
+  records `source_pages` 229 and 230 while its presentation page stays 229. The
+  GP amounts are supplies the creator pays, not a price: every cost stays
+  unspecified.
+- The Luck Blade, Mace of Disruption, Mace of Smiting and Mace of Terror base
+  weapons (Glaive to Shortsword, Mace) are base item options, not variants.
+- The two ability manuals share one payload type, `ItemManualStudy`, under
+  their own payload names. "A century" is stored as 100 years.
+
+The Mace of Terror (3 charges, regains 1d3 at dawn) and the Luck Blade are the
+only families with a charge pool. The Luck Blade "has 1d3 charges" with no
+printed maximum and no recharge, so its pool records maximum 3, the top of the
+starting roll, per use 1 and recharge none; the roll itself is the payload's
+`initial_charges`. Once-until-dawn limits (Iron Bands, Javelin of Lightning,
+Luck's reroll, Wish) are use limits, not charge pools.
+
+Composing the Healing contract fixture with batches #225 to #231 and this batch
+yields 97 families and 135 variants with no shared identity. The Healing fixture,
+`ResolveHealingPotion` and the coverage register are unchanged.
+
+The comparison script reads pp. 228–229 and the left column of p. 230 as one
+text stream, so the Lantern of Revealing, the Mace of Terror and the Manual of
+Golems continue across their column and page breaks.
+
+```sh
+rtk proxy python3 -I scripts/verify_srd_items_234.py /path/to/SRD_CC_v5.2.1.pdf
+```
+
+## Magic items 11 (#235), pp. 230–233
+
+Twelve families and twelve variants, in planning inventory order. Files:
+`item_details_235.go`, `testdata/items_235.json`, `items_235_test.go` and
+`scripts/verify_srd_items_235.py`. `item_source.go` is unchanged.
+
+| Family | Page | Rarity | Attunement | Typed payload |
+| --- | --- | --- | --- | --- |
+| Manual of Quickness of Action | 230 | Very Rare | none | `manual_of_quickness_of_action` |
+| Marvelous Pigments | 230 | Very Rare | none | `marvelous_pigments` |
+| Medallion of Thoughts | 230 | Uncommon | required | `medallion_of_thoughts`: 5 charges |
+| Mirror of Life Trapping | 230 | Very Rare | none | `mirror_of_life_trapping` |
+| Mithral Armor | 231 | Uncommon | none | `mithral_armor`: base any medium or heavy armor, excluding hide |
+| Mysterious Deck | 231 | Legendary | none | `mysterious_deck`: both 1d100 columns, 22 card effects, Avatar of Death; continues onto p. 232 |
+| Necklace of Adaptation | 232 | Uncommon | required | `necklace_of_adaptation` |
+| Necklace of Fireballs | 233 | Rare | none | `necklace_of_fireballs` |
+| Necklace of Prayer Beads | 233 | Rare | required | `necklace_of_prayer_beads`: 6-row 1d20 bead table |
+| Nine Lives Stealer | 233 | Very Rare | required | `nine_lives_stealer`: base any simple or martial weapon |
+| Oathbow | 233 | Very Rare | required | `oathbow`: base longbow or shortbow |
+| Oil of Etherealness | 233 | Rare | none | `oil_of_etherealness` |
+
+Every family prints one form, so each has the single variant `standard`. The
+Mysterious Deck is one variant: its 13-card and 22-card decks are two columns of
+one table, recorded as two row lists (`deck_13_cards`, `deck_22_cards`) that each
+cover the 1d100 exactly. A printed `00` is stored as 100, and a card with a dash
+in a column has no row in it. The 22 card effects are keys and numeric facts;
+the Euryale penalty is the amount 2 with the unit `minus`, and dice such as the
+Moon card's 1d3 are an amount with a unit such as `d3`. The Avatar of Death stat
+block on p. 232 is a payload of the deck, not a monster record.
+
+The Necklace of Prayer Beads restricts attunement to a Cleric, Druid or Paladin.
+The shared decoder requires an empty attunement restriction list, so the classes
+are a payload field (`attunement_by_any_of`), as in batch 06 (#230). Its table gives a
+spell level only for the Bead of Curing (Cure Wounds, level 2); zero means none
+printed.
+
+Only two families have a charge pool. The Medallion of Thoughts has 5 charges,
+1 per use, regaining 1d4 at dawn. The Nine Lives Stealer has 1d8 + 1 charges,
+one lost per creature slain and never recharged; its variant records 9, the
+highest result of the printed dice, and the payload records the dice. The beads
+of the two necklaces and the pots of Marvelous Pigments are quantities rolled
+when found, not charges. The 25 GP, 500 GP, 2,000 GP and 1,000 GP values are
+payload facts, not prices; every cost stays unspecified.
+
+Composing the Healing contract fixture with batches #225 to #231 and this batch
+yields 97 families and 135 variants with no shared identity. The Healing
+fixture, `ResolveHealingPotion` and the coverage register are unchanged.
+
+The comparison script reads pp. 230–233 as one text stream, so the Mysterious
+Deck continues across its page break.
+
+```sh
+rtk proxy python3 -I scripts/verify_srd_items_235.py /path/to/SRD_CC_v5.2.1.pdf
+```
+
+## Magic items 12 (#236), pp. 233–235
+
+Twelve families and 12 variants, in planning inventory order. Files:
+`item_details_236.go`, `testdata/items_236.json`, `items_236_test.go` and
+`scripts/verify_srd_items_236.py`. `item_source.go` is unchanged.
+
+| Family | Page | Variants | Typed payload |
+| --- | --- | --- | --- |
+| Oil of Sharpness | 233 | `standard` (Very Rare) | `oil_of_sharpness`: +3 weapon and ammunition |
+| Oil of Slipperiness | 233 | `standard` (Uncommon) | `oil_of_slipperiness`: Freedom of Movement and Grease |
+| Pearl of Power | 234 | `standard` (Uncommon, attunement) | `pearl_of_power` |
+| Periapt of Health | 234 | `standard` (Uncommon, attunement) | `periapt_of_health` |
+| Periapt of Proof against Poison | 234 | `standard` (Rare, attunement) | `periapt_of_proof_against_poison` |
+| Periapt of Wound Closure | 234 | `standard` (Uncommon, attunement) | `periapt_of_wound_closure`: Life Preservation and Natural Healing Boost |
+| Philter of Love | 234 | `standard` (Uncommon) | `philter_of_love` |
+| Pipes of Haunting | 234 | `standard` (Uncommon) | `pipes_of_haunting`: 3 charges |
+| Pipes of the Sewers | 234 | `standard` (Uncommon, attunement) | `pipes_of_the_sewers`: 3 charges |
+| Plate Armor of Etherealness | 234 | `standard` (Legendary, attunement) | `plate_armor_of_etherealness` |
+| Portable Hole | 234 | `standard` (Rare) | `portable_hole` |
+| Potion of Animal Friendship | 235 | `standard` (Uncommon) | `potion_of_animal_friendship`: level 3, save DC 13 |
+
+Variant rules used in this batch:
+
+- No family prints more than one variant, so each has the single variant
+  `standard`. Potion of Giant Strength, which has a variant table, is outside
+  this batch.
+- The Oil of Slipperiness starts on p. 233 and ends on p. 234; its payload
+  records `source_pages` 233 and 234. The Portable Hole starts on p. 234 and
+  ends on p. 235; its payload records `source_pages` 234 and 235. Both keep
+  their heading page as the presentation page.
+- The Plate Armor of Etherealness base armor options (Half Plate Armor, Plate
+  Armor) are base item options, not variants.
+- The Pearl of Power's "Requires Attunement by a Spellcaster" qualifier is the
+  payload's `attunement_by_any_of`; the shared attunement restriction list stays
+  empty, as in earlier batches.
+
+Pipes of Haunting and Pipes of the Sewers are the only families with a charge
+pool: 3 charges, regaining 1d3 at dawn. Their `per_use` is 1, the least a use
+costs; the Pipes of the Sewers accept 1 to 3 charges, recorded in the payload.
+Once-until-dawn limits (Pearl of Power, Periapt of Health, Plate Armor of
+Etherealness) are use limits, not charge pools. Potion and oil quantities are
+not charge pools. No family lists a price, so every cost stays unspecified.
+
+Composing the Healing contract fixture with batches #225 to #231 and this batch
+yields 97 families and 135 variants with no shared identity. The Healing fixture,
+`ResolveHealingPotion` and the coverage register are unchanged.
+
+The comparison script reads pp. 233–235 as one text stream, column by column, so
+the Oil of Slipperiness, the Pipes of Haunting and the Portable Hole continue
+across their column and page breaks.
+
+```sh
+rtk proxy python3 -I scripts/verify_srd_items_236.py /path/to/SRD_CC_v5.2.1.pdf
+```
+
+## Magic items 13 (#237), pp. 235–236
+
+Twelve families and 16 variants, in planning inventory order. Files:
+`item_details_237.go`, `testdata/items_237.json`, `items_237_test.go` and
+`scripts/verify_srd_items_237.py`. `item_source.go` is unchanged.
+
+| Family | Page | Variants | Typed payload |
+| --- | --- | --- | --- |
+| Potion of Clairvoyance | 235 | `standard` (Rare) | `clairvoyance` |
+| Potion of Climbing | 235 | `standard` (Common) | `climbing` |
+| Potion of Diminution | 235 | `standard` (Rare) | `diminution` |
+| Potion of Flying | 235 | `standard` (Very Rare) | `flying` |
+| Potion of Gaseous Form | 235 | `standard` (Rare) | `gaseous_form` |
+| Potion of Giant Strength | 235 | `hill`, `frost-or-stone`, `fire`, `cloud`, `storm` | `giant_strength`: its table row |
+| Potion of Growth | 235 | `standard` (Uncommon) | `growth` |
+| Potion of Heroism | 236 | `standard` (Rare) | `heroism` |
+| Potion of Invisibility | 236 | `standard` (Rare) | `invisibility` |
+| Potion of Invulnerability | 236 | `standard` (Rare) | `invulnerability` |
+| Potion of Longevity | 236 | `standard` (Very Rare) | `longevity` |
+| Potion of Mind Reading | 236 | `standard` (Rare) | `mind_reading` |
+
+Variant rules used in this batch:
+
+- Potion of Giant Strength prints "Rarity Varies" and a five-row table. Each row is
+  a variant named as printed, with the rarity printed in its row (Uncommon, Rare,
+  Rare, Very Rare, Legendary). The row printed "frost or stone" lists two giants
+  and is one variant; its payload holds both in `giants`.
+- Every potion is category `potion`, uses the `consume` mode with the `drink-one`
+  restriction (as the Elixir of Health in batch 06), and has no attunement, equip
+  restriction, charges or price. The spells and conditions a potion names
+  (Clairvoyance, Enlarge/Reduce, Gaseous Form, Bless, Detect Thoughts, Invisible)
+  are keys, not links to spell or condition records.
+- Heroism, Invisibility, Invulnerability and Longevity are on p. 236, after the
+  Potions of Healing, which belong to the Healing contract fixture and are not
+  part of this batch.
+
+Composing the Healing contract fixture with batches #225 to #231 and this batch yields 97
+families and 139 variants with no shared identity. The Healing fixture,
+`ResolveHealingPotion` and the coverage register are unchanged.
+
+The comparison script reads pp. 235–236 column by column as one text stream.
+
+```sh
+rtk proxy python3 -I scripts/verify_srd_items_237.py /path/to/SRD_CC_v5.2.1.pdf
+```
+
 This work includes material from the System Reference Document 5.2.1 (“SRD
 5.2.1”) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd.
 The SRD 5.2.1 is licensed under the Creative Commons Attribution 4.0 International

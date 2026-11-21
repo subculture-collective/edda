@@ -1,0 +1,1021 @@
+{
+  "schema_version": 1,
+  "rules_version": "srd-5.2.1",
+  "batch": "data-magic-items-12",
+  "catalogue_issue": 236,
+  "source": {
+    "version": "5.2.1",
+    "language": "en",
+    "landing_url": "https://www.dndbeyond.com/srd",
+    "artifact_url": "https://media.dndbeyond.com/compendium-images/srd/5.2/SRD_CC_v5.2.1.pdf",
+    "sha256": "8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87",
+    "bytes": 6031375,
+    "pages": 364,
+    "retrieved_at": "2026-11-15",
+    "license": "CC-BY-4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/legalcode",
+    "attribution": "This work includes material from the System Reference Document 5.2.1 (\u201cSRD 5.2.1\u201d) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd. The SRD 5.2.1 is licensed under the Creative Commons Attribution 4.0 International License, available at https://creativecommons.org/licenses/by/4.0/legalcode.",
+    "changes": "SRD 5.2.1 pp. 233\u2013235 adapted into twelve versioned magic-item families (Oil of Sharpness through Potion of Animal Friendship) with explicit variant identities, structured requirements and typed source values. Names, numeric rules and key phrases are adapted into keys; no rules prose is reproduced. Prices are not listed and remain unspecified. Catalogue data grants no inventory, action or gameplay permissions; every record is unavailable."
+  },
+  "families": [
+    {
+      "id": "srd-5.2.1:content/items/oil-of-sharpness",
+      "name": "Oil of Sharpness",
+      "kind": "magic",
+      "category": "potion",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/oil-of-sharpness",
+          "pages": [
+            233,
+            233
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/oil-of-sharpness/variant/standard",
+          "name": "Oil of Sharpness",
+          "rarity": "very-rare",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "apply",
+            "restrictions": [
+              "one-vial-coats-one-melee-weapon-or-twenty-ammunition",
+              "nonmagical-slashing-or-piercing-only"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              233,
+              233
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.consume",
+            "action.apply-1-minute",
+            "target.nonmagical-slashing-or-piercing",
+            "effect.plus-3-weapon",
+            "effect.plus-3-ammunition"
+          ],
+          "details": {
+            "oil_of_sharpness": {
+              "coats_melee_weapons": 1,
+              "coats_ammunition": 20,
+              "requires_nonmagical": true,
+              "damage_types": [
+                "slashing",
+                "piercing"
+              ],
+              "application_minutes": 1,
+              "weapon_bonus": 3,
+              "ammunition_bonus": 3,
+              "appearance": "clear-gelatinous-oil-with-ultrathin-silver-shards"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/oil-of-slipperiness",
+      "name": "Oil of Slipperiness",
+      "kind": "magic",
+      "category": "potion",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/oil-of-slipperiness",
+          "pages": [
+            233,
+            233
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/oil-of-slipperiness/variant/standard",
+          "name": "Oil of Slipperiness",
+          "rarity": "uncommon",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "apply",
+            "restrictions": [
+              "one-vial-covers-one-medium-or-smaller-creature",
+              "pour-as-magic-action"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              233,
+              233
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.consume",
+            "action.apply-10-minutes",
+            "spell.effect-freedom-of-movement",
+            "duration.8-hours",
+            "action.magic",
+            "area.square-10-foot",
+            "spell.effect-grease"
+          ],
+          "details": {
+            "oil_of_slipperiness": {
+              "source_pages": [
+                233,
+                234
+              ],
+              "coverage": {
+                "max_size": "medium",
+                "includes_worn_and_carried_equipment": true,
+                "extra_vial_per_size_above": "medium"
+              },
+              "application_minutes": 10,
+              "body_spell": "freedom-of-movement",
+              "body_duration_hours": 8,
+              "pour_action": "magic",
+              "pour_area_square_side_feet": 10,
+              "pour_spell": "grease",
+              "pour_duration_hours": 8,
+              "appearance": "sticky-black-unguent-thick-and-heavy-flows-quickly-when-poured"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/pearl-of-power",
+      "name": "Pearl of Power",
+      "kind": "magic",
+      "category": "wondrous-item",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/pearl-of-power",
+          "pages": [
+            234,
+            234
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/pearl-of-power/variant/standard",
+          "name": "Pearl of Power",
+          "rarity": "uncommon",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "carry",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "magic-action",
+            "restrictions": [
+              "once-until-next-dawn"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              234,
+              234
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "item.carry",
+            "action.magic",
+            "spell-slot.regain-one-level-3-or-lower",
+            "item.once-until-next-dawn"
+          ],
+          "details": {
+            "pearl_of_power": {
+              "attunement_by_any_of": [
+                "spellcaster"
+              ],
+              "condition": "on-your-person",
+              "action": "magic",
+              "spell_slots_regained": 1,
+              "max_slot_level": 3,
+              "uses": 1,
+              "recharge": "next-dawn"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/periapt-of-health",
+      "name": "Periapt of Health",
+      "kind": "magic",
+      "category": "wondrous-item",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/periapt-of-health",
+          "pages": [
+            234,
+            234
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/periapt-of-health/variant/standard",
+          "name": "Periapt of Health",
+          "rarity": "uncommon",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wear",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "magic-action",
+            "restrictions": [
+              "once-until-next-dawn"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              234,
+              234
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "item.wear",
+            "action.magic",
+            "healing.hit-points-2d4-plus-2",
+            "item.once-until-next-dawn",
+            "save.advantage-avoid-or-end-poisoned"
+          ],
+          "details": {
+            "periapt_of_health": {
+              "condition": "while-wearing",
+              "action": "magic",
+              "healing_dice": {
+                "dice": 2,
+                "sides": 4,
+                "type": "healing"
+              },
+              "healing_bonus": 2,
+              "uses": 1,
+              "recharge": "next-dawn",
+              "poisoned_save_mode": "advantage",
+              "poisoned_save_applies_to": [
+                "avoid-poisoned",
+                "end-poisoned"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/periapt-of-proof-against-poison",
+      "name": "Periapt of Proof against Poison",
+      "kind": "magic",
+      "category": "wondrous-item",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/periapt-of-proof-against-poison",
+          "pages": [
+            234,
+            234
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/periapt-of-proof-against-poison/variant/standard",
+          "name": "Periapt of Proof against Poison",
+          "rarity": "rare",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wear",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              234,
+              234
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "item.wear",
+            "immunity.condition-poisoned",
+            "immunity.damage-poison"
+          ],
+          "details": {
+            "periapt_of_proof_against_poison": {
+              "appearance": "delicate-silver-chain-with-brilliant-cut-black-gem-pendant",
+              "condition": "while-wearing",
+              "condition_immunities": [
+                "poisoned"
+              ],
+              "damage_immunities": [
+                "poison"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/periapt-of-wound-closure",
+      "name": "Periapt of Wound Closure",
+      "kind": "magic",
+      "category": "wondrous-item",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/periapt-of-wound-closure",
+          "pages": [
+            234,
+            234
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/periapt-of-wound-closure/variant/standard",
+          "name": "Periapt of Wound Closure",
+          "rarity": "uncommon",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wear",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              234,
+              234
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "item.wear",
+            "death-save.change-9-or-lower-to-10",
+            "healing.double-hit-point-die"
+          ],
+          "details": {
+            "periapt_of_wound_closure": {
+              "condition": "while-wearing",
+              "life_preservation": {
+                "trigger": "make-death-saving-throw",
+                "changes_roll_at_or_below": 9,
+                "changed_to": 10,
+                "result": "failed-save-becomes-successful"
+              },
+              "natural_healing_boost": {
+                "trigger": "roll-hit-point-die-to-regain-hit-points",
+                "multiplier": 2
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/philter-of-love",
+      "name": "Philter of Love",
+      "kind": "magic",
+      "category": "potion",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/philter-of-love",
+          "pages": [
+            234,
+            234
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/philter-of-love/variant/standard",
+          "name": "Philter of Love",
+          "rarity": "uncommon",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "consume",
+            "restrictions": [
+              "drink-one"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              234,
+              234
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.consume",
+            "condition.charmed",
+            "duration.1-hour",
+            "window.10-minutes-after-drinking"
+          ],
+          "details": {
+            "philter_of_love": {
+              "trigger": "next-creature-you-see-after-drinking",
+              "window_minutes": 10,
+              "condition": "charmed",
+              "charmed_by": "that-creature",
+              "duration_hours": 1,
+              "appearance": "rose-hued-effervescent-liquid-with-one-heart-shaped-bubble"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/pipes-of-haunting",
+      "name": "Pipes of Haunting",
+      "kind": "magic",
+      "category": "wondrous-item",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/pipes-of-haunting",
+          "pages": [
+            234,
+            234
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/pipes-of-haunting/variant/standard",
+          "name": "Pipes of Haunting",
+          "rarity": "uncommon",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "limited",
+            "maximum": 3,
+            "per_use": 1,
+            "recharge": "regain-1d3-at-dawn"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "magic-action",
+            "restrictions": [
+              "expend-one-charge"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              234,
+              234
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.charges",
+            "action.magic",
+            "area.30-feet",
+            "save.wisdom-dc-15",
+            "condition.frightened",
+            "duration.1-minute",
+            "save.repeat-end-of-turn",
+            "immunity.24-hours-after-success"
+          ],
+          "details": {
+            "pipes_of_haunting": {
+              "action": "magic",
+              "charge_cost": 1,
+              "effect": "eerie-spellbinding-tune",
+              "targets": "each-creature-of-your-choice",
+              "range_feet": 30,
+              "save": {
+                "ability": "wisdom",
+                "dc": 15
+              },
+              "condition": "frightened",
+              "duration_seconds": 60,
+              "repeat_save": "end-of-each-of-its-turns",
+              "success_ends": "effect-on-itself",
+              "immunity_hours_after_success": 24
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/pipes-of-the-sewers",
+      "name": "Pipes of the Sewers",
+      "kind": "magic",
+      "category": "wondrous-item",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/pipes-of-the-sewers",
+          "pages": [
+            234,
+            234
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/pipes-of-the-sewers/variant/standard",
+          "name": "Pipes of the Sewers",
+          "rarity": "uncommon",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "limited",
+            "maximum": 3,
+            "per_use": 1,
+            "recharge": "regain-1d3-at-dawn"
+          },
+          "equip": {
+            "mode": "carry",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "magic-action",
+            "restrictions": [
+              "bonus-action-expend-one-to-three-charges"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              234,
+              234
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "item.carry",
+            "item.charges",
+            "attitude.rats-indifferent",
+            "action.magic",
+            "action.bonus",
+            "summon.swarm-of-rats-per-charge",
+            "save.wisdom-dc-15",
+            "condition.friendly",
+            "immunity.24-hours-after-success"
+          ],
+          "details": {
+            "pipes_of_the_sewers": {
+              "passive": {
+                "condition": "on-your-person",
+                "creatures": [
+                  "ordinary-rat",
+                  "giant-rat"
+                ],
+                "attitude": "indifferent",
+                "unless": "you-threaten-or-harm-them"
+              },
+              "call_swarms": {
+                "play_action": "magic",
+                "call_action": "bonus",
+                "min_charges": 1,
+                "max_charges": 3,
+                "swarm": "swarm-of-rats",
+                "swarms_per_charge": 1,
+                "range": "half-a-mile",
+                "insufficient_rats": "charge-is-wasted",
+                "availability_determined_by": "gm",
+                "swarm_movement": "toward-music-by-shortest-available-route-not-otherwise-controlled"
+              },
+              "sway_swarms": {
+                "trigger": "uncontrolled-swarm-of-rats-within-30-feet-while-you-play",
+                "trigger_range_feet": 30,
+                "save": {
+                  "ability": "wisdom",
+                  "dc": 15
+                },
+                "success_result": "behaves-normally-and-cannot-be-swayed",
+                "success_immunity_hours": 24,
+                "failure_result": "friendly-to-you-and-your-allies",
+                "failure_lasts_while": "you-play-the-pipes-each-round-as-magic-action",
+                "friendly_swarm_obeys_commands": true,
+                "uncommanded_behavior": "defends-itself-and-takes-no-other-actions",
+                "control_ends_when": "friendly-swarm-starts-turn-more-than-30-feet-away",
+                "control_end_distance_feet": 30,
+                "after_control_ends": "behaves-normally-and-cannot-be-swayed-for-24-hours"
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/plate-armor-of-etherealness",
+      "name": "Plate Armor of Etherealness",
+      "kind": "magic",
+      "category": "armor",
+      "base": {
+        "options": [
+          "half-plate-armor",
+          "plate-armor"
+        ],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/plate-armor-of-etherealness",
+          "pages": [
+            234,
+            234
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/plate-armor-of-etherealness/variant/standard",
+          "name": "Plate Armor of Etherealness",
+          "rarity": "legendary",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wear",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "magic-action",
+            "restrictions": [
+              "command-word",
+              "once-until-next-dawn"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              234,
+              234
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "item.wear",
+            "action.magic",
+            "item.command-word",
+            "spell.effect-etherealness",
+            "item.once-until-next-dawn"
+          ],
+          "details": {
+            "plate_armor_of_etherealness": {
+              "condition": "while-wearing",
+              "action": "magic",
+              "activation": "command-word",
+              "spell": "etherealness",
+              "ends_on": [
+                "armor-removed",
+                "magic-action-repeat-command-word"
+              ],
+              "uses": 1,
+              "recharge": "next-dawn"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/portable-hole",
+      "name": "Portable Hole",
+      "kind": "magic",
+      "category": "wondrous-item",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/portable-hole",
+          "pages": [
+            234,
+            234
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/portable-hole/variant/standard",
+          "name": "Portable Hole",
+          "rarity": "rare",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "magic-action",
+            "restrictions": [
+              "unfold-or-fold"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              234,
+              234
+            ]
+          },
+          "required_mechanic_keys": [
+            "action.magic",
+            "item.extradimensional-hole-10-feet-deep",
+            "check.strength-athletics-dc-10",
+            "item.air-1-hour-divided",
+            "hazard.nested-extradimensional-space-destroys-both-and-opens-astral-gate"
+          ],
+          "details": {
+            "portable_hole": {
+              "source_pages": [
+                234,
+                235
+              ],
+              "cloth": "fine-black-silk-soft-folds-to-handkerchief-size",
+              "diameter_feet": 6,
+              "unfold": {
+                "action": "magic",
+                "surface": "on-or-against-solid-surface",
+                "depth_feet": 10,
+                "shape": "cylindrical",
+                "plane": "different-plane-of-existence",
+                "cannot_create_open_passages": true,
+                "exit": "creature-inside-open-hole-can-climb-out"
+              },
+              "close": {
+                "action": "magic",
+                "contents": "creatures-and-objects-remain-in-extradimensional-space",
+                "weight": "next-to-nothing"
+              },
+              "escape_when_folded": {
+                "action": "action",
+                "check": {
+                  "ability": "strength",
+                  "skill": "athletics",
+                  "dc": 10
+                },
+                "success": "forces-its-way-out",
+                "appears_within_feet": 5,
+                "closed_air_hours": 1,
+                "air_divided_by": "number-of-breathing-creatures-inside"
+              },
+              "inside_extradimensional_space": {
+                "containers": [
+                  "bag-of-holding",
+                  "handy-haversack",
+                  "similar-item"
+                ],
+                "result": "both-items-destroyed-and-gate-to-astral-plane-opens",
+                "gate_origin": "where-one-item-was-placed-inside-the-other",
+                "pulls_in_within_feet": 10,
+                "exempt": "creature-behind-total-cover",
+                "destination": "random-location-on-astral-plane",
+                "gate_closes_afterward": true,
+                "one_way": true,
+                "can_be_reopened": false
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/potion-of-animal-friendship",
+      "name": "Potion of Animal Friendship",
+      "kind": "magic",
+      "category": "potion",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/potion-of-animal-friendship",
+          "pages": [
+            235,
+            235
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/potion-of-animal-friendship/variant/standard",
+          "name": "Potion of Animal Friendship",
+          "rarity": "uncommon",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "consume",
+            "restrictions": [
+              "drink-one"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              235,
+              235
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.consume",
+            "spell.cast-animal-friendship",
+            "spell.level-3-version",
+            "spell.save-dc-13"
+          ],
+          "details": {
+            "potion_of_animal_friendship": {
+              "trigger": "drink-this-potion",
+              "spell": "animal-friendship",
+              "spell_level": 3,
+              "save_dc": 13,
+              "appearance": "muddy-liquid",
+              "appearance_items": [
+                "fish-scale",
+                "hummingbird-feather",
+                "cat-claw",
+                "squirrel-hair"
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

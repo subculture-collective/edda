@@ -1,0 +1,1075 @@
+{
+  "schema_version": 1,
+  "rules_version": "srd-5.2.1",
+  "batch": "data-magic-items-10",
+  "catalogue_issue": 234,
+  "source": {
+    "version": "5.2.1",
+    "language": "en",
+    "landing_url": "https://www.dndbeyond.com/srd",
+    "artifact_url": "https://media.dndbeyond.com/compendium-images/srd/5.2/SRD_CC_v5.2.1.pdf",
+    "sha256": "8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87",
+    "bytes": 6031375,
+    "pages": 364,
+    "retrieved_at": "2026-11-15",
+    "license": "CC-BY-4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/legalcode",
+    "attribution": "This work includes material from the System Reference Document 5.2.1 (“SRD 5.2.1”) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd. The SRD 5.2.1 is licensed under the Creative Commons Attribution 4.0 International License, available at https://creativecommons.org/licenses/by/4.0/legalcode.",
+    "changes": "SRD 5.2.1 pp. 228–229 and the Manual of Golems table on p. 230 adapted into twelve versioned magic-item families (Iron Bands through Manual of Golems) with explicit variant identities, structured requirements and typed source values. Names, numeric rules and key phrases are adapted into keys; no rules prose is reproduced. Prices are not listed and remain unspecified. Catalogue data grants no inventory, action or gameplay permissions; every record is unavailable."
+  },
+  "families": [
+    {
+      "id": "srd-5.2.1:content/items/iron-bands",
+      "name": "Iron Bands",
+      "kind": "magic",
+      "category": "wondrous-item",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/iron-bands",
+          "pages": [
+            228,
+            228
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/iron-bands/variant/standard",
+          "name": "Iron Bands",
+          "rarity": "rare",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "magic-action",
+            "restrictions": [
+              "throw-at-huge-or-smaller-within-60-feet",
+              "once-until-dawn"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              228,
+              228
+            ]
+          },
+          "required_mechanic_keys": [
+            "action.magic",
+            "attack.ranged-dexterity-plus-proficiency",
+            "condition.restrained",
+            "action.bonus-release",
+            "check.strength-athletics-dc-20",
+            "effect.destroyed-on-successful-break",
+            "item.once-until-dawn"
+          ],
+          "details": {
+            "iron_bands": {
+              "appearance": "rusty-iron-sphere",
+              "diameter_inches": 3,
+              "weight_pounds": 1,
+              "action": "magic",
+              "throw_range_feet": 60,
+              "target_max_size": "huge",
+              "target_visibility": "can-see",
+              "opens_into": "tangle-of-metal-bands",
+              "attack_kind": "ranged",
+              "attack_ability": "dexterity",
+              "attack_adds_proficiency_bonus": true,
+              "hit_condition": "restrained",
+              "release_action": "bonus",
+              "contracts_on": [
+                "release-command",
+                "missed-attack"
+              ],
+              "break_action": "action",
+              "break_check": {
+                "ability": "strength",
+                "skill": "athletics",
+                "dc": 20
+              },
+              "break_by": "creature-that-can-touch-bands",
+              "break_success": [
+                "item-destroyed",
+                "restrained-creature-freed"
+              ],
+              "break_failure": "further-attempts-by-that-creature-fail",
+              "break_failure_lockout_hours": 24,
+              "reuse": "next-dawn"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/iron-flask",
+      "name": "Iron Flask",
+      "kind": "magic",
+      "category": "wondrous-item",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/iron-flask",
+          "pages": [
+            228,
+            228
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/iron-flask/variant/standard",
+          "name": "Iron Flask",
+          "rarity": "legendary",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "hold",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "magic-action",
+            "restrictions": [
+              "empty-flask-target-from-another-plane"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              228,
+              228
+            ]
+          },
+          "required_mechanic_keys": [
+            "action.magic",
+            "save.wisdom-dc-17",
+            "effect.trapped-in-flask",
+            "effect.obeys-commands-1-hour",
+            "item.holds-one-creature"
+          ],
+          "details": {
+            "iron_flask": {
+              "condition": "while-holding",
+              "action": "magic",
+              "range_feet": 60,
+              "target_visibility": "can-see",
+              "requires_empty_flask": true,
+              "target_native_to": "other-plane-than-yours",
+              "save_ability": "wisdom",
+              "save_dc": 17,
+              "save_failure": "trapped-in-flask",
+              "previously_trapped_save": "advantage",
+              "trapped_until": "released",
+              "capacity_creatures": 1,
+              "trapped_effects": [
+                "does-not-age",
+                "does-not-need-to-breathe",
+                "does-not-need-to-eat",
+                "does-not-need-to-drink"
+              ],
+              "release_action": "magic",
+              "release_by": "remove-stopper",
+              "obeys_for_hours": 1,
+              "understands_commands_in_any_language": true,
+              "self_defense_when": [
+                "no-commands-issued",
+                "command-likely-to-cause-death-or-imprisonment"
+              ],
+              "self_defense_behavior": "defends-itself-takes-no-other-actions",
+              "after_duration": "acts-per-normal-disposition-and-alignment",
+              "identify_reveals": "whether-flask-contains-creature",
+              "type_determined_by": "opening-flask",
+              "newly_found": "might-contain-creature-chosen-by-gm"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/javelin-of-lightning",
+      "name": "Javelin of Lightning",
+      "kind": "magic",
+      "category": "weapon",
+      "base": {
+        "options": [
+          "javelin"
+        ],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/javelin-of-lightning",
+          "pages": [
+            228,
+            228
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/javelin-of-lightning/variant/standard",
+          "name": "Javelin of Lightning",
+          "rarity": "uncommon",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wield",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "weapon-attack",
+            "restrictions": [
+              "lightning-bolt-once-until-dawn"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              228,
+              228
+            ]
+          },
+          "required_mechanic_keys": [
+            "damage.lightning-instead-of-piercing",
+            "property.lightning-bolt",
+            "area.line-5-foot",
+            "save.dexterity-dc-13",
+            "damage.lightning-4d6",
+            "item.once-until-dawn"
+          ],
+          "details": {
+            "javelin_of_lightning": {
+              "damage_swap_trigger": "attack-roll-hit",
+              "damage_swap_from": "piercing",
+              "damage_swap_to": "lightning",
+              "lightning_bolt": {
+                "trigger": "throw-at-target-within-120-feet",
+                "range_feet": 120,
+                "forgo_attack_roll": true,
+                "shape": "line",
+                "width_feet": 5,
+                "line_between": "you-and-target",
+                "affects": [
+                  "target",
+                  "each-other-creature-in-line-excluding-you"
+                ],
+                "save_ability": "dexterity",
+                "save_dc": 13,
+                "damage": {
+                  "dice": 4,
+                  "sides": 6,
+                  "type": "lightning"
+                },
+                "on_success": "half-damage",
+                "returns": "weapon-reappears-in-hand-after-damage",
+                "reuse": "next-dawn"
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/lantern-of-revealing",
+      "name": "Lantern of Revealing",
+      "kind": "magic",
+      "category": "wondrous-item",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/lantern-of-revealing",
+          "pages": [
+            228,
+            228
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/lantern-of-revealing/variant/standard",
+          "name": "Lantern of Revealing",
+          "rarity": "uncommon",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "utilize-action",
+            "restrictions": [
+              "lower-hood"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              228,
+              228
+            ]
+          },
+          "required_mechanic_keys": [
+            "light.bright-30-dim-30",
+            "effect.reveals-invisible-in-bright-light",
+            "item.burns-6-hours-per-pint",
+            "action.utilize",
+            "light.hooded-dim-5"
+          ],
+          "details": {
+            "lantern_of_revealing": {
+              "condition": "while-lit",
+              "burn_hours": 6,
+              "oil_pints": 1,
+              "bright_light_feet": 30,
+              "dim_light_additional_feet": 30,
+              "reveals": [
+                "invisible-creatures",
+                "invisible-objects"
+              ],
+              "reveals_when": "in-bright-light",
+              "hood_action": "utilize",
+              "hooded_light": "dim-light",
+              "hooded_radius_feet": 5
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/luck-blade",
+      "name": "Luck Blade",
+      "kind": "magic",
+      "category": "weapon",
+      "base": {
+        "options": [
+          "glaive",
+          "greatsword",
+          "longsword",
+          "rapier",
+          "scimitar",
+          "sickle",
+          "shortsword"
+        ],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/luck-blade",
+          "pages": [
+            229,
+            229
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/luck-blade/variant/standard",
+          "name": "Luck Blade",
+          "rarity": "legendary",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "limited",
+            "maximum": 3,
+            "per_use": 1,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wield",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "weapon-attack",
+            "restrictions": [
+              "luck-once-until-dawn",
+              "wish-once-until-dawn"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              229,
+              229
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "bonus.attack-and-damage-1",
+            "bonus.saving-throw-1",
+            "property.luck",
+            "action.none",
+            "property.wish",
+            "item.charges-1d3",
+            "item.once-until-dawn"
+          ],
+          "details": {
+            "luck_blade": {
+              "attack_bonus": 1,
+              "damage_bonus": 1,
+              "save_bonus": 1,
+              "save_bonus_when": "weapon-on-your-person",
+              "luck": {
+                "condition": "weapon-on-your-person",
+                "action": "none",
+                "effect": "reroll-one-failed-d20-test-must-use-second-roll",
+                "forbidden_while": "incapacitated",
+                "reroll_use": "must-use-second-roll",
+                "reuse": "next-dawn"
+              },
+              "wish": {
+                "initial_charges": {
+                  "dice": 1,
+                  "sides": 3,
+                  "type": "charges"
+                },
+                "condition": "while-holding",
+                "charge_cost": 1,
+                "spell": "wish",
+                "reuse": "next-dawn",
+                "property_lost_when": "no-charges"
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/mace-of-disruption",
+      "name": "Mace of Disruption",
+      "kind": "magic",
+      "category": "weapon",
+      "base": {
+        "options": [
+          "mace"
+        ],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/mace-of-disruption",
+          "pages": [
+            229,
+            229
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/mace-of-disruption/variant/standard",
+          "name": "Mace of Disruption",
+          "rarity": "rare",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wield",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "weapon-attack",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              229,
+              229
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "damage.radiant-2d6",
+            "target.fiend-or-undead",
+            "save.wisdom-dc-15",
+            "effect.destroyed-at-25-hit-points",
+            "condition.frightened",
+            "light.bright-20-dim-20"
+          ],
+          "details": {
+            "mace_of_disruption": {
+              "extra_damage": {
+                "dice": 2,
+                "sides": 6,
+                "type": "radiant"
+              },
+              "extra_damage_targets": [
+                "fiend",
+                "undead"
+              ],
+              "destroy_at_hit_points_or_fewer": 25,
+              "save_ability": "wisdom",
+              "save_dc": 15,
+              "save_failure": "destroyed",
+              "save_success_condition": "frightened",
+              "success_condition_ends": "end-of-your-next-turn",
+              "light_condition": "while-holding",
+              "bright_light_feet": 20,
+              "dim_light_additional_feet": 20
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/mace-of-smiting",
+      "name": "Mace of Smiting",
+      "kind": "magic",
+      "category": "weapon",
+      "base": {
+        "options": [
+          "mace"
+        ],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/mace-of-smiting",
+          "pages": [
+            229,
+            229
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/mace-of-smiting/variant/standard",
+          "name": "Mace of Smiting",
+          "rarity": "rare",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wield",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "weapon-attack",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              229,
+              229
+            ]
+          },
+          "required_mechanic_keys": [
+            "bonus.attack-and-damage-1",
+            "bonus.construct-3",
+            "damage.bludgeoning-7-on-natural-20",
+            "damage.bludgeoning-14-on-construct-natural-20",
+            "effect.construct-destroyed-at-25-hit-points"
+          ],
+          "details": {
+            "mace_of_smiting": {
+              "attack_bonus": 1,
+              "damage_bonus": 1,
+              "construct_bonus": 3,
+              "critical_trigger": "natural-20-on-attack-roll",
+              "critical_extra_damage": 7,
+              "critical_damage_type": "bludgeoning",
+              "construct_critical_extra_damage": 14,
+              "construct_destroyed_at_hit_points_or_fewer": 25
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/mace-of-terror",
+      "name": "Mace of Terror",
+      "kind": "magic",
+      "category": "weapon",
+      "base": {
+        "options": [
+          "mace"
+        ],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/mace-of-terror",
+          "pages": [
+            229,
+            229
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/mace-of-terror/variant/standard",
+          "name": "Mace of Terror",
+          "rarity": "rare",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "limited",
+            "maximum": 3,
+            "per_use": 1,
+            "recharge": "regain-1d3-at-dawn"
+          },
+          "equip": {
+            "mode": "wield",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "magic-action",
+            "restrictions": [
+              "expend-1-charge"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              229,
+              229
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "item.charges",
+            "action.magic",
+            "area.range-30-foot",
+            "save.wisdom-dc-15",
+            "condition.frightened",
+            "duration.1-minute",
+            "effect.frightened-must-flee"
+          ],
+          "details": {
+            "mace_of_terror": {
+              "max_charges": 3,
+              "regain_expended_charges": {
+                "dice": 1,
+                "sides": 3,
+                "type": "charges"
+              },
+              "regain_when": "daily-at-dawn",
+              "condition": "while-holding",
+              "action": "magic",
+              "charge_cost": 1,
+              "range_feet": 30,
+              "targets": "each-creature-of-your-choice",
+              "save_ability": "wisdom",
+              "save_dc": 15,
+              "fail_condition": "frightened",
+              "duration_seconds": 60,
+              "frightened_behavior": [
+                "must-move-as-far-from-you-as-possible",
+                "cannot-make-opportunity-attacks",
+                "action-only-dash-or-escape-movement-preventing-effect"
+              ],
+              "no_movement_action": "dodge",
+              "repeat_save": "end-of-each-of-its-turns",
+              "success_ends": "effect-on-itself"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/mantle-of-spell-resistance",
+      "name": "Mantle of Spell Resistance",
+      "kind": "magic",
+      "category": "wondrous-item",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/mantle-of-spell-resistance",
+          "pages": [
+            229,
+            229
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/mantle-of-spell-resistance/variant/standard",
+          "name": "Mantle of Spell Resistance",
+          "rarity": "rare",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wear",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              229,
+              229
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "item.wear",
+            "save.advantage-against-spells"
+          ],
+          "details": {
+            "mantle_of_spell_resistance": {
+              "condition": "while-wearing",
+              "roll": "saving-throw",
+              "mode": "advantage",
+              "against": "spells"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/manual-of-bodily-health",
+      "name": "Manual of Bodily Health",
+      "kind": "magic",
+      "category": "wondrous-item",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/manual-of-bodily-health",
+          "pages": [
+            229,
+            229
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/manual-of-bodily-health/variant/standard",
+          "name": "Manual of Bodily Health",
+          "rarity": "very-rare",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "study",
+            "restrictions": [
+              "study-48-hours-within-6-days"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              229,
+              229
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.study-48-hours-in-6-days",
+            "ability.constitution-plus-2-maximum-30",
+            "item.loses-magic-regains-in-century"
+          ],
+          "details": {
+            "manual_of_bodily_health": {
+              "study_hours": 48,
+              "within_days": 6,
+              "ability": "constitution",
+              "increase": 2,
+              "maximum": 30,
+              "then_loses_magic": true,
+              "regains_magic_after_years": 100
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/manual-of-gainful-exercise",
+      "name": "Manual of Gainful Exercise",
+      "kind": "magic",
+      "category": "wondrous-item",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/manual-of-gainful-exercise",
+          "pages": [
+            229,
+            229
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/manual-of-gainful-exercise/variant/standard",
+          "name": "Manual of Gainful Exercise",
+          "rarity": "very-rare",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "study",
+            "restrictions": [
+              "study-48-hours-within-6-days"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              229,
+              229
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.study-48-hours-in-6-days",
+            "ability.strength-plus-2-maximum-30",
+            "item.loses-magic-regains-in-century"
+          ],
+          "details": {
+            "manual_of_gainful_exercise": {
+              "study_hours": 48,
+              "within_days": 6,
+              "ability": "strength",
+              "increase": 2,
+              "maximum": 30,
+              "then_loses_magic": true,
+              "regains_magic_after_years": 100
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/manual-of-golems",
+      "name": "Manual of Golems",
+      "kind": "magic",
+      "category": "wondrous-item",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/manual-of-golems",
+          "pages": [
+            229,
+            229
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/manual-of-golems/variant/standard",
+          "name": "Manual of Golems",
+          "rarity": "very-rare",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "study",
+            "restrictions": [
+              "spellcaster-with-two-level-5-slots"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              229,
+              229
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.golem-type-by-gm-or-1d20-table",
+            "creation.time-and-cost-by-golem",
+            "requirement.two-level-5-spell-slots",
+            "damage.psychic-6d6-unable-reader",
+            "item.consumed-in-eldritch-flames",
+            "creature.golem-obeys-creator"
+          ],
+          "details": {
+            "manual_of_golems": {
+              "source_pages": [
+                229,
+                230
+              ],
+              "type_chosen_by": "gm-or-1d20-table",
+              "table_die_sides": 20,
+              "golems": [
+                {
+                  "golem": "clay-golem",
+                  "table_min": 1,
+                  "table_max": 5,
+                  "time_days": 30,
+                  "cost_gp": 65000
+                },
+                {
+                  "golem": "flesh-golem",
+                  "table_min": 6,
+                  "table_max": 17,
+                  "time_days": 60,
+                  "cost_gp": 50000
+                },
+                {
+                  "golem": "iron-golem",
+                  "table_min": 18,
+                  "table_max": 18,
+                  "time_days": 120,
+                  "cost_gp": 100000
+                },
+                {
+                  "golem": "stone-golem",
+                  "table_min": 19,
+                  "table_max": 20,
+                  "time_days": 90,
+                  "cost_gp": 80000
+                }
+              ],
+              "decipher_requires_spellcaster": true,
+              "decipher_spell_slots": 2,
+              "decipher_slot_level": 5,
+              "unable_user_damage": {
+                "dice": 6,
+                "sides": 6,
+                "type": "psychic"
+              },
+              "work_uninterrupted": true,
+              "max_rest_hours_per_day": 8,
+              "supplies_cost": "pay-table-cost",
+              "on_completion": "book-consumed-in-eldritch-flames",
+              "animation": "ashes-sprinkled-on-golem",
+              "stat_block_in": "monsters",
+              "golem_control": "under-your-control-understands-and-obeys"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
