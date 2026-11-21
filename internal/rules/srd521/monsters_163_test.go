@@ -130,7 +130,7 @@ var monsters163Entries = map[string][]string{
 }
 
 // monsterDice163 prints a fixed hit, which the source prints as a bare number
-// (the Cat's Scratch), and otherwise the source's "N (XdY + Z)" notation.
+// (the Goat's Ram, PDF p. 355), and otherwise the source's "N (XdY + Z)" notation.
 func monsterDice163(d MonsterHP) string {
 	switch {
 	case d.Dice == 0:
