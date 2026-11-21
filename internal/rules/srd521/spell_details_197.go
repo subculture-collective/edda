@@ -250,7 +250,7 @@ func spell197Templates() map[string]any {
 
 // spell197CastingSeconds maps the long casting times this batch introduces to
 // their exact source length. Other casting times keep zero casting seconds.
-var spell197CastingSeconds = map[string]int{"1-minute": 60, "1-hour": 3600, "8-hours": 28800}
+var spell197CastingSeconds = map[string]int{"1-minute": 60, "1-hour": 3600, "8-hours": 28800, "24-hours": 86400}
 
 // validSpell197Target lists the target shapes introduced by this batch. They
 // are source descriptions only and select no runtime targeting behavior.

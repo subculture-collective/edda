@@ -176,6 +176,20 @@ type SpellSourceDetails struct {
 	Objects    *SpellAnimateObjects `json:"objects,omitempty"`
 	Antilife   *SpellAntilife       `json:"antilife,omitempty"`
 	Antimagic  *SpellAntimagic      `json:"antimagic,omitempty"`
+
+	// Issue #208 payloads.
+	Globe               *SpellGlobe               `json:"globe,omitempty"`
+	Glyph               *SpellGlyph               `json:"glyph,omitempty"`
+	Goodberry           *SpellGoodberry           `json:"goodberry,omitempty"`
+	Grease              *SpellGrease              `json:"grease,omitempty"`
+	GreaterInvisibility *SpellGreaterInvisibility `json:"greater_invisibility,omitempty"`
+	GreaterRestoration  *SpellGreaterRestoration  `json:"greater_restoration,omitempty"`
+	Guardian            *SpellGuardian            `json:"guardian,omitempty"`
+	Guards              *SpellGuards              `json:"guards,omitempty"`
+	Guidance            *SpellGuidance            `json:"guidance,omitempty"`
+	GuidingBolt         *SpellGuidingBolt         `json:"guiding_bolt,omitempty"`
+	Gust                *SpellGust                `json:"gust,omitempty"`
+	Hallow              *SpellHallow              `json:"hallow,omitempty"`
 }
 
 // SpellRays describes independently aimed ranged spell attacks.
@@ -361,7 +375,7 @@ func (s *SpellSourceDetails) UnmarshalJSON(data []byte) error {
 		}
 	}
 	templates := map[string]any{"rays": SpellRays{}, "scrying": SpellScrying{}, "smite": SpellSmite{}, "chest": SpellChest{}, "vision": SpellVision{}, "seeming": SpellSeeming{}, "sending": SpellSending{}, "sequester": SpellSequester{}, "shapechange": SpellShapechange{}, "shatter": SpellShatter{}, "shield": SpellShield{}, "faith": SpellFaith{}}
-	for _, batch := range []map[string]any{spell196Templates(), spell197Templates(), spell198Templates(), spell199Templates(), spell200Templates(), spell201Templates(), spell202Templates(), spell207Templates(), spell206Templates(), spell205Templates(), spell204Templates(), spell203Templates()} {
+	for _, batch := range []map[string]any{spell196Templates(), spell197Templates(), spell198Templates(), spell199Templates(), spell200Templates(), spell201Templates(), spell202Templates(), spell208Templates(), spell207Templates(), spell206Templates(), spell205Templates(), spell204Templates(), spell203Templates()} {
 		for key, template := range batch {
 			if raw, ok := fields[key]; ok {
 				if err := requireSpell198Fields(raw, reflect.TypeOf(template)); err != nil {
@@ -440,7 +454,7 @@ func (s *SpellSourceDetails) UnmarshalJSON(data []byte) error {
 }
 
 func validSpellTarget(t SpellTarget) bool {
-	if validSpell197Target(t) || validSpell200Target(t) || validSpell202Target(t) || validSpell203Target(t) || validSpell204Target(t) || validSpell205Target(t) || validSpell206Target(t) || validSpell207Target(t) {
+	if validSpell197Target(t) || validSpell200Target(t) || validSpell202Target(t) || validSpell203Target(t) || validSpell204Target(t) || validSpell205Target(t) || validSpell206Target(t) || validSpell207Target(t) || validSpell208Target(t) {
 		return true
 	}
 	switch t.Shape {
@@ -514,6 +528,9 @@ func (s SpellRecord) validateSourceDetails() error {
 		return err
 	}
 	if handled, err := s.validateSpell207(); handled || err != nil {
+		return err
+	}
+	if handled, err := s.validateSpell208(); handled || err != nil {
 		return err
 	}
 	d := s.SourceDetails

@@ -814,3 +814,54 @@ rtk proxy python3 scripts/verify_srd_spells_207.py /path/to/SRD_CC_v5.2.1.pdf
 
 The same limits as #198 apply: the source check supplements the offline literal
 fixtures and is not an automatic conformance proof.
+
+## Issue #208: Globe of Invulnerability through Hallow
+
+`testdata/spells_208.json` imports the twelve families the issue-80 inventory
+assigns to #208, on PDF pp.136-138: Globe of Invulnerability, Glyph of Warding,
+Goodberry, Grease, Greater Invisibility, Greater Restoration, Guardian of Faith,
+Guards and Wards, Guidance, Guiding Bolt, Gust of Wind and Hallow. Glyph of
+Warding keeps its p.136 to p.137 continuation, Guards and Wards its p.137 to
+p.138 continuation and Hallow its p.138 to p.139 continuation in explicit
+`source_pages` lists. `spells_208_test.go` supplies literal source-value
+fixtures for every header, variant, effect and scaling value, and checks the
+family list and pages against the decision inventory.
+
+The typed payloads retain Globe of Invulnerability's barrier and per-slot spell
+level limit; Glyph of Warding's inscription, triggers, explosive rune and stored
+spell; Goodberry's berries; Grease's square and save; Greater Invisibility's
+condition; Greater Restoration's five removable effects; Guardian of Faith's
+guardian, trigger and 60-damage ending; Guards and Wards' area, password, four
+effects and 365-day extension; Guidance's d4 bonus; Guiding Bolt's attack,
+damage and Advantage window; Gust of Wind's line, push and flame rules; and
+Hallow's ward and all ten extra-effect choices.
+
+Schema version 1 gains only shapes present in this batch, on top of #202:
+
+- Casting time `24-hours` (Hallow), with `casting_seconds = 86400`.
+- Scaling kind `slot-limit`: a spell-level limit that rises by a typed amount per
+  slot level above the base (Globe of Invulnerability), alongside the existing
+  `slot` dice scaling used by Glyph of Warding and Guiding Bolt.
+- Target shapes `emanation`, `choice`, `square`, `created-effect`, `line` and
+  `sphere` with the eligibilities this batch lists. Glyph of Warding's
+  `until-dispelled` duration records `dispelled-or-triggered` as its end timing.
+- Flat quantities that are not dice, such as Guardian of Faith's 20 Radiant
+  damage and Goodberry's 1 Hit Point, live in the typed payload; their effects
+  carry no dice and no bonus.
+
+Validation pins each record's header, scaling row, effects, material,
+dependency list and typed values by equality with the printed page, so a
+positive but wrong value is rejected. Composition of the bounded fixtures with
+#196, #218, #198, #199, #200, #201, #202 and #208 yields 108 unique records.
+Every imported record remains unavailable: no resolver, action, entitlement,
+tool, inventory, coverage or Full Rules behavior is added.
+
+To recheck the PDF pin, identities, pages, printed headers and source anchors,
+run:
+
+```sh
+rtk proxy python3 scripts/verify_srd_spells_208.py /path/to/SRD_CC_v5.2.1.pdf
+```
+
+The same limits as #198 apply: the source check supplements the offline literal
+fixtures and is not an automatic conformance proof.
