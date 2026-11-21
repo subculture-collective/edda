@@ -842,8 +842,10 @@ Schema version 1 gains only shapes present in this batch, on top of #202:
 - Scaling kind `slot-limit`: a spell-level limit that rises by a typed amount per
   slot level above the base (Globe of Invulnerability), alongside the existing
   `slot` dice scaling used by Glyph of Warding and Guiding Bolt.
-- Target shapes `emanation`, `choice`, `square`, `created-effect`, `line` and
-  `sphere` with the eligibilities this batch lists. Glyph of Warding's
+- Target shapes `emanation`, `choice`, `square`, `created-effect` and `line`
+  with the eligibilities this batch lists. Hallow's "area around" a touched
+  point is `created-effect` with count 0, not `sphere`: the page never names a
+  sphere. Glyph of Warding's
   `until-dispelled` duration records `dispelled-or-triggered` as its end timing.
 - Flat quantities that are not dice, such as Guardian of Faith's 20 Radiant
   damage and Goodberry's 1 Hit Point, live in the typed payload; their effects

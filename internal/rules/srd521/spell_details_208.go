@@ -235,11 +235,10 @@ func validSpell208Target(t SpellTarget) bool {
 	case "square":
 		return t.Count == 0 && t.Eligibility == "creatures-in-area-centered-in-range"
 	case "created-effect":
-		return t.Count == 1 && (t.Eligibility == "unoccupied-visible-space-in-range" || t.Eligibility == "warded-floor-area")
+		return (t.Count == 1 && (t.Eligibility == "unoccupied-visible-space-in-range" || t.Eligibility == "warded-floor-area")) ||
+			(t.Count == 0 && t.Eligibility == "area-around-touched-point")
 	case "line":
 		return t.Count == 0 && t.Eligibility == "creatures-in-line"
-	case "sphere":
-		return t.Count == 0 && t.Eligibility == "area-around-touched-point"
 	}
 	return false
 }
@@ -320,7 +319,7 @@ var spell208Rows = map[string]spell208Row{
 	"gust": {"gust-of-wind", "Gust of Wind", 138, 2, "evocation", []string{"druid", "ranger", "sorcerer", "wizard"}, "action", 0, true, "self", 0, SpellTarget{"line", 0, "creatures-in-line"}, "timed", 60, "duration-or-concentration-ended", true, true, "a legume seed", 0, false,
 		SpellScaling{"none", 0, 0, 0, []string{}}, []spell208Effect{{"gust", "push.gust-of-wind", 0, 0, ""}, {"movement", "movement.gust-closer-double-cost", 0, 0, ""}, {"environment", "environment.gust-of-wind-gas-and-flames", 0, 0, ""}, {"redirect", "direction.gust-bonus-action", 0, 0, ""}},
 		[]string{"push.gust-of-wind", "movement.gust-closer-double-cost", "environment.gust-of-wind-gas-and-flames", "direction.gust-bonus-action", "concentration.source-duration", "components.material"}},
-	"hallow": {"hallow", "Hallow", 138, 5, "abjuration", []string{"cleric"}, "24-hours", 86400, false, "touch", 0, SpellTarget{"sphere", 0, "area-around-touched-point"}, "until-dispelled", 0, "dispelled", true, true, "incense worth 1,000+ GP, which the spell consumes", 100000, true,
+	"hallow": {"hallow", "Hallow", 138, 5, "abjuration", []string{"cleric"}, "24-hours", 86400, false, "touch", 0, SpellTarget{"created-effect", 0, "area-around-touched-point"}, "until-dispelled", 0, "dispelled", true, true, "incense worth 1,000+ GP, which the spell consumes", 100000, true,
 		SpellScaling{"none", 0, 0, 0, []string{}}, []spell208Effect{{"area", "area.hallow", 0, 0, ""}, {"ward", "ward.hallow-hallowed-ward", 0, 0, ""}, {"extra", "effect.hallow-extra", 0, 0, ""}},
 		[]string{"area.hallow", "ward.hallow-hallowed-ward", "effect.hallow-extra", "components.material"}},
 }

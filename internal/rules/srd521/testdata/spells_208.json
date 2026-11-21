@@ -1200,7 +1200,7 @@
         "feet": 0
       },
       "target": {
-        "shape": "sphere",
+        "shape": "created-effect",
         "count": 0,
         "eligibility": "area-around-touched-point"
       },
