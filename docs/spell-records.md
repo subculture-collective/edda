@@ -760,3 +760,57 @@ rtk proxy python3 scripts/verify_srd_spells_206.py /path/to/SRD_CC_v5.2.1.pdf
 
 The same limits as #198 apply: the source check supplements the offline literal
 fixtures and is not an automatic conformance proof.
+
+## Issue #207: Fog Cloud through Glibness
+
+`testdata/spells_207.json` imports the twelve families the issue-80 inventory
+assigns to #207, on PDF pp.133-136: Fog Cloud, Forbiddance, Forcecage, Foresight,
+Freedom of Movement, Freezing Sphere, Gaseous Form, Gate, Geas, Gentle Repose,
+Giant Insect and Glibness. Gaseous Form keeps its p.134 to p.135 continuation and
+Giant Insect its p.135 to p.136 continuation, including the Giant Insect stat
+block, in explicit `source_pages` lists. `spells_207_test.go` supplies literal
+source-value fixtures for every header, effect, table row and scaling value, and
+checks the family list and pages against the decision inventory.
+
+The typed payloads retain Fog Cloud's sphere and radius increment; Forbiddance's
+ward, planar proofing, damage, password and daily recasting; Forcecage's cage and
+box forms, trapping and Charisma save; Foresight's two advantages; Freedom of
+Movement's protections, swim speed and escape; Freezing Sphere's blast, ice,
+break-free check and held globe; Gaseous Form's cloud form, defenses and limits;
+Gate's portal, named-creature option and planar rulers; Geas' command, damage,
+enders and per-slot durations; Gentle Repose's protections; Giant Insect's forms,
+commands and its full stat block with the Poison Jab, Web Bolt and Venomous Spew
+actions; and Glibness' Charisma check and truth rule.
+
+Schema version 1 gains only shapes present in this batch, on top of #202:
+
+- Target shapes `created-effect` (a floor area of up to 40,000 square feet, or an
+  area in range) and `single` (a corpse or remains by touch).
+- Casting times `10-minutes` with `ritual = true` (Forbiddance) and `1-minute`
+  (Foresight, Geas) use the typed `casting_seconds` of 600 and 60; Gentle Repose
+  uses `action` with `ritual = true`.
+- `slot-radius` also accepts Fog Cloud's `additional_radius_feet_per_slot`;
+  `slot-targets` also accepts the per-slot extra creature of Freedom of Movement
+  and Gaseous Form; `slot-duration` also accepts Geas' typed slot table and
+  requires `scaling.geas-slot-duration`.
+- Scaling kind `slot-spell-level` (Giant Insect) records that the slot's level is
+  the spell's level in the stat block, and requires
+  `scaling.stat-block-spell-level`. Its effect carries no dice.
+
+Validation pins each record's header, scaling row, effects, material,
+dependency list and typed values, including every stat block row, by equality
+with the printed pages, so a positive but wrong value is rejected. Composition of
+the bounded fixtures with #196, #218, #198, #199, #200, #201, #202 and #207
+yields 108 unique records. Every imported record remains unavailable: no
+resolver, action, entitlement, tool, inventory, coverage or Full Rules behavior
+is added.
+
+To recheck the PDF pin, identities, pages, printed headers and source anchors,
+run:
+
+```sh
+rtk proxy python3 scripts/verify_srd_spells_207.py /path/to/SRD_CC_v5.2.1.pdf
+```
+
+The same limits as #198 apply: the source check supplements the offline literal
+fixtures and is not an automatic conformance proof.

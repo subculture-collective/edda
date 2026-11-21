@@ -260,13 +260,8 @@ func (s SpellRecord) validate() error {
 				base, additional = b, a
 			} else if b, a, ok := spell205TargetScaling(d); ok {
 				base, additional = b, a
-			} else if d.Command != nil {
-				base, additional = d.Command.BaseTargets, d.Command.AdditionalTargetsPerSlot
-			} else if d.Monster != nil {
-				base, additional = d.Monster.BaseTargets, d.Monster.AdditionalTargetsPerSlot
-			} else if d.Person != nil {
-				base, additional = d.Person.BaseTargets, d.Person.AdditionalTargetsPerSlot
-			} else if d.Enhance != nil {
+			} else if b, a, ok := spell207TargetScaling(d); ok {
+				base, additional = b, a
 			} else if d.Fly != nil {
 				base, additional = d.Fly.BaseTargets, d.Fly.AdditionalTargetsPerSlot
 			} else if d.Command != nil {
@@ -285,7 +280,8 @@ func (s SpellRecord) validate() error {
 		curse := d.Curse != nil && slices.Contains(s.RequiredMechanics, "scaling.curse-slot-duration-concentration")
 		messenger := d.Messenger != nil && d.Messenger.AdditionalDurationSecondsPerSlot > 0 && slices.Contains(s.RequiredMechanics, "scaling.duration-per-slot")
 		dominate := d.Dominate != nil && len(d.Dominate.SlotDurations) == 3 && slices.Contains(s.RequiredMechanics, "scaling.duration-by-slot")
-		if sc.Kind == "slot-duration" && !curse && !messenger && !dominate {
+		geas := d.Geas != nil && slices.Contains(s.RequiredMechanics, "scaling.geas-slot-duration")
+		if sc.Kind == "slot-duration" && !curse && !messenger && !dominate && !geas {
 			return fmt.Errorf("duration scaling requires typed slot table or increment")
 		}
 		for _, id := range sc.EffectIDs {
@@ -293,12 +289,22 @@ func (s SpellRecord) validate() error {
 				return fmt.Errorf("unknown scaling effect")
 			}
 		}
+	case "slot-spell-level":
+		if !s.validSpell207Scaling(effects) {
+			return fmt.Errorf("invalid typed batch 207 scaling")
+		}
 	case "slot-effect-dice":
 		if err := s.validateSpell197EffectDice(effects); err != nil {
 			return err
 		}
 	case "slot-radius":
-		if sc.AboveLevel != s.Level || sc.DiceCount != 0 || sc.DieSides != 0 || len(sc.EffectIDs) != 1 || !effects[sc.EffectIDs[0]] || s.SourceDetails == nil || s.SourceDetails.Confusion == nil || s.SourceDetails.Confusion.AdditionalRadiusFeetSlot <= 0 || !slices.Contains(s.RequiredMechanics, "scaling.radius-per-slot") {
+		radius := 0
+		if s.SourceDetails != nil && s.SourceDetails.Confusion != nil {
+			radius = s.SourceDetails.Confusion.AdditionalRadiusFeetSlot
+		} else if s.SourceDetails != nil && s.SourceDetails.Fog != nil {
+			radius = s.SourceDetails.Fog.AdditionalRadiusFeetPerSlot
+		}
+		if sc.AboveLevel != s.Level || sc.DiceCount != 0 || sc.DieSides != 0 || len(sc.EffectIDs) != 1 || !effects[sc.EffectIDs[0]] || radius <= 0 || !slices.Contains(s.RequiredMechanics, "scaling.radius-per-slot") {
 			return fmt.Errorf("invalid radius scaling")
 		}
 	case "slot-count":
