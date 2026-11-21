@@ -1,0 +1,2539 @@
+{
+  "schema_version": 1,
+  "source": {
+    "version": "5.2.1",
+    "language": "en",
+    "landing_url": "https://www.dndbeyond.com/srd",
+    "artifact_url": "https://media.dndbeyond.com/compendium-images/srd/5.2/SRD_CC_v5.2.1.pdf",
+    "sha256": "8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87",
+    "bytes": 6031375,
+    "pages": 364,
+    "retrieved_at": "2026-11-15",
+    "license": "CC-BY-4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/legalcode",
+    "attribution": "This work includes material from the System Reference Document 5.2.1 (“SRD 5.2.1”) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd. The SRD 5.2.1 is licensed under the Creative Commons Attribution 4.0 International License, available at https://creativecommons.org/licenses/by/4.0/legalcode.",
+    "changes": "Adapted the twelve stat blocks of issue #163 (Gnoll Warrior, Goat, Goblin Boss, Goblin Minion, Goblin Warrior, Gold Dragon Wyrmling, Gorgon, Gray Ooze, Green Dragon Wyrmling, Green Hag, Grick and Griffon; PDF pages 289–295 and 355) into typed mechanical fields and implementation keys. Trait, action, bonus action and reaction entries keep their source rules text, rejoined across line, column and page breaks; descriptive prose outside the stat blocks is omitted. A hit printed without dice keeps explicit zero dice. The Gray Ooze prints Initiative score 13 for modifier −2; the record keeps the score 8 that the modifier gives. No playable NPC behavior is granted."
+  },
+  "monsters": [
+    {
+      "id": "srd-5.2.1:content/monsters/gnoll-warrior",
+      "name": "Gnoll Warrior",
+      "source_pages": [
+        289,
+        289
+      ],
+      "sizes": [
+        "medium"
+      ],
+      "type": "fiend",
+      "alignment": "Chaotic Evil",
+      "ac": 15,
+      "hp": {
+        "average": 27,
+        "dice": 6,
+        "sides": 8,
+        "modifier": 0
+      },
+      "initiative": {
+        "modifier": 1,
+        "score": 11
+      },
+      "speeds": {
+        "walk": 30
+      },
+      "abilities": {
+        "str": {
+          "score": 14,
+          "modifier": 2,
+          "save": 2
+        },
+        "dex": {
+          "score": 12,
+          "modifier": 1,
+          "save": 1
+        },
+        "con": {
+          "score": 11,
+          "modifier": 0,
+          "save": 0
+        },
+        "int": {
+          "score": 6,
+          "modifier": -2,
+          "save": -2
+        },
+        "wis": {
+          "score": 10,
+          "modifier": 0,
+          "save": 0
+        },
+        "cha": {
+          "score": 7,
+          "modifier": -2,
+          "save": -2
+        }
+      },
+      "senses": {
+        "passive_perception": 10,
+        "special": {
+          "darkvision": 60
+        }
+      },
+      "languages": [
+        "Gnoll"
+      ],
+      "gear": [],
+      "cr": "1/2",
+      "xp": 100,
+      "proficiency_bonus": 2,
+      "traits": [],
+      "actions": [
+        {
+          "id": "rend",
+          "name": "Rend",
+          "text": "Rend. Melee Attack Roll: +4, reach 5 ft. Hit: 5 (1d6 + 2) Piercing damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 4,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 5,
+              "dice": 1,
+              "sides": 6,
+              "modifier": 2
+            },
+            "damage_type": "piercing"
+          },
+          "effects": [
+            {
+              "key": "effect/piercing-damage",
+              "name": "Piercing damage",
+              "text": "5 (1d6 + 2) Piercing damage.",
+              "dice": {
+                "average": 5,
+                "dice": 1,
+                "sides": 6,
+                "modifier": 2
+              }
+            }
+          ]
+        },
+        {
+          "id": "bone-bow",
+          "name": "Bone Bow",
+          "text": "Bone Bow. Ranged Attack Roll: +3, range 150/600 ft. Hit: 6 (1d10 + 1) Piercing damage.",
+          "key": "action/ranged-attack",
+          "attack": {
+            "kind": "ranged",
+            "bonus": 3,
+            "reach": 0,
+            "range": 150,
+            "long_range": 600,
+            "damage": {
+              "average": 6,
+              "dice": 1,
+              "sides": 10,
+              "modifier": 1
+            },
+            "damage_type": "piercing"
+          },
+          "effects": [
+            {
+              "key": "effect/piercing-damage",
+              "name": "Piercing damage",
+              "text": "6 (1d10 + 1) Piercing damage.",
+              "dice": {
+                "average": 6,
+                "dice": 1,
+                "sides": 10,
+                "modifier": 1
+              }
+            }
+          ]
+        }
+      ],
+      "bonus_actions": [
+        {
+          "id": "rampage",
+          "name": "Rampage",
+          "text": "Rampage (1/Day). Immediately after dealing damage to a creature that is already Bloodied, the gnoll moves up to half its Speed, and it makes one Rend attack.",
+          "key": "action/special",
+          "uses": {
+            "per_day": 1,
+            "lair_per_day": 0,
+            "recharge": 0
+          },
+          "effects": [
+            {
+              "key": "limit/per-day",
+              "name": "Daily uses",
+              "text": "(1/Day)"
+            },
+            {
+              "key": "requirement/target-already-bloodied",
+              "name": "Target already Bloodied",
+              "text": "Immediately after dealing damage to a creature that is already Bloodied"
+            },
+            {
+              "key": "effect/move-half-speed",
+              "name": "Move up to half Speed",
+              "text": "the gnoll moves up to half its Speed"
+            },
+            {
+              "key": "action/melee-attack",
+              "name": "Attack",
+              "text": "it makes one Rend attack."
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "sense/darkvision",
+        "action/bonus-action",
+        "action/melee-attack",
+        "effect/piercing-damage",
+        "action/ranged-attack",
+        "action/special",
+        "limit/per-day",
+        "requirement/target-already-bloodied",
+        "effect/move-half-speed"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/animals/goat",
+      "name": "Goat",
+      "source_pages": [
+        355,
+        355
+      ],
+      "sizes": [
+        "medium"
+      ],
+      "type": "beast",
+      "alignment": "Unaligned",
+      "ac": 10,
+      "hp": {
+        "average": 4,
+        "dice": 1,
+        "sides": 8,
+        "modifier": 0
+      },
+      "initiative": {
+        "modifier": 0,
+        "score": 10
+      },
+      "speeds": {
+        "walk": 40,
+        "climb": 30
+      },
+      "abilities": {
+        "str": {
+          "score": 11,
+          "modifier": 0,
+          "save": 2
+        },
+        "dex": {
+          "score": 10,
+          "modifier": 0,
+          "save": 0
+        },
+        "con": {
+          "score": 11,
+          "modifier": 0,
+          "save": 0
+        },
+        "int": {
+          "score": 2,
+          "modifier": -4,
+          "save": -4
+        },
+        "wis": {
+          "score": 10,
+          "modifier": 0,
+          "save": 0
+        },
+        "cha": {
+          "score": 5,
+          "modifier": -3,
+          "save": -3
+        }
+      },
+      "senses": {
+        "passive_perception": 12,
+        "special": {
+          "darkvision": 60
+        }
+      },
+      "languages": [],
+      "gear": [],
+      "cr": "0",
+      "xp": 10,
+      "proficiency_bonus": 2,
+      "traits": [],
+      "actions": [
+        {
+          "id": "ram",
+          "name": "Ram",
+          "text": "Ram. Melee Attack Roll: +2, reach 5 ft. Hit: 1 Bludgeoning damage, or 2 (1d4) Bludgeoning damage if the goat moved 20+ feet straight toward the target immediately before the hit.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 2,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 1,
+              "dice": 0,
+              "sides": 0,
+              "modifier": 0
+            },
+            "damage_type": "bludgeoning"
+          },
+          "effects": [
+            {
+              "key": "effect/bludgeoning-damage",
+              "name": "Bludgeoning damage",
+              "text": "1 Bludgeoning damage.",
+              "requires": [
+                "damage/fixed"
+              ]
+            },
+            {
+              "key": "effect/charge-bludgeoning-damage",
+              "name": "Charge Bludgeoning damage",
+              "text": "2 (1d4) Bludgeoning damage",
+              "dice": {
+                "average": 2,
+                "dice": 1,
+                "sides": 4,
+                "modifier": 0
+              }
+            },
+            {
+              "key": "requirement/charge-distance",
+              "name": "Charge distance",
+              "text": "if the goat moved 20+ feet straight toward the target immediately before the hit."
+            }
+          ]
+        }
+      ],
+      "skills": {
+        "perception": 2
+      },
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/skills",
+        "movement/climb",
+        "sense/darkvision",
+        "action/melee-attack",
+        "effect/bludgeoning-damage",
+        "damage/fixed",
+        "effect/charge-bludgeoning-damage",
+        "requirement/charge-distance"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/goblin-boss",
+      "name": "Goblin Boss",
+      "source_pages": [
+        290,
+        290
+      ],
+      "sizes": [
+        "small"
+      ],
+      "type": "fey",
+      "alignment": "Chaotic Neutral",
+      "ac": 17,
+      "hp": {
+        "average": 21,
+        "dice": 6,
+        "sides": 6,
+        "modifier": 0
+      },
+      "initiative": {
+        "modifier": 2,
+        "score": 12
+      },
+      "speeds": {
+        "walk": 30
+      },
+      "abilities": {
+        "str": {
+          "score": 10,
+          "modifier": 0,
+          "save": 0
+        },
+        "dex": {
+          "score": 15,
+          "modifier": 2,
+          "save": 2
+        },
+        "con": {
+          "score": 10,
+          "modifier": 0,
+          "save": 0
+        },
+        "int": {
+          "score": 10,
+          "modifier": 0,
+          "save": 0
+        },
+        "wis": {
+          "score": 8,
+          "modifier": -1,
+          "save": -1
+        },
+        "cha": {
+          "score": 10,
+          "modifier": 0,
+          "save": 0
+        }
+      },
+      "senses": {
+        "passive_perception": 9,
+        "special": {
+          "darkvision": 60
+        }
+      },
+      "languages": [
+        "Common",
+        "Goblin"
+      ],
+      "gear": [
+        "Chain Shirt",
+        "Scimitar",
+        "Shield",
+        "Shortbow"
+      ],
+      "cr": "1",
+      "xp": 200,
+      "proficiency_bonus": 2,
+      "traits": [],
+      "actions": [
+        {
+          "id": "multiattack",
+          "name": "Multiattack",
+          "text": "Multiattack. The goblin makes two attacks, using Scimitar or Shortbow in any combination.",
+          "key": "action/multiattack",
+          "effects": [
+            {
+              "key": "action/melee-attack",
+              "name": "Scimitar attack",
+              "text": "The goblin makes two attacks, using Scimitar or Shortbow in any combination."
+            },
+            {
+              "key": "action/ranged-attack",
+              "name": "Shortbow attack",
+              "text": "The goblin makes two attacks, using Scimitar or Shortbow in any combination."
+            }
+          ]
+        },
+        {
+          "id": "scimitar",
+          "name": "Scimitar",
+          "text": "Scimitar. Melee Attack Roll: +4, reach 5 ft. Hit: 5 (1d6 + 2) Slashing damage, plus 2 (1d4) Slashing damage if the attack roll had Advantage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 4,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 5,
+              "dice": 1,
+              "sides": 6,
+              "modifier": 2
+            },
+            "damage_type": "slashing"
+          },
+          "effects": [
+            {
+              "key": "effect/slashing-damage",
+              "name": "Slashing damage",
+              "text": "5 (1d6 + 2) Slashing damage.",
+              "dice": {
+                "average": 5,
+                "dice": 1,
+                "sides": 6,
+                "modifier": 2
+              }
+            },
+            {
+              "key": "effect/advantage-slashing-damage",
+              "name": "Slashing damage with Advantage",
+              "text": "2 (1d4) Slashing damage",
+              "dice": {
+                "average": 2,
+                "dice": 1,
+                "sides": 4,
+                "modifier": 0
+              }
+            },
+            {
+              "key": "requirement/attack-roll-advantage",
+              "name": "Attack roll had Advantage",
+              "text": "if the attack roll had Advantage."
+            }
+          ]
+        },
+        {
+          "id": "shortbow",
+          "name": "Shortbow",
+          "text": "Shortbow. Ranged Attack Roll: +4, range 80/320 ft. Hit: 5 (1d6 + 2) Piercing damage, plus 2 (1d4) Piercing damage if the attack roll had Advantage.",
+          "key": "action/ranged-attack",
+          "attack": {
+            "kind": "ranged",
+            "bonus": 4,
+            "reach": 0,
+            "range": 80,
+            "long_range": 320,
+            "damage": {
+              "average": 5,
+              "dice": 1,
+              "sides": 6,
+              "modifier": 2
+            },
+            "damage_type": "piercing"
+          },
+          "effects": [
+            {
+              "key": "effect/piercing-damage",
+              "name": "Piercing damage",
+              "text": "5 (1d6 + 2) Piercing damage.",
+              "dice": {
+                "average": 5,
+                "dice": 1,
+                "sides": 6,
+                "modifier": 2
+              }
+            },
+            {
+              "key": "effect/advantage-piercing-damage",
+              "name": "Piercing damage with Advantage",
+              "text": "2 (1d4) Piercing damage",
+              "dice": {
+                "average": 2,
+                "dice": 1,
+                "sides": 4,
+                "modifier": 0
+              }
+            },
+            {
+              "key": "requirement/attack-roll-advantage",
+              "name": "Attack roll had Advantage",
+              "text": "if the attack roll had Advantage."
+            }
+          ]
+        }
+      ],
+      "tags": [
+        "Goblinoid"
+      ],
+      "skills": {
+        "stealth": 6
+      },
+      "bonus_actions": [
+        {
+          "id": "nimble-escape",
+          "name": "Nimble Escape",
+          "text": "Nimble Escape. The goblin takes the Disengage or Hide action.",
+          "key": "action/special",
+          "effects": [
+            {
+              "key": "action/disengage",
+              "name": "Disengage",
+              "text": "The goblin takes the Disengage or Hide action."
+            },
+            {
+              "key": "action/hide",
+              "name": "Hide",
+              "text": "The goblin takes the Disengage or Hide action."
+            }
+          ]
+        }
+      ],
+      "reactions": [
+        {
+          "id": "redirect-attack",
+          "name": "Redirect Attack",
+          "text": "Redirect Attack. Trigger: A creature the goblin can see makes an attack roll against it. Response: The goblin chooses a Small or Medium ally within 5 feet of itself. The goblin and that ally swap places, and the ally becomes the target of the attack instead.",
+          "key": "action/special",
+          "effects": [
+            {
+              "key": "reaction/trigger",
+              "name": "Trigger",
+              "text": "Trigger: A creature the goblin can see makes an attack roll against it."
+            },
+            {
+              "key": "requirement/ally-size-small-or-medium",
+              "name": "Ally size",
+              "text": "a Small or Medium ally within 5 feet of itself."
+            },
+            {
+              "key": "effect/swap-places",
+              "name": "Swap places",
+              "text": "The goblin and that ally swap places"
+            },
+            {
+              "key": "effect/redirect-attack",
+              "name": "Redirect attack",
+              "text": "the ally becomes the target of the attack instead."
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/skills",
+        "sense/darkvision",
+        "action/bonus-action",
+        "action/reaction",
+        "action/multiattack",
+        "action/melee-attack",
+        "action/ranged-attack",
+        "effect/slashing-damage",
+        "effect/advantage-slashing-damage",
+        "requirement/attack-roll-advantage",
+        "effect/piercing-damage",
+        "effect/advantage-piercing-damage",
+        "action/special",
+        "action/disengage",
+        "action/hide",
+        "reaction/trigger",
+        "requirement/ally-size-small-or-medium",
+        "effect/swap-places",
+        "effect/redirect-attack"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/goblin-minion",
+      "name": "Goblin Minion",
+      "source_pages": [
+        290,
+        290
+      ],
+      "sizes": [
+        "small"
+      ],
+      "type": "fey",
+      "alignment": "Chaotic Neutral",
+      "ac": 12,
+      "hp": {
+        "average": 7,
+        "dice": 2,
+        "sides": 6,
+        "modifier": 0
+      },
+      "initiative": {
+        "modifier": 2,
+        "score": 12
+      },
+      "speeds": {
+        "walk": 30
+      },
+      "abilities": {
+        "str": {
+          "score": 8,
+          "modifier": -1,
+          "save": -1
+        },
+        "dex": {
+          "score": 15,
+          "modifier": 2,
+          "save": 2
+        },
+        "con": {
+          "score": 10,
+          "modifier": 0,
+          "save": 0
+        },
+        "int": {
+          "score": 10,
+          "modifier": 0,
+          "save": 0
+        },
+        "wis": {
+          "score": 8,
+          "modifier": -1,
+          "save": -1
+        },
+        "cha": {
+          "score": 8,
+          "modifier": -1,
+          "save": -1
+        }
+      },
+      "senses": {
+        "passive_perception": 9,
+        "special": {
+          "darkvision": 60
+        }
+      },
+      "languages": [
+        "Common",
+        "Goblin"
+      ],
+      "gear": [
+        "Daggers (3)"
+      ],
+      "cr": "1/8",
+      "xp": 25,
+      "proficiency_bonus": 2,
+      "traits": [],
+      "actions": [
+        {
+          "id": "dagger",
+          "name": "Dagger",
+          "text": "Dagger. Melee or Ranged Attack Roll: +4, reach 5 ft. or range 20/60 ft. Hit: 4 (1d4 + 2) Piercing damage.",
+          "key": "action/melee-or-ranged-attack",
+          "effects": [
+            {
+              "key": "effect/piercing-damage",
+              "name": "Piercing damage",
+              "text": "4 (1d4 + 2) Piercing damage.",
+              "dice": {
+                "average": 4,
+                "dice": 1,
+                "sides": 4,
+                "modifier": 2
+              }
+            }
+          ]
+        }
+      ],
+      "tags": [
+        "Goblinoid"
+      ],
+      "skills": {
+        "stealth": 6
+      },
+      "bonus_actions": [
+        {
+          "id": "nimble-escape",
+          "name": "Nimble Escape",
+          "text": "Nimble Escape. The goblin takes the Disengage or Hide action.",
+          "key": "action/special",
+          "effects": [
+            {
+              "key": "action/disengage",
+              "name": "Disengage",
+              "text": "The goblin takes the Disengage or Hide action."
+            },
+            {
+              "key": "action/hide",
+              "name": "Hide",
+              "text": "The goblin takes the Disengage or Hide action."
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/skills",
+        "sense/darkvision",
+        "action/bonus-action",
+        "action/melee-or-ranged-attack",
+        "effect/piercing-damage",
+        "action/special",
+        "action/disengage",
+        "action/hide"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/goblin-warrior",
+      "name": "Goblin Warrior",
+      "source_pages": [
+        290,
+        290
+      ],
+      "sizes": [
+        "small"
+      ],
+      "type": "fey",
+      "alignment": "Chaotic Neutral",
+      "ac": 15,
+      "hp": {
+        "average": 10,
+        "dice": 3,
+        "sides": 6,
+        "modifier": 0
+      },
+      "initiative": {
+        "modifier": 2,
+        "score": 12
+      },
+      "speeds": {
+        "walk": 30
+      },
+      "abilities": {
+        "str": {
+          "score": 8,
+          "modifier": -1,
+          "save": -1
+        },
+        "dex": {
+          "score": 15,
+          "modifier": 2,
+          "save": 2
+        },
+        "con": {
+          "score": 10,
+          "modifier": 0,
+          "save": 0
+        },
+        "int": {
+          "score": 10,
+          "modifier": 0,
+          "save": 0
+        },
+        "wis": {
+          "score": 8,
+          "modifier": -1,
+          "save": -1
+        },
+        "cha": {
+          "score": 8,
+          "modifier": -1,
+          "save": -1
+        }
+      },
+      "senses": {
+        "passive_perception": 9,
+        "special": {
+          "darkvision": 60
+        }
+      },
+      "languages": [
+        "Common",
+        "Goblin"
+      ],
+      "gear": [
+        "Leather Armor",
+        "Scimitar",
+        "Shield",
+        "Shortbow"
+      ],
+      "cr": "1/4",
+      "xp": 50,
+      "proficiency_bonus": 2,
+      "traits": [],
+      "actions": [
+        {
+          "id": "scimitar",
+          "name": "Scimitar",
+          "text": "Scimitar. Melee Attack Roll: +4, reach 5 ft. Hit: 5 (1d6 + 2) Slashing damage, plus 2 (1d4) Slashing damage if the attack roll had Advantage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 4,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 5,
+              "dice": 1,
+              "sides": 6,
+              "modifier": 2
+            },
+            "damage_type": "slashing"
+          },
+          "effects": [
+            {
+              "key": "effect/slashing-damage",
+              "name": "Slashing damage",
+              "text": "5 (1d6 + 2) Slashing damage.",
+              "dice": {
+                "average": 5,
+                "dice": 1,
+                "sides": 6,
+                "modifier": 2
+              }
+            },
+            {
+              "key": "effect/advantage-slashing-damage",
+              "name": "Slashing damage with Advantage",
+              "text": "2 (1d4) Slashing damage",
+              "dice": {
+                "average": 2,
+                "dice": 1,
+                "sides": 4,
+                "modifier": 0
+              }
+            },
+            {
+              "key": "requirement/attack-roll-advantage",
+              "name": "Attack roll had Advantage",
+              "text": "if the attack roll had Advantage."
+            }
+          ]
+        },
+        {
+          "id": "shortbow",
+          "name": "Shortbow",
+          "text": "Shortbow. Ranged Attack Roll: +4, range 80/320 ft. Hit: 5 (1d6 + 2) Piercing damage, plus 2 (1d4) Piercing damage if the attack roll had Advantage.",
+          "key": "action/ranged-attack",
+          "attack": {
+            "kind": "ranged",
+            "bonus": 4,
+            "reach": 0,
+            "range": 80,
+            "long_range": 320,
+            "damage": {
+              "average": 5,
+              "dice": 1,
+              "sides": 6,
+              "modifier": 2
+            },
+            "damage_type": "piercing"
+          },
+          "effects": [
+            {
+              "key": "effect/piercing-damage",
+              "name": "Piercing damage",
+              "text": "5 (1d6 + 2) Piercing damage.",
+              "dice": {
+                "average": 5,
+                "dice": 1,
+                "sides": 6,
+                "modifier": 2
+              }
+            },
+            {
+              "key": "effect/advantage-piercing-damage",
+              "name": "Piercing damage with Advantage",
+              "text": "2 (1d4) Piercing damage",
+              "dice": {
+                "average": 2,
+                "dice": 1,
+                "sides": 4,
+                "modifier": 0
+              }
+            },
+            {
+              "key": "requirement/attack-roll-advantage",
+              "name": "Attack roll had Advantage",
+              "text": "if the attack roll had Advantage."
+            }
+          ]
+        }
+      ],
+      "tags": [
+        "Goblinoid"
+      ],
+      "skills": {
+        "stealth": 6
+      },
+      "bonus_actions": [
+        {
+          "id": "nimble-escape",
+          "name": "Nimble Escape",
+          "text": "Nimble Escape. The goblin takes the Disengage or Hide action.",
+          "key": "action/special",
+          "effects": [
+            {
+              "key": "action/disengage",
+              "name": "Disengage",
+              "text": "The goblin takes the Disengage or Hide action."
+            },
+            {
+              "key": "action/hide",
+              "name": "Hide",
+              "text": "The goblin takes the Disengage or Hide action."
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/skills",
+        "sense/darkvision",
+        "action/bonus-action",
+        "action/melee-attack",
+        "effect/slashing-damage",
+        "effect/advantage-slashing-damage",
+        "requirement/attack-roll-advantage",
+        "action/ranged-attack",
+        "effect/piercing-damage",
+        "effect/advantage-piercing-damage",
+        "action/special",
+        "action/disengage",
+        "action/hide"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/gold-dragon-wyrmling",
+      "name": "Gold Dragon Wyrmling",
+      "source_pages": [
+        290,
+        291
+      ],
+      "sizes": [
+        "medium"
+      ],
+      "type": "dragon",
+      "alignment": "Lawful Good",
+      "ac": 17,
+      "hp": {
+        "average": 60,
+        "dice": 8,
+        "sides": 8,
+        "modifier": 24
+      },
+      "initiative": {
+        "modifier": 4,
+        "score": 14
+      },
+      "speeds": {
+        "walk": 30,
+        "fly": 60,
+        "swim": 30
+      },
+      "abilities": {
+        "str": {
+          "score": 19,
+          "modifier": 4,
+          "save": 4
+        },
+        "dex": {
+          "score": 14,
+          "modifier": 2,
+          "save": 4
+        },
+        "con": {
+          "score": 17,
+          "modifier": 3,
+          "save": 3
+        },
+        "int": {
+          "score": 14,
+          "modifier": 2,
+          "save": 2
+        },
+        "wis": {
+          "score": 11,
+          "modifier": 0,
+          "save": 2
+        },
+        "cha": {
+          "score": 16,
+          "modifier": 3,
+          "save": 3
+        }
+      },
+      "senses": {
+        "passive_perception": 14,
+        "special": {
+          "blindsight": 10,
+          "darkvision": 60
+        }
+      },
+      "languages": [
+        "Draconic"
+      ],
+      "gear": [],
+      "cr": "3",
+      "xp": 700,
+      "proficiency_bonus": 2,
+      "traits": [
+        {
+          "key": "trait/amphibious",
+          "name": "Amphibious",
+          "text": "Amphibious. The dragon can breathe air and water.",
+          "requires": [
+            "effect/breathe-air-and-water"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "multiattack",
+          "name": "Multiattack",
+          "text": "Multiattack. The dragon makes two Rend attacks.",
+          "key": "action/multiattack",
+          "effects": [
+            {
+              "key": "action/melee-attack",
+              "name": "Attack",
+              "text": "The dragon makes two Rend attacks."
+            }
+          ]
+        },
+        {
+          "id": "rend",
+          "name": "Rend",
+          "text": "Rend. Melee Attack Roll: +6, reach 5 ft. Hit: 9 (1d10 + 4) Slashing damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 6,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 9,
+              "dice": 1,
+              "sides": 10,
+              "modifier": 4
+            },
+            "damage_type": "slashing"
+          },
+          "effects": [
+            {
+              "key": "effect/slashing-damage",
+              "name": "Slashing damage",
+              "text": "9 (1d10 + 4) Slashing damage.",
+              "dice": {
+                "average": 9,
+                "dice": 1,
+                "sides": 10,
+                "modifier": 4
+              }
+            }
+          ]
+        },
+        {
+          "id": "fire-breath",
+          "name": "Fire Breath",
+          "text": "Fire Breath (Recharge 5–6). Dexterity Saving Throw: DC 13, each creature in a 15-foot Cone. Failure: 22 (4d10) Fire damage. Success: Half damage.",
+          "key": "action/saving-throw",
+          "save": {
+            "ability": "dex",
+            "dc": 13
+          },
+          "target": {
+            "shape": "cone",
+            "size": 15,
+            "width": 0,
+            "range": 0
+          },
+          "uses": {
+            "per_day": 0,
+            "lair_per_day": 0,
+            "recharge": 5
+          },
+          "effects": [
+            {
+              "key": "save/dex",
+              "name": "Dexterity Saving Throw",
+              "text": "Dexterity Saving Throw: DC 13"
+            },
+            {
+              "key": "area/cone",
+              "name": "Target",
+              "text": "each creature in a 15-foot Cone."
+            },
+            {
+              "key": "limit/recharge",
+              "name": "Recharge",
+              "text": "(Recharge 5–6)"
+            },
+            {
+              "key": "effect/fire-damage",
+              "name": "Fire damage",
+              "text": "22 (4d10) Fire damage.",
+              "dice": {
+                "average": 22,
+                "dice": 4,
+                "sides": 10,
+                "modifier": 0
+              }
+            },
+            {
+              "key": "save/half-damage",
+              "name": "Half damage",
+              "text": "Success: Half damage."
+            }
+          ]
+        },
+        {
+          "id": "weakening-breath",
+          "name": "Weakening Breath",
+          "text": "Weakening Breath. Strength Saving Throw: DC 13, each creature that isn’t currently affected by this breath in a 15-foot Cone. Failure: The target has Disadvantage on Strength-based D20 Tests and subtracts 2 (1d4) from its damage rolls. It repeats the save at the end of each of its turns, ending the effect on itself on a success. After 1 minute, it succeeds automatically.",
+          "key": "action/saving-throw",
+          "save": {
+            "ability": "str",
+            "dc": 13
+          },
+          "target": {
+            "shape": "cone",
+            "size": 15,
+            "width": 0,
+            "range": 0
+          },
+          "effects": [
+            {
+              "key": "save/str",
+              "name": "Strength Saving Throw",
+              "text": "Strength Saving Throw: DC 13"
+            },
+            {
+              "key": "area/cone",
+              "name": "Target",
+              "text": "each creature that isn’t currently affected by this breath in a 15-foot Cone."
+            },
+            {
+              "key": "requirement/not-already-affected",
+              "name": "Not already affected",
+              "text": "each creature that isn’t currently affected by this breath"
+            },
+            {
+              "key": "effect/strength-d20-disadvantage",
+              "name": "Disadvantage on Strength-based D20 Tests",
+              "text": "Failure: The target has Disadvantage on Strength-based D20 Tests and subtracts 2 (1d4) from its damage rolls."
+            },
+            {
+              "key": "effect/damage-roll-penalty",
+              "name": "Damage roll penalty",
+              "text": "Failure: The target has Disadvantage on Strength-based D20 Tests and subtracts 2 (1d4) from its damage rolls.",
+              "dice": {
+                "average": 2,
+                "dice": 1,
+                "sides": 4,
+                "modifier": 0
+              }
+            },
+            {
+              "key": "save/repeat",
+              "name": "Repeated save",
+              "text": "It repeats the save at the end of each of its turns, ending the effect on itself on a success."
+            },
+            {
+              "key": "effect/duration-one-minute",
+              "name": "One minute",
+              "text": "After 1 minute, it succeeds automatically."
+            }
+          ]
+        }
+      ],
+      "tags": [
+        "Metallic"
+      ],
+      "skills": {
+        "perception": 4,
+        "stealth": 4
+      },
+      "immunities": [
+        "fire"
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/skills",
+        "defense/damage-immunity",
+        "movement/fly",
+        "movement/swim",
+        "sense/blindsight",
+        "sense/darkvision",
+        "trait/amphibious",
+        "effect/breathe-air-and-water",
+        "action/multiattack",
+        "action/melee-attack",
+        "effect/slashing-damage",
+        "action/saving-throw",
+        "save/dex",
+        "area/cone",
+        "limit/recharge",
+        "effect/fire-damage",
+        "save/half-damage",
+        "save/str",
+        "requirement/not-already-affected",
+        "effect/strength-d20-disadvantage",
+        "effect/damage-roll-penalty",
+        "save/repeat",
+        "effect/duration-one-minute"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/gorgon",
+      "name": "Gorgon",
+      "source_pages": [
+        292,
+        293
+      ],
+      "sizes": [
+        "large"
+      ],
+      "type": "construct",
+      "alignment": "Unaligned",
+      "ac": 19,
+      "hp": {
+        "average": 114,
+        "dice": 12,
+        "sides": 10,
+        "modifier": 48
+      },
+      "initiative": {
+        "modifier": 0,
+        "score": 10
+      },
+      "speeds": {
+        "walk": 40
+      },
+      "abilities": {
+        "str": {
+          "score": 20,
+          "modifier": 5,
+          "save": 5
+        },
+        "dex": {
+          "score": 11,
+          "modifier": 0,
+          "save": 0
+        },
+        "con": {
+          "score": 18,
+          "modifier": 4,
+          "save": 4
+        },
+        "int": {
+          "score": 2,
+          "modifier": -4,
+          "save": -4
+        },
+        "wis": {
+          "score": 12,
+          "modifier": 1,
+          "save": 1
+        },
+        "cha": {
+          "score": 7,
+          "modifier": -2,
+          "save": -2
+        }
+      },
+      "senses": {
+        "passive_perception": 17,
+        "special": {
+          "darkvision": 60
+        }
+      },
+      "languages": [],
+      "gear": [],
+      "cr": "5",
+      "xp": 1800,
+      "proficiency_bonus": 3,
+      "traits": [],
+      "actions": [
+        {
+          "id": "gore",
+          "name": "Gore",
+          "text": "Gore. Melee Attack Roll: +8, reach 5 ft. Hit: 18 (2d12 + 5) Piercing damage. If the target is a Large or smaller creature and the gorgon moved 20+ feet straight toward it immediately before the hit, the target has the Prone condition.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 8,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 18,
+              "dice": 2,
+              "sides": 12,
+              "modifier": 5
+            },
+            "damage_type": "piercing"
+          },
+          "effects": [
+            {
+              "key": "effect/piercing-damage",
+              "name": "Piercing damage",
+              "text": "18 (2d12 + 5) Piercing damage.",
+              "dice": {
+                "average": 18,
+                "dice": 2,
+                "sides": 12,
+                "modifier": 5
+              }
+            },
+            {
+              "key": "requirement/target-size",
+              "name": "Target size",
+              "text": "If the target is a Large or smaller creature"
+            },
+            {
+              "key": "requirement/charge-distance",
+              "name": "Charge distance",
+              "text": "the gorgon moved 20+ feet straight toward it immediately before the hit"
+            },
+            {
+              "key": "condition/prone",
+              "name": "Prone",
+              "text": "the target has the Prone condition."
+            }
+          ]
+        },
+        {
+          "id": "petrifying-breath",
+          "name": "Petrifying Breath",
+          "text": "Petrifying Breath (Recharge 5–6). Constitution Saving Throw: DC 15, each creature in a 30-foot Cone. First Failure: The target has the Restrained condition and repeats the save at the end of its next turn if it is still Restrained, ending the effect on itself on a success. Second Failure: The target has the Petrified condition instead of the Restrained condition.",
+          "key": "action/saving-throw",
+          "save": {
+            "ability": "con",
+            "dc": 15
+          },
+          "target": {
+            "shape": "cone",
+            "size": 30,
+            "width": 0,
+            "range": 0
+          },
+          "uses": {
+            "per_day": 0,
+            "lair_per_day": 0,
+            "recharge": 5
+          },
+          "effects": [
+            {
+              "key": "save/con",
+              "name": "Constitution Saving Throw",
+              "text": "Constitution Saving Throw: DC 15"
+            },
+            {
+              "key": "area/cone",
+              "name": "Target",
+              "text": "each creature in a 30-foot Cone."
+            },
+            {
+              "key": "limit/recharge",
+              "name": "Recharge",
+              "text": "(Recharge 5–6)"
+            },
+            {
+              "key": "save/first-failure",
+              "name": "First Failure",
+              "text": "First Failure: The target has the Restrained condition and repeats the save at the end of its next turn if it is still Restrained, ending the effect on itself on a success."
+            },
+            {
+              "key": "condition/restrained",
+              "name": "Restrained",
+              "text": "First Failure: The target has the Restrained condition and repeats the save at the end of its next turn if it is still Restrained, ending the effect on itself on a success."
+            },
+            {
+              "key": "save/repeat",
+              "name": "Repeated save",
+              "text": "First Failure: The target has the Restrained condition and repeats the save at the end of its next turn if it is still Restrained, ending the effect on itself on a success."
+            },
+            {
+              "key": "save/second-failure",
+              "name": "Second Failure",
+              "text": "Second Failure: The target has the Petrified condition instead of the Restrained condition."
+            },
+            {
+              "key": "condition/petrified",
+              "name": "Petrified",
+              "text": "Second Failure: The target has the Petrified condition instead of the Restrained condition."
+            }
+          ]
+        }
+      ],
+      "skills": {
+        "perception": 7
+      },
+      "condition_immunities": [
+        "exhaustion",
+        "petrified"
+      ],
+      "bonus_actions": [
+        {
+          "id": "trample",
+          "name": "Trample",
+          "text": "Trample. Dexterity Saving Throw: DC 16, one creature within 5 feet that has the Prone condition. Failure: 16 (2d10 + 5) Bludgeoning damage. Success: Half damage.",
+          "key": "action/saving-throw",
+          "save": {
+            "ability": "dex",
+            "dc": 16
+          },
+          "target": {
+            "shape": "creature",
+            "size": 0,
+            "width": 0,
+            "range": 5
+          },
+          "effects": [
+            {
+              "key": "save/dex",
+              "name": "Dexterity Saving Throw",
+              "text": "Dexterity Saving Throw: DC 16"
+            },
+            {
+              "key": "target/creature",
+              "name": "Target",
+              "text": "one creature within 5 feet that has the Prone condition."
+            },
+            {
+              "key": "requirement/target-prone",
+              "name": "Target is Prone",
+              "text": "that has the Prone condition."
+            },
+            {
+              "key": "effect/bludgeoning-damage",
+              "name": "Bludgeoning damage",
+              "text": "16 (2d10 + 5) Bludgeoning damage.",
+              "dice": {
+                "average": 16,
+                "dice": 2,
+                "sides": 10,
+                "modifier": 5
+              }
+            },
+            {
+              "key": "save/half-damage",
+              "name": "Half damage",
+              "text": "Success: Half damage."
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/skills",
+        "defense/condition-immunity",
+        "sense/darkvision",
+        "action/bonus-action",
+        "action/melee-attack",
+        "effect/piercing-damage",
+        "requirement/target-size",
+        "requirement/charge-distance",
+        "condition/prone",
+        "action/saving-throw",
+        "save/con",
+        "area/cone",
+        "limit/recharge",
+        "save/first-failure",
+        "condition/restrained",
+        "save/repeat",
+        "save/second-failure",
+        "condition/petrified",
+        "save/dex",
+        "target/creature",
+        "requirement/target-prone",
+        "effect/bludgeoning-damage",
+        "save/half-damage"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/gray-ooze",
+      "name": "Gray Ooze",
+      "source_pages": [
+        293,
+        293
+      ],
+      "sizes": [
+        "medium"
+      ],
+      "type": "ooze",
+      "alignment": "Unaligned",
+      "ac": 9,
+      "hp": {
+        "average": 22,
+        "dice": 3,
+        "sides": 8,
+        "modifier": 9
+      },
+      "initiative": {
+        "modifier": -2,
+        "score": 8
+      },
+      "speeds": {
+        "walk": 10,
+        "climb": 10
+      },
+      "abilities": {
+        "str": {
+          "score": 12,
+          "modifier": 1,
+          "save": 1
+        },
+        "dex": {
+          "score": 6,
+          "modifier": -2,
+          "save": -2
+        },
+        "con": {
+          "score": 16,
+          "modifier": 3,
+          "save": 3
+        },
+        "int": {
+          "score": 1,
+          "modifier": -5,
+          "save": -5
+        },
+        "wis": {
+          "score": 6,
+          "modifier": -2,
+          "save": -2
+        },
+        "cha": {
+          "score": 2,
+          "modifier": -4,
+          "save": -4
+        }
+      },
+      "senses": {
+        "passive_perception": 8,
+        "special": {
+          "blindsight": 60
+        }
+      },
+      "languages": [],
+      "gear": [],
+      "cr": "1/2",
+      "xp": 100,
+      "proficiency_bonus": 2,
+      "traits": [
+        {
+          "key": "trait/amorphous",
+          "name": "Amorphous",
+          "text": "Amorphous. The ooze can move through a space as narrow as 1 inch without expending extra movement to do so.",
+          "requires": [
+            "effect/squeeze-through-narrow-space"
+          ]
+        },
+        {
+          "key": "trait/corrosive-form",
+          "name": "Corrosive Form",
+          "text": "Corrosive Form. Nonmagical ammunition is destroyed immediately after hitting the ooze and dealing any damage. Any nonmagical weapon takes a cumulative −1 penalty to attack rolls immediately after dealing damage to the ooze and coming into contact with it. The weapon is destroyed if the penalty reaches −5. The penalty can be removed by casting the Mending spell on the weapon. The ooze can eat through 2-inch-thick, nonmagical metal or wood in 1 round.",
+          "requires": [
+            "effect/ammunition-destroyed-on-hit",
+            "effect/weapon-attack-penalty",
+            "effect/weapon-destroyed-at-penalty-limit",
+            "effect/mending-removes-penalty",
+            "effect/eat-through-metal-or-wood"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "pseudopod",
+          "name": "Pseudopod",
+          "text": "Pseudopod. Melee Attack Roll: +3, reach 5 ft. Hit: 10 (2d8 + 1) Acid damage. Nonmagical armor worn by the target takes a −1 penalty to the AC it offers. The armor is destroyed if the penalty reduces its AC to 10. The penalty can be removed by casting the Mending spell on the armor.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 3,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 10,
+              "dice": 2,
+              "sides": 8,
+              "modifier": 1
+            },
+            "damage_type": "acid"
+          },
+          "effects": [
+            {
+              "key": "effect/acid-damage",
+              "name": "Acid damage",
+              "text": "10 (2d8 + 1) Acid damage.",
+              "dice": {
+                "average": 10,
+                "dice": 2,
+                "sides": 8,
+                "modifier": 1
+              }
+            },
+            {
+              "key": "effect/armor-ac-penalty",
+              "name": "Armor AC penalty",
+              "text": "Nonmagical armor worn by the target takes a −1 penalty to the AC it offers."
+            },
+            {
+              "key": "effect/armor-destroyed-at-ac-10",
+              "name": "Armor destroyed",
+              "text": "The armor is destroyed if the penalty reduces its AC to 10."
+            },
+            {
+              "key": "effect/mending-removes-penalty",
+              "name": "Mending removes the penalty",
+              "text": "The penalty can be removed by casting the Mending spell on the armor."
+            }
+          ]
+        }
+      ],
+      "skills": {
+        "stealth": 2
+      },
+      "resistances": [
+        "acid",
+        "cold",
+        "fire"
+      ],
+      "condition_immunities": [
+        "blinded",
+        "charmed",
+        "deafened",
+        "exhaustion",
+        "frightened",
+        "grappled",
+        "prone",
+        "restrained"
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/skills",
+        "defense/damage-resistance",
+        "defense/condition-immunity",
+        "movement/climb",
+        "sense/blindsight",
+        "trait/amorphous",
+        "effect/squeeze-through-narrow-space",
+        "trait/corrosive-form",
+        "effect/ammunition-destroyed-on-hit",
+        "effect/weapon-attack-penalty",
+        "effect/weapon-destroyed-at-penalty-limit",
+        "effect/mending-removes-penalty",
+        "effect/eat-through-metal-or-wood",
+        "action/melee-attack",
+        "effect/acid-damage",
+        "effect/armor-ac-penalty",
+        "effect/armor-destroyed-at-ac-10"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/green-dragon-wyrmling",
+      "name": "Green Dragon Wyrmling",
+      "source_pages": [
+        293,
+        293
+      ],
+      "sizes": [
+        "medium"
+      ],
+      "type": "dragon",
+      "alignment": "Lawful Evil",
+      "ac": 17,
+      "hp": {
+        "average": 38,
+        "dice": 7,
+        "sides": 8,
+        "modifier": 7
+      },
+      "initiative": {
+        "modifier": 3,
+        "score": 13
+      },
+      "speeds": {
+        "walk": 30,
+        "fly": 60,
+        "swim": 30
+      },
+      "abilities": {
+        "str": {
+          "score": 15,
+          "modifier": 2,
+          "save": 2
+        },
+        "dex": {
+          "score": 12,
+          "modifier": 1,
+          "save": 3
+        },
+        "con": {
+          "score": 13,
+          "modifier": 1,
+          "save": 1
+        },
+        "int": {
+          "score": 14,
+          "modifier": 2,
+          "save": 2
+        },
+        "wis": {
+          "score": 11,
+          "modifier": 0,
+          "save": 2
+        },
+        "cha": {
+          "score": 13,
+          "modifier": 1,
+          "save": 1
+        }
+      },
+      "senses": {
+        "passive_perception": 14,
+        "special": {
+          "blindsight": 10,
+          "darkvision": 60
+        }
+      },
+      "languages": [
+        "Draconic"
+      ],
+      "gear": [],
+      "cr": "2",
+      "xp": 450,
+      "proficiency_bonus": 2,
+      "traits": [
+        {
+          "key": "trait/amphibious",
+          "name": "Amphibious",
+          "text": "Amphibious. The dragon can breathe air and water.",
+          "requires": [
+            "effect/breathe-air-and-water"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "multiattack",
+          "name": "Multiattack",
+          "text": "Multiattack. The dragon makes two Rend attacks.",
+          "key": "action/multiattack",
+          "effects": [
+            {
+              "key": "action/melee-attack",
+              "name": "Attack",
+              "text": "The dragon makes two Rend attacks."
+            }
+          ]
+        },
+        {
+          "id": "rend",
+          "name": "Rend",
+          "text": "Rend. Melee Attack Roll: +4, reach 5 ft. Hit: 7 (1d10 + 2) Slashing damage plus 3 (1d6) Poison damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 4,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 7,
+              "dice": 1,
+              "sides": 10,
+              "modifier": 2
+            },
+            "damage_type": "slashing"
+          },
+          "effects": [
+            {
+              "key": "effect/slashing-damage",
+              "name": "Slashing damage",
+              "text": "7 (1d10 + 2) Slashing damage.",
+              "dice": {
+                "average": 7,
+                "dice": 1,
+                "sides": 10,
+                "modifier": 2
+              }
+            },
+            {
+              "key": "effect/poison-damage",
+              "name": "Poison damage",
+              "text": "3 (1d6) Poison damage.",
+              "dice": {
+                "average": 3,
+                "dice": 1,
+                "sides": 6,
+                "modifier": 0
+              }
+            }
+          ]
+        },
+        {
+          "id": "poison-breath",
+          "name": "Poison Breath",
+          "text": "Poison Breath (Recharge 5–6). Constitution Saving Throw: DC 11, each creature in a 15-foot Cone. Failure: 21 (6d6) Poison damage. Success: Half damage.",
+          "key": "action/saving-throw",
+          "save": {
+            "ability": "con",
+            "dc": 11
+          },
+          "target": {
+            "shape": "cone",
+            "size": 15,
+            "width": 0,
+            "range": 0
+          },
+          "uses": {
+            "per_day": 0,
+            "lair_per_day": 0,
+            "recharge": 5
+          },
+          "effects": [
+            {
+              "key": "save/con",
+              "name": "Constitution Saving Throw",
+              "text": "Constitution Saving Throw: DC 11"
+            },
+            {
+              "key": "area/cone",
+              "name": "Target",
+              "text": "each creature in a 15-foot Cone."
+            },
+            {
+              "key": "limit/recharge",
+              "name": "Recharge",
+              "text": "(Recharge 5–6)"
+            },
+            {
+              "key": "effect/poison-damage",
+              "name": "Poison damage",
+              "text": "21 (6d6) Poison damage.",
+              "dice": {
+                "average": 21,
+                "dice": 6,
+                "sides": 6,
+                "modifier": 0
+              }
+            },
+            {
+              "key": "save/half-damage",
+              "name": "Half damage",
+              "text": "Success: Half damage."
+            }
+          ]
+        }
+      ],
+      "tags": [
+        "Chromatic"
+      ],
+      "skills": {
+        "perception": 4,
+        "stealth": 3
+      },
+      "immunities": [
+        "poison"
+      ],
+      "condition_immunities": [
+        "poisoned"
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/skills",
+        "defense/damage-immunity",
+        "defense/condition-immunity",
+        "movement/fly",
+        "movement/swim",
+        "sense/blindsight",
+        "sense/darkvision",
+        "trait/amphibious",
+        "effect/breathe-air-and-water",
+        "action/multiattack",
+        "action/melee-attack",
+        "effect/slashing-damage",
+        "effect/poison-damage",
+        "action/saving-throw",
+        "save/con",
+        "area/cone",
+        "limit/recharge",
+        "save/half-damage"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/green-hag",
+      "name": "Green Hag",
+      "source_pages": [
+        295,
+        295
+      ],
+      "sizes": [
+        "medium"
+      ],
+      "type": "fey",
+      "alignment": "Neutral Evil",
+      "ac": 17,
+      "hp": {
+        "average": 82,
+        "dice": 11,
+        "sides": 8,
+        "modifier": 33
+      },
+      "initiative": {
+        "modifier": 1,
+        "score": 11
+      },
+      "speeds": {
+        "walk": 30,
+        "swim": 30
+      },
+      "abilities": {
+        "str": {
+          "score": 18,
+          "modifier": 4,
+          "save": 4
+        },
+        "dex": {
+          "score": 12,
+          "modifier": 1,
+          "save": 1
+        },
+        "con": {
+          "score": 16,
+          "modifier": 3,
+          "save": 3
+        },
+        "int": {
+          "score": 13,
+          "modifier": 1,
+          "save": 1
+        },
+        "wis": {
+          "score": 14,
+          "modifier": 2,
+          "save": 2
+        },
+        "cha": {
+          "score": 14,
+          "modifier": 2,
+          "save": 2
+        }
+      },
+      "senses": {
+        "passive_perception": 14,
+        "special": {
+          "darkvision": 60
+        }
+      },
+      "languages": [
+        "Common",
+        "Elvish",
+        "Sylvan"
+      ],
+      "gear": [],
+      "cr": "3",
+      "xp": 700,
+      "proficiency_bonus": 2,
+      "traits": [
+        {
+          "key": "trait/amphibious",
+          "name": "Amphibious",
+          "text": "Amphibious. The hag can breathe air and water.",
+          "requires": [
+            "effect/breathe-air-and-water"
+          ]
+        },
+        {
+          "key": "trait/coven-magic",
+          "name": "Coven Magic",
+          "text": "Coven Magic. While within 30 feet of at least two hag allies, the hag can cast one of the following spells, requiring no Material components, using the spell’s normal casting time, and using Intelligence as the spellcasting ability (spell save DC 11): Augury, Find Familiar, Identify, Locate Object, Scrying, or Unseen Servant. The hag must finish a Long Rest before using this trait to cast that spell again.",
+          "requires": [
+            "effect/coven-casting",
+            "requirement/two-hag-allies-within-30-feet",
+            "spellcasting/no-material-components",
+            "spellcasting/normal-casting-time",
+            "limit/long-rest-per-spell",
+            "spell/augury",
+            "spell/find-familiar",
+            "spell/identify",
+            "spell/locate-object",
+            "spell/scrying",
+            "spell/unseen-servant"
+          ]
+        },
+        {
+          "key": "trait/mimicry",
+          "name": "Mimicry",
+          "text": "Mimicry. The hag can mimic animal sounds and humanoid voices. A creature that hears the sounds can tell they are imitations only with a successful DC 14 Wisdom (Insight) check.",
+          "requires": [
+            "effect/mimic-sounds",
+            "check/wisdom-insight"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "multiattack",
+          "name": "Multiattack",
+          "text": "Multiattack. The hag makes two Claw attacks.",
+          "key": "action/multiattack",
+          "effects": [
+            {
+              "key": "action/melee-attack",
+              "name": "Attack",
+              "text": "The hag makes two Claw attacks."
+            }
+          ]
+        },
+        {
+          "id": "claw",
+          "name": "Claw",
+          "text": "Claw. Melee Attack Roll: +6, reach 5 ft. Hit: 8 (1d8 + 4) Slashing damage plus 3 (1d6) Poison damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 6,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 8,
+              "dice": 1,
+              "sides": 8,
+              "modifier": 4
+            },
+            "damage_type": "slashing"
+          },
+          "effects": [
+            {
+              "key": "effect/slashing-damage",
+              "name": "Slashing damage",
+              "text": "8 (1d8 + 4) Slashing damage.",
+              "dice": {
+                "average": 8,
+                "dice": 1,
+                "sides": 8,
+                "modifier": 4
+              }
+            },
+            {
+              "key": "effect/poison-damage",
+              "name": "Poison damage",
+              "text": "3 (1d6) Poison damage.",
+              "dice": {
+                "average": 3,
+                "dice": 1,
+                "sides": 6,
+                "modifier": 0
+              }
+            }
+          ]
+        },
+        {
+          "id": "spellcasting",
+          "name": "Spellcasting",
+          "text": "Spellcasting. The hag casts one of the following spells, requiring no Material components and using Wisdom as the spellcasting ability (spell save DC 12, +4 to hit with spell attacks): At Will: Dancing Lights, Disguise Self (24-hour duration), Invisibility (self only, and the hag leaves no tracks while Invisible), Minor Illusion, Ray of Sickness (level 3 version)",
+          "key": "action/spellcasting",
+          "spellcasting": {
+            "ability": "wis",
+            "save_dc": 12,
+            "attack_bonus": 4,
+            "at_will": [
+              "Dancing Lights",
+              "Disguise Self (24-hour duration)",
+              "Invisibility (self only, and the hag leaves no tracks while Invisible)",
+              "Minor Illusion",
+              "Ray of Sickness (level 3 version)"
+            ],
+            "per_day": []
+          },
+          "effects": [
+            {
+              "key": "spellcasting/no-material-components",
+              "name": "No Material components",
+              "text": "requiring no Material components"
+            },
+            {
+              "key": "spellcasting/spell-attack-bonus",
+              "name": "Spell attack bonus",
+              "text": "+4 to hit with spell attacks"
+            },
+            {
+              "key": "spell/dancing-lights",
+              "name": "Dancing Lights",
+              "text": "Dancing Lights",
+              "requires": [
+                "spellcasting/at-will"
+              ]
+            },
+            {
+              "key": "spell/disguise-self",
+              "name": "Disguise Self",
+              "text": "Disguise Self (24-hour duration)",
+              "requires": [
+                "spellcasting/at-will"
+              ]
+            },
+            {
+              "key": "spell/invisibility",
+              "name": "Invisibility",
+              "text": "Invisibility (self only, and the hag leaves no tracks while Invisible)",
+              "requires": [
+                "spellcasting/at-will"
+              ]
+            },
+            {
+              "key": "spell/minor-illusion",
+              "name": "Minor Illusion",
+              "text": "Minor Illusion",
+              "requires": [
+                "spellcasting/at-will"
+              ]
+            },
+            {
+              "key": "spell/ray-of-sickness",
+              "name": "Ray of Sickness",
+              "text": "Ray of Sickness (level 3 version)",
+              "requires": [
+                "spellcasting/at-will"
+              ]
+            }
+          ]
+        }
+      ],
+      "skills": {
+        "arcana": 5,
+        "deception": 4,
+        "perception": 4,
+        "stealth": 3
+      },
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/skills",
+        "movement/swim",
+        "sense/darkvision",
+        "trait/amphibious",
+        "effect/breathe-air-and-water",
+        "trait/coven-magic",
+        "effect/coven-casting",
+        "requirement/two-hag-allies-within-30-feet",
+        "spellcasting/no-material-components",
+        "spellcasting/normal-casting-time",
+        "limit/long-rest-per-spell",
+        "spell/augury",
+        "spell/find-familiar",
+        "spell/identify",
+        "spell/locate-object",
+        "spell/scrying",
+        "spell/unseen-servant",
+        "trait/mimicry",
+        "effect/mimic-sounds",
+        "check/wisdom-insight",
+        "action/multiattack",
+        "action/melee-attack",
+        "effect/slashing-damage",
+        "effect/poison-damage",
+        "action/spellcasting",
+        "spellcasting/spell-attack-bonus",
+        "spell/dancing-lights",
+        "spellcasting/at-will",
+        "spell/disguise-self",
+        "spell/invisibility",
+        "spell/minor-illusion",
+        "spell/ray-of-sickness"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/grick",
+      "name": "Grick",
+      "source_pages": [
+        295,
+        295
+      ],
+      "sizes": [
+        "medium"
+      ],
+      "type": "aberration",
+      "alignment": "Unaligned",
+      "ac": 14,
+      "hp": {
+        "average": 54,
+        "dice": 12,
+        "sides": 8,
+        "modifier": 0
+      },
+      "initiative": {
+        "modifier": 2,
+        "score": 12
+      },
+      "speeds": {
+        "walk": 30,
+        "climb": 30
+      },
+      "abilities": {
+        "str": {
+          "score": 14,
+          "modifier": 2,
+          "save": 2
+        },
+        "dex": {
+          "score": 14,
+          "modifier": 2,
+          "save": 2
+        },
+        "con": {
+          "score": 11,
+          "modifier": 0,
+          "save": 0
+        },
+        "int": {
+          "score": 3,
+          "modifier": -4,
+          "save": -4
+        },
+        "wis": {
+          "score": 14,
+          "modifier": 2,
+          "save": 2
+        },
+        "cha": {
+          "score": 5,
+          "modifier": -3,
+          "save": -3
+        }
+      },
+      "senses": {
+        "passive_perception": 12,
+        "special": {
+          "darkvision": 60
+        }
+      },
+      "languages": [],
+      "gear": [],
+      "cr": "2",
+      "xp": 450,
+      "proficiency_bonus": 2,
+      "traits": [],
+      "actions": [
+        {
+          "id": "multiattack",
+          "name": "Multiattack",
+          "text": "Multiattack. The grick makes one Beak attack and one Tentacles attack.",
+          "key": "action/multiattack",
+          "effects": [
+            {
+              "key": "action/melee-attack",
+              "name": "Attack",
+              "text": "The grick makes one Beak attack and one Tentacles attack."
+            }
+          ]
+        },
+        {
+          "id": "beak",
+          "name": "Beak",
+          "text": "Beak. Melee Attack Roll: +4, reach 5 ft. Hit: 9 (2d6 + 2) Piercing damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 4,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 9,
+              "dice": 2,
+              "sides": 6,
+              "modifier": 2
+            },
+            "damage_type": "piercing"
+          },
+          "effects": [
+            {
+              "key": "effect/piercing-damage",
+              "name": "Piercing damage",
+              "text": "9 (2d6 + 2) Piercing damage.",
+              "dice": {
+                "average": 9,
+                "dice": 2,
+                "sides": 6,
+                "modifier": 2
+              }
+            }
+          ]
+        },
+        {
+          "id": "tentacles",
+          "name": "Tentacles",
+          "text": "Tentacles. Melee Attack Roll: +4, reach 5 ft. Hit: 7 (1d10 + 2) Slashing damage. If the target is a Medium or smaller creature, it has the Grappled condition (escape DC 12) from all four tentacles.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 4,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 7,
+              "dice": 1,
+              "sides": 10,
+              "modifier": 2
+            },
+            "damage_type": "slashing"
+          },
+          "effects": [
+            {
+              "key": "effect/slashing-damage",
+              "name": "Slashing damage",
+              "text": "7 (1d10 + 2) Slashing damage.",
+              "dice": {
+                "average": 7,
+                "dice": 1,
+                "sides": 10,
+                "modifier": 2
+              }
+            },
+            {
+              "key": "requirement/target-size",
+              "name": "Target size",
+              "text": "If the target is a Medium or smaller creature, it has the Grappled condition (escape DC 12) from all four tentacles."
+            },
+            {
+              "key": "condition/grappled",
+              "name": "Grappled",
+              "text": "If the target is a Medium or smaller creature, it has the Grappled condition (escape DC 12) from all four tentacles."
+            }
+          ]
+        }
+      ],
+      "skills": {
+        "stealth": 4
+      },
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/skills",
+        "movement/climb",
+        "sense/darkvision",
+        "action/multiattack",
+        "action/melee-attack",
+        "effect/piercing-damage",
+        "effect/slashing-damage",
+        "requirement/target-size",
+        "condition/grappled"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/griffon",
+      "name": "Griffon",
+      "source_pages": [
+        295,
+        295
+      ],
+      "sizes": [
+        "large"
+      ],
+      "type": "monstrosity",
+      "alignment": "Unaligned",
+      "ac": 12,
+      "hp": {
+        "average": 59,
+        "dice": 7,
+        "sides": 10,
+        "modifier": 21
+      },
+      "initiative": {
+        "modifier": 2,
+        "score": 12
+      },
+      "speeds": {
+        "walk": 30,
+        "fly": 80
+      },
+      "abilities": {
+        "str": {
+          "score": 18,
+          "modifier": 4,
+          "save": 4
+        },
+        "dex": {
+          "score": 15,
+          "modifier": 2,
+          "save": 2
+        },
+        "con": {
+          "score": 16,
+          "modifier": 3,
+          "save": 3
+        },
+        "int": {
+          "score": 2,
+          "modifier": -4,
+          "save": -4
+        },
+        "wis": {
+          "score": 13,
+          "modifier": 1,
+          "save": 1
+        },
+        "cha": {
+          "score": 8,
+          "modifier": -1,
+          "save": -1
+        }
+      },
+      "senses": {
+        "passive_perception": 15,
+        "special": {
+          "darkvision": 60
+        }
+      },
+      "languages": [],
+      "gear": [],
+      "cr": "2",
+      "xp": 450,
+      "proficiency_bonus": 2,
+      "traits": [],
+      "actions": [
+        {
+          "id": "multiattack",
+          "name": "Multiattack",
+          "text": "Multiattack. The griffon makes two Rend attacks.",
+          "key": "action/multiattack",
+          "effects": [
+            {
+              "key": "action/melee-attack",
+              "name": "Attack",
+              "text": "The griffon makes two Rend attacks."
+            }
+          ]
+        },
+        {
+          "id": "rend",
+          "name": "Rend",
+          "text": "Rend. Melee Attack Roll: +6, reach 5 ft. Hit: 8 (1d8 + 4) Piercing damage. If the target is a Medium or smaller creature, it has the Grappled condition (escape DC 14) from both of the griffon’s front claws.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 6,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 8,
+              "dice": 1,
+              "sides": 8,
+              "modifier": 4
+            },
+            "damage_type": "piercing"
+          },
+          "effects": [
+            {
+              "key": "effect/piercing-damage",
+              "name": "Piercing damage",
+              "text": "8 (1d8 + 4) Piercing damage.",
+              "dice": {
+                "average": 8,
+                "dice": 1,
+                "sides": 8,
+                "modifier": 4
+              }
+            },
+            {
+              "key": "requirement/target-size",
+              "name": "Target size",
+              "text": "If the target is a Medium or smaller creature, it has the Grappled condition (escape DC 14) from both of the griffon’s front claws."
+            },
+            {
+              "key": "condition/grappled",
+              "name": "Grappled",
+              "text": "If the target is a Medium or smaller creature, it has the Grappled condition (escape DC 14) from both of the griffon’s front claws."
+            }
+          ]
+        }
+      ],
+      "skills": {
+        "perception": 5
+      },
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/skills",
+        "movement/fly",
+        "sense/darkvision",
+        "action/multiattack",
+        "action/melee-attack",
+        "effect/piercing-damage",
+        "requirement/target-size",
+        "condition/grappled"
+      ]
+    }
+  ]
+}
