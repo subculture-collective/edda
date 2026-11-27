@@ -1,0 +1,1287 @@
+{
+  "schema_version": 1,
+  "source": {
+    "version": "5.2.1",
+    "language": "en",
+    "landing_url": "https://www.dndbeyond.com/srd",
+    "artifact_url": "https://media.dndbeyond.com/compendium-images/srd/5.2/SRD_CC_v5.2.1.pdf",
+    "sha256": "8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87",
+    "bytes": 6031375,
+    "pages": 364,
+    "retrieved_at": "2026-11-15",
+    "license": "CC-BY-4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/legalcode",
+    "attribution": "This work includes material from the System Reference Document 5.2.1 (“SRD 5.2.1”) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd. The SRD 5.2.1 is licensed under the Creative Commons Attribution 4.0 International License, available at https://creativecommons.org/licenses/by/4.0/legalcode.",
+    "changes": "SRD 5.2.1 PDF pp.139-141 adapted into twelve complete offline spell families for issue #209, including page-break continuation text for Heat Metal (pp.139-140) and Hold Monster (pp.140-141). No executable effects or availability grants."
+  },
+  "records": [
+    {
+      "id": "srd-5.2.1:content/spells/hallucinatory-terrain",
+      "name": "Hallucinatory Terrain",
+      "source_id": "srd-5.2.1:content/spells/hallucinatory-terrain",
+      "source_page": 139,
+      "scope": "complete-source-record",
+      "level": 4,
+      "school": "illusion",
+      "lists": [
+        "bard",
+        "druid",
+        "warlock",
+        "wizard"
+      ],
+      "casting_time": "10-minutes",
+      "range": {
+        "kind": "feet",
+        "feet": 300
+      },
+      "target": {
+        "shape": "cube",
+        "count": 0,
+        "eligibility": "natural-terrain-in-cube"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": {
+          "description": "a mushroom",
+          "cost_cp": 0,
+          "consumed": false
+        }
+      },
+      "ritual": false,
+      "concentration": false,
+      "duration": "timed",
+      "duration_seconds": 86400,
+      "scaling": {
+        "kind": "none",
+        "above_level": 0,
+        "dice_count": 0,
+        "die_sides": 0,
+        "effect_ids": []
+      },
+      "effects": [
+        {
+          "id": "illusion",
+          "mechanic": "illusion.hallucinatory-terrain",
+          "timing": "for-duration",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "illusion.hallucinatory-terrain",
+        "check.hallucinatory-terrain-investigation",
+        "cast.ten-minutes",
+        "components.material"
+      ],
+      "slot_levels": [
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 600,
+        "casting_triggers": [],
+        "end_timing": "duration-ended",
+        "hallucinatory_terrain": {
+          "cube_feet": 150,
+          "affected_terrain": "natural-terrain",
+          "disguised_senses": [
+            "sight",
+            "sound",
+            "smell"
+          ],
+          "disguise": "another-sort-of-natural-terrain",
+          "examples": [
+            "open-fields-or-road-as-swamp-hill-crevasse-or-other-difficult-or-impassable-terrain",
+            "pond-as-grassy-meadow",
+            "precipice-as-gentle-slope",
+            "rock-strewn-gully-as-wide-smooth-road"
+          ],
+          "unchanged": [
+            "manufactured-structures",
+            "equipment",
+            "creatures"
+          ],
+          "tactile_characteristics": "unchanged",
+          "touch_result": "creatures-entering-likely-to-notice-illusion",
+          "disbelieve_condition": "difference-not-obvious-by-touch",
+          "disbelieve_action": "study",
+          "disbelieve_check": "intelligence-investigation",
+          "disbelieve_dc": "caster-spell-save-dc",
+          "discerned": "sees-vague-image-superimposed-on-real-terrain"
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/harm",
+      "name": "Harm",
+      "source_id": "srd-5.2.1:content/spells/harm",
+      "source_page": 139,
+      "scope": "complete-source-record",
+      "level": 6,
+      "school": "necromancy",
+      "lists": [
+        "cleric"
+      ],
+      "casting_time": "action",
+      "range": {
+        "kind": "feet",
+        "feet": 60
+      },
+      "target": {
+        "shape": "single",
+        "count": 1,
+        "eligibility": "visible-creature-in-range"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": null
+      },
+      "ritual": false,
+      "concentration": false,
+      "duration": "instantaneous",
+      "duration_seconds": 0,
+      "scaling": {
+        "kind": "none",
+        "above_level": 0,
+        "dice_count": 0,
+        "die_sides": 0,
+        "effect_ids": []
+      },
+      "effects": [
+        {
+          "id": "damage",
+          "mechanic": "damage.harm",
+          "timing": "on-failed-constitution-save",
+          "dice_count": 14,
+          "die_sides": 6,
+          "damage_type": "necrotic",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "damage.harm",
+        "save.constitution-half",
+        "reduction.harm-hit-point-maximum"
+      ],
+      "slot_levels": [
+        6,
+        7,
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 0,
+        "casting_triggers": [],
+        "end_timing": "instantaneous",
+        "harm": {
+          "target": "creature-visible-in-range",
+          "save": "constitution",
+          "damage_dice_count": 14,
+          "damage_die_sides": 6,
+          "damage_type": "necrotic",
+          "failure_hit_point_maximum": "reduced-by-necrotic-damage-taken",
+          "success": "half-damage-only",
+          "hit_point_maximum_floor": 1
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/haste",
+      "name": "Haste",
+      "source_id": "srd-5.2.1:content/spells/haste",
+      "source_page": 139,
+      "scope": "complete-source-record",
+      "level": 3,
+      "school": "transmutation",
+      "lists": [
+        "sorcerer",
+        "wizard"
+      ],
+      "casting_time": "action",
+      "range": {
+        "kind": "feet",
+        "feet": 30
+      },
+      "target": {
+        "shape": "single",
+        "count": 1,
+        "eligibility": "visible-willing-creature-in-range"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": {
+          "description": "a shaving of licorice root",
+          "cost_cp": 0,
+          "consumed": false
+        }
+      },
+      "ritual": false,
+      "concentration": true,
+      "duration": "timed",
+      "duration_seconds": 60,
+      "scaling": {
+        "kind": "none",
+        "above_level": 0,
+        "dice_count": 0,
+        "die_sides": 0,
+        "effect_ids": []
+      },
+      "effects": [
+        {
+          "id": "speed",
+          "mechanic": "speed.haste-doubled",
+          "timing": "for-duration",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "armor-class",
+          "mechanic": "defense.haste-armor-class",
+          "timing": "for-duration",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 2,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "saves",
+          "mechanic": "advantage.haste-dexterity-saves",
+          "timing": "for-duration",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "action",
+          "mechanic": "action.haste-additional",
+          "timing": "each-of-targets-turns",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "lethargy",
+          "mechanic": "condition.haste-lethargy",
+          "timing": "when-spell-ends-until-end-of-targets-next-turn",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "speed.haste-doubled",
+        "defense.haste-armor-class",
+        "advantage.haste-dexterity-saves",
+        "action.haste-additional",
+        "condition.haste-lethargy",
+        "concentration.source-duration",
+        "components.material"
+      ],
+      "slot_levels": [
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 0,
+        "casting_triggers": [],
+        "end_timing": "duration-or-concentration-ended",
+        "haste": {
+          "target": "willing-creature-visible-in-range",
+          "speed_multiplier": 2,
+          "armor_class_bonus": 2,
+          "advantage": "dexterity-saving-throws",
+          "additional_actions_per_turn": 1,
+          "allowed_actions": [
+            "attack-one-attack-only",
+            "dash",
+            "disengage",
+            "hide",
+            "utilize"
+          ],
+          "end_condition": "incapacitated",
+          "end_speed_feet": 0,
+          "end_duration": "until-end-of-targets-next-turn",
+          "end_description": "wave-of-lethargy"
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/heal",
+      "name": "Heal",
+      "source_id": "srd-5.2.1:content/spells/heal",
+      "source_page": 139,
+      "scope": "complete-source-record",
+      "level": 6,
+      "school": "abjuration",
+      "lists": [
+        "cleric",
+        "druid"
+      ],
+      "casting_time": "action",
+      "range": {
+        "kind": "feet",
+        "feet": 60
+      },
+      "target": {
+        "shape": "single",
+        "count": 1,
+        "eligibility": "visible-creature-in-range"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": null
+      },
+      "ritual": false,
+      "concentration": false,
+      "duration": "instantaneous",
+      "duration_seconds": 0,
+      "scaling": {
+        "kind": "slot-bonus",
+        "above_level": 6,
+        "dice_count": 0,
+        "die_sides": 0,
+        "effect_ids": [
+          "healing"
+        ]
+      },
+      "effects": [
+        {
+          "id": "healing",
+          "mechanic": "healing.heal",
+          "timing": "immediate",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 70,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "conditions",
+          "mechanic": "remove.heal-conditions",
+          "timing": "immediate",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "healing.heal",
+        "remove.heal-conditions",
+        "scaling.bonus-per-slot"
+      ],
+      "slot_levels": [
+        6,
+        7,
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 0,
+        "casting_triggers": [],
+        "end_timing": "instantaneous",
+        "heal": {
+          "target": "creature-visible-in-range",
+          "healing_hit_points": 70,
+          "conditions_ended": [
+            "blinded",
+            "deafened",
+            "poisoned"
+          ],
+          "additional_hit_points_per_slot": 10
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/healing-word",
+      "name": "Healing Word",
+      "source_id": "srd-5.2.1:content/spells/healing-word",
+      "source_page": 139,
+      "scope": "complete-source-record",
+      "level": 1,
+      "school": "abjuration",
+      "lists": [
+        "bard",
+        "cleric",
+        "druid"
+      ],
+      "casting_time": "bonus-action",
+      "range": {
+        "kind": "feet",
+        "feet": 60
+      },
+      "target": {
+        "shape": "single",
+        "count": 1,
+        "eligibility": "visible-creature-in-range"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": false,
+        "material": null
+      },
+      "ritual": false,
+      "concentration": false,
+      "duration": "instantaneous",
+      "duration_seconds": 0,
+      "scaling": {
+        "kind": "slot",
+        "above_level": 1,
+        "dice_count": 2,
+        "die_sides": 4,
+        "effect_ids": [
+          "healing"
+        ]
+      },
+      "effects": [
+        {
+          "id": "healing",
+          "mechanic": "healing.healing-word",
+          "timing": "immediate",
+          "dice_count": 2,
+          "die_sides": 4,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": true,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "healing.healing-word",
+        "scaling.per-slot"
+      ],
+      "slot_levels": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 0,
+        "casting_triggers": [],
+        "end_timing": "instantaneous",
+        "healing_word": {
+          "target": "creature-of-choice-visible-in-range",
+          "healing_dice_count": 2,
+          "healing_die_sides": 4,
+          "healing_adds": "spellcasting-ability-modifier",
+          "slot_dice_count": 2,
+          "slot_die_sides": 4
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/heat-metal",
+      "name": "Heat Metal",
+      "source_id": "srd-5.2.1:content/spells/heat-metal",
+      "source_page": 139,
+      "scope": "complete-source-record",
+      "level": 2,
+      "school": "transmutation",
+      "lists": [
+        "bard",
+        "druid"
+      ],
+      "casting_time": "action",
+      "range": {
+        "kind": "feet",
+        "feet": 60
+      },
+      "target": {
+        "shape": "single",
+        "count": 1,
+        "eligibility": "visible-manufactured-metal-object-in-range"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": {
+          "description": "a piece of iron and a flame",
+          "cost_cp": 0,
+          "consumed": false
+        }
+      },
+      "ritual": false,
+      "concentration": true,
+      "duration": "timed",
+      "duration_seconds": 60,
+      "scaling": {
+        "kind": "slot",
+        "above_level": 2,
+        "dice_count": 1,
+        "die_sides": 8,
+        "effect_ids": [
+          "damage"
+        ]
+      },
+      "effects": [
+        {
+          "id": "damage",
+          "mechanic": "damage.heat-metal",
+          "timing": "on-cast-and-bonus-action-later-turns",
+          "dice_count": 2,
+          "die_sides": 8,
+          "damage_type": "fire",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "grip",
+          "mechanic": "save.heat-metal-drop-object",
+          "timing": "when-holder-or-wearer-takes-damage",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "damage.heat-metal",
+        "save.heat-metal-drop-object",
+        "scaling.per-slot",
+        "concentration.source-duration",
+        "components.material"
+      ],
+      "slot_levels": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 0,
+        "casting_triggers": [],
+        "end_timing": "duration-or-concentration-ended",
+        "heat_metal": {
+          "source_pages": [
+            139,
+            140
+          ],
+          "object": "manufactured-metal-object",
+          "object_examples": [
+            "metal-weapon",
+            "suit-of-heavy-or-medium-metal-armor"
+          ],
+          "object_effect": "glows-red-hot",
+          "damaged": "any-creature-in-physical-contact",
+          "damage_dice_count": 2,
+          "damage_die_sides": 8,
+          "damage_type": "fire",
+          "initial_timing": "when-spell-cast",
+          "repeat_action": "bonus-action-on-later-turns",
+          "repeat_requirement": "object-within-range",
+          "save_trigger": "holding-or-wearing-object-and-takes-its-damage",
+          "save": "constitution",
+          "save_failure": "drop-object-if-able",
+          "kept_penalty": [
+            "disadvantage-on-attack-rolls",
+            "disadvantage-on-ability-checks"
+          ],
+          "kept_penalty_duration": "until-start-of-casters-next-turn",
+          "slot_dice_count": 1,
+          "slot_die_sides": 8
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/hellish-rebuke",
+      "name": "Hellish Rebuke",
+      "source_id": "srd-5.2.1:content/spells/hellish-rebuke",
+      "source_page": 140,
+      "scope": "complete-source-record",
+      "level": 1,
+      "school": "evocation",
+      "lists": [
+        "warlock"
+      ],
+      "casting_time": "reaction",
+      "range": {
+        "kind": "feet",
+        "feet": 60
+      },
+      "target": {
+        "shape": "single",
+        "count": 1,
+        "eligibility": "creature-that-damaged-caster"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": null
+      },
+      "ritual": false,
+      "concentration": false,
+      "duration": "instantaneous",
+      "duration_seconds": 0,
+      "scaling": {
+        "kind": "slot",
+        "above_level": 1,
+        "dice_count": 1,
+        "die_sides": 10,
+        "effect_ids": [
+          "damage"
+        ]
+      },
+      "effects": [
+        {
+          "id": "damage",
+          "mechanic": "damage.hellish-rebuke",
+          "timing": "immediate",
+          "dice_count": 2,
+          "die_sides": 10,
+          "damage_type": "fire",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "damage.hellish-rebuke",
+        "reaction.hellish-rebuke-trigger",
+        "save.dexterity-half",
+        "scaling.per-slot"
+      ],
+      "slot_levels": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 0,
+        "casting_triggers": [
+          "taking-damage-from-visible-creature-within-60-feet"
+        ],
+        "end_timing": "instantaneous",
+        "hellish_rebuke": {
+          "target": "creature-that-damaged-caster",
+          "trigger_distance_feet": 60,
+          "trigger_requirement": "damaged-by-creature-caster-can-see",
+          "appearance": "momentarily-surrounded-by-green-flames",
+          "save": "dexterity",
+          "damage_dice_count": 2,
+          "damage_die_sides": 10,
+          "damage_type": "fire",
+          "success": "half-damage",
+          "slot_dice_count": 1,
+          "slot_die_sides": 10
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/heroes-feast",
+      "name": "Heroes’ Feast",
+      "source_id": "srd-5.2.1:content/spells/heroes-feast",
+      "source_page": 140,
+      "scope": "complete-source-record",
+      "level": 6,
+      "school": "conjuration",
+      "lists": [
+        "bard",
+        "cleric",
+        "druid"
+      ],
+      "casting_time": "10-minutes",
+      "range": {
+        "kind": "self",
+        "feet": 0
+      },
+      "target": {
+        "shape": "created-effect",
+        "count": 1,
+        "eligibility": "surface-in-unoccupied-cube-next-to-caster"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": {
+          "description": "a gem-encrusted bowl worth 1,000+ GP, which the spell consumes",
+          "cost_cp": 100000,
+          "consumed": true
+        }
+      },
+      "ritual": false,
+      "concentration": false,
+      "duration": "instantaneous",
+      "duration_seconds": 0,
+      "scaling": {
+        "kind": "none",
+        "above_level": 0,
+        "dice_count": 0,
+        "die_sides": 0,
+        "effect_ids": []
+      },
+      "effects": [
+        {
+          "id": "feast",
+          "mechanic": "create.heroes-feast",
+          "timing": "immediate",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "resistance",
+          "mechanic": "resistance.heroes-feast-poison",
+          "timing": "for-24-hours-after-feast",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "immunity",
+          "mechanic": "immunity.heroes-feast-frightened-poisoned",
+          "timing": "for-24-hours-after-feast",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "hit-points",
+          "mechanic": "increase.heroes-feast-hit-point-maximum",
+          "timing": "for-24-hours-after-feast",
+          "dice_count": 2,
+          "die_sides": 10,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "create.heroes-feast",
+        "resistance.heroes-feast-poison",
+        "immunity.heroes-feast-frightened-poisoned",
+        "increase.heroes-feast-hit-point-maximum",
+        "cast.ten-minutes",
+        "components.material"
+      ],
+      "slot_levels": [
+        6,
+        7,
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 600,
+        "casting_triggers": [],
+        "end_timing": "instantaneous",
+        "heroes_feast": {
+          "location": "surface-in-unoccupied-cube-next-to-caster",
+          "cube_feet": 10,
+          "consume_hours": 1,
+          "feast_disappears": "at-end-of-consume-time",
+          "benefits_begin": "after-consume-hour-is-over",
+          "max_creatures": 12,
+          "benefit_hours": 24,
+          "damage_resistance": "poison",
+          "condition_immunities": [
+            "frightened",
+            "poisoned"
+          ],
+          "hit_point_maximum_dice_count": 2,
+          "hit_point_maximum_die_sides": 10,
+          "hit_points_gained": "same-number-as-maximum-increase"
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/heroism",
+      "name": "Heroism",
+      "source_id": "srd-5.2.1:content/spells/heroism",
+      "source_page": 140,
+      "scope": "complete-source-record",
+      "level": 1,
+      "school": "enchantment",
+      "lists": [
+        "bard",
+        "paladin"
+      ],
+      "casting_time": "action",
+      "range": {
+        "kind": "touch",
+        "feet": 0
+      },
+      "target": {
+        "shape": "single",
+        "count": 1,
+        "eligibility": "willing-creature-touch"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": null
+      },
+      "ritual": false,
+      "concentration": true,
+      "duration": "timed",
+      "duration_seconds": 60,
+      "scaling": {
+        "kind": "slot-targets",
+        "above_level": 1,
+        "dice_count": 0,
+        "die_sides": 0,
+        "effect_ids": [
+          "immunity",
+          "temporary-hit-points"
+        ]
+      },
+      "effects": [
+        {
+          "id": "immunity",
+          "mechanic": "immunity.heroism-frightened",
+          "timing": "for-duration",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "temporary-hit-points",
+          "mechanic": "temporary-hit-points.heroism",
+          "timing": "start-of-each-of-targets-turns",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": true,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "immunity.heroism-frightened",
+        "temporary-hit-points.heroism",
+        "scaling.targets-per-slot",
+        "concentration.source-duration"
+      ],
+      "slot_levels": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 0,
+        "casting_triggers": [],
+        "end_timing": "duration-or-concentration-ended",
+        "heroism": {
+          "target": "willing-creature-touched",
+          "condition_immunity": "frightened",
+          "temporary_hit_points": "spellcasting-ability-modifier",
+          "temporary_hit_points_timing": "start-of-each-of-its-turns",
+          "base_targets": 1,
+          "additional_targets_per_slot": 1
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/hex",
+      "name": "Hex",
+      "source_id": "srd-5.2.1:content/spells/hex",
+      "source_page": 140,
+      "scope": "complete-source-record",
+      "level": 1,
+      "school": "enchantment",
+      "lists": [
+        "warlock"
+      ],
+      "casting_time": "bonus-action",
+      "range": {
+        "kind": "feet",
+        "feet": 90
+      },
+      "target": {
+        "shape": "single",
+        "count": 1,
+        "eligibility": "visible-creature-in-range"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": {
+          "description": "the petrified eye of a newt",
+          "cost_cp": 0,
+          "consumed": false
+        }
+      },
+      "ritual": false,
+      "concentration": true,
+      "duration": "timed",
+      "duration_seconds": 3600,
+      "scaling": {
+        "kind": "slot-duration",
+        "above_level": 1,
+        "dice_count": 0,
+        "die_sides": 0,
+        "effect_ids": [
+          "damage",
+          "checks"
+        ]
+      },
+      "effects": [
+        {
+          "id": "damage",
+          "mechanic": "damage.hex-extra",
+          "timing": "whenever-caster-hits-target-with-attack-roll",
+          "dice_count": 1,
+          "die_sides": 6,
+          "damage_type": "necrotic",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "checks",
+          "mechanic": "disadvantage.hex-ability-checks",
+          "timing": "for-duration",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "damage.hex-extra",
+        "disadvantage.hex-ability-checks",
+        "retarget.hex-bonus-action",
+        "scaling.duration-by-slot",
+        "concentration.source-duration",
+        "components.material"
+      ],
+      "slot_levels": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 0,
+        "casting_triggers": [],
+        "end_timing": "duration-or-concentration-ended",
+        "hex": {
+          "target": "creature-visible-in-range",
+          "extra_damage_dice_count": 1,
+          "extra_damage_die_sides": 6,
+          "damage_type": "necrotic",
+          "damage_trigger": "whenever-caster-hits-target-with-attack-roll",
+          "ability_choice_timing": "when-spell-cast",
+          "ability_choice_count": 1,
+          "check_penalty": "disadvantage-on-ability-checks-with-chosen-ability",
+          "retarget_condition": "target-drops-to-0-hit-points-before-spell-ends",
+          "retarget_action": "bonus-action-on-later-turn",
+          "retarget_result": "curse-new-creature",
+          "slot_durations": [
+            {
+              "min_slot": 2,
+              "max_slot": 2,
+              "seconds": 14400
+            },
+            {
+              "min_slot": 3,
+              "max_slot": 4,
+              "seconds": 28800
+            },
+            {
+              "min_slot": 5,
+              "max_slot": 9,
+              "seconds": 86400
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/hideous-laughter",
+      "name": "Hideous Laughter",
+      "source_id": "srd-5.2.1:content/spells/hideous-laughter",
+      "source_page": 140,
+      "scope": "complete-source-record",
+      "level": 1,
+      "school": "enchantment",
+      "lists": [
+        "bard",
+        "warlock",
+        "wizard"
+      ],
+      "casting_time": "action",
+      "range": {
+        "kind": "feet",
+        "feet": 30
+      },
+      "target": {
+        "shape": "single",
+        "count": 1,
+        "eligibility": "visible-creature-in-range"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": {
+          "description": "a tart and a feather",
+          "cost_cp": 0,
+          "consumed": false
+        }
+      },
+      "ritual": false,
+      "concentration": true,
+      "duration": "timed",
+      "duration_seconds": 60,
+      "scaling": {
+        "kind": "slot-targets",
+        "above_level": 1,
+        "dice_count": 0,
+        "die_sides": 0,
+        "effect_ids": [
+          "conditions",
+          "repeat"
+        ]
+      },
+      "effects": [
+        {
+          "id": "conditions",
+          "mechanic": "condition.hideous-laughter-prone-incapacitated",
+          "timing": "on-failed-wisdom-save-for-duration",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "repeat",
+          "mechanic": "save.hideous-laughter-repeat",
+          "timing": "end-of-each-turn-and-each-time-damaged",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "condition.hideous-laughter-prone-incapacitated",
+        "save.hideous-laughter-repeat",
+        "scaling.targets-per-slot",
+        "concentration.source-duration",
+        "components.material"
+      ],
+      "slot_levels": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 0,
+        "casting_triggers": [],
+        "end_timing": "duration-concentration-or-successful-save",
+        "hideous_laughter": {
+          "target": "one-creature-of-choice-visible-in-range",
+          "save": "wisdom",
+          "failure_conditions": [
+            "prone",
+            "incapacitated"
+          ],
+          "laughter": "laughs-uncontrollably-if-capable-of-laughter",
+          "prone_restriction": "cannot-end-prone-condition-on-itself",
+          "repeat_triggers": [
+            "end-of-each-of-its-turns",
+            "each-time-it-takes-damage"
+          ],
+          "damage_save": "advantage-if-triggered-by-damage",
+          "repeat_success": "spell-ends",
+          "base_targets": 1,
+          "additional_targets_per_slot": 1
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/hold-monster",
+      "name": "Hold Monster",
+      "source_id": "srd-5.2.1:content/spells/hold-monster",
+      "source_page": 140,
+      "scope": "complete-source-record",
+      "level": 5,
+      "school": "enchantment",
+      "lists": [
+        "bard",
+        "sorcerer",
+        "warlock",
+        "wizard"
+      ],
+      "casting_time": "action",
+      "range": {
+        "kind": "feet",
+        "feet": 90
+      },
+      "target": {
+        "shape": "single",
+        "count": 1,
+        "eligibility": "visible-creature-in-range"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": {
+          "description": "a straight piece of iron",
+          "cost_cp": 0,
+          "consumed": false
+        }
+      },
+      "ritual": false,
+      "concentration": true,
+      "duration": "timed",
+      "duration_seconds": 60,
+      "scaling": {
+        "kind": "slot-targets",
+        "above_level": 5,
+        "dice_count": 0,
+        "die_sides": 0,
+        "effect_ids": [
+          "paralyzed",
+          "repeat"
+        ]
+      },
+      "effects": [
+        {
+          "id": "paralyzed",
+          "mechanic": "condition.hold-monster-paralyzed",
+          "timing": "on-failed-wisdom-save-for-duration",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "repeat",
+          "mechanic": "save.hold-monster-repeat",
+          "timing": "end-of-each-of-targets-turns",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "condition.hold-monster-paralyzed",
+        "save.hold-monster-repeat",
+        "scaling.targets-per-slot",
+        "concentration.source-duration",
+        "components.material"
+      ],
+      "slot_levels": [
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 0,
+        "casting_triggers": [],
+        "end_timing": "duration-or-concentration-ended",
+        "hold_monster": {
+          "source_pages": [
+            140,
+            141
+          ],
+          "target": "creature-visible-in-range",
+          "save": "wisdom",
+          "failure_condition": "paralyzed",
+          "repeat_timing": "end-of-each-of-its-turns",
+          "repeat_success": "spell-ends-on-target",
+          "base_targets": 1,
+          "additional_targets_per_slot": 1
+        }
+      }
+    }
+  ]
+}

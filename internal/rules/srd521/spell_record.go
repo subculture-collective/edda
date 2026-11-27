@@ -86,9 +86,10 @@ type SpellMaterial struct {
 	Consumed    *bool  `json:"consumed"`
 }
 
-// SpellScaling identifies per-slot dice additions or references a typed ray
-// or bolt count increment, or a typed radius increment, in SourceDetails. Kind slot-effect-dice references the
-// per-effect dice rows in SourceDetails.Hand.SlotDice.
+// SpellScaling identifies per-slot dice additions or references a typed ray,
+// bolt or dart count increment, or a typed radius increment, in SourceDetails.
+// Kind slot-effect-dice references the per-effect dice rows in
+// SourceDetails.Hand.SlotDice.
 // Bounded fixtures use none; their higher-slot catalogue data belongs elsewhere.
 type SpellScaling struct {
 	Kind       string   `json:"kind"`
@@ -173,7 +174,7 @@ func (s SpellRecord) validate() error {
 			return fmt.Errorf("invalid spell list")
 		}
 	}
-	if !slices.Contains([]string{"action", "bonus-action", "reaction", "1-minute", "10-minutes", "1-hour", "8-hours", "24-hours"}, s.CastingTime) || !slices.Contains([]string{"feet", "touch", "self", "unlimited", "special"}, s.Range.Kind) || s.Range.Feet < 0 || (s.Range.Kind == "feet" && s.Range.Feet == 0) || (s.Range.Kind != "feet" && s.Range.Feet != 0) || !validSpellTarget(s.Target) {
+	if !slices.Contains([]string{"action", "bonus-action", "reaction", "1-minute", "10-minutes", "1-hour", "8-hours", "24-hours"}, s.CastingTime) || !slices.Contains([]string{"feet", "touch", "self", "unlimited", "special", "sight"}, s.Range.Kind) || s.Range.Feet < 0 || (s.Range.Kind == "feet" && s.Range.Feet == 0) || (s.Range.Kind != "feet" && s.Range.Feet != 0) || !validSpellTarget(s.Target) {
 		return fmt.Errorf("invalid casting, range or target shape")
 	}
 	if s.Components.Verbal == nil || s.Components.Somatic == nil || s.Ritual == nil || s.Concentration == nil {
@@ -243,6 +244,14 @@ func (s SpellRecord) validate() error {
 		if !s.validSpell208Scaling(effects) {
 			return fmt.Errorf("invalid typed batch 208 scaling")
 		}
+	case "slot-bonus-table", "slot-until-dispelled":
+		if !s.validSpell212Scaling(effects) {
+			return fmt.Errorf("invalid typed batch 212 scaling")
+		}
+	case "slot-memory-window":
+		if !s.validSpell214Scaling(effects) {
+			return fmt.Errorf("invalid typed batch 214 scaling")
+		}
 	case "none":
 		if sc.AboveLevel != 0 || sc.DiceCount != 0 || sc.DieSides != 0 || len(sc.EffectIDs) != 0 {
 			return fmt.Errorf("unexpected scaling payload")
@@ -266,6 +275,14 @@ func (s SpellRecord) validate() error {
 				base, additional = b, a
 			} else if b, a, ok := spell207TargetScaling(d); ok {
 				base, additional = b, a
+			} else if b, a, ok := spell209TargetScaling(d); ok {
+				base, additional = b, a
+			} else if b, a, ok := spell210TargetScaling(d); ok {
+				base, additional = b, a
+			} else if b, a, ok := spell211TargetScaling(d); ok {
+				base, additional = b, a
+			} else if b, a, ok := spell212TargetScaling(d); ok {
+				base, additional = b, a
 			} else if d.Fly != nil {
 				base, additional = d.Fly.BaseTargets, d.Fly.AdditionalTargetsPerSlot
 			} else if d.Command != nil {
@@ -285,7 +302,8 @@ func (s SpellRecord) validate() error {
 		messenger := d.Messenger != nil && d.Messenger.AdditionalDurationSecondsPerSlot > 0 && slices.Contains(s.RequiredMechanics, "scaling.duration-per-slot")
 		dominate := d.Dominate != nil && len(d.Dominate.SlotDurations) == 3 && slices.Contains(s.RequiredMechanics, "scaling.duration-by-slot")
 		geas := d.Geas != nil && slices.Contains(s.RequiredMechanics, "scaling.geas-slot-duration")
-		if sc.Kind == "slot-duration" && !curse && !messenger && !dominate && !geas {
+		tabled := spell209DurationScaling(d, s.RequiredMechanics) || spell210DurationScaling(d, s.RequiredMechanics) || spell212DurationScaling(d, s.RequiredMechanics) || spell213DurationScaling(d, s.RequiredMechanics)
+		if sc.Kind == "slot-duration" && !curse && !messenger && !dominate && !geas && !tabled {
 			return fmt.Errorf("duration scaling requires typed slot table or increment")
 		}
 		for _, id := range sc.EffectIDs {
@@ -317,6 +335,8 @@ func (s SpellRecord) validate() error {
 			additional, mechanic = d.Rays.AdditionalPerSlot, "scaling.per-slot-ray"
 		} else if d != nil && d.Chain != nil {
 			additional, mechanic = d.Chain.AdditionalBoltsPerSlot, "scaling.per-slot-bolt"
+		} else if d != nil && d.MagicMissile != nil {
+			additional, mechanic = d.MagicMissile.AdditionalDartsPerSlot, "scaling.per-slot-dart"
 		}
 		if sc.AboveLevel != s.Level || sc.DiceCount != 0 || sc.DieSides != 0 || additional <= 0 || len(sc.EffectIDs) != 1 || !effects[sc.EffectIDs[0]] || !slices.Contains(s.RequiredMechanics, mechanic) {
 			return fmt.Errorf("invalid ray or bolt scaling")

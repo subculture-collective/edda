@@ -1,0 +1,1333 @@
+{
+  "schema_version": 1,
+  "source": {
+    "version": "5.2.1",
+    "language": "en",
+    "landing_url": "https://www.dndbeyond.com/srd",
+    "artifact_url": "https://media.dndbeyond.com/compendium-images/srd/5.2/SRD_CC_v5.2.1.pdf",
+    "sha256": "8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87",
+    "bytes": 6031375,
+    "pages": 364,
+    "retrieved_at": "2026-11-15",
+    "license": "CC-BY-4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/legalcode",
+    "attribution": "This work includes material from the System Reference Document 5.2.1 (“SRD 5.2.1”) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd. The SRD 5.2.1 is licensed under the Creative Commons Attribution 4.0 International License, available at https://creativecommons.org/licenses/by/4.0/legalcode.",
+    "changes": "SRD 5.2.1 PDF pp.141-143 adapted into twelve complete offline spell families for issue #210, including page-break continuation text for Ice Storm (pp.141-142) and Incendiary Cloud (pp.142-143). No executable effects or availability grants."
+  },
+  "records": [
+    {
+      "id": "srd-5.2.1:content/spells/hold-person",
+      "name": "Hold Person",
+      "source_id": "srd-5.2.1:content/spells/hold-person",
+      "source_page": 141,
+      "scope": "complete-source-record",
+      "level": 2,
+      "school": "enchantment",
+      "lists": [
+        "bard",
+        "cleric",
+        "druid",
+        "sorcerer",
+        "warlock",
+        "wizard"
+      ],
+      "casting_time": "action",
+      "range": {
+        "kind": "feet",
+        "feet": 60
+      },
+      "target": {
+        "shape": "single",
+        "count": 1,
+        "eligibility": "visible-humanoid-in-range"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": {
+          "description": "a straight piece of iron",
+          "cost_cp": 0,
+          "consumed": false
+        }
+      },
+      "ritual": false,
+      "concentration": true,
+      "duration": "timed",
+      "duration_seconds": 60,
+      "scaling": {
+        "kind": "slot-targets",
+        "above_level": 2,
+        "dice_count": 0,
+        "die_sides": 0,
+        "effect_ids": [
+          "paralyzed",
+          "repeat"
+        ]
+      },
+      "effects": [
+        {
+          "id": "paralyzed",
+          "mechanic": "condition.hold-person-paralyzed",
+          "timing": "on-failed-wisdom-save-for-duration",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "repeat",
+          "mechanic": "save.hold-person-repeat",
+          "timing": "end-of-each-of-targets-turns",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "condition.hold-person-paralyzed",
+        "save.hold-person-repeat",
+        "scaling.targets-per-slot",
+        "concentration.source-duration",
+        "components.material"
+      ],
+      "slot_levels": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 0,
+        "casting_triggers": [],
+        "end_timing": "duration-or-concentration-ended",
+        "hold_person": {
+          "target": "humanoid-visible-in-range",
+          "save": "wisdom",
+          "failure_condition": "paralyzed",
+          "repeat_timing": "end-of-each-of-its-turns",
+          "repeat_success": "spell-ends-on-target",
+          "base_targets": 1,
+          "additional_targets_per_slot": 1,
+          "additional_target_type": "humanoid"
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/holy-aura",
+      "name": "Holy Aura",
+      "source_id": "srd-5.2.1:content/spells/holy-aura",
+      "source_page": 141,
+      "scope": "complete-source-record",
+      "level": 8,
+      "school": "abjuration",
+      "lists": [
+        "cleric"
+      ],
+      "casting_time": "action",
+      "range": {
+        "kind": "self",
+        "feet": 0
+      },
+      "target": {
+        "shape": "emanation",
+        "count": 0,
+        "eligibility": "chosen-creatures-in-aura"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": {
+          "description": "a reliquary worth 1,000+ GP",
+          "cost_cp": 100000,
+          "consumed": false
+        }
+      },
+      "ritual": false,
+      "concentration": true,
+      "duration": "timed",
+      "duration_seconds": 60,
+      "scaling": {
+        "kind": "none",
+        "above_level": 0,
+        "dice_count": 0,
+        "die_sides": 0,
+        "effect_ids": []
+      },
+      "effects": [
+        {
+          "id": "saves",
+          "mechanic": "advantage.holy-aura-saving-throws",
+          "timing": "while-in-aura",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "attacks",
+          "mechanic": "disadvantage.holy-aura-attacks-against",
+          "timing": "while-in-aura",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "blinding",
+          "mechanic": "condition.holy-aura-blinded",
+          "timing": "when-fiend-or-undead-melee-hits-affected-creature",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "advantage.holy-aura-saving-throws",
+        "disadvantage.holy-aura-attacks-against",
+        "condition.holy-aura-blinded",
+        "save.constitution-negates",
+        "concentration.source-duration",
+        "components.material"
+      ],
+      "slot_levels": [
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 0,
+        "casting_triggers": [],
+        "end_timing": "duration-or-concentration-ended",
+        "holy_aura": {
+          "emanation_feet": 30,
+          "beneficiaries": "creatures-of-casters-choice-while-in-aura",
+          "save_benefit": "advantage-on-all-saving-throws",
+          "attack_penalty": "other-creatures-have-disadvantage-on-attack-rolls-against-them",
+          "retaliation_types": [
+            "fiend",
+            "undead"
+          ],
+          "retaliation_trigger": "hits-affected-creature-with-melee-attack-roll",
+          "retaliation_save": "constitution",
+          "retaliation_condition": "blinded",
+          "retaliation_duration": "until-end-of-attackers-next-turn"
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/hunters-mark",
+      "name": "Hunter’s Mark",
+      "source_id": "srd-5.2.1:content/spells/hunters-mark",
+      "source_page": 141,
+      "scope": "complete-source-record",
+      "level": 1,
+      "school": "divination",
+      "lists": [
+        "ranger"
+      ],
+      "casting_time": "bonus-action",
+      "range": {
+        "kind": "feet",
+        "feet": 90
+      },
+      "target": {
+        "shape": "single",
+        "count": 1,
+        "eligibility": "visible-creature-in-range"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": false,
+        "material": null
+      },
+      "ritual": false,
+      "concentration": true,
+      "duration": "timed",
+      "duration_seconds": 3600,
+      "scaling": {
+        "kind": "slot-duration",
+        "above_level": 1,
+        "dice_count": 0,
+        "die_sides": 0,
+        "effect_ids": [
+          "damage",
+          "tracking"
+        ]
+      },
+      "effects": [
+        {
+          "id": "damage",
+          "mechanic": "damage.hunters-mark-extra",
+          "timing": "whenever-caster-hits-target-with-attack-roll",
+          "dice_count": 1,
+          "die_sides": 6,
+          "damage_type": "force",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "tracking",
+          "mechanic": "advantage.hunters-mark-find",
+          "timing": "for-duration",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "damage.hunters-mark-extra",
+        "advantage.hunters-mark-find",
+        "retarget.hunters-mark-bonus-action",
+        "scaling.duration-by-slot",
+        "concentration.source-duration"
+      ],
+      "slot_levels": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 0,
+        "casting_triggers": [],
+        "end_timing": "duration-or-concentration-ended",
+        "hunters_mark": {
+          "quarry": "one-creature-visible-in-range",
+          "extra_damage_dice_count": 1,
+          "extra_damage_die_sides": 6,
+          "damage_type": "force",
+          "damage_trigger": "whenever-caster-hits-target-with-attack-roll",
+          "find_checks": [
+            "wisdom-perception",
+            "wisdom-survival"
+          ],
+          "find_benefit": "advantage-on-checks-to-find-target",
+          "retarget_condition": "target-drops-to-0-hit-points-before-spell-ends",
+          "retarget_action": "bonus-action",
+          "retarget_result": "move-mark-to-new-creature-visible-in-range",
+          "slot_durations": [
+            {
+              "min_slot": 3,
+              "max_slot": 4,
+              "seconds": 28800
+            },
+            {
+              "min_slot": 5,
+              "max_slot": 9,
+              "seconds": 86400
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/hypnotic-pattern",
+      "name": "Hypnotic Pattern",
+      "source_id": "srd-5.2.1:content/spells/hypnotic-pattern",
+      "source_page": 141,
+      "scope": "complete-source-record",
+      "level": 3,
+      "school": "illusion",
+      "lists": [
+        "bard",
+        "sorcerer",
+        "warlock",
+        "wizard"
+      ],
+      "casting_time": "action",
+      "range": {
+        "kind": "feet",
+        "feet": 120
+      },
+      "target": {
+        "shape": "cube",
+        "count": 0,
+        "eligibility": "creatures-seeing-pattern-in-cube"
+      },
+      "components": {
+        "verbal": false,
+        "somatic": true,
+        "material": {
+          "description": "a pinch of confetti",
+          "cost_cp": 0,
+          "consumed": false
+        }
+      },
+      "ritual": false,
+      "concentration": true,
+      "duration": "timed",
+      "duration_seconds": 60,
+      "scaling": {
+        "kind": "none",
+        "above_level": 0,
+        "dice_count": 0,
+        "die_sides": 0,
+        "effect_ids": []
+      },
+      "effects": [
+        {
+          "id": "charm",
+          "mechanic": "condition.hypnotic-pattern-charmed",
+          "timing": "on-failed-wisdom-save-for-duration",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "condition.hypnotic-pattern-charmed",
+        "ending.hypnotic-pattern-damage-or-shake",
+        "concentration.source-duration",
+        "components.material"
+      ],
+      "slot_levels": [
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 0,
+        "casting_triggers": [],
+        "end_timing": "duration-or-concentration-ended",
+        "hypnotic_pattern": {
+          "cube_feet": 30,
+          "pattern": "twisting-pattern-of-colors-appears-for-a-moment-and-vanishes",
+          "affected": "each-creature-in-area-that-can-see-pattern",
+          "save": "wisdom",
+          "failure_condition": "charmed",
+          "charmed_condition": "incapacitated",
+          "charmed_speed_feet": 0,
+          "ends_for_creature": [
+            "takes-any-damage",
+            "someone-else-uses-action-to-shake-it-out-of-stupor"
+          ]
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/ice-knife",
+      "name": "Ice Knife",
+      "source_id": "srd-5.2.1:content/spells/ice-knife",
+      "source_page": 141,
+      "scope": "complete-source-record",
+      "level": 1,
+      "school": "conjuration",
+      "lists": [
+        "druid",
+        "sorcerer",
+        "wizard"
+      ],
+      "casting_time": "action",
+      "range": {
+        "kind": "feet",
+        "feet": 60
+      },
+      "target": {
+        "shape": "single",
+        "count": 1,
+        "eligibility": "creature-in-range"
+      },
+      "components": {
+        "verbal": false,
+        "somatic": true,
+        "material": {
+          "description": "a drop of water or a piece of ice",
+          "cost_cp": 0,
+          "consumed": false
+        }
+      },
+      "ritual": false,
+      "concentration": false,
+      "duration": "instantaneous",
+      "duration_seconds": 0,
+      "scaling": {
+        "kind": "slot",
+        "above_level": 1,
+        "dice_count": 1,
+        "die_sides": 6,
+        "effect_ids": [
+          "cold"
+        ]
+      },
+      "effects": [
+        {
+          "id": "attack",
+          "mechanic": "attack.ice-knife-ranged-spell",
+          "timing": "immediate",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "piercing",
+          "mechanic": "damage.ice-knife-piercing",
+          "timing": "on-hit",
+          "dice_count": 1,
+          "die_sides": 10,
+          "damage_type": "piercing",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "cold",
+          "mechanic": "damage.ice-knife-cold",
+          "timing": "explosion-on-hit-or-miss",
+          "dice_count": 2,
+          "die_sides": 6,
+          "damage_type": "cold",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "attack.ice-knife-ranged-spell",
+        "damage.ice-knife-piercing",
+        "damage.ice-knife-cold",
+        "save.dexterity-negates",
+        "scaling.per-slot",
+        "components.material"
+      ],
+      "slot_levels": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 0,
+        "casting_triggers": [],
+        "end_timing": "instantaneous",
+        "ice_knife": {
+          "attack": "ranged-spell-attack",
+          "piercing_dice_count": 1,
+          "piercing_die_sides": 10,
+          "explosion_timing": "hit-or-miss",
+          "explosion_targets": "target-and-each-creature-within-radius",
+          "explosion_radius_feet": 5,
+          "save": "dexterity",
+          "cold_dice_count": 2,
+          "cold_die_sides": 6,
+          "save_success": "no-cold-damage",
+          "slot_cold_dice_count": 1,
+          "slot_cold_die_sides": 6
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/ice-storm",
+      "name": "Ice Storm",
+      "source_id": "srd-5.2.1:content/spells/ice-storm",
+      "source_page": 141,
+      "scope": "complete-source-record",
+      "level": 4,
+      "school": "evocation",
+      "lists": [
+        "druid",
+        "sorcerer",
+        "wizard"
+      ],
+      "casting_time": "action",
+      "range": {
+        "kind": "feet",
+        "feet": 300
+      },
+      "target": {
+        "shape": "cylinder",
+        "count": 0,
+        "eligibility": "creatures-in-cylinder-centered-in-range"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": {
+          "description": "a mitten",
+          "cost_cp": 0,
+          "consumed": false
+        }
+      },
+      "ritual": false,
+      "concentration": false,
+      "duration": "instantaneous",
+      "duration_seconds": 0,
+      "scaling": {
+        "kind": "slot",
+        "above_level": 4,
+        "dice_count": 1,
+        "die_sides": 10,
+        "effect_ids": [
+          "bludgeoning"
+        ]
+      },
+      "effects": [
+        {
+          "id": "bludgeoning",
+          "mechanic": "damage.ice-storm-bludgeoning",
+          "timing": "immediate",
+          "dice_count": 2,
+          "die_sides": 10,
+          "damage_type": "bludgeoning",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "cold",
+          "mechanic": "damage.ice-storm-cold",
+          "timing": "immediate",
+          "dice_count": 4,
+          "die_sides": 6,
+          "damage_type": "cold",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "terrain",
+          "mechanic": "terrain.ice-storm-difficult",
+          "timing": "until-end-of-casters-next-turn",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "damage.ice-storm-bludgeoning",
+        "damage.ice-storm-cold",
+        "terrain.ice-storm-difficult",
+        "save.dexterity-half",
+        "scaling.per-slot",
+        "components.material"
+      ],
+      "slot_levels": [
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 0,
+        "casting_triggers": [],
+        "end_timing": "instantaneous",
+        "ice_storm": {
+          "source_pages": [
+            141,
+            142
+          ],
+          "cylinder_radius_feet": 20,
+          "cylinder_height_feet": 40,
+          "center": "point-within-range",
+          "save": "dexterity",
+          "bludgeoning_dice_count": 2,
+          "bludgeoning_die_sides": 10,
+          "cold_dice_count": 4,
+          "cold_die_sides": 6,
+          "save_success": "half-damage",
+          "ground": "difficult-terrain",
+          "ground_duration": "until-end-of-casters-next-turn",
+          "slot_bludgeoning_dice_count": 1,
+          "slot_bludgeoning_die_sides": 10
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/identify",
+      "name": "Identify",
+      "source_id": "srd-5.2.1:content/spells/identify",
+      "source_page": 142,
+      "scope": "complete-source-record",
+      "level": 1,
+      "school": "divination",
+      "lists": [
+        "bard",
+        "wizard"
+      ],
+      "casting_time": "1-minute",
+      "range": {
+        "kind": "touch",
+        "feet": 0
+      },
+      "target": {
+        "shape": "choice",
+        "count": 1,
+        "eligibility": "object-or-creature-touched-throughout-casting"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": {
+          "description": "a pearl worth 100+ GP",
+          "cost_cp": 10000,
+          "consumed": false
+        }
+      },
+      "ritual": true,
+      "concentration": false,
+      "duration": "instantaneous",
+      "duration_seconds": 0,
+      "scaling": {
+        "kind": "none",
+        "above_level": 0,
+        "dice_count": 0,
+        "die_sides": 0,
+        "effect_ids": []
+      },
+      "effects": [
+        {
+          "id": "identify",
+          "mechanic": "knowledge.identify",
+          "timing": "immediate",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "knowledge.identify",
+        "cast.one-minute",
+        "cast.ritual",
+        "components.material"
+      ],
+      "slot_levels": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 60,
+        "casting_triggers": [],
+        "end_timing": "instantaneous",
+        "identify": {
+          "touch": "throughout-casting",
+          "object_eligibility": "magic-item-or-some-other-magical-object",
+          "object_reveals": [
+            "properties",
+            "how-to-use-them",
+            "whether-it-requires-attunement",
+            "number-of-charges-if-any",
+            "ongoing-spells-affecting-item-and-what-they-are",
+            "name-of-spell-that-created-item"
+          ],
+          "creature_reveals": "ongoing-spells-currently-affecting-creature"
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/illusory-script",
+      "name": "Illusory Script",
+      "source_id": "srd-5.2.1:content/spells/illusory-script",
+      "source_page": 142,
+      "scope": "complete-source-record",
+      "level": 1,
+      "school": "illusion",
+      "lists": [
+        "bard",
+        "warlock",
+        "wizard"
+      ],
+      "casting_time": "1-minute",
+      "range": {
+        "kind": "touch",
+        "feet": 0
+      },
+      "target": {
+        "shape": "single",
+        "count": 1,
+        "eligibility": "writing-material-touched"
+      },
+      "components": {
+        "verbal": false,
+        "somatic": true,
+        "material": {
+          "description": "ink worth 10+ GP, which the spell consumes",
+          "cost_cp": 1000,
+          "consumed": true
+        }
+      },
+      "ritual": true,
+      "concentration": false,
+      "duration": "timed",
+      "duration_seconds": 864000,
+      "scaling": {
+        "kind": "none",
+        "above_level": 0,
+        "dice_count": 0,
+        "die_sides": 0,
+        "effect_ids": []
+      },
+      "effects": [
+        {
+          "id": "script",
+          "mechanic": "illusion.illusory-script",
+          "timing": "for-duration",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "illusion.illusory-script",
+        "perception.illusory-script-truesight",
+        "cast.one-minute",
+        "cast.ritual",
+        "components.material"
+      ],
+      "slot_levels": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 60,
+        "casting_triggers": [],
+        "end_timing": "duration-ended-or-dispelled",
+        "illusory_script": {
+          "materials": [
+            "parchment",
+            "paper",
+            "another-suitable-material"
+          ],
+          "designated_readers": "caster-and-creatures-designated-when-cast",
+          "designated_view": [
+            "writing-appears-normal",
+            "seems-written-in-casters-hand",
+            "conveys-meaning-intended-when-written"
+          ],
+          "others_view": "unknown-or-magical-script-that-is-unintelligible",
+          "alternative_alters": [
+            "meaning",
+            "handwriting",
+            "language"
+          ],
+          "alternative_language": "must-be-one-caster-knows",
+          "dispelled": "original-script-and-illusion-both-disappear",
+          "truesight": "can-read-hidden-message"
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/imprisonment",
+      "name": "Imprisonment",
+      "source_id": "srd-5.2.1:content/spells/imprisonment",
+      "source_page": 142,
+      "scope": "complete-source-record",
+      "level": 9,
+      "school": "abjuration",
+      "lists": [
+        "warlock",
+        "wizard"
+      ],
+      "casting_time": "1-minute",
+      "range": {
+        "kind": "feet",
+        "feet": 30
+      },
+      "target": {
+        "shape": "single",
+        "count": 1,
+        "eligibility": "visible-creature-in-range"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": {
+          "description": "a statuette of the target worth 5,000+ GP",
+          "cost_cp": 500000,
+          "consumed": false
+        }
+      },
+      "ritual": false,
+      "concentration": false,
+      "duration": "until-dispelled",
+      "duration_seconds": 0,
+      "scaling": {
+        "kind": "none",
+        "above_level": 0,
+        "dice_count": 0,
+        "die_sides": 0,
+        "effect_ids": []
+      },
+      "effects": [
+        {
+          "id": "restraint",
+          "mechanic": "restraint.imprisonment",
+          "timing": "on-failed-wisdom-save-until-dispelled",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "restraint.imprisonment",
+        "save.wisdom-negates",
+        "choice.imprisonment-effect",
+        "ending.imprisonment-trigger",
+        "dispel.imprisonment-level-9-only",
+        "cast.one-minute",
+        "components.material"
+      ],
+      "slot_levels": [
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 60,
+        "casting_triggers": [],
+        "end_timing": "dispelled-or-specified-trigger",
+        "imprisonment": {
+          "save": "wisdom",
+          "save_success": "unaffected-and-immune-to-this-spell",
+          "success_immunity_hours": 24,
+          "unneeded": [
+            "breathe",
+            "eat",
+            "drink"
+          ],
+          "ages": false,
+          "divination": "divination-spells-cannot-locate-or-perceive-target",
+          "teleport": "target-cannot-teleport",
+          "effect_choice_count": 1,
+          "effects": [
+            {
+              "name": "burial",
+              "rules": [
+                "entombed-beneath-earth",
+                "hollow-globe-of-magical-force-just-large-enough-to-contain-target",
+                "nothing-can-pass-into-or-out-of-globe"
+              ]
+            },
+            {
+              "name": "chaining",
+              "rules": [
+                "chains-firmly-rooted-in-ground-hold-target",
+                "restrained-condition",
+                "cannot-be-moved-by-any-means"
+              ]
+            },
+            {
+              "name": "hedged-prison",
+              "rules": [
+                "trapped-in-demiplane",
+                "demiplane-warded-against-teleportation-and-planar-travel",
+                "caster-chooses-labyrinth-cage-tower-or-the-like"
+              ]
+            },
+            {
+              "name": "minimus-containment",
+              "rules": [
+                "target-becomes-1-inch-tall",
+                "trapped-in-indestructible-gemstone-or-similar-object",
+                "light-passes-through-gemstone-both-ways",
+                "nothing-else-passes-through-by-any-means"
+              ]
+            },
+            {
+              "name": "slumber",
+              "rules": [
+                "unconscious-condition",
+                "cannot-be-awoken"
+              ]
+            }
+          ],
+          "minimus_height_inches": 1,
+          "trigger_specified": "when-spell-cast",
+          "trigger_complexity": "as-simple-or-as-elaborate-as-caster-chooses",
+          "trigger_agreement": "gm-agrees-high-likelihood-of-happening-within-window",
+          "trigger_window_years": 10,
+          "trigger_requirement": "observable-action",
+          "trigger_examples": [
+            "particular-offering-at-temple-of-casters-god",
+            "saving-casters-true-love",
+            "defeating-specific-monster"
+          ],
+          "dispel_magic_slot_level": 9,
+          "dispel_magic_targets": [
+            "prison",
+            "component-used-to-create-it"
+          ]
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/incendiary-cloud",
+      "name": "Incendiary Cloud",
+      "source_id": "srd-5.2.1:content/spells/incendiary-cloud",
+      "source_page": 142,
+      "scope": "complete-source-record",
+      "level": 8,
+      "school": "conjuration",
+      "lists": [
+        "druid",
+        "sorcerer",
+        "wizard"
+      ],
+      "casting_time": "action",
+      "range": {
+        "kind": "feet",
+        "feet": 150
+      },
+      "target": {
+        "shape": "sphere",
+        "count": 0,
+        "eligibility": "creatures-in-sphere"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": null
+      },
+      "ritual": false,
+      "concentration": true,
+      "duration": "timed",
+      "duration_seconds": 60,
+      "scaling": {
+        "kind": "none",
+        "above_level": 0,
+        "dice_count": 0,
+        "die_sides": 0,
+        "effect_ids": []
+      },
+      "effects": [
+        {
+          "id": "cloud",
+          "mechanic": "obscurement.incendiary-cloud",
+          "timing": "for-duration",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "damage",
+          "mechanic": "damage.incendiary-cloud",
+          "timing": "appear-moves-into-enter-or-end-turn",
+          "dice_count": 10,
+          "die_sides": 8,
+          "damage_type": "fire",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "drift",
+          "mechanic": "movement.incendiary-cloud-drift",
+          "timing": "start-of-each-of-casters-turns",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "obscurement.incendiary-cloud",
+        "damage.incendiary-cloud",
+        "movement.incendiary-cloud-drift",
+        "save.dexterity-half",
+        "ending.incendiary-cloud-strong-wind",
+        "concentration.source-duration"
+      ],
+      "slot_levels": [
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 0,
+        "casting_triggers": [],
+        "end_timing": "duration-concentration-or-strong-wind",
+        "incendiary_cloud": {
+          "source_pages": [
+            142,
+            143
+          ],
+          "sphere_radius_feet": 20,
+          "contents": [
+            "embers",
+            "smoke"
+          ],
+          "center": "point-within-range",
+          "obscurement": "heavily-obscured",
+          "dispersed_by": "strong-wind",
+          "wind_example": "gust-of-wind",
+          "save": "dexterity",
+          "damage_dice_count": 10,
+          "damage_die_sides": 8,
+          "damage_type": "fire",
+          "save_success": "half-damage",
+          "save_triggers": [
+            "cloud-appears-with-creature-in-it",
+            "sphere-moves-into-creature-space",
+            "creature-enters-sphere",
+            "creature-ends-turn-in-sphere"
+          ],
+          "saves_per_turn": 1,
+          "drift_feet": 10,
+          "drift_direction": "away-from-caster-in-chosen-direction",
+          "drift_timing": "start-of-each-of-casters-turns"
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/inflict-wounds",
+      "name": "Inflict Wounds",
+      "source_id": "srd-5.2.1:content/spells/inflict-wounds",
+      "source_page": 143,
+      "scope": "complete-source-record",
+      "level": 1,
+      "school": "necromancy",
+      "lists": [
+        "cleric"
+      ],
+      "casting_time": "action",
+      "range": {
+        "kind": "touch",
+        "feet": 0
+      },
+      "target": {
+        "shape": "single",
+        "count": 1,
+        "eligibility": "creature-touch"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": null
+      },
+      "ritual": false,
+      "concentration": false,
+      "duration": "instantaneous",
+      "duration_seconds": 0,
+      "scaling": {
+        "kind": "slot",
+        "above_level": 1,
+        "dice_count": 1,
+        "die_sides": 10,
+        "effect_ids": [
+          "damage"
+        ]
+      },
+      "effects": [
+        {
+          "id": "damage",
+          "mechanic": "damage.inflict-wounds",
+          "timing": "immediate",
+          "dice_count": 2,
+          "die_sides": 10,
+          "damage_type": "necrotic",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "damage.inflict-wounds",
+        "save.constitution-half",
+        "scaling.per-slot"
+      ],
+      "slot_levels": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 0,
+        "casting_triggers": [],
+        "end_timing": "instantaneous",
+        "inflict_wounds": {
+          "target": "creature-touched",
+          "save": "constitution",
+          "damage_dice_count": 2,
+          "damage_die_sides": 10,
+          "damage_type": "necrotic",
+          "save_success": "half-damage",
+          "slot_dice_count": 1,
+          "slot_die_sides": 10
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/insect-plague",
+      "name": "Insect Plague",
+      "source_id": "srd-5.2.1:content/spells/insect-plague",
+      "source_page": 143,
+      "scope": "complete-source-record",
+      "level": 5,
+      "school": "conjuration",
+      "lists": [
+        "cleric",
+        "druid",
+        "sorcerer"
+      ],
+      "casting_time": "action",
+      "range": {
+        "kind": "feet",
+        "feet": 300
+      },
+      "target": {
+        "shape": "sphere",
+        "count": 0,
+        "eligibility": "creatures-in-sphere"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": {
+          "description": "a locust",
+          "cost_cp": 0,
+          "consumed": false
+        }
+      },
+      "ritual": false,
+      "concentration": true,
+      "duration": "timed",
+      "duration_seconds": 600,
+      "scaling": {
+        "kind": "slot",
+        "above_level": 5,
+        "dice_count": 1,
+        "die_sides": 10,
+        "effect_ids": [
+          "damage"
+        ]
+      },
+      "effects": [
+        {
+          "id": "swarm",
+          "mechanic": "terrain.insect-plague-obscured-difficult",
+          "timing": "for-duration",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "damage",
+          "mechanic": "damage.insect-plague",
+          "timing": "appear-first-entry-or-end-turn",
+          "dice_count": 4,
+          "die_sides": 10,
+          "damage_type": "piercing",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "terrain.insect-plague-obscured-difficult",
+        "damage.insect-plague",
+        "save.constitution-half",
+        "scaling.per-slot",
+        "concentration.source-duration",
+        "components.material"
+      ],
+      "slot_levels": [
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 0,
+        "casting_triggers": [],
+        "end_timing": "duration-or-concentration-ended",
+        "insect_plague": {
+          "sphere_radius_feet": 20,
+          "contents": "swarming-locusts",
+          "center": "point-chosen-within-range",
+          "obscurement": "lightly-obscured",
+          "terrain": "difficult-terrain",
+          "save": "constitution",
+          "damage_dice_count": 4,
+          "damage_die_sides": 10,
+          "damage_type": "piercing",
+          "save_success": "half-damage",
+          "save_triggers": [
+            "swarm-appears-with-creature-in-it",
+            "creature-enters-area-first-time-on-turn",
+            "creature-ends-turn-in-area"
+          ],
+          "saves_per_turn": 1,
+          "slot_dice_count": 1,
+          "slot_die_sides": 10
+        }
+      }
+    }
+  ]
+}

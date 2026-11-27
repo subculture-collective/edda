@@ -514,7 +514,7 @@ func (s SpellRecord) validSpell196Scaling(effects map[string]bool) bool {
 	}
 	switch sc.Kind {
 	case "slot-bonus":
-		return ((d.Aid != nil && d.Aid.AdditionalHitPointsPerSlot > 0) || (d.FalseLife != nil && d.FalseLife.AdditionalTemporaryHitPointsPerSlot > 0)) && slices.Contains(s.RequiredMechanics, "scaling.bonus-per-slot")
+		return ((d.Aid != nil && d.Aid.AdditionalHitPointsPerSlot > 0) || (d.FalseLife != nil && d.FalseLife.AdditionalTemporaryHitPointsPerSlot > 0) || (d.Heal != nil && d.Heal.AdditionalHitPointsPerSlot > 0)) && slices.Contains(s.RequiredMechanics, "scaling.bonus-per-slot")
 	case "slot-creatures":
 		return d.Dead != nil && d.Dead.AdditionalCreaturesPerSlot > 0 && slices.Contains(s.RequiredMechanics, "scaling.creatures-per-slot")
 	case "slot-dice-by-size":
