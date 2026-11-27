@@ -6,6 +6,17 @@ imported record is unavailable: `MechanicsAvailable` always returns false, and
 no resolver, inventory grant, tool or coverage entry reads a batch. Source pin,
 license and attribution: [source provenance](srd-5.2.1-conformance.md).
 
+## Potion of Healing
+
+The Healing contract fixture (`item-families.json`, see the
+[item family contract](item-family-contract.md)) owns Potion of Healing with
+both source presentations: the adventuring-gear entry (p. 99) and the Potions
+of Healing magic-item family (p. 236) with its four variants. It is the only
+playable item record. A batch whose inventory lists either presentation, such as
+#238 or #261, joins that entry to the fixture in its test and verifies the
+source rows against it. It does not add a second record, which
+`ComposeItemSourceIdentities` would reject as a shared identity.
+
 ## Layout
 
 `internal/rules/srd521/item_source.go` is shared by all batches and should not

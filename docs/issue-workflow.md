@@ -34,6 +34,8 @@ completed.
   tracker again just before editing it, because another pull request may have
   ticked items since you last read it.
 - Close a tracker when every item is ticked.
+- For a local race run use `task test:race -- ./internal/rules/srd521/...`.
+  It sets `-timeout 45m`; that package takes about 15 minutes with `-race`.
 
 ## New work
 
