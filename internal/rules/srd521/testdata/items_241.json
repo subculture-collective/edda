@@ -1,0 +1,1183 @@
+{
+  "schema_version": 1,
+  "rules_version": "srd-5.2.1",
+  "batch": "data-magic-items-17",
+  "catalogue_issue": 241,
+  "source": {
+    "version": "5.2.1",
+    "language": "en",
+    "landing_url": "https://www.dndbeyond.com/srd",
+    "artifact_url": "https://media.dndbeyond.com/compendium-images/srd/5.2/SRD_CC_v5.2.1.pdf",
+    "sha256": "8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87",
+    "bytes": 6031375,
+    "pages": 364,
+    "retrieved_at": "2026-11-15",
+    "license": "CC-BY-4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/legalcode",
+    "attribution": "This work includes material from the System Reference Document 5.2.1 (\u201cSRD 5.2.1\u201d) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd. The SRD 5.2.1 is licensed under the Creative Commons Attribution 4.0 International License, available at https://creativecommons.org/licenses/by/4.0/legalcode.",
+    "changes": "SRD 5.2.1 pp. 241\u2013243 adapted into twelve versioned magic-item families (Rod of Lordly Might through Shield of the Cavalier) with explicit variant identities, structured requirements and typed source values. Names, numeric rules and key phrases are adapted into keys; no rules prose is reproduced. Prices are not listed and remain unspecified. Catalogue data grants no inventory, action or gameplay permissions; every record is unavailable."
+  },
+  "families": [
+    {
+      "id": "srd-5.2.1:content/items/rod-of-lordly-might",
+      "name": "Rod of Lordly Might",
+      "kind": "magic",
+      "category": "rod",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/rod-of-lordly-might",
+          "pages": [
+            241,
+            241
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/rod-of-lordly-might/variant/standard",
+          "name": "Rod of Lordly Might",
+          "rarity": "legendary",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wield",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "weapon-attack",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              241,
+              241
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "item.magic-weapon",
+            "bonus.attack-and-damage-3",
+            "item.six-buttons",
+            "item.weapon-forms",
+            "item.climbing-pole",
+            "item.battering-ram",
+            "item.magnetic-north",
+            "save.constitution-dc-17",
+            "damage.drain-life-4d6-necrotic",
+            "condition.paralyzed",
+            "save.wisdom-dc-17",
+            "condition.frightened",
+            "item.once-until-dawn"
+          ],
+          "details": {
+            "lordly_might": {
+              "functions_as": "mace",
+              "attack_bonus": 3,
+              "damage_bonus": 3,
+              "button_count": 6,
+              "buttons": {
+                "press_action": "bonus",
+                "effect_lasts_until": [
+                  "different-button-pushed",
+                  "same-button-pushed-again"
+                ],
+                "fiery_blade": {
+                  "button": 1,
+                  "bright_light_radius_feet": 40,
+                  "dim_light_additional_feet": 40,
+                  "functions_as": [
+                    "longsword",
+                    "shortsword"
+                  ],
+                  "extra_damage": {
+                    "dice": 2,
+                    "sides": 6,
+                    "type": "fire"
+                  }
+                },
+                "battleaxe": {
+                  "button": 2,
+                  "functions_as": "battleaxe",
+                  "attack_and_damage_bonus": 3
+                },
+                "spear": {
+                  "button": 3,
+                  "functions_as": "spear",
+                  "haft_feet": 6,
+                  "attack_and_damage_bonus": 3
+                },
+                "climbing_pole": {
+                  "button": 4,
+                  "maximum_length_feet": 50,
+                  "buttons_stay_in_reach": true,
+                  "anchors": [
+                    "bottom-spike",
+                    "three-top-hooks"
+                  ],
+                  "anchor_surface": "as-hard-as-granite",
+                  "bar_length_inches": 3,
+                  "bar_spacing_feet": 1,
+                  "capacity_pounds": 4000,
+                  "reverts_on": [
+                    "more-weight",
+                    "lack-of-solid-anchoring"
+                  ]
+                },
+                "battering_ram": {
+                  "button": 5,
+                  "check_bonus": 10,
+                  "check_ability": "strength",
+                  "check_skill": "athletics",
+                  "check_subjects": [
+                    "doors",
+                    "barricades",
+                    "other-barriers"
+                  ]
+                },
+                "normal_form": {
+                  "button": 6,
+                  "indicates": "magnetic-north",
+                  "without_magnetic_north": "nothing-happens",
+                  "knowledge": [
+                    "approximate-depth-below-ground",
+                    "height-above-ground"
+                  ]
+                }
+              },
+              "drain_life": {
+                "trigger": "hit-creature-with-melee-attack",
+                "save_ability": "constitution",
+                "save_dc": 17,
+                "extra_damage": {
+                  "dice": 4,
+                  "sides": 6,
+                  "type": "necrotic"
+                },
+                "you_regain": "half-of-that-necrotic-damage",
+                "reuse_after": "next-dawn"
+              },
+              "paralyze": {
+                "trigger": "hit-creature-with-melee-attack",
+                "save_ability": "constitution",
+                "save_dc": 17,
+                "condition": "paralyzed",
+                "duration_minutes": 1,
+                "repeat_save": "end-of-each-of-its-turns",
+                "reuse_after": "next-dawn"
+              },
+              "terrify": {
+                "condition": "frightened",
+                "action": "magic",
+                "range_feet": 30,
+                "save_ability": "wisdom",
+                "save_dc": 17,
+                "duration_minutes": 1,
+                "repeat_save": "end-of-each-of-its-turns",
+                "repeat_success": "ends-effect-on-itself",
+                "reuse_after": "next-dawn"
+              },
+              "source_pages": [
+                241,
+                242
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/rod-of-resurrection",
+      "name": "Rod of Resurrection",
+      "kind": "magic",
+      "category": "rod",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/rod-of-resurrection",
+          "pages": [
+            242,
+            242
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/rod-of-resurrection/variant/standard",
+          "name": "Rod of Resurrection",
+          "rarity": "legendary",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "limited",
+            "maximum": 5,
+            "per_use": 1,
+            "recharge": "regain-1-at-dawn"
+          },
+          "equip": {
+            "mode": "hold",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "cast-spell",
+            "restrictions": [
+              "expend-listed-charges"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              242,
+              242
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "item.hold",
+            "item.charges",
+            "spell.cast-heal",
+            "spell.cast-resurrection",
+            "item.destroyed-on-1-after-last-charge"
+          ],
+          "details": {
+            "resurrection": {
+              "max_charges": 5,
+              "condition": "while-holding",
+              "spells": [
+                {
+                  "spell": "heal",
+                  "charge_cost": 1
+                },
+                {
+                  "spell": "resurrection",
+                  "charge_cost": 5
+                }
+              ],
+              "recharge_charges": 1,
+              "recharge_when": "daily-at-dawn",
+              "last_charge": {
+                "die_sides": 20,
+                "destroyed_on": 1,
+                "result": "disappears-in-harmless-burst-of-radiance"
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/rod-of-rulership",
+      "name": "Rod of Rulership",
+      "kind": "magic",
+      "category": "rod",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/rod-of-rulership",
+          "pages": [
+            242,
+            242
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/rod-of-rulership/variant/standard",
+          "name": "Rod of Rulership",
+          "rarity": "rare",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "hold",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "magic-action",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              242,
+              242
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "action.magic",
+            "save.wisdom-dc-15",
+            "condition.charmed",
+            "duration.8-hours",
+            "item.once-until-dawn"
+          ],
+          "details": {
+            "rulership": {
+              "action": "magic",
+              "targets": "each-creature-of-your-choice-you-can-see",
+              "range_feet": 120,
+              "save_ability": "wisdom",
+              "save_dc": 15,
+              "condition": "charmed",
+              "duration_hours": 8,
+              "regards_you_as": "trusted-leader",
+              "ends_early_when": [
+                "harmed-by-you-or-allies",
+                "commanded-against-its-nature"
+              ],
+              "reuse_after": "next-dawn"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/rod-of-security",
+      "name": "Rod of Security",
+      "kind": "magic",
+      "category": "rod",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/rod-of-security",
+          "pages": [
+            242,
+            242
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/rod-of-security/variant/standard",
+          "name": "Rod of Security",
+          "rarity": "very-rare",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "hold",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "magic-action",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              242,
+              242
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.hold",
+            "action.magic",
+            "movement.transport-to-demiplane",
+            "healing.hit-point-die-per-hour",
+            "effect.no-aging",
+            "duration.200-days-divided-by-creatures",
+            "item.10-day-cooldown"
+          ],
+          "details": {
+            "security": {
+              "condition": "while-holding",
+              "action": "magic",
+              "travelers": {
+                "includes_you": true,
+                "other_willing_creatures": 199
+              },
+              "destination": "demiplane",
+              "form_chosen_by": "you",
+              "demiplane": {
+                "provides": "enough-water-and-food",
+                "environment_can_harm": false,
+                "objects_exist_only_there": true,
+                "aging": false,
+                "time_passes_normally": true
+              },
+              "healing": {
+                "per": "each-hour-spent-in-demiplane",
+                "as_if_hit_point_dice_spent": 1
+              },
+              "stay": {
+                "base_days": 200,
+                "divided_by": "creatures-present",
+                "rounding": "down"
+              },
+              "ends_when": [
+                "time-runs-out",
+                "magic-action-to-end"
+              ],
+              "return_to": "original-or-nearest-unoccupied-space",
+              "reuse_after_days": 10
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/rope-of-climbing",
+      "name": "Rope of Climbing",
+      "kind": "magic",
+      "category": "wondrous-item",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/rope-of-climbing",
+          "pages": [
+            242,
+            242
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/rope-of-climbing/variant/standard",
+          "name": "Rope of Climbing",
+          "rarity": "uncommon",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "hold",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "magic-action",
+            "restrictions": [
+              "holding-one-end"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              242,
+              242
+            ]
+          },
+          "required_mechanic_keys": [
+            "action.magic",
+            "item.animate-rope",
+            "item.fasten-knot-and-coil",
+            "check.climb-advantage-when-knotted",
+            "item.armor-class-20-hit-points-20",
+            "defense.immunity-poison-and-psychic",
+            "healing.1-hit-point-per-5-minutes"
+          ],
+          "details": {
+            "climbing_rope": {
+              "length_feet": 60,
+              "capacity_pounds": 3000,
+              "condition": "while-holding-one-end",
+              "action": "magic",
+              "move_limit": "rope-length-away-from-you",
+              "move_feet_per_turn": 10,
+              "moves_until": [
+                "reaching-destination",
+                "told-to-stop"
+              ],
+              "other_commands": [
+                "fasten",
+                "unfasten",
+                "knot",
+                "unknot",
+                "coil"
+              ],
+              "knotted": {
+                "knot_spacing_feet": 1,
+                "length_feet": 50,
+                "check_mode": "advantage",
+                "check_subject": "climb-using-the-rope"
+              },
+              "armor_class": 20,
+              "hit_points": 20,
+              "immunities": [
+                "poison",
+                "psychic"
+              ],
+              "regains_hit_points": 1,
+              "regain_interval_minutes": 5,
+              "regain_needs_hit_points": 1,
+              "destroyed_at_hit_points": 0
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/rope-of-entanglement",
+      "name": "Rope of Entanglement",
+      "kind": "magic",
+      "category": "wondrous-item",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/rope-of-entanglement",
+          "pages": [
+            242,
+            242
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/rope-of-entanglement/variant/standard",
+          "name": "Rope of Entanglement",
+          "rarity": "rare",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "hold",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "magic-action",
+            "restrictions": [
+              "holding-one-end"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              242,
+              242
+            ]
+          },
+          "required_mechanic_keys": [
+            "action.magic",
+            "save.dexterity-dc-15",
+            "condition.restrained",
+            "check.escape-dc-15",
+            "action.bonus-release",
+            "action.reaction-recoil",
+            "item.armor-class-20-hit-points-20",
+            "defense.immunity-poison-and-psychic",
+            "healing.1-hit-point-per-5-minutes"
+          ],
+          "details": {
+            "entanglement": {
+              "length_feet": 30,
+              "condition": "while-holding-one-end",
+              "action": "magic",
+              "targets": 1,
+              "range_feet": 20,
+              "save_ability": "dexterity",
+              "save_dc": 15,
+              "applies_condition": "restrained",
+              "release": [
+                {
+                  "method": "let-go-of-your-end",
+                  "rope_coils_in": "targets-space"
+                },
+                {
+                  "method": "bonus-action-to-repeat-command",
+                  "rope_coils_in": "your-hand"
+                }
+              ],
+              "escape": {
+                "action": "action",
+                "choices": [
+                  {
+                    "ability": "strength",
+                    "skill": "athletics"
+                  },
+                  {
+                    "ability": "dexterity",
+                    "skill": "acrobatics"
+                  }
+                ],
+                "dc": 15,
+                "success": "no-longer-restrained"
+              },
+              "recoil": {
+                "trigger": "target-escapes-while-you-hold-rope",
+                "action": "reaction",
+                "otherwise": "rope-coils-in-targets-space"
+              },
+              "armor_class": 20,
+              "hit_points": 20,
+              "immunities": [
+                "poison",
+                "psychic"
+              ],
+              "regains_hit_points": 1,
+              "regain_interval_minutes": 5,
+              "regain_needs_hit_points": 1,
+              "destroyed_at_hit_points": 0,
+              "source_pages": [
+                242,
+                243
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/scarab-of-protection",
+      "name": "Scarab of Protection",
+      "kind": "magic",
+      "category": "wondrous-item",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/scarab-of-protection",
+          "pages": [
+            243,
+            243
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/scarab-of-protection/variant/standard",
+          "name": "Scarab of Protection",
+          "rarity": "legendary",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "limited",
+            "maximum": 12,
+            "per_use": 1,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "carry",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "reaction",
+            "restrictions": [
+              "failed-save-against-necromancy-or-undead",
+              "expend-one-charge"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              243,
+              243
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "item.carry",
+            "defense.armor-class-bonus-1",
+            "item.charges",
+            "action.reaction",
+            "save.failure-becomes-success-against-necromancy-or-undead",
+            "item.destroyed-at-last-charge",
+            "save.advantage-against-spells"
+          ],
+          "details": {
+            "scarab": {
+              "appearance": "beetle-shaped-medallion",
+              "condition": "while-on-your-person",
+              "benefit_count": 3,
+              "armor_class_bonus": 1,
+              "preservation": {
+                "max_charges": 12,
+                "triggers": [
+                  "fail-save-against-necromancy-spell",
+                  "fail-save-against-harmful-effect-from-undead"
+                ],
+                "action": "reaction",
+                "charge_cost": 1,
+                "result": "failed-save-becomes-success",
+                "after_last_charge": "crumbles-to-powder-and-is-destroyed"
+              },
+              "spell_resistance": {
+                "save_mode": "advantage",
+                "against": "spells"
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/scimitar-of-speed",
+      "name": "Scimitar of Speed",
+      "kind": "magic",
+      "category": "weapon",
+      "base": {
+        "options": [
+          "scimitar"
+        ],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/scimitar-of-speed",
+          "pages": [
+            243,
+            243
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/scimitar-of-speed/variant/standard",
+          "name": "Scimitar of Speed",
+          "rarity": "very-rare",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wield",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "weapon-attack",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              243,
+              243
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "item.magic-weapon",
+            "bonus.attack-and-damage-2",
+            "attack.bonus-action-attack"
+          ],
+          "details": {
+            "speed": {
+              "attack_bonus": 2,
+              "damage_bonus": 2,
+              "extra_attack_action": "bonus",
+              "extra_attacks": 1,
+              "frequency": "each-of-your-turns"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/sending-stones",
+      "name": "Sending Stones",
+      "kind": "magic",
+      "category": "wondrous-item",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/sending-stones",
+          "pages": [
+            243,
+            243
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/sending-stones/variant/standard",
+          "name": "Sending Stones",
+          "rarity": "uncommon",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "touch",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "cast-spell",
+            "restrictions": [
+              "sending"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              243,
+              243
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.paired",
+            "spell.cast-sending",
+            "spell.target-other-stone-bearer",
+            "item.once-until-dawn-per-pair",
+            "item.nonmagical-if-pair-destroyed"
+          ],
+          "details": {
+            "sending_stones": {
+              "stones_per_pair": "pair",
+              "matching": "carved-to-match",
+              "condition": "while-touching-one-stone",
+              "spell": "sending",
+              "target": "bearer-of-other-stone",
+              "if_no_bearer": "you-learn-this-and-do-not-cast",
+              "shared_reuse_after": "next-dawn",
+              "other_stone_when_one_destroyed": "nonmagical"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/sentinel-shield",
+      "name": "Sentinel Shield",
+      "kind": "magic",
+      "category": "armor",
+      "base": {
+        "options": [
+          "shield"
+        ],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/sentinel-shield",
+          "pages": [
+            243,
+            243
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/sentinel-shield/variant/standard",
+          "name": "Sentinel Shield",
+          "rarity": "uncommon",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "hold",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              243,
+              243
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.hold",
+            "check.initiative-advantage",
+            "check.perception-advantage"
+          ],
+          "details": {
+            "sentinel": {
+              "condition": "while-holding",
+              "advantage_on": [
+                "initiative-rolls",
+                "wisdom-perception-checks"
+              ],
+              "emblem": "eye"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/shield-of-missile-attraction",
+      "name": "Shield of Missile Attraction",
+      "kind": "magic",
+      "category": "armor",
+      "base": {
+        "options": [
+          "shield"
+        ],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/shield-of-missile-attraction",
+          "pages": [
+            243,
+            243
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/shield-of-missile-attraction/variant/standard",
+          "name": "Shield of Missile Attraction",
+          "rarity": "rare",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "hold",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              243,
+              243
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "item.hold",
+            "defense.resistance-ranged-weapon-damage",
+            "item.curse",
+            "item.curse-ends-on-remove-curse",
+            "item.curse-redirects-ranged-attacks-within-10-feet"
+          ],
+          "details": {
+            "missile_attraction": {
+              "condition": "while-holding",
+              "defense": "resistance",
+              "defense_against": "damage-from-ranged-weapon-attacks",
+              "curse": {
+                "begins_on": "attunement",
+                "ends_on": "remove-curse-or-similar-magic",
+                "removing_shield_ends_curse": false,
+                "trigger": "ranged-weapon-attack-targets-nearby-creature",
+                "radius_feet": 10,
+                "result": "you-become-the-target"
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/shield-of-the-cavalier",
+      "name": "Shield of the Cavalier",
+      "kind": "magic",
+      "category": "armor",
+      "base": {
+        "options": [
+          "shield"
+        ],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/shield-of-the-cavalier",
+          "pages": [
+            243,
+            243
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/shield-of-the-cavalier/variant/standard",
+          "name": "Shield of the Cavalier",
+          "rarity": "very-rare",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "hold",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "reaction",
+            "restrictions": [
+              "protective-field-trigger"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              243,
+              243
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "item.hold",
+            "defense.armor-class-bonus-2",
+            "attack.forceful-bash",
+            "damage.force-2d6-plus-2",
+            "movement.push-10-feet",
+            "condition.prone",
+            "action.reaction-protective-field",
+            "spell.concentration-up-to-1-minute",
+            "item.once-until-dawn"
+          ],
+          "details": {
+            "cavalier": {
+              "condition": "while-holding",
+              "armor_class_bonus": 2,
+              "stacks_with_shield_bonus": true,
+              "forceful_bash": {
+                "trigger": "attack-action",
+                "attacks_replaced": 1,
+                "reach_feet": 5,
+                "attack_roll_adds": [
+                  "proficiency-bonus",
+                  "strength-modifier"
+                ],
+                "damage": {
+                  "dice": 2,
+                  "sides": 6,
+                  "type": "force"
+                },
+                "damage_bonus": 2,
+                "damage_adds_ability_modifier": "strength",
+                "push_feet": 10,
+                "prone_if": "creature-your-size-or-smaller",
+                "applies_condition": "prone"
+              },
+              "protective_field": {
+                "action": "reaction",
+                "triggers": [
+                  "you-or-nearby-ally-targeted-by-attack",
+                  "you-or-nearby-ally-saves-against-area-effect"
+                ],
+                "ally_range_feet": 5,
+                "emanation_feet": 5,
+                "immobile": true,
+                "not_fully_contained": "pushed-to-nearest-unoccupied-space-outside",
+                "triggering_effect": "no-effect-inside",
+                "concentration_required": true,
+                "max_duration_minutes": 1,
+                "passage": "nothing-in-or-out",
+                "isolation": [
+                  "inside-cannot-be-damaged-from-outside",
+                  "inside-cannot-damage-outside"
+                ],
+                "reuse_after": "next-dawn"
+              }
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

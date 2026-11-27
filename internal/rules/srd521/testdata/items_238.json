@@ -1,0 +1,1308 @@
+{
+  "schema_version": 1,
+  "rules_version": "srd-5.2.1",
+  "batch": "data-magic-items-14",
+  "catalogue_issue": 238,
+  "source": {
+    "version": "5.2.1",
+    "language": "en",
+    "landing_url": "https://www.dndbeyond.com/srd",
+    "artifact_url": "https://media.dndbeyond.com/compendium-images/srd/5.2/SRD_CC_v5.2.1.pdf",
+    "sha256": "8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87",
+    "bytes": 6031375,
+    "pages": 364,
+    "retrieved_at": "2026-11-15",
+    "license": "CC-BY-4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/legalcode",
+    "attribution": "This work includes material from the System Reference Document 5.2.1 (\u201cSRD 5.2.1\u201d) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd. The SRD 5.2.1 is licensed under the Creative Commons Attribution 4.0 International License, available at https://creativecommons.org/licenses/by/4.0/legalcode.",
+    "changes": "SRD 5.2.1 pp. 236\u2013238 adapted into eleven versioned magic-item families (Potion of Poison through Ring of Feather Falling) with explicit variant identities, structured requirements and typed source values. Names, numeric rules and key phrases are adapted into keys; no rules prose is reproduced. Prices are not listed and remain unspecified. Catalogue data grants no inventory, action or gameplay permissions; every record is unavailable."
+  },
+  "families": [
+    {
+      "id": "srd-5.2.1:content/items/potion-of-poison",
+      "name": "Potion of Poison",
+      "kind": "magic",
+      "category": "potion",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/potion-of-poison",
+          "pages": [
+            236,
+            236
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/potion-of-poison/variant/standard",
+          "name": "Potion of Poison",
+          "rarity": "uncommon",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "consume",
+            "restrictions": [
+              "drink-one"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              236,
+              236
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.consume",
+            "item.disguised-as-beneficial-potion",
+            "damage.4d6-poison",
+            "save.constitution-dc-13",
+            "condition.poisoned",
+            "duration.1-hour"
+          ],
+          "details": {
+            "poison": {
+              "disguise": "looks-smells-and-tastes-like-healing-or-other-beneficial-potion",
+              "masked_by": "illusion-magic",
+              "revealed_by": "identify",
+              "damage": {
+                "dice": 4,
+                "sides": 6,
+                "type": "poison"
+              },
+              "save_ability": "constitution",
+              "save_dc": 13,
+              "condition": "poisoned",
+              "duration_hours": 1
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/potion-of-resistance",
+      "name": "Potion of Resistance",
+      "kind": "magic",
+      "category": "potion",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/potion-of-resistance",
+          "pages": [
+            236,
+            236
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/potion-of-resistance/variant/standard",
+          "name": "Potion of Resistance",
+          "rarity": "uncommon",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "consume",
+            "restrictions": [
+              "drink-one"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              236,
+              236
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.consume",
+            "defense.resistance-one-damage-type",
+            "table.damage-type-1d10",
+            "duration.1-hour"
+          ],
+          "details": {
+            "resistance_potion": {
+              "defense": "resistance",
+              "duration_hours": 1,
+              "type_chosen_by": "gm-chooses-or-rolls-randomly",
+              "table_die_sides": 10,
+              "damage_types": [
+                {
+                  "roll": 1,
+                  "damage_type": "acid"
+                },
+                {
+                  "roll": 2,
+                  "damage_type": "cold"
+                },
+                {
+                  "roll": 3,
+                  "damage_type": "fire"
+                },
+                {
+                  "roll": 4,
+                  "damage_type": "force"
+                },
+                {
+                  "roll": 5,
+                  "damage_type": "lightning"
+                },
+                {
+                  "roll": 6,
+                  "damage_type": "necrotic"
+                },
+                {
+                  "roll": 7,
+                  "damage_type": "poison"
+                },
+                {
+                  "roll": 8,
+                  "damage_type": "psychic"
+                },
+                {
+                  "roll": 9,
+                  "damage_type": "radiant"
+                },
+                {
+                  "roll": 10,
+                  "damage_type": "thunder"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/potion-of-speed",
+      "name": "Potion of Speed",
+      "kind": "magic",
+      "category": "potion",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/potion-of-speed",
+          "pages": [
+            236,
+            236
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/potion-of-speed/variant/standard",
+          "name": "Potion of Speed",
+          "rarity": "very-rare",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "consume",
+            "restrictions": [
+              "drink-one"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              236,
+              236
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.consume",
+            "spell.effect-haste",
+            "duration.1-minute",
+            "spell.no-concentration",
+            "spell.no-lethargy"
+          ],
+          "details": {
+            "speed": {
+              "spell": "haste",
+              "duration_minutes": 1,
+              "concentration_required": false,
+              "lethargy_when_it_ends": false,
+              "appearance": "yellow-fluid-streaked-with-black-that-swirls-on-its-own"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/potion-of-vitality",
+      "name": "Potion of Vitality",
+      "kind": "magic",
+      "category": "potion",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/potion-of-vitality",
+          "pages": [
+            236,
+            236
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/potion-of-vitality/variant/standard",
+          "name": "Potion of Vitality",
+          "rarity": "very-rare",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "consume",
+            "restrictions": [
+              "drink-one"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              236,
+              236
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.consume",
+            "condition.remove-exhaustion-levels",
+            "condition.end-poisoned",
+            "hit-dice.maximum-healing",
+            "duration.24-hours"
+          ],
+          "details": {
+            "vitality": {
+              "removes": "all-exhaustion-levels",
+              "ends_condition": "poisoned",
+              "hit_die_healing": "maximum-for-any-hit-point-die-spent",
+              "duration_hours": 24,
+              "appearance": "crimson-liquid-pulses-with-dull-light-like-a-heartbeat"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/potion-of-water-breathing",
+      "name": "Potion of Water Breathing",
+      "kind": "magic",
+      "category": "potion",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/potion-of-water-breathing",
+          "pages": [
+            236,
+            236
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/potion-of-water-breathing/variant/standard",
+          "name": "Potion of Water Breathing",
+          "rarity": "uncommon",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "consume",
+            "restrictions": [
+              "drink-one"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              236,
+              236
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.consume",
+            "movement.breathe-underwater",
+            "duration.24-hours"
+          ],
+          "details": {
+            "water_breathing": {
+              "grants": "breathe-underwater",
+              "duration_hours": 24,
+              "appearance": "cloudy-green-fluid-smelling-of-the-sea-with-jellyfish-like-bubble",
+              "source_pages": [
+                236,
+                237
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/quarterstaff-of-the-acrobat",
+      "name": "Quarterstaff of the Acrobat",
+      "kind": "magic",
+      "category": "weapon",
+      "base": {
+        "options": [
+          "quarterstaff"
+        ],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/quarterstaff-of-the-acrobat",
+          "pages": [
+            237,
+            237
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/quarterstaff-of-the-acrobat/variant/standard",
+          "name": "Quarterstaff of the Acrobat",
+          "rarity": "very-rare",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wield",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "weapon-attack",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              237,
+              237
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "item.magic-weapon",
+            "bonus.attack-and-damage-2",
+            "light.green-dim-10-feet",
+            "item.alter-form",
+            "check.dexterity-acrobatics-advantage",
+            "reaction.armor-class-bonus-5",
+            "property.thrown-30-120",
+            "item.returns-to-hand"
+          ],
+          "details": {
+            "acrobat": {
+              "attack_bonus": 2,
+              "damage_bonus": 2,
+              "light": {
+                "condition": "while-holding",
+                "color": "green",
+                "dim_radius_feet": 10,
+                "activation": [
+                  "bonus-action",
+                  "after-rolling-initiative"
+                ],
+                "extinguish_action": "bonus"
+              },
+              "alter_form": {
+                "action": "bonus",
+                "forms": [
+                  "six-inch-rod",
+                  "ten-foot-pole",
+                  "quarterstaff"
+                ],
+                "rod_inches": 6,
+                "pole_feet": 10,
+                "elongation_limit": "surrounding-space"
+              },
+              "acrobatic_assist": {
+                "forms": [
+                  "quarterstaff",
+                  "ten-foot-pole"
+                ],
+                "check_ability": "dexterity",
+                "check_skill": "acrobatics",
+                "check_mode": "advantage"
+              },
+              "attack_deflection": {
+                "form": "quarterstaff",
+                "trigger": "hit-by-attack-while-holding",
+                "action": "reaction",
+                "armor_class_bonus": 5,
+                "possible_result": "attack-may-miss-you",
+                "reuse_after": "short-or-long-rest"
+              },
+              "ranged_weapon": {
+                "form": "quarterstaff",
+                "property": "thrown",
+                "normal_range_feet": 30,
+                "long_range_feet": 120,
+                "returns_to_hand": "immediately-after-ranged-attack"
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/ring-of-animal-influence",
+      "name": "Ring of Animal Influence",
+      "kind": "magic",
+      "category": "ring",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/ring-of-animal-influence",
+          "pages": [
+            237,
+            237
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/ring-of-animal-influence/variant/standard",
+          "name": "Ring of Animal Influence",
+          "rarity": "rare",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "limited",
+            "maximum": 3,
+            "per_use": 1,
+            "recharge": "regain-1d3-at-dawn"
+          },
+          "equip": {
+            "mode": "wear",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "cast-spell",
+            "restrictions": [
+              "expend-one-charge"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              237,
+              237
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.wear",
+            "item.charges",
+            "spell.cast-animal-friendship",
+            "spell.cast-fear-beasts-only",
+            "spell.cast-speak-with-animals",
+            "spell.save-dc-13"
+          ],
+          "details": {
+            "animal_influence": {
+              "max_charges": 3,
+              "recharge": {
+                "dice": 1,
+                "sides": 3,
+                "type": "charges"
+              },
+              "recharge_when": "daily-at-dawn",
+              "condition": "while-wearing",
+              "charge_cost": 1,
+              "save_dc": 13,
+              "spells": [
+                "animal-friendship",
+                "fear",
+                "speak-with-animals"
+              ],
+              "fear_affects_only": "beasts"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/ring-of-djinni-summoning",
+      "name": "Ring of Djinni Summoning",
+      "kind": "magic",
+      "category": "ring",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/ring-of-djinni-summoning",
+          "pages": [
+            237,
+            237
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/ring-of-djinni-summoning/variant/standard",
+          "name": "Ring of Djinni Summoning",
+          "rarity": "legendary",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wear",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "magic-action",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              237,
+              237
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "item.wear",
+            "action.magic",
+            "creature.summon-djinni",
+            "spell.concentration-up-to-1-hour",
+            "creature.obeys-commands",
+            "item.cooldown-24-hours",
+            "item.nonmagical-if-djinni-dies"
+          ],
+          "details": {
+            "djinni_summoning": {
+              "condition": "while-wearing",
+              "action": "magic",
+              "creature": "djinni",
+              "origin": "elemental-plane-of-air",
+              "summon_range_feet": 120,
+              "concentration_required": true,
+              "max_duration_hours": 1,
+              "also_ends_at": "zero-hit-points",
+              "attitude": "friendly-to-you-and-allies",
+              "obeys_commands": true,
+              "without_command": "defends-itself-only",
+              "cooldown_hours": 24,
+              "nonmagical_when": "djinni-dies",
+              "often_created_by": "djinn-as-gifts"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/ring-of-elemental-command",
+      "name": "Ring of Elemental Command",
+      "kind": "magic",
+      "category": "ring",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/ring-of-elemental-command",
+          "pages": [
+            237,
+            237
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/ring-of-elemental-command/variant/air",
+          "name": "Ring of Elemental Command (air)",
+          "rarity": "legendary",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "limited",
+            "maximum": 5,
+            "per_use": 1,
+            "recharge": "regain-1d4-plus-1-at-dawn"
+          },
+          "equip": {
+            "mode": "wear",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "cast-spell",
+            "restrictions": [
+              "spell-linked-to-plane",
+              "expend-listed-charges"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              237,
+              237
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "item.wear",
+            "item.charges",
+            "attack.advantage-against-elementals",
+            "action.magic-compel-elemental",
+            "save.wisdom-dc-18",
+            "condition.charmed",
+            "feature.elemental-focus-by-linked-plane",
+            "spell.cast-by-linked-plane",
+            "spell.save-dc-18"
+          ],
+          "details": {
+            "elemental_command": {
+              "linked_plane": "air",
+              "plane_chosen_by": "gm-chooses-or-rolls-randomly",
+              "bane": {
+                "target_creature_type": "elemental",
+                "your_attacks": "advantage",
+                "attacks_against_you": "disadvantage"
+              },
+              "compulsion": {
+                "action": "magic",
+                "range_feet": 60,
+                "save_ability": "wisdom",
+                "save_dc": 18,
+                "condition": "charmed",
+                "condition_ends": "start-of-your-next-turn",
+                "control": "you-determine-its-move-and-action-on-its-next-turn"
+              },
+              "focus": {
+                "language": "auran",
+                "defense": "resistance",
+                "damage_type": "lightning",
+                "speed_kind": "fly",
+                "speed": "equal-to-speed",
+                "other_benefits": [
+                  "can-hover"
+                ]
+              },
+              "spell_save_dc": 18,
+              "spells": [
+                {
+                  "spell": "chain-lightning",
+                  "charge_cost": 3
+                },
+                {
+                  "spell": "feather-fall",
+                  "charge_cost": 0
+                },
+                {
+                  "spell": "gust-of-wind",
+                  "charge_cost": 2
+                },
+                {
+                  "spell": "wind-wall",
+                  "charge_cost": 1
+                }
+              ],
+              "max_charges": 5,
+              "recharge": {
+                "dice": 1,
+                "sides": 4,
+                "type": "charges"
+              },
+              "recharge_bonus": 1,
+              "recharge_when": "daily-at-dawn",
+              "source_pages": [
+                237,
+                238
+              ]
+            }
+          }
+        },
+        {
+          "id": "srd-5.2.1:content/items/ring-of-elemental-command/variant/earth",
+          "name": "Ring of Elemental Command (earth)",
+          "rarity": "legendary",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "limited",
+            "maximum": 5,
+            "per_use": 1,
+            "recharge": "regain-1d4-plus-1-at-dawn"
+          },
+          "equip": {
+            "mode": "wear",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "cast-spell",
+            "restrictions": [
+              "spell-linked-to-plane",
+              "expend-listed-charges"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              237,
+              237
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "item.wear",
+            "item.charges",
+            "attack.advantage-against-elementals",
+            "action.magic-compel-elemental",
+            "save.wisdom-dc-18",
+            "condition.charmed",
+            "feature.elemental-focus-by-linked-plane",
+            "spell.cast-by-linked-plane",
+            "spell.save-dc-18"
+          ],
+          "details": {
+            "elemental_command": {
+              "linked_plane": "earth",
+              "plane_chosen_by": "gm-chooses-or-rolls-randomly",
+              "bane": {
+                "target_creature_type": "elemental",
+                "your_attacks": "advantage",
+                "attacks_against_you": "disadvantage"
+              },
+              "compulsion": {
+                "action": "magic",
+                "range_feet": 60,
+                "save_ability": "wisdom",
+                "save_dc": 18,
+                "condition": "charmed",
+                "condition_ends": "start-of-your-next-turn",
+                "control": "you-determine-its-move-and-action-on-its-next-turn"
+              },
+              "focus": {
+                "language": "terran",
+                "defense": "resistance",
+                "damage_type": "acid",
+                "speed_kind": "none",
+                "speed": "none",
+                "other_benefits": [
+                  "rubble-rocks-or-dirt-is-not-difficult-terrain",
+                  "move-through-solid-earth-or-rock-as-difficult-terrain",
+                  "passage-does-not-disturb-matter",
+                  "shunted-out-if-turn-ends-in-solid-earth-or-rock"
+                ]
+              },
+              "spell_save_dc": 18,
+              "spells": [
+                {
+                  "spell": "earthquake",
+                  "charge_cost": 5
+                },
+                {
+                  "spell": "stone-shape",
+                  "charge_cost": 2
+                },
+                {
+                  "spell": "stoneskin",
+                  "charge_cost": 3
+                },
+                {
+                  "spell": "wall-of-stone",
+                  "charge_cost": 3
+                }
+              ],
+              "max_charges": 5,
+              "recharge": {
+                "dice": 1,
+                "sides": 4,
+                "type": "charges"
+              },
+              "recharge_bonus": 1,
+              "recharge_when": "daily-at-dawn",
+              "source_pages": [
+                237,
+                238
+              ]
+            }
+          }
+        },
+        {
+          "id": "srd-5.2.1:content/items/ring-of-elemental-command/variant/fire",
+          "name": "Ring of Elemental Command (fire)",
+          "rarity": "legendary",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "limited",
+            "maximum": 5,
+            "per_use": 1,
+            "recharge": "regain-1d4-plus-1-at-dawn"
+          },
+          "equip": {
+            "mode": "wear",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "cast-spell",
+            "restrictions": [
+              "spell-linked-to-plane",
+              "expend-listed-charges"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              237,
+              237
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "item.wear",
+            "item.charges",
+            "attack.advantage-against-elementals",
+            "action.magic-compel-elemental",
+            "save.wisdom-dc-18",
+            "condition.charmed",
+            "feature.elemental-focus-by-linked-plane",
+            "spell.cast-by-linked-plane",
+            "spell.save-dc-18"
+          ],
+          "details": {
+            "elemental_command": {
+              "linked_plane": "fire",
+              "plane_chosen_by": "gm-chooses-or-rolls-randomly",
+              "bane": {
+                "target_creature_type": "elemental",
+                "your_attacks": "advantage",
+                "attacks_against_you": "disadvantage"
+              },
+              "compulsion": {
+                "action": "magic",
+                "range_feet": 60,
+                "save_ability": "wisdom",
+                "save_dc": 18,
+                "condition": "charmed",
+                "condition_ends": "start-of-your-next-turn",
+                "control": "you-determine-its-move-and-action-on-its-next-turn"
+              },
+              "focus": {
+                "language": "ignan",
+                "defense": "immunity",
+                "damage_type": "fire",
+                "speed_kind": "none",
+                "speed": "none",
+                "other_benefits": []
+              },
+              "spell_save_dc": 18,
+              "spells": [
+                {
+                  "spell": "burning-hands",
+                  "charge_cost": 1
+                },
+                {
+                  "spell": "fireball",
+                  "charge_cost": 2
+                },
+                {
+                  "spell": "fire-storm",
+                  "charge_cost": 4
+                },
+                {
+                  "spell": "wall-of-fire",
+                  "charge_cost": 3
+                }
+              ],
+              "max_charges": 5,
+              "recharge": {
+                "dice": 1,
+                "sides": 4,
+                "type": "charges"
+              },
+              "recharge_bonus": 1,
+              "recharge_when": "daily-at-dawn",
+              "source_pages": [
+                237,
+                238
+              ]
+            }
+          }
+        },
+        {
+          "id": "srd-5.2.1:content/items/ring-of-elemental-command/variant/water",
+          "name": "Ring of Elemental Command (water)",
+          "rarity": "legendary",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "limited",
+            "maximum": 5,
+            "per_use": 1,
+            "recharge": "regain-1d4-plus-1-at-dawn"
+          },
+          "equip": {
+            "mode": "wear",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "cast-spell",
+            "restrictions": [
+              "spell-linked-to-plane",
+              "expend-listed-charges"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              237,
+              237
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "item.wear",
+            "item.charges",
+            "attack.advantage-against-elementals",
+            "action.magic-compel-elemental",
+            "save.wisdom-dc-18",
+            "condition.charmed",
+            "feature.elemental-focus-by-linked-plane",
+            "spell.cast-by-linked-plane",
+            "spell.save-dc-18"
+          ],
+          "details": {
+            "elemental_command": {
+              "linked_plane": "water",
+              "plane_chosen_by": "gm-chooses-or-rolls-randomly",
+              "bane": {
+                "target_creature_type": "elemental",
+                "your_attacks": "advantage",
+                "attacks_against_you": "disadvantage"
+              },
+              "compulsion": {
+                "action": "magic",
+                "range_feet": 60,
+                "save_ability": "wisdom",
+                "save_dc": 18,
+                "condition": "charmed",
+                "condition_ends": "start-of-your-next-turn",
+                "control": "you-determine-its-move-and-action-on-its-next-turn"
+              },
+              "focus": {
+                "language": "aquan",
+                "defense": "none",
+                "damage_type": "none",
+                "speed_kind": "swim",
+                "speed": "60-feet",
+                "other_benefits": [
+                  "can-breathe-underwater"
+                ]
+              },
+              "spell_save_dc": 18,
+              "spells": [
+                {
+                  "spell": "create-or-destroy-water",
+                  "charge_cost": 1
+                },
+                {
+                  "spell": "ice-storm",
+                  "charge_cost": 2
+                },
+                {
+                  "spell": "tsunami",
+                  "charge_cost": 5
+                },
+                {
+                  "spell": "wall-of-ice",
+                  "charge_cost": 3
+                },
+                {
+                  "spell": "water-walk",
+                  "charge_cost": 2
+                }
+              ],
+              "max_charges": 5,
+              "recharge": {
+                "dice": 1,
+                "sides": 4,
+                "type": "charges"
+              },
+              "recharge_bonus": 1,
+              "recharge_when": "daily-at-dawn",
+              "source_pages": [
+                237,
+                238
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/ring-of-evasion",
+      "name": "Ring of Evasion",
+      "kind": "magic",
+      "category": "ring",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/ring-of-evasion",
+          "pages": [
+            238,
+            238
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/ring-of-evasion/variant/standard",
+          "name": "Ring of Evasion",
+          "rarity": "rare",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "limited",
+            "maximum": 3,
+            "per_use": 1,
+            "recharge": "regain-1d3-at-dawn"
+          },
+          "equip": {
+            "mode": "wear",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "reaction",
+            "restrictions": [
+              "failed-dexterity-save",
+              "expend-one-charge"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              238,
+              238
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "item.wear",
+            "item.charges",
+            "action.reaction",
+            "save.dexterity-failure-becomes-success"
+          ],
+          "details": {
+            "evasion": {
+              "max_charges": 3,
+              "recharge": {
+                "dice": 1,
+                "sides": 3,
+                "type": "charges"
+              },
+              "recharge_when": "daily-at-dawn",
+              "trigger": "fail-dexterity-saving-throw-while-wearing",
+              "action": "reaction",
+              "charge_cost": 1,
+              "result": "succeed-on-that-save"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/ring-of-feather-falling",
+      "name": "Ring of Feather Falling",
+      "kind": "magic",
+      "category": "ring",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/ring-of-feather-falling",
+          "pages": [
+            238,
+            238
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/ring-of-feather-falling/variant/standard",
+          "name": "Ring of Feather Falling",
+          "rarity": "rare",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wear",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              238,
+              238
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "item.wear",
+            "movement.fall-60-feet-per-round",
+            "damage.no-falling-damage"
+          ],
+          "details": {
+            "feather_falling": {
+              "condition": "while-falling-and-wearing",
+              "descent_feet_per_round": 60,
+              "takes_falling_damage": false
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

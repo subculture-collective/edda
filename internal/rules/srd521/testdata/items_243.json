@@ -1,0 +1,1306 @@
+{
+  "schema_version": 1,
+  "rules_version": "srd-5.2.1",
+  "batch": "data-magic-items-19",
+  "catalogue_issue": 243,
+  "source": {
+    "version": "5.2.1",
+    "language": "en",
+    "landing_url": "https://www.dndbeyond.com/srd",
+    "artifact_url": "https://media.dndbeyond.com/compendium-images/srd/5.2/SRD_CC_v5.2.1.pdf",
+    "sha256": "8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87",
+    "bytes": 6031375,
+    "pages": 364,
+    "retrieved_at": "2026-11-15",
+    "license": "CC-BY-4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/legalcode",
+    "attribution": "This work includes material from the System Reference Document 5.2.1 (\u201cSRD 5.2.1\u201d) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd. The SRD 5.2.1 is licensed under the Creative Commons Attribution 4.0 International License, available at https://creativecommons.org/licenses/by/4.0/legalcode.",
+    "changes": "SRD 5.2.1 pp. 246\u2013248 adapted into twelve versioned magic-item families (Staff of Swarming Insects through Sword of Wounding) with explicit variant identities, structured requirements and typed source values. Names, numeric rules and key phrases are adapted into keys; no rules prose is reproduced. Prices are not listed and remain unspecified. Catalogue data grants no inventory, action or gameplay permissions; every record is unavailable."
+  },
+  "families": [
+    {
+      "id": "srd-5.2.1:content/items/staff-of-swarming-insects",
+      "name": "Staff of Swarming Insects",
+      "kind": "magic",
+      "category": "staff",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/staff-of-swarming-insects",
+          "pages": [
+            246,
+            246
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/staff-of-swarming-insects/variant/standard",
+          "name": "Staff of Swarming Insects",
+          "rarity": "rare",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "limited",
+            "maximum": 10,
+            "per_use": 1,
+            "recharge": "regain-1d6-plus-4-at-dawn"
+          },
+          "equip": {
+            "mode": "hold",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "cast-spell",
+            "restrictions": [
+              "expend-listed-charges"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              246,
+              246
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "attunement.by-class",
+            "item.hold",
+            "item.charges",
+            "action.magic-insect-cloud",
+            "effect.heavily-obscured",
+            "spell.cast-giant-insect",
+            "spell.cast-insect-plague",
+            "spell.uses-your-save-dc-and-attack-modifier",
+            "item.destroyed-on-1-after-last-charge"
+          ],
+          "details": {
+            "swarming_insects": {
+              "attunement_by_any_of": [
+                "bard",
+                "cleric",
+                "druid",
+                "sorcerer",
+                "warlock",
+                "wizard"
+              ],
+              "max_charges": 10,
+              "insect_cloud": {
+                "action": "magic",
+                "charge_cost": 1,
+                "swarm": "harmless-flying-insects",
+                "emanation_feet": 30,
+                "duration_minutes": 10,
+                "area": "heavily-obscured-for-creatures-other-than-you",
+                "dispersed_by": "strong-wind"
+              },
+              "save_and_attack_source": "your-spell-save-dc-and-spell-attack-modifier",
+              "spells": [
+                {
+                  "spell": "giant-insect",
+                  "charge_cost": 4
+                },
+                {
+                  "spell": "insect-plague",
+                  "charge_cost": 5
+                }
+              ],
+              "recharge": {
+                "dice": {
+                  "dice": 1,
+                  "sides": 6,
+                  "type": "charges"
+                },
+                "bonus": 4,
+                "when": "daily-at-dawn"
+              },
+              "last_charge": {
+                "die_sides": 20,
+                "destroyed_on": 1,
+                "result": "insect-swarm-consumes-staff-then-disperses"
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/staff-of-thunder-and-lightning",
+      "name": "Staff of Thunder and Lightning",
+      "kind": "magic",
+      "category": "staff",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/staff-of-thunder-and-lightning",
+          "pages": [
+            247,
+            247
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/staff-of-thunder-and-lightning/variant/standard",
+          "name": "Staff of Thunder and Lightning",
+          "rarity": "very-rare",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wield",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "weapon-attack",
+            "restrictions": [
+              "each-property-once-until-dawn"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              247,
+              247
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "item.magic-weapon",
+            "bonus.attack-and-damage-2",
+            "damage.extra-2d6-lightning",
+            "save.constitution-dc-17",
+            "condition.stunned",
+            "action.bonus-both-properties",
+            "save.dexterity-dc-17",
+            "damage.lightning-strike-9d6",
+            "damage.thunderclap-2d6",
+            "condition.deafened",
+            "item.each-property-once-until-dawn"
+          ],
+          "details": {
+            "thunder_lightning": {
+              "wielded_as": "quarterstaff",
+              "attack_bonus": 2,
+              "damage_bonus": 2,
+              "each_property_reuse_after": "next-dawn",
+              "lightning": {
+                "trigger": "hit-with-melee-attack",
+                "extra_damage": {
+                  "dice": 2,
+                  "sides": 6,
+                  "type": "lightning"
+                },
+                "action_required": false
+              },
+              "thunder": {
+                "trigger": "hit-with-melee-attack",
+                "audible_feet": 300,
+                "action_required": false,
+                "save_ability": "constitution",
+                "save_dc": 17,
+                "condition": "stunned",
+                "condition_ends": "end-of-your-next-turn"
+              },
+              "thunder_and_lightning": {
+                "trigger": "immediately-after-melee-hit",
+                "action": "bonus",
+                "uses": [
+                  "lightning",
+                  "thunder"
+                ],
+                "spends_their_daily_uses": false
+              },
+              "lightning_strike": {
+                "action": "magic",
+                "line_width_feet": 5,
+                "line_length_feet": 120,
+                "save_ability": "dexterity",
+                "save_dc": 17,
+                "damage": {
+                  "dice": 9,
+                  "sides": 6,
+                  "type": "lightning"
+                },
+                "success_damage": "half"
+              },
+              "thunderclap": {
+                "action": "magic",
+                "audible_feet": 600,
+                "emanation_feet": 60,
+                "save_ability": "constitution",
+                "save_dc": 17,
+                "damage": {
+                  "dice": 2,
+                  "sides": 6,
+                  "type": "thunder"
+                },
+                "failure_condition": "deafened",
+                "condition_minutes": 1,
+                "success": "half-damage-only"
+              },
+              "source_pages": [
+                247,
+                248
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/staff-of-withering",
+      "name": "Staff of Withering",
+      "kind": "magic",
+      "category": "staff",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/staff-of-withering",
+          "pages": [
+            248,
+            248
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/staff-of-withering/variant/standard",
+          "name": "Staff of Withering",
+          "rarity": "rare",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "limited",
+            "maximum": 3,
+            "per_use": 1,
+            "recharge": "regain-1d3-at-dawn"
+          },
+          "equip": {
+            "mode": "wield",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "weapon-attack",
+            "restrictions": [
+              "expend-one-charge-on-hit"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              248,
+              248
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "item.magic-weapon",
+            "item.charges",
+            "damage.extra-2d10-necrotic",
+            "save.constitution-dc-15",
+            "effect.disadvantage-strength-and-constitution",
+            "duration.1-hour"
+          ],
+          "details": {
+            "withering": {
+              "wielded_as": "quarterstaff",
+              "hit_damage": "as-normal-quarterstaff",
+              "max_charges": 3,
+              "recharge_dice": {
+                "dice": 1,
+                "sides": 3,
+                "type": "charges"
+              },
+              "charge_cost": 1,
+              "extra_damage": {
+                "dice": 2,
+                "sides": 10,
+                "type": "necrotic"
+              },
+              "save_ability": "constitution",
+              "save_dc": 15,
+              "failure": {
+                "mode": "disadvantage",
+                "duration_hours": 1,
+                "applies_to": [
+                  "strength-checks-and-saves",
+                  "constitution-checks-and-saves"
+                ]
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/staff-of-the-magi",
+      "name": "Staff of the Magi",
+      "kind": "magic",
+      "category": "staff",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/staff-of-the-magi",
+          "pages": [
+            246,
+            246
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/staff-of-the-magi/variant/standard",
+          "name": "Staff of the Magi",
+          "rarity": "legendary",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "limited",
+            "maximum": 50,
+            "per_use": 1,
+            "recharge": "regain-4d6-plus-2-at-dawn"
+          },
+          "equip": {
+            "mode": "wield",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "cast-spell",
+            "restrictions": [
+              "expend-listed-charges"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              246,
+              246
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "attunement.by-class",
+            "item.magic-weapon",
+            "bonus.attack-and-damage-2",
+            "bonus.spell-attack-2",
+            "item.charges",
+            "save.advantage-against-spells",
+            "action.reaction-spell-absorption",
+            "spell.cast-listed-spells",
+            "spell.uses-your-save-dc",
+            "item.retributive-strike",
+            "damage.force-by-charges",
+            "save.dexterity-dc-17"
+          ],
+          "details": {
+            "magi": {
+              "attunement_by_any_of": [
+                "sorcerer",
+                "warlock",
+                "wizard"
+              ],
+              "max_charges": 50,
+              "wielded_as": "quarterstaff",
+              "attack_bonus": 2,
+              "damage_bonus": 2,
+              "spell_attack_bonus": 2,
+              "spell_absorption": {
+                "save_mode": "advantage",
+                "trigger": "spell-from-another-creature-targets-only-you",
+                "action": "reaction",
+                "result": "spell-canceled-and-absorbed",
+                "charges_gained": "absorbed-spell-level",
+                "explodes_above_charges": 50,
+                "explosion": "as-retributive-strike"
+              },
+              "save_dc_source": "your-spell-save-dc",
+              "spells": [
+                {
+                  "spell": "arcane-lock",
+                  "printed_level": "none",
+                  "charge_cost": 0
+                },
+                {
+                  "spell": "conjure-elemental",
+                  "printed_level": "none",
+                  "charge_cost": 7
+                },
+                {
+                  "spell": "detect-magic",
+                  "printed_level": "none",
+                  "charge_cost": 0
+                },
+                {
+                  "spell": "dispel-magic",
+                  "printed_level": "none",
+                  "charge_cost": 3
+                },
+                {
+                  "spell": "enlarge-reduce",
+                  "printed_level": "none",
+                  "charge_cost": 0
+                },
+                {
+                  "spell": "fireball",
+                  "printed_level": "level-7-version",
+                  "charge_cost": 7
+                },
+                {
+                  "spell": "flaming-sphere",
+                  "printed_level": "none",
+                  "charge_cost": 2
+                },
+                {
+                  "spell": "ice-storm",
+                  "printed_level": "none",
+                  "charge_cost": 4
+                },
+                {
+                  "spell": "invisibility",
+                  "printed_level": "none",
+                  "charge_cost": 2
+                },
+                {
+                  "spell": "knock",
+                  "printed_level": "none",
+                  "charge_cost": 2
+                },
+                {
+                  "spell": "light",
+                  "printed_level": "none",
+                  "charge_cost": 0
+                },
+                {
+                  "spell": "lightning-bolt",
+                  "printed_level": "level-7-version",
+                  "charge_cost": 7
+                },
+                {
+                  "spell": "mage-hand",
+                  "printed_level": "none",
+                  "charge_cost": 0
+                },
+                {
+                  "spell": "passwall",
+                  "printed_level": "none",
+                  "charge_cost": 5
+                },
+                {
+                  "spell": "plane-shift",
+                  "printed_level": "none",
+                  "charge_cost": 7
+                },
+                {
+                  "spell": "protection-from-evil-and-good",
+                  "printed_level": "none",
+                  "charge_cost": 0
+                },
+                {
+                  "spell": "telekinesis",
+                  "printed_level": "none",
+                  "charge_cost": 5
+                },
+                {
+                  "spell": "wall-of-fire",
+                  "printed_level": "none",
+                  "charge_cost": 4
+                },
+                {
+                  "spell": "web",
+                  "printed_level": "none",
+                  "charge_cost": 2
+                }
+              ],
+              "recharge": {
+                "dice": {
+                  "dice": 4,
+                  "sides": 6,
+                  "type": "charges"
+                },
+                "bonus": 2,
+                "when": "daily-at-dawn"
+              },
+              "last_charge": {
+                "die_sides": 20,
+                "regains_on": 20,
+                "regains": {
+                  "dice": 1,
+                  "sides": 12,
+                  "type": "charges"
+                },
+                "regains_bonus": 1
+              },
+              "retributive_strike": {
+                "action": "magic",
+                "area_emanation_feet": 30,
+                "planar_travel_percent": 50,
+                "your_damage_per_charge": 16,
+                "other_damage_per_charge": 6,
+                "damage_type": "force",
+                "save_ability": "dexterity",
+                "save_dc": 17,
+                "success_damage": "half"
+              },
+              "source_pages": [
+                246,
+                247
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/staff-of-the-python",
+      "name": "Staff of the Python",
+      "kind": "magic",
+      "category": "staff",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/staff-of-the-python",
+          "pages": [
+            247,
+            247
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/staff-of-the-python/variant/standard",
+          "name": "Staff of the Python",
+          "rarity": "uncommon",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "hold",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "magic-action",
+            "restrictions": [
+              "throw-within-10-feet"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              247,
+              247
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "action.magic-throw-staff",
+            "creature.giant-constrictor-snake",
+            "creature.under-your-control",
+            "creature.initiative-after-owner",
+            "action.bonus-revert",
+            "item.1-hour-reuse",
+            "item.destroyed-if-snake-dies"
+          ],
+          "details": {
+            "python": {
+              "action": "magic",
+              "throw_range_feet": 10,
+              "creature": "giant-constrictor-snake",
+              "control": "under-your-control",
+              "initiative": "shares-yours-and-acts-immediately-after",
+              "command": {
+                "timing": "your-turn",
+                "method": "mentally",
+                "action_required": false,
+                "range_feet": 60,
+                "blocked_by_condition": "incapacitated",
+                "options": [
+                  "decide-action-and-movement",
+                  "general-command"
+                ],
+                "without_commands": "defends-itself"
+              },
+              "revert": {
+                "action": "bonus",
+                "location": "snakes-current-space",
+                "reuse_after_hours": 1
+              },
+              "at_zero_hit_points": "dies-reverts-then-staff-shatters",
+              "hit_points_on_early_revert": "all-regained"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/staff-of-the-woodlands",
+      "name": "Staff of the Woodlands",
+      "kind": "magic",
+      "category": "staff",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/staff-of-the-woodlands",
+          "pages": [
+            247,
+            247
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/staff-of-the-woodlands/variant/standard",
+          "name": "Staff of the Woodlands",
+          "rarity": "rare",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "limited",
+            "maximum": 6,
+            "per_use": 1,
+            "recharge": "regain-1d6-at-dawn"
+          },
+          "equip": {
+            "mode": "wield",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "cast-spell",
+            "restrictions": [
+              "expend-listed-charges"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              247,
+              247
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "attunement.druid",
+            "item.magic-weapon",
+            "bonus.attack-and-damage-2",
+            "bonus.spell-attack-2",
+            "item.charges",
+            "spell.cast-listed-spells",
+            "spell.uses-your-save-dc",
+            "action.magic-tree-form",
+            "item.nonmagical-on-1-after-last-charge"
+          ],
+          "details": {
+            "woodlands": {
+              "attunement_by_any_of": [
+                "druid"
+              ],
+              "max_charges": 6,
+              "wielded_as": "quarterstaff",
+              "attack_bonus": 2,
+              "damage_bonus": 2,
+              "spell_attack_bonus": 2,
+              "save_dc_source": "your-spell-save-dc",
+              "spells": [
+                {
+                  "spell": "animal-friendship",
+                  "charge_cost": 1
+                },
+                {
+                  "spell": "awaken",
+                  "charge_cost": 5
+                },
+                {
+                  "spell": "barkskin",
+                  "charge_cost": 2
+                },
+                {
+                  "spell": "locate-animals-or-plants",
+                  "charge_cost": 2
+                },
+                {
+                  "spell": "pass-without-trace",
+                  "charge_cost": 2
+                },
+                {
+                  "spell": "speak-with-animals",
+                  "charge_cost": 1
+                },
+                {
+                  "spell": "speak-with-plants",
+                  "charge_cost": 3
+                },
+                {
+                  "spell": "wall-of-thorns",
+                  "charge_cost": 6
+                }
+              ],
+              "tree_form": {
+                "action": "magic",
+                "charge_cost": 1,
+                "placement": "one-end-in-earth-in-unoccupied-space",
+                "tree_height_feet": 60,
+                "trunk_diameter_feet": 5,
+                "branch_radius_feet": 20,
+                "aura": "faint-transmutation-discerned-with-detect-magic",
+                "revert": "touch-tree-and-use-magic-action",
+                "creatures_in_tree": "fall"
+              },
+              "recharge_dice": {
+                "dice": 1,
+                "sides": 6,
+                "type": "charges"
+              },
+              "last_charge": {
+                "die_sides": 20,
+                "destroyed_on": 1,
+                "result": "becomes-nonmagical-quarterstaff"
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/stone-of-controlling-earth-elementals",
+      "name": "Stone of Controlling Earth Elementals",
+      "kind": "magic",
+      "category": "wondrous-item",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/stone-of-controlling-earth-elementals",
+          "pages": [
+            248,
+            248
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/stone-of-controlling-earth-elementals/variant/standard",
+          "name": "Stone of Controlling Earth Elementals",
+          "rarity": "rare",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "touch",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "magic-action",
+            "restrictions": [
+              "touch-stone-to-ground"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              248,
+              248
+            ]
+          },
+          "required_mechanic_keys": [
+            "action.magic",
+            "creature.summon-earth-elemental",
+            "creature.obeys-commands",
+            "creature.initiative-after-owner",
+            "duration.1-hour",
+            "item.once-until-dawn"
+          ],
+          "details": {
+            "earth_stone": {
+              "weight_pounds": 5,
+              "condition": "while-touching-stone-to-ground",
+              "action": "magic",
+              "creature": "earth-elemental",
+              "summon_range_feet": 30,
+              "obeys_commands": true,
+              "initiative": "acts-immediately-after-you-on-your-count",
+              "duration_hours": 1,
+              "also_disappears_when": [
+                "it-dies",
+                "dismissed-as-bonus-action"
+              ],
+              "reuse_after": "next-dawn"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/stone-of-good-luck-luckstone",
+      "name": "Stone of Good Luck (Luckstone)",
+      "kind": "magic",
+      "category": "wondrous-item",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/stone-of-good-luck-luckstone",
+          "pages": [
+            248,
+            248
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/stone-of-good-luck-luckstone/variant/standard",
+          "name": "Stone of Good Luck (Luckstone)",
+          "rarity": "uncommon",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "carry",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              248,
+              248
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "item.carry",
+            "check.all-bonus-1",
+            "save.all-bonus-1"
+          ],
+          "details": {
+            "luckstone": {
+              "appearance": "polished-agate",
+              "condition": "while-on-your-person",
+              "ability_check_bonus": 1,
+              "saving_throw_bonus": 1
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/sun-blade",
+      "name": "Sun Blade",
+      "kind": "magic",
+      "category": "weapon",
+      "base": {
+        "options": [
+          "longsword"
+        ],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/sun-blade",
+          "pages": [
+            248,
+            248
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/sun-blade/variant/standard",
+          "name": "Sun Blade",
+          "rarity": "rare",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wield",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "weapon-attack",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              248,
+              248
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "item.magic-weapon",
+            "item.blade-of-radiance",
+            "property.finesse",
+            "bonus.attack-and-damage-2",
+            "damage.radiant-replaces-slashing",
+            "damage.extra-1d8-radiant-against-undead",
+            "light.sunlight"
+          ],
+          "details": {
+            "sun_blade": {
+              "appearance": "sword-hilt",
+              "blade": {
+                "condition": "while-grasping-hilt",
+                "action": "bonus",
+                "options": [
+                  "appear",
+                  "disappear"
+                ],
+                "functions_as": "longsword",
+                "property": "finesse",
+                "proficiency_if_proficient_with": [
+                  "longswords",
+                  "shortswords"
+                ]
+              },
+              "attack_bonus": 2,
+              "damage_bonus": 2,
+              "damage_type": "radiant",
+              "replaces_damage_type": "slashing",
+              "undead_extra_damage": {
+                "dice": 1,
+                "sides": 8,
+                "type": "radiant"
+              },
+              "sunlight": {
+                "bright_radius_feet": 15,
+                "dim_additional_feet": 15,
+                "light_is_sunlight": true,
+                "adjust_action": "magic",
+                "adjust_step_feet": 5,
+                "maximum_each_feet": 30,
+                "minimum_each_feet": 10
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/sword-of-life-stealing",
+      "name": "Sword of Life Stealing",
+      "kind": "magic",
+      "category": "weapon",
+      "base": {
+        "options": [
+          "glaive",
+          "greatsword",
+          "longsword",
+          "rapier",
+          "scimitar",
+          "shortsword"
+        ],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/sword-of-life-stealing",
+          "pages": [
+            248,
+            248
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/sword-of-life-stealing/variant/standard",
+          "name": "Sword of Life Stealing",
+          "rarity": "rare",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wield",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "weapon-attack",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              248,
+              248
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "item.magic-weapon",
+            "damage.extra-15-necrotic-on-natural-20",
+            "hit-points.temporary-equal-to-necrotic-damage"
+          ],
+          "details": {
+            "life_stealing": {
+              "trigger_natural_roll": 20,
+              "target": "creature",
+              "extra_damage": 15,
+              "damage_type": "necrotic",
+              "excluded_creature_types": [
+                "construct",
+                "undead"
+              ],
+              "temporary_hit_points": "equal-to-necrotic-damage-taken"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/sword-of-sharpness",
+      "name": "Sword of Sharpness",
+      "kind": "magic",
+      "category": "weapon",
+      "base": {
+        "options": [
+          "glaive",
+          "greatsword",
+          "longsword",
+          "scimitar"
+        ],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/sword-of-sharpness",
+          "pages": [
+            248,
+            248
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/sword-of-sharpness/variant/standard",
+          "name": "Sword of Sharpness",
+          "rarity": "very-rare",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wield",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "weapon-attack",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              248,
+              248
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "item.magic-weapon",
+            "damage.maximize-weapon-dice-against-objects",
+            "damage.extra-14-slashing-on-natural-20",
+            "condition.exhaustion"
+          ],
+          "details": {
+            "sharpness": {
+              "object_hit": "maximize-weapon-damage-dice",
+              "trigger_natural_roll": 20,
+              "target": "creature",
+              "extra_damage": 14,
+              "damage_type": "slashing",
+              "applies_condition": "exhaustion",
+              "exhaustion_levels": 1
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/sword-of-wounding",
+      "name": "Sword of Wounding",
+      "kind": "magic",
+      "category": "weapon",
+      "base": {
+        "options": [
+          "glaive",
+          "greatsword",
+          "longsword",
+          "rapier",
+          "scimitar",
+          "shortsword"
+        ],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/sword-of-wounding",
+          "pages": [
+            248,
+            248
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/sword-of-wounding/variant/standard",
+          "name": "Sword of Wounding",
+          "rarity": "rare",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wield",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "weapon-attack",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              248,
+              248
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "item.magic-weapon",
+            "damage.extra-2d6-necrotic",
+            "save.constitution-dc-15",
+            "effect.cannot-regain-hit-points",
+            "duration.1-hour",
+            "save.repeat-at-turn-end"
+          ],
+          "details": {
+            "wounding": {
+              "trigger": "hit-creature-with-attack",
+              "extra_damage": {
+                "dice": 2,
+                "sides": 6,
+                "type": "necrotic"
+              },
+              "save_ability": "constitution",
+              "save_dc": 15,
+              "failure": "cannot-regain-hit-points",
+              "duration_hours": 1,
+              "repeat_save": "end-of-each-of-its-turns",
+              "repeat_success": "ends-effect-on-itself"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
