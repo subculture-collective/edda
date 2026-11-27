@@ -21,7 +21,9 @@ source rows against it. It does not add a second record, which
 
 `internal/rules/srd521/item_source.go` is shared by all batches and should not
 need editing for a new one. It defines the generic `ItemSourceBatch[D]` record,
-strict decoding, manifest validation and `ComposeItemSourceIdentities`.
+strict decoding, magic-item manifest validation and
+`ComposeItemSourceIdentities`. Weapon batches validate through
+`item_source_weapons.go`; see [Weapon records](#weapon-records).
 
 Each batch owns four files named after its catalogue issue, here `225`:
 
@@ -1055,3 +1057,336 @@ The SRD 5.2.1 is licensed under the Creative Commons Attribution 4.0 Internation
 License, available at https://creativecommons.org/licenses/by/4.0/legalcode.
 Names, numeric values, table rows and requirements are adapted into Edda's
 structured item records; the software license does not replace this source license.
+
+## Magic items 20 (#244), pp. 248–250
+
+Twelve families and 12 variants, in planning inventory order. Files:
+`item_details_244.go`, `testdata/items_244.json`, `items_244_test.go` and
+`scripts/verify_srd_items_244.py`. `item_source.go` needs no change for these
+payloads.
+
+| Family | Page | Variants | Typed payload |
+| --- | --- | --- | --- |
+| Talisman of Pure Good | 248 | `standard` (Legendary, attunement) | `talisman_good`: the touch damage, Holy Symbol bonus and the Pure Rebuke action |
+| Talisman of Ultimate Evil | 249 | `standard` (Legendary, attunement) | `talisman_evil`: the touch damage, Holy Symbol bonus and the Ultimate End action |
+| Talisman of the Sphere | 249 | `standard` (Legendary, attunement) | `talisman_sphere`: the control check advantage and the movement formula |
+| Thunderous Greatclub | 249 | `standard` (Very Rare, attunement) | `thunderous_greatclub`: the Strength score, extra damage, Clap of Thunder and Earthquake |
+| Tome of Clear Thought | 249 | `standard` (Very Rare) | `clear_thought`: study time, the Intelligence increase and its maximum |
+| Tome of Leadership and Influence | 249 | `standard` (Very Rare) | `leadership`: study time, the Charisma increase and its maximum |
+| Tome of Understanding | 250 | `standard` (Very Rare) | `understanding`: study time, the Wisdom increase and its maximum |
+| Trident of Fish Command | 250 | `standard` (Uncommon, attunement) | `fish_command`: Dominate Beast on a Beast with a Swim Speed |
+| Universal Solvent | 250 | `standard` (Legendary) | `solvent`: the found quantity and the area each ounce dissolves |
+| Vicious Weapon | 250 | `standard` (Rare) | `vicious`: extra damage of the weapon's own type |
+| Vorpal Sword | 250 | `standard` (Legendary, attunement) | `vorpal`: the +3 bonus and the head-severing rule with its immunities |
+| Wand of Binding | 250 | `standard` (Rare, attunement) | `binding`: Hold Monster and Hold Person at save DC 17 |
+
+Variant rules used in this batch:
+
+- Every family has the single variant `standard`. Weapon lists in a category
+  line are base item options. `Any Simple or Martial` is recorded as
+  `any-simple-weapon` and `any-martial-weapon`.
+- Talisman of Pure Good (pp. 248–249) and Tome of Leadership and Influence
+  (pp. 249–250) record `source_pages` in their payloads. Inventory order is not
+  print order: the Talisman of the Sphere is printed before the Talisman of
+  Ultimate Evil. The catalogue keeps inventory order.
+- Talisman of Pure Good's attuning classes are the payload's
+  `attunement_by_any_of`; the shared restriction list stays empty.
+- Vorpal Sword's 30 and Earthquake's 50 are flat printed amounts, not dice.
+
+Talisman of Pure Good (7), Talisman of Ultimate Evil (6), the Trident of Fish
+Command (3, 1d3 at dawn) and the Wand of Binding (7, 1d6 + 1 at dawn) have
+charge pools. The talismans print no recharge. `per_use` is 1, the least a
+charged use costs. Earthquake's once-until-dawn rule is a use limit. No family
+lists a price.
+
+Composing the Healing contract fixture with batches #225 to #243 and this batch
+yields 240 families and 312 variants with no shared identity. The Healing
+fixture, `ResolveHealingPotion` and the coverage register are unchanged.
+
+The comparison script reads the pages column by column as one text stream. It
+lists every payload leaf with its printed phrase, fails on a leaf it does not
+list, requires a number to appear in its phrase, and derives each family's
+pages from the layout. It supplements the literal fixtures in
+`TestItems244SourceValues`; it is not an automatic conformance proof.
+
+```sh
+rtk proxy python3 -I scripts/verify_srd_items_244.py /path/to/SRD_CC_v5.2.1.pdf
+```
+
+This work includes material from the System Reference Document 5.2.1 (“SRD
+5.2.1”) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd.
+The SRD 5.2.1 is licensed under the Creative Commons Attribution 4.0 International
+License, available at https://creativecommons.org/licenses/by/4.0/legalcode.
+Names, numeric values, table rows and requirements are adapted into Edda's
+structured item records; the software license does not replace this source license.
+
+## Magic items 21 (#245), pp. 250–252
+
+Twelve families and 14 variants, in planning inventory order. Files:
+`item_details_245.go`, `testdata/items_245.json`, `items_245_test.go` and
+`scripts/verify_srd_items_245.py`. `item_source.go` needs no change for these
+payloads.
+
+| Family | Page | Variants | Typed payload |
+| --- | --- | --- | --- |
+| Wand of Enemy Detection | 250 | `standard` (Rare, attunement) | `enemy_detection`: the sense, its range and what it detects |
+| Wand of Fear | 250 | `standard` (Rare, attunement) | `fear`: Command and Fear with their printed limits and costs |
+| Wand of Fireballs | 250 | `standard` (Rare, attunement) | `fireballs`: Fireball at level 3, one level more per extra charge |
+| Wand of Lightning Bolts | 251 | `standard` (Rare, attunement) | `lightning_bolts`: Lightning Bolt at level 3, one level more per extra charge |
+| Wand of Magic Detection | 251 | `standard` (Uncommon) | `magic_detection`: Detect Magic from three charges |
+| Wand of Magic Missiles | 251 | `standard` (Uncommon) | `magic_missiles`: Magic Missile at level 1, one level more per extra charge |
+| Wand of Paralysis | 251 | `standard` (Rare, attunement) | `paralysis`: the ray, its save and the Paralyzed condition |
+| Wand of Polymorph | 251 | `standard` (Very Rare, attunement) | `polymorph`: Polymorph for one charge at save DC 15 |
+| Wand of Secrets | 251 | `standard` (Uncommon) | `secrets`: the secret door and trap sense |
+| Wand of Web | 251 | `standard` (Uncommon, attunement) | `web`: Web for one charge at save DC 13 |
+| Wand of Wonder | 251 | `standard` (Rare, attunement) | `wonder`: the 18-row 1d100 effect table, its 1d10 spell and two 1d4 sub-tables, and each effect's values |
+| Wand of the War Mage, +1, +2, or +3 | 251 | `plus-1` (Uncommon, attunement), `plus-2` (Rare, attunement), `plus-3` (Very Rare, attunement) | `war_mage`: the spell attack bonus by rarity |
+
+Variant rules used in this batch:
+
+- Wand of the War Mage has one variant per rarity (`plus-1` to `plus-3`). Every
+  other family has the single variant `standard`.
+- Spellcaster attunement is the payload's `attunement_by_any_of`; the shared
+  restriction list stays empty.
+- The Wand of Fireballs (pp. 250–251) and the Wand of Wonder (pp. 251–252)
+  record `source_pages` in their payloads. Issue #245 and the planning inventory
+  name pp. 250 and 251 only; the Wand of Wonder Effects table is printed on
+  p. 252, so the verifier reads pp. 250–252. Both presentations keep the
+  inventory's start page.
+- Inventory order is not print order: the Wand of the War Mage is printed before
+  the Wands of Web and Wonder.
+- The Wands of Polymorph and Web share `ItemWandSingleSpell`.
+- The Wand of Wonder's effect rows, the 1d10 spell table and both 1d4 tables
+  must each cover their die exactly. Row `98–00` ends at 100.
+
+Every wand except the Wand of the War Mage has a charge pool: 3 charges and 1d3
+at dawn for the Wands of Magic Detection and Secrets, and 7 charges and 1d6 + 1
+at dawn for the others. `per_use` is 1, the least a charged use costs. No family
+lists a price.
+
+Composing the Healing contract fixture with batches #225 to #244 and this batch
+yields 252 families and 326 variants with no shared identity. The Healing
+fixture, `ResolveHealingPotion` and the coverage register are unchanged.
+
+The comparison script reads the pages column by column as one text stream. It
+lists every payload leaf with its printed phrase, fails on a leaf it does not
+list, requires a number to appear in its phrase, and derives each family's
+pages from the layout. It supplements the literal fixtures in
+`TestItems245SourceValues`; it is not an automatic conformance proof.
+
+```sh
+rtk proxy python3 -I scripts/verify_srd_items_245.py /path/to/SRD_CC_v5.2.1.pdf
+```
+
+This work includes material from the System Reference Document 5.2.1 (“SRD
+5.2.1”) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd.
+The SRD 5.2.1 is licensed under the Creative Commons Attribution 4.0 International
+License, available at https://creativecommons.org/licenses/by/4.0/legalcode.
+Names, numeric values, table rows and requirements are adapted into Edda's
+structured item records; the software license does not replace this source license.
+
+## Magic items 22 (#246), p. 253
+
+Six families and 8 variants, in planning inventory order. Files:
+`item_details_246.go`, `testdata/items_246.json`, `items_246_test.go` and
+`scripts/verify_srd_items_246.py`. `item_source.go` needs no change for these
+payloads.
+
+| Family | Page | Variants | Typed payload |
+| --- | --- | --- | --- |
+| Weapon of Warning | 253 | `standard` (Uncommon, attunement) | `warning`: the Alarm and Supernatural Readiness benefits |
+| Weapon, +1, +2, or +3 | 253 | `plus-1` (Uncommon), `plus-2` (Rare), `plus-3` (Very Rare) | `weapon_bonus`: the attack and damage bonus by rarity |
+| Well of Many Worlds | 253 | `standard` (Legendary) | `well`: the portal, how it closes and its 1d8-hour wait |
+| Wind Fan | 253 | `standard` (Uncommon) | `wind_fan`: Gust of Wind and the cumulative failure chance |
+| Winged Boots | 253 | `standard` (Uncommon, attunement) | `winged_boots`: the flight charges and descent rule |
+| Wings of Flying | 253 | `standard` (Rare, attunement) | `wings`: the wing flight, its duration and 1d12-hour wait |
+
+Variant rules used in this batch:
+
+- `Weapon, +1, +2, or +3` has one variant per rarity (`plus-1` to `plus-3`).
+  Every other family has the single variant `standard`.
+- `Any Simple or Martial` is recorded as the base options `any-simple-weapon`
+  and `any-martial-weapon`.
+- Inventory order is not print order: `Weapon, +1, +2, or +3` is printed before
+  Weapon of Warning.
+- Wings of Flying prints "The wings lasts for 1 hour"; the record takes the one
+  hour and does not correct the source sentence.
+- The 1d8-hour and 1d12-hour waits and the Wind Fan's failure chance are use
+  limits, not charge pools.
+
+Winged Boots have the only charge pool (4, 1d4 at dawn, `per_use` 1). No family
+lists a price. This batch completes the planning inventory's magic items.
+
+Composing the Healing contract fixture with batches #225 to #245 and this batch
+yields 258 families and 334 variants with no shared identity. The Healing
+fixture, `ResolveHealingPotion` and the coverage register are unchanged.
+
+The comparison script reads the pages column by column as one text stream. It
+lists every payload leaf with its printed phrase, fails on a leaf it does not
+list, requires a number to appear in its phrase, and derives each family's
+pages from the layout. It supplements the literal fixtures in
+`TestItems246SourceValues`; it is not an automatic conformance proof.
+
+```sh
+rtk proxy python3 -I scripts/verify_srd_items_246.py /path/to/SRD_CC_v5.2.1.pdf
+```
+
+This work includes material from the System Reference Document 5.2.1 (“SRD
+5.2.1”) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd.
+The SRD 5.2.1 is licensed under the Creative Commons Attribution 4.0 International
+License, available at https://creativecommons.org/licenses/by/4.0/legalcode.
+Names, numeric values, table rows and requirements are adapted into Edda's
+structured item records; the software license does not replace this source license.
+
+## Weapon records
+
+The Weapons table (p. 91) lists mundane items, so weapon batches use their own
+validator in `item_source_weapons.go`, with the shared payload `ItemWeapon`. It
+reuses the batch type, strict decoding and identity composition from
+`item_source.go`. A weapon record has kind `mundane`, the presentation
+`content/weapons/<slug>`, rarity `none`, no attunement or charges, and the
+table's listed price. The manifest pins identity, price and mechanic keys. The
+keys restate the whole table row except weight, so a decoded payload that
+changes any other value fails.
+
+**Ownership.** Before #247, no weapon had a source record. `equipment.go` changes
+only Chain Mail and Shield. The playable Longsword in `attack.go`, the Fighter
+creation fixture's weapon names and inventory rows, and the Bandit's Scimitar and
+Light Crossbow actions are runtime or monster data. The catalogue batch is
+therefore the only record of each weapon. Its tests join the runtime values to
+the record; no runtime code reads it.
+
+The comparison scripts for weapons parse the printed table rows and build the
+expected records from them, without a hand-kept value list. They also check that
+the planning inventory omits exactly one printed weapon, **Heavy Crossbow**. No
+catalogue issue assigns it, so it has no record yet.
+
+## Weapons 01 (#247), p. 91
+
+Twelve weapons, one `standard` record each, in planning inventory order. Files:
+`item_details_247.go`, `testdata/items_247.json`, `items_247_test.go` and
+`scripts/verify_srd_items_247.py`.
+
+| Weapon | Category | Damage | Mastery | Cost |
+| --- | --- | --- | --- | --- |
+| Battleaxe | Martial Melee | 1d8 Slashing | Topple | 10 GP |
+| Blowgun | Martial Ranged | 1 Piercing | Vex | 10 GP |
+| Club | Simple Melee | 1d4 Bludgeoning | Slow | 1 SP |
+| Dagger | Simple Melee | 1d4 Piercing | Nick | 2 GP |
+| Dart | Simple Ranged | 1d4 Piercing | Vex | 5 CP |
+| Flail | Martial Melee | 1d8 Bludgeoning | Sap | 10 GP |
+| Glaive | Martial Melee | 1d10 Slashing | Graze | 20 GP |
+| Greataxe | Martial Melee | 1d12 Slashing | Cleave | 30 GP |
+| Greatclub | Simple Melee | 1d8 Bludgeoning | Push | 2 SP |
+| Greatsword | Martial Melee | 2d6 Slashing | Graze | 50 GP |
+| Halberd | Martial Melee | 1d10 Slashing | Cleave | 20 GP |
+| Hand Crossbow | Martial Ranged | 1d6 Piercing | Vex | 75 GP |
+
+The Blowgun's damage is the flat 1 the table prints, with no die. The Dart's
+weight is 1/4 pound. The Flail has no property.
+
+The creation fixture names Greatsword and Flail; the #247 test joins both names
+to this batch.
+
+Composing the Healing contract fixture with batches #225 to #246 and this batch
+yields 270 families and 346 variants with no shared identity. The coverage register
+is unchanged.
+
+```sh
+rtk proxy python3 -I scripts/verify_srd_items_247.py /path/to/SRD_CC_v5.2.1.pdf
+```
+
+This work includes material from the System Reference Document 5.2.1 (“SRD
+5.2.1”) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd.
+The SRD 5.2.1 is licensed under the Creative Commons Attribution 4.0 International
+License, available at https://creativecommons.org/licenses/by/4.0/legalcode.
+Names, numeric values and table rows are adapted into Edda's structured item
+records; the software license does not replace this source license.
+
+## Weapons 02 (#248), p. 91
+
+Twelve weapons, one `standard` record each, in planning inventory order. Files:
+`item_details_248.go`, `testdata/items_248.json`, `items_248_test.go` and
+`scripts/verify_srd_items_248.py`.
+
+| Weapon | Category | Damage | Mastery | Cost |
+| --- | --- | --- | --- | --- |
+| Handaxe | Simple Melee | 1d6 Slashing | Vex | 5 GP |
+| Javelin | Simple Melee | 1d6 Piercing | Slow | 5 SP |
+| Lance | Martial Melee | 1d10 Piercing | Topple | 10 GP |
+| Light Crossbow | Simple Ranged | 1d8 Piercing | Slow | 25 GP |
+| Light Hammer | Simple Melee | 1d4 Bludgeoning | Nick | 2 GP |
+| Longbow | Martial Ranged | 1d8 Piercing | Slow | 50 GP |
+| Longsword | Martial Melee | 1d8 Slashing | Sap | 15 GP |
+| Mace | Simple Melee | 1d6 Bludgeoning | Sap | 5 GP |
+| Maul | Martial Melee | 2d6 Bludgeoning | Topple | 10 GP |
+| Morningstar | Martial Melee | 1d8 Piercing | Sap | 15 GP |
+| Musket | Martial Ranged | 1d12 Piercing | Slow | 500 GP |
+| Pike | Martial Melee | 1d10 Piercing | Push | 5 GP |
+
+The Lance records the printed Two-Handed exception `unless-mounted`. The Mace
+and Morningstar have no property.
+
+The #248 test joins the Longsword row to the playable fixture: `ResolveLongsword`
+must roll the row's die with its damage type, cite the same
+`content/weapons/longsword` ID, and keep the coverage entry `unsupported`. The
+fixture is one-handed; it does not read the Versatile or Sap values. The test
+also joins the Javelin name in the creation fixture and compares the Bandit's
+Light Crossbow action with the row's die, damage type and range.
+
+Composing the Healing contract fixture with batches #225 to #247 and this batch
+yields 282 families and 358 variants with no shared identity. The coverage register
+is unchanged.
+
+```sh
+rtk proxy python3 -I scripts/verify_srd_items_248.py /path/to/SRD_CC_v5.2.1.pdf
+```
+
+This work includes material from the System Reference Document 5.2.1 (“SRD
+5.2.1”) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd.
+The SRD 5.2.1 is licensed under the Creative Commons Attribution 4.0 International
+License, available at https://creativecommons.org/licenses/by/4.0/legalcode.
+Names, numeric values and table rows are adapted into Edda's structured item
+records; the software license does not replace this source license.
+
+## Weapons 03 (#249), p. 91
+
+Twelve weapons, one `standard` record each, in planning inventory order. Files:
+`item_details_249.go`, `testdata/items_249.json`, `items_249_test.go` and
+`scripts/verify_srd_items_249.py`.
+
+| Weapon | Category | Damage | Mastery | Cost |
+| --- | --- | --- | --- | --- |
+| Pistol | Martial Ranged | 1d10 Piercing | Vex | 250 GP |
+| Quarterstaff | Simple Melee | 1d6 Bludgeoning | Topple | 2 SP |
+| Rapier | Martial Melee | 1d8 Piercing | Vex | 25 GP |
+| Scimitar | Martial Melee | 1d6 Slashing | Nick | 25 GP |
+| Shortbow | Simple Ranged | 1d6 Piercing | Vex | 25 GP |
+| Shortsword | Martial Melee | 1d6 Piercing | Vex | 10 GP |
+| Sickle | Simple Melee | 1d4 Slashing | Nick | 1 GP |
+| Sling | Simple Ranged | 1d4 Bludgeoning | Slow | 1 SP |
+| Spear | Simple Melee | 1d6 Piercing | Sap | 1 GP |
+| Trident | Martial Melee | 1d8 Piercing | Topple | 5 GP |
+| War Pick | Martial Melee | 1d8 Piercing | Sap | 5 GP |
+| Warhammer | Martial Melee | 1d8 Bludgeoning | Push | 15 GP |
+
+The Sling's weight is printed as a dash, so `weight.listed` is false; that is
+not a weight of zero.
+
+The #249 test compares the Bandit's Scimitar action with the row's die and
+damage type.
+
+Composing the Healing contract fixture with batches #225 to #248 and this batch
+yields 294 families and 370 variants with no shared identity. The coverage register
+is unchanged.
+
+```sh
+rtk proxy python3 -I scripts/verify_srd_items_249.py /path/to/SRD_CC_v5.2.1.pdf
+```
+
+This work includes material from the System Reference Document 5.2.1 (“SRD
+5.2.1”) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd.
+The SRD 5.2.1 is licensed under the Creative Commons Attribution 4.0 International
+License, available at https://creativecommons.org/licenses/by/4.0/legalcode.
+Names, numeric values and table rows are adapted into Edda's structured item
+records; the software license does not replace this source license.

@@ -197,10 +197,23 @@ const (
 	itemAttunements = "none|required"
 )
 
-// decodeItemSourceBatch decodes one batch strictly. Duplicate or mixed-case
-// members, unknown fields, null, trailing data and any omitted field fail: the
-// typed value must re-encode to exactly the supplied JSON tree.
+// decodeItemSourceBatch decodes one magic-item batch strictly and validates it
+// against its reviewed manifest.
 func decodeItemSourceBatch[D any](data []byte, m itemSourceManifest, check func(family, variant string, d *D) error) (ItemSourceBatch[D], error) {
+	b, err := strictItemSourceBatch[D](data)
+	if err != nil {
+		return ItemSourceBatch[D]{}, err
+	}
+	if err := validateItemSourceBatch(b, m, check); err != nil {
+		return ItemSourceBatch[D]{}, err
+	}
+	return b, nil
+}
+
+// strictItemSourceBatch decodes without source validation. Duplicate or
+// mixed-case members, unknown fields, null, trailing data and any omitted field
+// fail: the typed value must re-encode to exactly the supplied JSON tree.
+func strictItemSourceBatch[D any](data []byte) (ItemSourceBatch[D], error) {
 	var b ItemSourceBatch[D]
 	if err := uniqueCatalogueJSON(json.NewDecoder(bytes.NewReader(data)), true); err != nil {
 		return b, err
@@ -223,9 +236,6 @@ func decodeItemSourceBatch[D any](data []byte, m itemSourceManifest, check func(
 	}
 	if !reflect.DeepEqual(got, want) {
 		return ItemSourceBatch[D]{}, fmt.Errorf("item source batch omits a required field")
-	}
-	if err := validateItemSourceBatch(b, m, check); err != nil {
-		return ItemSourceBatch[D]{}, err
 	}
 	return b, nil
 }

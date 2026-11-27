@@ -1,0 +1,1098 @@
+{
+  "schema_version": 1,
+  "rules_version": "srd-5.2.1",
+  "batch": "data-magic-items-20",
+  "catalogue_issue": 244,
+  "source": {
+    "version": "5.2.1",
+    "language": "en",
+    "landing_url": "https://www.dndbeyond.com/srd",
+    "artifact_url": "https://media.dndbeyond.com/compendium-images/srd/5.2/SRD_CC_v5.2.1.pdf",
+    "sha256": "8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87",
+    "bytes": 6031375,
+    "pages": 364,
+    "retrieved_at": "2026-11-15",
+    "license": "CC-BY-4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/legalcode",
+    "attribution": "This work includes material from the System Reference Document 5.2.1 (\u201cSRD 5.2.1\u201d) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd. The SRD 5.2.1 is licensed under the Creative Commons Attribution 4.0 International License, available at https://creativecommons.org/licenses/by/4.0/legalcode.",
+    "changes": "SRD 5.2.1 pp. 248\u2013250 adapted into twelve versioned magic-item families (Talisman of Pure Good through Wand of Binding) with explicit variant identities, structured requirements and typed source values. Names, numeric rules, table rows and key phrases are adapted into keys; no rules prose is reproduced. Prices are not listed and remain unspecified. Catalogue data grants no inventory, action or gameplay permissions; every record is unavailable."
+  },
+  "families": [
+    {
+      "id": "srd-5.2.1:content/items/talisman-of-pure-good",
+      "name": "Talisman of Pure Good",
+      "kind": "magic",
+      "category": "wondrous-item",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/talisman-of-pure-good",
+          "pages": [
+            248,
+            248
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/talisman-of-pure-good/variant/standard",
+          "name": "Talisman of Pure Good",
+          "rarity": "legendary",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "limited",
+            "maximum": 7,
+            "per_use": 1,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wear-or-hold",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "magic-action",
+            "restrictions": [
+              "expend-one-charge",
+              "target-on-ground-within-120-feet"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              248,
+              248
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "attunement.by-class",
+            "damage.8d6-radiant-on-fiend-or-undead-touch",
+            "item.holy-symbol",
+            "bonus.spell-attack-2",
+            "item.charges",
+            "action.magic-pure-rebuke",
+            "save.dexterity-dc-20",
+            "effect.destroyed-in-fissure",
+            "damage.4d6-psychic-on-success",
+            "item.destroyed-after-last-charge"
+          ],
+          "details": {
+            "talisman_good": {
+              "attunement_by_any_of": [
+                "cleric",
+                "paladin"
+              ],
+              "touch_damage": {
+                "creature_types": [
+                  "fiend",
+                  "undead"
+                ],
+                "damage": {
+                  "dice": 8,
+                  "sides": 6,
+                  "type": "radiant"
+                },
+                "repeats": "end-of-each-turn-holding-or-carrying"
+              },
+              "holy_symbol": true,
+              "spell_attack_bonus": 2,
+              "max_charges": 7,
+              "rebuke": {
+                "action": "magic",
+                "charge_cost": 1,
+                "target": "one-visible-creature-on-ground",
+                "range_feet": 120,
+                "save_ability": "dexterity",
+                "save_dc": 20,
+                "disadvantage_types": [
+                  "fiend",
+                  "undead"
+                ],
+                "failure": "destroyed-leaving-no-remains",
+                "success_damage": {
+                  "dice": 4,
+                  "sides": 6,
+                  "type": "psychic"
+                }
+              },
+              "last_charge": "disperses-into-golden-light-and-is-destroyed",
+              "source_pages": [
+                248,
+                249
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/talisman-of-ultimate-evil",
+      "name": "Talisman of Ultimate Evil",
+      "kind": "magic",
+      "category": "wondrous-item",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/talisman-of-ultimate-evil",
+          "pages": [
+            249,
+            249
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/talisman-of-ultimate-evil/variant/standard",
+          "name": "Talisman of Ultimate Evil",
+          "rarity": "legendary",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "limited",
+            "maximum": 6,
+            "per_use": 1,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wear-or-hold",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "magic-action",
+            "restrictions": [
+              "expend-one-charge",
+              "target-on-ground-within-120-feet"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              249,
+              249
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "damage.8d6-necrotic-on-other-creature-touch",
+            "item.holy-symbol",
+            "bonus.spell-attack-2",
+            "item.charges",
+            "action.magic-ultimate-end",
+            "save.dexterity-dc-20",
+            "effect.destroyed-in-fissure",
+            "damage.4d6-psychic-on-success",
+            "item.destroyed-after-last-charge"
+          ],
+          "details": {
+            "talisman_evil": {
+              "touch_damage": {
+                "excluded_creature_types": [
+                  "fiend",
+                  "undead"
+                ],
+                "damage": {
+                  "dice": 8,
+                  "sides": 6,
+                  "type": "necrotic"
+                },
+                "repeats": "end-of-each-turn-holding-or-carrying"
+              },
+              "holy_symbol": true,
+              "spell_attack_bonus": 2,
+              "max_charges": 6,
+              "ultimate_end": {
+                "action": "magic",
+                "charge_cost": 1,
+                "target": "one-visible-creature-on-ground",
+                "range_feet": 120,
+                "save_ability": "dexterity",
+                "save_dc": 20,
+                "disadvantage_types": [
+                  "celestial"
+                ],
+                "failure": "destroyed-leaving-no-remains",
+                "success_damage": {
+                  "dice": 4,
+                  "sides": 6,
+                  "type": "psychic"
+                }
+              },
+              "last_charge": "dissolves-into-slime-and-is-destroyed"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/talisman-of-the-sphere",
+      "name": "Talisman of the Sphere",
+      "kind": "magic",
+      "category": "wondrous-item",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/talisman-of-the-sphere",
+          "pages": [
+            249,
+            249
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/talisman-of-the-sphere/variant/standard",
+          "name": "Talisman of the Sphere",
+          "rarity": "legendary",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wear-or-hold",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "magic-action",
+            "restrictions": [
+              "controlling-sphere-of-annihilation-at-turn-start"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              249,
+              249
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "check.advantage-arcana-to-control-sphere",
+            "action.magic-move-sphere",
+            "movement.10-feet-plus-10-times-intelligence-modifier"
+          ],
+          "details": {
+            "talisman_sphere": {
+              "condition": "while-holding-or-wearing",
+              "check": {
+                "ability": "intelligence",
+                "skill": "arcana",
+                "mode": "advantage",
+                "purpose": "control-sphere-of-annihilation"
+              },
+              "move": {
+                "timing": "start-of-turn-while-in-control",
+                "action": "magic",
+                "base_feet": 10,
+                "additional_feet_per_intelligence_modifier": 10,
+                "straight_line_required": false
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/thunderous-greatclub",
+      "name": "Thunderous Greatclub",
+      "kind": "magic",
+      "category": "weapon",
+      "base": {
+        "options": [
+          "greatclub"
+        ],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/thunderous-greatclub",
+          "pages": [
+            249,
+            249
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/thunderous-greatclub/variant/standard",
+          "name": "Thunderous Greatclub",
+          "rarity": "very-rare",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wield",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "weapon-attack",
+            "restrictions": [
+              "earthquake-once-until-next-dawn"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              249,
+              249
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "item.magic-weapon",
+            "ability.strength-20",
+            "damage.extra-1d8-thunder",
+            "damage.extra-3d8-thunder-to-objects",
+            "action.magic-clap-of-thunder",
+            "save.strength-dc-15",
+            "condition.prone",
+            "damage.3d8-thunder-to-objects-in-cone",
+            "action.magic-earthquake",
+            "damage.50-bludgeoning-to-structures",
+            "save.dexterity-dc-20",
+            "save.constitution-dc-20-concentration",
+            "effect.fissure",
+            "item.earthquake-once-until-dawn"
+          ],
+          "details": {
+            "thunderous_greatclub": {
+              "strength": {
+                "score": 20,
+                "condition": "while-attuned-unless-already-equal-or-higher"
+              },
+              "creature_extra_damage": {
+                "dice": 1,
+                "sides": 8,
+                "type": "thunder"
+              },
+              "object_extra_damage": {
+                "dice": 3,
+                "sides": 8,
+                "type": "thunder"
+              },
+              "object_filter": "not-worn-or-carried",
+              "clap": {
+                "action": "magic",
+                "strike": "hard-surface",
+                "audible_feet": 300,
+                "cone_feet": 30,
+                "save_ability": "strength",
+                "save_dc": 15,
+                "condition": "prone",
+                "object_damage": {
+                  "dice": 3,
+                  "sides": 8,
+                  "type": "thunder"
+                }
+              },
+              "earthquake": {
+                "action": "magic",
+                "strike": "ground",
+                "circle_radius_feet": 50,
+                "structure_damage": 50,
+                "structure_damage_type": "bludgeoning",
+                "prone_save_ability": "dexterity",
+                "prone_save_dc": 20,
+                "condition": "prone",
+                "concentration_save_ability": "constitution",
+                "concentration_save_dc": 20,
+                "fissure": {
+                  "depth_feet": 30,
+                  "width_feet": 10,
+                  "save_ability": "dexterity",
+                  "save_dc": 20,
+                  "failure": "falls-into-fissure",
+                  "success": "moves-with-fissure-edge",
+                  "structures": "collapse-into-fissure"
+                },
+                "reuse_after": "next-dawn"
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/tome-of-clear-thought",
+      "name": "Tome of Clear Thought",
+      "kind": "magic",
+      "category": "wondrous-item",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/tome-of-clear-thought",
+          "pages": [
+            249,
+            249
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/tome-of-clear-thought/variant/standard",
+          "name": "Tome of Clear Thought",
+          "rarity": "very-rare",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "study",
+            "restrictions": [
+              "48-hours-within-6-days"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              249,
+              249
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.study-48-hours-within-6-days",
+            "ability.increase-intelligence-by-2",
+            "ability.maximum-30",
+            "item.loses-magic-for-a-century"
+          ],
+          "details": {
+            "clear_thought": {
+              "contents": "memory-and-logic-exercises",
+              "study": {
+                "hours": 48,
+                "within_days": 6,
+                "activity": "study-contents-and-practice-guidelines"
+              },
+              "ability": "intelligence",
+              "increase": 2,
+              "maximum": 30,
+              "magic_after_use": "lost",
+              "magic_returns_after_centuries": 1
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/tome-of-leadership-and-influence",
+      "name": "Tome of Leadership and Influence",
+      "kind": "magic",
+      "category": "wondrous-item",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/tome-of-leadership-and-influence",
+          "pages": [
+            249,
+            249
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/tome-of-leadership-and-influence/variant/standard",
+          "name": "Tome of Leadership and Influence",
+          "rarity": "very-rare",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "study",
+            "restrictions": [
+              "48-hours-within-6-days"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              249,
+              249
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.study-48-hours-within-6-days",
+            "ability.increase-charisma-by-2",
+            "ability.maximum-30",
+            "item.loses-magic-for-a-century"
+          ],
+          "details": {
+            "leadership": {
+              "contents": "guidelines-for-influencing-and-charming",
+              "study": {
+                "hours": 48,
+                "within_days": 6,
+                "activity": "study-contents-and-practice-guidelines"
+              },
+              "ability": "charisma",
+              "increase": 2,
+              "maximum": 30,
+              "magic_after_use": "lost",
+              "magic_returns_after_centuries": 1,
+              "source_pages": [
+                249,
+                250
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/tome-of-understanding",
+      "name": "Tome of Understanding",
+      "kind": "magic",
+      "category": "wondrous-item",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/tome-of-understanding",
+          "pages": [
+            250,
+            250
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/tome-of-understanding/variant/standard",
+          "name": "Tome of Understanding",
+          "rarity": "very-rare",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "study",
+            "restrictions": [
+              "48-hours-within-6-days"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              250,
+              250
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.study-48-hours-within-6-days",
+            "ability.increase-wisdom-by-2",
+            "ability.maximum-30",
+            "item.loses-magic-for-a-century"
+          ],
+          "details": {
+            "understanding": {
+              "contents": "intuition-and-insight-exercises",
+              "study": {
+                "hours": 48,
+                "within_days": 6,
+                "activity": "study-contents-and-practice-guidelines"
+              },
+              "ability": "wisdom",
+              "increase": 2,
+              "maximum": 30,
+              "magic_after_use": "lost",
+              "magic_returns_after_centuries": 1
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/trident-of-fish-command",
+      "name": "Trident of Fish Command",
+      "kind": "magic",
+      "category": "weapon",
+      "base": {
+        "options": [
+          "trident"
+        ],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/trident-of-fish-command",
+          "pages": [
+            250,
+            250
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/trident-of-fish-command/variant/standard",
+          "name": "Trident of Fish Command",
+          "rarity": "uncommon",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "limited",
+            "maximum": 3,
+            "per_use": 1,
+            "recharge": "regain-1d3-at-dawn"
+          },
+          "equip": {
+            "mode": "carry",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "cast-spell",
+            "restrictions": [
+              "expend-one-charge",
+              "beast-with-swim-speed"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              250,
+              250
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "item.magic-weapon",
+            "item.carry",
+            "item.charges",
+            "spell.cast-dominate-beast",
+            "spell.save-dc-15",
+            "spell.target-beast-with-swim-speed"
+          ],
+          "details": {
+            "fish_command": {
+              "max_charges": 3,
+              "recharge_dice": {
+                "dice": 1,
+                "sides": 3,
+                "type": "charges"
+              },
+              "condition": "while-carrying",
+              "charge_cost": 1,
+              "spell": "dominate-beast",
+              "save_dc": 15,
+              "target": "beast-with-swim-speed"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/universal-solvent",
+      "name": "Universal Solvent",
+      "kind": "magic",
+      "category": "wondrous-item",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/universal-solvent",
+          "pages": [
+            250,
+            250
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/universal-solvent/variant/standard",
+          "name": "Universal Solvent",
+          "rarity": "legendary",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "utilize-action",
+            "restrictions": [
+              "pour-onto-surface-within-reach"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              250,
+              250
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.found-with-1d6-plus-1-ounces",
+            "action.utilize",
+            "effect.dissolve-adhesive-1-square-foot-per-ounce"
+          ],
+          "details": {
+            "solvent": {
+              "appearance": "milky-liquid-with-strong-alcohol-smell",
+              "ounces_when_found": {
+                "dice": 1,
+                "sides": 6,
+                "type": "ounces"
+              },
+              "ounces_when_found_bonus": 1,
+              "action": "utilize",
+              "minimum_ounces_per_pour": 1,
+              "target": "surface-within-reach",
+              "dissolves": {
+                "maximum_square_feet": 1,
+                "timing": "instantly",
+                "includes": "sovereign-glue"
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/vicious-weapon",
+      "name": "Vicious Weapon",
+      "kind": "magic",
+      "category": "weapon",
+      "base": {
+        "options": [
+          "any-simple-weapon",
+          "any-martial-weapon"
+        ],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/vicious-weapon",
+          "pages": [
+            250,
+            250
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/vicious-weapon/variant/standard",
+          "name": "Vicious Weapon",
+          "rarity": "rare",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wield",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "weapon-attack",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              250,
+              250
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.magic-weapon",
+            "damage.extra-2d6-of-weapon-type"
+          ],
+          "details": {
+            "vicious": {
+              "trigger": "hit-creature",
+              "extra_damage": {
+                "dice": 2,
+                "sides": 6,
+                "type": "same-as-weapon"
+              },
+              "damage_type_rule": "same-as-weapon-normal-damage"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/vorpal-sword",
+      "name": "Vorpal Sword",
+      "kind": "magic",
+      "category": "weapon",
+      "base": {
+        "options": [
+          "glaive",
+          "greatsword",
+          "longsword",
+          "scimitar"
+        ],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/vorpal-sword",
+          "pages": [
+            250,
+            250
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/vorpal-sword/variant/standard",
+          "name": "Vorpal Sword",
+          "rarity": "legendary",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wield",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "weapon-attack",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              250,
+              250
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "item.magic-weapon",
+            "bonus.attack-and-damage-3",
+            "damage.ignore-slashing-resistance",
+            "effect.sever-head-on-natural-20",
+            "damage.extra-30-slashing-when-head-kept",
+            "resistance.legendary-resistance-avoids-head-loss"
+          ],
+          "details": {
+            "vorpal": {
+              "attack_bonus": 3,
+              "damage_bonus": 3,
+              "ignores_resistance_to": "slashing",
+              "head": {
+                "target": "creature-with-at-least-one-head",
+                "trigger_natural_roll": 20,
+                "effect": "cut-off-one-head",
+                "death": "dies-if-it-cannot-survive-without-head",
+                "immune_when": [
+                  "immunity-to-slashing-damage",
+                  "no-head-or-no-need-for-one",
+                  "gm-decides-too-big"
+                ],
+                "immune_extra_damage": 30,
+                "immune_extra_damage_type": "slashing",
+                "legendary_resistance": {
+                  "cost": "one-daily-use",
+                  "result": "keeps-head-and-takes-extra-damage"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/wand-of-binding",
+      "name": "Wand of Binding",
+      "kind": "magic",
+      "category": "wand",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/wand-of-binding",
+          "pages": [
+            250,
+            250
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/wand-of-binding/variant/standard",
+          "name": "Wand of Binding",
+          "rarity": "rare",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "limited",
+            "maximum": 7,
+            "per_use": 1,
+            "recharge": "regain-1d6-plus-1-at-dawn"
+          },
+          "equip": {
+            "mode": "hold",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "cast-spell",
+            "restrictions": [
+              "expend-listed-charges"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              250,
+              250
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "item.hold",
+            "item.charges",
+            "spell.cast-listed-spells",
+            "spell.save-dc-17",
+            "item.destroyed-on-1-after-last-charge"
+          ],
+          "details": {
+            "binding": {
+              "max_charges": 7,
+              "save_dc": 17,
+              "spells": [
+                {
+                  "spell": "hold-monster",
+                  "charge_cost": 5
+                },
+                {
+                  "spell": "hold-person",
+                  "charge_cost": 2
+                }
+              ],
+              "recharge": {
+                "dice": {
+                  "dice": 1,
+                  "sides": 6,
+                  "type": "charges"
+                },
+                "bonus": 1,
+                "when": "daily-at-dawn"
+              },
+              "last_charge": {
+                "die_sides": 20,
+                "destroyed_on": 1,
+                "result": "crumbles-into-ashes"
+              }
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

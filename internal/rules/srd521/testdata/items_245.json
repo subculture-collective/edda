@@ -1,0 +1,1434 @@
+{
+  "schema_version": 1,
+  "rules_version": "srd-5.2.1",
+  "batch": "data-magic-items-21",
+  "catalogue_issue": 245,
+  "source": {
+    "version": "5.2.1",
+    "language": "en",
+    "landing_url": "https://www.dndbeyond.com/srd",
+    "artifact_url": "https://media.dndbeyond.com/compendium-images/srd/5.2/SRD_CC_v5.2.1.pdf",
+    "sha256": "8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87",
+    "bytes": 6031375,
+    "pages": 364,
+    "retrieved_at": "2026-11-15",
+    "license": "CC-BY-4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/legalcode",
+    "attribution": "This work includes material from the System Reference Document 5.2.1 (\u201cSRD 5.2.1\u201d) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd. The SRD 5.2.1 is licensed under the Creative Commons Attribution 4.0 International License, available at https://creativecommons.org/licenses/by/4.0/legalcode.",
+    "changes": "SRD 5.2.1 pp. 250\u2013252 adapted into twelve versioned magic-item families (Wand of Enemy Detection through Wand of the War Mage, +1, +2, or +3) with explicit variant identities, structured requirements and typed source values. Names, numeric rules, table rows and key phrases are adapted into keys; no rules prose is reproduced. Prices are not listed and remain unspecified. Catalogue data grants no inventory, action or gameplay permissions; every record is unavailable."
+  },
+  "families": [
+    {
+      "id": "srd-5.2.1:content/items/wand-of-enemy-detection",
+      "name": "Wand of Enemy Detection",
+      "kind": "magic",
+      "category": "wand",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/wand-of-enemy-detection",
+          "pages": [
+            250,
+            250
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/wand-of-enemy-detection/variant/standard",
+          "name": "Wand of Enemy Detection",
+          "rarity": "rare",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "limited",
+            "maximum": 7,
+            "per_use": 1,
+            "recharge": "regain-1d6-plus-1-at-dawn"
+          },
+          "equip": {
+            "mode": "hold",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "magic-action",
+            "restrictions": [
+              "expend-one-charge"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              250,
+              250
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "item.hold",
+            "item.charges",
+            "action.magic",
+            "sense.direction-of-nearest-hostile-within-60-feet",
+            "duration.1-minute",
+            "item.destroyed-on-1-after-last-charge"
+          ],
+          "details": {
+            "enemy_detection": {
+              "max_charges": 7,
+              "action": "magic",
+              "charge_cost": 1,
+              "duration_minutes": 1,
+              "reveals": "direction-of-nearest-hostile-creature",
+              "range_feet": 60,
+              "reveals_distance": false,
+              "senses": [
+                "invisible",
+                "ethereal",
+                "disguised",
+                "hidden",
+                "in-plain-sight"
+              ],
+              "ends_when": "you-stop-holding-the-wand",
+              "recharge": {
+                "dice": {
+                  "dice": 1,
+                  "sides": 6,
+                  "type": "charges"
+                },
+                "bonus": 1,
+                "when": "daily-at-dawn"
+              },
+              "last_charge": {
+                "die_sides": 20,
+                "destroyed_on": 1,
+                "result": "crumbles-into-ashes"
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/wand-of-fear",
+      "name": "Wand of Fear",
+      "kind": "magic",
+      "category": "wand",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/wand-of-fear",
+          "pages": [
+            250,
+            250
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/wand-of-fear/variant/standard",
+          "name": "Wand of Fear",
+          "rarity": "rare",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "limited",
+            "maximum": 7,
+            "per_use": 1,
+            "recharge": "regain-1d6-plus-1-at-dawn"
+          },
+          "equip": {
+            "mode": "hold",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "cast-spell",
+            "restrictions": [
+              "expend-listed-charges"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              250,
+              250
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "item.hold",
+            "item.charges",
+            "spell.cast-listed-spells",
+            "spell.save-dc-15",
+            "item.destroyed-on-1-after-last-charge"
+          ],
+          "details": {
+            "fear": {
+              "max_charges": 7,
+              "save_dc": 15,
+              "spells": [
+                {
+                  "spell": "command",
+                  "limit": "flee-or-grovel-only",
+                  "charge_cost": 1
+                },
+                {
+                  "spell": "fear",
+                  "limit": "60-foot-cone",
+                  "charge_cost": 3
+                }
+              ],
+              "recharge": {
+                "dice": {
+                  "dice": 1,
+                  "sides": 6,
+                  "type": "charges"
+                },
+                "bonus": 1,
+                "when": "daily-at-dawn"
+              },
+              "last_charge": {
+                "die_sides": 20,
+                "destroyed_on": 1,
+                "result": "crumbles-into-ashes"
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/wand-of-fireballs",
+      "name": "Wand of Fireballs",
+      "kind": "magic",
+      "category": "wand",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/wand-of-fireballs",
+          "pages": [
+            250,
+            250
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/wand-of-fireballs/variant/standard",
+          "name": "Wand of Fireballs",
+          "rarity": "rare",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "limited",
+            "maximum": 7,
+            "per_use": 1,
+            "recharge": "regain-1d6-plus-1-at-dawn"
+          },
+          "equip": {
+            "mode": "hold",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "cast-spell",
+            "restrictions": [
+              "expend-up-to-three-charges"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              250,
+              250
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "attunement.spellcaster",
+            "item.hold",
+            "item.charges",
+            "spell.cast-fireball",
+            "spell.save-dc-15",
+            "spell.level-3-plus-1-per-extra-charge",
+            "item.destroyed-on-1-after-last-charge"
+          ],
+          "details": {
+            "fireballs": {
+              "attunement_by_any_of": [
+                "spellcaster"
+              ],
+              "max_charges": 7,
+              "maximum_charges_per_cast": 3,
+              "spell": "fireball",
+              "save_dc": 15,
+              "base_charge_cost": 1,
+              "base_spell_level": 3,
+              "levels_per_additional_charge": 1,
+              "recharge": {
+                "dice": {
+                  "dice": 1,
+                  "sides": 6,
+                  "type": "charges"
+                },
+                "bonus": 1,
+                "when": "daily-at-dawn"
+              },
+              "last_charge": {
+                "die_sides": 20,
+                "destroyed_on": 1,
+                "result": "crumbles-into-ashes"
+              },
+              "source_pages": [
+                250,
+                251
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/wand-of-lightning-bolts",
+      "name": "Wand of Lightning Bolts",
+      "kind": "magic",
+      "category": "wand",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/wand-of-lightning-bolts",
+          "pages": [
+            251,
+            251
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/wand-of-lightning-bolts/variant/standard",
+          "name": "Wand of Lightning Bolts",
+          "rarity": "rare",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "limited",
+            "maximum": 7,
+            "per_use": 1,
+            "recharge": "regain-1d6-plus-1-at-dawn"
+          },
+          "equip": {
+            "mode": "hold",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "cast-spell",
+            "restrictions": [
+              "expend-up-to-three-charges"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              251,
+              251
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "attunement.spellcaster",
+            "item.hold",
+            "item.charges",
+            "spell.cast-lightning-bolt",
+            "spell.save-dc-15",
+            "spell.level-3-plus-1-per-extra-charge",
+            "item.destroyed-on-1-after-last-charge"
+          ],
+          "details": {
+            "lightning_bolts": {
+              "attunement_by_any_of": [
+                "spellcaster"
+              ],
+              "max_charges": 7,
+              "maximum_charges_per_cast": 3,
+              "spell": "lightning-bolt",
+              "save_dc": 15,
+              "base_charge_cost": 1,
+              "base_spell_level": 3,
+              "levels_per_additional_charge": 1,
+              "recharge": {
+                "dice": {
+                  "dice": 1,
+                  "sides": 6,
+                  "type": "charges"
+                },
+                "bonus": 1,
+                "when": "daily-at-dawn"
+              },
+              "last_charge": {
+                "die_sides": 20,
+                "destroyed_on": 1,
+                "result": "crumbles-into-ashes"
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/wand-of-magic-detection",
+      "name": "Wand of Magic Detection",
+      "kind": "magic",
+      "category": "wand",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/wand-of-magic-detection",
+          "pages": [
+            251,
+            251
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/wand-of-magic-detection/variant/standard",
+          "name": "Wand of Magic Detection",
+          "rarity": "uncommon",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "limited",
+            "maximum": 3,
+            "per_use": 1,
+            "recharge": "regain-1d3-at-dawn"
+          },
+          "equip": {
+            "mode": "hold",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "cast-spell",
+            "restrictions": [
+              "expend-one-charge"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              251,
+              251
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.hold",
+            "item.charges",
+            "spell.cast-detect-magic"
+          ],
+          "details": {
+            "magic_detection": {
+              "max_charges": 3,
+              "charge_cost": 1,
+              "spell": "detect-magic",
+              "recharge_dice": {
+                "dice": 1,
+                "sides": 3,
+                "type": "charges"
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/wand-of-magic-missiles",
+      "name": "Wand of Magic Missiles",
+      "kind": "magic",
+      "category": "wand",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/wand-of-magic-missiles",
+          "pages": [
+            251,
+            251
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/wand-of-magic-missiles/variant/standard",
+          "name": "Wand of Magic Missiles",
+          "rarity": "uncommon",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "limited",
+            "maximum": 7,
+            "per_use": 1,
+            "recharge": "regain-1d6-plus-1-at-dawn"
+          },
+          "equip": {
+            "mode": "hold",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "cast-spell",
+            "restrictions": [
+              "expend-up-to-three-charges"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              251,
+              251
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.hold",
+            "item.charges",
+            "spell.cast-magic-missile",
+            "spell.level-1-plus-1-per-extra-charge",
+            "item.destroyed-on-1-after-last-charge"
+          ],
+          "details": {
+            "magic_missiles": {
+              "max_charges": 7,
+              "maximum_charges_per_cast": 3,
+              "spell": "magic-missile",
+              "base_charge_cost": 1,
+              "base_spell_level": 1,
+              "levels_per_additional_charge": 1,
+              "recharge": {
+                "dice": {
+                  "dice": 1,
+                  "sides": 6,
+                  "type": "charges"
+                },
+                "bonus": 1,
+                "when": "daily-at-dawn"
+              },
+              "last_charge": {
+                "die_sides": 20,
+                "destroyed_on": 1,
+                "result": "crumbles-into-ashes"
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/wand-of-paralysis",
+      "name": "Wand of Paralysis",
+      "kind": "magic",
+      "category": "wand",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/wand-of-paralysis",
+          "pages": [
+            251,
+            251
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/wand-of-paralysis/variant/standard",
+          "name": "Wand of Paralysis",
+          "rarity": "rare",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "limited",
+            "maximum": 7,
+            "per_use": 1,
+            "recharge": "regain-1d6-plus-1-at-dawn"
+          },
+          "equip": {
+            "mode": "hold",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "magic-action",
+            "restrictions": [
+              "expend-one-charge",
+              "target-within-60-feet"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              251,
+              251
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "attunement.spellcaster",
+            "item.hold",
+            "item.charges",
+            "action.magic-ray",
+            "save.constitution-dc-15",
+            "condition.paralyzed",
+            "duration.1-minute",
+            "save.repeat-at-turn-end",
+            "item.destroyed-on-1-after-last-charge"
+          ],
+          "details": {
+            "paralysis": {
+              "attunement_by_any_of": [
+                "spellcaster"
+              ],
+              "max_charges": 7,
+              "action": "magic",
+              "charge_cost": 1,
+              "target": "one-visible-creature",
+              "range_feet": 60,
+              "save_ability": "constitution",
+              "save_dc": 15,
+              "condition": "paralyzed",
+              "duration_minutes": 1,
+              "repeat_save": "end-of-each-of-its-turns",
+              "repeat_success": "ends-effect-on-itself",
+              "recharge": {
+                "dice": {
+                  "dice": 1,
+                  "sides": 6,
+                  "type": "charges"
+                },
+                "bonus": 1,
+                "when": "daily-at-dawn"
+              },
+              "last_charge": {
+                "die_sides": 20,
+                "destroyed_on": 1,
+                "result": "crumbles-into-ashes"
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/wand-of-polymorph",
+      "name": "Wand of Polymorph",
+      "kind": "magic",
+      "category": "wand",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/wand-of-polymorph",
+          "pages": [
+            251,
+            251
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/wand-of-polymorph/variant/standard",
+          "name": "Wand of Polymorph",
+          "rarity": "very-rare",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "limited",
+            "maximum": 7,
+            "per_use": 1,
+            "recharge": "regain-1d6-plus-1-at-dawn"
+          },
+          "equip": {
+            "mode": "hold",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "cast-spell",
+            "restrictions": [
+              "expend-one-charge"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              251,
+              251
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "attunement.spellcaster",
+            "item.hold",
+            "item.charges",
+            "spell.cast-polymorph",
+            "spell.save-dc-15",
+            "item.destroyed-on-1-after-last-charge"
+          ],
+          "details": {
+            "polymorph": {
+              "attunement_by_any_of": [
+                "spellcaster"
+              ],
+              "max_charges": 7,
+              "charge_cost": 1,
+              "spell": "polymorph",
+              "save_dc": 15,
+              "recharge": {
+                "dice": {
+                  "dice": 1,
+                  "sides": 6,
+                  "type": "charges"
+                },
+                "bonus": 1,
+                "when": "daily-at-dawn"
+              },
+              "last_charge": {
+                "die_sides": 20,
+                "destroyed_on": 1,
+                "result": "crumbles-into-ashes"
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/wand-of-secrets",
+      "name": "Wand of Secrets",
+      "kind": "magic",
+      "category": "wand",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/wand-of-secrets",
+          "pages": [
+            251,
+            251
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/wand-of-secrets/variant/standard",
+          "name": "Wand of Secrets",
+          "rarity": "uncommon",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "limited",
+            "maximum": 3,
+            "per_use": 1,
+            "recharge": "regain-1d3-at-dawn"
+          },
+          "equip": {
+            "mode": "hold",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "magic-action",
+            "restrictions": [
+              "expend-one-charge"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              251,
+              251
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.hold",
+            "item.charges",
+            "action.magic",
+            "sense.nearest-secret-door-or-trap-within-60-feet"
+          ],
+          "details": {
+            "secrets": {
+              "max_charges": 3,
+              "recharge_dice": {
+                "dice": 1,
+                "sides": 3,
+                "type": "charges"
+              },
+              "action": "magic",
+              "charge_cost": 1,
+              "detects": [
+                "secret-door",
+                "trap"
+              ],
+              "range_feet": 60,
+              "result": "pulses-and-points-at-nearest"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/wand-of-web",
+      "name": "Wand of Web",
+      "kind": "magic",
+      "category": "wand",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/wand-of-web",
+          "pages": [
+            251,
+            251
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/wand-of-web/variant/standard",
+          "name": "Wand of Web",
+          "rarity": "uncommon",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "limited",
+            "maximum": 7,
+            "per_use": 1,
+            "recharge": "regain-1d6-plus-1-at-dawn"
+          },
+          "equip": {
+            "mode": "hold",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "cast-spell",
+            "restrictions": [
+              "expend-one-charge"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              251,
+              251
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "attunement.spellcaster",
+            "item.hold",
+            "item.charges",
+            "spell.cast-web",
+            "spell.save-dc-13",
+            "item.destroyed-on-1-after-last-charge"
+          ],
+          "details": {
+            "web": {
+              "attunement_by_any_of": [
+                "spellcaster"
+              ],
+              "max_charges": 7,
+              "charge_cost": 1,
+              "spell": "web",
+              "save_dc": 13,
+              "recharge": {
+                "dice": {
+                  "dice": 1,
+                  "sides": 6,
+                  "type": "charges"
+                },
+                "bonus": 1,
+                "when": "daily-at-dawn"
+              },
+              "last_charge": {
+                "die_sides": 20,
+                "destroyed_on": 1,
+                "result": "crumbles-into-ashes"
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/wand-of-wonder",
+      "name": "Wand of Wonder",
+      "kind": "magic",
+      "category": "wand",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/wand-of-wonder",
+          "pages": [
+            251,
+            251
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/wand-of-wonder/variant/standard",
+          "name": "Wand of Wonder",
+          "rarity": "rare",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "limited",
+            "maximum": 7,
+            "per_use": 1,
+            "recharge": "regain-1d6-plus-1-at-dawn"
+          },
+          "equip": {
+            "mode": "hold",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "magic-action",
+            "restrictions": [
+              "expend-one-charge",
+              "point-within-120-feet"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              251,
+              251
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "item.hold",
+            "item.charges",
+            "action.magic",
+            "table.wand-of-wonder-effects",
+            "spell.save-dc-15",
+            "spell.minimum-range-120-feet",
+            "item.destroyed-on-1-after-last-charge"
+          ],
+          "details": {
+            "wonder": {
+              "max_charges": 7,
+              "action": "magic",
+              "charge_cost": 1,
+              "point_range_feet": 120,
+              "spell_save_dc": 15,
+              "minimum_spell_range_feet": 120,
+              "multiple_subjects": "gm-determines-randomly",
+              "table_die_sides": 100,
+              "effects": [
+                {
+                  "roll_from": 1,
+                  "roll_to": 20,
+                  "effect": "cast-spell-from-1d10-table"
+                },
+                {
+                  "roll_from": 21,
+                  "roll_to": 25,
+                  "effect": "you-are-stunned"
+                },
+                {
+                  "roll_from": 26,
+                  "roll_to": 30,
+                  "effect": "cast-gust-of-wind"
+                },
+                {
+                  "roll_from": 31,
+                  "roll_to": 35,
+                  "effect": "you-take-psychic-damage"
+                },
+                {
+                  "roll_from": 36,
+                  "roll_to": 40,
+                  "effect": "heavy-rain"
+                },
+                {
+                  "roll_from": 41,
+                  "roll_to": 45,
+                  "effect": "butterfly-cloud"
+                },
+                {
+                  "roll_from": 46,
+                  "roll_to": 50,
+                  "effect": "cast-lightning-bolt"
+                },
+                {
+                  "roll_from": 51,
+                  "roll_to": 55,
+                  "effect": "enlarge-closest-creature"
+                },
+                {
+                  "roll_from": 56,
+                  "roll_to": 60,
+                  "effect": "creature-appears-from-1d4-table"
+                },
+                {
+                  "roll_from": 61,
+                  "roll_to": 64,
+                  "effect": "grass-grows"
+                },
+                {
+                  "roll_from": 65,
+                  "roll_to": 68,
+                  "effect": "object-moves-to-ethereal-plane"
+                },
+                {
+                  "roll_from": 69,
+                  "roll_to": 72,
+                  "effect": "you-shrink"
+                },
+                {
+                  "roll_from": 73,
+                  "roll_to": 77,
+                  "effect": "leaves-grow-on-nearest-creature"
+                },
+                {
+                  "roll_from": 78,
+                  "roll_to": 82,
+                  "effect": "blinding-light-burst"
+                },
+                {
+                  "roll_from": 83,
+                  "roll_to": 87,
+                  "effect": "you-turn-invisible"
+                },
+                {
+                  "roll_from": 88,
+                  "roll_to": 92,
+                  "effect": "gem-stream"
+                },
+                {
+                  "roll_from": 93,
+                  "roll_to": 97,
+                  "effect": "polymorph-closest-creature-from-1d4-table"
+                },
+                {
+                  "roll_from": 98,
+                  "roll_to": 100,
+                  "effect": "petrify-closest-creature"
+                }
+              ],
+              "spell_table": {
+                "die_sides": 10,
+                "rows": [
+                  {
+                    "roll_from": 1,
+                    "roll_to": 2,
+                    "result": "darkness"
+                  },
+                  {
+                    "roll_from": 3,
+                    "roll_to": 4,
+                    "result": "faerie-fire"
+                  },
+                  {
+                    "roll_from": 5,
+                    "roll_to": 6,
+                    "result": "fireball"
+                  },
+                  {
+                    "roll_from": 7,
+                    "roll_to": 8,
+                    "result": "slow"
+                  },
+                  {
+                    "roll_from": 9,
+                    "roll_to": 10,
+                    "result": "stinking-cloud"
+                  }
+                ]
+              },
+              "stunned": {
+                "condition": "stunned",
+                "until": "start-of-your-next-turn",
+                "belief": "something-awesome-just-happened"
+              },
+              "gust_line": "from-you-to-point-of-origin",
+              "psychic_damage": {
+                "dice": 1,
+                "sides": 6,
+                "type": "psychic"
+              },
+              "rain": {
+                "duration_minutes": 1,
+                "height_feet": 120,
+                "radius_feet": 60,
+                "area": "lightly-obscured"
+              },
+              "butterflies": {
+                "count": 600,
+                "height_feet": 60,
+                "radius_feet": 30,
+                "duration_minutes": 10,
+                "area": "heavily-obscured"
+              },
+              "lightning_line": "from-you-to-point-of-origin",
+              "enlarge": {
+                "effect": "as-enlarge-reduce",
+                "fallback": "you-if-target-cannot-be-affected"
+              },
+              "creature": {
+                "placement": "unoccupied-space-near-point-of-origin",
+                "control": "not-under-your-control",
+                "behavior": "acts-as-it-normally-would",
+                "duration_hours": 1,
+                "also_disappears_at_hit_points": 0,
+                "table": {
+                  "die_sides": 4,
+                  "rows": [
+                    {
+                      "roll_from": 1,
+                      "roll_to": 1,
+                      "result": "rhinoceros"
+                    },
+                    {
+                      "roll_from": 2,
+                      "roll_to": 2,
+                      "result": "elephant"
+                    },
+                    {
+                      "roll_from": 3,
+                      "roll_to": 4,
+                      "result": "rat"
+                    }
+                  ]
+                }
+              },
+              "grass": {
+                "radius_feet": 60,
+                "center": "as-close-to-point-of-origin-as-possible",
+                "size_multiplier": 10,
+                "overgrown_minutes": 1
+              },
+              "ethereal": {
+                "object": "gm-choice-not-worn-or-carried",
+                "range_feet": 120,
+                "maximum_dimension_feet": 10,
+                "without_object": "nothing-happens"
+              },
+              "shrink": {
+                "effect": "as-enlarge-reduce-on-yourself",
+                "duration_minutes": 1
+              },
+              "leaves": {
+                "fall_off_after_hours": 24,
+                "early_removal": "picked-off"
+              },
+              "light_burst": {
+                "emanation_feet": 30,
+                "save_ability": "constitution",
+                "save_dc": 15,
+                "condition": "blinded",
+                "duration_minutes": 1,
+                "repeat_save": "end-of-each-of-its-turns"
+              },
+              "invisibility_target": "yourself",
+              "gems": {
+                "count_dice": {
+                  "dice": 1,
+                  "sides": 4,
+                  "type": "gems"
+                },
+                "count_multiplier": 10,
+                "value_gp_each": 1,
+                "line_length_feet": 30,
+                "line_width_feet": 5,
+                "direction": "toward-point-of-origin",
+                "damage_per_gem": 1,
+                "damage_type": "bludgeoning",
+                "damage_division": "total-divided-equally-in-line"
+              },
+              "polymorph_table": {
+                "die_sides": 4,
+                "rows": [
+                  {
+                    "roll_from": 1,
+                    "roll_to": 1,
+                    "result": "black-bear"
+                  },
+                  {
+                    "roll_from": 2,
+                    "roll_to": 2,
+                    "result": "giant-wasp"
+                  },
+                  {
+                    "roll_from": 3,
+                    "roll_to": 4,
+                    "result": "frog"
+                  }
+                ]
+              },
+              "petrify": {
+                "save_ability": "constitution",
+                "save_dc": 15,
+                "first_failure": "restrained-and-turning-to-stone",
+                "repeat_save": "end-of-its-next-turn",
+                "repeat_success": "effect-ends",
+                "repeat_failure": "petrified-instead-of-restrained",
+                "petrified_until": "freed-by-greater-restoration-or-similar-magic"
+              },
+              "last_charge": {
+                "die_sides": 20,
+                "destroyed_on": 1,
+                "result": "crumbles-into-dust"
+              },
+              "recharge": {
+                "dice": {
+                  "dice": 1,
+                  "sides": 6,
+                  "type": "charges"
+                },
+                "bonus": 1,
+                "when": "daily-at-dawn"
+              },
+              "source_pages": [
+                251,
+                252
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/wand-of-the-war-mage-1-2-or-3",
+      "name": "Wand of the War Mage, +1, +2, or +3",
+      "kind": "magic",
+      "category": "wand",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/wand-of-the-war-mage-1-2-or-3",
+          "pages": [
+            251,
+            251
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/wand-of-the-war-mage-1-2-or-3/variant/plus-1",
+          "name": "Wand of the War Mage, +1",
+          "rarity": "uncommon",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "hold",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              251,
+              251
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "attunement.spellcaster",
+            "item.hold",
+            "bonus.spell-attack-by-rarity",
+            "attack.ignore-half-cover-on-spell-attacks"
+          ],
+          "details": {
+            "war_mage": {
+              "attunement_by_any_of": [
+                "spellcaster"
+              ],
+              "condition": "while-holding",
+              "spell_attack_bonus": 1,
+              "ignores_half_cover": true
+            }
+          }
+        },
+        {
+          "id": "srd-5.2.1:content/items/wand-of-the-war-mage-1-2-or-3/variant/plus-2",
+          "name": "Wand of the War Mage, +2",
+          "rarity": "rare",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "hold",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              251,
+              251
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "attunement.spellcaster",
+            "item.hold",
+            "bonus.spell-attack-by-rarity",
+            "attack.ignore-half-cover-on-spell-attacks"
+          ],
+          "details": {
+            "war_mage": {
+              "attunement_by_any_of": [
+                "spellcaster"
+              ],
+              "condition": "while-holding",
+              "spell_attack_bonus": 2,
+              "ignores_half_cover": true
+            }
+          }
+        },
+        {
+          "id": "srd-5.2.1:content/items/wand-of-the-war-mage-1-2-or-3/variant/plus-3",
+          "name": "Wand of the War Mage, +3",
+          "rarity": "very-rare",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "hold",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              251,
+              251
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "attunement.spellcaster",
+            "item.hold",
+            "bonus.spell-attack-by-rarity",
+            "attack.ignore-half-cover-on-spell-attacks"
+          ],
+          "details": {
+            "war_mage": {
+              "attunement_by_any_of": [
+                "spellcaster"
+              ],
+              "condition": "while-holding",
+              "spell_attack_bonus": 3,
+              "ignores_half_cover": true
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,1169 @@
+{
+  "schema_version": 1,
+  "rules_version": "srd-5.2.1",
+  "batch": "data-weapons-02",
+  "catalogue_issue": 248,
+  "source": {
+    "version": "5.2.1",
+    "language": "en",
+    "landing_url": "https://www.dndbeyond.com/srd",
+    "artifact_url": "https://media.dndbeyond.com/compendium-images/srd/5.2/SRD_CC_v5.2.1.pdf",
+    "sha256": "8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87",
+    "bytes": 6031375,
+    "pages": 364,
+    "retrieved_at": "2026-11-15",
+    "license": "CC-BY-4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/legalcode",
+    "attribution": "This work includes material from the System Reference Document 5.2.1 (\u201cSRD 5.2.1\u201d) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd. The SRD 5.2.1 is licensed under the Creative Commons Attribution 4.0 International License, available at https://creativecommons.org/licenses/by/4.0/legalcode.",
+    "changes": "SRD 5.2.1 p. 91 Weapons table rows (Handaxe through Pike) adapted into twelve versioned mundane weapon records with structured damage, properties, range, ammunition, mastery, weight and listed price. Names, numeric values and table keys are adapted; no rules prose is reproduced. Catalogue data grants no inventory, action or gameplay permissions; every record is unavailable."
+  },
+  "families": [
+    {
+      "id": "srd-5.2.1:content/items/handaxe",
+      "name": "Handaxe",
+      "kind": "mundane",
+      "category": "weapon",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/weapons/handaxe",
+          "pages": [
+            91,
+            91
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/handaxe/variant/standard",
+          "name": "Handaxe",
+          "rarity": "none",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wield",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "weapon-attack",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "listed",
+            "amount": 5,
+            "currency": "gp",
+            "source_pages": [
+              91,
+              91
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.wield",
+            "weapon.attack",
+            "weapon.simple",
+            "weapon.melee",
+            "damage.1d6-slashing",
+            "property.light",
+            "property.thrown",
+            "range.20-60",
+            "mastery.vex"
+          ],
+          "details": {
+            "weapon": {
+              "proficiency_category": "simple",
+              "attack_kind": "melee",
+              "damage": {
+                "dice": 1,
+                "sides": 6,
+                "flat": 0,
+                "type": "slashing"
+              },
+              "properties": [
+                "light",
+                "thrown"
+              ],
+              "range": {
+                "normal_feet": 20,
+                "long_feet": 60
+              },
+              "ammunition": "none",
+              "versatile_damage": {
+                "dice": 0,
+                "sides": 0
+              },
+              "two_handed_exception": "none",
+              "mastery": "vex",
+              "weight": {
+                "listed": true,
+                "pounds_numerator": 2,
+                "pounds_denominator": 1
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/javelin",
+      "name": "Javelin",
+      "kind": "mundane",
+      "category": "weapon",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/weapons/javelin",
+          "pages": [
+            91,
+            91
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/javelin/variant/standard",
+          "name": "Javelin",
+          "rarity": "none",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wield",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "weapon-attack",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "listed",
+            "amount": 5,
+            "currency": "sp",
+            "source_pages": [
+              91,
+              91
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.wield",
+            "weapon.attack",
+            "weapon.simple",
+            "weapon.melee",
+            "damage.1d6-piercing",
+            "property.thrown",
+            "range.30-120",
+            "mastery.slow"
+          ],
+          "details": {
+            "weapon": {
+              "proficiency_category": "simple",
+              "attack_kind": "melee",
+              "damage": {
+                "dice": 1,
+                "sides": 6,
+                "flat": 0,
+                "type": "piercing"
+              },
+              "properties": [
+                "thrown"
+              ],
+              "range": {
+                "normal_feet": 30,
+                "long_feet": 120
+              },
+              "ammunition": "none",
+              "versatile_damage": {
+                "dice": 0,
+                "sides": 0
+              },
+              "two_handed_exception": "none",
+              "mastery": "slow",
+              "weight": {
+                "listed": true,
+                "pounds_numerator": 2,
+                "pounds_denominator": 1
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/lance",
+      "name": "Lance",
+      "kind": "mundane",
+      "category": "weapon",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/weapons/lance",
+          "pages": [
+            91,
+            91
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/lance/variant/standard",
+          "name": "Lance",
+          "rarity": "none",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wield",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "weapon-attack",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "listed",
+            "amount": 10,
+            "currency": "gp",
+            "source_pages": [
+              91,
+              91
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.wield",
+            "weapon.attack",
+            "weapon.martial",
+            "weapon.melee",
+            "damage.1d10-piercing",
+            "property.heavy",
+            "property.reach",
+            "property.two-handed",
+            "property.two-handed-unless-mounted",
+            "mastery.topple"
+          ],
+          "details": {
+            "weapon": {
+              "proficiency_category": "martial",
+              "attack_kind": "melee",
+              "damage": {
+                "dice": 1,
+                "sides": 10,
+                "flat": 0,
+                "type": "piercing"
+              },
+              "properties": [
+                "heavy",
+                "reach",
+                "two-handed"
+              ],
+              "range": {
+                "normal_feet": 0,
+                "long_feet": 0
+              },
+              "ammunition": "none",
+              "versatile_damage": {
+                "dice": 0,
+                "sides": 0
+              },
+              "two_handed_exception": "unless-mounted",
+              "mastery": "topple",
+              "weight": {
+                "listed": true,
+                "pounds_numerator": 6,
+                "pounds_denominator": 1
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/light-crossbow",
+      "name": "Light Crossbow",
+      "kind": "mundane",
+      "category": "weapon",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/weapons/light-crossbow",
+          "pages": [
+            91,
+            91
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/light-crossbow/variant/standard",
+          "name": "Light Crossbow",
+          "rarity": "none",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wield",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "weapon-attack",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "listed",
+            "amount": 25,
+            "currency": "gp",
+            "source_pages": [
+              91,
+              91
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.wield",
+            "weapon.attack",
+            "weapon.simple",
+            "weapon.ranged",
+            "damage.1d8-piercing",
+            "property.ammunition",
+            "property.loading",
+            "property.two-handed",
+            "range.80-320",
+            "ammunition.bolt",
+            "mastery.slow"
+          ],
+          "details": {
+            "weapon": {
+              "proficiency_category": "simple",
+              "attack_kind": "ranged",
+              "damage": {
+                "dice": 1,
+                "sides": 8,
+                "flat": 0,
+                "type": "piercing"
+              },
+              "properties": [
+                "ammunition",
+                "loading",
+                "two-handed"
+              ],
+              "range": {
+                "normal_feet": 80,
+                "long_feet": 320
+              },
+              "ammunition": "bolt",
+              "versatile_damage": {
+                "dice": 0,
+                "sides": 0
+              },
+              "two_handed_exception": "none",
+              "mastery": "slow",
+              "weight": {
+                "listed": true,
+                "pounds_numerator": 5,
+                "pounds_denominator": 1
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/light-hammer",
+      "name": "Light Hammer",
+      "kind": "mundane",
+      "category": "weapon",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/weapons/light-hammer",
+          "pages": [
+            91,
+            91
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/light-hammer/variant/standard",
+          "name": "Light Hammer",
+          "rarity": "none",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wield",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "weapon-attack",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "listed",
+            "amount": 2,
+            "currency": "gp",
+            "source_pages": [
+              91,
+              91
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.wield",
+            "weapon.attack",
+            "weapon.simple",
+            "weapon.melee",
+            "damage.1d4-bludgeoning",
+            "property.light",
+            "property.thrown",
+            "range.20-60",
+            "mastery.nick"
+          ],
+          "details": {
+            "weapon": {
+              "proficiency_category": "simple",
+              "attack_kind": "melee",
+              "damage": {
+                "dice": 1,
+                "sides": 4,
+                "flat": 0,
+                "type": "bludgeoning"
+              },
+              "properties": [
+                "light",
+                "thrown"
+              ],
+              "range": {
+                "normal_feet": 20,
+                "long_feet": 60
+              },
+              "ammunition": "none",
+              "versatile_damage": {
+                "dice": 0,
+                "sides": 0
+              },
+              "two_handed_exception": "none",
+              "mastery": "nick",
+              "weight": {
+                "listed": true,
+                "pounds_numerator": 2,
+                "pounds_denominator": 1
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/longbow",
+      "name": "Longbow",
+      "kind": "mundane",
+      "category": "weapon",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/weapons/longbow",
+          "pages": [
+            91,
+            91
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/longbow/variant/standard",
+          "name": "Longbow",
+          "rarity": "none",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wield",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "weapon-attack",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "listed",
+            "amount": 50,
+            "currency": "gp",
+            "source_pages": [
+              91,
+              91
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.wield",
+            "weapon.attack",
+            "weapon.martial",
+            "weapon.ranged",
+            "damage.1d8-piercing",
+            "property.ammunition",
+            "property.heavy",
+            "property.two-handed",
+            "range.150-600",
+            "ammunition.arrow",
+            "mastery.slow"
+          ],
+          "details": {
+            "weapon": {
+              "proficiency_category": "martial",
+              "attack_kind": "ranged",
+              "damage": {
+                "dice": 1,
+                "sides": 8,
+                "flat": 0,
+                "type": "piercing"
+              },
+              "properties": [
+                "ammunition",
+                "heavy",
+                "two-handed"
+              ],
+              "range": {
+                "normal_feet": 150,
+                "long_feet": 600
+              },
+              "ammunition": "arrow",
+              "versatile_damage": {
+                "dice": 0,
+                "sides": 0
+              },
+              "two_handed_exception": "none",
+              "mastery": "slow",
+              "weight": {
+                "listed": true,
+                "pounds_numerator": 2,
+                "pounds_denominator": 1
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/longsword",
+      "name": "Longsword",
+      "kind": "mundane",
+      "category": "weapon",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/weapons/longsword",
+          "pages": [
+            91,
+            91
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/longsword/variant/standard",
+          "name": "Longsword",
+          "rarity": "none",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wield",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "weapon-attack",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "listed",
+            "amount": 15,
+            "currency": "gp",
+            "source_pages": [
+              91,
+              91
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.wield",
+            "weapon.attack",
+            "weapon.martial",
+            "weapon.melee",
+            "damage.1d8-slashing",
+            "property.versatile",
+            "damage.two-handed-1d10",
+            "mastery.sap"
+          ],
+          "details": {
+            "weapon": {
+              "proficiency_category": "martial",
+              "attack_kind": "melee",
+              "damage": {
+                "dice": 1,
+                "sides": 8,
+                "flat": 0,
+                "type": "slashing"
+              },
+              "properties": [
+                "versatile"
+              ],
+              "range": {
+                "normal_feet": 0,
+                "long_feet": 0
+              },
+              "ammunition": "none",
+              "versatile_damage": {
+                "dice": 1,
+                "sides": 10
+              },
+              "two_handed_exception": "none",
+              "mastery": "sap",
+              "weight": {
+                "listed": true,
+                "pounds_numerator": 3,
+                "pounds_denominator": 1
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/mace",
+      "name": "Mace",
+      "kind": "mundane",
+      "category": "weapon",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/weapons/mace",
+          "pages": [
+            91,
+            91
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/mace/variant/standard",
+          "name": "Mace",
+          "rarity": "none",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wield",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "weapon-attack",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "listed",
+            "amount": 5,
+            "currency": "gp",
+            "source_pages": [
+              91,
+              91
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.wield",
+            "weapon.attack",
+            "weapon.simple",
+            "weapon.melee",
+            "damage.1d6-bludgeoning",
+            "mastery.sap"
+          ],
+          "details": {
+            "weapon": {
+              "proficiency_category": "simple",
+              "attack_kind": "melee",
+              "damage": {
+                "dice": 1,
+                "sides": 6,
+                "flat": 0,
+                "type": "bludgeoning"
+              },
+              "properties": [],
+              "range": {
+                "normal_feet": 0,
+                "long_feet": 0
+              },
+              "ammunition": "none",
+              "versatile_damage": {
+                "dice": 0,
+                "sides": 0
+              },
+              "two_handed_exception": "none",
+              "mastery": "sap",
+              "weight": {
+                "listed": true,
+                "pounds_numerator": 4,
+                "pounds_denominator": 1
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/maul",
+      "name": "Maul",
+      "kind": "mundane",
+      "category": "weapon",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/weapons/maul",
+          "pages": [
+            91,
+            91
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/maul/variant/standard",
+          "name": "Maul",
+          "rarity": "none",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wield",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "weapon-attack",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "listed",
+            "amount": 10,
+            "currency": "gp",
+            "source_pages": [
+              91,
+              91
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.wield",
+            "weapon.attack",
+            "weapon.martial",
+            "weapon.melee",
+            "damage.2d6-bludgeoning",
+            "property.heavy",
+            "property.two-handed",
+            "mastery.topple"
+          ],
+          "details": {
+            "weapon": {
+              "proficiency_category": "martial",
+              "attack_kind": "melee",
+              "damage": {
+                "dice": 2,
+                "sides": 6,
+                "flat": 0,
+                "type": "bludgeoning"
+              },
+              "properties": [
+                "heavy",
+                "two-handed"
+              ],
+              "range": {
+                "normal_feet": 0,
+                "long_feet": 0
+              },
+              "ammunition": "none",
+              "versatile_damage": {
+                "dice": 0,
+                "sides": 0
+              },
+              "two_handed_exception": "none",
+              "mastery": "topple",
+              "weight": {
+                "listed": true,
+                "pounds_numerator": 10,
+                "pounds_denominator": 1
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/morningstar",
+      "name": "Morningstar",
+      "kind": "mundane",
+      "category": "weapon",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/weapons/morningstar",
+          "pages": [
+            91,
+            91
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/morningstar/variant/standard",
+          "name": "Morningstar",
+          "rarity": "none",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wield",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "weapon-attack",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "listed",
+            "amount": 15,
+            "currency": "gp",
+            "source_pages": [
+              91,
+              91
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.wield",
+            "weapon.attack",
+            "weapon.martial",
+            "weapon.melee",
+            "damage.1d8-piercing",
+            "mastery.sap"
+          ],
+          "details": {
+            "weapon": {
+              "proficiency_category": "martial",
+              "attack_kind": "melee",
+              "damage": {
+                "dice": 1,
+                "sides": 8,
+                "flat": 0,
+                "type": "piercing"
+              },
+              "properties": [],
+              "range": {
+                "normal_feet": 0,
+                "long_feet": 0
+              },
+              "ammunition": "none",
+              "versatile_damage": {
+                "dice": 0,
+                "sides": 0
+              },
+              "two_handed_exception": "none",
+              "mastery": "sap",
+              "weight": {
+                "listed": true,
+                "pounds_numerator": 4,
+                "pounds_denominator": 1
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/musket",
+      "name": "Musket",
+      "kind": "mundane",
+      "category": "weapon",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/weapons/musket",
+          "pages": [
+            91,
+            91
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/musket/variant/standard",
+          "name": "Musket",
+          "rarity": "none",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wield",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "weapon-attack",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "listed",
+            "amount": 500,
+            "currency": "gp",
+            "source_pages": [
+              91,
+              91
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.wield",
+            "weapon.attack",
+            "weapon.martial",
+            "weapon.ranged",
+            "damage.1d12-piercing",
+            "property.ammunition",
+            "property.loading",
+            "property.two-handed",
+            "range.40-120",
+            "ammunition.bullet",
+            "mastery.slow"
+          ],
+          "details": {
+            "weapon": {
+              "proficiency_category": "martial",
+              "attack_kind": "ranged",
+              "damage": {
+                "dice": 1,
+                "sides": 12,
+                "flat": 0,
+                "type": "piercing"
+              },
+              "properties": [
+                "ammunition",
+                "loading",
+                "two-handed"
+              ],
+              "range": {
+                "normal_feet": 40,
+                "long_feet": 120
+              },
+              "ammunition": "bullet",
+              "versatile_damage": {
+                "dice": 0,
+                "sides": 0
+              },
+              "two_handed_exception": "none",
+              "mastery": "slow",
+              "weight": {
+                "listed": true,
+                "pounds_numerator": 10,
+                "pounds_denominator": 1
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/pike",
+      "name": "Pike",
+      "kind": "mundane",
+      "category": "weapon",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/weapons/pike",
+          "pages": [
+            91,
+            91
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/pike/variant/standard",
+          "name": "Pike",
+          "rarity": "none",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wield",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "weapon-attack",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "listed",
+            "amount": 5,
+            "currency": "gp",
+            "source_pages": [
+              91,
+              91
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.wield",
+            "weapon.attack",
+            "weapon.martial",
+            "weapon.melee",
+            "damage.1d10-piercing",
+            "property.heavy",
+            "property.reach",
+            "property.two-handed",
+            "mastery.push"
+          ],
+          "details": {
+            "weapon": {
+              "proficiency_category": "martial",
+              "attack_kind": "melee",
+              "damage": {
+                "dice": 1,
+                "sides": 10,
+                "flat": 0,
+                "type": "piercing"
+              },
+              "properties": [
+                "heavy",
+                "reach",
+                "two-handed"
+              ],
+              "range": {
+                "normal_feet": 0,
+                "long_feet": 0
+              },
+              "ammunition": "none",
+              "versatile_damage": {
+                "dice": 0,
+                "sides": 0
+              },
+              "two_handed_exception": "none",
+              "mastery": "push",
+              "weight": {
+                "listed": true,
+                "pounds_numerator": 18,
+                "pounds_denominator": 1
+              }
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

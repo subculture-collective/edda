@@ -1,0 +1,1166 @@
+{
+  "schema_version": 1,
+  "rules_version": "srd-5.2.1",
+  "batch": "data-weapons-01",
+  "catalogue_issue": 247,
+  "source": {
+    "version": "5.2.1",
+    "language": "en",
+    "landing_url": "https://www.dndbeyond.com/srd",
+    "artifact_url": "https://media.dndbeyond.com/compendium-images/srd/5.2/SRD_CC_v5.2.1.pdf",
+    "sha256": "8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87",
+    "bytes": 6031375,
+    "pages": 364,
+    "retrieved_at": "2026-11-15",
+    "license": "CC-BY-4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/legalcode",
+    "attribution": "This work includes material from the System Reference Document 5.2.1 (\u201cSRD 5.2.1\u201d) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd. The SRD 5.2.1 is licensed under the Creative Commons Attribution 4.0 International License, available at https://creativecommons.org/licenses/by/4.0/legalcode.",
+    "changes": "SRD 5.2.1 p. 91 Weapons table rows (Battleaxe through Hand Crossbow) adapted into twelve versioned mundane weapon records with structured damage, properties, range, ammunition, mastery, weight and listed price. Names, numeric values and table keys are adapted; no rules prose is reproduced. Catalogue data grants no inventory, action or gameplay permissions; every record is unavailable."
+  },
+  "families": [
+    {
+      "id": "srd-5.2.1:content/items/battleaxe",
+      "name": "Battleaxe",
+      "kind": "mundane",
+      "category": "weapon",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/weapons/battleaxe",
+          "pages": [
+            91,
+            91
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/battleaxe/variant/standard",
+          "name": "Battleaxe",
+          "rarity": "none",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wield",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "weapon-attack",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "listed",
+            "amount": 10,
+            "currency": "gp",
+            "source_pages": [
+              91,
+              91
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.wield",
+            "weapon.attack",
+            "weapon.martial",
+            "weapon.melee",
+            "damage.1d8-slashing",
+            "property.versatile",
+            "damage.two-handed-1d10",
+            "mastery.topple"
+          ],
+          "details": {
+            "weapon": {
+              "proficiency_category": "martial",
+              "attack_kind": "melee",
+              "damage": {
+                "dice": 1,
+                "sides": 8,
+                "flat": 0,
+                "type": "slashing"
+              },
+              "properties": [
+                "versatile"
+              ],
+              "range": {
+                "normal_feet": 0,
+                "long_feet": 0
+              },
+              "ammunition": "none",
+              "versatile_damage": {
+                "dice": 1,
+                "sides": 10
+              },
+              "two_handed_exception": "none",
+              "mastery": "topple",
+              "weight": {
+                "listed": true,
+                "pounds_numerator": 4,
+                "pounds_denominator": 1
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/blowgun",
+      "name": "Blowgun",
+      "kind": "mundane",
+      "category": "weapon",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/weapons/blowgun",
+          "pages": [
+            91,
+            91
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/blowgun/variant/standard",
+          "name": "Blowgun",
+          "rarity": "none",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wield",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "weapon-attack",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "listed",
+            "amount": 10,
+            "currency": "gp",
+            "source_pages": [
+              91,
+              91
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.wield",
+            "weapon.attack",
+            "weapon.martial",
+            "weapon.ranged",
+            "damage.1-piercing",
+            "property.ammunition",
+            "property.loading",
+            "range.25-100",
+            "ammunition.needle",
+            "mastery.vex"
+          ],
+          "details": {
+            "weapon": {
+              "proficiency_category": "martial",
+              "attack_kind": "ranged",
+              "damage": {
+                "dice": 0,
+                "sides": 0,
+                "flat": 1,
+                "type": "piercing"
+              },
+              "properties": [
+                "ammunition",
+                "loading"
+              ],
+              "range": {
+                "normal_feet": 25,
+                "long_feet": 100
+              },
+              "ammunition": "needle",
+              "versatile_damage": {
+                "dice": 0,
+                "sides": 0
+              },
+              "two_handed_exception": "none",
+              "mastery": "vex",
+              "weight": {
+                "listed": true,
+                "pounds_numerator": 1,
+                "pounds_denominator": 1
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/club",
+      "name": "Club",
+      "kind": "mundane",
+      "category": "weapon",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/weapons/club",
+          "pages": [
+            91,
+            91
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/club/variant/standard",
+          "name": "Club",
+          "rarity": "none",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wield",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "weapon-attack",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "listed",
+            "amount": 1,
+            "currency": "sp",
+            "source_pages": [
+              91,
+              91
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.wield",
+            "weapon.attack",
+            "weapon.simple",
+            "weapon.melee",
+            "damage.1d4-bludgeoning",
+            "property.light",
+            "mastery.slow"
+          ],
+          "details": {
+            "weapon": {
+              "proficiency_category": "simple",
+              "attack_kind": "melee",
+              "damage": {
+                "dice": 1,
+                "sides": 4,
+                "flat": 0,
+                "type": "bludgeoning"
+              },
+              "properties": [
+                "light"
+              ],
+              "range": {
+                "normal_feet": 0,
+                "long_feet": 0
+              },
+              "ammunition": "none",
+              "versatile_damage": {
+                "dice": 0,
+                "sides": 0
+              },
+              "two_handed_exception": "none",
+              "mastery": "slow",
+              "weight": {
+                "listed": true,
+                "pounds_numerator": 2,
+                "pounds_denominator": 1
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/dagger",
+      "name": "Dagger",
+      "kind": "mundane",
+      "category": "weapon",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/weapons/dagger",
+          "pages": [
+            91,
+            91
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/dagger/variant/standard",
+          "name": "Dagger",
+          "rarity": "none",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wield",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "weapon-attack",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "listed",
+            "amount": 2,
+            "currency": "gp",
+            "source_pages": [
+              91,
+              91
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.wield",
+            "weapon.attack",
+            "weapon.simple",
+            "weapon.melee",
+            "damage.1d4-piercing",
+            "property.finesse",
+            "property.light",
+            "property.thrown",
+            "range.20-60",
+            "mastery.nick"
+          ],
+          "details": {
+            "weapon": {
+              "proficiency_category": "simple",
+              "attack_kind": "melee",
+              "damage": {
+                "dice": 1,
+                "sides": 4,
+                "flat": 0,
+                "type": "piercing"
+              },
+              "properties": [
+                "finesse",
+                "light",
+                "thrown"
+              ],
+              "range": {
+                "normal_feet": 20,
+                "long_feet": 60
+              },
+              "ammunition": "none",
+              "versatile_damage": {
+                "dice": 0,
+                "sides": 0
+              },
+              "two_handed_exception": "none",
+              "mastery": "nick",
+              "weight": {
+                "listed": true,
+                "pounds_numerator": 1,
+                "pounds_denominator": 1
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/dart",
+      "name": "Dart",
+      "kind": "mundane",
+      "category": "weapon",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/weapons/dart",
+          "pages": [
+            91,
+            91
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/dart/variant/standard",
+          "name": "Dart",
+          "rarity": "none",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wield",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "weapon-attack",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "listed",
+            "amount": 5,
+            "currency": "cp",
+            "source_pages": [
+              91,
+              91
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.wield",
+            "weapon.attack",
+            "weapon.simple",
+            "weapon.ranged",
+            "damage.1d4-piercing",
+            "property.finesse",
+            "property.thrown",
+            "range.20-60",
+            "mastery.vex"
+          ],
+          "details": {
+            "weapon": {
+              "proficiency_category": "simple",
+              "attack_kind": "ranged",
+              "damage": {
+                "dice": 1,
+                "sides": 4,
+                "flat": 0,
+                "type": "piercing"
+              },
+              "properties": [
+                "finesse",
+                "thrown"
+              ],
+              "range": {
+                "normal_feet": 20,
+                "long_feet": 60
+              },
+              "ammunition": "none",
+              "versatile_damage": {
+                "dice": 0,
+                "sides": 0
+              },
+              "two_handed_exception": "none",
+              "mastery": "vex",
+              "weight": {
+                "listed": true,
+                "pounds_numerator": 1,
+                "pounds_denominator": 4
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/flail",
+      "name": "Flail",
+      "kind": "mundane",
+      "category": "weapon",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/weapons/flail",
+          "pages": [
+            91,
+            91
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/flail/variant/standard",
+          "name": "Flail",
+          "rarity": "none",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wield",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "weapon-attack",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "listed",
+            "amount": 10,
+            "currency": "gp",
+            "source_pages": [
+              91,
+              91
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.wield",
+            "weapon.attack",
+            "weapon.martial",
+            "weapon.melee",
+            "damage.1d8-bludgeoning",
+            "mastery.sap"
+          ],
+          "details": {
+            "weapon": {
+              "proficiency_category": "martial",
+              "attack_kind": "melee",
+              "damage": {
+                "dice": 1,
+                "sides": 8,
+                "flat": 0,
+                "type": "bludgeoning"
+              },
+              "properties": [],
+              "range": {
+                "normal_feet": 0,
+                "long_feet": 0
+              },
+              "ammunition": "none",
+              "versatile_damage": {
+                "dice": 0,
+                "sides": 0
+              },
+              "two_handed_exception": "none",
+              "mastery": "sap",
+              "weight": {
+                "listed": true,
+                "pounds_numerator": 2,
+                "pounds_denominator": 1
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/glaive",
+      "name": "Glaive",
+      "kind": "mundane",
+      "category": "weapon",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/weapons/glaive",
+          "pages": [
+            91,
+            91
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/glaive/variant/standard",
+          "name": "Glaive",
+          "rarity": "none",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wield",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "weapon-attack",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "listed",
+            "amount": 20,
+            "currency": "gp",
+            "source_pages": [
+              91,
+              91
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.wield",
+            "weapon.attack",
+            "weapon.martial",
+            "weapon.melee",
+            "damage.1d10-slashing",
+            "property.heavy",
+            "property.reach",
+            "property.two-handed",
+            "mastery.graze"
+          ],
+          "details": {
+            "weapon": {
+              "proficiency_category": "martial",
+              "attack_kind": "melee",
+              "damage": {
+                "dice": 1,
+                "sides": 10,
+                "flat": 0,
+                "type": "slashing"
+              },
+              "properties": [
+                "heavy",
+                "reach",
+                "two-handed"
+              ],
+              "range": {
+                "normal_feet": 0,
+                "long_feet": 0
+              },
+              "ammunition": "none",
+              "versatile_damage": {
+                "dice": 0,
+                "sides": 0
+              },
+              "two_handed_exception": "none",
+              "mastery": "graze",
+              "weight": {
+                "listed": true,
+                "pounds_numerator": 6,
+                "pounds_denominator": 1
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/greataxe",
+      "name": "Greataxe",
+      "kind": "mundane",
+      "category": "weapon",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/weapons/greataxe",
+          "pages": [
+            91,
+            91
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/greataxe/variant/standard",
+          "name": "Greataxe",
+          "rarity": "none",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wield",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "weapon-attack",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "listed",
+            "amount": 30,
+            "currency": "gp",
+            "source_pages": [
+              91,
+              91
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.wield",
+            "weapon.attack",
+            "weapon.martial",
+            "weapon.melee",
+            "damage.1d12-slashing",
+            "property.heavy",
+            "property.two-handed",
+            "mastery.cleave"
+          ],
+          "details": {
+            "weapon": {
+              "proficiency_category": "martial",
+              "attack_kind": "melee",
+              "damage": {
+                "dice": 1,
+                "sides": 12,
+                "flat": 0,
+                "type": "slashing"
+              },
+              "properties": [
+                "heavy",
+                "two-handed"
+              ],
+              "range": {
+                "normal_feet": 0,
+                "long_feet": 0
+              },
+              "ammunition": "none",
+              "versatile_damage": {
+                "dice": 0,
+                "sides": 0
+              },
+              "two_handed_exception": "none",
+              "mastery": "cleave",
+              "weight": {
+                "listed": true,
+                "pounds_numerator": 7,
+                "pounds_denominator": 1
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/greatclub",
+      "name": "Greatclub",
+      "kind": "mundane",
+      "category": "weapon",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/weapons/greatclub",
+          "pages": [
+            91,
+            91
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/greatclub/variant/standard",
+          "name": "Greatclub",
+          "rarity": "none",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wield",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "weapon-attack",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "listed",
+            "amount": 2,
+            "currency": "sp",
+            "source_pages": [
+              91,
+              91
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.wield",
+            "weapon.attack",
+            "weapon.simple",
+            "weapon.melee",
+            "damage.1d8-bludgeoning",
+            "property.two-handed",
+            "mastery.push"
+          ],
+          "details": {
+            "weapon": {
+              "proficiency_category": "simple",
+              "attack_kind": "melee",
+              "damage": {
+                "dice": 1,
+                "sides": 8,
+                "flat": 0,
+                "type": "bludgeoning"
+              },
+              "properties": [
+                "two-handed"
+              ],
+              "range": {
+                "normal_feet": 0,
+                "long_feet": 0
+              },
+              "ammunition": "none",
+              "versatile_damage": {
+                "dice": 0,
+                "sides": 0
+              },
+              "two_handed_exception": "none",
+              "mastery": "push",
+              "weight": {
+                "listed": true,
+                "pounds_numerator": 10,
+                "pounds_denominator": 1
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/greatsword",
+      "name": "Greatsword",
+      "kind": "mundane",
+      "category": "weapon",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/weapons/greatsword",
+          "pages": [
+            91,
+            91
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/greatsword/variant/standard",
+          "name": "Greatsword",
+          "rarity": "none",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wield",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "weapon-attack",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "listed",
+            "amount": 50,
+            "currency": "gp",
+            "source_pages": [
+              91,
+              91
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.wield",
+            "weapon.attack",
+            "weapon.martial",
+            "weapon.melee",
+            "damage.2d6-slashing",
+            "property.heavy",
+            "property.two-handed",
+            "mastery.graze"
+          ],
+          "details": {
+            "weapon": {
+              "proficiency_category": "martial",
+              "attack_kind": "melee",
+              "damage": {
+                "dice": 2,
+                "sides": 6,
+                "flat": 0,
+                "type": "slashing"
+              },
+              "properties": [
+                "heavy",
+                "two-handed"
+              ],
+              "range": {
+                "normal_feet": 0,
+                "long_feet": 0
+              },
+              "ammunition": "none",
+              "versatile_damage": {
+                "dice": 0,
+                "sides": 0
+              },
+              "two_handed_exception": "none",
+              "mastery": "graze",
+              "weight": {
+                "listed": true,
+                "pounds_numerator": 6,
+                "pounds_denominator": 1
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/halberd",
+      "name": "Halberd",
+      "kind": "mundane",
+      "category": "weapon",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/weapons/halberd",
+          "pages": [
+            91,
+            91
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/halberd/variant/standard",
+          "name": "Halberd",
+          "rarity": "none",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wield",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "weapon-attack",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "listed",
+            "amount": 20,
+            "currency": "gp",
+            "source_pages": [
+              91,
+              91
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.wield",
+            "weapon.attack",
+            "weapon.martial",
+            "weapon.melee",
+            "damage.1d10-slashing",
+            "property.heavy",
+            "property.reach",
+            "property.two-handed",
+            "mastery.cleave"
+          ],
+          "details": {
+            "weapon": {
+              "proficiency_category": "martial",
+              "attack_kind": "melee",
+              "damage": {
+                "dice": 1,
+                "sides": 10,
+                "flat": 0,
+                "type": "slashing"
+              },
+              "properties": [
+                "heavy",
+                "reach",
+                "two-handed"
+              ],
+              "range": {
+                "normal_feet": 0,
+                "long_feet": 0
+              },
+              "ammunition": "none",
+              "versatile_damage": {
+                "dice": 0,
+                "sides": 0
+              },
+              "two_handed_exception": "none",
+              "mastery": "cleave",
+              "weight": {
+                "listed": true,
+                "pounds_numerator": 6,
+                "pounds_denominator": 1
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/hand-crossbow",
+      "name": "Hand Crossbow",
+      "kind": "mundane",
+      "category": "weapon",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/weapons/hand-crossbow",
+          "pages": [
+            91,
+            91
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/hand-crossbow/variant/standard",
+          "name": "Hand Crossbow",
+          "rarity": "none",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wield",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "weapon-attack",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "listed",
+            "amount": 75,
+            "currency": "gp",
+            "source_pages": [
+              91,
+              91
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.wield",
+            "weapon.attack",
+            "weapon.martial",
+            "weapon.ranged",
+            "damage.1d6-piercing",
+            "property.ammunition",
+            "property.light",
+            "property.loading",
+            "range.30-120",
+            "ammunition.bolt",
+            "mastery.vex"
+          ],
+          "details": {
+            "weapon": {
+              "proficiency_category": "martial",
+              "attack_kind": "ranged",
+              "damage": {
+                "dice": 1,
+                "sides": 6,
+                "flat": 0,
+                "type": "piercing"
+              },
+              "properties": [
+                "ammunition",
+                "light",
+                "loading"
+              ],
+              "range": {
+                "normal_feet": 30,
+                "long_feet": 120
+              },
+              "ammunition": "bolt",
+              "versatile_damage": {
+                "dice": 0,
+                "sides": 0
+              },
+              "two_handed_exception": "none",
+              "mastery": "vex",
+              "weight": {
+                "listed": true,
+                "pounds_numerator": 3,
+                "pounds_denominator": 1
+              }
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
