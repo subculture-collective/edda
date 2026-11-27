@@ -128,6 +128,12 @@ tasks:
     cmds:
       - go test -short ./...
 
+  test:race:
+    desc: Run short tests with the race detector (pass packages after --)
+    cmds:
+      # The srd521 race run takes about 15 minutes, past Go's 10-minute default.
+      - GOMAXPROCS=2 go test -p 1 -short -race -timeout 45m {{if .CLI_ARGS}}{{.CLI_ARGS}}{{else}}./...{{end}}
+
   test:integration:
     desc: Run integration tests only
     cmds:
