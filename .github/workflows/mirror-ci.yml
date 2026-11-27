@@ -19,9 +19,42 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  changes:
+    name: Detect changed areas
+    if: github.repository == 'subculture-collective/edda'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    outputs:
+      go: ${{ steps.diff.outputs.go }}
+      frontend: ${{ steps.diff.outputs.frontend }}
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+          filter: blob:none
+      # Compare the branch with its merge base on main. Workflow changes and a
+      # failed diff run everything.
+      - name: List changed paths
+        id: diff
+        shell: bash
+        run: |
+          set -euo pipefail
+          if ! base=$(git merge-base origin/main HEAD) || ! files=$(git diff --name-only "$base" HEAD); then
+            echo "go=true" >> "$GITHUB_OUTPUT"; echo "frontend=true" >> "$GITHUB_OUTPUT"; exit 0
+          fi
+          printf '%s\n' "$files"
+          all=false; grep -q '^\.github/' <<<"$files" && all=true
+          go=$all; grep -qvE '^(frontend/|docs/|[^/]*\.md$)' <<<"$files" && go=true
+          frontend=$all; grep -q '^frontend/' <<<"$files" && frontend=true
+          echo "go=$go" >> "$GITHUB_OUTPUT"
+          echo "frontend=$frontend" >> "$GITHUB_OUTPUT"
+
   test:
     name: Go tests
-    if: github.repository == 'subculture-collective/edda'
+    needs: changes
+    if: needs.changes.outputs.go == 'true'
     runs-on: ubuntu-24.04
     timeout-minutes: 30
     steps:
@@ -43,7 +76,8 @@ jobs:
 
   integration:
     name: PostgreSQL integration
-    if: github.repository == 'subculture-collective/edda'
+    needs: changes
+    if: needs.changes.outputs.go == 'true'
     runs-on: ubuntu-24.04
     timeout-minutes: 15
     steps:
@@ -64,7 +98,8 @@ jobs:
 
   frontend:
     name: Frontend image build
-    if: github.repository == 'subculture-collective/edda'
+    needs: changes
+    if: needs.changes.outputs.frontend == 'true'
     runs-on: ubuntu-24.04
     timeout-minutes: 25
     steps:
@@ -85,7 +120,8 @@ jobs:
 
   frontend-behavior:
     name: Frontend behavior
-    if: github.repository == 'subculture-collective/edda'
+    needs: changes
+    if: needs.changes.outputs.frontend == 'true'
     runs-on: ubuntu-24.04
     timeout-minutes: 15
     defaults:
@@ -113,6 +149,7 @@ jobs:
     name: Mirror CI gate
     if: always() && github.repository == 'subculture-collective/edda'
     needs:
+      - changes
       - test
       - integration
       - frontend
@@ -127,8 +164,10 @@ jobs:
           python3 - <<'PY'
           import json, os
           results = json.loads(os.environ["RESULTS"])
-          expected = {'test', 'integration', 'frontend', 'frontend-behavior'}
+          expected = {'changes', 'test', 'integration', 'frontend', 'frontend-behavior'}
           assert set(results) == expected, results
+          assert results['changes']['result'] == 'success', 'change detection did not pass'
+          # A job skipped because its area did not change counts as passing.
           for name, result in results.items():
-              assert result["result"] == "success", name + " did not pass"
+              assert result["result"] in ("success", "skipped"), name + " did not pass"
           PY
