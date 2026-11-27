@@ -69,6 +69,21 @@ type Monster struct {
 	// as the Half-Dragon's type chosen by a trait. It requires a dependency key,
 	// so the record stays unavailable.
 	ResistanceNote string `json:"resistance_note,omitempty"`
+	// VulnerabilityNote retains a Vulnerabilities line that limits its damage
+	// type by a condition, such as the Rakshasa's Piercing damage from Blessed
+	// weapons. It replaces typed vulnerabilities and requires a dependency key.
+	VulnerabilityNote string `json:"vulnerability_note,omitempty"`
+	// SwarmOf retains the size of the creatures in a "Swarm of Tiny Beasts" type
+	// line. It requires a dependency key.
+	SwarmOf string `json:"swarm_of,omitempty"`
+	// SpeedNote retains a speed the source leaves open, such as the Swarm of
+	// Insects' "Climb or Fly 20 ft. (GM’s choice)". Neither mode is typed in
+	// Speeds, and the note requires a dependency key.
+	SpeedNote string `json:"speed_note,omitempty"`
+	// ConditionImmunityNote retains a condition immunity with a printed
+	// exception, such as the Vampire Familiar's. It replaces typed condition
+	// immunities and requires a dependency key.
+	ConditionImmunityNote string `json:"condition_immunity_note,omitempty"`
 }
 
 // MonsterHP retains both the fixed HP and its source dice expression.
@@ -315,7 +330,9 @@ func (m Monster) Validate() error {
 			return fmt.Errorf("invalid special sense")
 		}
 	}
-	if !uniqueMonsterStrings(m.Languages) || !uniqueMonsterStrings(m.Gear) || m.Traits == nil || len(m.Actions) == 0 {
+	// A block may print reactions and no Actions section (the Shrieker Fungus,
+	// PDF p. 286), so its action list is explicitly empty.
+	if !uniqueMonsterStrings(m.Languages) || !uniqueMonsterStrings(m.Gear) || m.Traits == nil || m.Actions == nil || len(m.Actions)+len(m.Reactions) == 0 {
 		return fmt.Errorf("explicit languages, gear, traits and actions required")
 	}
 	if !slices.Contains(strings.Fields("0 1/8 1/4 1/2 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30"), m.CR) || m.XP < 0 || m.ProficiencyBonus < 2 || m.ProficiencyBonus > 9 {

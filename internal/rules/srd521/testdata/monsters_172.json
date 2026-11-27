@@ -1,0 +1,3004 @@
+{
+  "schema_version": 1,
+  "source": {
+    "version": "5.2.1",
+    "language": "en",
+    "landing_url": "https://www.dndbeyond.com/srd",
+    "artifact_url": "https://media.dndbeyond.com/compendium-images/srd/5.2/SRD_CC_v5.2.1.pdf",
+    "sha256": "8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87",
+    "bytes": 6031375,
+    "pages": 364,
+    "retrieved_at": "2026-11-15",
+    "license": "CC-BY-4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/legalcode",
+    "attribution": "This work includes material from the System Reference Document 5.2.1 (“SRD 5.2.1”) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd. The SRD 5.2.1 is licensed under the Creative Commons Attribution 4.0 International License, available at https://creativecommons.org/licenses/by/4.0/legalcode.",
+    "changes": "Adapted the twelve stat blocks of issue #172 (Scout, Sea Hag, Seahorse, Shadow, Shambling Mound, Shield Guardian, Shrieker Fungus, Silver Dragon Wyrmling, Skeleton, Solar, Specter and Sphinx of Lore; PDF pages 286, 322–328 and 361) into typed mechanical fields and implementation keys. Trait, action, bonus action, reaction and legendary action entries keep their source rules text, rejoined across line, column and page breaks; descriptive prose outside the stat blocks is omitted. The Shrieker Fungus prints no Actions section, so its action list is empty. No playable NPC behavior is granted."
+  },
+  "monsters": [
+    {
+      "id": "srd-5.2.1:content/monsters/scout",
+      "name": "Scout",
+      "source_pages": [
+        322,
+        322
+      ],
+      "sizes": [
+        "medium",
+        "small"
+      ],
+      "type": "humanoid",
+      "alignment": "Neutral",
+      "ac": 13,
+      "initiative": {
+        "modifier": 2,
+        "score": 12
+      },
+      "hp": {
+        "average": 16,
+        "dice": 3,
+        "sides": 8,
+        "modifier": 3
+      },
+      "speeds": {
+        "walk": 30
+      },
+      "abilities": {
+        "str": {
+          "score": 11,
+          "modifier": 0,
+          "save": 0
+        },
+        "dex": {
+          "score": 14,
+          "modifier": 2,
+          "save": 2
+        },
+        "con": {
+          "score": 12,
+          "modifier": 1,
+          "save": 1
+        },
+        "int": {
+          "score": 11,
+          "modifier": 0,
+          "save": 0
+        },
+        "wis": {
+          "score": 13,
+          "modifier": 1,
+          "save": 1
+        },
+        "cha": {
+          "score": 11,
+          "modifier": 0,
+          "save": 0
+        }
+      },
+      "senses": {
+        "passive_perception": 15,
+        "special": {}
+      },
+      "languages": [
+        "Common plus one other language"
+      ],
+      "gear": [
+        "Leather Armor",
+        "Longbow",
+        "Shortsword"
+      ],
+      "cr": "1/2",
+      "xp": 100,
+      "proficiency_bonus": 2,
+      "skills": {
+        "nature": 4,
+        "perception": 5,
+        "stealth": 6,
+        "survival": 5
+      },
+      "traits": [],
+      "actions": [
+        {
+          "id": "multiattack",
+          "name": "Multiattack",
+          "text": "Multiattack. The scout makes two attacks, using Shortsword and Longbow in any combination.",
+          "key": "action/multiattack",
+          "effects": [
+            {
+              "key": "action/melee-attack",
+              "name": "Melee attack",
+              "text": "The scout makes two attacks, using Shortsword and Longbow in any combination"
+            },
+            {
+              "key": "action/ranged-attack",
+              "name": "Ranged attack",
+              "text": "Longbow"
+            },
+            {
+              "key": "multiattack/any-combination",
+              "name": "Any combination",
+              "text": "in any combination"
+            }
+          ]
+        },
+        {
+          "id": "shortsword",
+          "name": "Shortsword",
+          "text": "Shortsword. Melee Attack Roll: +4, reach 5 ft. Hit: 5 (1d6 + 2) Piercing damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 4,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 5,
+              "dice": 1,
+              "sides": 6,
+              "modifier": 2
+            },
+            "damage_type": "piercing"
+          },
+          "effects": [
+            {
+              "key": "effect/piercing-damage",
+              "name": "Piercing damage",
+              "text": "5 (1d6 + 2) Piercing damage.",
+              "dice": {
+                "average": 5,
+                "dice": 1,
+                "sides": 6,
+                "modifier": 2
+              }
+            }
+          ]
+        },
+        {
+          "id": "longbow",
+          "name": "Longbow",
+          "text": "Longbow. Ranged Attack Roll: +4, range 150/600 ft. Hit: 6 (1d8 + 2) Piercing damage.",
+          "key": "action/ranged-attack",
+          "attack": {
+            "kind": "ranged",
+            "bonus": 4,
+            "reach": 0,
+            "range": 150,
+            "long_range": 600,
+            "damage": {
+              "average": 6,
+              "dice": 1,
+              "sides": 8,
+              "modifier": 2
+            },
+            "damage_type": "piercing"
+          },
+          "effects": [
+            {
+              "key": "effect/piercing-damage",
+              "name": "Piercing damage",
+              "text": "6 (1d8 + 2) Piercing damage.",
+              "dice": {
+                "average": 6,
+                "dice": 1,
+                "sides": 8,
+                "modifier": 2
+              }
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/skills",
+        "action/multiattack",
+        "action/melee-attack",
+        "action/ranged-attack",
+        "multiattack/any-combination",
+        "effect/piercing-damage"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/sea-hag",
+      "name": "Sea Hag",
+      "source_pages": [
+        322,
+        322
+      ],
+      "sizes": [
+        "medium"
+      ],
+      "type": "fey",
+      "alignment": "Chaotic Evil",
+      "ac": 14,
+      "initiative": {
+        "modifier": 1,
+        "score": 11
+      },
+      "hp": {
+        "average": 52,
+        "dice": 7,
+        "sides": 8,
+        "modifier": 21
+      },
+      "speeds": {
+        "walk": 30,
+        "swim": 40
+      },
+      "abilities": {
+        "str": {
+          "score": 16,
+          "modifier": 3,
+          "save": 3
+        },
+        "dex": {
+          "score": 13,
+          "modifier": 1,
+          "save": 1
+        },
+        "con": {
+          "score": 16,
+          "modifier": 3,
+          "save": 3
+        },
+        "int": {
+          "score": 12,
+          "modifier": 1,
+          "save": 1
+        },
+        "wis": {
+          "score": 12,
+          "modifier": 1,
+          "save": 1
+        },
+        "cha": {
+          "score": 13,
+          "modifier": 1,
+          "save": 1
+        }
+      },
+      "senses": {
+        "passive_perception": 11,
+        "special": {
+          "darkvision": 60
+        }
+      },
+      "languages": [
+        "Common",
+        "Giant",
+        "Primordial (Aquan)"
+      ],
+      "gear": [],
+      "cr": "2",
+      "xp": 450,
+      "proficiency_bonus": 2,
+      "traits": [
+        {
+          "key": "trait/amphibious",
+          "name": "Amphibious",
+          "text": "Amphibious. The hag can breathe air and water.",
+          "requires": [
+            "effect/breathe-air-and-water"
+          ]
+        },
+        {
+          "key": "trait/coven-magic",
+          "name": "Coven Magic",
+          "text": "Coven Magic. While within 30 feet of at least two hag allies, the hag can cast one of the following spells, requiring no Material components, using the spell’s normal casting time, and using Intelligence as the spellcasting ability (spell save DC 11): Augury, Find Familiar, Identify, Locate Object, Scrying, or Unseen Servant. The hag must finish a Long Rest before using this trait to cast that spell again.",
+          "requires": [
+            "effect/coven-casting",
+            "requirement/two-hag-allies-within-30-feet",
+            "spellcasting/no-material-components",
+            "spellcasting/normal-casting-time",
+            "limit/long-rest-per-spell",
+            "spell/augury",
+            "spell/find-familiar",
+            "spell/identify",
+            "spell/locate-object",
+            "spell/scrying",
+            "spell/unseen-servant"
+          ]
+        },
+        {
+          "key": "trait/vile-appearance",
+          "name": "Vile Appearance",
+          "text": "Vile Appearance. Wisdom Saving Throw: DC 11, any Beast or Humanoid that starts its turn within 30 feet of the hag and can see the hag’s true form. Failure: The target has the Frightened condition until the start of its next turn. Success: The target is immune to this hag’s Vile Appearance for 24 hours.",
+          "save": {
+            "ability": "wis",
+            "dc": 11
+          },
+          "requires": [
+            "save/wis",
+            "target/beasts-and-humanoids-starting-turn-nearby",
+            "requirement/can-see-true-form",
+            "condition/frightened",
+            "save/success-immunity"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "claw",
+          "name": "Claw",
+          "text": "Claw. Melee Attack Roll: +5, reach 5 ft. Hit: 10 (2d6 + 3) Slashing damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 5,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 10,
+              "dice": 2,
+              "sides": 6,
+              "modifier": 3
+            },
+            "damage_type": "slashing"
+          },
+          "effects": [
+            {
+              "key": "effect/slashing-damage",
+              "name": "Slashing damage",
+              "text": "10 (2d6 + 3) Slashing damage.",
+              "dice": {
+                "average": 10,
+                "dice": 2,
+                "sides": 6,
+                "modifier": 3
+              }
+            }
+          ]
+        },
+        {
+          "id": "death-glare",
+          "name": "Death Glare",
+          "text": "Death Glare (Recharge 5–6). Wisdom Saving Throw: DC 11, one Frightened creature the hag can see within 30 feet. Failure: If the target has 20 Hit Points or fewer, it drops to 0 Hit Points. Otherwise, the target takes 13 (3d8) Psychic damage.",
+          "key": "action/saving-throw",
+          "uses": {
+            "per_day": 0,
+            "lair_per_day": 0,
+            "recharge": 5
+          },
+          "save": {
+            "ability": "wis",
+            "dc": 11
+          },
+          "target": {
+            "shape": "creature",
+            "size": 0,
+            "width": 0,
+            "range": 30
+          },
+          "effects": [
+            {
+              "key": "limit/recharge",
+              "name": "Recharge",
+              "text": "(Recharge 5–6)"
+            },
+            {
+              "key": "save/wis",
+              "name": "Wisdom Saving Throw",
+              "text": "Wisdom Saving Throw: DC 11"
+            },
+            {
+              "key": "target/creature",
+              "name": "Target",
+              "text": "one Frightened creature the hag can see within 30 feet."
+            },
+            {
+              "key": "requirement/frightened-target",
+              "name": "Frightened target",
+              "text": "one Frightened creature"
+            },
+            {
+              "key": "effect/drop-to-zero-hit-points",
+              "name": "Drop to zero hit points",
+              "text": "If the target has 20 Hit Points or fewer, it drops to 0 Hit Points"
+            },
+            {
+              "key": "effect/psychic-damage",
+              "name": "Psychic damage",
+              "text": "Otherwise, the target takes 13 (3d8) Psychic damage",
+              "dice": {
+                "average": 13,
+                "dice": 3,
+                "sides": 8,
+                "modifier": 0
+              }
+            }
+          ]
+        },
+        {
+          "id": "illusory-appearance",
+          "name": "Illusory Appearance",
+          "text": "Illusory Appearance. The hag casts Disguise Self, using Constitution as the spellcasting ability (spell save DC 13). The spell’s duration is 24 hours.",
+          "key": "action/special",
+          "effects": [
+            {
+              "key": "action/spellcasting",
+              "name": "Spellcasting",
+              "text": "The hag casts Disguise Self, using Constitution as the spellcasting ability (spell save DC 13)"
+            },
+            {
+              "key": "spell/disguise-self",
+              "name": "Disguise self",
+              "text": "casts Disguise Self"
+            },
+            {
+              "key": "spellcasting/constitution-ability",
+              "name": "Constitution ability",
+              "text": "using Constitution as the spellcasting ability"
+            },
+            {
+              "key": "spellcasting/fixed-save-dc",
+              "name": "Fixed save dc",
+              "text": "(spell save DC 13)"
+            },
+            {
+              "key": "effect/spell-duration-24-hours",
+              "name": "Spell duration 24 hours",
+              "text": "The spell’s duration is 24 hours"
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "movement/swim",
+        "sense/darkvision",
+        "trait/amphibious",
+        "effect/breathe-air-and-water",
+        "trait/coven-magic",
+        "effect/coven-casting",
+        "requirement/two-hag-allies-within-30-feet",
+        "spellcasting/no-material-components",
+        "spellcasting/normal-casting-time",
+        "limit/long-rest-per-spell",
+        "spell/augury",
+        "spell/find-familiar",
+        "spell/identify",
+        "spell/locate-object",
+        "spell/scrying",
+        "spell/unseen-servant",
+        "trait/vile-appearance",
+        "save/wis",
+        "target/beasts-and-humanoids-starting-turn-nearby",
+        "requirement/can-see-true-form",
+        "condition/frightened",
+        "save/success-immunity",
+        "action/melee-attack",
+        "effect/slashing-damage",
+        "action/saving-throw",
+        "limit/recharge",
+        "target/creature",
+        "requirement/frightened-target",
+        "effect/drop-to-zero-hit-points",
+        "effect/psychic-damage",
+        "action/special",
+        "action/spellcasting",
+        "spell/disguise-self",
+        "spellcasting/constitution-ability",
+        "spellcasting/fixed-save-dc",
+        "effect/spell-duration-24-hours"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/animals/seahorse",
+      "name": "Seahorse",
+      "source_pages": [
+        361,
+        361
+      ],
+      "sizes": [
+        "tiny"
+      ],
+      "type": "beast",
+      "alignment": "Unaligned",
+      "ac": 12,
+      "initiative": {
+        "modifier": 1,
+        "score": 11
+      },
+      "hp": {
+        "average": 1,
+        "dice": 1,
+        "sides": 4,
+        "modifier": -1
+      },
+      "speeds": {
+        "walk": 5,
+        "swim": 20
+      },
+      "abilities": {
+        "str": {
+          "score": 1,
+          "modifier": -5,
+          "save": -5
+        },
+        "dex": {
+          "score": 12,
+          "modifier": 1,
+          "save": 1
+        },
+        "con": {
+          "score": 8,
+          "modifier": -1,
+          "save": -1
+        },
+        "int": {
+          "score": 1,
+          "modifier": -5,
+          "save": -5
+        },
+        "wis": {
+          "score": 10,
+          "modifier": 0,
+          "save": 0
+        },
+        "cha": {
+          "score": 2,
+          "modifier": -4,
+          "save": -4
+        }
+      },
+      "senses": {
+        "passive_perception": 12,
+        "special": {}
+      },
+      "languages": [],
+      "gear": [],
+      "cr": "0",
+      "xp": 0,
+      "proficiency_bonus": 2,
+      "skills": {
+        "perception": 2,
+        "stealth": 5
+      },
+      "traits": [
+        {
+          "key": "trait/water-breathing",
+          "name": "Water Breathing",
+          "text": "Water Breathing. The seahorse can breathe only underwater.",
+          "requires": [
+            "effect/breathe-only-underwater"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "bubble-dash",
+          "name": "Bubble Dash",
+          "text": "Bubble Dash. While underwater, the seahorse moves up to its Swim Speed without provoking Opportunity Attacks.",
+          "key": "action/special",
+          "effects": [
+            {
+              "key": "requirement/underwater",
+              "name": "Underwater",
+              "text": "While underwater"
+            },
+            {
+              "key": "movement/swim-speed-move",
+              "name": "Swim speed move",
+              "text": "the seahorse moves up to its Swim Speed"
+            },
+            {
+              "key": "effect/no-opportunity-attacks",
+              "name": "No opportunity attacks",
+              "text": "without provoking Opportunity Attacks"
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/skills",
+        "movement/swim",
+        "trait/water-breathing",
+        "effect/breathe-only-underwater",
+        "action/special",
+        "requirement/underwater",
+        "movement/swim-speed-move",
+        "effect/no-opportunity-attacks"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/shadow",
+      "name": "Shadow",
+      "source_pages": [
+        322,
+        323
+      ],
+      "sizes": [
+        "medium"
+      ],
+      "type": "undead",
+      "alignment": "Chaotic Evil",
+      "ac": 12,
+      "initiative": {
+        "modifier": 2,
+        "score": 12
+      },
+      "hp": {
+        "average": 27,
+        "dice": 5,
+        "sides": 8,
+        "modifier": 5
+      },
+      "speeds": {
+        "walk": 40
+      },
+      "abilities": {
+        "str": {
+          "score": 6,
+          "modifier": -2,
+          "save": -2
+        },
+        "dex": {
+          "score": 14,
+          "modifier": 2,
+          "save": 2
+        },
+        "con": {
+          "score": 13,
+          "modifier": 1,
+          "save": 1
+        },
+        "int": {
+          "score": 6,
+          "modifier": -2,
+          "save": -2
+        },
+        "wis": {
+          "score": 10,
+          "modifier": 0,
+          "save": 0
+        },
+        "cha": {
+          "score": 8,
+          "modifier": -1,
+          "save": -1
+        }
+      },
+      "senses": {
+        "passive_perception": 10,
+        "special": {
+          "darkvision": 60
+        }
+      },
+      "languages": [],
+      "gear": [],
+      "cr": "1/2",
+      "xp": 100,
+      "proficiency_bonus": 2,
+      "skills": {
+        "stealth": 6
+      },
+      "vulnerabilities": [
+        "radiant"
+      ],
+      "resistances": [
+        "acid",
+        "cold",
+        "fire",
+        "lightning",
+        "thunder"
+      ],
+      "immunities": [
+        "necrotic",
+        "poison"
+      ],
+      "condition_immunities": [
+        "exhaustion",
+        "frightened",
+        "grappled",
+        "paralyzed",
+        "petrified",
+        "poisoned",
+        "prone",
+        "restrained",
+        "unconscious"
+      ],
+      "traits": [
+        {
+          "key": "trait/amorphous",
+          "name": "Amorphous",
+          "text": "Amorphous. The shadow can move through a space as narrow as 1 inch without expending extra movement to do so.",
+          "requires": [
+            "movement/squeeze"
+          ]
+        },
+        {
+          "key": "trait/sunlight-weakness",
+          "name": "Sunlight Weakness",
+          "text": "Sunlight Weakness. While in sunlight, the shadow has Disadvantage on D20 Tests.",
+          "requires": [
+            "effect/sunlight-disadvantage"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "draining-swipe",
+          "name": "Draining Swipe",
+          "text": "Draining Swipe. Melee Attack Roll: +4, reach 5 ft. Hit: 5 (1d6 + 2) Necrotic damage, and the target’s Strength score decreases by 1d4. The target dies if this reduces that score to 0. If a Humanoid is slain by this attack, a Shadow rises from the corpse 1d4 hours later.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 4,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 5,
+              "dice": 1,
+              "sides": 6,
+              "modifier": 2
+            },
+            "damage_type": "necrotic"
+          },
+          "effects": [
+            {
+              "key": "effect/necrotic-damage",
+              "name": "Necrotic damage",
+              "text": "5 (1d6 + 2) Necrotic damage.",
+              "dice": {
+                "average": 5,
+                "dice": 1,
+                "sides": 6,
+                "modifier": 2
+              }
+            },
+            {
+              "key": "effect/strength-score-reduction",
+              "name": "Strength score reduction",
+              "text": "the target’s Strength score decreases by 1d4"
+            },
+            {
+              "key": "effect/death-at-zero-strength",
+              "name": "Death at zero strength",
+              "text": "The target dies if this reduces that score to 0"
+            },
+            {
+              "key": "effect/rising-shadow",
+              "name": "Rising shadow",
+              "text": "If a Humanoid is slain by this attack, a Shadow rises from the corpse 1d4 hours later"
+            }
+          ]
+        }
+      ],
+      "bonus_actions": [
+        {
+          "id": "shadow-stealth",
+          "name": "Shadow Stealth",
+          "text": "Shadow Stealth. While in Dim Light or Darkness, the shadow takes the Hide action.",
+          "key": "action/special",
+          "effects": [
+            {
+              "key": "requirement/dim-light-or-darkness",
+              "name": "Dim light or darkness",
+              "text": "While in Dim Light or Darkness"
+            },
+            {
+              "key": "action/hide",
+              "name": "Hide",
+              "text": "the shadow takes the Hide action"
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/skills",
+        "defense/damage-vulnerability",
+        "defense/damage-resistance",
+        "defense/damage-immunity",
+        "defense/condition-immunity",
+        "sense/darkvision",
+        "action/bonus-action",
+        "trait/amorphous",
+        "movement/squeeze",
+        "trait/sunlight-weakness",
+        "effect/sunlight-disadvantage",
+        "action/melee-attack",
+        "effect/necrotic-damage",
+        "effect/strength-score-reduction",
+        "effect/death-at-zero-strength",
+        "effect/rising-shadow",
+        "action/special",
+        "requirement/dim-light-or-darkness",
+        "action/hide"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/shambling-mound",
+      "name": "Shambling Mound",
+      "source_pages": [
+        323,
+        323
+      ],
+      "sizes": [
+        "large"
+      ],
+      "type": "plant",
+      "alignment": "Unaligned",
+      "ac": 15,
+      "initiative": {
+        "modifier": -1,
+        "score": 9
+      },
+      "hp": {
+        "average": 110,
+        "dice": 13,
+        "sides": 10,
+        "modifier": 39
+      },
+      "speeds": {
+        "walk": 30,
+        "swim": 20
+      },
+      "abilities": {
+        "str": {
+          "score": 18,
+          "modifier": 4,
+          "save": 4
+        },
+        "dex": {
+          "score": 8,
+          "modifier": -1,
+          "save": -1
+        },
+        "con": {
+          "score": 16,
+          "modifier": 3,
+          "save": 3
+        },
+        "int": {
+          "score": 5,
+          "modifier": -3,
+          "save": -3
+        },
+        "wis": {
+          "score": 10,
+          "modifier": 0,
+          "save": 0
+        },
+        "cha": {
+          "score": 5,
+          "modifier": -3,
+          "save": -3
+        }
+      },
+      "senses": {
+        "passive_perception": 10,
+        "special": {
+          "blindsight": 60
+        }
+      },
+      "languages": [],
+      "gear": [],
+      "cr": "5",
+      "xp": 1800,
+      "proficiency_bonus": 3,
+      "skills": {
+        "stealth": 3
+      },
+      "resistances": [
+        "cold",
+        "fire"
+      ],
+      "immunities": [
+        "lightning"
+      ],
+      "condition_immunities": [
+        "deafened",
+        "exhaustion"
+      ],
+      "traits": [
+        {
+          "key": "trait/lightning-absorption",
+          "name": "Lightning Absorption",
+          "text": "Lightning Absorption. Whenever the shambling mound is subjected to Lightning damage, it regains a number of Hit Points equal to the Lightning damage dealt.",
+          "requires": [
+            "effect/lightning-absorption"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "multiattack",
+          "name": "Multiattack",
+          "text": "Multiattack. The shambling mound makes three Charged Tendril attacks. It can replace one attack with a use of Engulf.",
+          "key": "action/multiattack",
+          "effects": [
+            {
+              "key": "action/melee-attack",
+              "name": "Melee attack",
+              "text": "The shambling mound makes three Charged Tendril attacks"
+            },
+            {
+              "key": "multiattack/replace-attack",
+              "name": "Replace attack",
+              "text": "It can replace one attack with a use of Engulf"
+            },
+            {
+              "key": "action/saving-throw",
+              "name": "Saving throw",
+              "text": "a use of Engulf"
+            }
+          ]
+        },
+        {
+          "id": "charged-tendril",
+          "name": "Charged Tendril",
+          "text": "Charged Tendril. Melee Attack Roll: +7, reach 10 ft. Hit: 7 (1d6 + 4) Bludgeoning damage plus 5 (2d4) Lightning damage. If the target is a Medium or smaller creature, the shambling mound pulls the target 5 feet straight toward itself.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 7,
+            "reach": 10,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 7,
+              "dice": 1,
+              "sides": 6,
+              "modifier": 4
+            },
+            "damage_type": "bludgeoning"
+          },
+          "effects": [
+            {
+              "key": "effect/bludgeoning-damage",
+              "name": "Bludgeoning damage",
+              "text": "7 (1d6 + 4) Bludgeoning damage.",
+              "dice": {
+                "average": 7,
+                "dice": 1,
+                "sides": 6,
+                "modifier": 4
+              }
+            },
+            {
+              "key": "effect/lightning-damage",
+              "name": "Lightning damage",
+              "text": "5 (2d4) Lightning damage",
+              "dice": {
+                "average": 5,
+                "dice": 2,
+                "sides": 4,
+                "modifier": 0
+              }
+            },
+            {
+              "key": "requirement/target-size",
+              "name": "Target size",
+              "text": "If the target is a Medium or smaller creature"
+            },
+            {
+              "key": "effect/pull",
+              "name": "Pull",
+              "text": "the shambling mound pulls the target 5 feet straight toward itself"
+            }
+          ]
+        },
+        {
+          "id": "engulf",
+          "name": "Engulf",
+          "text": "Engulf. Strength Saving Throw: DC 15, one Medium or smaller creature within 5 feet. Failure: The target is pulled into the shambling mound’s space and has the Grappled condition (escape DC 14). Until the grapple ends, the target has the Blinded and Restrained conditions, and it takes 10 (3d6) Lightning damage at the start of each of its turns. When the shambling mound moves, the Grappled target moves with it, costing it no extra movement. The shambling mound can have only one creature Grappled by this action at a time.",
+          "key": "action/saving-throw",
+          "save": {
+            "ability": "str",
+            "dc": 15
+          },
+          "target": {
+            "shape": "creature",
+            "size": 0,
+            "width": 0,
+            "range": 5
+          },
+          "effects": [
+            {
+              "key": "save/str",
+              "name": "Strength Saving Throw",
+              "text": "Strength Saving Throw: DC 15"
+            },
+            {
+              "key": "target/creature",
+              "name": "Target",
+              "text": "one Medium or smaller creature within 5 feet."
+            },
+            {
+              "key": "requirement/target-size",
+              "name": "Target size",
+              "text": "one Medium or smaller creature"
+            },
+            {
+              "key": "effect/engulf",
+              "name": "Engulf",
+              "text": "The target is pulled into the shambling mound’s space"
+            },
+            {
+              "key": "condition/grappled",
+              "name": "Grappled",
+              "text": "has the Grappled condition (escape DC 14)"
+            },
+            {
+              "key": "condition/blinded",
+              "name": "Blinded",
+              "text": "the target has the Blinded and Restrained conditions"
+            },
+            {
+              "key": "condition/restrained",
+              "name": "Restrained",
+              "text": "the target has the Blinded and Restrained conditions"
+            },
+            {
+              "key": "effect/lightning-damage",
+              "name": "Lightning damage",
+              "text": "it takes 10 (3d6) Lightning damage at the start of each of its turns",
+              "dice": {
+                "average": 10,
+                "dice": 3,
+                "sides": 6,
+                "modifier": 0
+              }
+            },
+            {
+              "key": "effect/engulfed-target-moves-along",
+              "name": "Engulfed target moves along",
+              "text": "When the shambling mound moves, the Grappled target moves with it, costing it no extra movement"
+            },
+            {
+              "key": "limit/one-grappled-creature",
+              "name": "One grappled creature",
+              "text": "The shambling mound can have only one creature Grappled by this action at a time"
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/skills",
+        "defense/damage-resistance",
+        "defense/damage-immunity",
+        "defense/condition-immunity",
+        "movement/swim",
+        "sense/blindsight",
+        "trait/lightning-absorption",
+        "effect/lightning-absorption",
+        "action/multiattack",
+        "action/melee-attack",
+        "multiattack/replace-attack",
+        "action/saving-throw",
+        "effect/bludgeoning-damage",
+        "effect/lightning-damage",
+        "requirement/target-size",
+        "effect/pull",
+        "save/str",
+        "target/creature",
+        "effect/engulf",
+        "condition/grappled",
+        "condition/blinded",
+        "condition/restrained",
+        "effect/engulfed-target-moves-along",
+        "limit/one-grappled-creature"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/shield-guardian",
+      "name": "Shield Guardian",
+      "source_pages": [
+        323,
+        323
+      ],
+      "sizes": [
+        "large"
+      ],
+      "type": "construct",
+      "alignment": "Unaligned",
+      "ac": 17,
+      "initiative": {
+        "modifier": -1,
+        "score": 9
+      },
+      "hp": {
+        "average": 142,
+        "dice": 15,
+        "sides": 10,
+        "modifier": 60
+      },
+      "speeds": {
+        "walk": 30
+      },
+      "abilities": {
+        "str": {
+          "score": 18,
+          "modifier": 4,
+          "save": 4
+        },
+        "dex": {
+          "score": 8,
+          "modifier": -1,
+          "save": -1
+        },
+        "con": {
+          "score": 18,
+          "modifier": 4,
+          "save": 4
+        },
+        "int": {
+          "score": 7,
+          "modifier": -2,
+          "save": -2
+        },
+        "wis": {
+          "score": 10,
+          "modifier": 0,
+          "save": 0
+        },
+        "cha": {
+          "score": 3,
+          "modifier": -4,
+          "save": -4
+        }
+      },
+      "senses": {
+        "passive_perception": 10,
+        "special": {
+          "blindsight": 10,
+          "darkvision": 60
+        }
+      },
+      "languages": [
+        "Understands commands given in any language but can’t speak"
+      ],
+      "gear": [],
+      "cr": "7",
+      "xp": 2900,
+      "proficiency_bonus": 3,
+      "immunities": [
+        "poison"
+      ],
+      "condition_immunities": [
+        "charmed",
+        "exhaustion",
+        "frightened",
+        "paralyzed",
+        "petrified",
+        "poisoned"
+      ],
+      "traits": [
+        {
+          "key": "trait/bound",
+          "name": "Bound",
+          "text": "Bound. The guardian is magically bound to an amulet. While the guardian and its amulet are on the same plane of existence, the amulet’s wearer can telepathically call the guardian to travel to it, and the guardian knows the distance and direction to the amulet. If the guardian is within 60 feet of the amulet’s wearer, half of any damage the wearer takes (round up) is transferred to the guardian.",
+          "requires": [
+            "effect/amulet-bond",
+            "effect/telepathic-summons",
+            "effect/know-amulet-location",
+            "effect/damage-transfer"
+          ]
+        },
+        {
+          "key": "trait/regeneration",
+          "name": "Regeneration",
+          "text": "Regeneration. The guardian regains 10 Hit Points at the start of each of its turns if it has at least 1 Hit Point.",
+          "requires": [
+            "effect/regeneration"
+          ]
+        },
+        {
+          "key": "trait/spell-storing",
+          "name": "Spell Storing",
+          "text": "Spell Storing. A spellcaster who wears the guardian’s amulet can cause the guardian to store one spell of level 4 or lower. To do so, the wearer must cast the spell on the guardian while within 5 feet of it. The spell has no effect but is stored within the guardian. Any previously stored spell is lost when a new spell is stored. The guardian can cast the spell stored with any parameters set by the original caster, requiring no spell components and using the caster’s spellcasting ability. The stored spell is then lost.",
+          "requires": [
+            "effect/store-spell",
+            "effect/stored-spell-replaced",
+            "effect/cast-stored-spell",
+            "spellcasting/no-components",
+            "spellcasting/caster-ability"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "multiattack",
+          "name": "Multiattack",
+          "text": "Multiattack. The guardian makes two Fist attacks.",
+          "key": "action/multiattack",
+          "effects": [
+            {
+              "key": "action/melee-attack",
+              "name": "Melee attack",
+              "text": "The guardian makes two Fist attacks"
+            }
+          ]
+        },
+        {
+          "id": "fist",
+          "name": "Fist",
+          "text": "Fist. Melee Attack Roll: +7, reach 10 ft. Hit: 11 (2d6 + 4) Bludgeoning damage plus 7 (2d6) Force damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 7,
+            "reach": 10,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 11,
+              "dice": 2,
+              "sides": 6,
+              "modifier": 4
+            },
+            "damage_type": "bludgeoning"
+          },
+          "effects": [
+            {
+              "key": "effect/bludgeoning-damage",
+              "name": "Bludgeoning damage",
+              "text": "11 (2d6 + 4) Bludgeoning damage.",
+              "dice": {
+                "average": 11,
+                "dice": 2,
+                "sides": 6,
+                "modifier": 4
+              }
+            },
+            {
+              "key": "effect/force-damage",
+              "name": "Force damage",
+              "text": "7 (2d6) Force damage",
+              "dice": {
+                "average": 7,
+                "dice": 2,
+                "sides": 6,
+                "modifier": 0
+              }
+            }
+          ]
+        }
+      ],
+      "reactions": [
+        {
+          "id": "protection",
+          "name": "Protection",
+          "text": "Protection. Trigger: An attack roll hits the wearer of the guardian’s amulet while the wearer is within 5 feet of the guardian. Response: The wearer gains a +5 bonus to AC, including against the triggering attack and possibly causing it to miss, until the start of the guardian’s next turn.",
+          "key": "action/special",
+          "effects": [
+            {
+              "key": "reaction/trigger",
+              "name": "Trigger",
+              "text": "Trigger: An attack roll hits the wearer of the guardian’s amulet while the wearer is within 5 feet of the guardian"
+            },
+            {
+              "key": "effect/ac-bonus",
+              "name": "Ac bonus",
+              "text": "Response: The wearer gains a +5 bonus to AC, including against the triggering attack and possibly causing it to miss, until the start of the guardian’s next turn"
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "defense/damage-immunity",
+        "defense/condition-immunity",
+        "sense/blindsight",
+        "sense/darkvision",
+        "action/reaction",
+        "trait/bound",
+        "effect/amulet-bond",
+        "effect/telepathic-summons",
+        "effect/know-amulet-location",
+        "effect/damage-transfer",
+        "trait/regeneration",
+        "effect/regeneration",
+        "trait/spell-storing",
+        "effect/store-spell",
+        "effect/stored-spell-replaced",
+        "effect/cast-stored-spell",
+        "spellcasting/no-components",
+        "spellcasting/caster-ability",
+        "action/multiattack",
+        "action/melee-attack",
+        "effect/bludgeoning-damage",
+        "effect/force-damage",
+        "action/special",
+        "reaction/trigger",
+        "effect/ac-bonus"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/shrieker-fungus",
+      "name": "Shrieker Fungus",
+      "source_pages": [
+        286,
+        286
+      ],
+      "sizes": [
+        "medium"
+      ],
+      "type": "plant",
+      "alignment": "Unaligned",
+      "ac": 5,
+      "initiative": {
+        "modifier": -5,
+        "score": 5
+      },
+      "hp": {
+        "average": 13,
+        "dice": 3,
+        "sides": 8,
+        "modifier": 0
+      },
+      "speeds": {
+        "walk": 5
+      },
+      "abilities": {
+        "str": {
+          "score": 1,
+          "modifier": -5,
+          "save": -5
+        },
+        "dex": {
+          "score": 1,
+          "modifier": -5,
+          "save": -5
+        },
+        "con": {
+          "score": 10,
+          "modifier": 0,
+          "save": 0
+        },
+        "int": {
+          "score": 1,
+          "modifier": -5,
+          "save": -5
+        },
+        "wis": {
+          "score": 3,
+          "modifier": -4,
+          "save": -4
+        },
+        "cha": {
+          "score": 1,
+          "modifier": -5,
+          "save": -5
+        }
+      },
+      "senses": {
+        "passive_perception": 6,
+        "special": {
+          "blindsight": 30
+        }
+      },
+      "languages": [],
+      "gear": [],
+      "cr": "0",
+      "xp": 0,
+      "proficiency_bonus": 2,
+      "condition_immunities": [
+        "blinded",
+        "charmed",
+        "deafened",
+        "frightened"
+      ],
+      "traits": [],
+      "actions": [],
+      "reactions": [
+        {
+          "id": "shriek",
+          "name": "Shriek",
+          "text": "Shriek. Trigger: A creature or a source of Bright Light moves within 30 feet of the shrieker. Response: The shrieker emits a shriek audible within 300 feet of itself for 1 minute or until the shrieker dies.",
+          "key": "action/special",
+          "effects": [
+            {
+              "key": "reaction/trigger",
+              "name": "Trigger",
+              "text": "Trigger: A creature or a source of Bright Light moves within 30 feet of the shrieker"
+            },
+            {
+              "key": "effect/shriek",
+              "name": "Shriek",
+              "text": "Response: The shrieker emits a shriek audible within 300 feet of itself for 1 minute or until the shrieker dies"
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "defense/condition-immunity",
+        "sense/blindsight",
+        "action/reaction",
+        "action/special",
+        "reaction/trigger",
+        "effect/shriek"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/silver-dragon-wyrmling",
+      "name": "Silver Dragon Wyrmling",
+      "source_pages": [
+        324,
+        324
+      ],
+      "sizes": [
+        "medium"
+      ],
+      "type": "dragon",
+      "alignment": "Lawful Good",
+      "ac": 17,
+      "initiative": {
+        "modifier": 2,
+        "score": 12
+      },
+      "hp": {
+        "average": 45,
+        "dice": 6,
+        "sides": 8,
+        "modifier": 18
+      },
+      "speeds": {
+        "walk": 30,
+        "fly": 60
+      },
+      "abilities": {
+        "str": {
+          "score": 19,
+          "modifier": 4,
+          "save": 4
+        },
+        "dex": {
+          "score": 10,
+          "modifier": 0,
+          "save": 2
+        },
+        "con": {
+          "score": 17,
+          "modifier": 3,
+          "save": 3
+        },
+        "int": {
+          "score": 12,
+          "modifier": 1,
+          "save": 1
+        },
+        "wis": {
+          "score": 11,
+          "modifier": 0,
+          "save": 2
+        },
+        "cha": {
+          "score": 15,
+          "modifier": 2,
+          "save": 2
+        }
+      },
+      "senses": {
+        "passive_perception": 14,
+        "special": {
+          "blindsight": 10,
+          "darkvision": 60
+        }
+      },
+      "languages": [
+        "Draconic"
+      ],
+      "gear": [],
+      "cr": "2",
+      "xp": 450,
+      "proficiency_bonus": 2,
+      "tags": [
+        "Metallic"
+      ],
+      "skills": {
+        "perception": 4,
+        "stealth": 2
+      },
+      "immunities": [
+        "cold"
+      ],
+      "traits": [],
+      "actions": [
+        {
+          "id": "multiattack",
+          "name": "Multiattack",
+          "text": "Multiattack. The dragon makes two Rend attacks.",
+          "key": "action/multiattack",
+          "effects": [
+            {
+              "key": "action/melee-attack",
+              "name": "Melee attack",
+              "text": "The dragon makes two Rend attacks"
+            }
+          ]
+        },
+        {
+          "id": "rend",
+          "name": "Rend",
+          "text": "Rend. Melee Attack Roll: +6, reach 5 ft. Hit: 9 (1d10 + 4) Piercing damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 6,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 9,
+              "dice": 1,
+              "sides": 10,
+              "modifier": 4
+            },
+            "damage_type": "piercing"
+          },
+          "effects": [
+            {
+              "key": "effect/piercing-damage",
+              "name": "Piercing damage",
+              "text": "9 (1d10 + 4) Piercing damage.",
+              "dice": {
+                "average": 9,
+                "dice": 1,
+                "sides": 10,
+                "modifier": 4
+              }
+            }
+          ]
+        },
+        {
+          "id": "cold-breath",
+          "name": "Cold Breath",
+          "text": "Cold Breath (Recharge 5–6). Constitution Saving Throw: DC 13, each creature in a 15-foot Cone. Failure: 18 (4d8) Cold damage. Success: Half damage.",
+          "key": "action/saving-throw",
+          "uses": {
+            "per_day": 0,
+            "lair_per_day": 0,
+            "recharge": 5
+          },
+          "save": {
+            "ability": "con",
+            "dc": 13
+          },
+          "target": {
+            "shape": "cone",
+            "size": 15,
+            "width": 0,
+            "range": 0
+          },
+          "effects": [
+            {
+              "key": "limit/recharge",
+              "name": "Recharge",
+              "text": "(Recharge 5–6)"
+            },
+            {
+              "key": "save/con",
+              "name": "Constitution Saving Throw",
+              "text": "Constitution Saving Throw: DC 13"
+            },
+            {
+              "key": "area/cone",
+              "name": "Cone",
+              "text": "each creature in a 15-foot Cone"
+            },
+            {
+              "key": "effect/cold-damage",
+              "name": "Cold damage",
+              "text": "Failure: 18 (4d8) Cold damage",
+              "dice": {
+                "average": 18,
+                "dice": 4,
+                "sides": 8,
+                "modifier": 0
+              }
+            },
+            {
+              "key": "save/half-damage",
+              "name": "Half damage",
+              "text": "Success: Half damage"
+            }
+          ]
+        },
+        {
+          "id": "paralyzing-breath",
+          "name": "Paralyzing Breath",
+          "text": "Paralyzing Breath. Constitution Saving Throw: DC 13, each creature in a 15-foot Cone. First Failure: The target has the Incapacitated condition until the end of its next turn, when it repeats the save. Second Failure: The target has the Paralyzed condition, and it repeats the save at the end of each of its turns, ending the effect on itself on a success. After 1 minute, it succeeds automatically.",
+          "key": "action/saving-throw",
+          "save": {
+            "ability": "con",
+            "dc": 13
+          },
+          "target": {
+            "shape": "cone",
+            "size": 15,
+            "width": 0,
+            "range": 0
+          },
+          "effects": [
+            {
+              "key": "save/con",
+              "name": "Constitution Saving Throw",
+              "text": "Constitution Saving Throw: DC 13"
+            },
+            {
+              "key": "area/cone",
+              "name": "Cone",
+              "text": "each creature in a 15-foot Cone"
+            },
+            {
+              "key": "condition/incapacitated",
+              "name": "Incapacitated",
+              "text": "First Failure: The target has the Incapacitated condition until the end of its next turn"
+            },
+            {
+              "key": "save/repeat",
+              "name": "Repeat",
+              "text": "when it repeats the save"
+            },
+            {
+              "key": "condition/paralyzed",
+              "name": "Paralyzed",
+              "text": "Second Failure: The target has the Paralyzed condition"
+            },
+            {
+              "key": "save/repeat-until-success",
+              "name": "Repeat until success",
+              "text": "it repeats the save at the end of each of its turns, ending the effect on itself on a success"
+            },
+            {
+              "key": "save/automatic-success",
+              "name": "Automatic success",
+              "text": "After 1 minute, it succeeds automatically"
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/skills",
+        "defense/damage-immunity",
+        "movement/fly",
+        "sense/blindsight",
+        "sense/darkvision",
+        "action/multiattack",
+        "action/melee-attack",
+        "effect/piercing-damage",
+        "action/saving-throw",
+        "limit/recharge",
+        "save/con",
+        "area/cone",
+        "effect/cold-damage",
+        "save/half-damage",
+        "condition/incapacitated",
+        "save/repeat",
+        "condition/paralyzed",
+        "save/repeat-until-success",
+        "save/automatic-success"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/skeleton",
+      "name": "Skeleton",
+      "source_pages": [
+        325,
+        326
+      ],
+      "sizes": [
+        "medium"
+      ],
+      "type": "undead",
+      "alignment": "Lawful Evil",
+      "ac": 14,
+      "initiative": {
+        "modifier": 3,
+        "score": 13
+      },
+      "hp": {
+        "average": 13,
+        "dice": 2,
+        "sides": 8,
+        "modifier": 4
+      },
+      "speeds": {
+        "walk": 30
+      },
+      "abilities": {
+        "str": {
+          "score": 10,
+          "modifier": 0,
+          "save": 0
+        },
+        "dex": {
+          "score": 16,
+          "modifier": 3,
+          "save": 3
+        },
+        "con": {
+          "score": 15,
+          "modifier": 2,
+          "save": 2
+        },
+        "int": {
+          "score": 6,
+          "modifier": -2,
+          "save": -2
+        },
+        "wis": {
+          "score": 8,
+          "modifier": -1,
+          "save": -1
+        },
+        "cha": {
+          "score": 5,
+          "modifier": -3,
+          "save": -3
+        }
+      },
+      "senses": {
+        "passive_perception": 9,
+        "special": {
+          "darkvision": 60
+        }
+      },
+      "languages": [
+        "Understands Common plus one other language but can’t speak"
+      ],
+      "gear": [
+        "Shortbow",
+        "Shortsword"
+      ],
+      "cr": "1/4",
+      "xp": 50,
+      "proficiency_bonus": 2,
+      "vulnerabilities": [
+        "bludgeoning"
+      ],
+      "immunities": [
+        "poison"
+      ],
+      "condition_immunities": [
+        "exhaustion",
+        "poisoned"
+      ],
+      "traits": [],
+      "actions": [
+        {
+          "id": "shortsword",
+          "name": "Shortsword",
+          "text": "Shortsword. Melee Attack Roll: +5, reach 5 ft. Hit: 6 (1d6 + 3) Piercing damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 5,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 6,
+              "dice": 1,
+              "sides": 6,
+              "modifier": 3
+            },
+            "damage_type": "piercing"
+          },
+          "effects": [
+            {
+              "key": "effect/piercing-damage",
+              "name": "Piercing damage",
+              "text": "6 (1d6 + 3) Piercing damage.",
+              "dice": {
+                "average": 6,
+                "dice": 1,
+                "sides": 6,
+                "modifier": 3
+              }
+            }
+          ]
+        },
+        {
+          "id": "shortbow",
+          "name": "Shortbow",
+          "text": "Shortbow. Ranged Attack Roll: +5, range 80/320 ft. Hit: 6 (1d6 + 3) Piercing damage.",
+          "key": "action/ranged-attack",
+          "attack": {
+            "kind": "ranged",
+            "bonus": 5,
+            "reach": 0,
+            "range": 80,
+            "long_range": 320,
+            "damage": {
+              "average": 6,
+              "dice": 1,
+              "sides": 6,
+              "modifier": 3
+            },
+            "damage_type": "piercing"
+          },
+          "effects": [
+            {
+              "key": "effect/piercing-damage",
+              "name": "Piercing damage",
+              "text": "6 (1d6 + 3) Piercing damage.",
+              "dice": {
+                "average": 6,
+                "dice": 1,
+                "sides": 6,
+                "modifier": 3
+              }
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "defense/damage-vulnerability",
+        "defense/damage-immunity",
+        "defense/condition-immunity",
+        "sense/darkvision",
+        "action/melee-attack",
+        "effect/piercing-damage",
+        "action/ranged-attack"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/solar",
+      "name": "Solar",
+      "source_pages": [
+        326,
+        327
+      ],
+      "sizes": [
+        "large"
+      ],
+      "type": "celestial",
+      "alignment": "Lawful Good",
+      "ac": 21,
+      "initiative": {
+        "modifier": 20,
+        "score": 30
+      },
+      "hp": {
+        "average": 297,
+        "dice": 22,
+        "sides": 10,
+        "modifier": 176
+      },
+      "speeds": {
+        "walk": 50,
+        "fly": 150
+      },
+      "abilities": {
+        "str": {
+          "score": 26,
+          "modifier": 8,
+          "save": 8
+        },
+        "dex": {
+          "score": 22,
+          "modifier": 6,
+          "save": 6
+        },
+        "con": {
+          "score": 26,
+          "modifier": 8,
+          "save": 8
+        },
+        "int": {
+          "score": 25,
+          "modifier": 7,
+          "save": 7
+        },
+        "wis": {
+          "score": 25,
+          "modifier": 7,
+          "save": 7
+        },
+        "cha": {
+          "score": 30,
+          "modifier": 10,
+          "save": 10
+        }
+      },
+      "senses": {
+        "passive_perception": 24,
+        "special": {
+          "truesight": 120
+        }
+      },
+      "languages": [
+        "All"
+      ],
+      "gear": [],
+      "cr": "21",
+      "xp": 33000,
+      "proficiency_bonus": 7,
+      "tags": [
+        "Angel"
+      ],
+      "skills": {
+        "perception": 14
+      },
+      "immunities": [
+        "poison",
+        "radiant"
+      ],
+      "condition_immunities": [
+        "charmed",
+        "exhaustion",
+        "frightened",
+        "poisoned"
+      ],
+      "hover": true,
+      "telepathy": 120,
+      "traits": [
+        {
+          "key": "trait/divine-awareness",
+          "name": "Divine Awareness",
+          "text": "Divine Awareness. The solar knows if it hears a lie.",
+          "requires": [
+            "effect/know-lies"
+          ]
+        },
+        {
+          "key": "trait/exalted-restoration",
+          "name": "Exalted Restoration",
+          "text": "Exalted Restoration. If the solar dies outside Mount Celestia, its body disappears, and it gains a new body instantly, reviving with all its Hit Points somewhere in Mount Celestia.",
+          "requires": [
+            "effect/revive"
+          ]
+        },
+        {
+          "key": "trait/legendary-resistance",
+          "name": "Legendary Resistance",
+          "text": "Legendary Resistance (4/Day). If the solar fails a saving throw, it can choose to succeed instead.",
+          "uses": {
+            "per_day": 4,
+            "lair_per_day": 0,
+            "recharge": 0
+          },
+          "requires": [
+            "limit/per-day",
+            "save/choose-success"
+          ]
+        },
+        {
+          "key": "trait/magic-resistance",
+          "name": "Magic Resistance",
+          "text": "Magic Resistance. The solar has Advantage on saving throws against spells and other magical effects.",
+          "requires": [
+            "save/advantage-against-magic"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "multiattack",
+          "name": "Multiattack",
+          "text": "Multiattack. The solar makes two Flying Sword attacks. It can replace one attack with a use of Slaying Bow.",
+          "key": "action/multiattack",
+          "effects": [
+            {
+              "key": "action/melee-or-ranged-attack",
+              "name": "Melee or ranged attack",
+              "text": "The solar makes two Flying Sword attacks"
+            },
+            {
+              "key": "multiattack/replace-attack",
+              "name": "Replace attack",
+              "text": "It can replace one attack with a use of Slaying Bow"
+            },
+            {
+              "key": "action/saving-throw",
+              "name": "Saving throw",
+              "text": "a use of Slaying Bow"
+            }
+          ]
+        },
+        {
+          "id": "flying-sword",
+          "name": "Flying Sword",
+          "text": "Flying Sword. Melee or Ranged Attack Roll: +15, reach 10 ft. or range 120 ft. Hit: 22 (4d6 + 8) Slashing damage plus 36 (8d8) Radiant damage. Hit or Miss: The sword magically returns to the solar’s hand or hovers within 5 feet of the solar immediately after a ranged attack.",
+          "key": "action/melee-or-ranged-attack",
+          "effects": [
+            {
+              "key": "effect/slashing-damage",
+              "name": "Slashing damage",
+              "text": "22 (4d6 + 8) Slashing damage",
+              "dice": {
+                "average": 22,
+                "dice": 4,
+                "sides": 6,
+                "modifier": 8
+              }
+            },
+            {
+              "key": "effect/radiant-damage",
+              "name": "Radiant damage",
+              "text": "36 (8d8) Radiant damage",
+              "dice": {
+                "average": 36,
+                "dice": 8,
+                "sides": 8,
+                "modifier": 0
+              }
+            },
+            {
+              "key": "effect/return-after-ranged-attack",
+              "name": "Return after ranged attack",
+              "text": "Hit or Miss: The sword magically returns to the solar’s hand or hovers within 5 feet of the solar immediately after a ranged attack"
+            }
+          ]
+        },
+        {
+          "id": "slaying-bow",
+          "name": "Slaying Bow",
+          "text": "Slaying Bow. Dexterity Saving Throw: DC 21, one creature the solar can see within 600 feet. Failure: If the creature has 100 Hit Points or fewer, it dies. It otherwise takes 24 (4d8 + 6) Piercing damage plus 36 (8d8) Radiant damage.",
+          "key": "action/saving-throw",
+          "save": {
+            "ability": "dex",
+            "dc": 21
+          },
+          "target": {
+            "shape": "creature",
+            "size": 0,
+            "width": 0,
+            "range": 600
+          },
+          "effects": [
+            {
+              "key": "save/dex",
+              "name": "Dexterity Saving Throw",
+              "text": "Dexterity Saving Throw: DC 21"
+            },
+            {
+              "key": "target/creature",
+              "name": "Target",
+              "text": "one creature the solar can see within 600 feet."
+            },
+            {
+              "key": "effect/slay",
+              "name": "Slay",
+              "text": "If the creature has 100 Hit Points or fewer, it dies"
+            },
+            {
+              "key": "effect/piercing-damage",
+              "name": "Piercing damage",
+              "text": "It otherwise takes 24 (4d8 + 6) Piercing damage",
+              "dice": {
+                "average": 24,
+                "dice": 4,
+                "sides": 8,
+                "modifier": 6
+              }
+            },
+            {
+              "key": "effect/radiant-damage",
+              "name": "Radiant damage",
+              "text": "36 (8d8) Radiant damage",
+              "dice": {
+                "average": 36,
+                "dice": 8,
+                "sides": 8,
+                "modifier": 0
+              }
+            }
+          ]
+        },
+        {
+          "id": "spellcasting",
+          "name": "Spellcasting",
+          "text": "Spellcasting. The solar casts one of the following spells, requiring no Material components and using Charisma as the spellcasting ability (spell save DC 25): At Will: Detect Evil and Good 1/Day Each: Commune, Control Weather, Dispel Evil and Good, Resurrection",
+          "key": "action/spellcasting",
+          "spellcasting": {
+            "ability": "cha",
+            "save_dc": 25,
+            "attack_bonus": 0,
+            "at_will": [
+              "Detect Evil and Good"
+            ],
+            "per_day": [
+              {
+                "uses": 1,
+                "spells": [
+                  "Commune",
+                  "Control Weather",
+                  "Dispel Evil and Good",
+                  "Resurrection"
+                ]
+              }
+            ]
+          },
+          "effects": [
+            {
+              "key": "spellcasting/no-material-components",
+              "name": "No material components",
+              "text": "requiring no Material components"
+            },
+            {
+              "key": "spell/detect-evil-and-good",
+              "name": "Detect Evil and Good",
+              "text": "Detect Evil and Good",
+              "requires": [
+                "spellcasting/at-will"
+              ]
+            },
+            {
+              "key": "spell/commune",
+              "name": "Commune",
+              "text": "Commune",
+              "requires": [
+                "limit/per-day"
+              ]
+            },
+            {
+              "key": "spell/control-weather",
+              "name": "Control Weather",
+              "text": "Control Weather",
+              "requires": [
+                "limit/per-day"
+              ]
+            },
+            {
+              "key": "spell/dispel-evil-and-good",
+              "name": "Dispel Evil and Good",
+              "text": "Dispel Evil and Good",
+              "requires": [
+                "limit/per-day"
+              ]
+            },
+            {
+              "key": "spell/resurrection",
+              "name": "Resurrection",
+              "text": "Resurrection",
+              "requires": [
+                "limit/per-day"
+              ]
+            }
+          ]
+        }
+      ],
+      "bonus_actions": [
+        {
+          "id": "divine-aid",
+          "name": "Divine Aid",
+          "text": "Divine Aid (3/Day). The solar casts Cure Wounds (level 2 version), Lesser Restoration, or Remove Curse, using the same spellcasting ability as Spellcasting.",
+          "key": "action/special",
+          "uses": {
+            "per_day": 3,
+            "lair_per_day": 0,
+            "recharge": 0
+          },
+          "effects": [
+            {
+              "key": "limit/per-day",
+              "name": "Daily uses",
+              "text": "(3/Day)"
+            },
+            {
+              "key": "action/spellcasting",
+              "name": "Spellcasting",
+              "text": "The solar casts Cure Wounds (level 2 version), Lesser Restoration, or Remove Curse, using the same spellcasting ability as Spellcasting"
+            },
+            {
+              "key": "spell/cure-wounds",
+              "name": "Cure Wounds",
+              "text": "Cure Wounds (level 2 version)"
+            },
+            {
+              "key": "spell/lesser-restoration",
+              "name": "Lesser Restoration",
+              "text": "Lesser Restoration"
+            },
+            {
+              "key": "spell/remove-curse",
+              "name": "Remove Curse",
+              "text": "Remove Curse"
+            }
+          ]
+        }
+      ],
+      "legendary_actions": [
+        {
+          "id": "blinding-gaze",
+          "name": "Blinding Gaze",
+          "text": "Blinding Gaze. Constitution Saving Throw: DC 25, one creature the solar can see within 120 feet. Failure: The target has the Blinded condition for 1 minute. Failure or Success: The solar can’t take this action again until the start of its next turn.",
+          "key": "action/saving-throw",
+          "save": {
+            "ability": "con",
+            "dc": 25
+          },
+          "target": {
+            "shape": "creature",
+            "size": 0,
+            "width": 0,
+            "range": 120
+          },
+          "effects": [
+            {
+              "key": "save/con",
+              "name": "Constitution Saving Throw",
+              "text": "Constitution Saving Throw: DC 25"
+            },
+            {
+              "key": "target/creature",
+              "name": "Target",
+              "text": "one creature the solar can see within 120 feet."
+            },
+            {
+              "key": "condition/blinded",
+              "name": "Blinded",
+              "text": "Failure: The target has the Blinded condition for 1 minute"
+            },
+            {
+              "key": "limit/not-again-until-next-turn",
+              "name": "Not again until next turn",
+              "text": "Failure or Success: The solar can’t take this action again until the start of its next turn"
+            }
+          ]
+        },
+        {
+          "id": "radiant-teleport",
+          "name": "Radiant Teleport",
+          "text": "Radiant Teleport. The solar teleports up to 60 feet to an unoccupied space it can see. Dexterity Saving Throw: DC 25, each creature in a 10-foot Emanation originating from the solar at its destination space. Failure: 11 (2d10) Radiant damage. Success: Half damage.",
+          "key": "action/special",
+          "save": {
+            "ability": "dex",
+            "dc": 25
+          },
+          "target": {
+            "shape": "emanation",
+            "size": 10,
+            "width": 0,
+            "range": 0
+          },
+          "effects": [
+            {
+              "key": "save/dex",
+              "name": "Dexterity Saving Throw",
+              "text": "Dexterity Saving Throw: DC 25"
+            },
+            {
+              "key": "area/emanation",
+              "name": "Emanation",
+              "text": "10-foot Emanation originating from the solar at its destination space"
+            },
+            {
+              "key": "movement/teleport",
+              "name": "Teleport",
+              "text": "The solar teleports up to 60 feet to an unoccupied space it can see"
+            },
+            {
+              "key": "effect/radiant-damage",
+              "name": "Radiant damage",
+              "text": "Failure: 11 (2d10) Radiant damage",
+              "dice": {
+                "average": 11,
+                "dice": 2,
+                "sides": 10,
+                "modifier": 0
+              }
+            },
+            {
+              "key": "save/half-damage",
+              "name": "Half damage",
+              "text": "Success: Half damage"
+            }
+          ]
+        }
+      ],
+      "legendary": {
+        "uses": 3,
+        "lair_uses": 0,
+        "text": "Legendary Action Uses: 3. Immediately after another creature’s turn, the solar can expend a use to take one of the following actions. The solar regains all expended uses at the start of each of its turns."
+      },
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/skills",
+        "defense/damage-immunity",
+        "defense/condition-immunity",
+        "movement/fly",
+        "movement/hover",
+        "sense/truesight",
+        "language/telepathy",
+        "action/bonus-action",
+        "legendary/actions",
+        "trait/divine-awareness",
+        "effect/know-lies",
+        "trait/exalted-restoration",
+        "effect/revive",
+        "trait/legendary-resistance",
+        "limit/per-day",
+        "save/choose-success",
+        "trait/magic-resistance",
+        "save/advantage-against-magic",
+        "action/multiattack",
+        "action/melee-or-ranged-attack",
+        "multiattack/replace-attack",
+        "action/saving-throw",
+        "effect/slashing-damage",
+        "effect/radiant-damage",
+        "effect/return-after-ranged-attack",
+        "save/dex",
+        "target/creature",
+        "effect/slay",
+        "effect/piercing-damage",
+        "action/spellcasting",
+        "spellcasting/no-material-components",
+        "spell/detect-evil-and-good",
+        "spellcasting/at-will",
+        "spell/commune",
+        "spell/control-weather",
+        "spell/dispel-evil-and-good",
+        "spell/resurrection",
+        "action/special",
+        "spell/cure-wounds",
+        "spell/lesser-restoration",
+        "spell/remove-curse",
+        "save/con",
+        "condition/blinded",
+        "limit/not-again-until-next-turn",
+        "area/emanation",
+        "movement/teleport",
+        "save/half-damage"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/specter",
+      "name": "Specter",
+      "source_pages": [
+        327,
+        327
+      ],
+      "sizes": [
+        "medium"
+      ],
+      "type": "undead",
+      "alignment": "Chaotic Evil",
+      "ac": 12,
+      "initiative": {
+        "modifier": 2,
+        "score": 12
+      },
+      "hp": {
+        "average": 22,
+        "dice": 5,
+        "sides": 8,
+        "modifier": 0
+      },
+      "speeds": {
+        "walk": 30,
+        "fly": 50
+      },
+      "abilities": {
+        "str": {
+          "score": 1,
+          "modifier": -5,
+          "save": -5
+        },
+        "dex": {
+          "score": 14,
+          "modifier": 2,
+          "save": 2
+        },
+        "con": {
+          "score": 11,
+          "modifier": 0,
+          "save": 0
+        },
+        "int": {
+          "score": 10,
+          "modifier": 0,
+          "save": 0
+        },
+        "wis": {
+          "score": 10,
+          "modifier": 0,
+          "save": 0
+        },
+        "cha": {
+          "score": 11,
+          "modifier": 0,
+          "save": 0
+        }
+      },
+      "senses": {
+        "passive_perception": 10,
+        "special": {
+          "darkvision": 60
+        }
+      },
+      "languages": [
+        "Understands Common plus one other language but can’t speak"
+      ],
+      "gear": [],
+      "cr": "1",
+      "xp": 200,
+      "proficiency_bonus": 2,
+      "resistances": [
+        "acid",
+        "bludgeoning",
+        "cold",
+        "fire",
+        "lightning",
+        "piercing",
+        "slashing",
+        "thunder"
+      ],
+      "immunities": [
+        "necrotic",
+        "poison"
+      ],
+      "condition_immunities": [
+        "charmed",
+        "exhaustion",
+        "grappled",
+        "paralyzed",
+        "petrified",
+        "poisoned",
+        "prone",
+        "restrained",
+        "unconscious"
+      ],
+      "hover": true,
+      "traits": [
+        {
+          "key": "trait/incorporeal-movement",
+          "name": "Incorporeal Movement",
+          "text": "Incorporeal Movement. The specter can move through other creatures and objects as if they were Difficult Terrain. It takes 5 (1d10) Force damage if it ends its turn inside an object.",
+          "dice": {
+            "average": 5,
+            "dice": 1,
+            "sides": 10,
+            "modifier": 0
+          },
+          "requires": [
+            "movement/through-creatures-and-objects",
+            "effect/end-turn-in-object",
+            "effect/force-damage"
+          ]
+        },
+        {
+          "key": "trait/sunlight-sensitivity",
+          "name": "Sunlight Sensitivity",
+          "text": "Sunlight Sensitivity. While in sunlight, the specter has Disadvantage on ability checks and attack rolls.",
+          "requires": [
+            "effect/sunlight-disadvantage"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "life-drain",
+          "name": "Life Drain",
+          "text": "Life Drain. Melee Attack Roll: +4, reach 5 ft. Hit: 7 (2d6) Necrotic damage. If the target is a creature, its Hit Point maximum decreases by an amount equal to the damage taken.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 4,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 7,
+              "dice": 2,
+              "sides": 6,
+              "modifier": 0
+            },
+            "damage_type": "necrotic"
+          },
+          "effects": [
+            {
+              "key": "effect/necrotic-damage",
+              "name": "Necrotic damage",
+              "text": "7 (2d6) Necrotic damage.",
+              "dice": {
+                "average": 7,
+                "dice": 2,
+                "sides": 6,
+                "modifier": 0
+              }
+            },
+            {
+              "key": "requirement/target-creature",
+              "name": "Target creature",
+              "text": "If the target is a creature"
+            },
+            {
+              "key": "effect/hit-point-maximum-reduction",
+              "name": "Hit point maximum reduction",
+              "text": "its Hit Point maximum decreases by an amount equal to the damage taken"
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "defense/damage-resistance",
+        "defense/damage-immunity",
+        "defense/condition-immunity",
+        "movement/fly",
+        "movement/hover",
+        "sense/darkvision",
+        "trait/incorporeal-movement",
+        "movement/through-creatures-and-objects",
+        "effect/end-turn-in-object",
+        "effect/force-damage",
+        "trait/sunlight-sensitivity",
+        "effect/sunlight-disadvantage",
+        "action/melee-attack",
+        "effect/necrotic-damage",
+        "requirement/target-creature",
+        "effect/hit-point-maximum-reduction"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/sphinx-of-lore",
+      "name": "Sphinx of Lore",
+      "source_pages": [
+        327,
+        328
+      ],
+      "sizes": [
+        "large"
+      ],
+      "type": "celestial",
+      "alignment": "Lawful Neutral",
+      "ac": 17,
+      "initiative": {
+        "modifier": 10,
+        "score": 20
+      },
+      "hp": {
+        "average": 170,
+        "dice": 20,
+        "sides": 10,
+        "modifier": 60
+      },
+      "speeds": {
+        "walk": 40,
+        "fly": 60
+      },
+      "abilities": {
+        "str": {
+          "score": 18,
+          "modifier": 4,
+          "save": 4
+        },
+        "dex": {
+          "score": 15,
+          "modifier": 2,
+          "save": 2
+        },
+        "con": {
+          "score": 16,
+          "modifier": 3,
+          "save": 3
+        },
+        "int": {
+          "score": 18,
+          "modifier": 4,
+          "save": 4
+        },
+        "wis": {
+          "score": 18,
+          "modifier": 4,
+          "save": 4
+        },
+        "cha": {
+          "score": 18,
+          "modifier": 4,
+          "save": 4
+        }
+      },
+      "senses": {
+        "passive_perception": 18,
+        "special": {
+          "truesight": 120
+        }
+      },
+      "languages": [
+        "Celestial",
+        "Common"
+      ],
+      "gear": [],
+      "cr": "11",
+      "xp": 7200,
+      "proficiency_bonus": 4,
+      "skills": {
+        "arcana": 12,
+        "history": 12,
+        "perception": 8,
+        "religion": 12
+      },
+      "resistances": [
+        "necrotic",
+        "radiant"
+      ],
+      "immunities": [
+        "psychic"
+      ],
+      "condition_immunities": [
+        "charmed",
+        "frightened"
+      ],
+      "lair_xp": 8400,
+      "traits": [
+        {
+          "key": "trait/inscrutable",
+          "name": "Inscrutable",
+          "text": "Inscrutable. No magic can observe the sphinx remotely or detect its thoughts without its permission. Wisdom (Insight) checks made to ascertain its intentions or sincerity are made with Disadvantage.",
+          "requires": [
+            "effect/scrying-immunity",
+            "check/disadvantage-to-read-intentions"
+          ]
+        },
+        {
+          "key": "trait/legendary-resistance",
+          "name": "Legendary Resistance",
+          "text": "Legendary Resistance (3/Day, or 4/Day in Lair). If the sphinx fails a saving throw, it can choose to succeed instead.",
+          "uses": {
+            "per_day": 3,
+            "lair_per_day": 4,
+            "recharge": 0
+          },
+          "requires": [
+            "limit/per-day",
+            "lair/uses",
+            "save/choose-success"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "multiattack",
+          "name": "Multiattack",
+          "text": "Multiattack. The sphinx makes three Claw attacks.",
+          "key": "action/multiattack",
+          "effects": [
+            {
+              "key": "action/melee-attack",
+              "name": "Melee attack",
+              "text": "The sphinx makes three Claw attacks"
+            }
+          ]
+        },
+        {
+          "id": "claw",
+          "name": "Claw",
+          "text": "Claw. Melee Attack Roll: +8, reach 5 ft. Hit: 14 (3d6 + 4) Slashing damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 8,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 14,
+              "dice": 3,
+              "sides": 6,
+              "modifier": 4
+            },
+            "damage_type": "slashing"
+          },
+          "effects": [
+            {
+              "key": "effect/slashing-damage",
+              "name": "Slashing damage",
+              "text": "14 (3d6 + 4) Slashing damage.",
+              "dice": {
+                "average": 14,
+                "dice": 3,
+                "sides": 6,
+                "modifier": 4
+              }
+            }
+          ]
+        },
+        {
+          "id": "mind-rending-roar",
+          "name": "Mind-Rending Roar",
+          "text": "Mind-Rending Roar (Recharge 5–6). Wisdom Saving Throw: DC 16, each enemy in a 300-foot Emanation originating from the sphinx. Failure: 35 (10d6) Psychic damage, and the target has the Incapacitated condition until the start of the sphinx’s next turn.",
+          "key": "action/saving-throw",
+          "uses": {
+            "per_day": 0,
+            "lair_per_day": 0,
+            "recharge": 5
+          },
+          "save": {
+            "ability": "wis",
+            "dc": 16
+          },
+          "target": {
+            "shape": "emanation",
+            "size": 300,
+            "width": 0,
+            "range": 0
+          },
+          "effects": [
+            {
+              "key": "limit/recharge",
+              "name": "Recharge",
+              "text": "(Recharge 5–6)"
+            },
+            {
+              "key": "save/wis",
+              "name": "Wisdom Saving Throw",
+              "text": "Wisdom Saving Throw: DC 16"
+            },
+            {
+              "key": "area/emanation",
+              "name": "Emanation",
+              "text": "300-foot Emanation originating from the sphinx"
+            },
+            {
+              "key": "target/enemies-only",
+              "name": "Enemies only",
+              "text": "each enemy"
+            },
+            {
+              "key": "effect/psychic-damage",
+              "name": "Psychic damage",
+              "text": "Failure: 35 (10d6) Psychic damage",
+              "dice": {
+                "average": 35,
+                "dice": 10,
+                "sides": 6,
+                "modifier": 0
+              }
+            },
+            {
+              "key": "condition/incapacitated",
+              "name": "Incapacitated",
+              "text": "the target has the Incapacitated condition until the start of the sphinx’s next turn"
+            }
+          ]
+        },
+        {
+          "id": "spellcasting",
+          "name": "Spellcasting",
+          "text": "Spellcasting. The sphinx casts one of the following spells, requiring no Material components and using Intelligence as the spellcasting ability (spell save DC 16): At Will: Detect Magic, Identify, Mage Hand, Minor Illusion, Prestidigitation 1/Day Each: Dispel Magic, Legend Lore, Locate Object, Plane Shift, Remove Curse, Tongues",
+          "key": "action/spellcasting",
+          "spellcasting": {
+            "ability": "int",
+            "save_dc": 16,
+            "attack_bonus": 0,
+            "at_will": [
+              "Detect Magic",
+              "Identify",
+              "Mage Hand",
+              "Minor Illusion",
+              "Prestidigitation"
+            ],
+            "per_day": [
+              {
+                "uses": 1,
+                "spells": [
+                  "Dispel Magic",
+                  "Legend Lore",
+                  "Locate Object",
+                  "Plane Shift",
+                  "Remove Curse",
+                  "Tongues"
+                ]
+              }
+            ]
+          },
+          "effects": [
+            {
+              "key": "spellcasting/no-material-components",
+              "name": "No material components",
+              "text": "requiring no Material components"
+            },
+            {
+              "key": "spell/detect-magic",
+              "name": "Detect Magic",
+              "text": "Detect Magic",
+              "requires": [
+                "spellcasting/at-will"
+              ]
+            },
+            {
+              "key": "spell/identify",
+              "name": "Identify",
+              "text": "Identify",
+              "requires": [
+                "spellcasting/at-will"
+              ]
+            },
+            {
+              "key": "spell/mage-hand",
+              "name": "Mage Hand",
+              "text": "Mage Hand",
+              "requires": [
+                "spellcasting/at-will"
+              ]
+            },
+            {
+              "key": "spell/minor-illusion",
+              "name": "Minor Illusion",
+              "text": "Minor Illusion",
+              "requires": [
+                "spellcasting/at-will"
+              ]
+            },
+            {
+              "key": "spell/prestidigitation",
+              "name": "Prestidigitation",
+              "text": "Prestidigitation",
+              "requires": [
+                "spellcasting/at-will"
+              ]
+            },
+            {
+              "key": "spell/dispel-magic",
+              "name": "Dispel Magic",
+              "text": "Dispel Magic",
+              "requires": [
+                "limit/per-day"
+              ]
+            },
+            {
+              "key": "spell/legend-lore",
+              "name": "Legend Lore",
+              "text": "Legend Lore",
+              "requires": [
+                "limit/per-day"
+              ]
+            },
+            {
+              "key": "spell/locate-object",
+              "name": "Locate Object",
+              "text": "Locate Object",
+              "requires": [
+                "limit/per-day"
+              ]
+            },
+            {
+              "key": "spell/plane-shift",
+              "name": "Plane Shift",
+              "text": "Plane Shift",
+              "requires": [
+                "limit/per-day"
+              ]
+            },
+            {
+              "key": "spell/remove-curse",
+              "name": "Remove Curse",
+              "text": "Remove Curse",
+              "requires": [
+                "limit/per-day"
+              ]
+            },
+            {
+              "key": "spell/tongues",
+              "name": "Tongues",
+              "text": "Tongues",
+              "requires": [
+                "limit/per-day"
+              ]
+            }
+          ]
+        }
+      ],
+      "legendary_actions": [
+        {
+          "id": "arcane-prowl",
+          "name": "Arcane Prowl",
+          "text": "Arcane Prowl. The sphinx can teleport up to 30 feet to an unoccupied space it can see, and it makes one Claw attack.",
+          "key": "action/special",
+          "effects": [
+            {
+              "key": "movement/teleport",
+              "name": "Teleport",
+              "text": "The sphinx can teleport up to 30 feet to an unoccupied space it can see"
+            },
+            {
+              "key": "action/melee-attack",
+              "name": "Melee attack",
+              "text": "it makes one Claw attack"
+            }
+          ]
+        },
+        {
+          "id": "weight-of-years",
+          "name": "Weight of Years",
+          "text": "Weight of Years. Constitution Saving Throw: DC 16, one creature the sphinx can see within 120 feet. Failure: The target gains 1 Exhaustion level. While the target has any Exhaustion levels, it appears 3d10 years older. Failure or Success: The sphinx can’t take this action again until the start of its next turn.",
+          "key": "action/saving-throw",
+          "save": {
+            "ability": "con",
+            "dc": 16
+          },
+          "target": {
+            "shape": "creature",
+            "size": 0,
+            "width": 0,
+            "range": 120
+          },
+          "effects": [
+            {
+              "key": "save/con",
+              "name": "Constitution Saving Throw",
+              "text": "Constitution Saving Throw: DC 16"
+            },
+            {
+              "key": "target/creature",
+              "name": "Target",
+              "text": "one creature the sphinx can see within 120 feet."
+            },
+            {
+              "key": "effect/exhaustion-level",
+              "name": "Exhaustion level",
+              "text": "The target gains 1 Exhaustion level"
+            },
+            {
+              "key": "effect/appear-older",
+              "name": "Appear older",
+              "text": "While the target has any Exhaustion levels, it appears 3d10 years older"
+            },
+            {
+              "key": "limit/not-again-until-next-turn",
+              "name": "Not again until next turn",
+              "text": "Failure or Success: The sphinx can’t take this action again until the start of its next turn"
+            }
+          ]
+        }
+      ],
+      "legendary": {
+        "uses": 3,
+        "lair_uses": 4,
+        "text": "Legendary Action Uses: 3 (4 in Lair). Immediately after another creature’s turn, the sphinx can expend a use to take one of the following actions. The sphinx regains all expended uses at the start of each of its turns."
+      },
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/skills",
+        "defense/damage-resistance",
+        "defense/damage-immunity",
+        "defense/condition-immunity",
+        "movement/fly",
+        "sense/truesight",
+        "lair/xp",
+        "legendary/actions",
+        "lair/uses",
+        "trait/inscrutable",
+        "effect/scrying-immunity",
+        "check/disadvantage-to-read-intentions",
+        "trait/legendary-resistance",
+        "limit/per-day",
+        "save/choose-success",
+        "action/multiattack",
+        "action/melee-attack",
+        "effect/slashing-damage",
+        "action/saving-throw",
+        "limit/recharge",
+        "save/wis",
+        "area/emanation",
+        "target/enemies-only",
+        "effect/psychic-damage",
+        "condition/incapacitated",
+        "action/spellcasting",
+        "spellcasting/no-material-components",
+        "spell/detect-magic",
+        "spellcasting/at-will",
+        "spell/identify",
+        "spell/mage-hand",
+        "spell/minor-illusion",
+        "spell/prestidigitation",
+        "spell/dispel-magic",
+        "spell/legend-lore",
+        "spell/locate-object",
+        "spell/plane-shift",
+        "spell/remove-curse",
+        "spell/tongues",
+        "action/special",
+        "movement/teleport",
+        "save/con",
+        "target/creature",
+        "effect/exhaustion-level",
+        "effect/appear-older",
+        "limit/not-again-until-next-turn"
+      ]
+    }
+  ]
+}
