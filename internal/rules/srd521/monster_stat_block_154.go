@@ -1,6 +1,7 @@
 package srd521
 
 import (
+	"cmp"
 	"fmt"
 	"slices"
 	"strings"
@@ -92,5 +93,5 @@ func (m Monster) validateStatBlockNotes() error {
 			}
 		}
 	}
-	return m.validateTelepathyNote()
+	return cmp.Or(m.validateTelepathyNote(), m.validateResistanceNote())
 }

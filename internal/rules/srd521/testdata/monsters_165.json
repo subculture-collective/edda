@@ -1,0 +1,2781 @@
+{
+  "schema_version": 1,
+  "source": {
+    "version": "5.2.1",
+    "language": "en",
+    "landing_url": "https://www.dndbeyond.com/srd",
+    "artifact_url": "https://media.dndbeyond.com/compendium-images/srd/5.2/SRD_CC_v5.2.1.pdf",
+    "sha256": "8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87",
+    "bytes": 6031375,
+    "pages": 364,
+    "retrieved_at": "2026-11-15",
+    "license": "CC-BY-4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/legalcode",
+    "attribution": "This work includes material from the System Reference Document 5.2.1 (“SRD 5.2.1”) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd. The SRD 5.2.1 is licensed under the Creative Commons Attribution 4.0 International License, available at https://creativecommons.org/licenses/by/4.0/legalcode.",
+    "changes": "Adapted the twelve stat blocks of issue #165 (Hobgoblin Captain, Hobgoblin Warrior, Homunculus, Horned Devil, Hunter Shark, Hydra, Hyena, Ice Devil, Ice Mephit, Imp, Incubus and Invisible Stalker; PDF pages 298–302, 307 and 356) into typed mechanical fields and implementation keys. Trait, action and bonus action entries keep their source rules text, rejoined across line, column and page breaks; descriptive prose outside the stat blocks is omitted. A hit printed without dice keeps explicit zero dice. The Invisible Stalker prints Initiative score 22 for modifier +7; the record keeps the score 17 that the modifier gives. No playable NPC behavior is granted."
+  },
+  "monsters": [
+    {
+      "id": "srd-5.2.1:content/monsters/hobgoblin-captain",
+      "name": "Hobgoblin Captain",
+      "source_pages": [
+        299,
+        299
+      ],
+      "sizes": [
+        "medium"
+      ],
+      "type": "fey",
+      "alignment": "Lawful Evil",
+      "ac": 17,
+      "initiative": {
+        "modifier": 4,
+        "score": 14
+      },
+      "hp": {
+        "average": 58,
+        "dice": 9,
+        "sides": 8,
+        "modifier": 18
+      },
+      "speeds": {
+        "walk": 30
+      },
+      "abilities": {
+        "str": {
+          "score": 15,
+          "modifier": 2,
+          "save": 2
+        },
+        "dex": {
+          "score": 14,
+          "modifier": 2,
+          "save": 2
+        },
+        "con": {
+          "score": 14,
+          "modifier": 2,
+          "save": 2
+        },
+        "int": {
+          "score": 12,
+          "modifier": 1,
+          "save": 1
+        },
+        "wis": {
+          "score": 10,
+          "modifier": 0,
+          "save": 0
+        },
+        "cha": {
+          "score": 13,
+          "modifier": 1,
+          "save": 1
+        }
+      },
+      "senses": {
+        "passive_perception": 10,
+        "special": {
+          "darkvision": 60
+        }
+      },
+      "languages": [
+        "Common",
+        "Goblin"
+      ],
+      "gear": [
+        "Greatsword",
+        "Half Plate Armor",
+        "Longbow"
+      ],
+      "cr": "3",
+      "xp": 700,
+      "proficiency_bonus": 2,
+      "tags": [
+        "Goblinoid"
+      ],
+      "traits": [
+        {
+          "key": "trait/aura-of-authority",
+          "name": "Aura of Authority",
+          "text": "Aura of Authority. While in a 10-foot Emanation originating from the hobgoblin, the hobgoblin and its allies have Advantage on attack rolls and saving throws, provided the hobgoblin doesn’t have the Incapacitated condition.",
+          "target": {
+            "shape": "emanation",
+            "size": 10,
+            "width": 0,
+            "range": 0
+          },
+          "requires": [
+            "area/emanation",
+            "attack/advantage",
+            "save/advantage",
+            "target/self-and-allies",
+            "requirement/not-incapacitated"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "multiattack",
+          "name": "Multiattack",
+          "text": "Multiattack. The hobgoblin makes two attacks, using Greatsword or Longbow in any combination.",
+          "key": "action/multiattack",
+          "effects": [
+            {
+              "key": "action/melee-attack",
+              "name": "Attack",
+              "text": "The hobgoblin makes two attacks, using Greatsword or Longbow in any combination"
+            },
+            {
+              "key": "action/ranged-attack",
+              "name": "Attack",
+              "text": "using Greatsword or Longbow"
+            },
+            {
+              "key": "multiattack/any-combination",
+              "name": "Any combination",
+              "text": "in any combination"
+            }
+          ]
+        },
+        {
+          "id": "greatsword",
+          "name": "Greatsword",
+          "text": "Greatsword. Melee Attack Roll: +4, reach 5 ft. Hit: 9 (2d6 + 2) Slashing damage plus 3 (1d6) Poison damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 4,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 9,
+              "dice": 2,
+              "sides": 6,
+              "modifier": 2
+            },
+            "damage_type": "slashing"
+          },
+          "effects": [
+            {
+              "key": "effect/slashing-damage",
+              "name": "Slashing damage",
+              "text": "9 (2d6 + 2) Slashing damage.",
+              "dice": {
+                "average": 9,
+                "dice": 2,
+                "sides": 6,
+                "modifier": 2
+              }
+            },
+            {
+              "key": "effect/poison-damage",
+              "name": "Poison damage",
+              "text": "3 (1d6) Poison damage",
+              "dice": {
+                "average": 3,
+                "dice": 1,
+                "sides": 6,
+                "modifier": 0
+              }
+            }
+          ]
+        },
+        {
+          "id": "longbow",
+          "name": "Longbow",
+          "text": "Longbow. Ranged Attack Roll: +4, range 150/600 ft. Hit: 6 (1d8 + 2) Piercing damage plus 5 (2d4) Poison damage.",
+          "key": "action/ranged-attack",
+          "attack": {
+            "kind": "ranged",
+            "bonus": 4,
+            "reach": 0,
+            "range": 150,
+            "long_range": 600,
+            "damage": {
+              "average": 6,
+              "dice": 1,
+              "sides": 8,
+              "modifier": 2
+            },
+            "damage_type": "piercing"
+          },
+          "effects": [
+            {
+              "key": "effect/piercing-damage",
+              "name": "Piercing damage",
+              "text": "6 (1d8 + 2) Piercing damage.",
+              "dice": {
+                "average": 6,
+                "dice": 1,
+                "sides": 8,
+                "modifier": 2
+              }
+            },
+            {
+              "key": "effect/poison-damage",
+              "name": "Poison damage",
+              "text": "5 (2d4) Poison damage",
+              "dice": {
+                "average": 5,
+                "dice": 2,
+                "sides": 4,
+                "modifier": 0
+              }
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "sense/darkvision",
+        "trait/aura-of-authority",
+        "area/emanation",
+        "attack/advantage",
+        "save/advantage",
+        "target/self-and-allies",
+        "requirement/not-incapacitated",
+        "action/multiattack",
+        "action/melee-attack",
+        "action/ranged-attack",
+        "multiattack/any-combination",
+        "effect/slashing-damage",
+        "effect/poison-damage",
+        "effect/piercing-damage"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/hobgoblin-warrior",
+      "name": "Hobgoblin Warrior",
+      "source_pages": [
+        298,
+        299
+      ],
+      "sizes": [
+        "medium"
+      ],
+      "type": "fey",
+      "alignment": "Lawful Evil",
+      "ac": 18,
+      "initiative": {
+        "modifier": 3,
+        "score": 13
+      },
+      "hp": {
+        "average": 11,
+        "dice": 2,
+        "sides": 8,
+        "modifier": 2
+      },
+      "speeds": {
+        "walk": 30
+      },
+      "abilities": {
+        "str": {
+          "score": 13,
+          "modifier": 1,
+          "save": 1
+        },
+        "dex": {
+          "score": 12,
+          "modifier": 1,
+          "save": 1
+        },
+        "con": {
+          "score": 12,
+          "modifier": 1,
+          "save": 1
+        },
+        "int": {
+          "score": 10,
+          "modifier": 0,
+          "save": 0
+        },
+        "wis": {
+          "score": 10,
+          "modifier": 0,
+          "save": 0
+        },
+        "cha": {
+          "score": 9,
+          "modifier": -1,
+          "save": -1
+        }
+      },
+      "senses": {
+        "passive_perception": 10,
+        "special": {
+          "darkvision": 60
+        }
+      },
+      "languages": [
+        "Common",
+        "Goblin"
+      ],
+      "gear": [
+        "Half Plate Armor",
+        "Longbow",
+        "Longsword",
+        "Shield"
+      ],
+      "cr": "1/2",
+      "xp": 100,
+      "proficiency_bonus": 2,
+      "tags": [
+        "Goblinoid"
+      ],
+      "traits": [
+        {
+          "key": "trait/pack-tactics",
+          "name": "Pack Tactics",
+          "text": "Pack Tactics. The hobgoblin has Advantage on an attack roll against a creature if at least one of the hobgoblin’s allies is within 5 feet of the creature and the ally doesn’t have the Incapacitated condition.",
+          "requires": [
+            "attack/advantage",
+            "requirement/ally-within-5-feet",
+            "requirement/ally-not-incapacitated"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "longsword",
+          "name": "Longsword",
+          "text": "Longsword. Melee Attack Roll: +3, reach 5 ft. Hit: 12 (2d10 + 1) Slashing damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 3,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 12,
+              "dice": 2,
+              "sides": 10,
+              "modifier": 1
+            },
+            "damage_type": "slashing"
+          },
+          "effects": [
+            {
+              "key": "effect/slashing-damage",
+              "name": "Slashing damage",
+              "text": "12 (2d10 + 1) Slashing damage.",
+              "dice": {
+                "average": 12,
+                "dice": 2,
+                "sides": 10,
+                "modifier": 1
+              }
+            }
+          ]
+        },
+        {
+          "id": "longbow",
+          "name": "Longbow",
+          "text": "Longbow. Ranged Attack Roll: +3, range 150/600 ft. Hit: 5 (1d8 + 1) Piercing damage plus 7 (3d4) Poison damage.",
+          "key": "action/ranged-attack",
+          "attack": {
+            "kind": "ranged",
+            "bonus": 3,
+            "reach": 0,
+            "range": 150,
+            "long_range": 600,
+            "damage": {
+              "average": 5,
+              "dice": 1,
+              "sides": 8,
+              "modifier": 1
+            },
+            "damage_type": "piercing"
+          },
+          "effects": [
+            {
+              "key": "effect/piercing-damage",
+              "name": "Piercing damage",
+              "text": "5 (1d8 + 1) Piercing damage.",
+              "dice": {
+                "average": 5,
+                "dice": 1,
+                "sides": 8,
+                "modifier": 1
+              }
+            },
+            {
+              "key": "effect/poison-damage",
+              "name": "Poison damage",
+              "text": "7 (3d4) Poison damage",
+              "dice": {
+                "average": 7,
+                "dice": 3,
+                "sides": 4,
+                "modifier": 0
+              }
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "sense/darkvision",
+        "trait/pack-tactics",
+        "attack/advantage",
+        "requirement/ally-within-5-feet",
+        "requirement/ally-not-incapacitated",
+        "action/melee-attack",
+        "effect/slashing-damage",
+        "action/ranged-attack",
+        "effect/piercing-damage",
+        "effect/poison-damage"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/homunculus",
+      "name": "Homunculus",
+      "source_pages": [
+        299,
+        299
+      ],
+      "sizes": [
+        "tiny"
+      ],
+      "type": "construct",
+      "alignment": "Neutral",
+      "ac": 13,
+      "initiative": {
+        "modifier": 2,
+        "score": 12
+      },
+      "hp": {
+        "average": 4,
+        "dice": 1,
+        "sides": 4,
+        "modifier": 2
+      },
+      "speeds": {
+        "walk": 20,
+        "fly": 40
+      },
+      "abilities": {
+        "str": {
+          "score": 4,
+          "modifier": -3,
+          "save": -3
+        },
+        "dex": {
+          "score": 15,
+          "modifier": 2,
+          "save": 2
+        },
+        "con": {
+          "score": 14,
+          "modifier": 2,
+          "save": 2
+        },
+        "int": {
+          "score": 10,
+          "modifier": 0,
+          "save": 0
+        },
+        "wis": {
+          "score": 10,
+          "modifier": 0,
+          "save": 2
+        },
+        "cha": {
+          "score": 7,
+          "modifier": -2,
+          "save": 0
+        }
+      },
+      "senses": {
+        "passive_perception": 10,
+        "special": {
+          "darkvision": 60
+        }
+      },
+      "languages": [
+        "Understands Common plus one other language but can’t speak"
+      ],
+      "gear": [],
+      "cr": "0",
+      "xp": 10,
+      "proficiency_bonus": 2,
+      "immunities": [
+        "poison"
+      ],
+      "condition_immunities": [
+        "charmed",
+        "poisoned"
+      ],
+      "traits": [
+        {
+          "key": "trait/telepathic-bond",
+          "name": "Telepathic Bond",
+          "text": "Telepathic Bond. While the homunculus is on the same plane of existence as its master, the two of them can communicate telepathically with each other.",
+          "requires": [
+            "effect/telepathic-link",
+            "requirement/same-plane-as-master"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "bite",
+          "name": "Bite",
+          "text": "Bite. Melee Attack Roll: +4, reach 5 ft. Hit: 1 Piercing damage, and the target is subjected to the following effect. Constitution Saving Throw: DC 12. Failure: The target has the Poisoned condition until the end of the homunculus’s next turn. Failure by 5 or More: The target has the Poisoned condition for 1 minute. While Poisoned, the target has the Unconscious condition, which ends early if the target takes any damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 4,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 1,
+              "dice": 0,
+              "sides": 0,
+              "modifier": 0
+            },
+            "damage_type": "piercing"
+          },
+          "save": {
+            "ability": "con",
+            "dc": 12
+          },
+          "effects": [
+            {
+              "key": "effect/piercing-damage",
+              "name": "Piercing damage",
+              "text": "Hit: 1 Piercing damage.",
+              "requires": [
+                "damage/fixed"
+              ]
+            },
+            {
+              "key": "requirement/target-subjected-to-save",
+              "name": "Target subjected to save",
+              "text": "the target is subjected to the following effect"
+            },
+            {
+              "key": "save/con",
+              "name": "Constitution Saving Throw",
+              "text": "Constitution Saving Throw: DC 12"
+            },
+            {
+              "key": "condition/poisoned",
+              "name": "Poisoned",
+              "text": "Failure: The target has the Poisoned condition until the end of the homunculus’s next turn"
+            },
+            {
+              "key": "save/failure-by-five-or-more",
+              "name": "Failure by five or more",
+              "text": "Failure by 5 or More: The target has the Poisoned condition for 1 minute"
+            },
+            {
+              "key": "condition/unconscious",
+              "name": "Unconscious",
+              "text": "While Poisoned, the target has the Unconscious condition"
+            },
+            {
+              "key": "effect/ends-on-damage",
+              "name": "Ends on damage",
+              "text": "which ends early if the target takes any damage"
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "defense/damage-immunity",
+        "defense/condition-immunity",
+        "movement/fly",
+        "sense/darkvision",
+        "trait/telepathic-bond",
+        "effect/telepathic-link",
+        "requirement/same-plane-as-master",
+        "action/melee-attack",
+        "save/con",
+        "effect/piercing-damage",
+        "damage/fixed",
+        "requirement/target-subjected-to-save",
+        "condition/poisoned",
+        "save/failure-by-five-or-more",
+        "condition/unconscious",
+        "effect/ends-on-damage"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/horned-devil",
+      "name": "Horned Devil",
+      "source_pages": [
+        299,
+        300
+      ],
+      "sizes": [
+        "large"
+      ],
+      "type": "fiend",
+      "alignment": "Lawful Evil",
+      "ac": 18,
+      "initiative": {
+        "modifier": 7,
+        "score": 17
+      },
+      "hp": {
+        "average": 199,
+        "dice": 19,
+        "sides": 10,
+        "modifier": 95
+      },
+      "speeds": {
+        "walk": 30,
+        "fly": 60
+      },
+      "abilities": {
+        "str": {
+          "score": 22,
+          "modifier": 6,
+          "save": 10
+        },
+        "dex": {
+          "score": 17,
+          "modifier": 3,
+          "save": 7
+        },
+        "con": {
+          "score": 21,
+          "modifier": 5,
+          "save": 5
+        },
+        "int": {
+          "score": 12,
+          "modifier": 1,
+          "save": 1
+        },
+        "wis": {
+          "score": 16,
+          "modifier": 3,
+          "save": 7
+        },
+        "cha": {
+          "score": 18,
+          "modifier": 4,
+          "save": 8
+        }
+      },
+      "senses": {
+        "passive_perception": 13,
+        "special": {
+          "darkvision": 150
+        },
+        "notes": {
+          "darkvision": "unimpeded by magical Darkness"
+        }
+      },
+      "languages": [
+        "Infernal"
+      ],
+      "gear": [],
+      "cr": "11",
+      "xp": 7200,
+      "proficiency_bonus": 4,
+      "tags": [
+        "Devil"
+      ],
+      "resistances": [
+        "cold"
+      ],
+      "immunities": [
+        "fire",
+        "poison"
+      ],
+      "condition_immunities": [
+        "poisoned"
+      ],
+      "telepathy": 120,
+      "traits": [
+        {
+          "key": "trait/diabolical-restoration",
+          "name": "Diabolical Restoration",
+          "text": "Diabolical Restoration. If the devil dies outside the Nine Hells, its body disappears in sulfurous smoke, and it gains a new body instantly, reviving with all its Hit Points somewhere in the Nine Hells.",
+          "requires": [
+            "effect/revive"
+          ]
+        },
+        {
+          "key": "trait/magic-resistance",
+          "name": "Magic Resistance",
+          "text": "Magic Resistance. The devil has Advantage on saving throws against spells and other magical effects.",
+          "requires": [
+            "save/advantage-against-magic"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "multiattack",
+          "name": "Multiattack",
+          "text": "Multiattack. The devil makes three attacks, using Searing Fork or Hurl Flame in any combination. It can replace one attack with a use of Infernal Tail.",
+          "key": "action/multiattack",
+          "effects": [
+            {
+              "key": "action/melee-attack",
+              "name": "Attack",
+              "text": "The devil makes three attacks, using Searing Fork or Hurl Flame in any combination"
+            },
+            {
+              "key": "action/ranged-attack",
+              "name": "Attack",
+              "text": "using Searing Fork or Hurl Flame"
+            },
+            {
+              "key": "multiattack/any-combination",
+              "name": "Any combination",
+              "text": "in any combination"
+            },
+            {
+              "key": "multiattack/replace-attack",
+              "name": "Replace attack",
+              "text": "It can replace one attack with a use of Infernal Tail"
+            },
+            {
+              "key": "action/saving-throw",
+              "name": "Saving throw",
+              "text": "a use of Infernal Tail"
+            }
+          ]
+        },
+        {
+          "id": "searing-fork",
+          "name": "Searing Fork",
+          "text": "Searing Fork. Melee Attack Roll: +10, reach 10 ft. Hit: 15 (2d8 + 6) Piercing damage plus 9 (2d8) Fire damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 10,
+            "reach": 10,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 15,
+              "dice": 2,
+              "sides": 8,
+              "modifier": 6
+            },
+            "damage_type": "piercing"
+          },
+          "effects": [
+            {
+              "key": "effect/piercing-damage",
+              "name": "Piercing damage",
+              "text": "15 (2d8 + 6) Piercing damage.",
+              "dice": {
+                "average": 15,
+                "dice": 2,
+                "sides": 8,
+                "modifier": 6
+              }
+            },
+            {
+              "key": "effect/fire-damage",
+              "name": "Fire damage",
+              "text": "9 (2d8) Fire damage",
+              "dice": {
+                "average": 9,
+                "dice": 2,
+                "sides": 8,
+                "modifier": 0
+              }
+            }
+          ]
+        },
+        {
+          "id": "hurl-flame",
+          "name": "Hurl Flame",
+          "text": "Hurl Flame. Ranged Attack Roll: +8, range 150 ft. Hit: 26 (5d8 + 4) Fire damage. If the target is a flammable object that isn’t being worn or carried, it starts burning.",
+          "key": "action/ranged-attack",
+          "attack": {
+            "kind": "ranged",
+            "bonus": 8,
+            "reach": 0,
+            "range": 150,
+            "long_range": 150,
+            "damage": {
+              "average": 26,
+              "dice": 5,
+              "sides": 8,
+              "modifier": 4
+            },
+            "damage_type": "fire"
+          },
+          "effects": [
+            {
+              "key": "effect/fire-damage",
+              "name": "Fire damage",
+              "text": "26 (5d8 + 4) Fire damage.",
+              "dice": {
+                "average": 26,
+                "dice": 5,
+                "sides": 8,
+                "modifier": 4
+              }
+            },
+            {
+              "key": "effect/ignite-object",
+              "name": "Ignite object",
+              "text": "If the target is a flammable object that isn’t being worn or carried, it starts burning"
+            }
+          ]
+        },
+        {
+          "id": "infernal-tail",
+          "name": "Infernal Tail",
+          "text": "Infernal Tail. Dexterity Saving Throw: DC 17, one creature the devil can see within 10 feet. Failure: 10 (1d8 + 6) Necrotic damage, and the target receives an infernal wound if it doesn’t have one. While wounded, the target loses 10 (3d6) Hit Points at the start of each of its turns. The wound closes after 1 minute, after a spell restores Hit Points to the target, or after the target or a creature within 5 feet of it takes an action to stanch the wound, doing so by succeeding on a DC 17 Wisdom (Medicine) check.",
+          "key": "action/saving-throw",
+          "save": {
+            "ability": "dex",
+            "dc": 17
+          },
+          "target": {
+            "shape": "creature",
+            "size": 0,
+            "width": 0,
+            "range": 10
+          },
+          "effects": [
+            {
+              "key": "save/dex",
+              "name": "Dexterity Saving Throw",
+              "text": "Dexterity Saving Throw: DC 17"
+            },
+            {
+              "key": "target/creature",
+              "name": "Target",
+              "text": "one creature the devil can see within 10 feet."
+            },
+            {
+              "key": "effect/necrotic-damage",
+              "name": "Necrotic damage",
+              "text": "10 (1d8 + 6) Necrotic damage",
+              "dice": {
+                "average": 10,
+                "dice": 1,
+                "sides": 8,
+                "modifier": 6
+              }
+            },
+            {
+              "key": "effect/infernal-wound",
+              "name": "Infernal wound",
+              "text": "the target receives an infernal wound"
+            },
+            {
+              "key": "requirement/no-existing-infernal-wound",
+              "name": "No existing infernal wound",
+              "text": "if it doesn’t have one"
+            },
+            {
+              "key": "effect/hit-point-loss",
+              "name": "Hit point loss",
+              "text": "While wounded, the target loses 10 (3d6) Hit Points at the start of each of its turns",
+              "dice": {
+                "average": 10,
+                "dice": 3,
+                "sides": 6,
+                "modifier": 0
+              }
+            },
+            {
+              "key": "effect/wound-closes",
+              "name": "Wound closes",
+              "text": "The wound closes after 1 minute, after a spell restores Hit Points to the target"
+            },
+            {
+              "key": "check/wis-medicine",
+              "name": "Wis medicine",
+              "text": "doing so by succeeding on a DC 17 Wisdom (Medicine) check"
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "defense/damage-resistance",
+        "defense/damage-immunity",
+        "defense/condition-immunity",
+        "movement/fly",
+        "sense/darkvision",
+        "sense/darkvision-unimpeded-by-magical-darkness",
+        "language/telepathy",
+        "trait/diabolical-restoration",
+        "effect/revive",
+        "trait/magic-resistance",
+        "save/advantage-against-magic",
+        "action/multiattack",
+        "action/melee-attack",
+        "action/ranged-attack",
+        "multiattack/any-combination",
+        "multiattack/replace-attack",
+        "action/saving-throw",
+        "effect/piercing-damage",
+        "effect/fire-damage",
+        "effect/ignite-object",
+        "save/dex",
+        "target/creature",
+        "effect/necrotic-damage",
+        "effect/infernal-wound",
+        "requirement/no-existing-infernal-wound",
+        "effect/hit-point-loss",
+        "effect/wound-closes",
+        "check/wis-medicine"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/animals/hunter-shark",
+      "name": "Hunter Shark",
+      "source_pages": [
+        356,
+        356
+      ],
+      "sizes": [
+        "large"
+      ],
+      "type": "beast",
+      "alignment": "Unaligned",
+      "ac": 12,
+      "initiative": {
+        "modifier": 2,
+        "score": 12
+      },
+      "hp": {
+        "average": 45,
+        "dice": 6,
+        "sides": 10,
+        "modifier": 12
+      },
+      "speeds": {
+        "walk": 5,
+        "swim": 40
+      },
+      "abilities": {
+        "str": {
+          "score": 18,
+          "modifier": 4,
+          "save": 4
+        },
+        "dex": {
+          "score": 14,
+          "modifier": 2,
+          "save": 2
+        },
+        "con": {
+          "score": 15,
+          "modifier": 2,
+          "save": 2
+        },
+        "int": {
+          "score": 1,
+          "modifier": -5,
+          "save": -5
+        },
+        "wis": {
+          "score": 10,
+          "modifier": 0,
+          "save": 0
+        },
+        "cha": {
+          "score": 4,
+          "modifier": -3,
+          "save": -3
+        }
+      },
+      "senses": {
+        "passive_perception": 12,
+        "special": {
+          "blindsight": 60
+        }
+      },
+      "languages": [],
+      "gear": [],
+      "cr": "2",
+      "xp": 450,
+      "proficiency_bonus": 2,
+      "skills": {
+        "perception": 2
+      },
+      "traits": [
+        {
+          "key": "trait/water-breathing",
+          "name": "Water Breathing",
+          "text": "Water Breathing. The shark can breathe only underwater.",
+          "requires": [
+            "effect/breathe-only-underwater"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "bite",
+          "name": "Bite",
+          "text": "Bite. Melee Attack Roll: +6 (with Advantage if the target doesn’t have all its Hit Points), reach 5 ft. Hit: 14 (3d6 + 4) Piercing damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 6,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 14,
+              "dice": 3,
+              "sides": 6,
+              "modifier": 4
+            },
+            "damage_type": "piercing"
+          },
+          "effects": [
+            {
+              "key": "effect/piercing-damage",
+              "name": "Piercing damage",
+              "text": "14 (3d6 + 4) Piercing damage.",
+              "dice": {
+                "average": 14,
+                "dice": 3,
+                "sides": 6,
+                "modifier": 4
+              }
+            },
+            {
+              "key": "attack/advantage-against-target-missing-hit-points",
+              "name": "Advantage against target missing hit points",
+              "text": "(with Advantage if the target doesn’t have all its Hit Points)"
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/skills",
+        "movement/swim",
+        "sense/blindsight",
+        "trait/water-breathing",
+        "effect/breathe-only-underwater",
+        "action/melee-attack",
+        "effect/piercing-damage",
+        "attack/advantage-against-target-missing-hit-points"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/hydra",
+      "name": "Hydra",
+      "source_pages": [
+        300,
+        300
+      ],
+      "sizes": [
+        "huge"
+      ],
+      "type": "monstrosity",
+      "alignment": "Unaligned",
+      "ac": 15,
+      "initiative": {
+        "modifier": 4,
+        "score": 14
+      },
+      "hp": {
+        "average": 184,
+        "dice": 16,
+        "sides": 12,
+        "modifier": 80
+      },
+      "speeds": {
+        "walk": 40,
+        "swim": 40
+      },
+      "abilities": {
+        "str": {
+          "score": 20,
+          "modifier": 5,
+          "save": 5
+        },
+        "dex": {
+          "score": 12,
+          "modifier": 1,
+          "save": 1
+        },
+        "con": {
+          "score": 20,
+          "modifier": 5,
+          "save": 5
+        },
+        "int": {
+          "score": 2,
+          "modifier": -4,
+          "save": -4
+        },
+        "wis": {
+          "score": 10,
+          "modifier": 0,
+          "save": 0
+        },
+        "cha": {
+          "score": 7,
+          "modifier": -2,
+          "save": -2
+        }
+      },
+      "senses": {
+        "passive_perception": 16,
+        "special": {
+          "darkvision": 60
+        }
+      },
+      "languages": [],
+      "gear": [],
+      "cr": "8",
+      "xp": 3900,
+      "proficiency_bonus": 3,
+      "skills": {
+        "perception": 6
+      },
+      "condition_immunities": [
+        "blinded",
+        "charmed",
+        "deafened",
+        "frightened",
+        "stunned",
+        "unconscious"
+      ],
+      "traits": [
+        {
+          "key": "trait/hold-breath",
+          "name": "Hold Breath",
+          "text": "Hold Breath. The hydra can hold its breath for 1 hour.",
+          "requires": [
+            "effect/hold-breath"
+          ]
+        },
+        {
+          "key": "trait/multiple-heads",
+          "name": "Multiple Heads",
+          "text": "Multiple Heads. The hydra has five heads. Whenever the hydra takes 25 damage or more on a single turn, one of its heads dies. The hydra dies if all its heads are dead. At the end of each of its turns when it has at least one living head, the hydra grows two heads for each of its heads that died since its last turn, unless it has taken Fire damage since its last turn. The hydra regains 20 Hit Points when it grows new heads.",
+          "requires": [
+            "effect/five-heads",
+            "effect/lose-head-on-damage-threshold",
+            "effect/die-without-heads",
+            "effect/regrow-heads",
+            "effect/fire-damage-prevents-regrowth",
+            "effect/regain-hit-points"
+          ]
+        },
+        {
+          "key": "trait/reactive-heads",
+          "name": "Reactive Heads",
+          "text": "Reactive Heads. For each head the hydra has beyond one, it gets an extra Reaction that can be used only for Opportunity Attacks.",
+          "requires": [
+            "effect/extra-reaction-per-head",
+            "limit/opportunity-attacks-only"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "multiattack",
+          "name": "Multiattack",
+          "text": "Multiattack. The hydra makes as many Bite attacks as it has heads.",
+          "key": "action/multiattack",
+          "effects": [
+            {
+              "key": "action/melee-attack",
+              "name": "Attack",
+              "text": "The hydra makes as many Bite attacks as it has heads"
+            },
+            {
+              "key": "multiattack/one-attack-per-head",
+              "name": "One attack per head",
+              "text": "as many Bite attacks as it has heads"
+            }
+          ]
+        },
+        {
+          "id": "bite",
+          "name": "Bite",
+          "text": "Bite. Melee Attack Roll: +8, reach 10 ft. Hit: 10 (1d10 + 5) Piercing damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 8,
+            "reach": 10,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 10,
+              "dice": 1,
+              "sides": 10,
+              "modifier": 5
+            },
+            "damage_type": "piercing"
+          },
+          "effects": [
+            {
+              "key": "effect/piercing-damage",
+              "name": "Piercing damage",
+              "text": "10 (1d10 + 5) Piercing damage.",
+              "dice": {
+                "average": 10,
+                "dice": 1,
+                "sides": 10,
+                "modifier": 5
+              }
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/skills",
+        "defense/condition-immunity",
+        "movement/swim",
+        "sense/darkvision",
+        "trait/hold-breath",
+        "effect/hold-breath",
+        "trait/multiple-heads",
+        "effect/five-heads",
+        "effect/lose-head-on-damage-threshold",
+        "effect/die-without-heads",
+        "effect/regrow-heads",
+        "effect/fire-damage-prevents-regrowth",
+        "effect/regain-hit-points",
+        "trait/reactive-heads",
+        "effect/extra-reaction-per-head",
+        "limit/opportunity-attacks-only",
+        "action/multiattack",
+        "action/melee-attack",
+        "multiattack/one-attack-per-head",
+        "effect/piercing-damage"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/animals/hyena",
+      "name": "Hyena",
+      "source_pages": [
+        356,
+        356
+      ],
+      "sizes": [
+        "medium"
+      ],
+      "type": "beast",
+      "alignment": "Unaligned",
+      "ac": 11,
+      "initiative": {
+        "modifier": 1,
+        "score": 11
+      },
+      "hp": {
+        "average": 5,
+        "dice": 1,
+        "sides": 8,
+        "modifier": 1
+      },
+      "speeds": {
+        "walk": 50
+      },
+      "abilities": {
+        "str": {
+          "score": 11,
+          "modifier": 0,
+          "save": 0
+        },
+        "dex": {
+          "score": 13,
+          "modifier": 1,
+          "save": 1
+        },
+        "con": {
+          "score": 12,
+          "modifier": 1,
+          "save": 1
+        },
+        "int": {
+          "score": 2,
+          "modifier": -4,
+          "save": -4
+        },
+        "wis": {
+          "score": 12,
+          "modifier": 1,
+          "save": 1
+        },
+        "cha": {
+          "score": 5,
+          "modifier": -3,
+          "save": -3
+        }
+      },
+      "senses": {
+        "passive_perception": 13,
+        "special": {
+          "darkvision": 60
+        }
+      },
+      "languages": [],
+      "gear": [],
+      "cr": "0",
+      "xp": 10,
+      "proficiency_bonus": 2,
+      "skills": {
+        "perception": 3
+      },
+      "traits": [
+        {
+          "key": "trait/pack-tactics",
+          "name": "Pack Tactics",
+          "text": "Pack Tactics. The hyena has Advantage on an attack roll against a creature if at least one of the hyena’s allies is within 5 feet of the creature and the ally doesn’t have the Incapacitated condition.",
+          "requires": [
+            "attack/advantage",
+            "requirement/ally-within-5-feet",
+            "requirement/ally-not-incapacitated"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "bite",
+          "name": "Bite",
+          "text": "Bite. Melee Attack Roll: +2, reach 5 ft. Hit: 3 (1d6) Piercing damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 2,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 3,
+              "dice": 1,
+              "sides": 6,
+              "modifier": 0
+            },
+            "damage_type": "piercing"
+          },
+          "effects": [
+            {
+              "key": "effect/piercing-damage",
+              "name": "Piercing damage",
+              "text": "3 (1d6) Piercing damage.",
+              "dice": {
+                "average": 3,
+                "dice": 1,
+                "sides": 6,
+                "modifier": 0
+              }
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/skills",
+        "sense/darkvision",
+        "trait/pack-tactics",
+        "attack/advantage",
+        "requirement/ally-within-5-feet",
+        "requirement/ally-not-incapacitated",
+        "action/melee-attack",
+        "effect/piercing-damage"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/ice-devil",
+      "name": "Ice Devil",
+      "source_pages": [
+        300,
+        300
+      ],
+      "sizes": [
+        "large"
+      ],
+      "type": "fiend",
+      "alignment": "Lawful Evil",
+      "ac": 18,
+      "initiative": {
+        "modifier": 7,
+        "score": 17
+      },
+      "hp": {
+        "average": 228,
+        "dice": 24,
+        "sides": 10,
+        "modifier": 96
+      },
+      "speeds": {
+        "walk": 40
+      },
+      "abilities": {
+        "str": {
+          "score": 21,
+          "modifier": 5,
+          "save": 5
+        },
+        "dex": {
+          "score": 14,
+          "modifier": 2,
+          "save": 7
+        },
+        "con": {
+          "score": 18,
+          "modifier": 4,
+          "save": 9
+        },
+        "int": {
+          "score": 18,
+          "modifier": 4,
+          "save": 4
+        },
+        "wis": {
+          "score": 15,
+          "modifier": 2,
+          "save": 7
+        },
+        "cha": {
+          "score": 18,
+          "modifier": 4,
+          "save": 9
+        }
+      },
+      "senses": {
+        "passive_perception": 17,
+        "special": {
+          "blindsight": 120
+        }
+      },
+      "languages": [
+        "Infernal"
+      ],
+      "gear": [],
+      "cr": "14",
+      "xp": 11500,
+      "proficiency_bonus": 5,
+      "tags": [
+        "Devil"
+      ],
+      "skills": {
+        "insight": 7,
+        "perception": 7,
+        "persuasion": 9
+      },
+      "immunities": [
+        "cold",
+        "fire",
+        "poison"
+      ],
+      "condition_immunities": [
+        "poisoned"
+      ],
+      "telepathy": 120,
+      "traits": [
+        {
+          "key": "trait/diabolical-restoration",
+          "name": "Diabolical Restoration",
+          "text": "Diabolical Restoration. If the devil dies outside the Nine Hells, its body disappears in sulfurous smoke, and it gains a new body instantly, reviving with all its Hit Points somewhere in the Nine Hells.",
+          "requires": [
+            "effect/revive"
+          ]
+        },
+        {
+          "key": "trait/magic-resistance",
+          "name": "Magic Resistance",
+          "text": "Magic Resistance. The devil has Advantage on saving throws against spells and other magical effects.",
+          "requires": [
+            "save/advantage-against-magic"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "multiattack",
+          "name": "Multiattack",
+          "text": "Multiattack. The devil makes three Ice Spear attacks. It can replace one attack with a Tail attack.",
+          "key": "action/multiattack",
+          "effects": [
+            {
+              "key": "action/melee-or-ranged-attack",
+              "name": "Attack",
+              "text": "The devil makes three Ice Spear attacks"
+            },
+            {
+              "key": "multiattack/replace-attack",
+              "name": "Replace attack",
+              "text": "It can replace one attack with a Tail attack"
+            },
+            {
+              "key": "action/melee-attack",
+              "name": "Attack",
+              "text": "a Tail attack"
+            }
+          ]
+        },
+        {
+          "id": "ice-spear",
+          "name": "Ice Spear",
+          "text": "Ice Spear. Melee or Ranged Attack Roll: +10, reach 5 ft. or range 30/120 ft. Hit: 14 (2d8 + 5) Piercing damage plus 10 (3d6) Cold damage. Until the end of its next turn, the target can’t take a Bonus Action or Reaction, its Speed decreases by 10 feet, and it can move or take one action on its turn, not both. Hit or Miss: The spear magically returns to the devil’s hand immediately after a ranged attack.",
+          "key": "action/melee-or-ranged-attack",
+          "effects": [
+            {
+              "key": "effect/piercing-damage",
+              "name": "Piercing damage",
+              "text": "14 (2d8 + 5) Piercing damage",
+              "dice": {
+                "average": 14,
+                "dice": 2,
+                "sides": 8,
+                "modifier": 5
+              }
+            },
+            {
+              "key": "effect/cold-damage",
+              "name": "Cold damage",
+              "text": "10 (3d6) Cold damage",
+              "dice": {
+                "average": 10,
+                "dice": 3,
+                "sides": 6,
+                "modifier": 0
+              }
+            },
+            {
+              "key": "effect/no-bonus-action-or-reaction",
+              "name": "No bonus action or reaction",
+              "text": "Until the end of its next turn, the target can’t take a Bonus Action or Reaction"
+            },
+            {
+              "key": "effect/speed-decrease",
+              "name": "Speed decrease",
+              "text": "its Speed decreases by 10 feet"
+            },
+            {
+              "key": "effect/move-or-action",
+              "name": "Move or action",
+              "text": "it can move or take one action on its turn, not both"
+            },
+            {
+              "key": "effect/weapon-returns",
+              "name": "Weapon returns",
+              "text": "Hit or Miss: The spear magically returns to the devil’s hand immediately after a ranged attack"
+            }
+          ]
+        },
+        {
+          "id": "tail",
+          "name": "Tail",
+          "text": "Tail. Melee Attack Roll: +10, reach 10 ft. Hit: 15 (3d6 + 5) Bludgeoning damage plus 18 (4d8) Cold damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 10,
+            "reach": 10,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 15,
+              "dice": 3,
+              "sides": 6,
+              "modifier": 5
+            },
+            "damage_type": "bludgeoning"
+          },
+          "effects": [
+            {
+              "key": "effect/bludgeoning-damage",
+              "name": "Bludgeoning damage",
+              "text": "15 (3d6 + 5) Bludgeoning damage.",
+              "dice": {
+                "average": 15,
+                "dice": 3,
+                "sides": 6,
+                "modifier": 5
+              }
+            },
+            {
+              "key": "effect/cold-damage",
+              "name": "Cold damage",
+              "text": "18 (4d8) Cold damage",
+              "dice": {
+                "average": 18,
+                "dice": 4,
+                "sides": 8,
+                "modifier": 0
+              }
+            }
+          ]
+        },
+        {
+          "id": "ice-wall",
+          "name": "Ice Wall",
+          "text": "Ice Wall (Recharge 6). The devil casts Wall of Ice (level 8 version), requiring no spell components and using Intelligence as the spellcasting ability (spell save DC 17).",
+          "key": "action/special",
+          "uses": {
+            "per_day": 0,
+            "lair_per_day": 0,
+            "recharge": 6
+          },
+          "effects": [
+            {
+              "key": "limit/recharge",
+              "name": "Recharge",
+              "text": "(Recharge 6)"
+            },
+            {
+              "key": "action/spellcasting",
+              "name": "Spellcasting",
+              "text": "The devil casts Wall of Ice (level 8 version), requiring no spell components and using Intelligence as the spellcasting ability (spell save DC 17)"
+            },
+            {
+              "key": "spell/wall-of-ice",
+              "name": "Wall of Ice",
+              "text": "Wall of Ice (level 8 version)"
+            },
+            {
+              "key": "spellcasting/no-components",
+              "name": "No components",
+              "text": "requiring no spell components"
+            },
+            {
+              "key": "spellcasting/fixed-save-dc",
+              "name": "Fixed save dc",
+              "text": "(spell save DC 17)"
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/skills",
+        "defense/damage-immunity",
+        "defense/condition-immunity",
+        "sense/blindsight",
+        "language/telepathy",
+        "trait/diabolical-restoration",
+        "effect/revive",
+        "trait/magic-resistance",
+        "save/advantage-against-magic",
+        "action/multiattack",
+        "action/melee-or-ranged-attack",
+        "multiattack/replace-attack",
+        "action/melee-attack",
+        "effect/piercing-damage",
+        "effect/cold-damage",
+        "effect/no-bonus-action-or-reaction",
+        "effect/speed-decrease",
+        "effect/move-or-action",
+        "effect/weapon-returns",
+        "effect/bludgeoning-damage",
+        "action/special",
+        "limit/recharge",
+        "action/spellcasting",
+        "spell/wall-of-ice",
+        "spellcasting/no-components",
+        "spellcasting/fixed-save-dc"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/ice-mephit",
+      "name": "Ice Mephit",
+      "source_pages": [
+        307,
+        307
+      ],
+      "sizes": [
+        "small"
+      ],
+      "type": "elemental",
+      "alignment": "Neutral Evil",
+      "ac": 11,
+      "initiative": {
+        "modifier": 1,
+        "score": 11
+      },
+      "hp": {
+        "average": 21,
+        "dice": 6,
+        "sides": 6,
+        "modifier": 0
+      },
+      "speeds": {
+        "walk": 30,
+        "fly": 30
+      },
+      "abilities": {
+        "str": {
+          "score": 7,
+          "modifier": -2,
+          "save": -2
+        },
+        "dex": {
+          "score": 13,
+          "modifier": 1,
+          "save": 1
+        },
+        "con": {
+          "score": 10,
+          "modifier": 0,
+          "save": 0
+        },
+        "int": {
+          "score": 9,
+          "modifier": -1,
+          "save": -1
+        },
+        "wis": {
+          "score": 11,
+          "modifier": 0,
+          "save": 0
+        },
+        "cha": {
+          "score": 12,
+          "modifier": 1,
+          "save": 1
+        }
+      },
+      "senses": {
+        "passive_perception": 12,
+        "special": {
+          "darkvision": 60
+        }
+      },
+      "languages": [
+        "Primordial (Aquan, Auran)"
+      ],
+      "gear": [],
+      "cr": "1/2",
+      "xp": 100,
+      "proficiency_bonus": 2,
+      "skills": {
+        "perception": 2,
+        "stealth": 3
+      },
+      "vulnerabilities": [
+        "fire"
+      ],
+      "immunities": [
+        "cold",
+        "poison"
+      ],
+      "condition_immunities": [
+        "exhaustion",
+        "poisoned"
+      ],
+      "traits": [
+        {
+          "key": "trait/death-burst",
+          "name": "Death Burst",
+          "text": "Death Burst. The mephit explodes when it dies. Constitution Saving Throw: DC 10, each creature in a 5-foot Emanation originating from the mephit. Failure: 5 (2d4) Cold damage. Success: Half damage.",
+          "save": {
+            "ability": "con",
+            "dc": 10
+          },
+          "target": {
+            "shape": "emanation",
+            "size": 5,
+            "width": 0,
+            "range": 0
+          },
+          "dice": {
+            "average": 5,
+            "dice": 2,
+            "sides": 4,
+            "modifier": 0
+          },
+          "requires": [
+            "trigger/death",
+            "save/con",
+            "area/emanation",
+            "effect/cold-damage",
+            "save/half-damage"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "claw",
+          "name": "Claw",
+          "text": "Claw. Melee Attack Roll: +3, reach 5 ft. Hit: 3 (1d4 + 1) Slashing damage plus 2 (1d4) Cold damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 3,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 3,
+              "dice": 1,
+              "sides": 4,
+              "modifier": 1
+            },
+            "damage_type": "slashing"
+          },
+          "effects": [
+            {
+              "key": "effect/slashing-damage",
+              "name": "Slashing damage",
+              "text": "3 (1d4 + 1) Slashing damage.",
+              "dice": {
+                "average": 3,
+                "dice": 1,
+                "sides": 4,
+                "modifier": 1
+              }
+            },
+            {
+              "key": "effect/cold-damage",
+              "name": "Cold damage",
+              "text": "2 (1d4) Cold damage",
+              "dice": {
+                "average": 2,
+                "dice": 1,
+                "sides": 4,
+                "modifier": 0
+              }
+            }
+          ]
+        },
+        {
+          "id": "fog-cloud",
+          "name": "Fog Cloud",
+          "text": "Fog Cloud (1/Day). The mephit casts Fog Cloud, requiring no spell components and using Charisma as the spellcasting ability.",
+          "key": "action/special",
+          "uses": {
+            "per_day": 1,
+            "lair_per_day": 0,
+            "recharge": 0
+          },
+          "effects": [
+            {
+              "key": "limit/per-day",
+              "name": "Daily uses",
+              "text": "(1/Day)"
+            },
+            {
+              "key": "action/spellcasting",
+              "name": "Spellcasting",
+              "text": "The mephit casts Fog Cloud, requiring no spell components and using Charisma as the spellcasting ability"
+            },
+            {
+              "key": "spell/fog-cloud",
+              "name": "Fog Cloud",
+              "text": "casts Fog Cloud"
+            },
+            {
+              "key": "spellcasting/no-components",
+              "name": "No components",
+              "text": "requiring no spell components"
+            },
+            {
+              "key": "spellcasting/charisma-ability",
+              "name": "Charisma ability",
+              "text": "using Charisma as the spellcasting ability"
+            }
+          ]
+        },
+        {
+          "id": "frost-breath",
+          "name": "Frost Breath",
+          "text": "Frost Breath (Recharge 6). Constitution Saving Throw: DC 10, each creature in a 15-foot Cone. Failure: 7 (3d4) Cold damage. Success: Half damage.",
+          "key": "action/saving-throw",
+          "save": {
+            "ability": "con",
+            "dc": 10
+          },
+          "target": {
+            "shape": "cone",
+            "size": 15,
+            "width": 0,
+            "range": 0
+          },
+          "uses": {
+            "per_day": 0,
+            "lair_per_day": 0,
+            "recharge": 6
+          },
+          "effects": [
+            {
+              "key": "limit/recharge",
+              "name": "Recharge",
+              "text": "(Recharge 6)"
+            },
+            {
+              "key": "save/con",
+              "name": "Constitution Saving Throw",
+              "text": "Constitution Saving Throw: DC 10"
+            },
+            {
+              "key": "area/cone",
+              "name": "Target",
+              "text": "each creature in a 15-foot Cone."
+            },
+            {
+              "key": "effect/cold-damage",
+              "name": "Cold damage",
+              "text": "7 (3d4) Cold damage",
+              "dice": {
+                "average": 7,
+                "dice": 3,
+                "sides": 4,
+                "modifier": 0
+              }
+            },
+            {
+              "key": "save/half-damage",
+              "name": "Half damage",
+              "text": "Success: Half damage."
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/skills",
+        "defense/damage-vulnerability",
+        "defense/damage-immunity",
+        "defense/condition-immunity",
+        "movement/fly",
+        "sense/darkvision",
+        "trait/death-burst",
+        "save/con",
+        "area/emanation",
+        "trigger/death",
+        "effect/cold-damage",
+        "save/half-damage",
+        "action/melee-attack",
+        "effect/slashing-damage",
+        "action/special",
+        "limit/per-day",
+        "action/spellcasting",
+        "spell/fog-cloud",
+        "spellcasting/no-components",
+        "spellcasting/charisma-ability",
+        "action/saving-throw",
+        "limit/recharge",
+        "area/cone"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/imp",
+      "name": "Imp",
+      "source_pages": [
+        300,
+        301
+      ],
+      "sizes": [
+        "tiny"
+      ],
+      "type": "fiend",
+      "alignment": "Lawful Evil",
+      "ac": 13,
+      "initiative": {
+        "modifier": 3,
+        "score": 13
+      },
+      "hp": {
+        "average": 21,
+        "dice": 6,
+        "sides": 4,
+        "modifier": 6
+      },
+      "speeds": {
+        "walk": 20,
+        "fly": 40
+      },
+      "abilities": {
+        "str": {
+          "score": 6,
+          "modifier": -2,
+          "save": -2
+        },
+        "dex": {
+          "score": 17,
+          "modifier": 3,
+          "save": 3
+        },
+        "con": {
+          "score": 13,
+          "modifier": 1,
+          "save": 1
+        },
+        "int": {
+          "score": 11,
+          "modifier": 0,
+          "save": 0
+        },
+        "wis": {
+          "score": 12,
+          "modifier": 1,
+          "save": 1
+        },
+        "cha": {
+          "score": 14,
+          "modifier": 2,
+          "save": 2
+        }
+      },
+      "senses": {
+        "passive_perception": 11,
+        "special": {
+          "darkvision": 120
+        },
+        "notes": {
+          "darkvision": "unimpeded by magical Darkness"
+        }
+      },
+      "languages": [
+        "Common",
+        "Infernal"
+      ],
+      "gear": [],
+      "cr": "1",
+      "xp": 200,
+      "proficiency_bonus": 2,
+      "tags": [
+        "Devil"
+      ],
+      "skills": {
+        "deception": 4,
+        "insight": 3,
+        "stealth": 5
+      },
+      "resistances": [
+        "cold"
+      ],
+      "immunities": [
+        "fire",
+        "poison"
+      ],
+      "condition_immunities": [
+        "poisoned"
+      ],
+      "traits": [
+        {
+          "key": "trait/magic-resistance",
+          "name": "Magic Resistance",
+          "text": "Magic Resistance. The imp has Advantage on saving throws against spells and other magical effects.",
+          "requires": [
+            "save/advantage-against-magic"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "sting",
+          "name": "Sting",
+          "text": "Sting. Melee Attack Roll: +5, reach 5 ft. Hit: 6 (1d6 + 3) Piercing damage plus 7 (2d6) Poison damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 5,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 6,
+              "dice": 1,
+              "sides": 6,
+              "modifier": 3
+            },
+            "damage_type": "piercing"
+          },
+          "effects": [
+            {
+              "key": "effect/piercing-damage",
+              "name": "Piercing damage",
+              "text": "6 (1d6 + 3) Piercing damage.",
+              "dice": {
+                "average": 6,
+                "dice": 1,
+                "sides": 6,
+                "modifier": 3
+              }
+            },
+            {
+              "key": "effect/poison-damage",
+              "name": "Poison damage",
+              "text": "7 (2d6) Poison damage",
+              "dice": {
+                "average": 7,
+                "dice": 2,
+                "sides": 6,
+                "modifier": 0
+              }
+            }
+          ]
+        },
+        {
+          "id": "invisibility",
+          "name": "Invisibility",
+          "text": "Invisibility. The imp casts Invisibility on itself, requiring no spell components and using Charisma as the spellcasting ability.",
+          "key": "action/special",
+          "effects": [
+            {
+              "key": "action/spellcasting",
+              "name": "Spellcasting",
+              "text": "The imp casts Invisibility on itself, requiring no spell components and using Charisma as the spellcasting ability"
+            },
+            {
+              "key": "spell/invisibility",
+              "name": "Invisibility",
+              "text": "casts Invisibility on itself"
+            },
+            {
+              "key": "spellcasting/no-components",
+              "name": "No components",
+              "text": "requiring no spell components"
+            },
+            {
+              "key": "spellcasting/charisma-ability",
+              "name": "Charisma ability",
+              "text": "using Charisma as the spellcasting ability"
+            }
+          ]
+        },
+        {
+          "id": "shape-shift",
+          "name": "Shape-Shift",
+          "text": "Shape-Shift. The imp shape-shifts to resemble a rat (Speed 20 ft.), a raven (20 ft., Fly 60 ft.), or a spider (20 ft., Climb 20 ft.), or it returns to its true form. Its game statistics are the same in each form, except for its Speed. Any equipment it is wearing or carrying isn’t transformed.",
+          "key": "action/special",
+          "effects": [
+            {
+              "key": "effect/shape-shift",
+              "name": "Shape shift",
+              "text": "The imp shape-shifts to resemble a rat (Speed 20 ft.), a raven (20 ft., Fly 60 ft.), or a spider (20 ft., Climb 20 ft.), or it returns to its true form"
+            },
+            {
+              "key": "effect/shapechange-form-limits",
+              "name": "Shapechange form limits",
+              "text": "Its game statistics are the same in each form, except for its Speed"
+            },
+            {
+              "key": "effect/equipment-not-transformed",
+              "name": "Equipment not transformed",
+              "text": "Any equipment it is wearing or carrying isn’t transformed"
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/skills",
+        "defense/damage-resistance",
+        "defense/damage-immunity",
+        "defense/condition-immunity",
+        "movement/fly",
+        "sense/darkvision",
+        "sense/darkvision-unimpeded-by-magical-darkness",
+        "trait/magic-resistance",
+        "save/advantage-against-magic",
+        "action/melee-attack",
+        "effect/piercing-damage",
+        "effect/poison-damage",
+        "action/special",
+        "action/spellcasting",
+        "spell/invisibility",
+        "spellcasting/no-components",
+        "spellcasting/charisma-ability",
+        "effect/shape-shift",
+        "effect/shapechange-form-limits",
+        "effect/equipment-not-transformed"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/incubus",
+      "name": "Incubus",
+      "source_pages": [
+        301,
+        301
+      ],
+      "sizes": [
+        "medium"
+      ],
+      "type": "fiend",
+      "alignment": "Neutral Evil",
+      "ac": 15,
+      "initiative": {
+        "modifier": 3,
+        "score": 13
+      },
+      "hp": {
+        "average": 66,
+        "dice": 12,
+        "sides": 8,
+        "modifier": 12
+      },
+      "speeds": {
+        "walk": 30,
+        "fly": 60
+      },
+      "abilities": {
+        "str": {
+          "score": 8,
+          "modifier": -1,
+          "save": -1
+        },
+        "dex": {
+          "score": 17,
+          "modifier": 3,
+          "save": 3
+        },
+        "con": {
+          "score": 13,
+          "modifier": 1,
+          "save": 1
+        },
+        "int": {
+          "score": 15,
+          "modifier": 2,
+          "save": 2
+        },
+        "wis": {
+          "score": 12,
+          "modifier": 1,
+          "save": 1
+        },
+        "cha": {
+          "score": 20,
+          "modifier": 5,
+          "save": 5
+        }
+      },
+      "senses": {
+        "passive_perception": 15,
+        "special": {
+          "darkvision": 60
+        }
+      },
+      "languages": [
+        "Abyssal",
+        "Common",
+        "Infernal"
+      ],
+      "gear": [],
+      "cr": "4",
+      "xp": 1100,
+      "proficiency_bonus": 2,
+      "skills": {
+        "deception": 9,
+        "insight": 5,
+        "perception": 5,
+        "persuasion": 9,
+        "stealth": 7
+      },
+      "resistances": [
+        "cold",
+        "fire",
+        "poison",
+        "psychic"
+      ],
+      "telepathy": 60,
+      "traits": [
+        {
+          "key": "trait/succubus-form",
+          "name": "Succubus Form",
+          "text": "Succubus Form. When the incubus finishes a Long Rest, it can shape-shift into a Succubus, using that stat block instead of this one. Any equipment it is wearing or carrying isn’t transformed.",
+          "requires": [
+            "effect/shape-shift-to-succubus",
+            "requirement/finish-long-rest",
+            "effect/use-succubus-stat-block",
+            "effect/equipment-not-transformed"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "multiattack",
+          "name": "Multiattack",
+          "text": "Multiattack. The incubus makes two Restless Touch attacks.",
+          "key": "action/multiattack",
+          "effects": [
+            {
+              "key": "action/melee-attack",
+              "name": "Attack",
+              "text": "The incubus makes two Restless Touch attacks"
+            }
+          ]
+        },
+        {
+          "id": "restless-touch",
+          "name": "Restless Touch",
+          "text": "Restless Touch. Melee Attack Roll: +7, reach 5 ft. Hit: 15 (3d6 + 5) Psychic damage, and the target is cursed for 24 hours or until the incubus dies. Until the curse ends, the target gains no benefit from finishing Short Rests.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 7,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 15,
+              "dice": 3,
+              "sides": 6,
+              "modifier": 5
+            },
+            "damage_type": "psychic"
+          },
+          "effects": [
+            {
+              "key": "effect/psychic-damage",
+              "name": "Psychic damage",
+              "text": "15 (3d6 + 5) Psychic damage.",
+              "dice": {
+                "average": 15,
+                "dice": 3,
+                "sides": 6,
+                "modifier": 5
+              }
+            },
+            {
+              "key": "effect/curse",
+              "name": "Curse",
+              "text": "the target is cursed for 24 hours or until the incubus dies"
+            },
+            {
+              "key": "effect/no-short-rest-benefit",
+              "name": "No short rest benefit",
+              "text": "Until the curse ends, the target gains no benefit from finishing Short Rests"
+            }
+          ]
+        },
+        {
+          "id": "spellcasting",
+          "name": "Spellcasting",
+          "text": "Spellcasting. The incubus casts one of the following spells, requiring no Material components and using Charisma as the spellcasting ability (spell save DC 15): At Will: Disguise Self, Etherealness 1/Day Each: Dream, Hypnotic Pattern",
+          "key": "action/spellcasting",
+          "spellcasting": {
+            "ability": "cha",
+            "save_dc": 15,
+            "attack_bonus": 0,
+            "at_will": [
+              "Disguise Self",
+              "Etherealness"
+            ],
+            "per_day": [
+              {
+                "uses": 1,
+                "spells": [
+                  "Dream",
+                  "Hypnotic Pattern"
+                ]
+              }
+            ]
+          },
+          "effects": [
+            {
+              "key": "spellcasting/no-material-components",
+              "name": "No Material components",
+              "text": "requiring no Material components"
+            },
+            {
+              "key": "spell/disguise-self",
+              "name": "Disguise Self",
+              "text": "Disguise Self",
+              "requires": [
+                "spellcasting/at-will"
+              ]
+            },
+            {
+              "key": "spell/etherealness",
+              "name": "Etherealness",
+              "text": "Etherealness",
+              "requires": [
+                "spellcasting/at-will"
+              ]
+            },
+            {
+              "key": "spell/dream",
+              "name": "Dream",
+              "text": "Dream",
+              "requires": [
+                "limit/per-day"
+              ]
+            },
+            {
+              "key": "spell/hypnotic-pattern",
+              "name": "Hypnotic Pattern",
+              "text": "Hypnotic Pattern",
+              "requires": [
+                "limit/per-day"
+              ]
+            }
+          ]
+        }
+      ],
+      "bonus_actions": [
+        {
+          "id": "nightmare",
+          "name": "Nightmare",
+          "text": "Nightmare (Recharge 6). Wisdom Saving Throw: DC 15, one creature the incubus can see within 60 feet. Failure: If the target has 20 Hit Points or fewer, it has the Unconscious condition for 1 hour, until it takes damage, or until a creature within 5 feet of it takes an action to wake it. Otherwise, the target takes 18 (4d8) Psychic damage.",
+          "key": "action/saving-throw",
+          "save": {
+            "ability": "wis",
+            "dc": 15
+          },
+          "target": {
+            "shape": "creature",
+            "size": 0,
+            "width": 0,
+            "range": 60
+          },
+          "uses": {
+            "per_day": 0,
+            "lair_per_day": 0,
+            "recharge": 6
+          },
+          "effects": [
+            {
+              "key": "limit/recharge",
+              "name": "Recharge",
+              "text": "(Recharge 6)"
+            },
+            {
+              "key": "save/wis",
+              "name": "Wisdom Saving Throw",
+              "text": "Wisdom Saving Throw: DC 15"
+            },
+            {
+              "key": "target/creature",
+              "name": "Target",
+              "text": "one creature the incubus can see within 60 feet."
+            },
+            {
+              "key": "requirement/target-at-most-20-hit-points",
+              "name": "Target at most 20 hit points",
+              "text": "If the target has 20 Hit Points or fewer"
+            },
+            {
+              "key": "condition/unconscious",
+              "name": "Unconscious",
+              "text": "it has the Unconscious condition for 1 hour"
+            },
+            {
+              "key": "effect/ends-on-damage-or-wake",
+              "name": "Ends on damage or wake",
+              "text": "until it takes damage, or until a creature within 5 feet of it takes an action to wake it"
+            },
+            {
+              "key": "effect/psychic-damage",
+              "name": "Psychic damage",
+              "text": "Otherwise, the target takes 18 (4d8) Psychic damage",
+              "dice": {
+                "average": 18,
+                "dice": 4,
+                "sides": 8,
+                "modifier": 0
+              }
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/skills",
+        "defense/damage-resistance",
+        "movement/fly",
+        "sense/darkvision",
+        "language/telepathy",
+        "action/bonus-action",
+        "trait/succubus-form",
+        "effect/shape-shift-to-succubus",
+        "requirement/finish-long-rest",
+        "effect/use-succubus-stat-block",
+        "effect/equipment-not-transformed",
+        "action/multiattack",
+        "action/melee-attack",
+        "effect/psychic-damage",
+        "effect/curse",
+        "effect/no-short-rest-benefit",
+        "action/spellcasting",
+        "spellcasting/no-material-components",
+        "spell/disguise-self",
+        "spellcasting/at-will",
+        "spell/etherealness",
+        "spell/dream",
+        "limit/per-day",
+        "spell/hypnotic-pattern",
+        "action/saving-throw",
+        "limit/recharge",
+        "save/wis",
+        "target/creature",
+        "requirement/target-at-most-20-hit-points",
+        "condition/unconscious",
+        "effect/ends-on-damage-or-wake"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/invisible-stalker",
+      "name": "Invisible Stalker",
+      "source_pages": [
+        301,
+        302
+      ],
+      "sizes": [
+        "large"
+      ],
+      "type": "elemental",
+      "alignment": "Neutral",
+      "ac": 14,
+      "initiative": {
+        "modifier": 7,
+        "score": 17
+      },
+      "hp": {
+        "average": 97,
+        "dice": 13,
+        "sides": 10,
+        "modifier": 26
+      },
+      "speeds": {
+        "walk": 50,
+        "fly": 50
+      },
+      "abilities": {
+        "str": {
+          "score": 16,
+          "modifier": 3,
+          "save": 3
+        },
+        "dex": {
+          "score": 19,
+          "modifier": 4,
+          "save": 4
+        },
+        "con": {
+          "score": 14,
+          "modifier": 2,
+          "save": 2
+        },
+        "int": {
+          "score": 10,
+          "modifier": 0,
+          "save": 0
+        },
+        "wis": {
+          "score": 15,
+          "modifier": 2,
+          "save": 2
+        },
+        "cha": {
+          "score": 11,
+          "modifier": 0,
+          "save": 0
+        }
+      },
+      "senses": {
+        "passive_perception": 18,
+        "special": {
+          "darkvision": 60
+        }
+      },
+      "languages": [
+        "Common",
+        "Primordial (Auran)"
+      ],
+      "gear": [],
+      "cr": "6",
+      "xp": 2300,
+      "proficiency_bonus": 3,
+      "skills": {
+        "perception": 8,
+        "stealth": 10
+      },
+      "resistances": [
+        "bludgeoning",
+        "piercing",
+        "slashing"
+      ],
+      "immunities": [
+        "poison"
+      ],
+      "condition_immunities": [
+        "exhaustion",
+        "grappled",
+        "paralyzed",
+        "petrified",
+        "poisoned",
+        "prone",
+        "restrained",
+        "unconscious"
+      ],
+      "hover": true,
+      "traits": [
+        {
+          "key": "trait/air-form",
+          "name": "Air Form",
+          "text": "Air Form. The stalker can enter an enemy’s space and stop there. It can move through a space as narrow as 1 inch without expending extra movement to do so.",
+          "requires": [
+            "movement/enter-creature-space",
+            "movement/squeeze"
+          ]
+        },
+        {
+          "key": "trait/invisibility",
+          "name": "Invisibility",
+          "text": "Invisibility. The stalker has the Invisible condition.",
+          "requires": [
+            "condition/invisible"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "multiattack",
+          "name": "Multiattack",
+          "text": "Multiattack. The stalker makes three Wind Swipe attacks. It can replace one attack with a use of Vortex.",
+          "key": "action/multiattack",
+          "effects": [
+            {
+              "key": "action/melee-attack",
+              "name": "Attack",
+              "text": "The stalker makes three Wind Swipe attacks"
+            },
+            {
+              "key": "multiattack/replace-attack",
+              "name": "Replace attack",
+              "text": "It can replace one attack with a use of Vortex"
+            },
+            {
+              "key": "action/saving-throw",
+              "name": "Saving throw",
+              "text": "a use of Vortex"
+            }
+          ]
+        },
+        {
+          "id": "wind-swipe",
+          "name": "Wind Swipe",
+          "text": "Wind Swipe. Melee Attack Roll: +7, reach 5 ft. Hit: 11 (2d6 + 4) Force damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 7,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 11,
+              "dice": 2,
+              "sides": 6,
+              "modifier": 4
+            },
+            "damage_type": "force"
+          },
+          "effects": [
+            {
+              "key": "effect/force-damage",
+              "name": "Force damage",
+              "text": "11 (2d6 + 4) Force damage.",
+              "dice": {
+                "average": 11,
+                "dice": 2,
+                "sides": 6,
+                "modifier": 4
+              }
+            }
+          ]
+        },
+        {
+          "id": "vortex",
+          "name": "Vortex",
+          "text": "Vortex. Constitution Saving Throw: DC 14, one Large or smaller creature in the stalker’s space. Failure: 7 (1d8 + 3) Thunder damage, and the target has the Grappled condition (escape DC 13). Until the grapple ends, the target can’t cast spells with a Verbal component and takes 7 (2d6) Thunder damage at the start of each of the stalker’s turns.",
+          "key": "action/saving-throw",
+          "save": {
+            "ability": "con",
+            "dc": 14
+          },
+          "target": {
+            "shape": "creature",
+            "size": 0,
+            "width": 0,
+            "range": 0
+          },
+          "effects": [
+            {
+              "key": "save/con",
+              "name": "Constitution Saving Throw",
+              "text": "Constitution Saving Throw: DC 14"
+            },
+            {
+              "key": "target/creature",
+              "name": "Target",
+              "text": "one Large or smaller creature in the stalker’s space."
+            },
+            {
+              "key": "requirement/target-size",
+              "name": "Target size",
+              "text": "one Large or smaller creature"
+            },
+            {
+              "key": "effect/thunder-damage",
+              "name": "Thunder damage",
+              "text": "7 (1d8 + 3) Thunder damage",
+              "dice": {
+                "average": 7,
+                "dice": 1,
+                "sides": 8,
+                "modifier": 3
+              }
+            },
+            {
+              "key": "condition/grappled",
+              "name": "Grappled",
+              "text": "the target has the Grappled condition (escape DC 13)"
+            },
+            {
+              "key": "effect/no-verbal-spells",
+              "name": "No verbal spells",
+              "text": "the target can’t cast spells with a Verbal component"
+            },
+            {
+              "key": "effect/start-of-turn-damage",
+              "name": "Start of turn damage",
+              "text": "takes 7 (2d6) Thunder damage at the start of each of the stalker’s turns",
+              "dice": {
+                "average": 7,
+                "dice": 2,
+                "sides": 6,
+                "modifier": 0
+              }
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/skills",
+        "defense/damage-resistance",
+        "defense/damage-immunity",
+        "defense/condition-immunity",
+        "movement/fly",
+        "movement/hover",
+        "sense/darkvision",
+        "trait/air-form",
+        "movement/enter-creature-space",
+        "movement/squeeze",
+        "trait/invisibility",
+        "condition/invisible",
+        "action/multiattack",
+        "action/melee-attack",
+        "multiattack/replace-attack",
+        "action/saving-throw",
+        "effect/force-damage",
+        "save/con",
+        "target/creature",
+        "requirement/target-size",
+        "effect/thunder-damage",
+        "condition/grappled",
+        "effect/no-verbal-spells",
+        "effect/start-of-turn-damage"
+      ]
+    }
+  ]
+}

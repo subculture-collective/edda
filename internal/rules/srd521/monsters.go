@@ -65,6 +65,10 @@ type Monster struct {
 	Reactions        []MonsterAction   `json:"reactions,omitempty"`
 	LegendaryActions []MonsterAction   `json:"legendary_actions,omitempty"`
 	Legendary        *MonsterLegendary `json:"legendary,omitempty"`
+	// ResistanceNote retains a Resistances line that names no damage type, such
+	// as the Half-Dragon's type chosen by a trait. It requires a dependency key,
+	// so the record stays unavailable.
+	ResistanceNote string `json:"resistance_note,omitempty"`
 }
 
 // MonsterHP retains both the fixed HP and its source dice expression.
