@@ -1,0 +1,2242 @@
+{
+  "schema_version": 1,
+  "source": {
+    "version": "5.2.1",
+    "language": "en",
+    "landing_url": "https://www.dndbeyond.com/srd",
+    "artifact_url": "https://media.dndbeyond.com/compendium-images/srd/5.2/SRD_CC_v5.2.1.pdf",
+    "sha256": "8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87",
+    "bytes": 6031375,
+    "pages": 364,
+    "retrieved_at": "2026-11-15",
+    "license": "CC-BY-4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/legalcode",
+    "attribution": "This work includes material from the System Reference Document 5.2.1 (“SRD 5.2.1”) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd. The SRD 5.2.1 is licensed under the Creative Commons Attribution 4.0 International License, available at https://creativecommons.org/licenses/by/4.0/legalcode.",
+    "changes": "Adapted the twelve stat blocks of issue #164 (Grimlock, Guard, Guard Captain, Guardian Naga, Half-Dragon, Harpy, Hawk, Hell Hound, Hezrou, Hill Giant, Hippogriff and Hippopotamus; PDF pages 296–298 and 355–356) into typed mechanical fields and implementation keys. Trait, action and bonus action entries keep their source rules text, rejoined across line, column and page breaks; descriptive prose outside the stat blocks is omitted. A hit printed without dice keeps explicit zero dice. The Half-Dragon prints its resistances as the damage type its Draconic Origin trait chooses; the record keeps that line as a note. No playable NPC behavior is granted."
+  },
+  "monsters": [
+    {
+      "id": "srd-5.2.1:content/monsters/grimlock",
+      "name": "Grimlock",
+      "source_pages": [
+        296,
+        296
+      ],
+      "sizes": [
+        "medium"
+      ],
+      "type": "aberration",
+      "alignment": "Neutral Evil",
+      "ac": 11,
+      "initiative": {
+        "modifier": 1,
+        "score": 11
+      },
+      "hp": {
+        "average": 11,
+        "dice": 2,
+        "sides": 8,
+        "modifier": 2
+      },
+      "speeds": {
+        "walk": 30,
+        "climb": 30
+      },
+      "abilities": {
+        "str": {
+          "score": 16,
+          "modifier": 3,
+          "save": 3
+        },
+        "dex": {
+          "score": 12,
+          "modifier": 1,
+          "save": 1
+        },
+        "con": {
+          "score": 12,
+          "modifier": 1,
+          "save": 1
+        },
+        "int": {
+          "score": 9,
+          "modifier": -1,
+          "save": -1
+        },
+        "wis": {
+          "score": 8,
+          "modifier": -1,
+          "save": -1
+        },
+        "cha": {
+          "score": 6,
+          "modifier": -2,
+          "save": -2
+        }
+      },
+      "senses": {
+        "passive_perception": 13,
+        "special": {
+          "blindsight": 30
+        }
+      },
+      "languages": [],
+      "gear": [],
+      "cr": "1/4",
+      "xp": 50,
+      "proficiency_bonus": 2,
+      "skills": {
+        "athletics": 5,
+        "perception": 3,
+        "stealth": 5
+      },
+      "traits": [],
+      "actions": [
+        {
+          "id": "bone-cudgel",
+          "name": "Bone Cudgel",
+          "text": "Bone Cudgel. Melee Attack Roll: +5, reach 5 ft. Hit: 6 (1d6 + 3) Bludgeoning damage plus 2 (1d4) Psychic damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 5,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 6,
+              "dice": 1,
+              "sides": 6,
+              "modifier": 3
+            },
+            "damage_type": "bludgeoning"
+          },
+          "effects": [
+            {
+              "key": "effect/bludgeoning-damage",
+              "name": "Bludgeoning damage",
+              "text": "6 (1d6 + 3) Bludgeoning damage.",
+              "dice": {
+                "average": 6,
+                "dice": 1,
+                "sides": 6,
+                "modifier": 3
+              }
+            },
+            {
+              "key": "effect/psychic-damage",
+              "name": "Psychic damage",
+              "text": "2 (1d4) Psychic damage",
+              "dice": {
+                "average": 2,
+                "dice": 1,
+                "sides": 4,
+                "modifier": 0
+              }
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/skills",
+        "movement/climb",
+        "sense/blindsight",
+        "action/melee-attack",
+        "effect/bludgeoning-damage",
+        "effect/psychic-damage"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/guard",
+      "name": "Guard",
+      "source_pages": [
+        296,
+        296
+      ],
+      "sizes": [
+        "medium",
+        "small"
+      ],
+      "type": "humanoid",
+      "alignment": "Neutral",
+      "ac": 16,
+      "initiative": {
+        "modifier": 1,
+        "score": 11
+      },
+      "hp": {
+        "average": 11,
+        "dice": 2,
+        "sides": 8,
+        "modifier": 2
+      },
+      "speeds": {
+        "walk": 30
+      },
+      "abilities": {
+        "str": {
+          "score": 13,
+          "modifier": 1,
+          "save": 1
+        },
+        "dex": {
+          "score": 12,
+          "modifier": 1,
+          "save": 1
+        },
+        "con": {
+          "score": 12,
+          "modifier": 1,
+          "save": 1
+        },
+        "int": {
+          "score": 10,
+          "modifier": 0,
+          "save": 0
+        },
+        "wis": {
+          "score": 11,
+          "modifier": 0,
+          "save": 0
+        },
+        "cha": {
+          "score": 10,
+          "modifier": 0,
+          "save": 0
+        }
+      },
+      "senses": {
+        "passive_perception": 12,
+        "special": {}
+      },
+      "languages": [
+        "Common"
+      ],
+      "gear": [
+        "Chain Shirt",
+        "Shield",
+        "Spear"
+      ],
+      "cr": "1/8",
+      "xp": 25,
+      "proficiency_bonus": 2,
+      "skills": {
+        "perception": 2
+      },
+      "traits": [],
+      "actions": [
+        {
+          "id": "spear",
+          "name": "Spear",
+          "text": "Spear. Melee or Ranged Attack Roll: +3, reach 5 ft. or range 20/60 ft. Hit: 4 (1d6 + 1) Piercing damage.",
+          "key": "action/melee-or-ranged-attack",
+          "effects": [
+            {
+              "key": "effect/piercing-damage",
+              "name": "Piercing damage",
+              "text": "4 (1d6 + 1) Piercing damage",
+              "dice": {
+                "average": 4,
+                "dice": 1,
+                "sides": 6,
+                "modifier": 1
+              }
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/skills",
+        "action/melee-or-ranged-attack",
+        "effect/piercing-damage"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/guard-captain",
+      "name": "Guard Captain",
+      "source_pages": [
+        296,
+        296
+      ],
+      "sizes": [
+        "medium",
+        "small"
+      ],
+      "type": "humanoid",
+      "alignment": "Neutral",
+      "ac": 18,
+      "initiative": {
+        "modifier": 4,
+        "score": 14
+      },
+      "hp": {
+        "average": 75,
+        "dice": 10,
+        "sides": 8,
+        "modifier": 30
+      },
+      "speeds": {
+        "walk": 30
+      },
+      "abilities": {
+        "str": {
+          "score": 18,
+          "modifier": 4,
+          "save": 4
+        },
+        "dex": {
+          "score": 14,
+          "modifier": 2,
+          "save": 2
+        },
+        "con": {
+          "score": 16,
+          "modifier": 3,
+          "save": 3
+        },
+        "int": {
+          "score": 12,
+          "modifier": 1,
+          "save": 1
+        },
+        "wis": {
+          "score": 14,
+          "modifier": 2,
+          "save": 2
+        },
+        "cha": {
+          "score": 13,
+          "modifier": 1,
+          "save": 1
+        }
+      },
+      "senses": {
+        "passive_perception": 14,
+        "special": {}
+      },
+      "languages": [
+        "Common"
+      ],
+      "gear": [
+        "Breastplate",
+        "Javelins (6)",
+        "Longsword",
+        "Shield"
+      ],
+      "cr": "4",
+      "xp": 1100,
+      "proficiency_bonus": 2,
+      "skills": {
+        "athletics": 6,
+        "perception": 4
+      },
+      "traits": [],
+      "actions": [
+        {
+          "id": "multiattack",
+          "name": "Multiattack",
+          "text": "Multiattack. The guard makes two attacks, using Javelin or Longsword in any combination.",
+          "key": "action/multiattack",
+          "effects": [
+            {
+              "key": "action/melee-attack",
+              "name": "Attack",
+              "text": "The guard makes two attacks, using Javelin or Longsword in any combination"
+            },
+            {
+              "key": "action/melee-or-ranged-attack",
+              "name": "Attack",
+              "text": "using Javelin"
+            },
+            {
+              "key": "multiattack/any-combination",
+              "name": "Any combination",
+              "text": "in any combination"
+            }
+          ]
+        },
+        {
+          "id": "javelin",
+          "name": "Javelin",
+          "text": "Javelin. Melee or Ranged Attack Roll: +6, reach 5 ft. or range 30/120 ft. Hit: 14 (3d6 + 4) Piercing damage.",
+          "key": "action/melee-or-ranged-attack",
+          "effects": [
+            {
+              "key": "effect/piercing-damage",
+              "name": "Piercing damage",
+              "text": "14 (3d6 + 4) Piercing damage",
+              "dice": {
+                "average": 14,
+                "dice": 3,
+                "sides": 6,
+                "modifier": 4
+              }
+            }
+          ]
+        },
+        {
+          "id": "longsword",
+          "name": "Longsword",
+          "text": "Longsword. Melee Attack Roll: +6, reach 5 ft. Hit: 15 (2d10 + 4) Slashing damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 6,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 15,
+              "dice": 2,
+              "sides": 10,
+              "modifier": 4
+            },
+            "damage_type": "slashing"
+          },
+          "effects": [
+            {
+              "key": "effect/slashing-damage",
+              "name": "Slashing damage",
+              "text": "15 (2d10 + 4) Slashing damage.",
+              "dice": {
+                "average": 15,
+                "dice": 2,
+                "sides": 10,
+                "modifier": 4
+              }
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/skills",
+        "action/multiattack",
+        "action/melee-attack",
+        "action/melee-or-ranged-attack",
+        "multiattack/any-combination",
+        "effect/piercing-damage",
+        "effect/slashing-damage"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/guardian-naga",
+      "name": "Guardian Naga",
+      "source_pages": [
+        296,
+        296
+      ],
+      "sizes": [
+        "large"
+      ],
+      "type": "celestial",
+      "alignment": "Lawful Good",
+      "ac": 18,
+      "initiative": {
+        "modifier": 4,
+        "score": 14
+      },
+      "hp": {
+        "average": 136,
+        "dice": 16,
+        "sides": 10,
+        "modifier": 48
+      },
+      "speeds": {
+        "walk": 40,
+        "climb": 40,
+        "swim": 40
+      },
+      "abilities": {
+        "str": {
+          "score": 19,
+          "modifier": 4,
+          "save": 4
+        },
+        "dex": {
+          "score": 18,
+          "modifier": 4,
+          "save": 8
+        },
+        "con": {
+          "score": 16,
+          "modifier": 3,
+          "save": 7
+        },
+        "int": {
+          "score": 16,
+          "modifier": 3,
+          "save": 7
+        },
+        "wis": {
+          "score": 19,
+          "modifier": 4,
+          "save": 8
+        },
+        "cha": {
+          "score": 18,
+          "modifier": 4,
+          "save": 8
+        }
+      },
+      "senses": {
+        "passive_perception": 14,
+        "special": {
+          "darkvision": 60
+        }
+      },
+      "languages": [
+        "Celestial",
+        "Common"
+      ],
+      "gear": [],
+      "cr": "10",
+      "xp": 5900,
+      "proficiency_bonus": 4,
+      "skills": {
+        "arcana": 11,
+        "history": 11,
+        "religion": 11
+      },
+      "immunities": [
+        "poison"
+      ],
+      "condition_immunities": [
+        "charmed",
+        "paralyzed",
+        "poisoned",
+        "restrained"
+      ],
+      "traits": [
+        {
+          "key": "trait/celestial-restoration",
+          "name": "Celestial Restoration",
+          "text": "Celestial Restoration. If the naga dies, it returns to life in 1d6 days and regains all its Hit Points unless Dispel Evil and Good is cast on its remains.",
+          "requires": [
+            "effect/revive",
+            "effect/revival-delay",
+            "requirement/not-under-dispel-evil-and-good",
+            "spell/dispel-evil-and-good"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "multiattack",
+          "name": "Multiattack",
+          "text": "Multiattack. The naga makes two Bite attacks. It can replace any attack with a use of Poisonous Spittle.",
+          "key": "action/multiattack",
+          "effects": [
+            {
+              "key": "action/melee-attack",
+              "name": "Attack",
+              "text": "The naga makes two Bite attacks"
+            },
+            {
+              "key": "multiattack/replace-attack",
+              "name": "Replace attack",
+              "text": "It can replace any attack with a use of Poisonous Spittle"
+            },
+            {
+              "key": "action/saving-throw",
+              "name": "Saving throw",
+              "text": "a use of Poisonous Spittle"
+            }
+          ]
+        },
+        {
+          "id": "bite",
+          "name": "Bite",
+          "text": "Bite. Melee Attack Roll: +8, reach 10 ft. Hit: 17 (2d12 + 4) Piercing damage plus 22 (4d10) Poison damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 8,
+            "reach": 10,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 17,
+              "dice": 2,
+              "sides": 12,
+              "modifier": 4
+            },
+            "damage_type": "piercing"
+          },
+          "effects": [
+            {
+              "key": "effect/piercing-damage",
+              "name": "Piercing damage",
+              "text": "17 (2d12 + 4) Piercing damage.",
+              "dice": {
+                "average": 17,
+                "dice": 2,
+                "sides": 12,
+                "modifier": 4
+              }
+            },
+            {
+              "key": "effect/poison-damage",
+              "name": "Poison damage",
+              "text": "22 (4d10) Poison damage",
+              "dice": {
+                "average": 22,
+                "dice": 4,
+                "sides": 10,
+                "modifier": 0
+              }
+            }
+          ]
+        },
+        {
+          "id": "poisonous-spittle",
+          "name": "Poisonous Spittle",
+          "text": "Poisonous Spittle. Constitution Saving Throw: DC 16, one creature the naga can see within 60 feet. Failure: 31 (7d8) Poison damage, and the target has the Blinded condition until the start of the naga’s next turn. Success: Half damage only.",
+          "key": "action/saving-throw",
+          "save": {
+            "ability": "con",
+            "dc": 16
+          },
+          "target": {
+            "shape": "creature",
+            "size": 0,
+            "width": 0,
+            "range": 60
+          },
+          "effects": [
+            {
+              "key": "save/con",
+              "name": "Constitution Saving Throw",
+              "text": "Constitution Saving Throw: DC 16"
+            },
+            {
+              "key": "target/creature",
+              "name": "Target",
+              "text": "one creature the naga can see within 60 feet."
+            },
+            {
+              "key": "effect/poison-damage",
+              "name": "Poison damage",
+              "text": "31 (7d8) Poison damage",
+              "dice": {
+                "average": 31,
+                "dice": 7,
+                "sides": 8,
+                "modifier": 0
+              }
+            },
+            {
+              "key": "condition/blinded",
+              "name": "Blinded",
+              "text": "the target has the Blinded condition until the start of the naga’s next turn"
+            },
+            {
+              "key": "save/half-damage",
+              "name": "Half damage",
+              "text": "Success: Half damage only."
+            }
+          ]
+        },
+        {
+          "id": "spellcasting",
+          "name": "Spellcasting",
+          "text": "Spellcasting. The naga casts one of the following spells, requiring no Somatic or Material components and using Wisdom as the spellcasting ability (spell save DC 16): At Will: Thaumaturgy 1/Day Each: Clairvoyance, Cure Wounds (level 6 version), Flame Strike (level 6 version), Geas, True Seeing",
+          "key": "action/spellcasting",
+          "spellcasting": {
+            "ability": "wis",
+            "save_dc": 16,
+            "attack_bonus": 0,
+            "at_will": [
+              "Thaumaturgy"
+            ],
+            "per_day": [
+              {
+                "uses": 1,
+                "spells": [
+                  "Clairvoyance",
+                  "Cure Wounds (level 6 version)",
+                  "Flame Strike (level 6 version)",
+                  "Geas",
+                  "True Seeing"
+                ]
+              }
+            ]
+          },
+          "effects": [
+            {
+              "key": "spellcasting/no-somatic-or-material-components",
+              "name": "No Somatic or Material components",
+              "text": "requiring no Somatic or Material components"
+            },
+            {
+              "key": "spell/thaumaturgy",
+              "name": "Thaumaturgy",
+              "text": "Thaumaturgy",
+              "requires": [
+                "spellcasting/at-will"
+              ]
+            },
+            {
+              "key": "spell/clairvoyance",
+              "name": "Clairvoyance",
+              "text": "Clairvoyance",
+              "requires": [
+                "limit/per-day"
+              ]
+            },
+            {
+              "key": "spell/cure-wounds",
+              "name": "Cure Wounds",
+              "text": "Cure Wounds (level 6 version)",
+              "requires": [
+                "limit/per-day"
+              ]
+            },
+            {
+              "key": "spell/flame-strike",
+              "name": "Flame Strike",
+              "text": "Flame Strike (level 6 version)",
+              "requires": [
+                "limit/per-day"
+              ]
+            },
+            {
+              "key": "spell/geas",
+              "name": "Geas",
+              "text": "Geas",
+              "requires": [
+                "limit/per-day"
+              ]
+            },
+            {
+              "key": "spell/true-seeing",
+              "name": "True Seeing",
+              "text": "True Seeing",
+              "requires": [
+                "limit/per-day"
+              ]
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/skills",
+        "defense/damage-immunity",
+        "defense/condition-immunity",
+        "movement/climb",
+        "movement/swim",
+        "sense/darkvision",
+        "trait/celestial-restoration",
+        "effect/revive",
+        "effect/revival-delay",
+        "requirement/not-under-dispel-evil-and-good",
+        "spell/dispel-evil-and-good",
+        "action/multiattack",
+        "action/melee-attack",
+        "multiattack/replace-attack",
+        "action/saving-throw",
+        "effect/piercing-damage",
+        "effect/poison-damage",
+        "save/con",
+        "target/creature",
+        "condition/blinded",
+        "save/half-damage",
+        "action/spellcasting",
+        "spellcasting/no-somatic-or-material-components",
+        "spell/thaumaturgy",
+        "spellcasting/at-will",
+        "spell/clairvoyance",
+        "limit/per-day",
+        "spell/cure-wounds",
+        "spell/flame-strike",
+        "spell/geas",
+        "spell/true-seeing"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/half-dragon",
+      "name": "Half-Dragon",
+      "source_pages": [
+        297,
+        297
+      ],
+      "sizes": [
+        "medium"
+      ],
+      "type": "dragon",
+      "alignment": "Neutral",
+      "ac": 18,
+      "initiative": {
+        "modifier": 5,
+        "score": 15
+      },
+      "hp": {
+        "average": 105,
+        "dice": 14,
+        "sides": 8,
+        "modifier": 42
+      },
+      "speeds": {
+        "walk": 40
+      },
+      "abilities": {
+        "str": {
+          "score": 19,
+          "modifier": 4,
+          "save": 4
+        },
+        "dex": {
+          "score": 14,
+          "modifier": 2,
+          "save": 5
+        },
+        "con": {
+          "score": 16,
+          "modifier": 3,
+          "save": 3
+        },
+        "int": {
+          "score": 10,
+          "modifier": 0,
+          "save": 0
+        },
+        "wis": {
+          "score": 15,
+          "modifier": 2,
+          "save": 5
+        },
+        "cha": {
+          "score": 14,
+          "modifier": 2,
+          "save": 2
+        }
+      },
+      "senses": {
+        "passive_perception": 15,
+        "special": {
+          "blindsight": 10,
+          "darkvision": 60
+        }
+      },
+      "languages": [
+        "Common",
+        "Draconic"
+      ],
+      "gear": [],
+      "cr": "5",
+      "xp": 1800,
+      "proficiency_bonus": 3,
+      "skills": {
+        "athletics": 7,
+        "perception": 5,
+        "stealth": 5
+      },
+      "resistance_note": "Damage type chosen for the Draconic Origin trait below",
+      "traits": [
+        {
+          "key": "trait/draconic-origin",
+          "name": "Draconic Origin",
+          "text": "Draconic Origin. The half-dragon is related to a type of dragon associated with one of the following damage types (GM’s choice): Acid, Cold, Fire, Lightning, or Poison. This choice affects other aspects of the stat block.",
+          "requires": [
+            "effect/gm-chosen-damage-type",
+            "effect/chosen-type-modifies-stat-block"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "multiattack",
+          "name": "Multiattack",
+          "text": "Multiattack. The half-dragon makes two Claw attacks.",
+          "key": "action/multiattack",
+          "effects": [
+            {
+              "key": "action/melee-attack",
+              "name": "Attack",
+              "text": "The half-dragon makes two Claw attacks"
+            }
+          ]
+        },
+        {
+          "id": "claw",
+          "name": "Claw",
+          "text": "Claw. Melee Attack Roll: +7, reach 10 ft. Hit: 6 (1d4 + 4) Slashing damage plus 7 (2d6) damage of the type chosen for the Draconic Origin trait.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 7,
+            "reach": 10,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 6,
+              "dice": 1,
+              "sides": 4,
+              "modifier": 4
+            },
+            "damage_type": "slashing"
+          },
+          "effects": [
+            {
+              "key": "effect/slashing-damage",
+              "name": "Slashing damage",
+              "text": "6 (1d4 + 4) Slashing damage.",
+              "dice": {
+                "average": 6,
+                "dice": 1,
+                "sides": 4,
+                "modifier": 4
+              }
+            },
+            {
+              "key": "effect/chosen-type-damage",
+              "name": "Chosen type damage",
+              "text": "7 (2d6) damage of the type chosen for the Draconic Origin trait",
+              "dice": {
+                "average": 7,
+                "dice": 2,
+                "sides": 6,
+                "modifier": 0
+              }
+            }
+          ]
+        },
+        {
+          "id": "dragons-breath",
+          "name": "Dragon’s Breath",
+          "text": "Dragon’s Breath (Recharge 5–6). Dexterity Saving Throw: DC 14, each creature in a 30-foot Cone. Failure: 28 (8d6) damage of the type chosen for the Draconic Origin trait. Success: Half damage.",
+          "key": "action/saving-throw",
+          "save": {
+            "ability": "dex",
+            "dc": 14
+          },
+          "target": {
+            "shape": "cone",
+            "size": 30,
+            "width": 0,
+            "range": 0
+          },
+          "uses": {
+            "per_day": 0,
+            "lair_per_day": 0,
+            "recharge": 5
+          },
+          "effects": [
+            {
+              "key": "limit/recharge",
+              "name": "Recharge",
+              "text": "(Recharge 5–6)"
+            },
+            {
+              "key": "save/dex",
+              "name": "Dexterity Saving Throw",
+              "text": "Dexterity Saving Throw: DC 14"
+            },
+            {
+              "key": "area/cone",
+              "name": "Target",
+              "text": "each creature in a 30-foot Cone."
+            },
+            {
+              "key": "effect/chosen-type-damage",
+              "name": "Chosen type damage",
+              "text": "28 (8d6) damage of the type chosen for the Draconic Origin trait",
+              "dice": {
+                "average": 28,
+                "dice": 8,
+                "sides": 6,
+                "modifier": 0
+              }
+            },
+            {
+              "key": "save/half-damage",
+              "name": "Half damage",
+              "text": "Success: Half damage."
+            }
+          ]
+        }
+      ],
+      "bonus_actions": [
+        {
+          "id": "leap",
+          "name": "Leap",
+          "text": "Leap. The half-dragon jumps up to 30 feet by spending 10 feet of movement.",
+          "key": "action/special",
+          "effects": [
+            {
+              "key": "effect/jump",
+              "name": "Jump",
+              "text": "The half-dragon jumps up to 30 feet by spending 10 feet of movement"
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/skills",
+        "defense/chosen-damage-resistance",
+        "sense/blindsight",
+        "sense/darkvision",
+        "action/bonus-action",
+        "trait/draconic-origin",
+        "effect/gm-chosen-damage-type",
+        "effect/chosen-type-modifies-stat-block",
+        "action/multiattack",
+        "action/melee-attack",
+        "effect/slashing-damage",
+        "effect/chosen-type-damage",
+        "action/saving-throw",
+        "limit/recharge",
+        "save/dex",
+        "area/cone",
+        "save/half-damage",
+        "action/special",
+        "effect/jump"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/harpy",
+      "name": "Harpy",
+      "source_pages": [
+        297,
+        297
+      ],
+      "sizes": [
+        "medium"
+      ],
+      "type": "monstrosity",
+      "alignment": "Chaotic Evil",
+      "ac": 11,
+      "initiative": {
+        "modifier": 1,
+        "score": 11
+      },
+      "hp": {
+        "average": 38,
+        "dice": 7,
+        "sides": 8,
+        "modifier": 7
+      },
+      "speeds": {
+        "walk": 20,
+        "fly": 40
+      },
+      "abilities": {
+        "str": {
+          "score": 12,
+          "modifier": 1,
+          "save": 1
+        },
+        "dex": {
+          "score": 13,
+          "modifier": 1,
+          "save": 1
+        },
+        "con": {
+          "score": 12,
+          "modifier": 1,
+          "save": 1
+        },
+        "int": {
+          "score": 7,
+          "modifier": -2,
+          "save": -2
+        },
+        "wis": {
+          "score": 10,
+          "modifier": 0,
+          "save": 0
+        },
+        "cha": {
+          "score": 13,
+          "modifier": 1,
+          "save": 1
+        }
+      },
+      "senses": {
+        "passive_perception": 10,
+        "special": {}
+      },
+      "languages": [
+        "Common"
+      ],
+      "gear": [],
+      "cr": "1",
+      "xp": 200,
+      "proficiency_bonus": 2,
+      "traits": [],
+      "actions": [
+        {
+          "id": "claw",
+          "name": "Claw",
+          "text": "Claw. Melee Attack Roll: +3, reach 5 ft. Hit: 6 (2d4 + 1) Slashing damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 3,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 6,
+              "dice": 2,
+              "sides": 4,
+              "modifier": 1
+            },
+            "damage_type": "slashing"
+          },
+          "effects": [
+            {
+              "key": "effect/slashing-damage",
+              "name": "Slashing damage",
+              "text": "6 (2d4 + 1) Slashing damage.",
+              "dice": {
+                "average": 6,
+                "dice": 2,
+                "sides": 4,
+                "modifier": 1
+              }
+            }
+          ]
+        },
+        {
+          "id": "luring-song",
+          "name": "Luring Song",
+          "text": "Luring Song. The harpy sings a magical melody, which lasts until the harpy’s Concentration ends on it. Wisdom Saving Throw: DC 11, each Humanoid and Giant in a 300-foot Emanation originating from the harpy when the song starts. Failure: The target has the Charmed condition until the song ends and repeats the save at the end of each of its turns. While Charmed, the target has the Incapacitated condition and ignores the Luring Song of other harpies. If the target is more than 5 feet from the harpy, the target moves on its turn toward the harpy by the most direct route, trying to get within 5 feet of the harpy. It doesn’t avoid Opportunity Attacks; however, before moving into damaging terrain (such as lava or a pit) and whenever it takes damage from a source other than the harpy, the target repeats the save. Success: The target is immune to this harpy’s Luring Song for 24 hours.",
+          "key": "action/special",
+          "save": {
+            "ability": "wis",
+            "dc": 11
+          },
+          "target": {
+            "shape": "emanation",
+            "size": 300,
+            "width": 0,
+            "range": 0
+          },
+          "effects": [
+            {
+              "key": "effect/magical-song",
+              "name": "Magical song",
+              "text": "The harpy sings a magical melody"
+            },
+            {
+              "key": "effect/concentration",
+              "name": "Concentration",
+              "text": "which lasts until the harpy’s Concentration ends on it"
+            },
+            {
+              "key": "save/wis",
+              "name": "Wisdom Saving Throw",
+              "text": "Wisdom Saving Throw: DC 11"
+            },
+            {
+              "key": "area/emanation",
+              "name": "Target",
+              "text": "each Humanoid and Giant in a 300-foot Emanation originating from the harpy when the song starts."
+            },
+            {
+              "key": "target/humanoids-and-giants",
+              "name": "Humanoids and giants",
+              "text": "each Humanoid and Giant"
+            },
+            {
+              "key": "condition/charmed",
+              "name": "Charmed",
+              "text": "The target has the Charmed condition until the song ends"
+            },
+            {
+              "key": "save/repeat",
+              "name": "Repeat",
+              "text": "repeats the save at the end of each of its turns"
+            },
+            {
+              "key": "condition/incapacitated",
+              "name": "Incapacitated",
+              "text": "While Charmed, the target has the Incapacitated condition"
+            },
+            {
+              "key": "effect/ignore-other-harpy-songs",
+              "name": "Ignore other harpy songs",
+              "text": "ignores the Luring Song of other harpies"
+            },
+            {
+              "key": "effect/forced-movement-toward-source",
+              "name": "Forced movement toward source",
+              "text": "If the target is more than 5 feet from the harpy, the target moves on its turn toward the harpy by the most direct route, trying to get within 5 feet of the harpy"
+            },
+            {
+              "key": "effect/no-opportunity-attack-avoidance",
+              "name": "No opportunity attack avoidance",
+              "text": "It doesn’t avoid Opportunity Attacks"
+            },
+            {
+              "key": "save/repeat-before-hazard-or-on-damage",
+              "name": "Repeat before hazard or on damage",
+              "text": "however, before moving into damaging terrain (such as lava or a pit) and whenever it takes damage from a source other than the harpy, the target repeats the save"
+            },
+            {
+              "key": "save/success-immunity",
+              "name": "Success immunity",
+              "text": "Success: The target is immune to this harpy’s Luring Song for 24 hours"
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "movement/fly",
+        "action/melee-attack",
+        "effect/slashing-damage",
+        "action/special",
+        "save/wis",
+        "area/emanation",
+        "effect/magical-song",
+        "effect/concentration",
+        "target/humanoids-and-giants",
+        "condition/charmed",
+        "save/repeat",
+        "condition/incapacitated",
+        "effect/ignore-other-harpy-songs",
+        "effect/forced-movement-toward-source",
+        "effect/no-opportunity-attack-avoidance",
+        "save/repeat-before-hazard-or-on-damage",
+        "save/success-immunity"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/animals/hawk",
+      "name": "Hawk",
+      "source_pages": [
+        355,
+        355
+      ],
+      "sizes": [
+        "tiny"
+      ],
+      "type": "beast",
+      "alignment": "Unaligned",
+      "ac": 13,
+      "initiative": {
+        "modifier": 3,
+        "score": 13
+      },
+      "hp": {
+        "average": 1,
+        "dice": 1,
+        "sides": 4,
+        "modifier": -1
+      },
+      "speeds": {
+        "walk": 10,
+        "fly": 60
+      },
+      "abilities": {
+        "str": {
+          "score": 5,
+          "modifier": -3,
+          "save": -3
+        },
+        "dex": {
+          "score": 16,
+          "modifier": 3,
+          "save": 3
+        },
+        "con": {
+          "score": 8,
+          "modifier": -1,
+          "save": -1
+        },
+        "int": {
+          "score": 2,
+          "modifier": -4,
+          "save": -4
+        },
+        "wis": {
+          "score": 14,
+          "modifier": 2,
+          "save": 2
+        },
+        "cha": {
+          "score": 6,
+          "modifier": -2,
+          "save": -2
+        }
+      },
+      "senses": {
+        "passive_perception": 16,
+        "special": {}
+      },
+      "languages": [],
+      "gear": [],
+      "cr": "0",
+      "xp": 10,
+      "proficiency_bonus": 2,
+      "skills": {
+        "perception": 6
+      },
+      "traits": [],
+      "actions": [
+        {
+          "id": "talons",
+          "name": "Talons",
+          "text": "Talons. Melee Attack Roll: +5, reach 5 ft. Hit: 1 Slashing damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 5,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 1,
+              "dice": 0,
+              "sides": 0,
+              "modifier": 0
+            },
+            "damage_type": "slashing"
+          },
+          "effects": [
+            {
+              "key": "effect/slashing-damage",
+              "name": "Slashing damage",
+              "text": "Hit: 1 Slashing damage.",
+              "requires": [
+                "damage/fixed"
+              ]
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/skills",
+        "movement/fly",
+        "action/melee-attack",
+        "effect/slashing-damage",
+        "damage/fixed"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/hell-hound",
+      "name": "Hell Hound",
+      "source_pages": [
+        297,
+        297
+      ],
+      "sizes": [
+        "medium"
+      ],
+      "type": "fiend",
+      "alignment": "Lawful Evil",
+      "ac": 15,
+      "initiative": {
+        "modifier": 1,
+        "score": 11
+      },
+      "hp": {
+        "average": 58,
+        "dice": 9,
+        "sides": 8,
+        "modifier": 18
+      },
+      "speeds": {
+        "walk": 50
+      },
+      "abilities": {
+        "str": {
+          "score": 17,
+          "modifier": 3,
+          "save": 3
+        },
+        "dex": {
+          "score": 12,
+          "modifier": 1,
+          "save": 1
+        },
+        "con": {
+          "score": 14,
+          "modifier": 2,
+          "save": 2
+        },
+        "int": {
+          "score": 6,
+          "modifier": -2,
+          "save": -2
+        },
+        "wis": {
+          "score": 13,
+          "modifier": 1,
+          "save": 1
+        },
+        "cha": {
+          "score": 6,
+          "modifier": -2,
+          "save": -2
+        }
+      },
+      "senses": {
+        "passive_perception": 15,
+        "special": {
+          "darkvision": 60
+        }
+      },
+      "languages": [
+        "Understands Infernal but can’t speak"
+      ],
+      "gear": [],
+      "cr": "3",
+      "xp": 700,
+      "proficiency_bonus": 2,
+      "skills": {
+        "perception": 5
+      },
+      "immunities": [
+        "fire"
+      ],
+      "traits": [
+        {
+          "key": "trait/pack-tactics",
+          "name": "Pack Tactics",
+          "text": "Pack Tactics. The hound has Advantage on an attack roll against a creature if at least one of the hound’s allies is within 5 feet of the creature and the ally doesn’t have the Incapacitated condition.",
+          "requires": [
+            "attack/advantage",
+            "requirement/ally-within-5-feet",
+            "requirement/ally-not-incapacitated"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "multiattack",
+          "name": "Multiattack",
+          "text": "Multiattack. The hound makes two Bite attacks.",
+          "key": "action/multiattack",
+          "effects": [
+            {
+              "key": "action/melee-attack",
+              "name": "Attack",
+              "text": "The hound makes two Bite attacks"
+            }
+          ]
+        },
+        {
+          "id": "bite",
+          "name": "Bite",
+          "text": "Bite. Melee Attack Roll: +5, reach 5 ft. Hit: 7 (1d8 + 3) Piercing damage plus 3 (1d6) Fire damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 5,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 7,
+              "dice": 1,
+              "sides": 8,
+              "modifier": 3
+            },
+            "damage_type": "piercing"
+          },
+          "effects": [
+            {
+              "key": "effect/piercing-damage",
+              "name": "Piercing damage",
+              "text": "7 (1d8 + 3) Piercing damage.",
+              "dice": {
+                "average": 7,
+                "dice": 1,
+                "sides": 8,
+                "modifier": 3
+              }
+            },
+            {
+              "key": "effect/fire-damage",
+              "name": "Fire damage",
+              "text": "3 (1d6) Fire damage",
+              "dice": {
+                "average": 3,
+                "dice": 1,
+                "sides": 6,
+                "modifier": 0
+              }
+            }
+          ]
+        },
+        {
+          "id": "fire-breath",
+          "name": "Fire Breath",
+          "text": "Fire Breath (Recharge 5–6). Dexterity Saving Throw: DC 12, each creature in a 15-foot Cone. Failure: 17 (5d6) Fire damage. Success: Half damage.",
+          "key": "action/saving-throw",
+          "save": {
+            "ability": "dex",
+            "dc": 12
+          },
+          "target": {
+            "shape": "cone",
+            "size": 15,
+            "width": 0,
+            "range": 0
+          },
+          "uses": {
+            "per_day": 0,
+            "lair_per_day": 0,
+            "recharge": 5
+          },
+          "effects": [
+            {
+              "key": "limit/recharge",
+              "name": "Recharge",
+              "text": "(Recharge 5–6)"
+            },
+            {
+              "key": "save/dex",
+              "name": "Dexterity Saving Throw",
+              "text": "Dexterity Saving Throw: DC 12"
+            },
+            {
+              "key": "area/cone",
+              "name": "Target",
+              "text": "each creature in a 15-foot Cone."
+            },
+            {
+              "key": "effect/fire-damage",
+              "name": "Fire damage",
+              "text": "17 (5d6) Fire damage",
+              "dice": {
+                "average": 17,
+                "dice": 5,
+                "sides": 6,
+                "modifier": 0
+              }
+            },
+            {
+              "key": "save/half-damage",
+              "name": "Half damage",
+              "text": "Success: Half damage."
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/skills",
+        "defense/damage-immunity",
+        "sense/darkvision",
+        "trait/pack-tactics",
+        "attack/advantage",
+        "requirement/ally-within-5-feet",
+        "requirement/ally-not-incapacitated",
+        "action/multiattack",
+        "action/melee-attack",
+        "effect/piercing-damage",
+        "effect/fire-damage",
+        "action/saving-throw",
+        "limit/recharge",
+        "save/dex",
+        "area/cone",
+        "save/half-damage"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/hezrou",
+      "name": "Hezrou",
+      "source_pages": [
+        298,
+        298
+      ],
+      "sizes": [
+        "large"
+      ],
+      "type": "fiend",
+      "alignment": "Chaotic Evil",
+      "ac": 18,
+      "initiative": {
+        "modifier": 6,
+        "score": 16
+      },
+      "hp": {
+        "average": 157,
+        "dice": 15,
+        "sides": 10,
+        "modifier": 75
+      },
+      "speeds": {
+        "walk": 30
+      },
+      "abilities": {
+        "str": {
+          "score": 19,
+          "modifier": 4,
+          "save": 7
+        },
+        "dex": {
+          "score": 17,
+          "modifier": 3,
+          "save": 3
+        },
+        "con": {
+          "score": 20,
+          "modifier": 5,
+          "save": 8
+        },
+        "int": {
+          "score": 5,
+          "modifier": -3,
+          "save": -3
+        },
+        "wis": {
+          "score": 12,
+          "modifier": 1,
+          "save": 4
+        },
+        "cha": {
+          "score": 13,
+          "modifier": 1,
+          "save": 1
+        }
+      },
+      "senses": {
+        "passive_perception": 11,
+        "special": {
+          "darkvision": 120
+        }
+      },
+      "languages": [
+        "Abyssal"
+      ],
+      "gear": [],
+      "cr": "8",
+      "xp": 3900,
+      "proficiency_bonus": 3,
+      "tags": [
+        "Demon"
+      ],
+      "resistances": [
+        "cold",
+        "fire",
+        "lightning"
+      ],
+      "immunities": [
+        "poison"
+      ],
+      "condition_immunities": [
+        "poisoned"
+      ],
+      "telepathy": 120,
+      "traits": [
+        {
+          "key": "trait/demonic-restoration",
+          "name": "Demonic Restoration",
+          "text": "Demonic Restoration. If the hezrou dies outside the Abyss, its body dissolves into ichor, and it gains a new body instantly, reviving with all its Hit Points somewhere in the Abyss.",
+          "requires": [
+            "effect/revive"
+          ]
+        },
+        {
+          "key": "trait/magic-resistance",
+          "name": "Magic Resistance",
+          "text": "Magic Resistance. The hezrou has Advantage on saving throws against spells and other magical effects.",
+          "requires": [
+            "save/advantage-against-magic"
+          ]
+        },
+        {
+          "key": "trait/stench",
+          "name": "Stench",
+          "text": "Stench. Constitution Saving Throw: DC 16, any creature that starts its turn in a 10-foot Emanation originating from the hezrou. Failure: The target has the Poisoned condition until the start of its next turn.",
+          "save": {
+            "ability": "con",
+            "dc": 16
+          },
+          "target": {
+            "shape": "emanation",
+            "size": 10,
+            "width": 0,
+            "range": 0
+          },
+          "requires": [
+            "save/con",
+            "area/emanation",
+            "target/creatures-starting-turn-in-area",
+            "condition/poisoned"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "multiattack",
+          "name": "Multiattack",
+          "text": "Multiattack. The hezrou makes three Rend attacks.",
+          "key": "action/multiattack",
+          "effects": [
+            {
+              "key": "action/melee-attack",
+              "name": "Attack",
+              "text": "The hezrou makes three Rend attacks"
+            }
+          ]
+        },
+        {
+          "id": "rend",
+          "name": "Rend",
+          "text": "Rend. Melee Attack Roll: +7, reach 5 ft. Hit: 6 (1d4 + 4) Slashing damage plus 9 (2d8) Poison damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 7,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 6,
+              "dice": 1,
+              "sides": 4,
+              "modifier": 4
+            },
+            "damage_type": "slashing"
+          },
+          "effects": [
+            {
+              "key": "effect/slashing-damage",
+              "name": "Slashing damage",
+              "text": "6 (1d4 + 4) Slashing damage.",
+              "dice": {
+                "average": 6,
+                "dice": 1,
+                "sides": 4,
+                "modifier": 4
+              }
+            },
+            {
+              "key": "effect/poison-damage",
+              "name": "Poison damage",
+              "text": "9 (2d8) Poison damage",
+              "dice": {
+                "average": 9,
+                "dice": 2,
+                "sides": 8,
+                "modifier": 0
+              }
+            }
+          ]
+        }
+      ],
+      "bonus_actions": [
+        {
+          "id": "leap",
+          "name": "Leap",
+          "text": "Leap. The hezrou jumps up to 30 feet by spending 10 feet of movement.",
+          "key": "action/special",
+          "effects": [
+            {
+              "key": "effect/jump",
+              "name": "Jump",
+              "text": "The hezrou jumps up to 30 feet by spending 10 feet of movement"
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "defense/damage-resistance",
+        "defense/damage-immunity",
+        "defense/condition-immunity",
+        "sense/darkvision",
+        "language/telepathy",
+        "action/bonus-action",
+        "trait/demonic-restoration",
+        "effect/revive",
+        "trait/magic-resistance",
+        "save/advantage-against-magic",
+        "trait/stench",
+        "save/con",
+        "area/emanation",
+        "target/creatures-starting-turn-in-area",
+        "condition/poisoned",
+        "action/multiattack",
+        "action/melee-attack",
+        "effect/slashing-damage",
+        "effect/poison-damage",
+        "action/special",
+        "effect/jump"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/hill-giant",
+      "name": "Hill Giant",
+      "source_pages": [
+        298,
+        298
+      ],
+      "sizes": [
+        "huge"
+      ],
+      "type": "giant",
+      "alignment": "Chaotic Evil",
+      "ac": 13,
+      "initiative": {
+        "modifier": 2,
+        "score": 12
+      },
+      "hp": {
+        "average": 105,
+        "dice": 10,
+        "sides": 12,
+        "modifier": 40
+      },
+      "speeds": {
+        "walk": 40
+      },
+      "abilities": {
+        "str": {
+          "score": 21,
+          "modifier": 5,
+          "save": 5
+        },
+        "dex": {
+          "score": 8,
+          "modifier": -1,
+          "save": -1
+        },
+        "con": {
+          "score": 19,
+          "modifier": 4,
+          "save": 4
+        },
+        "int": {
+          "score": 5,
+          "modifier": -3,
+          "save": -3
+        },
+        "wis": {
+          "score": 9,
+          "modifier": -1,
+          "save": -1
+        },
+        "cha": {
+          "score": 6,
+          "modifier": -2,
+          "save": -2
+        }
+      },
+      "senses": {
+        "passive_perception": 12,
+        "special": {}
+      },
+      "languages": [
+        "Giant"
+      ],
+      "gear": [],
+      "cr": "5",
+      "xp": 1800,
+      "proficiency_bonus": 3,
+      "skills": {
+        "perception": 2
+      },
+      "traits": [],
+      "actions": [
+        {
+          "id": "multiattack",
+          "name": "Multiattack",
+          "text": "Multiattack. The giant makes two attacks, using Tree Club or Trash Lob in any combination.",
+          "key": "action/multiattack",
+          "effects": [
+            {
+              "key": "action/melee-attack",
+              "name": "Attack",
+              "text": "The giant makes two attacks, using Tree Club or Trash Lob in any combination"
+            },
+            {
+              "key": "action/ranged-attack",
+              "name": "Attack",
+              "text": "using Tree Club or Trash Lob"
+            },
+            {
+              "key": "multiattack/any-combination",
+              "name": "Any combination",
+              "text": "in any combination"
+            }
+          ]
+        },
+        {
+          "id": "tree-club",
+          "name": "Tree Club",
+          "text": "Tree Club. Melee Attack Roll: +8, reach 10 ft. Hit: 18 (3d8 + 5) Bludgeoning damage. If the target is a Large or smaller creature, it has the Prone condition.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 8,
+            "reach": 10,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 18,
+              "dice": 3,
+              "sides": 8,
+              "modifier": 5
+            },
+            "damage_type": "bludgeoning"
+          },
+          "effects": [
+            {
+              "key": "effect/bludgeoning-damage",
+              "name": "Bludgeoning damage",
+              "text": "18 (3d8 + 5) Bludgeoning damage.",
+              "dice": {
+                "average": 18,
+                "dice": 3,
+                "sides": 8,
+                "modifier": 5
+              }
+            },
+            {
+              "key": "requirement/target-size",
+              "name": "Target size",
+              "text": "If the target is a Large or smaller creature"
+            },
+            {
+              "key": "condition/prone",
+              "name": "Prone",
+              "text": "it has the Prone condition"
+            }
+          ]
+        },
+        {
+          "id": "trash-lob",
+          "name": "Trash Lob",
+          "text": "Trash Lob. Ranged Attack Roll: +8, range 60/240 ft. Hit: 16 (2d10 + 5) Bludgeoning damage, and the target has the Poisoned condition until the end of its next turn.",
+          "key": "action/ranged-attack",
+          "attack": {
+            "kind": "ranged",
+            "bonus": 8,
+            "reach": 0,
+            "range": 60,
+            "long_range": 240,
+            "damage": {
+              "average": 16,
+              "dice": 2,
+              "sides": 10,
+              "modifier": 5
+            },
+            "damage_type": "bludgeoning"
+          },
+          "effects": [
+            {
+              "key": "effect/bludgeoning-damage",
+              "name": "Bludgeoning damage",
+              "text": "16 (2d10 + 5) Bludgeoning damage.",
+              "dice": {
+                "average": 16,
+                "dice": 2,
+                "sides": 10,
+                "modifier": 5
+              }
+            },
+            {
+              "key": "condition/poisoned",
+              "name": "Poisoned",
+              "text": "the target has the Poisoned condition until the end of its next turn"
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/skills",
+        "action/multiattack",
+        "action/melee-attack",
+        "action/ranged-attack",
+        "multiattack/any-combination",
+        "effect/bludgeoning-damage",
+        "requirement/target-size",
+        "condition/prone",
+        "condition/poisoned"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/hippogriff",
+      "name": "Hippogriff",
+      "source_pages": [
+        298,
+        298
+      ],
+      "sizes": [
+        "large"
+      ],
+      "type": "monstrosity",
+      "alignment": "Unaligned",
+      "ac": 11,
+      "initiative": {
+        "modifier": 1,
+        "score": 11
+      },
+      "hp": {
+        "average": 26,
+        "dice": 4,
+        "sides": 10,
+        "modifier": 4
+      },
+      "speeds": {
+        "walk": 40,
+        "fly": 60
+      },
+      "abilities": {
+        "str": {
+          "score": 17,
+          "modifier": 3,
+          "save": 3
+        },
+        "dex": {
+          "score": 13,
+          "modifier": 1,
+          "save": 1
+        },
+        "con": {
+          "score": 13,
+          "modifier": 1,
+          "save": 1
+        },
+        "int": {
+          "score": 2,
+          "modifier": -4,
+          "save": -4
+        },
+        "wis": {
+          "score": 12,
+          "modifier": 1,
+          "save": 1
+        },
+        "cha": {
+          "score": 8,
+          "modifier": -1,
+          "save": -1
+        }
+      },
+      "senses": {
+        "passive_perception": 15,
+        "special": {}
+      },
+      "languages": [],
+      "gear": [],
+      "cr": "1",
+      "xp": 200,
+      "proficiency_bonus": 2,
+      "skills": {
+        "perception": 5
+      },
+      "traits": [
+        {
+          "key": "trait/flyby",
+          "name": "Flyby",
+          "text": "Flyby. The hippogriff doesn’t provoke an Opportunity Attack when it flies out of an enemy’s reach.",
+          "requires": [
+            "effect/no-opportunity-attack-flying-out"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "multiattack",
+          "name": "Multiattack",
+          "text": "Multiattack. The hippogriff makes two Rend attacks.",
+          "key": "action/multiattack",
+          "effects": [
+            {
+              "key": "action/melee-attack",
+              "name": "Attack",
+              "text": "The hippogriff makes two Rend attacks"
+            }
+          ]
+        },
+        {
+          "id": "rend",
+          "name": "Rend",
+          "text": "Rend. Melee Attack Roll: +5, reach 5 ft. Hit: 7 (1d8 + 3) Slashing damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 5,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 7,
+              "dice": 1,
+              "sides": 8,
+              "modifier": 3
+            },
+            "damage_type": "slashing"
+          },
+          "effects": [
+            {
+              "key": "effect/slashing-damage",
+              "name": "Slashing damage",
+              "text": "7 (1d8 + 3) Slashing damage.",
+              "dice": {
+                "average": 7,
+                "dice": 1,
+                "sides": 8,
+                "modifier": 3
+              }
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/skills",
+        "movement/fly",
+        "trait/flyby",
+        "effect/no-opportunity-attack-flying-out",
+        "action/multiattack",
+        "action/melee-attack",
+        "effect/slashing-damage"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/animals/hippopotamus",
+      "name": "Hippopotamus",
+      "source_pages": [
+        355,
+        356
+      ],
+      "sizes": [
+        "large"
+      ],
+      "type": "beast",
+      "alignment": "Unaligned",
+      "ac": 14,
+      "initiative": {
+        "modifier": -2,
+        "score": 8
+      },
+      "hp": {
+        "average": 82,
+        "dice": 11,
+        "sides": 10,
+        "modifier": 22
+      },
+      "speeds": {
+        "walk": 30,
+        "swim": 30
+      },
+      "abilities": {
+        "str": {
+          "score": 21,
+          "modifier": 5,
+          "save": 7
+        },
+        "dex": {
+          "score": 7,
+          "modifier": -2,
+          "save": -2
+        },
+        "con": {
+          "score": 15,
+          "modifier": 2,
+          "save": 2
+        },
+        "int": {
+          "score": 2,
+          "modifier": -4,
+          "save": -4
+        },
+        "wis": {
+          "score": 12,
+          "modifier": 1,
+          "save": 1
+        },
+        "cha": {
+          "score": 4,
+          "modifier": -3,
+          "save": -3
+        }
+      },
+      "senses": {
+        "passive_perception": 13,
+        "special": {}
+      },
+      "languages": [],
+      "gear": [],
+      "cr": "4",
+      "xp": 1100,
+      "proficiency_bonus": 2,
+      "skills": {
+        "perception": 3
+      },
+      "traits": [
+        {
+          "key": "trait/hold-breath",
+          "name": "Hold Breath",
+          "text": "Hold Breath. The hippopotamus can hold its breath for 10 minutes.",
+          "requires": [
+            "effect/hold-breath"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "multiattack",
+          "name": "Multiattack",
+          "text": "Multiattack. The hippopotamus makes two Bite attacks.",
+          "key": "action/multiattack",
+          "effects": [
+            {
+              "key": "action/melee-attack",
+              "name": "Attack",
+              "text": "The hippopotamus makes two Bite attacks"
+            }
+          ]
+        },
+        {
+          "id": "bite",
+          "name": "Bite",
+          "text": "Bite. Melee Attack Roll: +7, reach 5 ft. Hit: 16 (2d10 + 5) Piercing damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 7,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 16,
+              "dice": 2,
+              "sides": 10,
+              "modifier": 5
+            },
+            "damage_type": "piercing"
+          },
+          "effects": [
+            {
+              "key": "effect/piercing-damage",
+              "name": "Piercing damage",
+              "text": "16 (2d10 + 5) Piercing damage.",
+              "dice": {
+                "average": 16,
+                "dice": 2,
+                "sides": 10,
+                "modifier": 5
+              }
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/skills",
+        "movement/swim",
+        "trait/hold-breath",
+        "effect/hold-breath",
+        "action/multiattack",
+        "action/melee-attack",
+        "effect/piercing-damage"
+      ]
+    }
+  ]
+}

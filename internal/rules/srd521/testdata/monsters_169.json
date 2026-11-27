@@ -1,0 +1,2547 @@
+{
+  "schema_version": 1,
+  "source": {
+    "version": "5.2.1",
+    "language": "en",
+    "landing_url": "https://www.dndbeyond.com/srd",
+    "artifact_url": "https://media.dndbeyond.com/compendium-images/srd/5.2/SRD_CC_v5.2.1.pdf",
+    "sha256": "8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87",
+    "bytes": 6031375,
+    "pages": 364,
+    "retrieved_at": "2026-11-15",
+    "license": "CC-BY-4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/legalcode",
+    "attribution": "This work includes material from the System Reference Document 5.2.1 (“SRD 5.2.1”) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd. The SRD 5.2.1 is licensed under the Creative Commons Attribution 4.0 International License, available at https://creativecommons.org/licenses/by/4.0/legalcode.",
+    "changes": "Adapted the twelve stat blocks of issue #169 (Otyugh, Owl, Owlbear, Panther, Pegasus, Phase Spider, Piranha, Pirate, Pirate Captain, Pit Fiend, Planetar and Plesiosaurus; PDF pages 313–315 and 358–359) into typed mechanical fields and implementation keys. Trait, action, bonus action and reaction entries keep their source rules text, rejoined across line, column and page breaks; descriptive prose outside the stat blocks is omitted. A hit printed without dice keeps explicit zero dice. No playable NPC behavior is granted."
+  },
+  "monsters": [
+    {
+      "id": "srd-5.2.1:content/monsters/otyugh",
+      "name": "Otyugh",
+      "source_pages": [
+        313,
+        313
+      ],
+      "sizes": [
+        "large"
+      ],
+      "type": "aberration",
+      "alignment": "Neutral",
+      "ac": 14,
+      "initiative": {
+        "modifier": 0,
+        "score": 10
+      },
+      "hp": {
+        "average": 104,
+        "dice": 11,
+        "sides": 10,
+        "modifier": 44
+      },
+      "speeds": {
+        "walk": 30
+      },
+      "abilities": {
+        "str": {
+          "score": 16,
+          "modifier": 3,
+          "save": 3
+        },
+        "dex": {
+          "score": 11,
+          "modifier": 0,
+          "save": 0
+        },
+        "con": {
+          "score": 19,
+          "modifier": 4,
+          "save": 7
+        },
+        "int": {
+          "score": 6,
+          "modifier": -2,
+          "save": -2
+        },
+        "wis": {
+          "score": 13,
+          "modifier": 1,
+          "save": 1
+        },
+        "cha": {
+          "score": 6,
+          "modifier": -2,
+          "save": -2
+        }
+      },
+      "senses": {
+        "passive_perception": 11,
+        "special": {
+          "darkvision": 120
+        }
+      },
+      "languages": [
+        "Otyugh"
+      ],
+      "gear": [],
+      "cr": "5",
+      "xp": 1800,
+      "proficiency_bonus": 3,
+      "telepathy": 120,
+      "telepathy_note": "doesn’t allow the receiving creature to respond telepathically",
+      "traits": [],
+      "actions": [
+        {
+          "id": "multiattack",
+          "name": "Multiattack",
+          "text": "Multiattack. The otyugh makes one Bite attack and two Tentacle attacks.",
+          "key": "action/multiattack",
+          "effects": [
+            {
+              "key": "action/melee-attack",
+              "name": "Attack",
+              "text": "The otyugh makes one Bite attack and two Tentacle attacks"
+            }
+          ]
+        },
+        {
+          "id": "bite",
+          "name": "Bite",
+          "text": "Bite. Melee Attack Roll: +6, reach 5 ft. Hit: 12 (2d8 + 3) Piercing damage, and the target has the Poisoned condition. Whenever the Poisoned target finishes a Long Rest, it is subjected to the following effect. Constitution Saving Throw: DC 15. Failure: The target’s Hit Point maximum decreases by 5 (1d10) and doesn’t return to normal until the Poisoned condition ends on the target. Success: The Poisoned condition ends.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 6,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 12,
+              "dice": 2,
+              "sides": 8,
+              "modifier": 3
+            },
+            "damage_type": "piercing"
+          },
+          "save": {
+            "ability": "con",
+            "dc": 15
+          },
+          "effects": [
+            {
+              "key": "effect/piercing-damage",
+              "name": "Piercing damage",
+              "text": "12 (2d8 + 3) Piercing damage.",
+              "dice": {
+                "average": 12,
+                "dice": 2,
+                "sides": 8,
+                "modifier": 3
+              }
+            },
+            {
+              "key": "condition/poisoned",
+              "name": "Poisoned",
+              "text": "the target has the Poisoned condition"
+            },
+            {
+              "key": "requirement/poisoned-target-finishes-long-rest",
+              "name": "Poisoned target finishes long rest",
+              "text": "Whenever the Poisoned target finishes a Long Rest, it is subjected to the following effect"
+            },
+            {
+              "key": "save/con",
+              "name": "Constitution Saving Throw",
+              "text": "Constitution Saving Throw: DC 15"
+            },
+            {
+              "key": "effect/hit-point-maximum-reduction",
+              "name": "Hit point maximum reduction",
+              "text": "Failure: The target’s Hit Point maximum decreases by 5 (1d10)",
+              "dice": {
+                "average": 5,
+                "dice": 1,
+                "sides": 10,
+                "modifier": 0
+              }
+            },
+            {
+              "key": "effect/hit-point-maximum-no-reset",
+              "name": "Hit point maximum no reset",
+              "text": "doesn’t return to normal until the Poisoned condition ends on the target"
+            },
+            {
+              "key": "effect/success-ends-condition",
+              "name": "Success ends condition",
+              "text": "Success: The Poisoned condition ends"
+            }
+          ]
+        },
+        {
+          "id": "tentacle",
+          "name": "Tentacle",
+          "text": "Tentacle. Melee Attack Roll: +6, reach 10 ft. Hit: 12 (2d8 + 3) Piercing damage. If the target is a Medium or smaller creature, it has the Grappled condition (escape DC 13) from one of two tentacles.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 6,
+            "reach": 10,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 12,
+              "dice": 2,
+              "sides": 8,
+              "modifier": 3
+            },
+            "damage_type": "piercing"
+          },
+          "effects": [
+            {
+              "key": "effect/piercing-damage",
+              "name": "Piercing damage",
+              "text": "12 (2d8 + 3) Piercing damage.",
+              "dice": {
+                "average": 12,
+                "dice": 2,
+                "sides": 8,
+                "modifier": 3
+              }
+            },
+            {
+              "key": "requirement/target-size",
+              "name": "Target size",
+              "text": "If the target is a Medium or smaller creature"
+            },
+            {
+              "key": "condition/grappled",
+              "name": "Grappled",
+              "text": "it has the Grappled condition (escape DC 13)"
+            },
+            {
+              "key": "limit/grapple-from-one-of-two-tentacles",
+              "name": "Grapple from one of two tentacles",
+              "text": "from one of two tentacles"
+            }
+          ]
+        },
+        {
+          "id": "tentacle-slam",
+          "name": "Tentacle Slam",
+          "text": "Tentacle Slam. Constitution Saving Throw: DC 14, each creature Grappled by the otyugh. Failure: 16 (3d8 + 3) Bludgeoning damage, and the target has the Stunned condition until the start of the otyugh’s next turn. Success: Half damage only.",
+          "key": "action/saving-throw",
+          "save": {
+            "ability": "con",
+            "dc": 14
+          },
+          "effects": [
+            {
+              "key": "save/con",
+              "name": "Constitution Saving Throw",
+              "text": "Constitution Saving Throw: DC 14"
+            },
+            {
+              "key": "target/grappled-creatures",
+              "name": "Grappled creatures",
+              "text": "each creature Grappled by the otyugh"
+            },
+            {
+              "key": "effect/bludgeoning-damage",
+              "name": "Bludgeoning damage",
+              "text": "16 (3d8 + 3) Bludgeoning damage",
+              "dice": {
+                "average": 16,
+                "dice": 3,
+                "sides": 8,
+                "modifier": 3
+              }
+            },
+            {
+              "key": "condition/stunned",
+              "name": "Stunned",
+              "text": "the target has the Stunned condition until the start of the otyugh’s next turn"
+            },
+            {
+              "key": "save/half-damage",
+              "name": "Half damage",
+              "text": "Success: Half damage only."
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "sense/darkvision",
+        "language/telepathy",
+        "language/telepathy-condition",
+        "action/multiattack",
+        "action/melee-attack",
+        "save/con",
+        "effect/piercing-damage",
+        "condition/poisoned",
+        "requirement/poisoned-target-finishes-long-rest",
+        "effect/hit-point-maximum-reduction",
+        "effect/hit-point-maximum-no-reset",
+        "effect/success-ends-condition",
+        "requirement/target-size",
+        "condition/grappled",
+        "limit/grapple-from-one-of-two-tentacles",
+        "action/saving-throw",
+        "target/grappled-creatures",
+        "effect/bludgeoning-damage",
+        "condition/stunned",
+        "save/half-damage"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/animals/owl",
+      "name": "Owl",
+      "source_pages": [
+        358,
+        358
+      ],
+      "sizes": [
+        "tiny"
+      ],
+      "type": "beast",
+      "alignment": "Unaligned",
+      "ac": 11,
+      "initiative": {
+        "modifier": 1,
+        "score": 11
+      },
+      "hp": {
+        "average": 1,
+        "dice": 1,
+        "sides": 4,
+        "modifier": -1
+      },
+      "speeds": {
+        "walk": 5,
+        "fly": 60
+      },
+      "abilities": {
+        "str": {
+          "score": 3,
+          "modifier": -4,
+          "save": -4
+        },
+        "dex": {
+          "score": 13,
+          "modifier": 1,
+          "save": 1
+        },
+        "con": {
+          "score": 8,
+          "modifier": -1,
+          "save": -1
+        },
+        "int": {
+          "score": 2,
+          "modifier": -4,
+          "save": -4
+        },
+        "wis": {
+          "score": 12,
+          "modifier": 1,
+          "save": 1
+        },
+        "cha": {
+          "score": 7,
+          "modifier": -2,
+          "save": -2
+        }
+      },
+      "senses": {
+        "passive_perception": 15,
+        "special": {
+          "darkvision": 120
+        }
+      },
+      "languages": [],
+      "gear": [],
+      "cr": "0",
+      "xp": 10,
+      "proficiency_bonus": 2,
+      "skills": {
+        "perception": 5,
+        "stealth": 5
+      },
+      "traits": [
+        {
+          "key": "trait/flyby",
+          "name": "Flyby",
+          "text": "Flyby. The owl doesn’t provoke an Opportunity Attack when it flies out of an enemy’s reach.",
+          "requires": [
+            "effect/no-opportunity-attack-flying-out"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "talons",
+          "name": "Talons",
+          "text": "Talons. Melee Attack Roll: +3, reach 5 ft. Hit: 1 Slashing damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 3,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 1,
+              "dice": 0,
+              "sides": 0,
+              "modifier": 0
+            },
+            "damage_type": "slashing"
+          },
+          "effects": [
+            {
+              "key": "effect/slashing-damage",
+              "name": "Slashing damage",
+              "text": "Hit: 1 Slashing damage.",
+              "requires": [
+                "damage/fixed"
+              ]
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/skills",
+        "movement/fly",
+        "sense/darkvision",
+        "trait/flyby",
+        "effect/no-opportunity-attack-flying-out",
+        "action/melee-attack",
+        "effect/slashing-damage",
+        "damage/fixed"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/owlbear",
+      "name": "Owlbear",
+      "source_pages": [
+        313,
+        313
+      ],
+      "sizes": [
+        "large"
+      ],
+      "type": "monstrosity",
+      "alignment": "Unaligned",
+      "ac": 13,
+      "initiative": {
+        "modifier": 1,
+        "score": 11
+      },
+      "hp": {
+        "average": 59,
+        "dice": 7,
+        "sides": 10,
+        "modifier": 21
+      },
+      "speeds": {
+        "walk": 40,
+        "climb": 40
+      },
+      "abilities": {
+        "str": {
+          "score": 20,
+          "modifier": 5,
+          "save": 5
+        },
+        "dex": {
+          "score": 12,
+          "modifier": 1,
+          "save": 1
+        },
+        "con": {
+          "score": 17,
+          "modifier": 3,
+          "save": 3
+        },
+        "int": {
+          "score": 3,
+          "modifier": -4,
+          "save": -4
+        },
+        "wis": {
+          "score": 12,
+          "modifier": 1,
+          "save": 1
+        },
+        "cha": {
+          "score": 7,
+          "modifier": -2,
+          "save": -2
+        }
+      },
+      "senses": {
+        "passive_perception": 15,
+        "special": {
+          "darkvision": 60
+        }
+      },
+      "languages": [],
+      "gear": [],
+      "cr": "3",
+      "xp": 700,
+      "proficiency_bonus": 2,
+      "skills": {
+        "perception": 5
+      },
+      "traits": [],
+      "actions": [
+        {
+          "id": "multiattack",
+          "name": "Multiattack",
+          "text": "Multiattack. The owlbear makes two Rend attacks.",
+          "key": "action/multiattack",
+          "effects": [
+            {
+              "key": "action/melee-attack",
+              "name": "Attack",
+              "text": "The owlbear makes two Rend attacks"
+            }
+          ]
+        },
+        {
+          "id": "rend",
+          "name": "Rend",
+          "text": "Rend. Melee Attack Roll: +7, reach 5 ft. Hit: 14 (2d8 + 5) Slashing damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 7,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 14,
+              "dice": 2,
+              "sides": 8,
+              "modifier": 5
+            },
+            "damage_type": "slashing"
+          },
+          "effects": [
+            {
+              "key": "effect/slashing-damage",
+              "name": "Slashing damage",
+              "text": "14 (2d8 + 5) Slashing damage.",
+              "dice": {
+                "average": 14,
+                "dice": 2,
+                "sides": 8,
+                "modifier": 5
+              }
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/skills",
+        "movement/climb",
+        "sense/darkvision",
+        "action/multiattack",
+        "action/melee-attack",
+        "effect/slashing-damage"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/animals/panther",
+      "name": "Panther",
+      "source_pages": [
+        358,
+        358
+      ],
+      "sizes": [
+        "medium"
+      ],
+      "type": "beast",
+      "alignment": "Unaligned",
+      "ac": 13,
+      "initiative": {
+        "modifier": 3,
+        "score": 13
+      },
+      "hp": {
+        "average": 13,
+        "dice": 3,
+        "sides": 8,
+        "modifier": 0
+      },
+      "speeds": {
+        "walk": 50,
+        "climb": 40
+      },
+      "abilities": {
+        "str": {
+          "score": 14,
+          "modifier": 2,
+          "save": 2
+        },
+        "dex": {
+          "score": 16,
+          "modifier": 3,
+          "save": 3
+        },
+        "con": {
+          "score": 10,
+          "modifier": 0,
+          "save": 0
+        },
+        "int": {
+          "score": 3,
+          "modifier": -4,
+          "save": -4
+        },
+        "wis": {
+          "score": 14,
+          "modifier": 2,
+          "save": 2
+        },
+        "cha": {
+          "score": 7,
+          "modifier": -2,
+          "save": -2
+        }
+      },
+      "senses": {
+        "passive_perception": 14,
+        "special": {
+          "darkvision": 60
+        }
+      },
+      "languages": [],
+      "gear": [],
+      "cr": "1/4",
+      "xp": 50,
+      "proficiency_bonus": 2,
+      "skills": {
+        "perception": 4,
+        "stealth": 7
+      },
+      "traits": [],
+      "actions": [
+        {
+          "id": "rend",
+          "name": "Rend",
+          "text": "Rend. Melee Attack Roll: +5, reach 5 ft. Hit: 6 (1d6 + 3) Slashing damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 5,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 6,
+              "dice": 1,
+              "sides": 6,
+              "modifier": 3
+            },
+            "damage_type": "slashing"
+          },
+          "effects": [
+            {
+              "key": "effect/slashing-damage",
+              "name": "Slashing damage",
+              "text": "6 (1d6 + 3) Slashing damage.",
+              "dice": {
+                "average": 6,
+                "dice": 1,
+                "sides": 6,
+                "modifier": 3
+              }
+            }
+          ]
+        }
+      ],
+      "bonus_actions": [
+        {
+          "id": "nimble-escape",
+          "name": "Nimble Escape",
+          "text": "Nimble Escape. The panther takes the Disengage or Hide action.",
+          "key": "action/special",
+          "effects": [
+            {
+              "key": "action/disengage",
+              "name": "Disengage",
+              "text": "The panther takes the Disengage or Hide action"
+            },
+            {
+              "key": "action/hide",
+              "name": "Hide",
+              "text": "Hide action"
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/skills",
+        "movement/climb",
+        "sense/darkvision",
+        "action/bonus-action",
+        "action/melee-attack",
+        "effect/slashing-damage",
+        "action/special",
+        "action/disengage",
+        "action/hide"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/pegasus",
+      "name": "Pegasus",
+      "source_pages": [
+        313,
+        313
+      ],
+      "sizes": [
+        "large"
+      ],
+      "type": "celestial",
+      "alignment": "Chaotic Good",
+      "ac": 12,
+      "initiative": {
+        "modifier": 2,
+        "score": 12
+      },
+      "hp": {
+        "average": 59,
+        "dice": 7,
+        "sides": 10,
+        "modifier": 21
+      },
+      "speeds": {
+        "walk": 60,
+        "fly": 90
+      },
+      "abilities": {
+        "str": {
+          "score": 18,
+          "modifier": 4,
+          "save": 4
+        },
+        "dex": {
+          "score": 15,
+          "modifier": 2,
+          "save": 4
+        },
+        "con": {
+          "score": 16,
+          "modifier": 3,
+          "save": 5
+        },
+        "int": {
+          "score": 10,
+          "modifier": 0,
+          "save": 0
+        },
+        "wis": {
+          "score": 15,
+          "modifier": 2,
+          "save": 4
+        },
+        "cha": {
+          "score": 13,
+          "modifier": 1,
+          "save": 3
+        }
+      },
+      "senses": {
+        "passive_perception": 16,
+        "special": {}
+      },
+      "languages": [
+        "Understands Celestial, Common, Elvish, and Sylvan but can’t speak"
+      ],
+      "gear": [],
+      "cr": "2",
+      "xp": 450,
+      "proficiency_bonus": 2,
+      "skills": {
+        "perception": 6
+      },
+      "traits": [],
+      "actions": [
+        {
+          "id": "hooves",
+          "name": "Hooves",
+          "text": "Hooves. Melee Attack Roll: +6, reach 5 ft. Hit: 7 (1d6 + 4) Bludgeoning damage plus 5 (2d4) Radiant damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 6,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 7,
+              "dice": 1,
+              "sides": 6,
+              "modifier": 4
+            },
+            "damage_type": "bludgeoning"
+          },
+          "effects": [
+            {
+              "key": "effect/bludgeoning-damage",
+              "name": "Bludgeoning damage",
+              "text": "7 (1d6 + 4) Bludgeoning damage.",
+              "dice": {
+                "average": 7,
+                "dice": 1,
+                "sides": 6,
+                "modifier": 4
+              }
+            },
+            {
+              "key": "effect/radiant-damage",
+              "name": "Radiant damage",
+              "text": "5 (2d4) Radiant damage",
+              "dice": {
+                "average": 5,
+                "dice": 2,
+                "sides": 4,
+                "modifier": 0
+              }
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/skills",
+        "movement/fly",
+        "action/melee-attack",
+        "effect/bludgeoning-damage",
+        "effect/radiant-damage"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/phase-spider",
+      "name": "Phase Spider",
+      "source_pages": [
+        313,
+        314
+      ],
+      "sizes": [
+        "large"
+      ],
+      "type": "monstrosity",
+      "alignment": "Unaligned",
+      "ac": 14,
+      "initiative": {
+        "modifier": 3,
+        "score": 13
+      },
+      "hp": {
+        "average": 45,
+        "dice": 7,
+        "sides": 10,
+        "modifier": 7
+      },
+      "speeds": {
+        "walk": 30,
+        "climb": 30
+      },
+      "abilities": {
+        "str": {
+          "score": 15,
+          "modifier": 2,
+          "save": 2
+        },
+        "dex": {
+          "score": 16,
+          "modifier": 3,
+          "save": 3
+        },
+        "con": {
+          "score": 12,
+          "modifier": 1,
+          "save": 1
+        },
+        "int": {
+          "score": 6,
+          "modifier": -2,
+          "save": -2
+        },
+        "wis": {
+          "score": 10,
+          "modifier": 0,
+          "save": 0
+        },
+        "cha": {
+          "score": 6,
+          "modifier": -2,
+          "save": -2
+        }
+      },
+      "senses": {
+        "passive_perception": 10,
+        "special": {
+          "darkvision": 60
+        }
+      },
+      "languages": [],
+      "gear": [],
+      "cr": "3",
+      "xp": 700,
+      "proficiency_bonus": 2,
+      "skills": {
+        "stealth": 7
+      },
+      "traits": [
+        {
+          "key": "trait/ethereal-sight",
+          "name": "Ethereal Sight",
+          "text": "Ethereal Sight. The spider can see 60 feet into the Ethereal Plane while on the Material Plane and vice versa.",
+          "requires": [
+            "effect/see-into-ethereal-plane"
+          ]
+        },
+        {
+          "key": "trait/spider-climb",
+          "name": "Spider Climb",
+          "text": "Spider Climb. The spider can climb difficult surfaces, including along ceilings, without needing to make an ability check.",
+          "requires": [
+            "effect/climb-without-check"
+          ]
+        },
+        {
+          "key": "trait/web-walker",
+          "name": "Web Walker",
+          "text": "Web Walker. The spider ignores movement restrictions caused by webs, and the spider knows the location of any other creature in contact with the same web.",
+          "requires": [
+            "effect/ignore-web-restrictions",
+            "effect/know-web-contacts"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "multiattack",
+          "name": "Multiattack",
+          "text": "Multiattack. The spider makes two Bite attacks.",
+          "key": "action/multiattack",
+          "effects": [
+            {
+              "key": "action/melee-attack",
+              "name": "Attack",
+              "text": "The spider makes two Bite attacks"
+            }
+          ]
+        },
+        {
+          "id": "bite",
+          "name": "Bite",
+          "text": "Bite. Melee Attack Roll: +5, reach 5 ft. Hit: 8 (1d10 + 3) Piercing damage plus 9 (2d8) Poison damage. If this damage reduces the target to 0 Hit Points, the target becomes Stable, and it has the Poisoned condition for 1 hour. While Poisoned, the target also has the Paralyzed condition.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 5,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 8,
+              "dice": 1,
+              "sides": 10,
+              "modifier": 3
+            },
+            "damage_type": "piercing"
+          },
+          "effects": [
+            {
+              "key": "effect/piercing-damage",
+              "name": "Piercing damage",
+              "text": "8 (1d10 + 3) Piercing damage.",
+              "dice": {
+                "average": 8,
+                "dice": 1,
+                "sides": 10,
+                "modifier": 3
+              }
+            },
+            {
+              "key": "effect/poison-damage",
+              "name": "Poison damage",
+              "text": "9 (2d8) Poison damage",
+              "dice": {
+                "average": 9,
+                "dice": 2,
+                "sides": 8,
+                "modifier": 0
+              }
+            },
+            {
+              "key": "requirement/damage-reduces-to-zero-hit-points",
+              "name": "Damage reduces to zero hit points",
+              "text": "If this damage reduces the target to 0 Hit Points"
+            },
+            {
+              "key": "effect/becomes-stable",
+              "name": "Becomes stable",
+              "text": "the target becomes Stable"
+            },
+            {
+              "key": "condition/poisoned",
+              "name": "Poisoned",
+              "text": "it has the Poisoned condition for 1 hour"
+            },
+            {
+              "key": "condition/paralyzed",
+              "name": "Paralyzed",
+              "text": "While Poisoned, the target also has the Paralyzed condition"
+            }
+          ]
+        }
+      ],
+      "bonus_actions": [
+        {
+          "id": "ethereal-jaunt",
+          "name": "Ethereal Jaunt",
+          "text": "Ethereal Jaunt. The spider teleports from the Material Plane to the Ethereal Plane or vice versa.",
+          "key": "action/special",
+          "effects": [
+            {
+              "key": "effect/plane-shift-to-or-from-ethereal",
+              "name": "Plane shift to or from ethereal",
+              "text": "The spider teleports from the Material Plane to the Ethereal Plane or vice versa"
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/skills",
+        "movement/climb",
+        "sense/darkvision",
+        "action/bonus-action",
+        "trait/ethereal-sight",
+        "effect/see-into-ethereal-plane",
+        "trait/spider-climb",
+        "effect/climb-without-check",
+        "trait/web-walker",
+        "effect/ignore-web-restrictions",
+        "effect/know-web-contacts",
+        "action/multiattack",
+        "action/melee-attack",
+        "effect/piercing-damage",
+        "effect/poison-damage",
+        "requirement/damage-reduces-to-zero-hit-points",
+        "effect/becomes-stable",
+        "condition/poisoned",
+        "condition/paralyzed",
+        "action/special",
+        "effect/plane-shift-to-or-from-ethereal"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/animals/piranha",
+      "name": "Piranha",
+      "source_pages": [
+        358,
+        358
+      ],
+      "sizes": [
+        "tiny"
+      ],
+      "type": "beast",
+      "alignment": "Unaligned",
+      "ac": 13,
+      "initiative": {
+        "modifier": 3,
+        "score": 13
+      },
+      "hp": {
+        "average": 1,
+        "dice": 1,
+        "sides": 4,
+        "modifier": -1
+      },
+      "speeds": {
+        "walk": 5,
+        "swim": 40
+      },
+      "abilities": {
+        "str": {
+          "score": 2,
+          "modifier": -4,
+          "save": -4
+        },
+        "dex": {
+          "score": 16,
+          "modifier": 3,
+          "save": 3
+        },
+        "con": {
+          "score": 9,
+          "modifier": -1,
+          "save": -1
+        },
+        "int": {
+          "score": 1,
+          "modifier": -5,
+          "save": -5
+        },
+        "wis": {
+          "score": 7,
+          "modifier": -2,
+          "save": -2
+        },
+        "cha": {
+          "score": 2,
+          "modifier": -4,
+          "save": -4
+        }
+      },
+      "senses": {
+        "passive_perception": 8,
+        "special": {
+          "darkvision": 60
+        }
+      },
+      "languages": [],
+      "gear": [],
+      "cr": "0",
+      "xp": 10,
+      "proficiency_bonus": 2,
+      "traits": [
+        {
+          "key": "trait/water-breathing",
+          "name": "Water Breathing",
+          "text": "Water Breathing. The piranha can breathe only underwater.",
+          "requires": [
+            "effect/breathe-only-underwater"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "bite",
+          "name": "Bite",
+          "text": "Bite. Melee Attack Roll: +5 (with Advantage if the target doesn’t have all its Hit Points), reach 5 ft. Hit: 1 Piercing damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 5,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 1,
+              "dice": 0,
+              "sides": 0,
+              "modifier": 0
+            },
+            "damage_type": "piercing"
+          },
+          "effects": [
+            {
+              "key": "effect/piercing-damage",
+              "name": "Piercing damage",
+              "text": "Hit: 1 Piercing damage.",
+              "requires": [
+                "damage/fixed"
+              ]
+            },
+            {
+              "key": "attack/advantage-against-target-missing-hit-points",
+              "name": "Advantage against target missing hit points",
+              "text": "(with Advantage if the target doesn’t have all its Hit Points)"
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "movement/swim",
+        "sense/darkvision",
+        "trait/water-breathing",
+        "effect/breathe-only-underwater",
+        "action/melee-attack",
+        "effect/piercing-damage",
+        "damage/fixed",
+        "attack/advantage-against-target-missing-hit-points"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/pirate",
+      "name": "Pirate",
+      "source_pages": [
+        314,
+        314
+      ],
+      "sizes": [
+        "medium",
+        "small"
+      ],
+      "type": "humanoid",
+      "alignment": "Neutral",
+      "ac": 14,
+      "initiative": {
+        "modifier": 5,
+        "score": 15
+      },
+      "hp": {
+        "average": 33,
+        "dice": 6,
+        "sides": 8,
+        "modifier": 6
+      },
+      "speeds": {
+        "walk": 30
+      },
+      "abilities": {
+        "str": {
+          "score": 10,
+          "modifier": 0,
+          "save": 0
+        },
+        "dex": {
+          "score": 16,
+          "modifier": 3,
+          "save": 5
+        },
+        "con": {
+          "score": 12,
+          "modifier": 1,
+          "save": 1
+        },
+        "int": {
+          "score": 8,
+          "modifier": -1,
+          "save": -1
+        },
+        "wis": {
+          "score": 12,
+          "modifier": 1,
+          "save": 1
+        },
+        "cha": {
+          "score": 14,
+          "modifier": 2,
+          "save": 4
+        }
+      },
+      "senses": {
+        "passive_perception": 11,
+        "special": {}
+      },
+      "languages": [
+        "Common plus one other language"
+      ],
+      "gear": [
+        "Daggers (6)",
+        "Leather Armor"
+      ],
+      "cr": "1",
+      "xp": 200,
+      "proficiency_bonus": 2,
+      "traits": [],
+      "actions": [
+        {
+          "id": "multiattack",
+          "name": "Multiattack",
+          "text": "Multiattack. The pirate makes two Dagger attacks. It can replace one attack with a use of Enthralling Panache.",
+          "key": "action/multiattack",
+          "effects": [
+            {
+              "key": "action/melee-or-ranged-attack",
+              "name": "Attack",
+              "text": "The pirate makes two Dagger attacks"
+            },
+            {
+              "key": "multiattack/replace-attack",
+              "name": "Replace attack",
+              "text": "It can replace one attack with a use of Enthralling Panache"
+            },
+            {
+              "key": "action/saving-throw",
+              "name": "Saving throw",
+              "text": "a use of Enthralling Panache"
+            }
+          ]
+        },
+        {
+          "id": "dagger",
+          "name": "Dagger",
+          "text": "Dagger. Melee or Ranged Attack Roll: +5, reach 5 ft. or range 20/60 ft. Hit: 5 (1d4 + 3) Piercing damage.",
+          "key": "action/melee-or-ranged-attack",
+          "effects": [
+            {
+              "key": "effect/piercing-damage",
+              "name": "Piercing damage",
+              "text": "5 (1d4 + 3) Piercing damage",
+              "dice": {
+                "average": 5,
+                "dice": 1,
+                "sides": 4,
+                "modifier": 3
+              }
+            }
+          ]
+        },
+        {
+          "id": "enthralling-panache",
+          "name": "Enthralling Panache",
+          "text": "Enthralling Panache. Wisdom Saving Throw: DC 12, one creature the pirate can see within 30 feet. Failure: The target has the Charmed condition until the start of the pirate’s next turn.",
+          "key": "action/saving-throw",
+          "save": {
+            "ability": "wis",
+            "dc": 12
+          },
+          "target": {
+            "shape": "creature",
+            "size": 0,
+            "width": 0,
+            "range": 30
+          },
+          "effects": [
+            {
+              "key": "save/wis",
+              "name": "Wisdom Saving Throw",
+              "text": "Wisdom Saving Throw: DC 12"
+            },
+            {
+              "key": "target/creature",
+              "name": "Target",
+              "text": "one creature the pirate can see within 30 feet."
+            },
+            {
+              "key": "condition/charmed",
+              "name": "Charmed",
+              "text": "The target has the Charmed condition until the start of the pirate’s next turn"
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "action/multiattack",
+        "action/melee-or-ranged-attack",
+        "multiattack/replace-attack",
+        "action/saving-throw",
+        "effect/piercing-damage",
+        "save/wis",
+        "target/creature",
+        "condition/charmed"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/pirate-captain",
+      "name": "Pirate Captain",
+      "source_pages": [
+        314,
+        314
+      ],
+      "sizes": [
+        "medium",
+        "small"
+      ],
+      "type": "humanoid",
+      "alignment": "Neutral",
+      "ac": 17,
+      "initiative": {
+        "modifier": 7,
+        "score": 17
+      },
+      "hp": {
+        "average": 84,
+        "dice": 13,
+        "sides": 8,
+        "modifier": 26
+      },
+      "speeds": {
+        "walk": 30
+      },
+      "abilities": {
+        "str": {
+          "score": 10,
+          "modifier": 0,
+          "save": 3
+        },
+        "dex": {
+          "score": 18,
+          "modifier": 4,
+          "save": 7
+        },
+        "con": {
+          "score": 14,
+          "modifier": 2,
+          "save": 2
+        },
+        "int": {
+          "score": 10,
+          "modifier": 0,
+          "save": 0
+        },
+        "wis": {
+          "score": 14,
+          "modifier": 2,
+          "save": 5
+        },
+        "cha": {
+          "score": 17,
+          "modifier": 3,
+          "save": 6
+        }
+      },
+      "senses": {
+        "passive_perception": 15,
+        "special": {}
+      },
+      "languages": [
+        "Common plus one other language"
+      ],
+      "gear": [
+        "Pistol",
+        "Rapier"
+      ],
+      "cr": "6",
+      "xp": 2300,
+      "proficiency_bonus": 3,
+      "skills": {
+        "acrobatics": 7,
+        "perception": 5
+      },
+      "traits": [],
+      "actions": [
+        {
+          "id": "multiattack",
+          "name": "Multiattack",
+          "text": "Multiattack. The pirate makes three attacks, using Rapier or Pistol in any combination.",
+          "key": "action/multiattack",
+          "effects": [
+            {
+              "key": "action/melee-attack",
+              "name": "Attack",
+              "text": "The pirate makes three attacks, using Rapier or Pistol in any combination"
+            },
+            {
+              "key": "action/ranged-attack",
+              "name": "Attack",
+              "text": "using Rapier or Pistol"
+            },
+            {
+              "key": "multiattack/any-combination",
+              "name": "Any combination",
+              "text": "in any combination"
+            }
+          ]
+        },
+        {
+          "id": "rapier",
+          "name": "Rapier",
+          "text": "Rapier. Melee Attack Roll: +7, reach 5 ft. Hit: 13 (2d8 + 4) Piercing damage, and the pirate has Advantage on the next attack roll it makes before the end of this turn.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 7,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 13,
+              "dice": 2,
+              "sides": 8,
+              "modifier": 4
+            },
+            "damage_type": "piercing"
+          },
+          "effects": [
+            {
+              "key": "effect/piercing-damage",
+              "name": "Piercing damage",
+              "text": "13 (2d8 + 4) Piercing damage.",
+              "dice": {
+                "average": 13,
+                "dice": 2,
+                "sides": 8,
+                "modifier": 4
+              }
+            },
+            {
+              "key": "attack/advantage-on-next-attack",
+              "name": "Advantage on next attack",
+              "text": "the pirate has Advantage on the next attack roll it makes before the end of this turn"
+            }
+          ]
+        },
+        {
+          "id": "pistol",
+          "name": "Pistol",
+          "text": "Pistol. Ranged Attack Roll: +7, range 30/90 ft. Hit: 15 (2d10 + 4) Piercing damage.",
+          "key": "action/ranged-attack",
+          "attack": {
+            "kind": "ranged",
+            "bonus": 7,
+            "reach": 0,
+            "range": 30,
+            "long_range": 90,
+            "damage": {
+              "average": 15,
+              "dice": 2,
+              "sides": 10,
+              "modifier": 4
+            },
+            "damage_type": "piercing"
+          },
+          "effects": [
+            {
+              "key": "effect/piercing-damage",
+              "name": "Piercing damage",
+              "text": "15 (2d10 + 4) Piercing damage.",
+              "dice": {
+                "average": 15,
+                "dice": 2,
+                "sides": 10,
+                "modifier": 4
+              }
+            }
+          ]
+        }
+      ],
+      "bonus_actions": [
+        {
+          "id": "captains-charm",
+          "name": "Captain’s Charm",
+          "text": "Captain’s Charm. Wisdom Saving Throw: DC 14, one creature the pirate can see within 30 feet. Failure: The target has the Charmed condition until the start of the pirate’s next turn.",
+          "key": "action/saving-throw",
+          "save": {
+            "ability": "wis",
+            "dc": 14
+          },
+          "target": {
+            "shape": "creature",
+            "size": 0,
+            "width": 0,
+            "range": 30
+          },
+          "effects": [
+            {
+              "key": "save/wis",
+              "name": "Wisdom Saving Throw",
+              "text": "Wisdom Saving Throw: DC 14"
+            },
+            {
+              "key": "target/creature",
+              "name": "Target",
+              "text": "one creature the pirate can see within 30 feet."
+            },
+            {
+              "key": "condition/charmed",
+              "name": "Charmed",
+              "text": "The target has the Charmed condition until the start of the pirate’s next turn"
+            }
+          ]
+        }
+      ],
+      "reactions": [
+        {
+          "id": "riposte",
+          "name": "Riposte",
+          "text": "Riposte. Trigger: The pirate is hit by a melee attack roll while holding a weapon. Response: The pirate adds 3 to its AC against that attack, possibly causing it to miss. On a miss, the pirate makes one Rapier attack against the triggering creature if within range.",
+          "key": "action/special",
+          "effects": [
+            {
+              "key": "reaction/trigger",
+              "name": "Trigger",
+              "text": "Trigger: The pirate is hit by a melee attack roll while holding a weapon"
+            },
+            {
+              "key": "requirement/holding-weapon",
+              "name": "Holding weapon",
+              "text": "while holding a weapon"
+            },
+            {
+              "key": "effect/ac-bonus",
+              "name": "Ac bonus",
+              "text": "Response: The pirate adds 3 to its AC against that attack, possibly causing it to miss"
+            },
+            {
+              "key": "action/melee-attack",
+              "name": "Attack",
+              "text": "On a miss, the pirate makes one Rapier attack against the triggering creature if within range"
+            },
+            {
+              "key": "target/triggering-creature",
+              "name": "Triggering creature",
+              "text": "the triggering creature"
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/skills",
+        "action/bonus-action",
+        "action/reaction",
+        "action/multiattack",
+        "action/melee-attack",
+        "action/ranged-attack",
+        "multiattack/any-combination",
+        "effect/piercing-damage",
+        "attack/advantage-on-next-attack",
+        "action/saving-throw",
+        "save/wis",
+        "target/creature",
+        "condition/charmed",
+        "action/special",
+        "reaction/trigger",
+        "requirement/holding-weapon",
+        "effect/ac-bonus",
+        "target/triggering-creature"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/pit-fiend",
+      "name": "Pit Fiend",
+      "source_pages": [
+        314,
+        315
+      ],
+      "sizes": [
+        "large"
+      ],
+      "type": "fiend",
+      "alignment": "Lawful Evil",
+      "ac": 21,
+      "initiative": {
+        "modifier": 14,
+        "score": 24
+      },
+      "hp": {
+        "average": 337,
+        "dice": 27,
+        "sides": 10,
+        "modifier": 189
+      },
+      "speeds": {
+        "walk": 30,
+        "fly": 60
+      },
+      "abilities": {
+        "str": {
+          "score": 26,
+          "modifier": 8,
+          "save": 8
+        },
+        "dex": {
+          "score": 14,
+          "modifier": 2,
+          "save": 8
+        },
+        "con": {
+          "score": 24,
+          "modifier": 7,
+          "save": 7
+        },
+        "int": {
+          "score": 22,
+          "modifier": 6,
+          "save": 6
+        },
+        "wis": {
+          "score": 18,
+          "modifier": 4,
+          "save": 10
+        },
+        "cha": {
+          "score": 24,
+          "modifier": 7,
+          "save": 7
+        }
+      },
+      "senses": {
+        "passive_perception": 20,
+        "special": {
+          "truesight": 120
+        }
+      },
+      "languages": [
+        "Infernal"
+      ],
+      "gear": [],
+      "cr": "20",
+      "xp": 25000,
+      "proficiency_bonus": 6,
+      "tags": [
+        "Devil"
+      ],
+      "skills": {
+        "perception": 10,
+        "persuasion": 19
+      },
+      "resistances": [
+        "cold"
+      ],
+      "immunities": [
+        "fire",
+        "poison"
+      ],
+      "condition_immunities": [
+        "poisoned"
+      ],
+      "telepathy": 120,
+      "traits": [
+        {
+          "key": "trait/diabolical-restoration",
+          "name": "Diabolical Restoration",
+          "text": "Diabolical Restoration. If the pit fiend dies outside the Nine Hells, its body disappears in sulfurous smoke, and it gains a new body instantly, reviving with all its Hit Points somewhere in the Nine Hells.",
+          "requires": [
+            "effect/revive"
+          ]
+        },
+        {
+          "key": "trait/fear-aura",
+          "name": "Fear Aura",
+          "text": "Fear Aura. The pit fiend emanates an aura in a 20-foot Emanation while it doesn’t have the Incapacitated condition. Wisdom Saving Throw: DC 21, any enemy that starts its turn in the aura. Failure: The target has the Frightened condition until the start of its next turn. Success: The target is immune to this pit fiend’s aura for 24 hours.",
+          "save": {
+            "ability": "wis",
+            "dc": 21
+          },
+          "target": {
+            "shape": "emanation",
+            "size": 20,
+            "width": 0,
+            "range": 0
+          },
+          "requires": [
+            "area/emanation",
+            "requirement/not-incapacitated",
+            "save/wis",
+            "target/enemies-starting-turn-in-area",
+            "condition/frightened",
+            "save/success-immunity"
+          ]
+        },
+        {
+          "key": "trait/legendary-resistance",
+          "name": "Legendary Resistance",
+          "text": "Legendary Resistance (4/Day). If the pit fiend fails a saving throw, it can choose to succeed instead.",
+          "uses": {
+            "per_day": 4,
+            "lair_per_day": 0,
+            "recharge": 0
+          },
+          "requires": [
+            "limit/per-day",
+            "save/choose-success"
+          ]
+        },
+        {
+          "key": "trait/magic-resistance",
+          "name": "Magic Resistance",
+          "text": "Magic Resistance. The pit fiend has Advantage on saving throws against spells and other magical effects.",
+          "requires": [
+            "save/advantage-against-magic"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "multiattack",
+          "name": "Multiattack",
+          "text": "Multiattack. The pit fiend makes one Bite attack, two Devilish Claw attacks, and one Fiery Mace attack.",
+          "key": "action/multiattack",
+          "effects": [
+            {
+              "key": "action/melee-attack",
+              "name": "Attack",
+              "text": "The pit fiend makes one Bite attack, two Devilish Claw attacks, and one Fiery Mace attack"
+            }
+          ]
+        },
+        {
+          "id": "bite",
+          "name": "Bite",
+          "text": "Bite. Melee Attack Roll: +14, reach 10 ft. Hit: 18 (3d6 + 8) Piercing damage. If the target is a creature, it must make the following saving throw. Constitution Saving Throw: DC 21. Failure: The target has the Poisoned condition. While Poisoned, the target can’t regain Hit Points and takes 21 (6d6) Poison damage at the start of each of its turns, and it repeats the save at the end of each of its turns, ending the effect on itself on a success. After 1 minute, it succeeds automatically.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 14,
+            "reach": 10,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 18,
+              "dice": 3,
+              "sides": 6,
+              "modifier": 8
+            },
+            "damage_type": "piercing"
+          },
+          "save": {
+            "ability": "con",
+            "dc": 21
+          },
+          "effects": [
+            {
+              "key": "effect/piercing-damage",
+              "name": "Piercing damage",
+              "text": "18 (3d6 + 8) Piercing damage.",
+              "dice": {
+                "average": 18,
+                "dice": 3,
+                "sides": 6,
+                "modifier": 8
+              }
+            },
+            {
+              "key": "requirement/target-creature",
+              "name": "Target creature",
+              "text": "If the target is a creature, it must make the following saving throw"
+            },
+            {
+              "key": "save/con",
+              "name": "Constitution Saving Throw",
+              "text": "Constitution Saving Throw: DC 21"
+            },
+            {
+              "key": "condition/poisoned",
+              "name": "Poisoned",
+              "text": "Failure: The target has the Poisoned condition"
+            },
+            {
+              "key": "effect/no-hit-point-recovery",
+              "name": "No hit point recovery",
+              "text": "While Poisoned, the target can’t regain Hit Points"
+            },
+            {
+              "key": "effect/start-of-turn-damage",
+              "name": "Start of turn damage",
+              "text": "takes 21 (6d6) Poison damage at the start of each of its turns",
+              "dice": {
+                "average": 21,
+                "dice": 6,
+                "sides": 6,
+                "modifier": 0
+              }
+            },
+            {
+              "key": "save/repeat",
+              "name": "Repeat",
+              "text": "it repeats the save at the end of each of its turns, ending the effect on itself on a success"
+            },
+            {
+              "key": "save/automatic-success",
+              "name": "Automatic success",
+              "text": "After 1 minute, it succeeds automatically"
+            }
+          ]
+        },
+        {
+          "id": "devilish-claw",
+          "name": "Devilish Claw",
+          "text": "Devilish Claw. Melee Attack Roll: +14, reach 10 ft. Hit: 26 (4d8 + 8) Necrotic damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 14,
+            "reach": 10,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 26,
+              "dice": 4,
+              "sides": 8,
+              "modifier": 8
+            },
+            "damage_type": "necrotic"
+          },
+          "effects": [
+            {
+              "key": "effect/necrotic-damage",
+              "name": "Necrotic damage",
+              "text": "26 (4d8 + 8) Necrotic damage.",
+              "dice": {
+                "average": 26,
+                "dice": 4,
+                "sides": 8,
+                "modifier": 8
+              }
+            }
+          ]
+        },
+        {
+          "id": "fiery-mace",
+          "name": "Fiery Mace",
+          "text": "Fiery Mace. Melee Attack Roll: +14, reach 10 ft. Hit: 22 (4d6 + 8) Force damage plus 21 (6d6) Fire damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 14,
+            "reach": 10,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 22,
+              "dice": 4,
+              "sides": 6,
+              "modifier": 8
+            },
+            "damage_type": "force"
+          },
+          "effects": [
+            {
+              "key": "effect/force-damage",
+              "name": "Force damage",
+              "text": "22 (4d6 + 8) Force damage.",
+              "dice": {
+                "average": 22,
+                "dice": 4,
+                "sides": 6,
+                "modifier": 8
+              }
+            },
+            {
+              "key": "effect/fire-damage",
+              "name": "Fire damage",
+              "text": "21 (6d6) Fire damage",
+              "dice": {
+                "average": 21,
+                "dice": 6,
+                "sides": 6,
+                "modifier": 0
+              }
+            }
+          ]
+        },
+        {
+          "id": "hellfire-spellcasting",
+          "name": "Hellfire Spellcasting",
+          "text": "Hellfire Spellcasting (Recharge 4–6). The pit fiend casts Fireball (level 5 version) twice, requiring no Material components and using Charisma as the spellcasting ability (spell save DC 21). It can replace one Fireball with Hold Monster (level 7 version) or Wall of Fire.",
+          "key": "action/special",
+          "uses": {
+            "per_day": 0,
+            "lair_per_day": 0,
+            "recharge": 4
+          },
+          "effects": [
+            {
+              "key": "limit/recharge",
+              "name": "Recharge",
+              "text": "(Recharge 4–6)"
+            },
+            {
+              "key": "action/spellcasting",
+              "name": "Spellcasting",
+              "text": "The pit fiend casts Fireball (level 5 version) twice, requiring no Material components and using Charisma as the spellcasting ability (spell save DC 21)"
+            },
+            {
+              "key": "spell/fireball",
+              "name": "Fireball",
+              "text": "Fireball (level 5 version) twice"
+            },
+            {
+              "key": "spellcasting/no-material-components",
+              "name": "No material components",
+              "text": "requiring no Material components"
+            },
+            {
+              "key": "spellcasting/charisma-ability",
+              "name": "Charisma ability",
+              "text": "using Charisma as the spellcasting ability"
+            },
+            {
+              "key": "spellcasting/fixed-save-dc",
+              "name": "Fixed save dc",
+              "text": "(spell save DC 21)"
+            },
+            {
+              "key": "spellcasting/replace-one-casting",
+              "name": "Replace one casting",
+              "text": "It can replace one Fireball with Hold Monster (level 7 version) or Wall of Fire"
+            },
+            {
+              "key": "spell/hold-monster",
+              "name": "Hold Monster",
+              "text": "Hold Monster (level 7 version)"
+            },
+            {
+              "key": "spell/wall-of-fire",
+              "name": "Wall of Fire",
+              "text": "Wall of Fire"
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/skills",
+        "defense/damage-resistance",
+        "defense/damage-immunity",
+        "defense/condition-immunity",
+        "movement/fly",
+        "sense/truesight",
+        "language/telepathy",
+        "trait/diabolical-restoration",
+        "effect/revive",
+        "trait/fear-aura",
+        "save/wis",
+        "area/emanation",
+        "requirement/not-incapacitated",
+        "target/enemies-starting-turn-in-area",
+        "condition/frightened",
+        "save/success-immunity",
+        "trait/legendary-resistance",
+        "limit/per-day",
+        "save/choose-success",
+        "trait/magic-resistance",
+        "save/advantage-against-magic",
+        "action/multiattack",
+        "action/melee-attack",
+        "save/con",
+        "effect/piercing-damage",
+        "requirement/target-creature",
+        "condition/poisoned",
+        "effect/no-hit-point-recovery",
+        "effect/start-of-turn-damage",
+        "save/repeat",
+        "save/automatic-success",
+        "effect/necrotic-damage",
+        "effect/force-damage",
+        "effect/fire-damage",
+        "action/special",
+        "limit/recharge",
+        "action/spellcasting",
+        "spell/fireball",
+        "spellcasting/no-material-components",
+        "spellcasting/charisma-ability",
+        "spellcasting/fixed-save-dc",
+        "spellcasting/replace-one-casting",
+        "spell/hold-monster",
+        "spell/wall-of-fire"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/planetar",
+      "name": "Planetar",
+      "source_pages": [
+        315,
+        315
+      ],
+      "sizes": [
+        "large"
+      ],
+      "type": "celestial",
+      "alignment": "Lawful Good",
+      "ac": 19,
+      "initiative": {
+        "modifier": 10,
+        "score": 20
+      },
+      "hp": {
+        "average": 262,
+        "dice": 21,
+        "sides": 10,
+        "modifier": 147
+      },
+      "speeds": {
+        "walk": 40,
+        "fly": 120
+      },
+      "abilities": {
+        "str": {
+          "score": 24,
+          "modifier": 7,
+          "save": 12
+        },
+        "dex": {
+          "score": 20,
+          "modifier": 5,
+          "save": 5
+        },
+        "con": {
+          "score": 24,
+          "modifier": 7,
+          "save": 12
+        },
+        "int": {
+          "score": 19,
+          "modifier": 4,
+          "save": 4
+        },
+        "wis": {
+          "score": 22,
+          "modifier": 6,
+          "save": 11
+        },
+        "cha": {
+          "score": 25,
+          "modifier": 7,
+          "save": 12
+        }
+      },
+      "senses": {
+        "passive_perception": 21,
+        "special": {
+          "truesight": 120
+        }
+      },
+      "languages": [
+        "All"
+      ],
+      "gear": [],
+      "cr": "16",
+      "xp": 15000,
+      "proficiency_bonus": 5,
+      "tags": [
+        "Angel"
+      ],
+      "skills": {
+        "perception": 11
+      },
+      "resistances": [
+        "radiant"
+      ],
+      "condition_immunities": [
+        "charmed",
+        "exhaustion",
+        "frightened"
+      ],
+      "hover": true,
+      "telepathy": 120,
+      "traits": [
+        {
+          "key": "trait/divine-awareness",
+          "name": "Divine Awareness",
+          "text": "Divine Awareness. The planetar knows if it hears a lie.",
+          "requires": [
+            "effect/know-lies"
+          ]
+        },
+        {
+          "key": "trait/exalted-restoration",
+          "name": "Exalted Restoration",
+          "text": "Exalted Restoration. If the planetar dies outside Mount Celestia, its body disappears, and it gains a new body instantly, reviving with all its Hit Points somewhere in Mount Celestia.",
+          "requires": [
+            "effect/revive"
+          ]
+        },
+        {
+          "key": "trait/magic-resistance",
+          "name": "Magic Resistance",
+          "text": "Magic Resistance. The planetar has Advantage on saving throws against spells and other magical effects.",
+          "requires": [
+            "save/advantage-against-magic"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "multiattack",
+          "name": "Multiattack",
+          "text": "Multiattack. The planetar makes three Radiant Sword attacks or uses Holy Burst twice.",
+          "key": "action/multiattack",
+          "effects": [
+            {
+              "key": "action/melee-attack",
+              "name": "Attack",
+              "text": "The planetar makes three Radiant Sword attacks"
+            },
+            {
+              "key": "multiattack/alternative-routine",
+              "name": "Alternative routine",
+              "text": "or uses Holy Burst twice"
+            },
+            {
+              "key": "action/saving-throw",
+              "name": "Saving throw",
+              "text": "uses Holy Burst twice"
+            }
+          ]
+        },
+        {
+          "id": "radiant-sword",
+          "name": "Radiant Sword",
+          "text": "Radiant Sword. Melee Attack Roll: +12, reach 10 ft. Hit: 14 (2d6 + 7) Slashing damage plus 18 (4d8) Radiant damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 12,
+            "reach": 10,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 14,
+              "dice": 2,
+              "sides": 6,
+              "modifier": 7
+            },
+            "damage_type": "slashing"
+          },
+          "effects": [
+            {
+              "key": "effect/slashing-damage",
+              "name": "Slashing damage",
+              "text": "14 (2d6 + 7) Slashing damage.",
+              "dice": {
+                "average": 14,
+                "dice": 2,
+                "sides": 6,
+                "modifier": 7
+              }
+            },
+            {
+              "key": "effect/radiant-damage",
+              "name": "Radiant damage",
+              "text": "18 (4d8) Radiant damage",
+              "dice": {
+                "average": 18,
+                "dice": 4,
+                "sides": 8,
+                "modifier": 0
+              }
+            }
+          ]
+        },
+        {
+          "id": "holy-burst",
+          "name": "Holy Burst",
+          "text": "Holy Burst. Dexterity Saving Throw: DC 20, each enemy in a 20-foot-radius Sphere centered on a point the planetar can see within 120 feet. Failure: 24 (7d6) Radiant damage. Success: Half damage.",
+          "key": "action/saving-throw",
+          "save": {
+            "ability": "dex",
+            "dc": 20
+          },
+          "target": {
+            "shape": "sphere",
+            "size": 20,
+            "width": 0,
+            "range": 120
+          },
+          "effects": [
+            {
+              "key": "save/dex",
+              "name": "Dexterity Saving Throw",
+              "text": "Dexterity Saving Throw: DC 20"
+            },
+            {
+              "key": "area/sphere",
+              "name": "Target",
+              "text": "each enemy in a 20-foot-radius Sphere centered on a point the planetar can see within 120 feet."
+            },
+            {
+              "key": "target/enemies-only",
+              "name": "Enemies only",
+              "text": "each enemy"
+            },
+            {
+              "key": "effect/radiant-damage",
+              "name": "Radiant damage",
+              "text": "24 (7d6) Radiant damage",
+              "dice": {
+                "average": 24,
+                "dice": 7,
+                "sides": 6,
+                "modifier": 0
+              }
+            },
+            {
+              "key": "save/half-damage",
+              "name": "Half damage",
+              "text": "Success: Half damage."
+            }
+          ]
+        },
+        {
+          "id": "spellcasting",
+          "name": "Spellcasting",
+          "text": "Spellcasting. The planetar casts one of the following spells, requiring no Material components and using Charisma as spellcasting ability (spell save DC 20): At Will: Detect Evil and Good 1/Day Each: Commune, Control Weather, Dispel Evil and Good, Raise Dead",
+          "key": "action/spellcasting",
+          "spellcasting": {
+            "ability": "cha",
+            "save_dc": 20,
+            "attack_bonus": 0,
+            "at_will": [
+              "Detect Evil and Good"
+            ],
+            "per_day": [
+              {
+                "uses": 1,
+                "spells": [
+                  "Commune",
+                  "Control Weather",
+                  "Dispel Evil and Good",
+                  "Raise Dead"
+                ]
+              }
+            ]
+          },
+          "effects": [
+            {
+              "key": "spellcasting/no-material-components",
+              "name": "No Material components",
+              "text": "requiring no Material components"
+            },
+            {
+              "key": "spell/detect-evil-and-good",
+              "name": "Detect Evil and Good",
+              "text": "Detect Evil and Good",
+              "requires": [
+                "spellcasting/at-will"
+              ]
+            },
+            {
+              "key": "spell/commune",
+              "name": "Commune",
+              "text": "Commune",
+              "requires": [
+                "limit/per-day"
+              ]
+            },
+            {
+              "key": "spell/control-weather",
+              "name": "Control Weather",
+              "text": "Control Weather",
+              "requires": [
+                "limit/per-day"
+              ]
+            },
+            {
+              "key": "spell/dispel-evil-and-good",
+              "name": "Dispel Evil and Good",
+              "text": "Dispel Evil and Good",
+              "requires": [
+                "limit/per-day"
+              ]
+            },
+            {
+              "key": "spell/raise-dead",
+              "name": "Raise Dead",
+              "text": "Raise Dead",
+              "requires": [
+                "limit/per-day"
+              ]
+            }
+          ]
+        }
+      ],
+      "bonus_actions": [
+        {
+          "id": "divine-aid",
+          "name": "Divine Aid",
+          "text": "Divine Aid (2/Day). The planetar casts Cure Wounds, Invisibility, Lesser Restoration, or Remove Curse, using the same spellcasting ability as Spellcasting.",
+          "key": "action/special",
+          "uses": {
+            "per_day": 2,
+            "lair_per_day": 0,
+            "recharge": 0
+          },
+          "effects": [
+            {
+              "key": "limit/per-day",
+              "name": "Daily uses",
+              "text": "(2/Day)"
+            },
+            {
+              "key": "action/spellcasting",
+              "name": "Spellcasting",
+              "text": "The planetar casts Cure Wounds, Invisibility, Lesser Restoration, or Remove Curse, using the same spellcasting ability as Spellcasting"
+            },
+            {
+              "key": "spell/cure-wounds",
+              "name": "Cure Wounds",
+              "text": "Cure Wounds"
+            },
+            {
+              "key": "spell/invisibility",
+              "name": "Invisibility",
+              "text": "Invisibility"
+            },
+            {
+              "key": "spell/lesser-restoration",
+              "name": "Lesser Restoration",
+              "text": "Lesser Restoration"
+            },
+            {
+              "key": "spell/remove-curse",
+              "name": "Remove Curse",
+              "text": "Remove Curse"
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/skills",
+        "defense/damage-resistance",
+        "defense/condition-immunity",
+        "movement/fly",
+        "movement/hover",
+        "sense/truesight",
+        "language/telepathy",
+        "action/bonus-action",
+        "trait/divine-awareness",
+        "effect/know-lies",
+        "trait/exalted-restoration",
+        "effect/revive",
+        "trait/magic-resistance",
+        "save/advantage-against-magic",
+        "action/multiattack",
+        "action/melee-attack",
+        "multiattack/alternative-routine",
+        "action/saving-throw",
+        "effect/slashing-damage",
+        "effect/radiant-damage",
+        "save/dex",
+        "area/sphere",
+        "target/enemies-only",
+        "save/half-damage",
+        "action/spellcasting",
+        "spellcasting/no-material-components",
+        "spell/detect-evil-and-good",
+        "spellcasting/at-will",
+        "spell/commune",
+        "limit/per-day",
+        "spell/control-weather",
+        "spell/dispel-evil-and-good",
+        "spell/raise-dead",
+        "action/special",
+        "spell/cure-wounds",
+        "spell/invisibility",
+        "spell/lesser-restoration",
+        "spell/remove-curse"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/animals/plesiosaurus",
+      "name": "Plesiosaurus",
+      "source_pages": [
+        358,
+        359
+      ],
+      "sizes": [
+        "large"
+      ],
+      "type": "beast",
+      "alignment": "Unaligned",
+      "ac": 13,
+      "initiative": {
+        "modifier": 2,
+        "score": 12
+      },
+      "hp": {
+        "average": 68,
+        "dice": 8,
+        "sides": 10,
+        "modifier": 24
+      },
+      "speeds": {
+        "walk": 20,
+        "swim": 40
+      },
+      "abilities": {
+        "str": {
+          "score": 18,
+          "modifier": 4,
+          "save": 4
+        },
+        "dex": {
+          "score": 15,
+          "modifier": 2,
+          "save": 2
+        },
+        "con": {
+          "score": 16,
+          "modifier": 3,
+          "save": 3
+        },
+        "int": {
+          "score": 2,
+          "modifier": -4,
+          "save": -4
+        },
+        "wis": {
+          "score": 12,
+          "modifier": 1,
+          "save": 1
+        },
+        "cha": {
+          "score": 5,
+          "modifier": -3,
+          "save": -3
+        }
+      },
+      "senses": {
+        "passive_perception": 13,
+        "special": {}
+      },
+      "languages": [],
+      "gear": [],
+      "cr": "2",
+      "xp": 450,
+      "proficiency_bonus": 2,
+      "tags": [
+        "Dinosaur"
+      ],
+      "skills": {
+        "perception": 3,
+        "stealth": 4
+      },
+      "traits": [
+        {
+          "key": "trait/hold-breath",
+          "name": "Hold Breath",
+          "text": "Hold Breath. The plesiosaurus can hold its breath for 1 hour.",
+          "requires": [
+            "effect/hold-breath"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "bite",
+          "name": "Bite",
+          "text": "Bite. Melee Attack Roll: +6, reach 10 ft. Hit: 11 (2d6 + 4) Piercing damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 6,
+            "reach": 10,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 11,
+              "dice": 2,
+              "sides": 6,
+              "modifier": 4
+            },
+            "damage_type": "piercing"
+          },
+          "effects": [
+            {
+              "key": "effect/piercing-damage",
+              "name": "Piercing damage",
+              "text": "11 (2d6 + 4) Piercing damage.",
+              "dice": {
+                "average": 11,
+                "dice": 2,
+                "sides": 6,
+                "modifier": 4
+              }
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/skills",
+        "movement/swim",
+        "trait/hold-breath",
+        "effect/hold-breath",
+        "action/melee-attack",
+        "effect/piercing-damage"
+      ]
+    }
+  ]
+}

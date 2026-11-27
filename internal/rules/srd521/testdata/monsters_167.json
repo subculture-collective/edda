@@ -1,0 +1,2611 @@
+{
+  "schema_version": 1,
+  "source": {
+    "version": "5.2.1",
+    "language": "en",
+    "landing_url": "https://www.dndbeyond.com/srd",
+    "artifact_url": "https://media.dndbeyond.com/compendium-images/srd/5.2/SRD_CC_v5.2.1.pdf",
+    "sha256": "8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87",
+    "bytes": 6031375,
+    "pages": 364,
+    "retrieved_at": "2026-11-15",
+    "license": "CC-BY-4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/legalcode",
+    "attribution": "This work includes material from the System Reference Document 5.2.1 (“SRD 5.2.1”) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd. The SRD 5.2.1 is licensed under the Creative Commons Attribution 4.0 International License, available at https://creativecommons.org/licenses/by/4.0/legalcode.",
+    "changes": "Adapted the twelve stat blocks of issue #167 (Magma Mephit, Magmin, Mammoth, Manticore, Marilith, Mastiff, Medusa, Merfolk Skirmisher, Merrow, Mimic, Minotaur Skeleton and Minotaur of Baphomet; PDF pages 305–309, 326 and 357) into typed mechanical fields and implementation keys. Trait, action, bonus action and reaction entries keep their source rules text, rejoined across line, column and page breaks; descriptive prose outside the stat blocks is omitted. No playable NPC behavior is granted."
+  },
+  "monsters": [
+    {
+      "id": "srd-5.2.1:content/monsters/magma-mephit",
+      "name": "Magma Mephit",
+      "source_pages": [
+        307,
+        307
+      ],
+      "sizes": [
+        "small"
+      ],
+      "type": "elemental",
+      "alignment": "Neutral Evil",
+      "ac": 11,
+      "initiative": {
+        "modifier": 1,
+        "score": 11
+      },
+      "hp": {
+        "average": 18,
+        "dice": 4,
+        "sides": 6,
+        "modifier": 4
+      },
+      "speeds": {
+        "walk": 30,
+        "fly": 30
+      },
+      "abilities": {
+        "str": {
+          "score": 8,
+          "modifier": -1,
+          "save": -1
+        },
+        "dex": {
+          "score": 12,
+          "modifier": 1,
+          "save": 1
+        },
+        "con": {
+          "score": 12,
+          "modifier": 1,
+          "save": 1
+        },
+        "int": {
+          "score": 7,
+          "modifier": -2,
+          "save": -2
+        },
+        "wis": {
+          "score": 10,
+          "modifier": 0,
+          "save": 0
+        },
+        "cha": {
+          "score": 10,
+          "modifier": 0,
+          "save": 0
+        }
+      },
+      "senses": {
+        "passive_perception": 10,
+        "special": {
+          "darkvision": 60
+        }
+      },
+      "languages": [
+        "Primordial (Ignan, Terran)"
+      ],
+      "gear": [],
+      "cr": "1/2",
+      "xp": 100,
+      "proficiency_bonus": 2,
+      "skills": {
+        "stealth": 3
+      },
+      "vulnerabilities": [
+        "cold"
+      ],
+      "immunities": [
+        "fire",
+        "poison"
+      ],
+      "condition_immunities": [
+        "exhaustion",
+        "poisoned"
+      ],
+      "traits": [
+        {
+          "key": "trait/death-burst",
+          "name": "Death Burst",
+          "text": "Death Burst. The mephit explodes when it dies. Dexterity Saving Throw: DC 11, each creature in a 5-foot Emanation originating from the mephit. Failure: 7 (2d6) Fire damage. Success: Half damage.",
+          "save": {
+            "ability": "dex",
+            "dc": 11
+          },
+          "target": {
+            "shape": "emanation",
+            "size": 5,
+            "width": 0,
+            "range": 0
+          },
+          "dice": {
+            "average": 7,
+            "dice": 2,
+            "sides": 6,
+            "modifier": 0
+          },
+          "requires": [
+            "trigger/death",
+            "save/dex",
+            "area/emanation",
+            "effect/fire-damage",
+            "save/half-damage"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "claw",
+          "name": "Claw",
+          "text": "Claw. Melee Attack Roll: +3, reach 5 ft. Hit: 3 (1d4 + 1) Slashing damage plus 3 (1d6) Fire damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 3,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 3,
+              "dice": 1,
+              "sides": 4,
+              "modifier": 1
+            },
+            "damage_type": "slashing"
+          },
+          "effects": [
+            {
+              "key": "effect/slashing-damage",
+              "name": "Slashing damage",
+              "text": "3 (1d4 + 1) Slashing damage.",
+              "dice": {
+                "average": 3,
+                "dice": 1,
+                "sides": 4,
+                "modifier": 1
+              }
+            },
+            {
+              "key": "effect/fire-damage",
+              "name": "Fire damage",
+              "text": "3 (1d6) Fire damage",
+              "dice": {
+                "average": 3,
+                "dice": 1,
+                "sides": 6,
+                "modifier": 0
+              }
+            }
+          ]
+        },
+        {
+          "id": "fire-breath",
+          "name": "Fire Breath",
+          "text": "Fire Breath (Recharge 6). Dexterity Saving Throw: DC 11, each creature in a 15-foot Cone. Failure: 7 (2d6) Fire damage. Success: Half damage.",
+          "key": "action/saving-throw",
+          "save": {
+            "ability": "dex",
+            "dc": 11
+          },
+          "target": {
+            "shape": "cone",
+            "size": 15,
+            "width": 0,
+            "range": 0
+          },
+          "uses": {
+            "per_day": 0,
+            "lair_per_day": 0,
+            "recharge": 6
+          },
+          "effects": [
+            {
+              "key": "limit/recharge",
+              "name": "Recharge",
+              "text": "(Recharge 6)"
+            },
+            {
+              "key": "save/dex",
+              "name": "Dexterity Saving Throw",
+              "text": "Dexterity Saving Throw: DC 11"
+            },
+            {
+              "key": "area/cone",
+              "name": "Target",
+              "text": "each creature in a 15-foot Cone."
+            },
+            {
+              "key": "effect/fire-damage",
+              "name": "Fire damage",
+              "text": "7 (2d6) Fire damage",
+              "dice": {
+                "average": 7,
+                "dice": 2,
+                "sides": 6,
+                "modifier": 0
+              }
+            },
+            {
+              "key": "save/half-damage",
+              "name": "Half damage",
+              "text": "Success: Half damage."
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/skills",
+        "defense/damage-vulnerability",
+        "defense/damage-immunity",
+        "defense/condition-immunity",
+        "movement/fly",
+        "sense/darkvision",
+        "trait/death-burst",
+        "save/dex",
+        "area/emanation",
+        "trigger/death",
+        "effect/fire-damage",
+        "save/half-damage",
+        "action/melee-attack",
+        "effect/slashing-damage",
+        "action/saving-throw",
+        "limit/recharge",
+        "area/cone"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/magmin",
+      "name": "Magmin",
+      "source_pages": [
+        305,
+        306
+      ],
+      "sizes": [
+        "small"
+      ],
+      "type": "elemental",
+      "alignment": "Chaotic Neutral",
+      "ac": 14,
+      "initiative": {
+        "modifier": 2,
+        "score": 12
+      },
+      "hp": {
+        "average": 13,
+        "dice": 3,
+        "sides": 6,
+        "modifier": 3
+      },
+      "speeds": {
+        "walk": 30
+      },
+      "abilities": {
+        "str": {
+          "score": 7,
+          "modifier": -2,
+          "save": -2
+        },
+        "dex": {
+          "score": 15,
+          "modifier": 2,
+          "save": 2
+        },
+        "con": {
+          "score": 12,
+          "modifier": 1,
+          "save": 1
+        },
+        "int": {
+          "score": 8,
+          "modifier": -1,
+          "save": -1
+        },
+        "wis": {
+          "score": 11,
+          "modifier": 0,
+          "save": 0
+        },
+        "cha": {
+          "score": 10,
+          "modifier": 0,
+          "save": 0
+        }
+      },
+      "senses": {
+        "passive_perception": 10,
+        "special": {
+          "darkvision": 60
+        }
+      },
+      "languages": [
+        "Primordial (Ignan)"
+      ],
+      "gear": [],
+      "cr": "1/2",
+      "xp": 100,
+      "proficiency_bonus": 2,
+      "immunities": [
+        "fire"
+      ],
+      "traits": [
+        {
+          "key": "trait/death-burst",
+          "name": "Death Burst",
+          "text": "Death Burst. The magmin explodes when it dies. Dexterity Saving Throw: DC 11, each creature in a 10-foot Emanation originating from the magmin. Failure: 7 (2d6) Fire damage. Success: Half damage.",
+          "save": {
+            "ability": "dex",
+            "dc": 11
+          },
+          "target": {
+            "shape": "emanation",
+            "size": 10,
+            "width": 0,
+            "range": 0
+          },
+          "dice": {
+            "average": 7,
+            "dice": 2,
+            "sides": 6,
+            "modifier": 0
+          },
+          "requires": [
+            "trigger/death",
+            "save/dex",
+            "area/emanation",
+            "effect/fire-damage",
+            "save/half-damage"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "touch",
+          "name": "Touch",
+          "text": "Touch. Melee Attack Roll: +4, reach 5 ft. Hit: 7 (2d4 + 2) Fire damage. If the target is a creature or a flammable object that isn’t being worn or carried, it starts burning.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 4,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 7,
+              "dice": 2,
+              "sides": 4,
+              "modifier": 2
+            },
+            "damage_type": "fire"
+          },
+          "effects": [
+            {
+              "key": "effect/fire-damage",
+              "name": "Fire damage",
+              "text": "7 (2d4 + 2) Fire damage.",
+              "dice": {
+                "average": 7,
+                "dice": 2,
+                "sides": 4,
+                "modifier": 2
+              }
+            },
+            {
+              "key": "requirement/creature-or-unattended-flammable-object",
+              "name": "Creature or unattended flammable object",
+              "text": "If the target is a creature or a flammable object that isn’t being worn or carried"
+            },
+            {
+              "key": "effect/start-burning",
+              "name": "Start burning",
+              "text": "it starts burning"
+            }
+          ]
+        }
+      ],
+      "bonus_actions": [
+        {
+          "id": "ignited-illumination",
+          "name": "Ignited Illumination",
+          "text": "Ignited Illumination. The magmin sets itself ablaze or extinguishes its flames. While ablaze, the magmin sheds Bright Light in a 10-foot radius and Dim Light for an additional 10 feet.",
+          "key": "action/special",
+          "effects": [
+            {
+              "key": "effect/toggle-flames",
+              "name": "Toggle flames",
+              "text": "The magmin sets itself ablaze or extinguishes its flames"
+            },
+            {
+              "key": "effect/shed-light",
+              "name": "Shed light",
+              "text": "While ablaze, the magmin sheds Bright Light in a 10-foot radius and Dim Light for an additional 10 feet"
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "defense/damage-immunity",
+        "sense/darkvision",
+        "action/bonus-action",
+        "trait/death-burst",
+        "save/dex",
+        "area/emanation",
+        "trigger/death",
+        "effect/fire-damage",
+        "save/half-damage",
+        "action/melee-attack",
+        "requirement/creature-or-unattended-flammable-object",
+        "effect/start-burning",
+        "action/special",
+        "effect/toggle-flames",
+        "effect/shed-light"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/animals/mammoth",
+      "name": "Mammoth",
+      "source_pages": [
+        357,
+        357
+      ],
+      "sizes": [
+        "huge"
+      ],
+      "type": "beast",
+      "alignment": "Unaligned",
+      "ac": 13,
+      "initiative": {
+        "modifier": 2,
+        "score": 12
+      },
+      "hp": {
+        "average": 126,
+        "dice": 11,
+        "sides": 12,
+        "modifier": 55
+      },
+      "speeds": {
+        "walk": 50
+      },
+      "abilities": {
+        "str": {
+          "score": 24,
+          "modifier": 7,
+          "save": 10
+        },
+        "dex": {
+          "score": 9,
+          "modifier": -1,
+          "save": -1
+        },
+        "con": {
+          "score": 21,
+          "modifier": 5,
+          "save": 8
+        },
+        "int": {
+          "score": 3,
+          "modifier": -4,
+          "save": -4
+        },
+        "wis": {
+          "score": 11,
+          "modifier": 0,
+          "save": 0
+        },
+        "cha": {
+          "score": 6,
+          "modifier": -2,
+          "save": -2
+        }
+      },
+      "senses": {
+        "passive_perception": 10,
+        "special": {}
+      },
+      "languages": [],
+      "gear": [],
+      "cr": "6",
+      "xp": 2300,
+      "proficiency_bonus": 3,
+      "traits": [],
+      "actions": [
+        {
+          "id": "multiattack",
+          "name": "Multiattack",
+          "text": "Multiattack. The mammoth makes two Gore attacks.",
+          "key": "action/multiattack",
+          "effects": [
+            {
+              "key": "action/melee-attack",
+              "name": "Attack",
+              "text": "The mammoth makes two Gore attacks"
+            }
+          ]
+        },
+        {
+          "id": "gore",
+          "name": "Gore",
+          "text": "Gore. Melee Attack Roll: +10, reach 10 ft. Hit: 18 (2d10 + 7) Piercing damage. If the target is a Huge or smaller creature and the mammoth moved 20+ feet straight toward it immediately before the hit, the target has the Prone condition.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 10,
+            "reach": 10,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 18,
+              "dice": 2,
+              "sides": 10,
+              "modifier": 7
+            },
+            "damage_type": "piercing"
+          },
+          "effects": [
+            {
+              "key": "effect/piercing-damage",
+              "name": "Piercing damage",
+              "text": "18 (2d10 + 7) Piercing damage.",
+              "dice": {
+                "average": 18,
+                "dice": 2,
+                "sides": 10,
+                "modifier": 7
+              }
+            },
+            {
+              "key": "requirement/target-size",
+              "name": "Target size",
+              "text": "If the target is a Huge or smaller creature"
+            },
+            {
+              "key": "requirement/charge-distance",
+              "name": "Charge distance",
+              "text": "the mammoth moved 20+ feet straight toward it immediately before the hit"
+            },
+            {
+              "key": "condition/prone",
+              "name": "Prone",
+              "text": "the target has the Prone condition"
+            }
+          ]
+        }
+      ],
+      "bonus_actions": [
+        {
+          "id": "trample",
+          "name": "Trample",
+          "text": "Trample. Dexterity Saving Throw: DC 18, one creature within 5 feet that has the Prone condition. Failure: 29 (4d10 + 7) Bludgeoning damage. Success: Half damage.",
+          "key": "action/saving-throw",
+          "save": {
+            "ability": "dex",
+            "dc": 18
+          },
+          "target": {
+            "shape": "creature",
+            "size": 0,
+            "width": 0,
+            "range": 5
+          },
+          "effects": [
+            {
+              "key": "save/dex",
+              "name": "Dexterity Saving Throw",
+              "text": "Dexterity Saving Throw: DC 18"
+            },
+            {
+              "key": "target/creature",
+              "name": "Target",
+              "text": "one creature within 5 feet that has the Prone condition."
+            },
+            {
+              "key": "requirement/target-prone",
+              "name": "Target prone",
+              "text": "that has the Prone condition"
+            },
+            {
+              "key": "effect/bludgeoning-damage",
+              "name": "Bludgeoning damage",
+              "text": "29 (4d10 + 7) Bludgeoning damage",
+              "dice": {
+                "average": 29,
+                "dice": 4,
+                "sides": 10,
+                "modifier": 7
+              }
+            },
+            {
+              "key": "save/half-damage",
+              "name": "Half damage",
+              "text": "Success: Half damage."
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "action/bonus-action",
+        "action/multiattack",
+        "action/melee-attack",
+        "effect/piercing-damage",
+        "requirement/target-size",
+        "requirement/charge-distance",
+        "condition/prone",
+        "action/saving-throw",
+        "save/dex",
+        "target/creature",
+        "requirement/target-prone",
+        "effect/bludgeoning-damage",
+        "save/half-damage"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/manticore",
+      "name": "Manticore",
+      "source_pages": [
+        306,
+        306
+      ],
+      "sizes": [
+        "large"
+      ],
+      "type": "monstrosity",
+      "alignment": "Lawful Evil",
+      "ac": 14,
+      "initiative": {
+        "modifier": 3,
+        "score": 13
+      },
+      "hp": {
+        "average": 68,
+        "dice": 8,
+        "sides": 10,
+        "modifier": 24
+      },
+      "speeds": {
+        "walk": 30,
+        "fly": 50
+      },
+      "abilities": {
+        "str": {
+          "score": 17,
+          "modifier": 3,
+          "save": 3
+        },
+        "dex": {
+          "score": 16,
+          "modifier": 3,
+          "save": 3
+        },
+        "con": {
+          "score": 17,
+          "modifier": 3,
+          "save": 3
+        },
+        "int": {
+          "score": 7,
+          "modifier": -2,
+          "save": -2
+        },
+        "wis": {
+          "score": 12,
+          "modifier": 1,
+          "save": 1
+        },
+        "cha": {
+          "score": 8,
+          "modifier": -1,
+          "save": -1
+        }
+      },
+      "senses": {
+        "passive_perception": 11,
+        "special": {
+          "darkvision": 60
+        }
+      },
+      "languages": [
+        "Common"
+      ],
+      "gear": [],
+      "cr": "3",
+      "xp": 700,
+      "proficiency_bonus": 2,
+      "traits": [],
+      "actions": [
+        {
+          "id": "multiattack",
+          "name": "Multiattack",
+          "text": "Multiattack. The manticore makes three attacks, using Rend or Tail Spike in any combination.",
+          "key": "action/multiattack",
+          "effects": [
+            {
+              "key": "action/melee-attack",
+              "name": "Attack",
+              "text": "The manticore makes three attacks, using Rend or Tail Spike in any combination"
+            },
+            {
+              "key": "action/ranged-attack",
+              "name": "Attack",
+              "text": "using Rend or Tail Spike"
+            },
+            {
+              "key": "multiattack/any-combination",
+              "name": "Any combination",
+              "text": "in any combination"
+            }
+          ]
+        },
+        {
+          "id": "rend",
+          "name": "Rend",
+          "text": "Rend. Melee Attack Roll: +5, reach 5 ft. Hit: 7 (1d8 + 3) Slashing damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 5,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 7,
+              "dice": 1,
+              "sides": 8,
+              "modifier": 3
+            },
+            "damage_type": "slashing"
+          },
+          "effects": [
+            {
+              "key": "effect/slashing-damage",
+              "name": "Slashing damage",
+              "text": "7 (1d8 + 3) Slashing damage.",
+              "dice": {
+                "average": 7,
+                "dice": 1,
+                "sides": 8,
+                "modifier": 3
+              }
+            }
+          ]
+        },
+        {
+          "id": "tail-spike",
+          "name": "Tail Spike",
+          "text": "Tail Spike. Ranged Attack Roll: +5, range 100/200 ft. Hit: 7 (1d8 + 3) Piercing damage.",
+          "key": "action/ranged-attack",
+          "attack": {
+            "kind": "ranged",
+            "bonus": 5,
+            "reach": 0,
+            "range": 100,
+            "long_range": 200,
+            "damage": {
+              "average": 7,
+              "dice": 1,
+              "sides": 8,
+              "modifier": 3
+            },
+            "damage_type": "piercing"
+          },
+          "effects": [
+            {
+              "key": "effect/piercing-damage",
+              "name": "Piercing damage",
+              "text": "7 (1d8 + 3) Piercing damage.",
+              "dice": {
+                "average": 7,
+                "dice": 1,
+                "sides": 8,
+                "modifier": 3
+              }
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "movement/fly",
+        "sense/darkvision",
+        "action/multiattack",
+        "action/melee-attack",
+        "action/ranged-attack",
+        "multiattack/any-combination",
+        "effect/slashing-damage",
+        "effect/piercing-damage"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/marilith",
+      "name": "Marilith",
+      "source_pages": [
+        306,
+        306
+      ],
+      "sizes": [
+        "large"
+      ],
+      "type": "fiend",
+      "alignment": "Chaotic Evil",
+      "ac": 16,
+      "initiative": {
+        "modifier": 10,
+        "score": 20
+      },
+      "hp": {
+        "average": 220,
+        "dice": 21,
+        "sides": 10,
+        "modifier": 105
+      },
+      "speeds": {
+        "walk": 40,
+        "climb": 40
+      },
+      "abilities": {
+        "str": {
+          "score": 18,
+          "modifier": 4,
+          "save": 9
+        },
+        "dex": {
+          "score": 20,
+          "modifier": 5,
+          "save": 5
+        },
+        "con": {
+          "score": 20,
+          "modifier": 5,
+          "save": 10
+        },
+        "int": {
+          "score": 18,
+          "modifier": 4,
+          "save": 4
+        },
+        "wis": {
+          "score": 16,
+          "modifier": 3,
+          "save": 8
+        },
+        "cha": {
+          "score": 20,
+          "modifier": 5,
+          "save": 10
+        }
+      },
+      "senses": {
+        "passive_perception": 18,
+        "special": {
+          "truesight": 120
+        }
+      },
+      "languages": [
+        "Abyssal"
+      ],
+      "gear": [],
+      "cr": "16",
+      "xp": 15000,
+      "proficiency_bonus": 5,
+      "tags": [
+        "Demon"
+      ],
+      "skills": {
+        "perception": 8
+      },
+      "resistances": [
+        "cold",
+        "fire",
+        "lightning"
+      ],
+      "immunities": [
+        "poison"
+      ],
+      "condition_immunities": [
+        "poisoned"
+      ],
+      "telepathy": 120,
+      "traits": [
+        {
+          "key": "trait/demonic-restoration",
+          "name": "Demonic Restoration",
+          "text": "Demonic Restoration. If the marilith dies outside the Abyss, its body dissolves into ichor, and it gains a new body instantly, reviving with all its Hit Points somewhere in the Abyss.",
+          "requires": [
+            "effect/revive"
+          ]
+        },
+        {
+          "key": "trait/magic-resistance",
+          "name": "Magic Resistance",
+          "text": "Magic Resistance. The marilith has Advantage on saving throws against spells and other magical effects.",
+          "requires": [
+            "save/advantage-against-magic"
+          ]
+        },
+        {
+          "key": "trait/reactive",
+          "name": "Reactive",
+          "text": "Reactive. The marilith can take one Reaction on every turn of combat.",
+          "requires": [
+            "effect/reaction-every-turn"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "multiattack",
+          "name": "Multiattack",
+          "text": "Multiattack. The marilith makes six Pact Blade attacks and uses Constrict.",
+          "key": "action/multiattack",
+          "effects": [
+            {
+              "key": "action/melee-attack",
+              "name": "Attack",
+              "text": "The marilith makes six Pact Blade attacks"
+            },
+            {
+              "key": "multiattack/additional-action",
+              "name": "Additional action",
+              "text": "uses Constrict"
+            },
+            {
+              "key": "action/saving-throw",
+              "name": "Saving throw",
+              "text": "uses Constrict"
+            }
+          ]
+        },
+        {
+          "id": "pact-blade",
+          "name": "Pact Blade",
+          "text": "Pact Blade. Melee Attack Roll: +10, reach 5 ft. Hit: 10 (1d10 + 5) Slashing damage plus 7 (2d6) Necrotic damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 10,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 10,
+              "dice": 1,
+              "sides": 10,
+              "modifier": 5
+            },
+            "damage_type": "slashing"
+          },
+          "effects": [
+            {
+              "key": "effect/slashing-damage",
+              "name": "Slashing damage",
+              "text": "10 (1d10 + 5) Slashing damage.",
+              "dice": {
+                "average": 10,
+                "dice": 1,
+                "sides": 10,
+                "modifier": 5
+              }
+            },
+            {
+              "key": "effect/necrotic-damage",
+              "name": "Necrotic damage",
+              "text": "7 (2d6) Necrotic damage",
+              "dice": {
+                "average": 7,
+                "dice": 2,
+                "sides": 6,
+                "modifier": 0
+              }
+            }
+          ]
+        },
+        {
+          "id": "constrict",
+          "name": "Constrict",
+          "text": "Constrict. Strength Saving Throw: DC 17, one Medium or smaller creature the marilith can see within 5 feet. Failure: 15 (2d10 + 4) Bludgeoning damage. The target has the Grappled condition (escape DC 14), and it has the Restrained condition until the grapple ends.",
+          "key": "action/saving-throw",
+          "save": {
+            "ability": "str",
+            "dc": 17
+          },
+          "target": {
+            "shape": "creature",
+            "size": 0,
+            "width": 0,
+            "range": 5
+          },
+          "effects": [
+            {
+              "key": "save/str",
+              "name": "Strength Saving Throw",
+              "text": "Strength Saving Throw: DC 17"
+            },
+            {
+              "key": "target/creature",
+              "name": "Target",
+              "text": "one Medium or smaller creature the marilith can see within 5 feet."
+            },
+            {
+              "key": "requirement/target-size",
+              "name": "Target size",
+              "text": "one Medium or smaller creature"
+            },
+            {
+              "key": "effect/bludgeoning-damage",
+              "name": "Bludgeoning damage",
+              "text": "15 (2d10 + 4) Bludgeoning damage",
+              "dice": {
+                "average": 15,
+                "dice": 2,
+                "sides": 10,
+                "modifier": 4
+              }
+            },
+            {
+              "key": "condition/grappled",
+              "name": "Grappled",
+              "text": "The target has the Grappled condition (escape DC 14)"
+            },
+            {
+              "key": "condition/restrained",
+              "name": "Restrained",
+              "text": "it has the Restrained condition until the grapple ends"
+            }
+          ]
+        }
+      ],
+      "bonus_actions": [
+        {
+          "id": "teleport",
+          "name": "Teleport",
+          "text": "Teleport (Recharge 5–6). The marilith teleports up to 120 feet to an unoccupied space it can see.",
+          "key": "action/special",
+          "uses": {
+            "per_day": 0,
+            "lair_per_day": 0,
+            "recharge": 5
+          },
+          "effects": [
+            {
+              "key": "limit/recharge",
+              "name": "Recharge",
+              "text": "(Recharge 5–6)"
+            },
+            {
+              "key": "effect/teleport",
+              "name": "Teleport",
+              "text": "The marilith teleports up to 120 feet to an unoccupied space it can see"
+            },
+            {
+              "key": "requirement/unoccupied-visible-space",
+              "name": "Unoccupied visible space",
+              "text": "an unoccupied space it can see"
+            }
+          ]
+        }
+      ],
+      "reactions": [
+        {
+          "id": "parry",
+          "name": "Parry",
+          "text": "Parry. Trigger: The marilith is hit by a melee attack roll while holding a weapon. Response: The marilith adds 5 to its AC against that attack, possibly causing it to miss.",
+          "key": "action/special",
+          "effects": [
+            {
+              "key": "reaction/trigger",
+              "name": "Trigger",
+              "text": "Trigger: The marilith is hit by a melee attack roll while holding a weapon"
+            },
+            {
+              "key": "requirement/holding-weapon",
+              "name": "Holding weapon",
+              "text": "while holding a weapon"
+            },
+            {
+              "key": "effect/ac-bonus",
+              "name": "Ac bonus",
+              "text": "Response: The marilith adds 5 to its AC against that attack, possibly causing it to miss"
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/skills",
+        "defense/damage-resistance",
+        "defense/damage-immunity",
+        "defense/condition-immunity",
+        "movement/climb",
+        "sense/truesight",
+        "language/telepathy",
+        "action/bonus-action",
+        "action/reaction",
+        "trait/demonic-restoration",
+        "effect/revive",
+        "trait/magic-resistance",
+        "save/advantage-against-magic",
+        "trait/reactive",
+        "effect/reaction-every-turn",
+        "action/multiattack",
+        "action/melee-attack",
+        "multiattack/additional-action",
+        "action/saving-throw",
+        "effect/slashing-damage",
+        "effect/necrotic-damage",
+        "save/str",
+        "target/creature",
+        "requirement/target-size",
+        "effect/bludgeoning-damage",
+        "condition/grappled",
+        "condition/restrained",
+        "action/special",
+        "limit/recharge",
+        "effect/teleport",
+        "requirement/unoccupied-visible-space",
+        "reaction/trigger",
+        "requirement/holding-weapon",
+        "effect/ac-bonus"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/animals/mastiff",
+      "name": "Mastiff",
+      "source_pages": [
+        357,
+        357
+      ],
+      "sizes": [
+        "medium"
+      ],
+      "type": "beast",
+      "alignment": "Unaligned",
+      "ac": 12,
+      "initiative": {
+        "modifier": 2,
+        "score": 12
+      },
+      "hp": {
+        "average": 5,
+        "dice": 1,
+        "sides": 8,
+        "modifier": 1
+      },
+      "speeds": {
+        "walk": 40
+      },
+      "abilities": {
+        "str": {
+          "score": 13,
+          "modifier": 1,
+          "save": 1
+        },
+        "dex": {
+          "score": 14,
+          "modifier": 2,
+          "save": 2
+        },
+        "con": {
+          "score": 12,
+          "modifier": 1,
+          "save": 1
+        },
+        "int": {
+          "score": 3,
+          "modifier": -4,
+          "save": -4
+        },
+        "wis": {
+          "score": 12,
+          "modifier": 1,
+          "save": 3
+        },
+        "cha": {
+          "score": 7,
+          "modifier": -2,
+          "save": -2
+        }
+      },
+      "senses": {
+        "passive_perception": 15,
+        "special": {
+          "darkvision": 60
+        }
+      },
+      "languages": [],
+      "gear": [],
+      "cr": "1/8",
+      "xp": 25,
+      "proficiency_bonus": 2,
+      "skills": {
+        "perception": 5
+      },
+      "traits": [],
+      "actions": [
+        {
+          "id": "bite",
+          "name": "Bite",
+          "text": "Bite. Melee Attack Roll: +3, reach 5 ft. Hit: 4 (1d6 + 1) Piercing damage. If the target is a Medium or smaller creature, it has the Prone condition.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 3,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 4,
+              "dice": 1,
+              "sides": 6,
+              "modifier": 1
+            },
+            "damage_type": "piercing"
+          },
+          "effects": [
+            {
+              "key": "effect/piercing-damage",
+              "name": "Piercing damage",
+              "text": "4 (1d6 + 1) Piercing damage.",
+              "dice": {
+                "average": 4,
+                "dice": 1,
+                "sides": 6,
+                "modifier": 1
+              }
+            },
+            {
+              "key": "requirement/target-size",
+              "name": "Target size",
+              "text": "If the target is a Medium or smaller creature"
+            },
+            {
+              "key": "condition/prone",
+              "name": "Prone",
+              "text": "it has the Prone condition"
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/skills",
+        "sense/darkvision",
+        "action/melee-attack",
+        "effect/piercing-damage",
+        "requirement/target-size",
+        "condition/prone"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/medusa",
+      "name": "Medusa",
+      "source_pages": [
+        306,
+        307
+      ],
+      "sizes": [
+        "medium"
+      ],
+      "type": "monstrosity",
+      "alignment": "Lawful Evil",
+      "ac": 15,
+      "initiative": {
+        "modifier": 6,
+        "score": 16
+      },
+      "hp": {
+        "average": 127,
+        "dice": 17,
+        "sides": 8,
+        "modifier": 51
+      },
+      "speeds": {
+        "walk": 30
+      },
+      "abilities": {
+        "str": {
+          "score": 10,
+          "modifier": 0,
+          "save": 0
+        },
+        "dex": {
+          "score": 17,
+          "modifier": 3,
+          "save": 3
+        },
+        "con": {
+          "score": 16,
+          "modifier": 3,
+          "save": 3
+        },
+        "int": {
+          "score": 12,
+          "modifier": 1,
+          "save": 1
+        },
+        "wis": {
+          "score": 13,
+          "modifier": 1,
+          "save": 4
+        },
+        "cha": {
+          "score": 15,
+          "modifier": 2,
+          "save": 2
+        }
+      },
+      "senses": {
+        "passive_perception": 14,
+        "special": {
+          "darkvision": 150
+        }
+      },
+      "languages": [
+        "Common plus one other language"
+      ],
+      "gear": [],
+      "cr": "6",
+      "xp": 2300,
+      "proficiency_bonus": 3,
+      "skills": {
+        "deception": 5,
+        "perception": 4,
+        "stealth": 6
+      },
+      "traits": [],
+      "actions": [
+        {
+          "id": "multiattack",
+          "name": "Multiattack",
+          "text": "Multiattack. The medusa makes two Claw attacks and one Snake Hair attack, or it makes three Poison Ray attacks.",
+          "key": "action/multiattack",
+          "effects": [
+            {
+              "key": "action/melee-attack",
+              "name": "Attack",
+              "text": "The medusa makes two Claw attacks and one Snake Hair attack"
+            },
+            {
+              "key": "multiattack/alternative-routine",
+              "name": "Alternative routine",
+              "text": "or it makes three Poison Ray attacks"
+            },
+            {
+              "key": "action/ranged-attack",
+              "name": "Attack",
+              "text": "it makes three Poison Ray attacks"
+            }
+          ]
+        },
+        {
+          "id": "claw",
+          "name": "Claw",
+          "text": "Claw. Melee Attack Roll: +6, reach 5 ft. Hit: 10 (2d6 + 3) Slashing damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 6,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 10,
+              "dice": 2,
+              "sides": 6,
+              "modifier": 3
+            },
+            "damage_type": "slashing"
+          },
+          "effects": [
+            {
+              "key": "effect/slashing-damage",
+              "name": "Slashing damage",
+              "text": "10 (2d6 + 3) Slashing damage.",
+              "dice": {
+                "average": 10,
+                "dice": 2,
+                "sides": 6,
+                "modifier": 3
+              }
+            }
+          ]
+        },
+        {
+          "id": "snake-hair",
+          "name": "Snake Hair",
+          "text": "Snake Hair. Melee Attack Roll: +6, reach 5 ft. Hit: 5 (1d4 + 3) Piercing damage plus 14 (4d6) Poison damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 6,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 5,
+              "dice": 1,
+              "sides": 4,
+              "modifier": 3
+            },
+            "damage_type": "piercing"
+          },
+          "effects": [
+            {
+              "key": "effect/piercing-damage",
+              "name": "Piercing damage",
+              "text": "5 (1d4 + 3) Piercing damage.",
+              "dice": {
+                "average": 5,
+                "dice": 1,
+                "sides": 4,
+                "modifier": 3
+              }
+            },
+            {
+              "key": "effect/poison-damage",
+              "name": "Poison damage",
+              "text": "14 (4d6) Poison damage",
+              "dice": {
+                "average": 14,
+                "dice": 4,
+                "sides": 6,
+                "modifier": 0
+              }
+            }
+          ]
+        },
+        {
+          "id": "poison-ray",
+          "name": "Poison Ray",
+          "text": "Poison Ray. Ranged Attack Roll: +5, range 150 ft. Hit: 11 (2d8 + 2) Poison damage.",
+          "key": "action/ranged-attack",
+          "attack": {
+            "kind": "ranged",
+            "bonus": 5,
+            "reach": 0,
+            "range": 150,
+            "long_range": 150,
+            "damage": {
+              "average": 11,
+              "dice": 2,
+              "sides": 8,
+              "modifier": 2
+            },
+            "damage_type": "poison"
+          },
+          "effects": [
+            {
+              "key": "effect/poison-damage",
+              "name": "Poison damage",
+              "text": "11 (2d8 + 2) Poison damage.",
+              "dice": {
+                "average": 11,
+                "dice": 2,
+                "sides": 8,
+                "modifier": 2
+              }
+            }
+          ]
+        }
+      ],
+      "bonus_actions": [
+        {
+          "id": "petrifying-gaze",
+          "name": "Petrifying Gaze",
+          "text": "Petrifying Gaze (Recharge 5–6). Constitution Saving Throw: DC 13, each creature in a 30-foot Cone. If the medusa sees its reflection in the Cone, the medusa must make this save. First Failure: The target has the Restrained condition and repeats the save at the end of its next turn if it is still Restrained, ending the effect on itself on a success. Second Failure: The target has the Petrified condition instead of the Restrained condition.",
+          "key": "action/saving-throw",
+          "save": {
+            "ability": "con",
+            "dc": 13
+          },
+          "target": {
+            "shape": "cone",
+            "size": 30,
+            "width": 0,
+            "range": 0
+          },
+          "uses": {
+            "per_day": 0,
+            "lair_per_day": 0,
+            "recharge": 5
+          },
+          "effects": [
+            {
+              "key": "limit/recharge",
+              "name": "Recharge",
+              "text": "(Recharge 5–6)"
+            },
+            {
+              "key": "save/con",
+              "name": "Constitution Saving Throw",
+              "text": "Constitution Saving Throw: DC 13"
+            },
+            {
+              "key": "area/cone",
+              "name": "Target",
+              "text": "each creature in a 30-foot Cone."
+            },
+            {
+              "key": "effect/reflected-gaze",
+              "name": "Reflected gaze",
+              "text": "If the medusa sees its reflection in the Cone, the medusa must make this save"
+            },
+            {
+              "key": "save/first-failure",
+              "name": "First failure",
+              "text": "First Failure: The target has the Restrained condition"
+            },
+            {
+              "key": "condition/restrained",
+              "name": "Restrained",
+              "text": "The target has the Restrained condition"
+            },
+            {
+              "key": "save/repeat",
+              "name": "Repeat",
+              "text": "repeats the save at the end of its next turn if it is still Restrained, ending the effect on itself on a success"
+            },
+            {
+              "key": "save/second-failure",
+              "name": "Second failure",
+              "text": "Second Failure: The target has the Petrified condition instead of the Restrained condition"
+            },
+            {
+              "key": "condition/petrified",
+              "name": "Petrified",
+              "text": "The target has the Petrified condition instead of the Restrained condition"
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/skills",
+        "sense/darkvision",
+        "action/bonus-action",
+        "action/multiattack",
+        "action/melee-attack",
+        "multiattack/alternative-routine",
+        "action/ranged-attack",
+        "effect/slashing-damage",
+        "effect/piercing-damage",
+        "effect/poison-damage",
+        "action/saving-throw",
+        "limit/recharge",
+        "save/con",
+        "area/cone",
+        "effect/reflected-gaze",
+        "save/first-failure",
+        "condition/restrained",
+        "save/repeat",
+        "save/second-failure",
+        "condition/petrified"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/merfolk-skirmisher",
+      "name": "Merfolk Skirmisher",
+      "source_pages": [
+        308,
+        308
+      ],
+      "sizes": [
+        "medium"
+      ],
+      "type": "elemental",
+      "alignment": "Neutral",
+      "ac": 11,
+      "initiative": {
+        "modifier": 1,
+        "score": 11
+      },
+      "hp": {
+        "average": 11,
+        "dice": 2,
+        "sides": 8,
+        "modifier": 2
+      },
+      "speeds": {
+        "walk": 10,
+        "swim": 40
+      },
+      "abilities": {
+        "str": {
+          "score": 10,
+          "modifier": 0,
+          "save": 0
+        },
+        "dex": {
+          "score": 13,
+          "modifier": 1,
+          "save": 1
+        },
+        "con": {
+          "score": 12,
+          "modifier": 1,
+          "save": 1
+        },
+        "int": {
+          "score": 11,
+          "modifier": 0,
+          "save": 0
+        },
+        "wis": {
+          "score": 14,
+          "modifier": 2,
+          "save": 2
+        },
+        "cha": {
+          "score": 12,
+          "modifier": 1,
+          "save": 1
+        }
+      },
+      "senses": {
+        "passive_perception": 12,
+        "special": {}
+      },
+      "languages": [
+        "Common",
+        "Primordial (Aquan)"
+      ],
+      "gear": [],
+      "cr": "1/8",
+      "xp": 25,
+      "proficiency_bonus": 2,
+      "traits": [
+        {
+          "key": "trait/amphibious",
+          "name": "Amphibious",
+          "text": "Amphibious. The merfolk can breathe air and water.",
+          "requires": [
+            "effect/breathe-air-and-water"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "ocean-spear",
+          "name": "Ocean Spear",
+          "text": "Ocean Spear. Melee or Ranged Attack Roll: +2, reach 5 ft. or range 20/60 ft. Hit: 3 (1d6) Piercing damage plus 2 (1d4) Cold damage. If the target is a creature, its Speed decreases by 10 feet until the end of its next turn. Hit or Miss: The spear magically returns to the merfolk’s hand immediately after a ranged attack.",
+          "key": "action/melee-or-ranged-attack",
+          "effects": [
+            {
+              "key": "effect/piercing-damage",
+              "name": "Piercing damage",
+              "text": "3 (1d6) Piercing damage",
+              "dice": {
+                "average": 3,
+                "dice": 1,
+                "sides": 6,
+                "modifier": 0
+              }
+            },
+            {
+              "key": "effect/cold-damage",
+              "name": "Cold damage",
+              "text": "2 (1d4) Cold damage",
+              "dice": {
+                "average": 2,
+                "dice": 1,
+                "sides": 4,
+                "modifier": 0
+              }
+            },
+            {
+              "key": "requirement/target-creature",
+              "name": "Target creature",
+              "text": "If the target is a creature"
+            },
+            {
+              "key": "effect/speed-decrease",
+              "name": "Speed decrease",
+              "text": "its Speed decreases by 10 feet until the end of its next turn"
+            },
+            {
+              "key": "effect/weapon-returns",
+              "name": "Weapon returns",
+              "text": "Hit or Miss: The spear magically returns to the merfolk’s hand immediately after a ranged attack"
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "movement/swim",
+        "trait/amphibious",
+        "effect/breathe-air-and-water",
+        "action/melee-or-ranged-attack",
+        "effect/piercing-damage",
+        "effect/cold-damage",
+        "requirement/target-creature",
+        "effect/speed-decrease",
+        "effect/weapon-returns"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/merrow",
+      "name": "Merrow",
+      "source_pages": [
+        308,
+        308
+      ],
+      "sizes": [
+        "large"
+      ],
+      "type": "monstrosity",
+      "alignment": "Chaotic Evil",
+      "ac": 13,
+      "initiative": {
+        "modifier": 2,
+        "score": 12
+      },
+      "hp": {
+        "average": 45,
+        "dice": 6,
+        "sides": 10,
+        "modifier": 12
+      },
+      "speeds": {
+        "walk": 10,
+        "swim": 40
+      },
+      "abilities": {
+        "str": {
+          "score": 18,
+          "modifier": 4,
+          "save": 4
+        },
+        "dex": {
+          "score": 15,
+          "modifier": 2,
+          "save": 2
+        },
+        "con": {
+          "score": 15,
+          "modifier": 2,
+          "save": 2
+        },
+        "int": {
+          "score": 8,
+          "modifier": -1,
+          "save": -1
+        },
+        "wis": {
+          "score": 10,
+          "modifier": 0,
+          "save": 0
+        },
+        "cha": {
+          "score": 9,
+          "modifier": -1,
+          "save": -1
+        }
+      },
+      "senses": {
+        "passive_perception": 10,
+        "special": {
+          "darkvision": 60
+        }
+      },
+      "languages": [
+        "Abyssal",
+        "Primordial (Aquan)"
+      ],
+      "gear": [],
+      "cr": "2",
+      "xp": 450,
+      "proficiency_bonus": 2,
+      "traits": [
+        {
+          "key": "trait/amphibious",
+          "name": "Amphibious",
+          "text": "Amphibious. The merrow can breathe air and water.",
+          "requires": [
+            "effect/breathe-air-and-water"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "multiattack",
+          "name": "Multiattack",
+          "text": "Multiattack. The merrow makes two attacks, using Bite, Claw, or Harpoon in any combination.",
+          "key": "action/multiattack",
+          "effects": [
+            {
+              "key": "action/melee-attack",
+              "name": "Attack",
+              "text": "The merrow makes two attacks, using Bite, Claw, or Harpoon in any combination"
+            },
+            {
+              "key": "action/melee-or-ranged-attack",
+              "name": "Attack",
+              "text": "using Bite, Claw, or Harpoon"
+            },
+            {
+              "key": "multiattack/any-combination",
+              "name": "Any combination",
+              "text": "in any combination"
+            }
+          ]
+        },
+        {
+          "id": "bite",
+          "name": "Bite",
+          "text": "Bite. Melee Attack Roll: +6, reach 5 ft. Hit: 6 (1d4 + 4) Piercing damage, and the target has the Poisoned condition until the end of the merrow’s next turn.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 6,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 6,
+              "dice": 1,
+              "sides": 4,
+              "modifier": 4
+            },
+            "damage_type": "piercing"
+          },
+          "effects": [
+            {
+              "key": "effect/piercing-damage",
+              "name": "Piercing damage",
+              "text": "6 (1d4 + 4) Piercing damage.",
+              "dice": {
+                "average": 6,
+                "dice": 1,
+                "sides": 4,
+                "modifier": 4
+              }
+            },
+            {
+              "key": "condition/poisoned",
+              "name": "Poisoned",
+              "text": "the target has the Poisoned condition until the end of the merrow’s next turn"
+            }
+          ]
+        },
+        {
+          "id": "claw",
+          "name": "Claw",
+          "text": "Claw. Melee Attack Roll: +6, reach 5 ft. Hit: 9 (2d4 + 4) Slashing damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 6,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 9,
+              "dice": 2,
+              "sides": 4,
+              "modifier": 4
+            },
+            "damage_type": "slashing"
+          },
+          "effects": [
+            {
+              "key": "effect/slashing-damage",
+              "name": "Slashing damage",
+              "text": "9 (2d4 + 4) Slashing damage.",
+              "dice": {
+                "average": 9,
+                "dice": 2,
+                "sides": 4,
+                "modifier": 4
+              }
+            }
+          ]
+        },
+        {
+          "id": "harpoon",
+          "name": "Harpoon",
+          "text": "Harpoon. Melee or Ranged Attack Roll: +6, reach 5 ft. or range 20/60 ft. Hit: 11 (2d6 + 4) Piercing damage. If the target is a Large or smaller creature, the merrow pulls the target up to 15 feet straight toward itself.",
+          "key": "action/melee-or-ranged-attack",
+          "effects": [
+            {
+              "key": "effect/piercing-damage",
+              "name": "Piercing damage",
+              "text": "11 (2d6 + 4) Piercing damage",
+              "dice": {
+                "average": 11,
+                "dice": 2,
+                "sides": 6,
+                "modifier": 4
+              }
+            },
+            {
+              "key": "requirement/target-size",
+              "name": "Target size",
+              "text": "If the target is a Large or smaller creature"
+            },
+            {
+              "key": "effect/pull",
+              "name": "Pull",
+              "text": "the merrow pulls the target up to 15 feet straight toward itself"
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "movement/swim",
+        "sense/darkvision",
+        "trait/amphibious",
+        "effect/breathe-air-and-water",
+        "action/multiattack",
+        "action/melee-attack",
+        "action/melee-or-ranged-attack",
+        "multiattack/any-combination",
+        "effect/piercing-damage",
+        "condition/poisoned",
+        "effect/slashing-damage",
+        "requirement/target-size",
+        "effect/pull"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/mimic",
+      "name": "Mimic",
+      "source_pages": [
+        308,
+        309
+      ],
+      "sizes": [
+        "medium"
+      ],
+      "type": "monstrosity",
+      "alignment": "Neutral",
+      "ac": 12,
+      "initiative": {
+        "modifier": 3,
+        "score": 13
+      },
+      "hp": {
+        "average": 58,
+        "dice": 9,
+        "sides": 8,
+        "modifier": 18
+      },
+      "speeds": {
+        "walk": 20
+      },
+      "abilities": {
+        "str": {
+          "score": 17,
+          "modifier": 3,
+          "save": 3
+        },
+        "dex": {
+          "score": 12,
+          "modifier": 1,
+          "save": 1
+        },
+        "con": {
+          "score": 15,
+          "modifier": 2,
+          "save": 2
+        },
+        "int": {
+          "score": 5,
+          "modifier": -3,
+          "save": -3
+        },
+        "wis": {
+          "score": 13,
+          "modifier": 1,
+          "save": 1
+        },
+        "cha": {
+          "score": 8,
+          "modifier": -1,
+          "save": -1
+        }
+      },
+      "senses": {
+        "passive_perception": 11,
+        "special": {
+          "darkvision": 60
+        }
+      },
+      "languages": [],
+      "gear": [],
+      "cr": "2",
+      "xp": 450,
+      "proficiency_bonus": 2,
+      "skills": {
+        "stealth": 5
+      },
+      "immunities": [
+        "acid"
+      ],
+      "condition_immunities": [
+        "prone"
+      ],
+      "traits": [
+        {
+          "key": "trait/adhesive",
+          "name": "Adhesive",
+          "text": "Adhesive (Object Form Only). The mimic adheres to anything that touches it. A Huge or smaller creature adhered to the mimic has the Grappled condition (escape DC 13). Ability checks made to escape this grapple have Disadvantage.",
+          "requires": [
+            "requirement/object-form",
+            "effect/adhere",
+            "condition/grappled",
+            "requirement/target-size",
+            "check/disadvantage"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "bite",
+          "name": "Bite",
+          "text": "Bite. Melee Attack Roll: +5 (with Advantage if the target is Grappled by the mimic), reach 5 ft. Hit: 7 (1d8 + 3) Piercing damage—or 12 (2d8 + 3) Piercing damage if the target is Grappled by the mimic—plus 4 (1d8) Acid damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 5,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 7,
+              "dice": 1,
+              "sides": 8,
+              "modifier": 3
+            },
+            "damage_type": "piercing"
+          },
+          "effects": [
+            {
+              "key": "effect/piercing-damage",
+              "name": "Piercing damage",
+              "text": "7 (1d8 + 3) Piercing damage.",
+              "dice": {
+                "average": 7,
+                "dice": 1,
+                "sides": 8,
+                "modifier": 3
+              }
+            },
+            {
+              "key": "attack/advantage-against-grappled-target",
+              "name": "Advantage against grappled target",
+              "text": "(with Advantage if the target is Grappled by the mimic)"
+            },
+            {
+              "key": "effect/piercing-damage-against-grappled-target",
+              "name": "Piercing damage against grappled target",
+              "text": "or 12 (2d8 + 3) Piercing damage if the target is Grappled by the mimic",
+              "dice": {
+                "average": 12,
+                "dice": 2,
+                "sides": 8,
+                "modifier": 3
+              }
+            },
+            {
+              "key": "effect/acid-damage",
+              "name": "Acid damage",
+              "text": "4 (1d8) Acid damage",
+              "dice": {
+                "average": 4,
+                "dice": 1,
+                "sides": 8,
+                "modifier": 0
+              }
+            }
+          ]
+        },
+        {
+          "id": "pseudopod",
+          "name": "Pseudopod",
+          "text": "Pseudopod. Melee Attack Roll: +5, reach 5 ft. Hit: 7 (1d8 + 3) Bludgeoning damage plus 4 (1d8) Acid damage. If the target is a Large or smaller creature, it has the Grappled condition (escape DC 13). Ability checks made to escape this grapple have Disadvantage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 5,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 7,
+              "dice": 1,
+              "sides": 8,
+              "modifier": 3
+            },
+            "damage_type": "bludgeoning"
+          },
+          "effects": [
+            {
+              "key": "effect/bludgeoning-damage",
+              "name": "Bludgeoning damage",
+              "text": "7 (1d8 + 3) Bludgeoning damage.",
+              "dice": {
+                "average": 7,
+                "dice": 1,
+                "sides": 8,
+                "modifier": 3
+              }
+            },
+            {
+              "key": "effect/acid-damage",
+              "name": "Acid damage",
+              "text": "4 (1d8) Acid damage",
+              "dice": {
+                "average": 4,
+                "dice": 1,
+                "sides": 8,
+                "modifier": 0
+              }
+            },
+            {
+              "key": "requirement/target-size",
+              "name": "Target size",
+              "text": "If the target is a Large or smaller creature"
+            },
+            {
+              "key": "condition/grappled",
+              "name": "Grappled",
+              "text": "it has the Grappled condition (escape DC 13)"
+            },
+            {
+              "key": "check/disadvantage",
+              "name": "Disadvantage",
+              "text": "Ability checks made to escape this grapple have Disadvantage"
+            }
+          ]
+        }
+      ],
+      "bonus_actions": [
+        {
+          "id": "shape-shift",
+          "name": "Shape-Shift",
+          "text": "Shape-Shift. The mimic shape-shifts to resemble a Medium or Small object while retaining its game statistics, or it returns to its true blob form. Any equipment it is wearing or carrying isn’t transformed.",
+          "key": "action/special",
+          "effects": [
+            {
+              "key": "effect/shape-shift",
+              "name": "Shape shift",
+              "text": "The mimic shape-shifts to resemble a Medium or Small object while retaining its game statistics, or it returns to its true blob form"
+            },
+            {
+              "key": "effect/shapechange-form-limits",
+              "name": "Shapechange form limits",
+              "text": "while retaining its game statistics"
+            },
+            {
+              "key": "effect/equipment-not-transformed",
+              "name": "Equipment not transformed",
+              "text": "Any equipment it is wearing or carrying isn’t transformed"
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/skills",
+        "defense/damage-immunity",
+        "defense/condition-immunity",
+        "sense/darkvision",
+        "action/bonus-action",
+        "trait/adhesive",
+        "requirement/object-form",
+        "effect/adhere",
+        "condition/grappled",
+        "requirement/target-size",
+        "check/disadvantage",
+        "action/melee-attack",
+        "effect/piercing-damage",
+        "attack/advantage-against-grappled-target",
+        "effect/piercing-damage-against-grappled-target",
+        "effect/acid-damage",
+        "effect/bludgeoning-damage",
+        "action/special",
+        "effect/shape-shift",
+        "effect/shapechange-form-limits",
+        "effect/equipment-not-transformed"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/minotaur-skeleton",
+      "name": "Minotaur Skeleton",
+      "source_pages": [
+        326,
+        326
+      ],
+      "sizes": [
+        "large"
+      ],
+      "type": "undead",
+      "alignment": "Lawful Evil",
+      "ac": 12,
+      "initiative": {
+        "modifier": 0,
+        "score": 10
+      },
+      "hp": {
+        "average": 45,
+        "dice": 6,
+        "sides": 10,
+        "modifier": 12
+      },
+      "speeds": {
+        "walk": 40
+      },
+      "abilities": {
+        "str": {
+          "score": 18,
+          "modifier": 4,
+          "save": 4
+        },
+        "dex": {
+          "score": 11,
+          "modifier": 0,
+          "save": 0
+        },
+        "con": {
+          "score": 15,
+          "modifier": 2,
+          "save": 2
+        },
+        "int": {
+          "score": 6,
+          "modifier": -2,
+          "save": -2
+        },
+        "wis": {
+          "score": 8,
+          "modifier": -1,
+          "save": -1
+        },
+        "cha": {
+          "score": 5,
+          "modifier": -3,
+          "save": -3
+        }
+      },
+      "senses": {
+        "passive_perception": 9,
+        "special": {
+          "darkvision": 60
+        }
+      },
+      "languages": [
+        "Understands Abyssal but can’t speak"
+      ],
+      "gear": [],
+      "cr": "2",
+      "xp": 450,
+      "proficiency_bonus": 2,
+      "vulnerabilities": [
+        "bludgeoning"
+      ],
+      "immunities": [
+        "poison"
+      ],
+      "condition_immunities": [
+        "exhaustion",
+        "poisoned"
+      ],
+      "traits": [],
+      "actions": [
+        {
+          "id": "gore",
+          "name": "Gore",
+          "text": "Gore. Melee Attack Roll: +6, reach 5 ft. Hit: 11 (2d6 + 4) Piercing damage. If the target is a Large or smaller creature and the skeleton moved 20+ feet straight toward it immediately before the hit, the target takes an extra 9 (2d8) Piercing damage and has the Prone condition.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 6,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 11,
+              "dice": 2,
+              "sides": 6,
+              "modifier": 4
+            },
+            "damage_type": "piercing"
+          },
+          "effects": [
+            {
+              "key": "effect/piercing-damage",
+              "name": "Piercing damage",
+              "text": "11 (2d6 + 4) Piercing damage.",
+              "dice": {
+                "average": 11,
+                "dice": 2,
+                "sides": 6,
+                "modifier": 4
+              }
+            },
+            {
+              "key": "requirement/target-size",
+              "name": "Target size",
+              "text": "If the target is a Large or smaller creature"
+            },
+            {
+              "key": "requirement/charge-distance",
+              "name": "Charge distance",
+              "text": "the skeleton moved 20+ feet straight toward it immediately before the hit"
+            },
+            {
+              "key": "effect/extra-piercing-damage",
+              "name": "Extra piercing damage",
+              "text": "the target takes an extra 9 (2d8) Piercing damage",
+              "dice": {
+                "average": 9,
+                "dice": 2,
+                "sides": 8,
+                "modifier": 0
+              }
+            },
+            {
+              "key": "condition/prone",
+              "name": "Prone",
+              "text": "has the Prone condition"
+            }
+          ]
+        },
+        {
+          "id": "slam",
+          "name": "Slam",
+          "text": "Slam. Melee Attack Roll: +6, reach 5 ft. Hit: 15 (2d10 + 4) Bludgeoning damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 6,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 15,
+              "dice": 2,
+              "sides": 10,
+              "modifier": 4
+            },
+            "damage_type": "bludgeoning"
+          },
+          "effects": [
+            {
+              "key": "effect/bludgeoning-damage",
+              "name": "Bludgeoning damage",
+              "text": "15 (2d10 + 4) Bludgeoning damage.",
+              "dice": {
+                "average": 15,
+                "dice": 2,
+                "sides": 10,
+                "modifier": 4
+              }
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "defense/damage-vulnerability",
+        "defense/damage-immunity",
+        "defense/condition-immunity",
+        "sense/darkvision",
+        "action/melee-attack",
+        "effect/piercing-damage",
+        "requirement/target-size",
+        "requirement/charge-distance",
+        "effect/extra-piercing-damage",
+        "condition/prone",
+        "effect/bludgeoning-damage"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/minotaur-of-baphomet",
+      "name": "Minotaur of Baphomet",
+      "source_pages": [
+        309,
+        309
+      ],
+      "sizes": [
+        "large"
+      ],
+      "type": "monstrosity",
+      "alignment": "Chaotic Evil",
+      "ac": 14,
+      "initiative": {
+        "modifier": 0,
+        "score": 10
+      },
+      "hp": {
+        "average": 85,
+        "dice": 10,
+        "sides": 10,
+        "modifier": 30
+      },
+      "speeds": {
+        "walk": 40
+      },
+      "abilities": {
+        "str": {
+          "score": 18,
+          "modifier": 4,
+          "save": 4
+        },
+        "dex": {
+          "score": 11,
+          "modifier": 0,
+          "save": 0
+        },
+        "con": {
+          "score": 16,
+          "modifier": 3,
+          "save": 3
+        },
+        "int": {
+          "score": 6,
+          "modifier": -2,
+          "save": -2
+        },
+        "wis": {
+          "score": 16,
+          "modifier": 3,
+          "save": 3
+        },
+        "cha": {
+          "score": 9,
+          "modifier": -1,
+          "save": -1
+        }
+      },
+      "senses": {
+        "passive_perception": 17,
+        "special": {
+          "darkvision": 60
+        }
+      },
+      "languages": [
+        "Abyssal"
+      ],
+      "gear": [],
+      "cr": "3",
+      "xp": 700,
+      "proficiency_bonus": 2,
+      "skills": {
+        "perception": 7,
+        "survival": 7
+      },
+      "traits": [],
+      "actions": [
+        {
+          "id": "abyssal-glaive",
+          "name": "Abyssal Glaive",
+          "text": "Abyssal Glaive. Melee Attack Roll: +6, reach 10 ft. Hit: 10 (1d12 + 4) Slashing damage plus 10 (3d6) Necrotic damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 6,
+            "reach": 10,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 10,
+              "dice": 1,
+              "sides": 12,
+              "modifier": 4
+            },
+            "damage_type": "slashing"
+          },
+          "effects": [
+            {
+              "key": "effect/slashing-damage",
+              "name": "Slashing damage",
+              "text": "10 (1d12 + 4) Slashing damage.",
+              "dice": {
+                "average": 10,
+                "dice": 1,
+                "sides": 12,
+                "modifier": 4
+              }
+            },
+            {
+              "key": "effect/necrotic-damage",
+              "name": "Necrotic damage",
+              "text": "10 (3d6) Necrotic damage",
+              "dice": {
+                "average": 10,
+                "dice": 3,
+                "sides": 6,
+                "modifier": 0
+              }
+            }
+          ]
+        },
+        {
+          "id": "gore",
+          "name": "Gore",
+          "text": "Gore (Recharge 5–6). Melee Attack Roll: +6, reach 5 ft. Hit: 18 (4d6 + 4) Piercing damage. If the target is a Large or smaller creature and the minotaur moved 10+ feet straight toward it immediately before the hit, the target takes an extra 10 (3d6) Piercing damage and has the Prone condition.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 6,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 18,
+              "dice": 4,
+              "sides": 6,
+              "modifier": 4
+            },
+            "damage_type": "piercing"
+          },
+          "uses": {
+            "per_day": 0,
+            "lair_per_day": 0,
+            "recharge": 5
+          },
+          "effects": [
+            {
+              "key": "effect/piercing-damage",
+              "name": "Piercing damage",
+              "text": "18 (4d6 + 4) Piercing damage.",
+              "dice": {
+                "average": 18,
+                "dice": 4,
+                "sides": 6,
+                "modifier": 4
+              }
+            },
+            {
+              "key": "limit/recharge",
+              "name": "Recharge",
+              "text": "(Recharge 5–6)"
+            },
+            {
+              "key": "requirement/target-size",
+              "name": "Target size",
+              "text": "If the target is a Large or smaller creature"
+            },
+            {
+              "key": "requirement/charge-distance",
+              "name": "Charge distance",
+              "text": "the minotaur moved 10+ feet straight toward it immediately before the hit"
+            },
+            {
+              "key": "effect/extra-piercing-damage",
+              "name": "Extra piercing damage",
+              "text": "the target takes an extra 10 (3d6) Piercing damage",
+              "dice": {
+                "average": 10,
+                "dice": 3,
+                "sides": 6,
+                "modifier": 0
+              }
+            },
+            {
+              "key": "condition/prone",
+              "name": "Prone",
+              "text": "has the Prone condition"
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/skills",
+        "sense/darkvision",
+        "action/melee-attack",
+        "effect/slashing-damage",
+        "effect/necrotic-damage",
+        "limit/recharge",
+        "effect/piercing-damage",
+        "requirement/target-size",
+        "requirement/charge-distance",
+        "effect/extra-piercing-damage",
+        "condition/prone"
+      ]
+    }
+  ]
+}
