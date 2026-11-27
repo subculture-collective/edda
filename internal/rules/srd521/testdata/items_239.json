@@ -1,0 +1,1061 @@
+{
+  "schema_version": 1,
+  "rules_version": "srd-5.2.1",
+  "batch": "data-magic-items-15",
+  "catalogue_issue": 239,
+  "source": {
+    "version": "5.2.1",
+    "language": "en",
+    "landing_url": "https://www.dndbeyond.com/srd",
+    "artifact_url": "https://media.dndbeyond.com/compendium-images/srd/5.2/SRD_CC_v5.2.1.pdf",
+    "sha256": "8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87",
+    "bytes": 6031375,
+    "pages": 364,
+    "retrieved_at": "2026-11-15",
+    "license": "CC-BY-4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/legalcode",
+    "attribution": "This work includes material from the System Reference Document 5.2.1 (\u201cSRD 5.2.1\u201d) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd. The SRD 5.2.1 is licensed under the Creative Commons Attribution 4.0 International License, available at https://creativecommons.org/licenses/by/4.0/legalcode.",
+    "changes": "SRD 5.2.1 pp. 238\u2013239 adapted into twelve versioned magic-item families (Ring of Free Action through Ring of Telekinesis) with explicit variant identities, structured requirements and typed source values. Names, numeric rules and key phrases are adapted into keys; no rules prose is reproduced. Prices are not listed and remain unspecified. Catalogue data grants no inventory, action or gameplay permissions; every record is unavailable."
+  },
+  "families": [
+    {
+      "id": "srd-5.2.1:content/items/ring-of-free-action",
+      "name": "Ring of Free Action",
+      "kind": "magic",
+      "category": "ring",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/ring-of-free-action",
+          "pages": [
+            238,
+            238
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/ring-of-free-action/variant/standard",
+          "name": "Ring of Free Action",
+          "rarity": "rare",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wear",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              238,
+              238
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "item.wear",
+            "movement.ignore-difficult-terrain-cost",
+            "defense.magic-cannot-reduce-speed",
+            "defense.magic-cannot-paralyze-or-restrain"
+          ],
+          "details": {
+            "free_action": {
+              "condition": "while-wearing",
+              "difficult_terrain_costs_extra_movement": false,
+              "magic_cannot": [
+                "reduce-any-speed",
+                "cause-paralyzed-condition",
+                "cause-restrained-condition"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/ring-of-invisibility",
+      "name": "Ring of Invisibility",
+      "kind": "magic",
+      "category": "ring",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/ring-of-invisibility",
+          "pages": [
+            238,
+            238
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/ring-of-invisibility/variant/standard",
+          "name": "Ring of Invisibility",
+          "rarity": "legendary",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wear",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "magic-action",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              238,
+              238
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "item.wear",
+            "action.magic",
+            "condition.invisible",
+            "effect.ends-on-removal-or-bonus-action"
+          ],
+          "details": {
+            "invisibility": {
+              "condition": "while-wearing",
+              "action": "magic",
+              "grants_condition": "invisible",
+              "ends_when": [
+                "ring-removed",
+                "bonus-action-to-become-visible"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/ring-of-jumping",
+      "name": "Ring of Jumping",
+      "kind": "magic",
+      "category": "ring",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/ring-of-jumping",
+          "pages": [
+            238,
+            238
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/ring-of-jumping/variant/standard",
+          "name": "Ring of Jumping",
+          "rarity": "uncommon",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wear",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "cast-spell",
+            "restrictions": [
+              "jump-targeting-yourself"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              238,
+              238
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "item.wear",
+            "spell.cast-jump",
+            "spell.target-self-only"
+          ],
+          "details": {
+            "jumping": {
+              "condition": "while-wearing",
+              "spell": "jump",
+              "target": "yourself-only"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/ring-of-mind-shielding",
+      "name": "Ring of Mind Shielding",
+      "kind": "magic",
+      "category": "ring",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/ring-of-mind-shielding",
+          "pages": [
+            238,
+            238
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/ring-of-mind-shielding/variant/standard",
+          "name": "Ring of Mind Shielding",
+          "rarity": "uncommon",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wear",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              238,
+              238
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "item.wear",
+            "defense.immunity-mind-reading-magic",
+            "communication.telepathy-only-if-allowed",
+            "item.imperceptible-toggle",
+            "item.soul-vessel-on-death",
+            "communication.soul-telepathy"
+          ],
+          "details": {
+            "mind_shielding": {
+              "condition": "while-wearing",
+              "immune_to_magic_that": [
+                "reads-thoughts",
+                "detects-lies",
+                "reveals-alignment",
+                "reveals-creature-type"
+              ],
+              "telepathy_needs_permission": true,
+              "imperceptible": {
+                "action": "magic",
+                "ends_when": [
+                  "magic-action-to-make-perceptible",
+                  "ring-removed",
+                  "wearer-dies"
+                ]
+              },
+              "soul": {
+                "trigger": "die-while-wearing",
+                "blocked_if": "ring-already-houses-a-soul",
+                "choices": [
+                  "remain-in-ring",
+                  "depart-for-afterlife"
+                ],
+                "telepathy_while": "soul-is-in-the-ring",
+                "telepathy_with": "any-creature-wearing-the-ring",
+                "wearer_can_prevent": false
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/ring-of-protection",
+      "name": "Ring of Protection",
+      "kind": "magic",
+      "category": "ring",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/ring-of-protection",
+          "pages": [
+            238,
+            238
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/ring-of-protection/variant/standard",
+          "name": "Ring of Protection",
+          "rarity": "rare",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wear",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              238,
+              238
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "item.wear",
+            "defense.armor-class-bonus-1",
+            "save.all-bonus-1"
+          ],
+          "details": {
+            "protection": {
+              "condition": "while-wearing",
+              "armor_class_bonus": 1,
+              "saving_throw_bonus": 1
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/ring-of-regeneration",
+      "name": "Ring of Regeneration",
+      "kind": "magic",
+      "category": "ring",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/ring-of-regeneration",
+          "pages": [
+            238,
+            238
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/ring-of-regeneration/variant/standard",
+          "name": "Ring of Regeneration",
+          "rarity": "very-rare",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wear",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              238,
+              238
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "item.wear",
+            "healing.1d6-every-10-minutes",
+            "healing.regrow-body-part",
+            "healing.requires-1-hit-point"
+          ],
+          "details": {
+            "regeneration": {
+              "condition": "while-wearing",
+              "healing": {
+                "dice": 1,
+                "sides": 6,
+                "type": "hit-points"
+              },
+              "interval_minutes": 10,
+              "minimum_hit_points": 1,
+              "regrowth": {
+                "trigger": "lose-a-body-part",
+                "result": "part-regrows-with-full-functionality",
+                "delay": {
+                  "dice": 1,
+                  "sides": 6,
+                  "type": "days"
+                },
+                "delay_bonus_days": 1,
+                "requires_hit_points_whole_time": true
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/ring-of-resistance",
+      "name": "Ring of Resistance",
+      "kind": "magic",
+      "category": "ring",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/ring-of-resistance",
+          "pages": [
+            238,
+            238
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/ring-of-resistance/variant/standard",
+          "name": "Ring of Resistance",
+          "rarity": "rare",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wear",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              238,
+              238
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.wear",
+            "defense.resistance-one-damage-type",
+            "table.damage-type-and-gemstone-1d10"
+          ],
+          "details": {
+            "resistance_ring": {
+              "condition": "while-wearing",
+              "defense": "resistance",
+              "type_shown_by": "gemstone",
+              "type_chosen_by": "gm-chooses-or-rolls-randomly",
+              "table_die_sides": 10,
+              "damage_types": [
+                {
+                  "roll": 1,
+                  "damage_type": "acid",
+                  "gemstone": "pearl"
+                },
+                {
+                  "roll": 2,
+                  "damage_type": "cold",
+                  "gemstone": "tourmaline"
+                },
+                {
+                  "roll": 3,
+                  "damage_type": "fire",
+                  "gemstone": "garnet"
+                },
+                {
+                  "roll": 4,
+                  "damage_type": "force",
+                  "gemstone": "sapphire"
+                },
+                {
+                  "roll": 5,
+                  "damage_type": "lightning",
+                  "gemstone": "citrine"
+                },
+                {
+                  "roll": 6,
+                  "damage_type": "necrotic",
+                  "gemstone": "jet"
+                },
+                {
+                  "roll": 7,
+                  "damage_type": "poison",
+                  "gemstone": "amethyst"
+                },
+                {
+                  "roll": 8,
+                  "damage_type": "psychic",
+                  "gemstone": "jade"
+                },
+                {
+                  "roll": 9,
+                  "damage_type": "radiant",
+                  "gemstone": "topaz"
+                },
+                {
+                  "roll": 10,
+                  "damage_type": "thunder",
+                  "gemstone": "spinel"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/ring-of-shooting-stars",
+      "name": "Ring of Shooting Stars",
+      "kind": "magic",
+      "category": "ring",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/ring-of-shooting-stars",
+          "pages": [
+            238,
+            238
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/ring-of-shooting-stars/variant/standard",
+          "name": "Ring of Shooting Stars",
+          "rarity": "very-rare",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "limited",
+            "maximum": 6,
+            "per_use": 1,
+            "recharge": "regain-1d6-at-dawn"
+          },
+          "equip": {
+            "mode": "wear",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "cast-spell",
+            "restrictions": [
+              "expend-listed-charges"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              238,
+              238
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "item.wear",
+            "item.charges",
+            "spell.cast-dancing-lights",
+            "spell.cast-light",
+            "spell.cast-faerie-fire",
+            "action.magic-lightning-spheres",
+            "save.dexterity-dc-15",
+            "table.sphere-damage",
+            "action.magic-shooting-stars",
+            "damage.radiant-5d4-per-charge"
+          ],
+          "details": {
+            "shooting_stars": {
+              "free_spells": [
+                "dancing-lights",
+                "light"
+              ],
+              "max_charges": 6,
+              "recharge": {
+                "dice": 1,
+                "sides": 6,
+                "type": "charges"
+              },
+              "recharge_when": "daily-at-dawn",
+              "faerie_fire": {
+                "charge_cost": 1,
+                "spell": "faerie-fire"
+              },
+              "lightning_spheres": {
+                "charge_cost": 2,
+                "action": "magic",
+                "max_spheres": 4,
+                "sphere_diameter_feet": 3,
+                "placement_range_feet": 120,
+                "concentration_required": true,
+                "max_duration_minutes": 1,
+                "dim_light_radius_feet": 30,
+                "move_action": "bonus",
+                "move_feet": 30,
+                "leash_feet": 120,
+                "discharge_distance_feet": 5,
+                "discharge_excludes": [
+                  "you",
+                  "behind-total-cover"
+                ],
+                "sphere_disappears_on_discharge": true,
+                "save_ability": "dexterity",
+                "save_dc": 15,
+                "success_damage": "half",
+                "damage_table": [
+                  {
+                    "spheres": 1,
+                    "damage": {
+                      "dice": 4,
+                      "sides": 12,
+                      "type": "lightning"
+                    }
+                  },
+                  {
+                    "spheres": 2,
+                    "damage": {
+                      "dice": 5,
+                      "sides": 4,
+                      "type": "lightning"
+                    }
+                  },
+                  {
+                    "spheres": 3,
+                    "damage": {
+                      "dice": 2,
+                      "sides": 6,
+                      "type": "lightning"
+                    }
+                  },
+                  {
+                    "spheres": 4,
+                    "damage": {
+                      "dice": 2,
+                      "sides": 4,
+                      "type": "lightning"
+                    }
+                  }
+                ]
+              },
+              "shooting_stars": {
+                "minimum_charges": 1,
+                "maximum_charges": 3,
+                "action": "magic",
+                "motes_per_charge": 1,
+                "range_feet": 60,
+                "area_shape": "cube",
+                "area_feet": 15,
+                "save_ability": "dexterity",
+                "save_dc": 15,
+                "damage": {
+                  "dice": 5,
+                  "sides": 4,
+                  "type": "radiant"
+                },
+                "success_damage": "half"
+              },
+              "source_pages": [
+                238,
+                239
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/ring-of-spell-storing",
+      "name": "Ring of Spell Storing",
+      "kind": "magic",
+      "category": "ring",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/ring-of-spell-storing",
+          "pages": [
+            239,
+            239
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/ring-of-spell-storing/variant/standard",
+          "name": "Ring of Spell Storing",
+          "rarity": "rare",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wear",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "cast-spell",
+            "restrictions": [
+              "spell-stored-in-ring"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              239,
+              239
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "item.wear",
+            "item.store-spells",
+            "item.capacity-5-spell-levels",
+            "spell.cast-stored-spell",
+            "spell.uses-original-caster-statistics"
+          ],
+          "details": {
+            "spell_storing": {
+              "holds": "spells-cast-into-it-until-attuned-wearer-uses-them",
+              "capacity_spell_levels": 5,
+              "found_levels": {
+                "dice": 1,
+                "sides": 6,
+                "type": "stored-spell-levels"
+              },
+              "found_levels_penalty": 1,
+              "found_spells_chosen_by": "gm",
+              "storing": {
+                "caster": "any-creature",
+                "minimum_spell_level": 1,
+                "maximum_spell_level": 5,
+                "method": "touch-ring-as-spell-is-cast",
+                "other_effect": "none-besides-being-stored",
+                "if_it_cannot_fit": "spell-expended-without-effect",
+                "space_used": "slot-level-used"
+              },
+              "casting": {
+                "condition": "while-wearing",
+                "uses_from_original_caster": [
+                  "slot-level",
+                  "spell-save-dc",
+                  "spell-attack-bonus",
+                  "spellcasting-ability"
+                ],
+                "otherwise": "treated-as-if-you-cast-it",
+                "frees_space": true
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/ring-of-spell-turning",
+      "name": "Ring of Spell Turning",
+      "kind": "magic",
+      "category": "ring",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/ring-of-spell-turning",
+          "pages": [
+            239,
+            239
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/ring-of-spell-turning/variant/standard",
+          "name": "Ring of Spell Turning",
+          "rarity": "legendary",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wear",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "reaction",
+            "restrictions": [
+              "successful-save-against-qualifying-spell"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              239,
+              239
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "item.wear",
+            "save.advantage-against-spells",
+            "spell.negate-level-7-or-lower-on-successful-save",
+            "action.reaction-deflect-spell"
+          ],
+          "details": {
+            "spell_turning": {
+              "condition": "while-wearing",
+              "save_mode": "advantage",
+              "negate_max_spell_level": 7,
+              "negate_result": "spell-has-no-effect-on-you",
+              "deflect": {
+                "requires": [
+                  "spell-targeted-only-you",
+                  "spell-created-no-area-of-effect"
+                ],
+                "action": "reaction",
+                "target": "original-caster",
+                "caster_save_uses": "casters-own-spell-save-dc"
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/ring-of-swimming",
+      "name": "Ring of Swimming",
+      "kind": "magic",
+      "category": "ring",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/ring-of-swimming",
+          "pages": [
+            239,
+            239
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/ring-of-swimming/variant/standard",
+          "name": "Ring of Swimming",
+          "rarity": "uncommon",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wear",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              239,
+              239
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.wear",
+            "movement.swim-speed-40-feet"
+          ],
+          "details": {
+            "swimming": {
+              "condition": "while-wearing",
+              "swim_speed_feet": 40
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/ring-of-telekinesis",
+      "name": "Ring of Telekinesis",
+      "kind": "magic",
+      "category": "ring",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/ring-of-telekinesis",
+          "pages": [
+            239,
+            239
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/ring-of-telekinesis/variant/standard",
+          "name": "Ring of Telekinesis",
+          "rarity": "very-rare",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wear",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "cast-spell",
+            "restrictions": [
+              "telekinesis"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              239,
+              239
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "item.wear",
+            "spell.cast-telekinesis"
+          ],
+          "details": {
+            "telekinesis": {
+              "condition": "while-wearing",
+              "spell": "telekinesis"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

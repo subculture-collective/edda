@@ -1,0 +1,1278 @@
+{
+  "schema_version": 1,
+  "rules_version": "srd-5.2.1",
+  "batch": "data-magic-items-16",
+  "catalogue_issue": 240,
+  "source": {
+    "version": "5.2.1",
+    "language": "en",
+    "landing_url": "https://www.dndbeyond.com/srd",
+    "artifact_url": "https://media.dndbeyond.com/compendium-images/srd/5.2/SRD_CC_v5.2.1.pdf",
+    "sha256": "8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87",
+    "bytes": 6031375,
+    "pages": 364,
+    "retrieved_at": "2026-11-15",
+    "license": "CC-BY-4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/legalcode",
+    "attribution": "This work includes material from the System Reference Document 5.2.1 (\u201cSRD 5.2.1\u201d) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd. The SRD 5.2.1 is licensed under the Creative Commons Attribution 4.0 International License, available at https://creativecommons.org/licenses/by/4.0/legalcode.",
+    "changes": "SRD 5.2.1 pp. 239\u2013241 adapted into twelve versioned magic-item families (Ring of Three Wishes through Rod of Alertness) with explicit variant identities, structured requirements and typed source values. Names, numeric rules and key phrases are adapted into keys; no rules prose is reproduced. Prices are not listed and remain unspecified. Catalogue data grants no inventory, action or gameplay permissions; every record is unavailable."
+  },
+  "families": [
+    {
+      "id": "srd-5.2.1:content/items/ring-of-three-wishes",
+      "name": "Ring of Three Wishes",
+      "kind": "magic",
+      "category": "ring",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/ring-of-three-wishes",
+          "pages": [
+            239,
+            239
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/ring-of-three-wishes/variant/standard",
+          "name": "Ring of Three Wishes",
+          "rarity": "legendary",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "limited",
+            "maximum": 3,
+            "per_use": 1,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wear",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "cast-spell",
+            "restrictions": [
+              "expend-one-charge"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              239,
+              239
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.wear",
+            "item.charges",
+            "spell.cast-wish",
+            "item.nonmagical-after-last-charge"
+          ],
+          "details": {
+            "three_wishes": {
+              "condition": "while-wearing",
+              "spell": "wish",
+              "max_charges": 3,
+              "charge_cost": 1,
+              "after_last_charge": "becomes-nonmagical"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/ring-of-warmth",
+      "name": "Ring of Warmth",
+      "kind": "magic",
+      "category": "ring",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/ring-of-warmth",
+          "pages": [
+            239,
+            239
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/ring-of-warmth/variant/standard",
+          "name": "Ring of Warmth",
+          "rarity": "uncommon",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wear",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              239,
+              239
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "item.wear",
+            "damage.reduce-cold-by-2d8",
+            "defense.unharmed-at-0-degrees-fahrenheit-or-lower"
+          ],
+          "details": {
+            "warmth": {
+              "trigger": "take-cold-damage-while-wearing",
+              "damage_type": "cold",
+              "reduction": {
+                "dice": 2,
+                "sides": 8,
+                "type": "damage-reduction"
+              },
+              "protected": [
+                "you",
+                "everything-you-wear-and-carry"
+              ],
+              "protected_at_or_below_fahrenheit": 0
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/ring-of-water-walking",
+      "name": "Ring of Water Walking",
+      "kind": "magic",
+      "category": "ring",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/ring-of-water-walking",
+          "pages": [
+            239,
+            239
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/ring-of-water-walking/variant/standard",
+          "name": "Ring of Water Walking",
+          "rarity": "uncommon",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wear",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "cast-spell",
+            "restrictions": [
+              "water-walk-targeting-yourself"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              239,
+              239
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.wear",
+            "spell.cast-water-walk",
+            "spell.target-self-only"
+          ],
+          "details": {
+            "water_walking": {
+              "condition": "while-wearing",
+              "spell": "water-walk",
+              "target": "yourself-only"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/ring-of-x-ray-vision",
+      "name": "Ring of X-ray Vision",
+      "kind": "magic",
+      "category": "ring",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/ring-of-x-ray-vision",
+          "pages": [
+            239,
+            239
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/ring-of-x-ray-vision/variant/standard",
+          "name": "Ring of X-ray Vision",
+          "rarity": "rare",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wear",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "magic-action",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              239,
+              239
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "item.wear",
+            "action.magic",
+            "senses.x-ray-vision-30-feet",
+            "duration.1-minute",
+            "save.constitution-dc-15",
+            "condition.exhaustion"
+          ],
+          "details": {
+            "x_ray": {
+              "condition": "while-wearing",
+              "action": "magic",
+              "range_feet": 30,
+              "duration_minutes": 1,
+              "solid_objects": "appear-transparent-and-pass-light",
+              "penetration": {
+                "stone_feet": 1,
+                "common_metal_inches": 1,
+                "wood_or_dirt_feet": 3,
+                "blocked_by": [
+                  "thicker-substances",
+                  "thin-sheet-of-lead"
+                ]
+              },
+              "reuse": {
+                "trigger": "use-again-before-long-rest",
+                "save_ability": "constitution",
+                "save_dc": 15,
+                "failure_condition": "exhaustion",
+                "exhaustion_levels": 1
+              },
+              "source_pages": [
+                239,
+                240
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/ring-of-the-ram",
+      "name": "Ring of the Ram",
+      "kind": "magic",
+      "category": "ring",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/ring-of-the-ram",
+          "pages": [
+            239,
+            239
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/ring-of-the-ram/variant/standard",
+          "name": "Ring of the Ram",
+          "rarity": "rare",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "limited",
+            "maximum": 3,
+            "per_use": 1,
+            "recharge": "regain-1d3-at-dawn"
+          },
+          "equip": {
+            "mode": "wear",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "magic-action",
+            "restrictions": [
+              "expend-one-to-three-charges"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              239,
+              239
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "item.wear",
+            "item.charges",
+            "action.magic",
+            "attack.ranged-spell-plus-7",
+            "damage.force-2d10-per-charge",
+            "movement.push-5-feet-per-charge",
+            "check.break-object-strength-plus-5-per-charge"
+          ],
+          "details": {
+            "ram": {
+              "max_charges": 3,
+              "recharge": {
+                "dice": 1,
+                "sides": 3,
+                "type": "charges"
+              },
+              "recharge_when": "daily-at-dawn",
+              "action": "magic",
+              "minimum_charges": 1,
+              "maximum_charges": 3,
+              "attack": {
+                "kind": "ranged-spell-attack",
+                "targets": 1,
+                "range_feet": 60,
+                "form": "spectral-rams-head",
+                "attack_bonus": 7,
+                "damage_per_charge": {
+                  "dice": 2,
+                  "sides": 10,
+                  "type": "force"
+                },
+                "push_feet_per_charge": 5
+              },
+              "break_object": {
+                "action": "magic",
+                "target": [
+                  "nonmagical-object",
+                  "not-worn-or-carried"
+                ],
+                "range_feet": 60,
+                "check_ability": "strength",
+                "check_bonus_per_charge": 5
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/robe-of-eyes",
+      "name": "Robe of Eyes",
+      "kind": "magic",
+      "category": "wondrous-item",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/robe-of-eyes",
+          "pages": [
+            240,
+            240
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/robe-of-eyes/variant/standard",
+          "name": "Robe of Eyes",
+          "rarity": "rare",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wear",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              240,
+              240
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "item.wear",
+            "check.perception-sight-advantage",
+            "senses.darkvision-120-feet",
+            "senses.truesight-120-feet",
+            "effect.blinded-by-light-or-daylight",
+            "save.constitution-end-blinded"
+          ],
+          "details": {
+            "eyes": {
+              "appearance": "eyelike-patterns",
+              "all_around_vision": {
+                "check_ability": "wisdom",
+                "check_skill": "perception",
+                "check_mode": "advantage",
+                "check_requirement": "relies-on-sight"
+              },
+              "senses": [
+                "darkvision",
+                "truesight"
+              ],
+              "sense_range_feet": 120,
+              "drawbacks": {
+                "condition": "blinded",
+                "duration_minutes": 1,
+                "triggers": [
+                  {
+                    "spell": "light",
+                    "placement": "cast-on-the-robe",
+                    "save_dc": 11
+                  },
+                  {
+                    "spell": "daylight",
+                    "placement": "cast-within-5-feet-of-the-robe",
+                    "save_dc": 15
+                  }
+                ],
+                "save_ability": "constitution",
+                "save_when": "end-of-each-of-your-turns",
+                "success": "ends-condition-on-yourself"
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/robe-of-scintillating-colors",
+      "name": "Robe of Scintillating Colors",
+      "kind": "magic",
+      "category": "wondrous-item",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/robe-of-scintillating-colors",
+          "pages": [
+            240,
+            240
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/robe-of-scintillating-colors/variant/standard",
+          "name": "Robe of Scintillating Colors",
+          "rarity": "very-rare",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "limited",
+            "maximum": 3,
+            "per_use": 1,
+            "recharge": "regain-1d3-at-dawn"
+          },
+          "equip": {
+            "mode": "wear",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "magic-action",
+            "restrictions": [
+              "expend-one-charge"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              240,
+              240
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "item.wear",
+            "item.charges",
+            "action.magic",
+            "light.bright-30-feet-dim-30-feet",
+            "attack.disadvantage-against-wearer",
+            "save.wisdom-dc-15",
+            "condition.stunned"
+          ],
+          "details": {
+            "scintillating": {
+              "max_charges": 3,
+              "recharge": {
+                "dice": 1,
+                "sides": 3,
+                "type": "charges"
+              },
+              "recharge_when": "daily-at-dawn",
+              "condition": "while-wearing",
+              "action": "magic",
+              "charge_cost": 1,
+              "effect": "shifting-pattern-of-dazzling-hues",
+              "duration": "until-end-of-your-next-turn",
+              "bright_light_radius_feet": 30,
+              "dim_light_additional_feet": 30,
+              "attacks_against_you": "disadvantage",
+              "stun": {
+                "affects": "creature-in-bright-light-that-can-see-you-on-activation",
+                "save_ability": "wisdom",
+                "save_dc": 15,
+                "condition": "stunned",
+                "condition_ends": "when-effect-ends"
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/robe-of-stars",
+      "name": "Robe of Stars",
+      "kind": "magic",
+      "category": "wondrous-item",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/robe-of-stars",
+          "pages": [
+            240,
+            240
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/robe-of-stars/variant/standard",
+          "name": "Robe of Stars",
+          "rarity": "very-rare",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wear",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "magic-action",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              240,
+              240
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "item.wear",
+            "save.all-bonus-1",
+            "spell.cast-magic-missile-level-5",
+            "item.removable-stars",
+            "movement.enter-and-leave-astral-plane"
+          ],
+          "details": {
+            "stars": {
+              "appearance": "black-or-dark-blue-robe-with-small-white-or-silver-stars",
+              "saving_throw_bonus": 1,
+              "missiles": {
+                "large_stars": 6,
+                "action": "magic",
+                "spell": "magic-missile",
+                "spell_level": 5,
+                "stars_return": {
+                  "dice": 1,
+                  "sides": 6,
+                  "type": "stars"
+                },
+                "return_when": "daily-at-dusk"
+              },
+              "astral_travel": {
+                "action": "magic",
+                "destination": "astral-plane",
+                "takes": "everything-worn-and-carried",
+                "remain_until": "magic-action-to-return",
+                "reappear_at": "last-space-or-nearest-unoccupied-space"
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/robe-of-useful-items",
+      "name": "Robe of Useful Items",
+      "kind": "magic",
+      "category": "wondrous-item",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/robe-of-useful-items",
+          "pages": [
+            240,
+            240
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/robe-of-useful-items/variant/standard",
+          "name": "Robe of Useful Items",
+          "rarity": "uncommon",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wear",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "magic-action",
+            "restrictions": [
+              "detach-one-patch"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              240,
+              240
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.wear",
+            "action.magic",
+            "item.detachable-patches",
+            "table.other-patches-1d100",
+            "item.ordinary-after-last-patch"
+          ],
+          "details": {
+            "useful_items": {
+              "condition": "while-wearing",
+              "action": "magic",
+              "patch_becomes": "object-or-creature-it-represents",
+              "after_last_patch": "ordinary-garment",
+              "copies_of_each_fixed_patch": 2,
+              "fixed_patches": [
+                "bullseye-lantern-filled-and-lit",
+                "dagger",
+                "mirror",
+                "pole",
+                "rope-coiled",
+                "sack"
+              ],
+              "other_patches": {
+                "dice": 4,
+                "sides": 4,
+                "type": "patches"
+              },
+              "other_patches_chosen_by": "gm-chooses-or-rolls-randomly",
+              "table_die_sides": 100,
+              "patch_table": [
+                {
+                  "min": 1,
+                  "max": 8,
+                  "patch": "bag-of-100-gp"
+                },
+                {
+                  "min": 9,
+                  "max": 15,
+                  "patch": "silver-coffer"
+                },
+                {
+                  "min": 16,
+                  "max": 22,
+                  "patch": "iron-door"
+                },
+                {
+                  "min": 23,
+                  "max": 30,
+                  "patch": "gems-worth-100-gp-each"
+                },
+                {
+                  "min": 31,
+                  "max": 44,
+                  "patch": "wooden-ladder"
+                },
+                {
+                  "min": 45,
+                  "max": 51,
+                  "patch": "riding-horse-with-riding-saddle"
+                },
+                {
+                  "min": 52,
+                  "max": 59,
+                  "patch": "open-pit"
+                },
+                {
+                  "min": 60,
+                  "max": 68,
+                  "patch": "potions-of-healing"
+                },
+                {
+                  "min": 69,
+                  "max": 75,
+                  "patch": "rowboat"
+                },
+                {
+                  "min": 76,
+                  "max": 83,
+                  "patch": "spell-scroll-of-level-1-2-or-3"
+                },
+                {
+                  "min": 84,
+                  "max": 90,
+                  "patch": "mastiffs"
+                },
+                {
+                  "min": 91,
+                  "max": 96,
+                  "patch": "window"
+                },
+                {
+                  "min": 97,
+                  "max": 100,
+                  "patch": "portable-ram"
+                }
+              ],
+              "patch_facts": [
+                {
+                  "patch": "gems-worth-100-gp-each",
+                  "key": "count",
+                  "amount": 10,
+                  "unit": "gems"
+                },
+                {
+                  "patch": "potions-of-healing",
+                  "key": "count",
+                  "amount": 4,
+                  "unit": "potions"
+                },
+                {
+                  "patch": "mastiffs",
+                  "key": "count",
+                  "amount": 2,
+                  "unit": "mastiffs"
+                },
+                {
+                  "patch": "spell-scroll-of-level-1-2-or-3",
+                  "key": "minimum-spell-level",
+                  "amount": 1,
+                  "unit": "spell-level"
+                },
+                {
+                  "patch": "spell-scroll-of-level-1-2-or-3",
+                  "key": "maximum-spell-level",
+                  "amount": 3,
+                  "unit": "spell-level"
+                },
+                {
+                  "patch": "bag-of-100-gp",
+                  "key": "contents-value",
+                  "amount": 100,
+                  "unit": "gp"
+                },
+                {
+                  "patch": "silver-coffer",
+                  "key": "length",
+                  "amount": 1,
+                  "unit": "feet"
+                },
+                {
+                  "patch": "silver-coffer",
+                  "key": "width-and-depth",
+                  "amount": 6,
+                  "unit": "inches"
+                },
+                {
+                  "patch": "silver-coffer",
+                  "key": "value",
+                  "amount": 500,
+                  "unit": "gp"
+                },
+                {
+                  "patch": "iron-door",
+                  "key": "maximum-width",
+                  "amount": 10,
+                  "unit": "feet"
+                },
+                {
+                  "patch": "iron-door",
+                  "key": "maximum-height",
+                  "amount": 10,
+                  "unit": "feet"
+                },
+                {
+                  "patch": "gems-worth-100-gp-each",
+                  "key": "value-each",
+                  "amount": 100,
+                  "unit": "gp"
+                },
+                {
+                  "patch": "wooden-ladder",
+                  "key": "length",
+                  "amount": 24,
+                  "unit": "feet"
+                },
+                {
+                  "patch": "open-pit",
+                  "key": "cube-size",
+                  "amount": 10,
+                  "unit": "feet"
+                },
+                {
+                  "patch": "open-pit",
+                  "key": "placement-range",
+                  "amount": 10,
+                  "unit": "feet"
+                },
+                {
+                  "patch": "rowboat",
+                  "key": "length",
+                  "amount": 12,
+                  "unit": "feet"
+                },
+                {
+                  "patch": "window",
+                  "key": "width",
+                  "amount": 2,
+                  "unit": "feet"
+                },
+                {
+                  "patch": "window",
+                  "key": "height",
+                  "amount": 4,
+                  "unit": "feet"
+                },
+                {
+                  "patch": "window",
+                  "key": "maximum-depth",
+                  "amount": 2,
+                  "unit": "feet"
+                }
+              ],
+              "patch_rules": [
+                {
+                  "patch": "iron-door",
+                  "rule": "barred-on-one-side-of-your-choice"
+                },
+                {
+                  "patch": "iron-door",
+                  "rule": "placed-in-an-opening-you-can-reach"
+                },
+                {
+                  "patch": "iron-door",
+                  "rule": "conforms-attaches-and-hinges-itself"
+                },
+                {
+                  "patch": "window",
+                  "rule": "placed-on-a-vertical-surface-you-can-reach"
+                }
+              ],
+              "source_pages": [
+                240,
+                241
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/robe-of-the-archmagi",
+      "name": "Robe of the Archmagi",
+      "kind": "magic",
+      "category": "wondrous-item",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/robe-of-the-archmagi",
+          "pages": [
+            240,
+            240
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/robe-of-the-archmagi/variant/standard",
+          "name": "Robe of the Archmagi",
+          "rarity": "legendary",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wear",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              240,
+              240
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "attunement.sorcerer-warlock-or-wizard",
+            "item.wear",
+            "defense.base-armor-class-15-plus-dexterity-modifier",
+            "save.magic-advantage",
+            "bonus.spell-save-dc-and-attack-2"
+          ],
+          "details": {
+            "archmagi": {
+              "attunement_by_any_of": [
+                "sorcerer",
+                "warlock",
+                "wizard"
+              ],
+              "armor": {
+                "requirement": "not-wearing-armor",
+                "base_armor_class": 15,
+                "adds_ability_modifier": "dexterity"
+              },
+              "magic_resistance": {
+                "save_mode": "advantage",
+                "against": [
+                  "spells",
+                  "other-magical-effects"
+                ]
+              },
+              "war_mage": {
+                "increases": [
+                  "spell-save-dc",
+                  "spell-attack-bonus"
+                ],
+                "bonus": 2
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/rod-of-absorption",
+      "name": "Rod of Absorption",
+      "kind": "magic",
+      "category": "rod",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/rod-of-absorption",
+          "pages": [
+            241,
+            241
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/rod-of-absorption/variant/standard",
+          "name": "Rod of Absorption",
+          "rarity": "very-rare",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "hold",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "reaction",
+            "restrictions": [
+              "spell-targets-only-you-without-area"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              241,
+              241
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "item.hold",
+            "action.reaction-absorb-spell",
+            "item.lifetime-capacity-50-spell-levels",
+            "spell.convert-stored-energy-to-slots",
+            "item.nonmagical-when-exhausted"
+          ],
+          "details": {
+            "absorption": {
+              "condition": "while-holding",
+              "absorb": {
+                "action": "reaction",
+                "requires": [
+                  "spell-targets-only-you",
+                  "spell-creates-no-area-of-effect"
+                ],
+                "result": "spell-canceled-and-energy-stored",
+                "energy_level": "level-of-spell-as-cast",
+                "casting_resources": "wasted",
+                "if_it_cannot_store": "rod-has-no-effect"
+              },
+              "lifetime_capacity_levels": 50,
+              "known_on_attunement": [
+                "lifetime-levels-absorbed",
+                "levels-currently-stored"
+              ],
+              "convert": {
+                "requirement": "spellcaster-holding-rod",
+                "result": "spell-slots-for-prepared-or-known-spells",
+                "level_limit": "equal-to-or-lower-than-your-own-slots",
+                "maximum_slot_level": 5,
+                "casting": "stored-levels-replace-slots-otherwise-cast-as-normal"
+              },
+              "found_stored_levels": {
+                "dice": 1,
+                "sides": 10,
+                "type": "spell-energy-levels"
+              },
+              "nonmagical_when": [
+                "cannot-absorb-more",
+                "no-energy-remaining"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/rod-of-alertness",
+      "name": "Rod of Alertness",
+      "kind": "magic",
+      "category": "rod",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/rod-of-alertness",
+          "pages": [
+            241,
+            241
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/rod-of-alertness/variant/standard",
+          "name": "Rod of Alertness",
+          "rarity": "very-rare",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "hold",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "cast-spell",
+            "restrictions": [
+              "listed-rod-spells"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              241,
+              241
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "item.hold",
+            "check.perception-advantage",
+            "check.initiative-advantage",
+            "spell.cast-listed-spells",
+            "action.magic-protective-aura",
+            "bonus.armor-class-and-saves-1",
+            "effect.sense-invisible-creatures",
+            "item.once-until-dawn"
+          ],
+          "details": {
+            "alertness": {
+              "condition": "while-holding",
+              "advantage_on": [
+                "wisdom-perception-checks",
+                "initiative-rolls"
+              ],
+              "spells": [
+                "detect-evil-and-good",
+                "detect-magic",
+                "detect-poison-and-disease",
+                "see-invisibility"
+              ],
+              "protective_aura": {
+                "action": "magic",
+                "bright_light_radius_feet": 60,
+                "dim_light_additional_feet": 60,
+                "beneficiaries": [
+                  "you",
+                  "your-allies"
+                ],
+                "benefit_requirement": "while-in-the-bright-light",
+                "armor_class_bonus": 1,
+                "saving_throw_bonus": 1,
+                "senses": "location-of-invisible-creatures-in-the-bright-light",
+                "duration_minutes": 10,
+                "ends_early_when": "creature-takes-magic-action-to-pull-rod",
+                "reuse_after": "next-dawn"
+              }
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

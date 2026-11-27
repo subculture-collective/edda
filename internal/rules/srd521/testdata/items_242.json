@@ -1,0 +1,1994 @@
+{
+  "schema_version": 1,
+  "rules_version": "srd-5.2.1",
+  "batch": "data-magic-items-18",
+  "catalogue_issue": 242,
+  "source": {
+    "version": "5.2.1",
+    "language": "en",
+    "landing_url": "https://www.dndbeyond.com/srd",
+    "artifact_url": "https://media.dndbeyond.com/compendium-images/srd/5.2/SRD_CC_v5.2.1.pdf",
+    "sha256": "8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87",
+    "bytes": 6031375,
+    "pages": 364,
+    "retrieved_at": "2026-11-15",
+    "license": "CC-BY-4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/legalcode",
+    "attribution": "This work includes material from the System Reference Document 5.2.1 (\u201cSRD 5.2.1\u201d) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd. The SRD 5.2.1 is licensed under the Creative Commons Attribution 4.0 International License, available at https://creativecommons.org/licenses/by/4.0/legalcode.",
+    "changes": "SRD 5.2.1 pp. 243\u2013246 adapted into twelve versioned magic-item families (Shield, +1, +2, or +3 through Staff of Striking) with explicit variant identities, structured requirements and typed source values. Names, numeric rules and key phrases are adapted into keys; no rules prose is reproduced. Prices are not listed and remain unspecified. Catalogue data grants no inventory, action or gameplay permissions; every record is unavailable."
+  },
+  "families": [
+    {
+      "id": "srd-5.2.1:content/items/shield-1-2-or-3",
+      "name": "Shield, +1, +2, or +3",
+      "kind": "magic",
+      "category": "armor",
+      "base": {
+        "options": [
+          "shield"
+        ],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/shield-1-2-or-3",
+          "pages": [
+            243,
+            243
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/shield-1-2-or-3/variant/plus-1",
+          "name": "Shield, +1",
+          "rarity": "uncommon",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "hold",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              243,
+              243
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.hold",
+            "defense.armor-class-bonus-by-rarity"
+          ],
+          "details": {
+            "shield_bonus": {
+              "condition": "while-holding",
+              "armor_class_bonus": 1,
+              "stacks_with_shield_bonus": true
+            }
+          }
+        },
+        {
+          "id": "srd-5.2.1:content/items/shield-1-2-or-3/variant/plus-2",
+          "name": "Shield, +2",
+          "rarity": "rare",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "hold",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              243,
+              243
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.hold",
+            "defense.armor-class-bonus-by-rarity"
+          ],
+          "details": {
+            "shield_bonus": {
+              "condition": "while-holding",
+              "armor_class_bonus": 2,
+              "stacks_with_shield_bonus": true
+            }
+          }
+        },
+        {
+          "id": "srd-5.2.1:content/items/shield-1-2-or-3/variant/plus-3",
+          "name": "Shield, +3",
+          "rarity": "very-rare",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "hold",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              243,
+              243
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.hold",
+            "defense.armor-class-bonus-by-rarity"
+          ],
+          "details": {
+            "shield_bonus": {
+              "condition": "while-holding",
+              "armor_class_bonus": 3,
+              "stacks_with_shield_bonus": true
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/slippers-of-spider-climbing",
+      "name": "Slippers of Spider Climbing",
+      "kind": "magic",
+      "category": "wondrous-item",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/slippers-of-spider-climbing",
+          "pages": [
+            244,
+            244
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/slippers-of-spider-climbing/variant/standard",
+          "name": "Slippers of Spider Climbing",
+          "rarity": "uncommon",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wear",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              244,
+              244
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "item.wear",
+            "movement.walk-walls-and-ceilings-hands-free",
+            "movement.climb-speed-equals-speed",
+            "movement.not-on-slippery-surfaces"
+          ],
+          "details": {
+            "spider_slippers": {
+              "condition": "while-wearing",
+              "movement": [
+                "up-down-and-across-vertical-surfaces",
+                "along-ceilings"
+              ],
+              "hands_free": true,
+              "climb_speed": "equal-to-speed",
+              "excluded_surfaces": "slippery-such-as-ice-or-oil"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/sovereign-glue",
+      "name": "Sovereign Glue",
+      "kind": "magic",
+      "category": "wondrous-item",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/sovereign-glue",
+          "pages": [
+            244,
+            244
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/sovereign-glue/variant/standard",
+          "name": "Sovereign Glue",
+          "rarity": "legendary",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "utilize-action",
+            "restrictions": [
+              "apply-one-ounce"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              244,
+              244
+            ]
+          },
+          "required_mechanic_keys": [
+            "action.utilize",
+            "item.permanent-bond",
+            "item.1-ounce-covers-1-foot-square",
+            "duration.sets-after-1-minute",
+            "item.bond-broken-only-by-listed-means"
+          ],
+          "details": {
+            "glue": {
+              "appearance": "viscous-milky-white-substance",
+              "bond": "permanent-adhesive-between-two-objects",
+              "storage": "jar-or-flask-coated-with-oil-of-slipperiness",
+              "found_ounces": {
+                "dice": 1,
+                "sides": 6,
+                "type": "ounces"
+              },
+              "found_ounces_bonus": 1,
+              "coverage_ounces": 1,
+              "coverage_square_feet": 1,
+              "apply_action": "utilize",
+              "set_minutes": 1,
+              "broken_only_by": [
+                "universal-solvent",
+                "oil-of-etherealness",
+                "wish"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/spell-scroll",
+      "name": "Spell Scroll",
+      "kind": "magic",
+      "category": "scroll",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/spell-scroll",
+          "pages": [
+            244,
+            244
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/spell-scroll/variant/cantrip",
+          "name": "Spell Scroll (cantrip)",
+          "rarity": "common",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "cast-spell",
+            "restrictions": [
+              "spell-on-your-spell-list"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              244,
+              244
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.consume",
+            "spell.cast-from-scroll",
+            "spell.must-be-on-your-spell-list",
+            "spell.no-material-components",
+            "check.spellcasting-ability-dc-10-plus-level",
+            "table.spell-level-rarity-save-dc-attack-bonus",
+            "spell.copy-into-spellbook"
+          ],
+          "details": {
+            "scroll": {
+              "spell_level": 0,
+              "rarity": "common",
+              "save_dc": 13,
+              "attack_bonus": 5,
+              "bears": "one-spell",
+              "readable_if": "spell-on-your-spell-list",
+              "material_components_required": false,
+              "otherwise": "unintelligible",
+              "casting_time": "spells-normal-casting-time",
+              "after_casting": "crumbles-to-dust",
+              "lost_if_casting_interrupted": false,
+              "higher_level_check": {
+                "trigger": "higher-level-than-you-can-normally-cast",
+                "ability": "your-spellcasting-ability",
+                "dc_base": 10,
+                "dc_adds": "spell-level",
+                "failure": "spell-disappears-with-no-other-effect"
+              },
+              "copying": {
+                "eligible": "wizard-spell",
+                "check_ability": "intelligence",
+                "check_skill": "arcana",
+                "dc_base": 10,
+                "dc_adds": "spell-level",
+                "success": "spell-copied",
+                "scroll_destroyed_either_way": true
+              }
+            }
+          }
+        },
+        {
+          "id": "srd-5.2.1:content/items/spell-scroll/variant/level-1",
+          "name": "Spell Scroll (level 1)",
+          "rarity": "common",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "cast-spell",
+            "restrictions": [
+              "spell-on-your-spell-list"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              244,
+              244
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.consume",
+            "spell.cast-from-scroll",
+            "spell.must-be-on-your-spell-list",
+            "spell.no-material-components",
+            "check.spellcasting-ability-dc-10-plus-level",
+            "table.spell-level-rarity-save-dc-attack-bonus",
+            "spell.copy-into-spellbook"
+          ],
+          "details": {
+            "scroll": {
+              "spell_level": 1,
+              "rarity": "common",
+              "save_dc": 13,
+              "attack_bonus": 5,
+              "bears": "one-spell",
+              "readable_if": "spell-on-your-spell-list",
+              "material_components_required": false,
+              "otherwise": "unintelligible",
+              "casting_time": "spells-normal-casting-time",
+              "after_casting": "crumbles-to-dust",
+              "lost_if_casting_interrupted": false,
+              "higher_level_check": {
+                "trigger": "higher-level-than-you-can-normally-cast",
+                "ability": "your-spellcasting-ability",
+                "dc_base": 10,
+                "dc_adds": "spell-level",
+                "failure": "spell-disappears-with-no-other-effect"
+              },
+              "copying": {
+                "eligible": "wizard-spell",
+                "check_ability": "intelligence",
+                "check_skill": "arcana",
+                "dc_base": 10,
+                "dc_adds": "spell-level",
+                "success": "spell-copied",
+                "scroll_destroyed_either_way": true
+              }
+            }
+          }
+        },
+        {
+          "id": "srd-5.2.1:content/items/spell-scroll/variant/level-2",
+          "name": "Spell Scroll (level 2)",
+          "rarity": "uncommon",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "cast-spell",
+            "restrictions": [
+              "spell-on-your-spell-list"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              244,
+              244
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.consume",
+            "spell.cast-from-scroll",
+            "spell.must-be-on-your-spell-list",
+            "spell.no-material-components",
+            "check.spellcasting-ability-dc-10-plus-level",
+            "table.spell-level-rarity-save-dc-attack-bonus",
+            "spell.copy-into-spellbook"
+          ],
+          "details": {
+            "scroll": {
+              "spell_level": 2,
+              "rarity": "uncommon",
+              "save_dc": 13,
+              "attack_bonus": 5,
+              "bears": "one-spell",
+              "readable_if": "spell-on-your-spell-list",
+              "material_components_required": false,
+              "otherwise": "unintelligible",
+              "casting_time": "spells-normal-casting-time",
+              "after_casting": "crumbles-to-dust",
+              "lost_if_casting_interrupted": false,
+              "higher_level_check": {
+                "trigger": "higher-level-than-you-can-normally-cast",
+                "ability": "your-spellcasting-ability",
+                "dc_base": 10,
+                "dc_adds": "spell-level",
+                "failure": "spell-disappears-with-no-other-effect"
+              },
+              "copying": {
+                "eligible": "wizard-spell",
+                "check_ability": "intelligence",
+                "check_skill": "arcana",
+                "dc_base": 10,
+                "dc_adds": "spell-level",
+                "success": "spell-copied",
+                "scroll_destroyed_either_way": true
+              }
+            }
+          }
+        },
+        {
+          "id": "srd-5.2.1:content/items/spell-scroll/variant/level-3",
+          "name": "Spell Scroll (level 3)",
+          "rarity": "uncommon",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "cast-spell",
+            "restrictions": [
+              "spell-on-your-spell-list"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              244,
+              244
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.consume",
+            "spell.cast-from-scroll",
+            "spell.must-be-on-your-spell-list",
+            "spell.no-material-components",
+            "check.spellcasting-ability-dc-10-plus-level",
+            "table.spell-level-rarity-save-dc-attack-bonus",
+            "spell.copy-into-spellbook"
+          ],
+          "details": {
+            "scroll": {
+              "spell_level": 3,
+              "rarity": "uncommon",
+              "save_dc": 15,
+              "attack_bonus": 7,
+              "bears": "one-spell",
+              "readable_if": "spell-on-your-spell-list",
+              "material_components_required": false,
+              "otherwise": "unintelligible",
+              "casting_time": "spells-normal-casting-time",
+              "after_casting": "crumbles-to-dust",
+              "lost_if_casting_interrupted": false,
+              "higher_level_check": {
+                "trigger": "higher-level-than-you-can-normally-cast",
+                "ability": "your-spellcasting-ability",
+                "dc_base": 10,
+                "dc_adds": "spell-level",
+                "failure": "spell-disappears-with-no-other-effect"
+              },
+              "copying": {
+                "eligible": "wizard-spell",
+                "check_ability": "intelligence",
+                "check_skill": "arcana",
+                "dc_base": 10,
+                "dc_adds": "spell-level",
+                "success": "spell-copied",
+                "scroll_destroyed_either_way": true
+              }
+            }
+          }
+        },
+        {
+          "id": "srd-5.2.1:content/items/spell-scroll/variant/level-4",
+          "name": "Spell Scroll (level 4)",
+          "rarity": "rare",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "cast-spell",
+            "restrictions": [
+              "spell-on-your-spell-list"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              244,
+              244
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.consume",
+            "spell.cast-from-scroll",
+            "spell.must-be-on-your-spell-list",
+            "spell.no-material-components",
+            "check.spellcasting-ability-dc-10-plus-level",
+            "table.spell-level-rarity-save-dc-attack-bonus",
+            "spell.copy-into-spellbook"
+          ],
+          "details": {
+            "scroll": {
+              "spell_level": 4,
+              "rarity": "rare",
+              "save_dc": 15,
+              "attack_bonus": 7,
+              "bears": "one-spell",
+              "readable_if": "spell-on-your-spell-list",
+              "material_components_required": false,
+              "otherwise": "unintelligible",
+              "casting_time": "spells-normal-casting-time",
+              "after_casting": "crumbles-to-dust",
+              "lost_if_casting_interrupted": false,
+              "higher_level_check": {
+                "trigger": "higher-level-than-you-can-normally-cast",
+                "ability": "your-spellcasting-ability",
+                "dc_base": 10,
+                "dc_adds": "spell-level",
+                "failure": "spell-disappears-with-no-other-effect"
+              },
+              "copying": {
+                "eligible": "wizard-spell",
+                "check_ability": "intelligence",
+                "check_skill": "arcana",
+                "dc_base": 10,
+                "dc_adds": "spell-level",
+                "success": "spell-copied",
+                "scroll_destroyed_either_way": true
+              }
+            }
+          }
+        },
+        {
+          "id": "srd-5.2.1:content/items/spell-scroll/variant/level-5",
+          "name": "Spell Scroll (level 5)",
+          "rarity": "rare",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "cast-spell",
+            "restrictions": [
+              "spell-on-your-spell-list"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              244,
+              244
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.consume",
+            "spell.cast-from-scroll",
+            "spell.must-be-on-your-spell-list",
+            "spell.no-material-components",
+            "check.spellcasting-ability-dc-10-plus-level",
+            "table.spell-level-rarity-save-dc-attack-bonus",
+            "spell.copy-into-spellbook"
+          ],
+          "details": {
+            "scroll": {
+              "spell_level": 5,
+              "rarity": "rare",
+              "save_dc": 17,
+              "attack_bonus": 9,
+              "bears": "one-spell",
+              "readable_if": "spell-on-your-spell-list",
+              "material_components_required": false,
+              "otherwise": "unintelligible",
+              "casting_time": "spells-normal-casting-time",
+              "after_casting": "crumbles-to-dust",
+              "lost_if_casting_interrupted": false,
+              "higher_level_check": {
+                "trigger": "higher-level-than-you-can-normally-cast",
+                "ability": "your-spellcasting-ability",
+                "dc_base": 10,
+                "dc_adds": "spell-level",
+                "failure": "spell-disappears-with-no-other-effect"
+              },
+              "copying": {
+                "eligible": "wizard-spell",
+                "check_ability": "intelligence",
+                "check_skill": "arcana",
+                "dc_base": 10,
+                "dc_adds": "spell-level",
+                "success": "spell-copied",
+                "scroll_destroyed_either_way": true
+              }
+            }
+          }
+        },
+        {
+          "id": "srd-5.2.1:content/items/spell-scroll/variant/level-6",
+          "name": "Spell Scroll (level 6)",
+          "rarity": "very-rare",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "cast-spell",
+            "restrictions": [
+              "spell-on-your-spell-list"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              244,
+              244
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.consume",
+            "spell.cast-from-scroll",
+            "spell.must-be-on-your-spell-list",
+            "spell.no-material-components",
+            "check.spellcasting-ability-dc-10-plus-level",
+            "table.spell-level-rarity-save-dc-attack-bonus",
+            "spell.copy-into-spellbook"
+          ],
+          "details": {
+            "scroll": {
+              "spell_level": 6,
+              "rarity": "very-rare",
+              "save_dc": 17,
+              "attack_bonus": 9,
+              "bears": "one-spell",
+              "readable_if": "spell-on-your-spell-list",
+              "material_components_required": false,
+              "otherwise": "unintelligible",
+              "casting_time": "spells-normal-casting-time",
+              "after_casting": "crumbles-to-dust",
+              "lost_if_casting_interrupted": false,
+              "higher_level_check": {
+                "trigger": "higher-level-than-you-can-normally-cast",
+                "ability": "your-spellcasting-ability",
+                "dc_base": 10,
+                "dc_adds": "spell-level",
+                "failure": "spell-disappears-with-no-other-effect"
+              },
+              "copying": {
+                "eligible": "wizard-spell",
+                "check_ability": "intelligence",
+                "check_skill": "arcana",
+                "dc_base": 10,
+                "dc_adds": "spell-level",
+                "success": "spell-copied",
+                "scroll_destroyed_either_way": true
+              }
+            }
+          }
+        },
+        {
+          "id": "srd-5.2.1:content/items/spell-scroll/variant/level-7",
+          "name": "Spell Scroll (level 7)",
+          "rarity": "very-rare",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "cast-spell",
+            "restrictions": [
+              "spell-on-your-spell-list"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              244,
+              244
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.consume",
+            "spell.cast-from-scroll",
+            "spell.must-be-on-your-spell-list",
+            "spell.no-material-components",
+            "check.spellcasting-ability-dc-10-plus-level",
+            "table.spell-level-rarity-save-dc-attack-bonus",
+            "spell.copy-into-spellbook"
+          ],
+          "details": {
+            "scroll": {
+              "spell_level": 7,
+              "rarity": "very-rare",
+              "save_dc": 18,
+              "attack_bonus": 10,
+              "bears": "one-spell",
+              "readable_if": "spell-on-your-spell-list",
+              "material_components_required": false,
+              "otherwise": "unintelligible",
+              "casting_time": "spells-normal-casting-time",
+              "after_casting": "crumbles-to-dust",
+              "lost_if_casting_interrupted": false,
+              "higher_level_check": {
+                "trigger": "higher-level-than-you-can-normally-cast",
+                "ability": "your-spellcasting-ability",
+                "dc_base": 10,
+                "dc_adds": "spell-level",
+                "failure": "spell-disappears-with-no-other-effect"
+              },
+              "copying": {
+                "eligible": "wizard-spell",
+                "check_ability": "intelligence",
+                "check_skill": "arcana",
+                "dc_base": 10,
+                "dc_adds": "spell-level",
+                "success": "spell-copied",
+                "scroll_destroyed_either_way": true
+              }
+            }
+          }
+        },
+        {
+          "id": "srd-5.2.1:content/items/spell-scroll/variant/level-8",
+          "name": "Spell Scroll (level 8)",
+          "rarity": "very-rare",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "cast-spell",
+            "restrictions": [
+              "spell-on-your-spell-list"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              244,
+              244
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.consume",
+            "spell.cast-from-scroll",
+            "spell.must-be-on-your-spell-list",
+            "spell.no-material-components",
+            "check.spellcasting-ability-dc-10-plus-level",
+            "table.spell-level-rarity-save-dc-attack-bonus",
+            "spell.copy-into-spellbook"
+          ],
+          "details": {
+            "scroll": {
+              "spell_level": 8,
+              "rarity": "very-rare",
+              "save_dc": 18,
+              "attack_bonus": 10,
+              "bears": "one-spell",
+              "readable_if": "spell-on-your-spell-list",
+              "material_components_required": false,
+              "otherwise": "unintelligible",
+              "casting_time": "spells-normal-casting-time",
+              "after_casting": "crumbles-to-dust",
+              "lost_if_casting_interrupted": false,
+              "higher_level_check": {
+                "trigger": "higher-level-than-you-can-normally-cast",
+                "ability": "your-spellcasting-ability",
+                "dc_base": 10,
+                "dc_adds": "spell-level",
+                "failure": "spell-disappears-with-no-other-effect"
+              },
+              "copying": {
+                "eligible": "wizard-spell",
+                "check_ability": "intelligence",
+                "check_skill": "arcana",
+                "dc_base": 10,
+                "dc_adds": "spell-level",
+                "success": "spell-copied",
+                "scroll_destroyed_either_way": true
+              }
+            }
+          }
+        },
+        {
+          "id": "srd-5.2.1:content/items/spell-scroll/variant/level-9",
+          "name": "Spell Scroll (level 9)",
+          "rarity": "legendary",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "cast-spell",
+            "restrictions": [
+              "spell-on-your-spell-list"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              244,
+              244
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.consume",
+            "spell.cast-from-scroll",
+            "spell.must-be-on-your-spell-list",
+            "spell.no-material-components",
+            "check.spellcasting-ability-dc-10-plus-level",
+            "table.spell-level-rarity-save-dc-attack-bonus",
+            "spell.copy-into-spellbook"
+          ],
+          "details": {
+            "scroll": {
+              "spell_level": 9,
+              "rarity": "legendary",
+              "save_dc": 19,
+              "attack_bonus": 11,
+              "bears": "one-spell",
+              "readable_if": "spell-on-your-spell-list",
+              "material_components_required": false,
+              "otherwise": "unintelligible",
+              "casting_time": "spells-normal-casting-time",
+              "after_casting": "crumbles-to-dust",
+              "lost_if_casting_interrupted": false,
+              "higher_level_check": {
+                "trigger": "higher-level-than-you-can-normally-cast",
+                "ability": "your-spellcasting-ability",
+                "dc_base": 10,
+                "dc_adds": "spell-level",
+                "failure": "spell-disappears-with-no-other-effect"
+              },
+              "copying": {
+                "eligible": "wizard-spell",
+                "check_ability": "intelligence",
+                "check_skill": "arcana",
+                "dc_base": 10,
+                "dc_adds": "spell-level",
+                "success": "spell-copied",
+                "scroll_destroyed_either_way": true
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/spellguard-shield",
+      "name": "Spellguard Shield",
+      "kind": "magic",
+      "category": "armor",
+      "base": {
+        "options": [
+          "shield"
+        ],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/spellguard-shield",
+          "pages": [
+            244,
+            244
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/spellguard-shield/variant/standard",
+          "name": "Spellguard Shield",
+          "rarity": "very-rare",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "hold",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              244,
+              244
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "item.hold",
+            "save.magic-advantage",
+            "attack.spell-attacks-disadvantage-against-you"
+          ],
+          "details": {
+            "spellguard": {
+              "condition": "while-holding",
+              "save_mode": "advantage",
+              "against": [
+                "spells",
+                "other-magical-effects"
+              ],
+              "spell_attacks_against_you": "disadvantage"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/sphere-of-annihilation",
+      "name": "Sphere of Annihilation",
+      "kind": "magic",
+      "category": "wondrous-item",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/sphere-of-annihilation",
+          "pages": [
+            244,
+            244
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/sphere-of-annihilation/variant/standard",
+          "name": "Sphere of Annihilation",
+          "rarity": "legendary",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "magic-action",
+            "restrictions": [
+              "within-60-feet"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              244,
+              244
+            ]
+          },
+          "required_mechanic_keys": [
+            "effect.obliterates-matter",
+            "damage.force-8d10",
+            "check.intelligence-arcana-dc-25-control",
+            "action.magic",
+            "action.bonus-move-sphere",
+            "save.dexterity-dc-19",
+            "table.planar-interaction-1d100"
+          ],
+          "details": {
+            "annihilation": {
+              "diameter_feet": 2,
+              "nature": "hole-in-the-multiverse",
+              "obliterates": "all-matter-passing-through-or-passed-through",
+              "artifact_exception": "artifacts-unscathed-unless-susceptible",
+              "touch_damage": {
+                "dice": 8,
+                "sides": 10,
+                "type": "force"
+              },
+              "control": {
+                "stationary_until_controlled": true,
+                "range_feet": 60,
+                "action": "magic",
+                "check_ability": "intelligence",
+                "check_skill": "arcana",
+                "dc": 25,
+                "lasts_until": "start-of-your-next-turn",
+                "other_controller": "loses-control",
+                "failure_move_feet": 10
+              },
+              "move": {
+                "action": "bonus",
+                "feet_per_intelligence_modifier": 5,
+                "minimum_feet": 5,
+                "save_ability": "dexterity",
+                "save_dc": 19,
+                "damage": {
+                  "dice": 8,
+                  "sides": 10,
+                  "type": "force"
+                },
+                "at_zero_hit_points": "obliterated-leaving-only-possessions"
+              },
+              "interaction_triggers": [
+                "planar-portal",
+                "extradimensional-space"
+              ],
+              "table_die_sides": 100,
+              "interaction_table": [
+                {
+                  "min": 1,
+                  "max": 50,
+                  "result": "sphere-destroyed"
+                },
+                {
+                  "min": 51,
+                  "max": 85,
+                  "result": "sphere-moves-through"
+                },
+                {
+                  "min": 86,
+                  "max": 100,
+                  "result": "spatial-rift-sends-all-to-random-plane"
+                }
+              ],
+              "rift_radius_feet": 180,
+              "source_pages": [
+                244,
+                245
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/staff-of-charming",
+      "name": "Staff of Charming",
+      "kind": "magic",
+      "category": "staff",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/staff-of-charming",
+          "pages": [
+            245,
+            245
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/staff-of-charming/variant/standard",
+          "name": "Staff of Charming",
+          "rarity": "rare",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "limited",
+            "maximum": 10,
+            "per_use": 1,
+            "recharge": "regain-1d8-plus-2-at-dawn"
+          },
+          "equip": {
+            "mode": "hold",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "cast-spell",
+            "restrictions": [
+              "expend-listed-charges"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              245,
+              245
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "attunement.by-class",
+            "item.hold",
+            "item.charges",
+            "spell.cast-charm-person",
+            "spell.cast-command",
+            "spell.cast-comprehend-languages",
+            "action.reaction-reflect-enchantment",
+            "save.resist-enchantment-once-until-dawn",
+            "item.destroyed-on-1-after-last-charge"
+          ],
+          "details": {
+            "charming": {
+              "attunement_by_any_of": [
+                "bard",
+                "cleric",
+                "druid",
+                "sorcerer",
+                "warlock",
+                "wizard"
+              ],
+              "condition": "while-holding",
+              "max_charges": 10,
+              "cast_spell": {
+                "charge_cost": 1,
+                "spells": [
+                  "charm-person",
+                  "command",
+                  "comprehend-languages"
+                ],
+                "save_dc_source": "your-spell-save-dc"
+              },
+              "reflect_enchantment": {
+                "trigger": "succeed-on-save-against-enchantment-targeting-only-you",
+                "action": "reaction",
+                "charge_cost": 1,
+                "result": "turn-spell-back-on-caster"
+              },
+              "resist_enchantment": {
+                "trigger": "fail-save-against-enchantment-targeting-only-you",
+                "result": "failed-save-becomes-success",
+                "reuse_after": "next-dawn"
+              },
+              "recharge": {
+                "dice": {
+                  "dice": 1,
+                  "sides": 8,
+                  "type": "charges"
+                },
+                "bonus": 2,
+                "when": "daily-at-dawn"
+              },
+              "last_charge": {
+                "die_sides": 20,
+                "destroyed_on": 1,
+                "result": "crumbles-to-dust"
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/staff-of-fire",
+      "name": "Staff of Fire",
+      "kind": "magic",
+      "category": "staff",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/staff-of-fire",
+          "pages": [
+            245,
+            245
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/staff-of-fire/variant/standard",
+          "name": "Staff of Fire",
+          "rarity": "very-rare",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "limited",
+            "maximum": 10,
+            "per_use": 1,
+            "recharge": "regain-1d6-plus-4-at-dawn"
+          },
+          "equip": {
+            "mode": "hold",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "cast-spell",
+            "restrictions": [
+              "expend-listed-charges"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              245,
+              245
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "attunement.by-class",
+            "item.hold",
+            "defense.resistance-fire",
+            "item.charges",
+            "spell.cast-listed-spells",
+            "spell.uses-your-save-dc",
+            "item.destroyed-on-1-after-last-charge"
+          ],
+          "details": {
+            "fire": {
+              "attunement_by_any_of": [
+                "druid",
+                "sorcerer",
+                "warlock",
+                "wizard"
+              ],
+              "condition": "while-holding",
+              "resistance": "fire",
+              "max_charges": 10,
+              "save_dc_source": "your-spell-save-dc",
+              "spells": [
+                {
+                  "spell": "burning-hands",
+                  "charge_cost": 1
+                },
+                {
+                  "spell": "fireball",
+                  "charge_cost": 3
+                },
+                {
+                  "spell": "wall-of-fire",
+                  "charge_cost": 4
+                }
+              ],
+              "recharge": {
+                "dice": {
+                  "dice": 1,
+                  "sides": 6,
+                  "type": "charges"
+                },
+                "bonus": 4,
+                "when": "daily-at-dawn"
+              },
+              "last_charge": {
+                "die_sides": 20,
+                "destroyed_on": 1,
+                "result": "crumbles-into-cinders"
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/staff-of-frost",
+      "name": "Staff of Frost",
+      "kind": "magic",
+      "category": "staff",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/staff-of-frost",
+          "pages": [
+            245,
+            245
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/staff-of-frost/variant/standard",
+          "name": "Staff of Frost",
+          "rarity": "very-rare",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "limited",
+            "maximum": 10,
+            "per_use": 1,
+            "recharge": "regain-1d6-plus-4-at-dawn"
+          },
+          "equip": {
+            "mode": "hold",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "cast-spell",
+            "restrictions": [
+              "expend-listed-charges"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              245,
+              245
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "attunement.by-class",
+            "item.hold",
+            "defense.resistance-cold",
+            "item.charges",
+            "spell.cast-listed-spells",
+            "spell.uses-your-save-dc",
+            "item.destroyed-on-1-after-last-charge"
+          ],
+          "details": {
+            "frost": {
+              "attunement_by_any_of": [
+                "druid",
+                "sorcerer",
+                "warlock",
+                "wizard"
+              ],
+              "condition": "while-holding",
+              "resistance": "cold",
+              "max_charges": 10,
+              "save_dc_source": "your-spell-save-dc",
+              "spells": [
+                {
+                  "spell": "cone-of-cold",
+                  "charge_cost": 5
+                },
+                {
+                  "spell": "fog-cloud",
+                  "charge_cost": 1
+                },
+                {
+                  "spell": "ice-storm",
+                  "charge_cost": 4
+                },
+                {
+                  "spell": "wall-of-ice",
+                  "charge_cost": 4
+                }
+              ],
+              "recharge": {
+                "dice": {
+                  "dice": 1,
+                  "sides": 6,
+                  "type": "charges"
+                },
+                "bonus": 4,
+                "when": "daily-at-dawn"
+              },
+              "last_charge": {
+                "die_sides": 20,
+                "destroyed_on": 1,
+                "result": "turns-to-water"
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/staff-of-healing",
+      "name": "Staff of Healing",
+      "kind": "magic",
+      "category": "staff",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/staff-of-healing",
+          "pages": [
+            245,
+            245
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/staff-of-healing/variant/standard",
+          "name": "Staff of Healing",
+          "rarity": "rare",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "limited",
+            "maximum": 10,
+            "per_use": 1,
+            "recharge": "regain-1d6-plus-4-at-dawn"
+          },
+          "equip": {
+            "mode": "hold",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "cast-spell",
+            "restrictions": [
+              "expend-listed-charges"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              245,
+              245
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "attunement.by-class",
+            "item.hold",
+            "item.charges",
+            "spell.cast-cure-wounds-per-level",
+            "spell.cast-lesser-restoration",
+            "spell.cast-mass-cure-wounds",
+            "spell.uses-your-spellcasting-modifier",
+            "item.destroyed-on-1-after-last-charge"
+          ],
+          "details": {
+            "healing": {
+              "attunement_by_any_of": [
+                "bard",
+                "cleric",
+                "druid"
+              ],
+              "condition": "while-holding",
+              "max_charges": 10,
+              "spell_modifier_source": "your-spellcasting-ability-modifier",
+              "cure_wounds": {
+                "charges_per_spell_level": 1,
+                "maximum_spell_level": 4
+              },
+              "spells": [
+                {
+                  "spell": "lesser-restoration",
+                  "charge_cost": 2
+                },
+                {
+                  "spell": "mass-cure-wounds",
+                  "charge_cost": 5
+                }
+              ],
+              "recharge": {
+                "dice": {
+                  "dice": 1,
+                  "sides": 6,
+                  "type": "charges"
+                },
+                "bonus": 4,
+                "when": "daily-at-dawn"
+              },
+              "last_charge": {
+                "die_sides": 20,
+                "destroyed_on": 1,
+                "result": "vanishes-in-flash-of-light"
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/staff-of-power",
+      "name": "Staff of Power",
+      "kind": "magic",
+      "category": "staff",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/staff-of-power",
+          "pages": [
+            245,
+            245
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/staff-of-power/variant/standard",
+          "name": "Staff of Power",
+          "rarity": "very-rare",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "limited",
+            "maximum": 20,
+            "per_use": 1,
+            "recharge": "regain-2d8-plus-4-at-dawn"
+          },
+          "equip": {
+            "mode": "wield",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "cast-spell",
+            "restrictions": [
+              "expend-listed-charges"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              245,
+              245
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "attunement.by-class",
+            "item.magic-weapon",
+            "bonus.attack-and-damage-2",
+            "bonus.armor-class-saves-and-spell-attack-2",
+            "item.charges",
+            "spell.cast-listed-spells",
+            "spell.uses-your-save-dc",
+            "item.last-charge-roll",
+            "item.retributive-strike",
+            "damage.force-by-charges",
+            "save.dexterity-dc-17"
+          ],
+          "details": {
+            "power": {
+              "attunement_by_any_of": [
+                "sorcerer",
+                "warlock",
+                "wizard"
+              ],
+              "max_charges": 20,
+              "wielded_as": "quarterstaff",
+              "attack_bonus": 2,
+              "damage_bonus": 2,
+              "holding_bonus": 2,
+              "holding_bonus_applies_to": [
+                "armor-class",
+                "saving-throws",
+                "spell-attack-rolls"
+              ],
+              "save_dc_source": "your-spell-save-dc",
+              "spells": [
+                {
+                  "spell": "cone-of-cold",
+                  "printed_level": "none",
+                  "charge_cost": 5
+                },
+                {
+                  "spell": "fireball",
+                  "printed_level": "level-5-version",
+                  "charge_cost": 5
+                },
+                {
+                  "spell": "globe-of-invulnerability",
+                  "printed_level": "none",
+                  "charge_cost": 6
+                },
+                {
+                  "spell": "hold-monster",
+                  "printed_level": "none",
+                  "charge_cost": 5
+                },
+                {
+                  "spell": "levitate",
+                  "printed_level": "none",
+                  "charge_cost": 2
+                },
+                {
+                  "spell": "lightning-bolt",
+                  "printed_level": "level-5-version",
+                  "charge_cost": 5
+                },
+                {
+                  "spell": "magic-missile",
+                  "printed_level": "none",
+                  "charge_cost": 1
+                },
+                {
+                  "spell": "ray-of-enfeeblement",
+                  "printed_level": "none",
+                  "charge_cost": 1
+                },
+                {
+                  "spell": "wall-of-force",
+                  "printed_level": "none",
+                  "charge_cost": 5
+                }
+              ],
+              "recharge": {
+                "dice": {
+                  "dice": 2,
+                  "sides": 8,
+                  "type": "charges"
+                },
+                "bonus": 4,
+                "when": "daily-at-dawn"
+              },
+              "last_charge": {
+                "die_sides": 20,
+                "loses_properties_on": 1,
+                "retains": "attack-and-damage-bonus-only",
+                "regains_on": 20,
+                "regains": {
+                  "dice": 1,
+                  "sides": 8,
+                  "type": "charges"
+                },
+                "regains_bonus": 2
+              },
+              "retributive_strike": {
+                "action": "magic",
+                "area_emanation_feet": 30,
+                "planar_travel_percent": 50,
+                "your_damage_per_charge": 16,
+                "other_damage_per_charge": 4,
+                "damage_type": "force",
+                "save_ability": "dexterity",
+                "save_dc": 17,
+                "success_damage": "half"
+              },
+              "source_pages": [
+                245,
+                246
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/staff-of-striking",
+      "name": "Staff of Striking",
+      "kind": "magic",
+      "category": "staff",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/magic-items/staff-of-striking",
+          "pages": [
+            246,
+            246
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/staff-of-striking/variant/standard",
+          "name": "Staff of Striking",
+          "rarity": "very-rare",
+          "attunement": {
+            "mode": "required",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "limited",
+            "maximum": 10,
+            "per_use": 1,
+            "recharge": "regain-1d6-plus-4-at-dawn"
+          },
+          "equip": {
+            "mode": "wield",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "weapon-attack",
+            "restrictions": [
+              "expend-up-to-three-charges"
+            ]
+          },
+          "cost": {
+            "kind": "unspecified",
+            "amount": 0,
+            "currency": "none",
+            "source_pages": [
+              246,
+              246
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.attunement",
+            "item.magic-weapon",
+            "bonus.attack-and-damage-3",
+            "item.charges",
+            "damage.force-1d6-per-charge",
+            "item.nonmagical-on-1-after-last-charge"
+          ],
+          "details": {
+            "striking": {
+              "wielded_as": "quarterstaff",
+              "attack_bonus": 3,
+              "damage_bonus": 3,
+              "max_charges": 10,
+              "trigger": "hit-with-melee-attack",
+              "maximum_charges_per_hit": 3,
+              "extra_damage_per_charge": {
+                "dice": 1,
+                "sides": 6,
+                "type": "force"
+              },
+              "recharge": {
+                "dice": {
+                  "dice": 1,
+                  "sides": 6,
+                  "type": "charges"
+                },
+                "bonus": 4,
+                "when": "daily-at-dawn"
+              },
+              "last_charge": {
+                "die_sides": 20,
+                "destroyed_on": 1,
+                "result": "becomes-nonmagical-quarterstaff"
+              }
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

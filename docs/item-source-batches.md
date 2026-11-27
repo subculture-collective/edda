@@ -702,6 +702,342 @@ The comparison script reads pp. 235–236 column by column as one text stream.
 rtk proxy python3 -I scripts/verify_srd_items_237.py /path/to/SRD_CC_v5.2.1.pdf
 ```
 
+## Magic items 14 (#238), pp. 236–238
+
+Eleven families and 14 variants, in planning inventory order. Files:
+`item_details_238.go`, `testdata/items_238.json`, `items_238_test.go` and
+`scripts/verify_srd_items_238.py`. `item_source.go` is unchanged.
+
+| Family | Page | Variants | Typed payload |
+| --- | --- | --- | --- |
+| Potion of Poison | 236 | `standard` (Uncommon) | `poison` |
+| Potion of Resistance | 236 | `standard` (Uncommon) | `resistance_potion`: the 10-row 1d10 damage type table |
+| Potion of Speed | 236 | `standard` (Very Rare) | `speed` |
+| Potion of Vitality | 236 | `standard` (Very Rare) | `vitality` |
+| Potion of Water Breathing | 236 | `standard` (Uncommon) | `water_breathing` |
+| Quarterstaff of the Acrobat | 237 | `standard` (Very Rare, attunement) | `acrobat` |
+| Ring of Animal Influence | 237 | `standard` (Rare) | `animal_influence` |
+| Ring of Djinni Summoning | 237 | `standard` (Legendary, attunement) | `djinni_summoning` |
+| Ring of Elemental Command | 237 | `air`, `earth`, `fire`, `water` (all Legendary, attunement) | `elemental_command`: the shared properties and one linked plane's Elemental Focus and spells |
+| Ring of Evasion | 238 | `standard` (Rare, attunement) | `evasion` |
+| Ring of Feather Falling | 238 | `standard` (Rare, attunement) | `feather_falling` |
+
+Variant rules used in this batch:
+
+- **Potions of Healing is not a family of this batch.** It is the twelfth source
+  family of #238, and the [Healing contract fixture](item-family-contract.md)
+  already holds it as the canonical `potion-of-healing` family: the
+  `magic-items/potions-of-healing` presentation and all four table variants.
+  A second record would repeat that presentation, which composition rejects, so
+  this batch holds the other eleven families. `TestItems238SourceIdentities`
+  joins all twelve inventory records, and `verify_srd_items_238.py` compares the
+  fixture's four rows (rarity and healing dice) with the p. 236 table. The
+  fixture is unchanged.
+- The Ring of Elemental Command is linked to one of four planes and the source
+  names a linked ring that way, "Ring of Elemental Command (air)". `air`,
+  `earth`, `fire` and `water` are variants, each Legendary, with the shared
+  properties repeated in each payload. A plane with no printed value stores
+  `none`, such as the Earth ring's speed.
+- The Potion of Resistance table is a random table, so it is payload data in one
+  `standard` variant, as for the Armor of Resistance in batch 01.
+- The Potion of Water Breathing (pp. 236–237) and the Ring of Elemental Command
+  (pp. 237–238) record `source_pages` in their payloads.
+- The "until the start your next turn" wording of Elemental Compulsion is
+  printed that way; the key records the intended phrase.
+
+The Ring of Animal Influence (3 charges, 1d3 at dawn), the Ring of Evasion (3
+charges, 1d3 at dawn) and the Ring of Elemental Command (5 charges, 1d4 + 1 at
+dawn; Feather Fall costs 0) have charge pools. Their `per_use` is 1, the least
+a charged use costs. The Quarterstaff of the Acrobat's deflection and the
+Djinni's 24-hour wait are use limits. No family lists a price.
+
+Composing the Healing contract fixture with batches #225 to #237 and this batch
+yields 168 families and 229 variants with no shared identity. The Healing
+fixture, `ResolveHealingPotion` and the coverage register are unchanged.
+
+The comparison script reads the pages column by column as one text stream. It
+lists every payload leaf with its printed phrase, fails on a leaf it does not
+list, requires a number to appear in its phrase, and derives each family's
+pages from the layout. It supplements the literal fixtures in
+`TestItems238SourceValues`; it is not an automatic conformance proof.
+
+```sh
+rtk proxy python3 -I scripts/verify_srd_items_238.py /path/to/SRD_CC_v5.2.1.pdf
+```
+
+## Magic items 15 (#239), pp. 238–239
+
+Twelve families and 12 variants, in planning inventory order. Files:
+`item_details_239.go`, `testdata/items_239.json`, `items_239_test.go` and
+`scripts/verify_srd_items_239.py`. `item_source.go` is unchanged.
+
+| Family | Page | Variants | Typed payload |
+| --- | --- | --- | --- |
+| Ring of Free Action | 238 | `standard` (Rare, attunement) | `free_action` |
+| Ring of Invisibility | 238 | `standard` (Legendary, attunement) | `invisibility` |
+| Ring of Jumping | 238 | `standard` (Uncommon, attunement) | `jumping` |
+| Ring of Mind Shielding | 238 | `standard` (Uncommon, attunement) | `mind_shielding` |
+| Ring of Protection | 238 | `standard` (Rare, attunement) | `protection` |
+| Ring of Regeneration | 238 | `standard` (Very Rare, attunement) | `regeneration` |
+| Ring of Resistance | 238 | `standard` (Rare) | `resistance_ring`: the 10-row 1d10 damage type and gemstone table |
+| Ring of Shooting Stars | 238 | `standard` (Very Rare, attunement) | `shooting_stars`: free spells, three charged properties and the 4-row sphere damage table |
+| Ring of Spell Storing | 239 | `standard` (Rare, attunement) | `spell_storing` |
+| Ring of Spell Turning | 239 | `standard` (Legendary, attunement) | `spell_turning` |
+| Ring of Swimming | 239 | `standard` (Uncommon) | `swimming` |
+| Ring of Telekinesis | 239 | `standard` (Very Rare, attunement) | `telekinesis` |
+
+Variant rules used in this batch:
+
+- Every family has the single variant `standard`.
+- The Ring of Resistance table is a random table, so its ten damage types and
+  gemstones are payload data, as for the Armor of Resistance in batch 01.
+- The Ring of Shooting Stars starts on p. 238 and ends on p. 239; its payload
+  records `source_pages` 238 and 239. Its sphere damage table maps the number of
+  spheres to dice.
+- The Ring of Spell Storing's found contents, `1d6 − 1` levels, are the dice and
+  a `found_levels_penalty` of 1. Stored levels are not charges.
+
+The Ring of Shooting Stars is the only family with a charge pool: 6 charges,
+regaining 1d6 at dawn. Its `per_use` is 1, the least a charged use costs; each
+property records its own cost. No family lists a price.
+
+Composing the Healing contract fixture with batches #225 to #238 and this batch
+yields 180 families and 241 variants with no shared identity. The Healing
+fixture, `ResolveHealingPotion` and the coverage register are unchanged.
+
+The comparison script reads the pages column by column as one text stream. It
+lists every payload leaf with its printed phrase, fails on a leaf it does not
+list, requires a number to appear in its phrase, and derives each family's
+pages from the layout. It supplements the literal fixtures in
+`TestItems239SourceValues`; it is not an automatic conformance proof.
+
+```sh
+rtk proxy python3 -I scripts/verify_srd_items_239.py /path/to/SRD_CC_v5.2.1.pdf
+```
+
+## Magic items 16 (#240), pp. 239–241
+
+Twelve families and 12 variants, in planning inventory order. Files:
+`item_details_240.go`, `testdata/items_240.json`, `items_240_test.go` and
+`scripts/verify_srd_items_240.py`. `item_source.go` is unchanged.
+
+| Family | Page | Variants | Typed payload |
+| --- | --- | --- | --- |
+| Ring of Three Wishes | 239 | `standard` (Legendary) | `three_wishes` |
+| Ring of Warmth | 239 | `standard` (Uncommon, attunement) | `warmth` |
+| Ring of Water Walking | 239 | `standard` (Uncommon) | `water_walking` |
+| Ring of X-ray Vision | 239 | `standard` (Rare, attunement) | `x_ray` |
+| Ring of the Ram | 239 | `standard` (Rare, attunement) | `ram` |
+| Robe of Eyes | 240 | `standard` (Rare, attunement) | `eyes` |
+| Robe of Scintillating Colors | 240 | `standard` (Very Rare, attunement) | `scintillating` |
+| Robe of Stars | 240 | `standard` (Very Rare, attunement) | `stars` |
+| Robe of Useful Items | 240 | `standard` (Uncommon) | `useful_items`: six fixed patches, the 13-row 1d100 table and its numeric facts |
+| Robe of the Archmagi | 240 | `standard` (Legendary, attunement) | `archmagi` |
+| Rod of Absorption | 241 | `standard` (Very Rare, attunement) | `absorption` |
+| Rod of Alertness | 241 | `standard` (Very Rare, attunement) | `alertness` |
+
+Variant rules used in this batch:
+
+- Every family has the single variant `standard`.
+- The Ring of X-ray Vision (pp. 239–240) and the Robe of Useful Items (pp.
+  240–241) record `source_pages` in their payloads. The Ring of the Ram is
+  printed before the other four rings; the catalogue keeps inventory order, which
+  also places the Robe of Useful Items before the Robe of the Archmagi.
+- The Robe of Useful Items patches are rows of a random table, so they are
+  payload data. A printed `00` is stored as 100. Each row records its patch; only
+  printed counts, sizes and values are `patch_facts`, and the iron door's and
+  window's placement rules are `patch_rules`. Names such as Riding Horse,
+  Mastiff and Spell Scroll are keys, not links to other records.
+- The Robe of the Archmagi's attunement classes are the payload's
+  `attunement_by_any_of`; the shared restriction list stays empty.
+
+The Ring of Three Wishes (3 charges, never recharged), the Ring of the Ram (3
+charges, 1d3 at dawn) and the Robe of Scintillating Colors (3 charges, 1d3 at
+dawn) have charge pools. The Robe of Stars' stars, the Rod of Absorption's
+stored levels and the patches are not charges. No family lists a price; the
+patch values are payload facts.
+
+Composing the Healing contract fixture with batches #225 to #239 and this batch
+yields 192 families and 253 variants with no shared identity. The Healing
+fixture, `ResolveHealingPotion` and the coverage register are unchanged.
+
+The comparison script reads the pages column by column as one text stream. It
+lists every payload leaf with its printed phrase, fails on a leaf it does not
+list, requires a number to appear in its phrase, and derives each family's
+pages from the layout. It supplements the literal fixtures in
+`TestItems240SourceValues`; it is not an automatic conformance proof.
+
+```sh
+rtk proxy python3 -I scripts/verify_srd_items_240.py /path/to/SRD_CC_v5.2.1.pdf
+```
+
+## Magic items 17 (#241), pp. 241–243
+
+Twelve families and 12 variants, in planning inventory order. Files:
+`item_details_241.go`, `testdata/items_241.json`, `items_241_test.go` and
+`scripts/verify_srd_items_241.py`. `item_source.go` is unchanged.
+
+| Family | Page | Variants | Typed payload |
+| --- | --- | --- | --- |
+| Rod of Lordly Might | 241 | `standard` (Legendary, attunement) | `lordly_might`: the mace, six button forms and the Drain Life, Paralyze and Terrify properties |
+| Rod of Resurrection | 242 | `standard` (Legendary, attunement) | `resurrection` |
+| Rod of Rulership | 242 | `standard` (Rare, attunement) | `rulership` |
+| Rod of Security | 242 | `standard` (Very Rare) | `security` |
+| Rope of Climbing | 242 | `standard` (Uncommon) | `climbing_rope` |
+| Rope of Entanglement | 242 | `standard` (Rare) | `entanglement` |
+| Scarab of Protection | 243 | `standard` (Legendary, attunement) | `scarab` |
+| Scimitar of Speed | 243 | `standard` (Very Rare, attunement) | `speed` |
+| Sending Stones | 243 | `standard` (Uncommon) | `sending_stones` |
+| Sentinel Shield | 243 | `standard` (Uncommon) | `sentinel` |
+| Shield of Missile Attraction | 243 | `standard` (Rare, attunement) | `missile_attraction` |
+| Shield of the Cavalier | 243 | `standard` (Very Rare, attunement) | `cavalier` |
+
+Variant rules used in this batch:
+
+- Every family has the single variant `standard`. The Rod of Lordly Might's
+  button forms are properties of one item, not variants.
+- The Rod of Lordly Might (pp. 241–242) and the Rope of Entanglement (pp.
+  242–243) record `source_pages` in their payloads.
+- The shields use the base item option `shield`. The Scimitar of Speed's base is
+  `scimitar`.
+- Sending Stones are one family; the pair is payload data, not a quantity.
+
+The Rod of Resurrection (5 charges, regaining 1 at dawn) and the Scarab of
+Protection (12 charges, never recharged) have charge pools. Their `per_use` is
+1; Resurrection's 5-charge cost is in the payload. Once-until-dawn properties
+and the Rod of Security's 10-day wait are use limits. No family lists a price.
+
+Composing the Healing contract fixture with batches #225 to #240 and this batch
+yields 204 families and 265 variants with no shared identity. The Healing
+fixture, `ResolveHealingPotion` and the coverage register are unchanged.
+
+The comparison script reads the pages column by column as one text stream. It
+lists every payload leaf with its printed phrase, fails on a leaf it does not
+list, requires a number to appear in its phrase, and derives each family's
+pages from the layout. It supplements the literal fixtures in
+`TestItems241SourceValues`; it is not an automatic conformance proof.
+
+```sh
+rtk proxy python3 -I scripts/verify_srd_items_241.py /path/to/SRD_CC_v5.2.1.pdf
+```
+
+## Magic items 18 (#242), pp. 243–246
+
+Twelve families and 23 variants, in planning inventory order. Files:
+`item_details_242.go`, `testdata/items_242.json`, `items_242_test.go` and
+`scripts/verify_srd_items_242.py`. `item_source.go` is unchanged.
+
+| Family | Page | Variants | Typed payload |
+| --- | --- | --- | --- |
+| Shield, +1, +2, or +3 | 243 | `plus-1`, `plus-2`, `plus-3` (Uncommon, Rare, Very Rare) | `shield_bonus`: that rarity's Armor Class bonus |
+| Slippers of Spider Climbing | 244 | `standard` (Uncommon, attunement) | `spider_slippers` |
+| Sovereign Glue | 244 | `standard` (Legendary) | `glue` |
+| Spell Scroll | 244 | `cantrip`, `level-1`, `level-2`, `level-3`, `level-4`, `level-5`, `level-6`, `level-7`, `level-8`, `level-9` (Common, Common, Uncommon, Uncommon, Rare, Rare, Very Rare, Very Rare, Very Rare, Legendary) | `scroll`: that spell level's table row and the shared reading and copying rules |
+| Spellguard Shield | 244 | `standard` (Very Rare, attunement) | `spellguard` |
+| Sphere of Annihilation | 244 | `standard` (Legendary) | `annihilation`: control, movement and the 3-row 1d100 interaction table |
+| Staff of Charming | 245 | `standard` (Rare, attunement) | `charming` |
+| Staff of Fire | 245 | `standard` (Very Rare, attunement) | `fire` |
+| Staff of Frost | 245 | `standard` (Very Rare, attunement) | `frost` |
+| Staff of Healing | 245 | `standard` (Rare, attunement) | `healing` |
+| Staff of Power | 245 | `standard` (Very Rare, attunement) | `power`: quarterstaff bonuses, nine spells, the last-charge roll and Retributive Strike |
+| Staff of Striking | 246 | `standard` (Very Rare, attunement) | `striking` |
+
+Variant rules used in this batch:
+
+- "Shield, +1, +2, or +3" has one variant per rarity, `plus-1` to `plus-3`, as
+  the armor, ammunition and weapon families of earlier batches do.
+- The Spell Scroll prints "Rarity Varies" and a table by spell level. Each of the
+  ten rows is a variant, `cantrip` and `level-1` to `level-9`, with the rarity,
+  save DC and attack bonus of its row; the cantrip row stores `spell_level` 0.
+  The shared reading and copying rules repeat in each payload. A variant names no
+  spell. The mundane-gear Spell Scroll presentation belongs to a later gear batch,
+  which must join this family's identity rather than add a second one.
+- The Sphere of Annihilation (pp. 244–245) and the Staff of Power (pp. 245–246)
+  record `source_pages` in their payloads. The Sphere's interaction table is a
+  random table, so it is payload data; a printed `00` is stored as 100.
+- Staff attunement classes are the payload's `attunement_by_any_of`; the shared
+  restriction list stays empty.
+- In the Staff of Power spell table, `printed_level` is `level-5-version` where
+  the source says so and `none` where it prints no level. The Staff of Healing's Cure
+  Wounds cost of 1 charge per spell level is its own `cure_wounds` field.
+- The shields use the base item option `shield`.
+
+The six staffs have charge pools: Charming (10, 1d8 + 2 at dawn), Fire, Frost,
+Healing and Striking (10, 1d6 + 4 at dawn) and Power (20, 2d8 + 4 at dawn).
+Their `per_use` is 1, the least a charged use costs. Once-until-dawn properties
+are use limits. No family lists a price.
+
+Composing the Healing contract fixture with batches #225 to #241 and this batch
+yields 216 families and 288 variants with no shared identity. The Healing
+fixture, `ResolveHealingPotion` and the coverage register are unchanged.
+
+The comparison script reads the pages column by column as one text stream. It
+lists every payload leaf with its printed phrase, fails on a leaf it does not
+list, requires a number to appear in its phrase, and derives each family's
+pages from the layout. It supplements the literal fixtures in
+`TestItems242SourceValues`; it is not an automatic conformance proof.
+
+```sh
+rtk proxy python3 -I scripts/verify_srd_items_242.py /path/to/SRD_CC_v5.2.1.pdf
+```
+
+## Magic items 19 (#243), pp. 246–248
+
+Twelve families and 12 variants, in planning inventory order. Files:
+`item_details_243.go`, `testdata/items_243.json`, `items_243_test.go` and
+`scripts/verify_srd_items_243.py`. `item_source.go` is unchanged.
+
+| Family | Page | Variants | Typed payload |
+| --- | --- | --- | --- |
+| Staff of Swarming Insects | 246 | `standard` (Rare, attunement) | `swarming_insects` |
+| Staff of Thunder and Lightning | 247 | `standard` (Very Rare, attunement) | `thunder_lightning` |
+| Staff of Withering | 248 | `standard` (Rare, attunement) | `withering` |
+| Staff of the Magi | 246 | `standard` (Legendary, attunement) | `magi`: quarterstaff bonuses, Spell Absorption, nineteen spells, the last-charge roll and Retributive Strike |
+| Staff of the Python | 247 | `standard` (Uncommon, attunement) | `python` |
+| Staff of the Woodlands | 247 | `standard` (Rare, attunement) | `woodlands` |
+| Stone of Controlling Earth Elementals | 248 | `standard` (Rare) | `earth_stone` |
+| Stone of Good Luck (Luckstone) | 248 | `standard` (Uncommon, attunement) | `luckstone` |
+| Sun Blade | 248 | `standard` (Rare, attunement) | `sun_blade` |
+| Sword of Life Stealing | 248 | `standard` (Rare, attunement) | `life_stealing` |
+| Sword of Sharpness | 248 | `standard` (Very Rare, attunement) | `sharpness` |
+| Sword of Wounding | 248 | `standard` (Rare, attunement) | `wounding` |
+
+Variant rules used in this batch:
+
+- Every family has the single variant `standard`. The sword families' weapon
+  lists are base item options, not variants.
+- The Staff of the Magi (pp. 246–247) and the Staff of Thunder and Lightning
+  (pp. 247–248) record `source_pages` in their payloads. Inventory order is not
+  print order: Staff of the Magi, the Python and the Woodlands are printed before
+  Staff of Thunder and Lightning and Staff of Withering. The catalogue keeps
+  inventory order.
+- Staff attunement classes are the payload's `attunement_by_any_of`; the shared
+  restriction list stays empty.
+- In the Staff of the Magi spell table, `printed_level` is `level-7-version` where
+  the source says so and `none` where it prints no level. A cost of 0 is printed.
+- The Sword of Life Stealing's 15 and the Sword of Sharpness's 14 extra damage
+  are flat printed amounts, not dice.
+
+Swarming Insects (10, 1d6 + 4 at dawn), Withering (3, 1d3 at dawn), the Magi
+(50, 4d6 + 2 at dawn) and the Woodlands (6, 1d6 at dawn) have charge pools.
+Their `per_use` is 1, the least a charged use costs. Once-until-dawn properties
+and the Staff of the Python's 1-hour wait are use limits. No family lists a
+price.
+
+Composing the Healing contract fixture with batches #225 to #242 and this batch
+yields 228 families and 300 variants with no shared identity. The Healing
+fixture, `ResolveHealingPotion` and the coverage register are unchanged.
+
+The comparison script reads the pages column by column as one text stream. It
+lists every payload leaf with its printed phrase, fails on a leaf it does not
+list, requires a number to appear in its phrase, and derives each family's
+pages from the layout. It supplements the literal fixtures in
+`TestItems243SourceValues`; it is not an automatic conformance proof.
+
+```sh
+rtk proxy python3 -I scripts/verify_srd_items_243.py /path/to/SRD_CC_v5.2.1.pdf
+```
+
 This work includes material from the System Reference Document 5.2.1 (“SRD
 5.2.1”) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd.
 The SRD 5.2.1 is licensed under the Creative Commons Attribution 4.0 International
