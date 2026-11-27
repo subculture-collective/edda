@@ -274,6 +274,90 @@ type SpellSourceDetails struct {
 	PhantasmalForce  *SpellPhantasmalForce  `json:"phantasmal_force,omitempty"`
 	PhantasmalKiller *SpellPhantasmalKiller `json:"phantasmal_killer,omitempty"`
 	PhantomSteed     *SpellPhantomSteed     `json:"phantom_steed,omitempty"`
+
+	// Issue #215 payloads.
+	PlanarAlly       *SpellPlanarAlly       `json:"planar_ally,omitempty"`
+	PlanarBinding    *SpellPlanarBinding    `json:"planar_binding,omitempty"`
+	PlaneShift       *SpellPlaneShift       `json:"plane_shift,omitempty"`
+	PlantGrowth      *SpellPlantGrowth      `json:"plant_growth,omitempty"`
+	PoisonSpray      *SpellPoisonSpray      `json:"poison_spray,omitempty"`
+	Polymorph        *SpellPolymorph        `json:"polymorph,omitempty"`
+	PowerWordHeal    *SpellPowerWordHeal    `json:"power_word_heal,omitempty"`
+	PowerWordKill    *SpellPowerWordKill    `json:"power_word_kill,omitempty"`
+	PowerWordStun    *SpellPowerWordStun    `json:"power_word_stun,omitempty"`
+	PrayerOfHealing  *SpellPrayerOfHealing  `json:"prayer_of_healing,omitempty"`
+	Prestidigitation *SpellPrestidigitation `json:"prestidigitation,omitempty"`
+	PrismaticSpray   *SpellPrismaticSpray   `json:"prismatic_spray,omitempty"`
+
+	// Issue #216 payloads.
+	PrismaticWall             *SpellPrismaticWall             `json:"prismatic_wall,omitempty"`
+	PrivateSanctum            *SpellPrivateSanctum            `json:"private_sanctum,omitempty"`
+	ProduceFlame              *SpellProduceFlame              `json:"produce_flame,omitempty"`
+	ProgrammedIllusion        *SpellProgrammedIllusion        `json:"programmed_illusion,omitempty"`
+	ProjectImage              *SpellProjectImage              `json:"project_image,omitempty"`
+	ProtectionFromEnergy      *SpellProtectionFromEnergy      `json:"protection_from_energy,omitempty"`
+	ProtectionFromEvilAndGood *SpellProtectionFromEvilAndGood `json:"protection_from_evil_and_good,omitempty"`
+	ProtectionFromPoison      *SpellProtectionFromPoison      `json:"protection_from_poison,omitempty"`
+	PurifyFoodAndDrink        *SpellPurifyFoodAndDrink        `json:"purify_food_and_drink,omitempty"`
+	RaiseDead                 *SpellRaiseDead                 `json:"raise_dead,omitempty"`
+	RayOfEnfeeblement         *SpellRayOfEnfeeblement         `json:"ray_of_enfeeblement,omitempty"`
+	RayOfFrost                *SpellRayOfFrost                `json:"ray_of_frost,omitempty"`
+
+	// Issue #217 payloads.
+	RayOfSickness   *SpellRayOfSickness   `json:"ray_of_sickness,omitempty"`
+	Regenerate      *SpellRegenerate      `json:"regenerate,omitempty"`
+	Reincarnate     *SpellReincarnate     `json:"reincarnate,omitempty"`
+	RemoveCurse     *SpellRemoveCurse     `json:"remove_curse,omitempty"`
+	ResilientSphere *SpellResilientSphere `json:"resilient_sphere,omitempty"`
+	Resistance      *SpellResistance      `json:"resistance,omitempty"`
+	Resurrection    *SpellResurrection    `json:"resurrection,omitempty"`
+	ReverseGravity  *SpellReverseGravity  `json:"reverse_gravity,omitempty"`
+	Revivify        *SpellRevivify        `json:"revivify,omitempty"`
+	RopeTrick       *SpellRopeTrick       `json:"rope_trick,omitempty"`
+	SacredFlame     *SpellSacredFlame     `json:"sacred_flame,omitempty"`
+	Sanctuary       *SpellSanctuary       `json:"sanctuary,omitempty"`
+
+	// Issue #219 payloads.
+	Shillelagh       *SpellShillelagh       `json:"shillelagh,omitempty"`
+	ShiningSmite     *SpellShiningSmite     `json:"shining_smite,omitempty"`
+	ShockingGrasp    *SpellShockingGrasp    `json:"shocking_grasp,omitempty"`
+	Silence          *SpellSilence          `json:"silence,omitempty"`
+	SilentImage      *SpellSilentImage      `json:"silent_image,omitempty"`
+	Simulacrum       *SpellSimulacrum       `json:"simulacrum,omitempty"`
+	Sleep            *SpellSleep            `json:"sleep,omitempty"`
+	SleetStorm       *SpellSleetStorm       `json:"sleet_storm,omitempty"`
+	Slow             *SpellSlow             `json:"slow,omitempty"`
+	SorcerousBurst   *SpellSorcerousBurst   `json:"sorcerous_burst,omitempty"`
+	SpareTheDying    *SpellSpareTheDying    `json:"spare_the_dying,omitempty"`
+	SpeakWithAnimals *SpellSpeakWithAnimals `json:"speak_with_animals,omitempty"`
+
+	// Issue #220 payloads.
+	SpeakWithDead    *SpellSpeakWithDead    `json:"speak_with_dead,omitempty"`
+	SpeakWithPlants  *SpellSpeakWithPlants  `json:"speak_with_plants,omitempty"`
+	SpiderClimb      *SpellSpiderClimb      `json:"spider_climb,omitempty"`
+	SpikeGrowth      *SpellSpikeGrowth      `json:"spike_growth,omitempty"`
+	SpiritGuardians  *SpellSpiritGuardians  `json:"spirit_guardians,omitempty"`
+	SpiritualWeapon  *SpellSpiritualWeapon  `json:"spiritual_weapon,omitempty"`
+	StarryWisp       *SpellStarryWisp       `json:"starry_wisp,omitempty"`
+	StinkingCloud    *SpellStinkingCloud    `json:"stinking_cloud,omitempty"`
+	StoneShape       *SpellStoneShape       `json:"stone_shape,omitempty"`
+	Stoneskin        *SpellStoneskin        `json:"stoneskin,omitempty"`
+	StormOfVengeance *SpellStormOfVengeance `json:"storm_of_vengeance,omitempty"`
+	Suggestion       *SpellSuggestion       `json:"suggestion,omitempty"`
+
+	// Issue #221 payloads.
+	SummonDragon        *SpellSummonDragon        `json:"summon_dragon,omitempty"`
+	Sunbeam             *SpellSunbeam             `json:"sunbeam,omitempty"`
+	Sunburst            *SpellSunburst            `json:"sunburst,omitempty"`
+	Symbol              *SpellSymbol              `json:"symbol,omitempty"`
+	Telekinesis         *SpellTelekinesis         `json:"telekinesis,omitempty"`
+	TelepathicBond      *SpellTelepathicBond      `json:"telepathic_bond,omitempty"`
+	Teleport            *SpellTeleport            `json:"teleport,omitempty"`
+	TeleportationCircle *SpellTeleportationCircle `json:"teleportation_circle,omitempty"`
+	Thaumaturgy         *SpellThaumaturgy         `json:"thaumaturgy,omitempty"`
+	Thunderwave         *SpellThunderwave         `json:"thunderwave,omitempty"`
+	TimeStop            *SpellTimeStop            `json:"time_stop,omitempty"`
+	TinyHut             *SpellTinyHut             `json:"tiny_hut,omitempty"`
 }
 
 // SpellRays describes independently aimed ranged spell attacks.
@@ -459,7 +543,7 @@ func (s *SpellSourceDetails) UnmarshalJSON(data []byte) error {
 		}
 	}
 	templates := map[string]any{"rays": SpellRays{}, "scrying": SpellScrying{}, "smite": SpellSmite{}, "chest": SpellChest{}, "vision": SpellVision{}, "seeming": SpellSeeming{}, "sending": SpellSending{}, "sequester": SpellSequester{}, "shapechange": SpellShapechange{}, "shatter": SpellShatter{}, "shield": SpellShield{}, "faith": SpellFaith{}}
-	for _, batch := range []map[string]any{spell196Templates(), spell197Templates(), spell198Templates(), spell199Templates(), spell200Templates(), spell201Templates(), spell202Templates(), spell208Templates(), spell207Templates(), spell206Templates(), spell205Templates(), spell204Templates(), spell203Templates(), spell209Templates(), spell210Templates(), spell211Templates(), spell212Templates(), spell213Templates(), spell214Templates()} {
+	for _, batch := range []map[string]any{spell196Templates(), spell197Templates(), spell198Templates(), spell199Templates(), spell200Templates(), spell201Templates(), spell202Templates(), spell208Templates(), spell207Templates(), spell206Templates(), spell205Templates(), spell204Templates(), spell203Templates(), spell209Templates(), spell210Templates(), spell211Templates(), spell212Templates(), spell213Templates(), spell214Templates(), spell215Templates(), spell216Templates(), spell217Templates(), spell219Templates(), spell220Templates(), spell221Templates()} {
 		for key, template := range batch {
 			if raw, ok := fields[key]; ok {
 				if err := requireSpell198Fields(raw, reflect.TypeOf(template)); err != nil {
@@ -538,7 +622,7 @@ func (s *SpellSourceDetails) UnmarshalJSON(data []byte) error {
 }
 
 func validSpellTarget(t SpellTarget) bool {
-	if validSpell197Target(t) || validSpell200Target(t) || validSpell202Target(t) || validSpell203Target(t) || validSpell204Target(t) || validSpell205Target(t) || validSpell206Target(t) || validSpell207Target(t) || validSpell208Target(t) || validSpell209Target(t) || validSpell210Target(t) || validSpell211Target(t) || validSpell212Target(t) || validSpell213Target(t) || validSpell214Target(t) {
+	if validSpell197Target(t) || validSpell200Target(t) || validSpell202Target(t) || validSpell203Target(t) || validSpell204Target(t) || validSpell205Target(t) || validSpell206Target(t) || validSpell207Target(t) || validSpell208Target(t) || validSpell209Target(t) || validSpell210Target(t) || validSpell211Target(t) || validSpell212Target(t) || validSpell213Target(t) || validSpell214Target(t) || validSpell215Target(t) || validSpell216Target(t) || validSpell217Target(t) || validSpell219Target(t) || validSpell220Target(t) || validSpell221Target(t) {
 		return true
 	}
 	switch t.Shape {
@@ -635,12 +719,30 @@ func (s SpellRecord) validateSourceDetails() error {
 	if handled, err := s.validateSpell214(); handled || err != nil {
 		return err
 	}
+	if handled, err := s.validateSpell215(); handled || err != nil {
+		return err
+	}
+	if handled, err := s.validateSpell216(); handled || err != nil {
+		return err
+	}
+	if handled, err := s.validateSpell217(); handled || err != nil {
+		return err
+	}
+	if handled, err := s.validateSpell219(); handled || err != nil {
+		return err
+	}
+	if handled, err := s.validateSpell220(); handled || err != nil {
+		return err
+	}
+	if handled, err := s.validateSpell221(); handled || err != nil {
+		return err
+	}
 	d := s.SourceDetails
 	if d == nil {
 		if s.Scope == "complete-source-record" && slices.Contains([]string{"Scorching Ray", "Scrying", "Searing Smite", "Secret Chest", "See Invisibility", "Seeming", "Sending", "Sequester", "Shapechange", "Shatter", "Shield", "Shield of Faith"}, s.Name) {
 			return fmt.Errorf("batch source details required")
 		}
-		if s.CastingTime == "reaction" || s.CastingTime == "10-minutes" || s.CastingTime == "1-minute" || spell197CastingSeconds[s.CastingTime] != 0 || s.Duration == "until-dispelled" || s.Duration == "special" || s.Range.Kind == "unlimited" || s.Range.Kind == "special" || s.Range.Kind == "sight" || s.Target.Shape != "single" {
+		if s.CastingTime == "reaction" || s.CastingTime == "10-minutes" || s.CastingTime == "1-minute" || s.CastingTime == "12-hours" || spell197CastingSeconds[s.CastingTime] != 0 || s.Duration == "until-dispelled" || s.Duration == "special" || s.Range.Kind == "unlimited" || s.Range.Kind == "special" || s.Range.Kind == "sight" || s.Target.Shape != "single" {
 			return fmt.Errorf("source details required for extended shape")
 		}
 		return nil

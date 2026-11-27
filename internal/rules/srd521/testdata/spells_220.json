@@ -1,0 +1,1334 @@
+{
+  "schema_version": 1,
+  "source": {
+    "version": "5.2.1",
+    "language": "en",
+    "landing_url": "https://www.dndbeyond.com/srd",
+    "artifact_url": "https://media.dndbeyond.com/compendium-images/srd/5.2/SRD_CC_v5.2.1.pdf",
+    "sha256": "8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87",
+    "bytes": 6031375,
+    "pages": 364,
+    "retrieved_at": "2026-11-15",
+    "license": "CC-BY-4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/legalcode",
+    "attribution": "This work includes material from the System Reference Document 5.2.1 (“SRD 5.2.1”) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd. The SRD 5.2.1 is licensed under the Creative Commons Attribution 4.0 International License, available at https://creativecommons.org/licenses/by/4.0/legalcode.",
+    "changes": "SRD 5.2.1 PDF pp.164-166 adapted into twelve complete offline spell families for issue #220, including page-break continuation text for Spirit Guardians (pp.164-165) and Storm of Vengeance (pp.165-166). No executable effects or availability grants."
+  },
+  "records": [
+    {
+      "id": "srd-5.2.1:content/spells/speak-with-dead",
+      "name": "Speak with Dead",
+      "source_id": "srd-5.2.1:content/spells/speak-with-dead",
+      "source_page": 164,
+      "scope": "complete-source-record",
+      "level": 3,
+      "school": "necromancy",
+      "lists": [
+        "bard",
+        "cleric",
+        "wizard"
+      ],
+      "casting_time": "action",
+      "range": {
+        "kind": "feet",
+        "feet": 10
+      },
+      "target": {
+        "shape": "single",
+        "count": 1,
+        "eligibility": "corpse-in-range"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": {
+          "description": "burning incense",
+          "cost_cp": 0,
+          "consumed": false
+        }
+      },
+      "ritual": false,
+      "concentration": false,
+      "duration": "timed",
+      "duration_seconds": 600,
+      "scaling": {
+        "kind": "none",
+        "above_level": 0,
+        "dice_count": 0,
+        "die_sides": 0,
+        "effect_ids": []
+      },
+      "effects": [
+        {
+          "id": "speech",
+          "mechanic": "utility.speak-with-dead",
+          "timing": "for-duration",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "utility.speak-with-dead",
+        "components.material"
+      ],
+      "slot_levels": [
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 0,
+        "casting_triggers": [],
+        "end_timing": "duration-ended",
+        "speak_with_dead": {
+          "corpse_requirement": "corpse-must-have-mouth",
+          "failure_conditions": [
+            "deceased-was-undead-when-it-died",
+            "corpse-targeted-by-spell-within-past-10-days"
+          ],
+          "repeat_block_days": 10,
+          "max_questions": 5,
+          "knowledge": "only-what-it-knew-in-life-including-languages",
+          "answer_style": [
+            "brief",
+            "cryptic",
+            "repetitive"
+          ],
+          "truthfulness": "no-compulsion-to-be-truthful-if-antagonized-or-recognizes-enemy",
+          "soul": "returns-animating-spirit-not-soul",
+          "limits": [
+            "cannot-learn-new-information",
+            "does-not-comprehend-events-since-death",
+            "cannot-speculate-about-future"
+          ]
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/speak-with-plants",
+      "name": "Speak with Plants",
+      "source_id": "srd-5.2.1:content/spells/speak-with-plants",
+      "source_page": 164,
+      "scope": "complete-source-record",
+      "level": 3,
+      "school": "transmutation",
+      "lists": [
+        "bard",
+        "druid",
+        "ranger"
+      ],
+      "casting_time": "action",
+      "range": {
+        "kind": "self",
+        "feet": 0
+      },
+      "target": {
+        "shape": "emanation",
+        "count": 0,
+        "eligibility": "plants-in-immobile-emanation"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": null
+      },
+      "ritual": false,
+      "concentration": false,
+      "duration": "timed",
+      "duration_seconds": 600,
+      "scaling": {
+        "kind": "none",
+        "above_level": 0,
+        "dice_count": 0,
+        "die_sides": 0,
+        "effect_ids": []
+      },
+      "effects": [
+        {
+          "id": "sentience",
+          "mechanic": "utility.speak-with-plants",
+          "timing": "for-duration",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "terrain",
+          "mechanic": "terrain.speak-with-plants-change",
+          "timing": "for-duration",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "utility.speak-with-plants",
+        "terrain.speak-with-plants-change"
+      ],
+      "slot_levels": [
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 0,
+        "casting_triggers": [],
+        "end_timing": "duration-ended",
+        "speak_with_plants": {
+          "emanation_feet": 30,
+          "emanation_mobility": "immobile",
+          "grants": "limited-sentience-animation-communication-and-simple-commands",
+          "question_topics": [
+            "creatures-that-passed",
+            "weather",
+            "other-circumstances"
+          ],
+          "question_window_days": 1,
+          "terrain_options": [
+            "plant-growth-difficult-terrain-to-ordinary",
+            "ordinary-terrain-with-plants-to-difficult"
+          ],
+          "movement_limit": "plants-cannot-uproot-but-move-branches-tendrils-and-stalks",
+          "plant_creatures": "communicate-as-if-sharing-common-language"
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/spider-climb",
+      "name": "Spider Climb",
+      "source_id": "srd-5.2.1:content/spells/spider-climb",
+      "source_page": 164,
+      "scope": "complete-source-record",
+      "level": 2,
+      "school": "transmutation",
+      "lists": [
+        "sorcerer",
+        "warlock",
+        "wizard"
+      ],
+      "casting_time": "action",
+      "range": {
+        "kind": "touch",
+        "feet": 0
+      },
+      "target": {
+        "shape": "single",
+        "count": 1,
+        "eligibility": "willing-creature-touch"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": {
+          "description": "a drop of bitumen and a spider",
+          "cost_cp": 0,
+          "consumed": false
+        }
+      },
+      "ritual": false,
+      "concentration": true,
+      "duration": "timed",
+      "duration_seconds": 3600,
+      "scaling": {
+        "kind": "slot-targets",
+        "above_level": 2,
+        "dice_count": 0,
+        "die_sides": 0,
+        "effect_ids": [
+          "climb"
+        ]
+      },
+      "effects": [
+        {
+          "id": "climb",
+          "mechanic": "movement.spider-climb",
+          "timing": "for-duration",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "movement.spider-climb",
+        "scaling.targets-per-slot",
+        "concentration.source-duration",
+        "components.material"
+      ],
+      "slot_levels": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 0,
+        "casting_triggers": [],
+        "end_timing": "duration-or-concentration-ended",
+        "spider_climb": {
+          "surfaces": [
+            "up-down-and-across-vertical-surfaces",
+            "along-ceilings"
+          ],
+          "hands": "left-free",
+          "climb_speed": "equal-to-speed",
+          "base_targets": 1,
+          "additional_targets_per_slot": 1
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/spike-growth",
+      "name": "Spike Growth",
+      "source_id": "srd-5.2.1:content/spells/spike-growth",
+      "source_page": 164,
+      "scope": "complete-source-record",
+      "level": 2,
+      "school": "transmutation",
+      "lists": [
+        "druid",
+        "ranger"
+      ],
+      "casting_time": "action",
+      "range": {
+        "kind": "feet",
+        "feet": 150
+      },
+      "target": {
+        "shape": "sphere",
+        "count": 0,
+        "eligibility": "ground-in-sphere-on-point-in-range"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": {
+          "description": "seven thorns",
+          "cost_cp": 0,
+          "consumed": false
+        }
+      },
+      "ritual": false,
+      "concentration": true,
+      "duration": "timed",
+      "duration_seconds": 600,
+      "scaling": {
+        "kind": "none",
+        "above_level": 0,
+        "dice_count": 0,
+        "die_sides": 0,
+        "effect_ids": []
+      },
+      "effects": [
+        {
+          "id": "terrain",
+          "mechanic": "terrain.spike-growth",
+          "timing": "for-duration",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "damage",
+          "mechanic": "damage.spike-growth",
+          "timing": "each-5-feet-moved-into-or-within",
+          "dice_count": 2,
+          "die_sides": 4,
+          "damage_type": "piercing",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "terrain.spike-growth",
+        "damage.spike-growth",
+        "check.spike-growth-recognition",
+        "concentration.source-duration",
+        "components.material"
+      ],
+      "slot_levels": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 0,
+        "casting_triggers": [],
+        "end_timing": "duration-or-concentration-ended",
+        "spike_growth": {
+          "radius_feet": 20,
+          "terrain": "difficult-terrain",
+          "damage_interval_feet": 5,
+          "damage_dice_count": 2,
+          "damage_die_sides": 4,
+          "camouflage": "looks-natural",
+          "recognition_requirement": "did-not-see-area-when-cast",
+          "recognition_action": "search",
+          "recognition_check": "wisdom-perception-or-survival",
+          "recognition_dc": "caster-spell-save-dc",
+          "recognition_timing": "before-entering"
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/spirit-guardians",
+      "name": "Spirit Guardians",
+      "source_id": "srd-5.2.1:content/spells/spirit-guardians",
+      "source_page": 164,
+      "scope": "complete-source-record",
+      "level": 3,
+      "school": "conjuration",
+      "lists": [
+        "cleric"
+      ],
+      "casting_time": "action",
+      "range": {
+        "kind": "self",
+        "feet": 0
+      },
+      "target": {
+        "shape": "emanation",
+        "count": 0,
+        "eligibility": "undesignated-creatures-in-emanation"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": {
+          "description": "a prayer scroll",
+          "cost_cp": 0,
+          "consumed": false
+        }
+      },
+      "ritual": false,
+      "concentration": true,
+      "duration": "timed",
+      "duration_seconds": 600,
+      "scaling": {
+        "kind": "slot",
+        "above_level": 3,
+        "dice_count": 1,
+        "die_sides": 8,
+        "effect_ids": [
+          "radiant",
+          "necrotic"
+        ]
+      },
+      "effects": [
+        {
+          "id": "speed",
+          "mechanic": "movement.spirit-guardians-half-speed",
+          "timing": "while-in-emanation",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "radiant",
+          "mechanic": "damage.spirit-guardians-radiant",
+          "timing": "emanation-enters-creature-enters-or-ends-turn",
+          "dice_count": 3,
+          "die_sides": 8,
+          "damage_type": "radiant",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "necrotic",
+          "mechanic": "damage.spirit-guardians-necrotic",
+          "timing": "emanation-enters-creature-enters-or-ends-turn",
+          "dice_count": 3,
+          "die_sides": 8,
+          "damage_type": "necrotic",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "movement.spirit-guardians-half-speed",
+        "damage.spirit-guardians-radiant",
+        "damage.spirit-guardians-necrotic",
+        "choice.spirit-guardians-alignment",
+        "save.wisdom-half",
+        "scaling.per-slot",
+        "concentration.source-duration",
+        "components.material"
+      ],
+      "slot_levels": [
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 0,
+        "casting_triggers": [],
+        "end_timing": "duration-or-concentration-ended",
+        "spirit_guardians": {
+          "source_pages": [
+            164,
+            165
+          ],
+          "emanation_feet": 15,
+          "forms": [
+            {
+              "alignment": "good",
+              "appearance_choices": [
+                "angelic",
+                "fey"
+              ],
+              "damage_type": "radiant"
+            },
+            {
+              "alignment": "neutral",
+              "appearance_choices": [
+                "angelic",
+                "fey"
+              ],
+              "damage_type": "radiant"
+            },
+            {
+              "alignment": "evil",
+              "appearance_choices": [
+                "fiendish"
+              ],
+              "damage_type": "necrotic"
+            }
+          ],
+          "exemptions": "creatures-designated-at-casting",
+          "speed_divisor": 2,
+          "save_triggers": [
+            "emanation-enters-creature-space",
+            "creature-enters-emanation",
+            "creature-ends-turn-there"
+          ],
+          "save": "wisdom",
+          "damage_dice_count": 3,
+          "damage_die_sides": 8,
+          "save_success": "half-damage",
+          "saves_per_turn": 1,
+          "slot_dice_count": 1,
+          "slot_die_sides": 8
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/spiritual-weapon",
+      "name": "Spiritual Weapon",
+      "source_id": "srd-5.2.1:content/spells/spiritual-weapon",
+      "source_page": 165,
+      "scope": "complete-source-record",
+      "level": 2,
+      "school": "evocation",
+      "lists": [
+        "cleric"
+      ],
+      "casting_time": "bonus-action",
+      "range": {
+        "kind": "feet",
+        "feet": 60
+      },
+      "target": {
+        "shape": "created-effect",
+        "count": 1,
+        "eligibility": "chosen-space-in-range"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": null
+      },
+      "ritual": false,
+      "concentration": true,
+      "duration": "timed",
+      "duration_seconds": 60,
+      "scaling": {
+        "kind": "slot",
+        "above_level": 2,
+        "dice_count": 1,
+        "die_sides": 8,
+        "effect_ids": [
+          "damage"
+        ]
+      },
+      "effects": [
+        {
+          "id": "damage",
+          "mechanic": "damage.spiritual-weapon",
+          "timing": "on-hit-at-casting-and-on-later-bonus-actions",
+          "dice_count": 1,
+          "die_sides": 8,
+          "damage_type": "force",
+          "bonus": 0,
+          "add_casting_modifier": true,
+          "half_initial_only": false
+        },
+        {
+          "id": "movement",
+          "mechanic": "movement.spiritual-weapon",
+          "timing": "bonus-action-on-later-turns",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "damage.spiritual-weapon",
+        "movement.spiritual-weapon",
+        "attack.melee-spell",
+        "scaling.per-slot",
+        "concentration.source-duration"
+      ],
+      "slot_levels": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 0,
+        "casting_triggers": [],
+        "end_timing": "duration-or-concentration-ended",
+        "spiritual_weapon": {
+          "appearance": "spectral-weapon-of-casters-choice",
+          "attack": "melee-spell-attack",
+          "attack_reach_feet": 5,
+          "attack_targets": 1,
+          "damage_dice_count": 1,
+          "damage_die_sides": 8,
+          "damage_adds": "spellcasting-ability-modifier",
+          "damage_type": "force",
+          "later_action": "bonus-action",
+          "move_max_feet": 20,
+          "repeat_attack": "against-creature-within-reach",
+          "slot_dice_count": 1,
+          "slot_die_sides": 8
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/starry-wisp",
+      "name": "Starry Wisp",
+      "source_id": "srd-5.2.1:content/spells/starry-wisp",
+      "source_page": 165,
+      "scope": "complete-source-record",
+      "level": 0,
+      "school": "evocation",
+      "lists": [
+        "bard",
+        "druid"
+      ],
+      "casting_time": "action",
+      "range": {
+        "kind": "feet",
+        "feet": 60
+      },
+      "target": {
+        "shape": "single",
+        "count": 1,
+        "eligibility": "creature-or-object-in-range"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": null
+      },
+      "ritual": false,
+      "concentration": false,
+      "duration": "instantaneous",
+      "duration_seconds": 0,
+      "scaling": {
+        "kind": "cantrip-upgrade",
+        "above_level": 0,
+        "dice_count": 1,
+        "die_sides": 8,
+        "effect_ids": [
+          "damage"
+        ]
+      },
+      "effects": [
+        {
+          "id": "damage",
+          "mechanic": "damage.starry-wisp",
+          "timing": "on-hit",
+          "dice_count": 1,
+          "die_sides": 8,
+          "damage_type": "radiant",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "revealed",
+          "mechanic": "light.starry-wisp-revealed",
+          "timing": "on-hit-until-end-of-casters-next-turn",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "damage.starry-wisp",
+        "light.starry-wisp-revealed",
+        "attack.ranged-spell",
+        "scaling.cantrip-upgrade"
+      ],
+      "slot_levels": [],
+      "source_details": {
+        "casting_seconds": 0,
+        "casting_triggers": [],
+        "end_timing": "instantaneous",
+        "starry_wisp": {
+          "attack": "ranged-spell-attack",
+          "target_kinds": [
+            "creature",
+            "object"
+          ],
+          "dim_light_feet": 10,
+          "invisibility": "cannot-benefit-from-invisible-condition",
+          "effect_ends": "end-of-casters-next-turn",
+          "upgrades": [
+            {
+              "level": 5,
+              "dice_count": 2,
+              "die_sides": 8
+            },
+            {
+              "level": 11,
+              "dice_count": 3,
+              "die_sides": 8
+            },
+            {
+              "level": 17,
+              "dice_count": 4,
+              "die_sides": 8
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/stinking-cloud",
+      "name": "Stinking Cloud",
+      "source_id": "srd-5.2.1:content/spells/stinking-cloud",
+      "source_page": 165,
+      "scope": "complete-source-record",
+      "level": 3,
+      "school": "conjuration",
+      "lists": [
+        "bard",
+        "sorcerer",
+        "wizard"
+      ],
+      "casting_time": "action",
+      "range": {
+        "kind": "feet",
+        "feet": 90
+      },
+      "target": {
+        "shape": "sphere",
+        "count": 0,
+        "eligibility": "area-centered-on-point-in-range"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": {
+          "description": "a rotten egg",
+          "cost_cp": 0,
+          "consumed": false
+        }
+      },
+      "ritual": false,
+      "concentration": true,
+      "duration": "timed",
+      "duration_seconds": 60,
+      "scaling": {
+        "kind": "none",
+        "above_level": 0,
+        "dice_count": 0,
+        "die_sides": 0,
+        "effect_ids": []
+      },
+      "effects": [
+        {
+          "id": "cloud",
+          "mechanic": "terrain.stinking-cloud",
+          "timing": "for-duration",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "poisoned",
+          "mechanic": "condition.stinking-cloud-poisoned",
+          "timing": "start-turn-in-sphere-until-end-of-current-turn",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "terrain.stinking-cloud",
+        "condition.stinking-cloud-poisoned",
+        "save.constitution-negates",
+        "concentration.source-duration",
+        "components.material"
+      ],
+      "slot_levels": [
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 0,
+        "casting_triggers": [],
+        "end_timing": "duration-concentration-or-dispersed-by-strong-wind",
+        "stinking_cloud": {
+          "radius_feet": 20,
+          "appearance": "yellow-nauseating-gas",
+          "obscurement": "heavily-obscured",
+          "lingers": "for-duration-or-until-strong-wind-disperses-it",
+          "wind_example": "gust-of-wind",
+          "save": "constitution",
+          "save_trigger": "starts-turn-in-sphere",
+          "condition": "poisoned",
+          "condition_ends": "end-of-current-turn",
+          "poisoned_limit": "cannot-take-action-or-bonus-action"
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/stone-shape",
+      "name": "Stone Shape",
+      "source_id": "srd-5.2.1:content/spells/stone-shape",
+      "source_page": 165,
+      "scope": "complete-source-record",
+      "level": 4,
+      "school": "transmutation",
+      "lists": [
+        "cleric",
+        "druid",
+        "wizard"
+      ],
+      "casting_time": "action",
+      "range": {
+        "kind": "touch",
+        "feet": 0
+      },
+      "target": {
+        "shape": "single",
+        "count": 1,
+        "eligibility": "stone-object-or-section-touch"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": {
+          "description": "soft clay",
+          "cost_cp": 0,
+          "consumed": false
+        }
+      },
+      "ritual": false,
+      "concentration": false,
+      "duration": "instantaneous",
+      "duration_seconds": 0,
+      "scaling": {
+        "kind": "none",
+        "above_level": 0,
+        "dice_count": 0,
+        "die_sides": 0,
+        "effect_ids": []
+      },
+      "effects": [
+        {
+          "id": "shape",
+          "mechanic": "creation.stone-shape",
+          "timing": "immediate",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "creation.stone-shape",
+        "components.material"
+      ],
+      "slot_levels": [
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 0,
+        "casting_triggers": [],
+        "end_timing": "instantaneous",
+        "stone_shape": {
+          "max_object_size": "medium",
+          "max_section_dimension_feet": 5,
+          "result": "any-shape-caster-likes",
+          "examples": [
+            "large-rock-into-weapon-statue-or-coffer",
+            "passage-through-wall",
+            "seal-stone-door-or-frame"
+          ],
+          "example_wall_thickness_feet": 5,
+          "max_hinges": 2,
+          "max_latches": 1,
+          "detail_limit": "no-finer-mechanical-detail"
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/stoneskin",
+      "name": "Stoneskin",
+      "source_id": "srd-5.2.1:content/spells/stoneskin",
+      "source_page": 165,
+      "scope": "complete-source-record",
+      "level": 4,
+      "school": "transmutation",
+      "lists": [
+        "druid",
+        "ranger",
+        "sorcerer",
+        "wizard"
+      ],
+      "casting_time": "action",
+      "range": {
+        "kind": "touch",
+        "feet": 0
+      },
+      "target": {
+        "shape": "single",
+        "count": 1,
+        "eligibility": "willing-creature-touch"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": {
+          "description": "diamond dust worth 100+ GP, which the spell consumes",
+          "cost_cp": 10000,
+          "consumed": true
+        }
+      },
+      "ritual": false,
+      "concentration": true,
+      "duration": "timed",
+      "duration_seconds": 3600,
+      "scaling": {
+        "kind": "none",
+        "above_level": 0,
+        "dice_count": 0,
+        "die_sides": 0,
+        "effect_ids": []
+      },
+      "effects": [
+        {
+          "id": "resistance",
+          "mechanic": "defense.stoneskin-resistance",
+          "timing": "for-duration",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "defense.stoneskin-resistance",
+        "concentration.source-duration",
+        "components.material"
+      ],
+      "slot_levels": [
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 0,
+        "casting_triggers": [],
+        "end_timing": "duration-or-concentration-ended",
+        "stoneskin": {
+          "resistance_damage_types": [
+            "bludgeoning",
+            "piercing",
+            "slashing"
+          ]
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/storm-of-vengeance",
+      "name": "Storm of Vengeance",
+      "source_id": "srd-5.2.1:content/spells/storm-of-vengeance",
+      "source_page": 165,
+      "scope": "complete-source-record",
+      "level": 9,
+      "school": "conjuration",
+      "lists": [
+        "druid"
+      ],
+      "casting_time": "action",
+      "range": {
+        "kind": "feet",
+        "feet": 5280
+      },
+      "target": {
+        "shape": "sphere",
+        "count": 0,
+        "eligibility": "creatures-and-objects-under-storm-cloud"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": null
+      },
+      "ritual": false,
+      "concentration": true,
+      "duration": "timed",
+      "duration_seconds": 60,
+      "scaling": {
+        "kind": "none",
+        "above_level": 0,
+        "dice_count": 0,
+        "die_sides": 0,
+        "effect_ids": []
+      },
+      "effects": [
+        {
+          "id": "initial",
+          "mechanic": "damage.storm-of-vengeance-thunder",
+          "timing": "when-cloud-appears",
+          "dice_count": 2,
+          "die_sides": 6,
+          "damage_type": "thunder",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "deafened",
+          "mechanic": "condition.storm-of-vengeance-deafened",
+          "timing": "on-failed-save-for-duration",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "acid",
+          "mechanic": "damage.storm-of-vengeance-acid",
+          "timing": "start-of-casters-turn-2",
+          "dice_count": 4,
+          "die_sides": 6,
+          "damage_type": "acid",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "lightning",
+          "mechanic": "damage.storm-of-vengeance-lightning",
+          "timing": "start-of-casters-turn-3",
+          "dice_count": 10,
+          "die_sides": 6,
+          "damage_type": "lightning",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "hail",
+          "mechanic": "damage.storm-of-vengeance-hail",
+          "timing": "start-of-casters-turn-4",
+          "dice_count": 2,
+          "die_sides": 6,
+          "damage_type": "bludgeoning",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "freezing",
+          "mechanic": "damage.storm-of-vengeance-cold",
+          "timing": "start-of-casters-turns-5-to-10",
+          "dice_count": 1,
+          "die_sides": 6,
+          "damage_type": "cold",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "damage.storm-of-vengeance-thunder",
+        "condition.storm-of-vengeance-deafened",
+        "damage.storm-of-vengeance-acid",
+        "damage.storm-of-vengeance-lightning",
+        "damage.storm-of-vengeance-hail",
+        "damage.storm-of-vengeance-cold",
+        "save.constitution-storm-of-vengeance",
+        "save.dexterity-storm-of-vengeance-lightning",
+        "terrain.storm-of-vengeance-gusts",
+        "concentration.source-duration"
+      ],
+      "slot_levels": [
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 0,
+        "casting_triggers": [],
+        "end_timing": "duration-or-concentration-ended",
+        "storm_of_vengeance": {
+          "source_pages": [
+            165,
+            166
+          ],
+          "range_miles": 1,
+          "cloud_radius_feet": 300,
+          "initial_save": "constitution",
+          "initial_dice_count": 2,
+          "initial_die_sides": 6,
+          "initial_damage_type": "thunder",
+          "initial_condition": "deafened",
+          "initial_condition_duration": "for-duration",
+          "turn_timing": "start-of-each-of-casters-later-turns",
+          "turns": [
+            {
+              "first_turn": 2,
+              "last_turn": 2,
+              "effect": "acidic-rain-on-each-creature-and-object",
+              "dice_count": 4,
+              "die_sides": 6,
+              "damage_type": "acid",
+              "save": "none"
+            },
+            {
+              "first_turn": 3,
+              "last_turn": 3,
+              "effect": "lightning-bolts-strike-chosen-targets",
+              "dice_count": 10,
+              "die_sides": 6,
+              "damage_type": "lightning",
+              "save": "dexterity-half"
+            },
+            {
+              "first_turn": 4,
+              "last_turn": 4,
+              "effect": "hailstones-on-each-creature",
+              "dice_count": 2,
+              "die_sides": 6,
+              "damage_type": "bludgeoning",
+              "save": "none"
+            },
+            {
+              "first_turn": 5,
+              "last_turn": 10,
+              "effect": "gusts-and-freezing-rain-on-each-creature",
+              "dice_count": 1,
+              "die_sides": 6,
+              "damage_type": "cold",
+              "save": "none"
+            }
+          ],
+          "lightning_bolts": 6,
+          "lightning_targets": "six-different-creatures-or-objects",
+          "gust_effects": [
+            "difficult-terrain",
+            "heavily-obscured",
+            "ranged-weapon-attacks-impossible",
+            "strong-wind"
+          ],
+          "gust_effects_end": "spell-ends"
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/suggestion",
+      "name": "Suggestion",
+      "source_id": "srd-5.2.1:content/spells/suggestion",
+      "source_page": 166,
+      "scope": "complete-source-record",
+      "level": 2,
+      "school": "enchantment",
+      "lists": [
+        "bard",
+        "sorcerer",
+        "warlock",
+        "wizard"
+      ],
+      "casting_time": "action",
+      "range": {
+        "kind": "feet",
+        "feet": 30
+      },
+      "target": {
+        "shape": "single",
+        "count": 1,
+        "eligibility": "visible-hearing-understanding-creature-in-range"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": false,
+        "material": {
+          "description": "a drop of honey",
+          "cost_cp": 0,
+          "consumed": false
+        }
+      },
+      "ritual": false,
+      "concentration": true,
+      "duration": "timed",
+      "duration_seconds": 28800,
+      "scaling": {
+        "kind": "none",
+        "above_level": 0,
+        "dice_count": 0,
+        "die_sides": 0,
+        "effect_ids": []
+      },
+      "effects": [
+        {
+          "id": "charm",
+          "mechanic": "condition.suggestion-charmed",
+          "timing": "on-failed-wisdom-save-for-duration",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "compulsion",
+          "mechanic": "control.suggestion-activity",
+          "timing": "while-charmed",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "condition.suggestion-charmed",
+        "control.suggestion-activity",
+        "save.wisdom-negates",
+        "ending.suggestion-damage-or-completion",
+        "concentration.source-duration",
+        "components.material"
+      ],
+      "slot_levels": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 0,
+        "casting_triggers": [],
+        "end_timing": "duration-concentration-damage-or-activity-completed",
+        "suggestion": {
+          "max_words": 25,
+          "requirements": [
+            "sounds-achievable",
+            "no-obvious-damage-to-target-or-allies"
+          ],
+          "examples": [
+            "fetch-cult-treasure-vault-key-and-give-it-to-caster",
+            "stop-fighting-leave-library-peacefully-and-do-not-return"
+          ],
+          "save": "wisdom",
+          "failure_condition": "charmed",
+          "condition_ends": [
+            "duration-ends",
+            "caster-or-allies-damage-target"
+          ],
+          "pursuit": "pursues-suggestion-to-best-of-ability",
+          "activity_duration": "may-continue-for-entire-duration",
+          "completion": "spell-ends-for-target-when-activity-completed-sooner"
+        }
+      }
+    }
+  ]
+}

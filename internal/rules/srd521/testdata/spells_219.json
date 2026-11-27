@@ -1,0 +1,1262 @@
+{
+  "schema_version": 1,
+  "source": {
+    "version": "5.2.1",
+    "language": "en",
+    "landing_url": "https://www.dndbeyond.com/srd",
+    "artifact_url": "https://media.dndbeyond.com/compendium-images/srd/5.2/SRD_CC_v5.2.1.pdf",
+    "sha256": "8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87",
+    "bytes": 6031375,
+    "pages": 364,
+    "retrieved_at": "2026-11-15",
+    "license": "CC-BY-4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/legalcode",
+    "attribution": "This work includes material from the System Reference Document 5.2.1 (“SRD 5.2.1”) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd. The SRD 5.2.1 is licensed under the Creative Commons Attribution 4.0 International License, available at https://creativecommons.org/licenses/by/4.0/legalcode.",
+    "changes": "SRD 5.2.1 PDF pp.162-164 adapted into twelve complete offline spell families for issue #219, including page-break continuation text for Simulacrum (pp.162-163). No executable effects or availability grants."
+  },
+  "records": [
+    {
+      "id": "srd-5.2.1:content/spells/shillelagh",
+      "name": "Shillelagh",
+      "source_id": "srd-5.2.1:content/spells/shillelagh",
+      "source_page": 162,
+      "scope": "complete-source-record",
+      "level": 0,
+      "school": "transmutation",
+      "lists": [
+        "druid"
+      ],
+      "casting_time": "bonus-action",
+      "range": {
+        "kind": "self",
+        "feet": 0
+      },
+      "target": {
+        "shape": "single",
+        "count": 1,
+        "eligibility": "held-club-or-quarterstaff"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": {
+          "description": "mistletoe",
+          "cost_cp": 0,
+          "consumed": false
+        }
+      },
+      "ritual": false,
+      "concentration": false,
+      "duration": "timed",
+      "duration_seconds": 60,
+      "scaling": {
+        "kind": "cantrip-die-table",
+        "above_level": 0,
+        "dice_count": 0,
+        "die_sides": 0,
+        "effect_ids": [
+          "weapon-die"
+        ]
+      },
+      "effects": [
+        {
+          "id": "weapon-die",
+          "mechanic": "weapon.shillelagh-damage-die",
+          "timing": "for-duration",
+          "dice_count": 1,
+          "die_sides": 8,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "ability",
+          "mechanic": "weapon.shillelagh-spellcasting-ability",
+          "timing": "for-duration",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "damage-type",
+          "mechanic": "weapon.shillelagh-damage-type-choice",
+          "timing": "when-attack-deals-damage",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "weapon.shillelagh-damage-die",
+        "weapon.shillelagh-spellcasting-ability",
+        "weapon.shillelagh-damage-type-choice",
+        "ending.shillelagh-recast-or-release",
+        "scaling.cantrip-die-upgrade",
+        "components.material"
+      ],
+      "slot_levels": [],
+      "source_details": {
+        "casting_seconds": 0,
+        "casting_triggers": [],
+        "end_timing": "duration-recast-or-weapon-released",
+        "shillelagh": {
+          "weapon_choices": [
+            "club",
+            "quarterstaff"
+          ],
+          "weapon_requirement": "held-by-caster",
+          "ability_substitution": "may-use-spellcasting-ability-instead-of-strength",
+          "rolls": [
+            "melee-attack-rolls",
+            "melee-damage-rolls"
+          ],
+          "damage_dice_count": 1,
+          "damage_die_sides": 8,
+          "damage_type_choices": [
+            "force",
+            "weapons-normal-damage-type"
+          ],
+          "early_end": [
+            "spell-cast-again",
+            "caster-lets-go-of-weapon"
+          ],
+          "die_upgrades": [
+            {
+              "level": 5,
+              "dice_count": 1,
+              "die_sides": 10
+            },
+            {
+              "level": 11,
+              "dice_count": 1,
+              "die_sides": 12
+            },
+            {
+              "level": 17,
+              "dice_count": 2,
+              "die_sides": 6
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/shining-smite",
+      "name": "Shining Smite",
+      "source_id": "srd-5.2.1:content/spells/shining-smite",
+      "source_page": 162,
+      "scope": "complete-source-record",
+      "level": 2,
+      "school": "transmutation",
+      "lists": [
+        "paladin"
+      ],
+      "casting_time": "bonus-action",
+      "range": {
+        "kind": "self",
+        "feet": 0
+      },
+      "target": {
+        "shape": "single",
+        "count": 1,
+        "eligibility": "hit-target"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": false,
+        "material": null
+      },
+      "ritual": false,
+      "concentration": true,
+      "duration": "timed",
+      "duration_seconds": 60,
+      "scaling": {
+        "kind": "slot",
+        "above_level": 2,
+        "dice_count": 1,
+        "die_sides": 6,
+        "effect_ids": [
+          "damage"
+        ]
+      },
+      "effects": [
+        {
+          "id": "damage",
+          "mechanic": "damage.shining-smite",
+          "timing": "as-hit-extra-attack-damage",
+          "dice_count": 2,
+          "die_sides": 6,
+          "damage_type": "radiant",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "light",
+          "mechanic": "light.shining-smite",
+          "timing": "for-duration",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "revealed",
+          "mechanic": "condition.shining-smite-revealed",
+          "timing": "for-duration",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "damage.shining-smite",
+        "light.shining-smite",
+        "condition.shining-smite-revealed",
+        "cast.bonus-action-after-hit",
+        "scaling.per-slot",
+        "concentration.source-duration"
+      ],
+      "slot_levels": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 0,
+        "casting_triggers": [
+          "immediately-after-hit-with-melee-weapon",
+          "immediately-after-hit-with-unarmed-strike"
+        ],
+        "end_timing": "duration-or-concentration-ended",
+        "shining_smite": {
+          "extra_damage_dice_count": 2,
+          "extra_damage_die_sides": 6,
+          "damage_type": "radiant",
+          "bright_light_feet": 5,
+          "attack_benefit": "attack-rolls-against-target-have-advantage",
+          "invisibility": "cannot-benefit-from-invisible-condition",
+          "slot_dice_count": 1,
+          "slot_die_sides": 6
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/shocking-grasp",
+      "name": "Shocking Grasp",
+      "source_id": "srd-5.2.1:content/spells/shocking-grasp",
+      "source_page": 162,
+      "scope": "complete-source-record",
+      "level": 0,
+      "school": "evocation",
+      "lists": [
+        "sorcerer",
+        "wizard"
+      ],
+      "casting_time": "action",
+      "range": {
+        "kind": "touch",
+        "feet": 0
+      },
+      "target": {
+        "shape": "single",
+        "count": 1,
+        "eligibility": "creature-touch"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": null
+      },
+      "ritual": false,
+      "concentration": false,
+      "duration": "instantaneous",
+      "duration_seconds": 0,
+      "scaling": {
+        "kind": "cantrip-upgrade",
+        "above_level": 0,
+        "dice_count": 1,
+        "die_sides": 8,
+        "effect_ids": [
+          "damage"
+        ]
+      },
+      "effects": [
+        {
+          "id": "damage",
+          "mechanic": "damage.shocking-grasp",
+          "timing": "on-hit",
+          "dice_count": 1,
+          "die_sides": 8,
+          "damage_type": "lightning",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "no-opportunity",
+          "mechanic": "restriction.shocking-grasp-opportunity-attacks",
+          "timing": "on-hit-until-start-of-targets-next-turn",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "damage.shocking-grasp",
+        "restriction.shocking-grasp-opportunity-attacks",
+        "attack.melee-spell",
+        "scaling.cantrip-upgrade"
+      ],
+      "slot_levels": [],
+      "source_details": {
+        "casting_seconds": 0,
+        "casting_triggers": [],
+        "end_timing": "instantaneous",
+        "shocking_grasp": {
+          "attack": "melee-spell-attack",
+          "restriction": "cannot-make-opportunity-attacks",
+          "restriction_ends": "start-of-targets-next-turn",
+          "upgrades": [
+            {
+              "level": 5,
+              "dice_count": 2,
+              "die_sides": 8
+            },
+            {
+              "level": 11,
+              "dice_count": 3,
+              "die_sides": 8
+            },
+            {
+              "level": 17,
+              "dice_count": 4,
+              "die_sides": 8
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/silence",
+      "name": "Silence",
+      "source_id": "srd-5.2.1:content/spells/silence",
+      "source_page": 162,
+      "scope": "complete-source-record",
+      "level": 2,
+      "school": "illusion",
+      "lists": [
+        "bard",
+        "cleric",
+        "ranger"
+      ],
+      "casting_time": "action",
+      "range": {
+        "kind": "feet",
+        "feet": 120
+      },
+      "target": {
+        "shape": "sphere",
+        "count": 0,
+        "eligibility": "area-centered-on-chosen-point"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": null
+      },
+      "ritual": true,
+      "concentration": true,
+      "duration": "timed",
+      "duration_seconds": 600,
+      "scaling": {
+        "kind": "none",
+        "above_level": 0,
+        "dice_count": 0,
+        "die_sides": 0,
+        "effect_ids": []
+      },
+      "effects": [
+        {
+          "id": "silence",
+          "mechanic": "zone.silence-no-sound",
+          "timing": "for-duration",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "immunity",
+          "mechanic": "defense.silence-thunder-immunity",
+          "timing": "while-entirely-inside",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "deafened",
+          "mechanic": "condition.silence-deafened",
+          "timing": "while-entirely-inside",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "zone.silence-no-sound",
+        "defense.silence-thunder-immunity",
+        "condition.silence-deafened",
+        "restriction.silence-verbal-spells",
+        "cast.ritual",
+        "concentration.source-duration"
+      ],
+      "slot_levels": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 0,
+        "casting_triggers": [],
+        "end_timing": "duration-or-concentration-ended",
+        "silence": {
+          "radius_feet": 20,
+          "sound": "none-created-within-or-passes-through",
+          "immunity_targets": [
+            "creature",
+            "object"
+          ],
+          "immunity_damage_type": "thunder",
+          "inside_requirement": "entirely-inside-sphere",
+          "condition": "deafened",
+          "verbal_casting": "casting-spell-with-verbal-component-impossible"
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/silent-image",
+      "name": "Silent Image",
+      "source_id": "srd-5.2.1:content/spells/silent-image",
+      "source_page": 162,
+      "scope": "complete-source-record",
+      "level": 1,
+      "school": "illusion",
+      "lists": [
+        "bard",
+        "sorcerer",
+        "wizard"
+      ],
+      "casting_time": "action",
+      "range": {
+        "kind": "feet",
+        "feet": 60
+      },
+      "target": {
+        "shape": "created-effect",
+        "count": 1,
+        "eligibility": "visible-phenomenon-in-range"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": {
+          "description": "a bit of fleece",
+          "cost_cp": 0,
+          "consumed": false
+        }
+      },
+      "ritual": false,
+      "concentration": true,
+      "duration": "timed",
+      "duration_seconds": 600,
+      "scaling": {
+        "kind": "none",
+        "above_level": 0,
+        "dice_count": 0,
+        "die_sides": 0,
+        "effect_ids": []
+      },
+      "effects": [
+        {
+          "id": "image",
+          "mechanic": "illusion.silent-image",
+          "timing": "for-duration",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "movement",
+          "mechanic": "control.silent-image-magic-action",
+          "timing": "magic-action",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "illusion.silent-image",
+        "control.silent-image-magic-action",
+        "check.silent-image-investigation",
+        "concentration.source-duration",
+        "components.material"
+      ],
+      "slot_levels": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 0,
+        "casting_triggers": [],
+        "end_timing": "duration-or-concentration-ended",
+        "silent_image": {
+          "phenomena": [
+            "object",
+            "creature",
+            "other-visible-phenomenon"
+          ],
+          "max_cube_feet": 15,
+          "sensory_limit": "purely-visual-without-sound-smell-or-other-effects",
+          "move_action": "magic-action",
+          "move_destination": "any-spot-within-range",
+          "move_appearance": "may-alter-appearance-so-movement-appears-natural",
+          "example": "moved-creature-image-appears-to-walk",
+          "physical_interaction": "reveals-illusion-because-things-pass-through",
+          "examine_action": "study",
+          "examine_check": "intelligence-investigation",
+          "examine_dc": "caster-spell-save-dc",
+          "discerned": "can-see-through-image"
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/simulacrum",
+      "name": "Simulacrum",
+      "source_id": "srd-5.2.1:content/spells/simulacrum",
+      "source_page": 162,
+      "scope": "complete-source-record",
+      "level": 7,
+      "school": "illusion",
+      "lists": [
+        "wizard"
+      ],
+      "casting_time": "12-hours",
+      "range": {
+        "kind": "touch",
+        "feet": 0
+      },
+      "target": {
+        "shape": "single",
+        "count": 1,
+        "eligibility": "beast-or-humanoid-within-10-feet-for-entire-casting"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": {
+          "description": "powdered ruby worth 1,500+ GP, which the spell consumes",
+          "cost_cp": 150000,
+          "consumed": true
+        }
+      },
+      "ritual": false,
+      "concentration": false,
+      "duration": "until-dispelled",
+      "duration_seconds": 0,
+      "scaling": {
+        "kind": "none",
+        "above_level": 0,
+        "dice_count": 0,
+        "die_sides": 0,
+        "effect_ids": []
+      },
+      "effects": [
+        {
+          "id": "simulacrum",
+          "mechanic": "creation.simulacrum",
+          "timing": "on-completion",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "creation.simulacrum",
+        "repair.simulacrum",
+        "cast.twelve-hours",
+        "components.material"
+      ],
+      "slot_levels": [
+        7,
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 43200,
+        "casting_triggers": [],
+        "end_timing": "dispelled-recast-or-simulacrum-drops-to-0-hit-points",
+        "simulacrum": {
+          "source_pages": [
+            162,
+            163
+          ],
+          "creature_types": [
+            "beast",
+            "humanoid"
+          ],
+          "casting_distance_feet": 10,
+          "completion": "touch-creature-and-same-size-pile-of-ice-or-snow",
+          "result_kind": "creature",
+          "statistics": "original-creatures-statistics-at-casting",
+          "result_creature_type": "construct",
+          "hit_point_maximum_divisor": 2,
+          "forbidden_casting": "cannot-cast-this-spell",
+          "attitude": "friendly-to-caster-and-designated-creatures",
+          "control": "obeys-casters-commands-and-acts-on-casters-turn",
+          "limits": [
+            "cannot-gain-levels",
+            "cannot-take-short-or-long-rests"
+          ],
+          "repair_requirement": "caster-repairs-during-long-rest",
+          "repair_gp_per_hit_point": 100,
+          "repair_distance_feet": 5,
+          "destruction": "at-0-hit-points-reverts-to-snow-and-melts",
+          "recast": "existing-simulacrum-from-this-spell-instantly-destroyed"
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/sleep",
+      "name": "Sleep",
+      "source_id": "srd-5.2.1:content/spells/sleep",
+      "source_page": 163,
+      "scope": "complete-source-record",
+      "level": 1,
+      "school": "enchantment",
+      "lists": [
+        "bard",
+        "sorcerer",
+        "wizard"
+      ],
+      "casting_time": "action",
+      "range": {
+        "kind": "feet",
+        "feet": 60
+      },
+      "target": {
+        "shape": "sphere",
+        "count": 0,
+        "eligibility": "chosen-creatures-in-sphere"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": {
+          "description": "a pinch of sand or rose petals",
+          "cost_cp": 0,
+          "consumed": false
+        }
+      },
+      "ritual": false,
+      "concentration": true,
+      "duration": "timed",
+      "duration_seconds": 60,
+      "scaling": {
+        "kind": "none",
+        "above_level": 0,
+        "dice_count": 0,
+        "die_sides": 0,
+        "effect_ids": []
+      },
+      "effects": [
+        {
+          "id": "drowsy",
+          "mechanic": "condition.sleep-incapacitated",
+          "timing": "on-failed-save-until-end-of-targets-next-turn",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "asleep",
+          "mechanic": "condition.sleep-unconscious",
+          "timing": "on-second-failed-save-for-duration",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "condition.sleep-incapacitated",
+        "condition.sleep-unconscious",
+        "save.wisdom-sleep-twice",
+        "ending.sleep-damage-or-shake",
+        "immunity.sleep-automatic-success",
+        "concentration.source-duration",
+        "components.material"
+      ],
+      "slot_levels": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 0,
+        "casting_triggers": [],
+        "end_timing": "duration-concentration-damage-or-shaken",
+        "sleep": {
+          "radius_feet": 5,
+          "save": "wisdom",
+          "first_condition": "incapacitated",
+          "first_condition_ends": "end-of-its-next-turn",
+          "repeat_timing": "when-first-condition-ends",
+          "second_failure_condition": "unconscious",
+          "ends_on_target": [
+            "target-takes-damage",
+            "creature-within-5-feet-uses-action-to-shake-it"
+          ],
+          "wake_distance_feet": 5,
+          "automatic_success": [
+            "creatures-that-do-not-sleep",
+            "immunity-to-exhaustion"
+          ],
+          "no_sleep_example": "elves"
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/sleet-storm",
+      "name": "Sleet Storm",
+      "source_id": "srd-5.2.1:content/spells/sleet-storm",
+      "source_page": 163,
+      "scope": "complete-source-record",
+      "level": 3,
+      "school": "conjuration",
+      "lists": [
+        "druid",
+        "sorcerer",
+        "wizard"
+      ],
+      "casting_time": "action",
+      "range": {
+        "kind": "feet",
+        "feet": 150
+      },
+      "target": {
+        "shape": "cylinder",
+        "count": 0,
+        "eligibility": "area-centered-on-chosen-point"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": {
+          "description": "a miniature umbrella",
+          "cost_cp": 0,
+          "consumed": false
+        }
+      },
+      "ritual": false,
+      "concentration": true,
+      "duration": "timed",
+      "duration_seconds": 60,
+      "scaling": {
+        "kind": "none",
+        "above_level": 0,
+        "dice_count": 0,
+        "die_sides": 0,
+        "effect_ids": []
+      },
+      "effects": [
+        {
+          "id": "obscurement",
+          "mechanic": "terrain.sleet-storm",
+          "timing": "for-duration",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "prone",
+          "mechanic": "condition.sleet-storm-prone",
+          "timing": "enter-first-time-on-turn-or-start-turn",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "terrain.sleet-storm",
+        "condition.sleet-storm-prone",
+        "save.dexterity-sleet-storm",
+        "ending.sleet-storm-concentration-loss",
+        "concentration.source-duration",
+        "components.material"
+      ],
+      "slot_levels": [
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 0,
+        "casting_triggers": [],
+        "end_timing": "duration-or-concentration-ended",
+        "sleet_storm": {
+          "height_feet": 40,
+          "radius_feet": 20,
+          "obscurement": "heavily-obscured",
+          "flames": "exposed-flames-doused",
+          "ground": "difficult-terrain",
+          "save_triggers": [
+            "enters-cylinder-first-time-on-turn",
+            "starts-turn-there"
+          ],
+          "save": "dexterity",
+          "failure": [
+            "prone",
+            "loses-concentration"
+          ]
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/slow",
+      "name": "Slow",
+      "source_id": "srd-5.2.1:content/spells/slow",
+      "source_page": 163,
+      "scope": "complete-source-record",
+      "level": 3,
+      "school": "transmutation",
+      "lists": [
+        "bard",
+        "sorcerer",
+        "wizard"
+      ],
+      "casting_time": "action",
+      "range": {
+        "kind": "feet",
+        "feet": 120
+      },
+      "target": {
+        "shape": "up-to-count",
+        "count": 6,
+        "eligibility": "chosen-creatures-in-cube-in-range"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": {
+          "description": "a drop of molasses",
+          "cost_cp": 0,
+          "consumed": false
+        }
+      },
+      "ritual": false,
+      "concentration": true,
+      "duration": "timed",
+      "duration_seconds": 60,
+      "scaling": {
+        "kind": "none",
+        "above_level": 0,
+        "dice_count": 0,
+        "die_sides": 0,
+        "effect_ids": []
+      },
+      "effects": [
+        {
+          "id": "slow",
+          "mechanic": "debuff.slow",
+          "timing": "on-failed-save-for-duration",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "debuff.slow",
+        "save.wisdom-negates",
+        "save.slow-repeat",
+        "failure.slow-somatic-spell",
+        "concentration.source-duration",
+        "components.material"
+      ],
+      "slot_levels": [
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 0,
+        "casting_triggers": [],
+        "end_timing": "duration-concentration-or-successful-save",
+        "slow": {
+          "max_targets": 6,
+          "cube_feet": 40,
+          "save": "wisdom",
+          "speed_divisor": 2,
+          "armor_class_penalty": 2,
+          "dexterity_save_penalty": 2,
+          "reactions": "cannot-take-reactions",
+          "turn_limit": "action-or-bonus-action-not-both",
+          "attack_limit": 1,
+          "somatic_failure_percent": 25,
+          "somatic_failure_cause": "gestures-too-slow",
+          "repeat_timing": "end-of-each-of-its-turns",
+          "repeat_success": "ends-spell-on-self"
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/sorcerous-burst",
+      "name": "Sorcerous Burst",
+      "source_id": "srd-5.2.1:content/spells/sorcerous-burst",
+      "source_page": 163,
+      "scope": "complete-source-record",
+      "level": 0,
+      "school": "evocation",
+      "lists": [
+        "sorcerer"
+      ],
+      "casting_time": "action",
+      "range": {
+        "kind": "feet",
+        "feet": 120
+      },
+      "target": {
+        "shape": "single",
+        "count": 1,
+        "eligibility": "creature-or-object-in-range"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": null
+      },
+      "ritual": false,
+      "concentration": false,
+      "duration": "instantaneous",
+      "duration_seconds": 0,
+      "scaling": {
+        "kind": "cantrip-upgrade",
+        "above_level": 0,
+        "dice_count": 1,
+        "die_sides": 8,
+        "effect_ids": [
+          "damage"
+        ]
+      },
+      "effects": [
+        {
+          "id": "damage",
+          "mechanic": "damage.sorcerous-burst",
+          "timing": "on-hit",
+          "dice_count": 1,
+          "die_sides": 8,
+          "damage_type": "chosen",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "damage.sorcerous-burst",
+        "attack.ranged-spell",
+        "damage.sorcerous-burst-extra-die",
+        "scaling.cantrip-upgrade"
+      ],
+      "slot_levels": [],
+      "source_details": {
+        "casting_seconds": 0,
+        "casting_triggers": [],
+        "end_timing": "instantaneous",
+        "sorcerous_burst": {
+          "attack": "ranged-spell-attack",
+          "target_kinds": [
+            "creature",
+            "object"
+          ],
+          "damage_type_choices": [
+            "acid",
+            "cold",
+            "fire",
+            "lightning",
+            "poison",
+            "psychic",
+            "thunder"
+          ],
+          "choose_count": 1,
+          "extra_die_trigger_roll": 8,
+          "extra_die_sides": 8,
+          "extra_die_limit": "spellcasting-ability-modifier",
+          "upgrades": [
+            {
+              "level": 5,
+              "dice_count": 2,
+              "die_sides": 8
+            },
+            {
+              "level": 11,
+              "dice_count": 3,
+              "die_sides": 8
+            },
+            {
+              "level": 17,
+              "dice_count": 4,
+              "die_sides": 8
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/spare-the-dying",
+      "name": "Spare the Dying",
+      "source_id": "srd-5.2.1:content/spells/spare-the-dying",
+      "source_page": 163,
+      "scope": "complete-source-record",
+      "level": 0,
+      "school": "necromancy",
+      "lists": [
+        "cleric",
+        "druid"
+      ],
+      "casting_time": "action",
+      "range": {
+        "kind": "feet",
+        "feet": 15
+      },
+      "target": {
+        "shape": "single",
+        "count": 1,
+        "eligibility": "creature-with-0-hit-points-not-dead"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": null
+      },
+      "ritual": false,
+      "concentration": false,
+      "duration": "instantaneous",
+      "duration_seconds": 0,
+      "scaling": {
+        "kind": "cantrip-range",
+        "above_level": 0,
+        "dice_count": 0,
+        "die_sides": 0,
+        "effect_ids": [
+          "stabilize"
+        ]
+      },
+      "effects": [
+        {
+          "id": "stabilize",
+          "mechanic": "healing.spare-the-dying-stable",
+          "timing": "immediate",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "healing.spare-the-dying-stable",
+        "scaling.cantrip-range-upgrade"
+      ],
+      "slot_levels": [],
+      "source_details": {
+        "casting_seconds": 0,
+        "casting_triggers": [],
+        "end_timing": "instantaneous",
+        "spare_the_dying": {
+          "required_hit_points": 0,
+          "requirement": "not-dead",
+          "result": "creature-becomes-stable",
+          "base_range_feet": 15,
+          "range_upgrades": [
+            {
+              "level": 5,
+              "feet": 30
+            },
+            {
+              "level": 11,
+              "feet": 60
+            },
+            {
+              "level": 17,
+              "feet": 120
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/speak-with-animals",
+      "name": "Speak with Animals",
+      "source_id": "srd-5.2.1:content/spells/speak-with-animals",
+      "source_page": 164,
+      "scope": "complete-source-record",
+      "level": 1,
+      "school": "divination",
+      "lists": [
+        "bard",
+        "druid",
+        "ranger",
+        "warlock"
+      ],
+      "casting_time": "action",
+      "range": {
+        "kind": "self",
+        "feet": 0
+      },
+      "target": {
+        "shape": "single",
+        "count": 1,
+        "eligibility": "self"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": null
+      },
+      "ritual": true,
+      "concentration": false,
+      "duration": "timed",
+      "duration_seconds": 600,
+      "scaling": {
+        "kind": "none",
+        "above_level": 0,
+        "dice_count": 0,
+        "die_sides": 0,
+        "effect_ids": []
+      },
+      "effects": [
+        {
+          "id": "speech",
+          "mechanic": "utility.speak-with-animals",
+          "timing": "for-duration",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "utility.speak-with-animals",
+        "cast.ritual"
+      ],
+      "slot_levels": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 0,
+        "casting_triggers": [],
+        "end_timing": "duration-ended",
+        "speak_with_animals": {
+          "creature_type": "beast",
+          "communication": "comprehend-and-verbally-communicate",
+          "skill_options": "any-influence-action-skill-option",
+          "typical_topics": "little-beyond-survival-or-companionship",
+          "minimum_information": [
+            "nearby-locations",
+            "nearby-monsters",
+            "perceptions-within-past-day"
+          ],
+          "perception_window_days": 1
+        }
+      }
+    }
+  ]
+}
