@@ -8,6 +8,10 @@ run-name: Deploy ${{ github.sha }}
 'on':
   push:
     branches: [main]
+    # Only the frontend is deployed; other main pushes leave the live site as is.
+    paths:
+      - 'frontend/**'
+      - '.github/workflows/deploy.yml'
   workflow_dispatch:
 
 permissions:
