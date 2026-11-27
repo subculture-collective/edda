@@ -365,9 +365,11 @@ docs/          architecture notes and the brand guide
 
 - Report bugs and request features in [GitHub issues](https://github.com/subculture-collective/edda/issues).
 - Ask questions and share ideas in [GitHub Discussions](https://github.com/subculture-collective/edda/discussions).
+- Pick planned work from the `Tracker: …` issues and batch about six items per
+  pull request; see [docs/issue-workflow.md](docs/issue-workflow.md).
 - Send code as a pull request on GitHub against `main`. CI runs the Go tests
-  and builds the frontend image on every pull request, and both must pass
-  before it can merge.
+  when Go code changes and the frontend checks when `frontend/` changes;
+  `Mirror CI gate` must pass before it can merge.
 
 ## License
 
