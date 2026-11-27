@@ -5,7 +5,8 @@ Issue #194 defines `SpellRecords`, decoded by `DecodeSpellRecords(io.Reader)` in
 runtime consumers, action registration, database writes or coverage promotion.
 `testdata/spell_records.json` contains one complete new source record, Acid Arrow,
 and adaptations of the two existing bounded fixtures. Subsequent catalogue
-imports are separately owned; the #218, #198, #196, #199, #200, #201, #202, #203, #204, #205, #206, #207 and #208 batches are described below.
+imports are separately owned; the #218, #198, #196, #199, #200, #201, #202, #203, #204, #205, #206, #207, #208,
+#209, #210, #211, #212, #213 and #214 batches are described below.
 
 The envelope retains the exact `Source` pin, license, attribution and adaptation
 notice checked by the conformance register. Each record has its own stable
@@ -868,6 +869,307 @@ run:
 
 ```sh
 rtk proxy python3 scripts/verify_srd_spells_208.py /path/to/SRD_CC_v5.2.1.pdf
+```
+
+The same limits as #198 apply: the source check supplements the offline literal
+fixtures and is not an automatic conformance proof.
+
+## Issue #209: Hallucinatory Terrain through Hold Monster
+
+`testdata/spells_209.json` imports the twelve families the issue-80 inventory
+assigns to #209, on PDF pp.139-140: Hallucinatory Terrain, Harm, Haste, Heal,
+Healing Word, Heat Metal, Hellish Rebuke, Heroes' Feast, Heroism, Hex, Hideous
+Laughter and Hold Monster. Heat Metal keeps its p.139 to p.140 continuation and
+Hold Monster its p.140 to p.141 continuation in explicit `source_pages` lists.
+`spells_209_test.go` supplies literal source-value fixtures for every header,
+option, effect and scaling value, and checks the family list and pages against
+the decision inventory.
+
+The typed payloads retain Hallucinatory Terrain's disguise and disbelief check;
+Harm's Hit Point maximum reduction; Haste's benefits, allowed actions and
+lethargy; Heal's flat healing and slot increment; Healing Word's dice; Heat
+Metal's repeat damage and held-object save; Hellish Rebuke's trigger; the
+benefits of Heroes' Feast; Heroism's Temporary Hit Points; Hex's chosen
+ability, retargeting and slot duration table; and the conditions and repeat
+saves of Hideous Laughter and Hold Monster.
+
+Schema version 1 gains only shapes present in this batch:
+
+- Target eligibilities `natural-terrain-in-cube` on a `cube`;
+  `visible-willing-creature-in-range`,
+  `visible-manufactured-metal-object-in-range` and
+  `creature-that-damaged-caster` on a `single` target; and
+  `surface-in-unoccupied-cube-next-to-caster` on a `created-effect`.
+- `slot-bonus` also accepts Heal's typed flat healing increment, `slot-targets`
+  the typed increments of Heroism, Hideous Laughter and Hold Monster, and
+  `slot-duration` Hex's typed table.
+- Hellish Rebuke keeps its Reaction trigger in `casting_triggers`. Heal's 70
+  Hit Points and Haste's +2 Armor Class are effect `bonus` values.
+
+Validation pins each record's whole printed value, including header, scaling
+row, effects, required mechanics and typed payload, so a positive but wrong value
+is rejected. The #209 verifier script checks identities, pages, printed headers,
+material costs and anchor phrases only; typed payload values are covered by the
+literal fixtures and pins, not by the script. A batch payload on a record of
+another batch is rejected too. Composition of the bounded fixtures with #196,
+#218, #198, #199, #200, #201, #202 and #203 through #214 yields 240 unique
+records. Every imported record remains unavailable: no resolver, action,
+entitlement, tool, inventory, coverage or Full Rules behavior is added.
+
+To recheck the PDF pin, identities, pages, printed headers and source anchors,
+run:
+
+```sh
+rtk proxy python3 scripts/verify_srd_spells_209.py /path/to/SRD_CC_v5.2.1.pdf
+```
+
+The same limits as #198 apply: the source check supplements the offline literal
+fixtures and is not an automatic conformance proof.
+
+## Issue #210: Hold Person through Insect Plague
+
+`testdata/spells_210.json` imports the twelve families the issue-80 inventory
+assigns to #210, on PDF pp.141-143: Hold Person, Holy Aura, Hunter's Mark,
+Hypnotic Pattern, Ice Knife, Ice Storm, Identify, Illusory Script,
+Imprisonment, Incendiary Cloud, Inflict Wounds and Insect Plague. Ice Storm
+keeps its p.141 to p.142 continuation and Incendiary Cloud its p.142 to p.143
+continuation in explicit `source_pages` lists. `spells_210_test.go` supplies
+literal source-value fixtures for every header, option, effect and scaling
+value, and checks the family list and pages against the decision inventory.
+
+The typed payloads retain Hold Person's Humanoid-only targets; Holy Aura's
+protections and retaliation; Hunter's Mark's tracking, retargeting and slot
+duration table; Hypnotic Pattern's endings; Ice Knife's two damage steps; Ice
+Storm's area and terrain; what Identify reveals; Illusory Script's readers and
+alternatives; all five Imprisonment effects, its ending trigger and the level 9
+Dispel Magic requirement; Incendiary Cloud's save triggers and drift; and the
+damage areas of Inflict Wounds and Insect Plague.
+
+Schema version 1 gains only shapes present in this batch:
+
+- Target eligibilities `chosen-creatures-in-aura` on an `emanation`,
+  `creatures-seeing-pattern-in-cube` on a `cube`,
+  `creatures-in-cylinder-centered-in-range` on a `cylinder`,
+  `object-or-creature-touched-throughout-casting` on a `choice` and
+  `writing-material-touched` on a `single` target.
+- `slot-targets` accepts Hold Person's typed increment and `slot-duration`
+  accepts Hunter's Mark's typed table.
+- Identify and Illusory Script are one-minute casts with `ritual = true`.
+
+Validation pins each record's whole printed value, including header, scaling
+row, effects, required mechanics and typed payload, so a positive but wrong value
+is rejected. The #210 verifier script checks identities, pages, printed headers,
+material costs and anchor phrases only; typed payload values are covered by the
+literal fixtures and pins, not by the script. A batch payload on a record of
+another batch is rejected too. Composition of the bounded fixtures with #196,
+#218, #198, #199, #200, #201, #202 and #203 through #214 yields 240 unique
+records. Every imported record remains unavailable: no resolver, action,
+entitlement, tool, inventory, coverage or Full Rules behavior is added.
+
+To recheck the PDF pin, identities, pages, printed headers and source anchors,
+run:
+
+```sh
+rtk proxy python3 scripts/verify_srd_spells_210.py /path/to/SRD_CC_v5.2.1.pdf
+```
+
+The same limits as #198 apply: the source check supplements the offline literal
+fixtures and is not an automatic conformance proof.
+
+## Issue #211: Instant Summons through Locate Creature
+
+`testdata/spells_211.json` imports the twelve families the issue-80 inventory
+assigns to #211, on PDF pp.143-145: Instant Summons, Invisibility, Irresistible
+Dance, Jump, Knock, Legend Lore, Lesser Restoration, Levitate, Light, Lightning
+Bolt, Locate Animals or Plants and Locate Creature. Knock keeps its p.143 to
+p.144 continuation in an explicit `source_pages` list. `spells_211_test.go`
+supplies literal source-value fixtures for every header, option, effect and
+scaling value, and checks the family list and pages against the decision
+inventory.
+
+The typed payloads retain Instant Summons' object limits and recall;
+Invisibility's early endings; both Irresistible Dance outcomes; Jump's movement
+exchange; Knock's lock rules; Legend Lore's results; the conditions Lesser
+Restoration ends; Levitate's weight, movement and altitude rules; Light's
+radii; Lightning Bolt's line; and the ranges and blockers of both locating
+spells.
+
+Schema version 1 gains only shapes present in this batch:
+
+- Target eligibilities `sapphire-and-eligible-object-touch`,
+  `visible-access-prevented-object-in-range`,
+  `visible-creature-or-loose-object-in-range` and
+  `unattended-large-or-smaller-object-touch` on a `single` target.
+- `slot-targets` accepts the typed increments of Invisibility and Jump.
+- Legend Lore's `cost_cp = 45000` is its whole component cost: 250 GP of
+  consumed incense plus four 50 GP ivory strips that are not consumed. As with
+  Clone, `consumed` is true because part is consumed; the payload keeps the
+  split.
+- Jump prints the singular `Component:` label and no Concentration.
+
+Validation pins each record's whole printed value, including header, scaling
+row, effects, required mechanics and typed payload, so a positive but wrong value
+is rejected. The #211 verifier script checks identities, pages, printed headers,
+material costs and anchor phrases only; typed payload values are covered by the
+literal fixtures and pins, not by the script. A batch payload on a record of
+another batch is rejected too. Composition of the bounded fixtures with #196,
+#218, #198, #199, #200, #201, #202 and #203 through #214 yields 240 unique
+records. Every imported record remains unavailable: no resolver, action,
+entitlement, tool, inventory, coverage or Full Rules behavior is added.
+
+To recheck the PDF pin, identities, pages, printed headers and source anchors,
+run:
+
+```sh
+rtk proxy python3 scripts/verify_srd_spells_211.py /path/to/SRD_CC_v5.2.1.pdf
+```
+
+The same limits as #198 apply: the source check supplements the offline literal
+fixtures and is not an automatic conformance proof.
+
+## Issue #212: Locate Object through Mass Cure Wounds
+
+`testdata/spells_212.json` imports the twelve families the issue-80 inventory
+assigns to #212, on PDF pp.145-147: Locate Object, Longstrider, Mage Armor,
+Mage Hand, Magic Circle, Magic Jar, Magic Missile, Magic Mouth, Magic Weapon,
+Magnificent Mansion, Major Image and Mass Cure Wounds. Magic Circle keeps its
+p.145 to p.146 continuation and Magic Weapon its p.146 to p.147 continuation in
+explicit `source_pages` lists. `spells_212_test.go` supplies literal
+source-value fixtures for every header, option, effect and scaling value, and
+checks the family list and pages against the decision inventory.
+
+The typed payloads retain Locate Object's range and blocker; Longstrider's
+Speed increase; Mage Armor's base Armor Class; Mage Hand's uses and limits;
+Magic Circle's creature types, protections, reverse direction and slot
+duration; Magic Jar's possession, return and death rules; Magic Missile's
+darts; Magic Mouth's message and trigger limits; Magic Weapon's bonus table;
+the Magnificent Mansion and its servants; Major Image's illusion and the slot
+level at which it lasts until dispelled; and Mass Cure Wounds' area and target
+count.
+
+Schema version 1 gains only shapes present in this batch:
+
+- Target shape `darts` (Magic Missile, three darts), plus the eligibilities
+  this batch lists on `single`, `cylinder`, `created-effect` and `up-to-count`
+  targets.
+- Scaling kind `slot-bonus-table` (Magic Weapon) requires its two typed rows
+  and `scaling.bonus-by-slot`; `slot-until-dispelled` (Major Image) requires
+  the typed minimum slot and `scaling.until-dispelled-by-slot`.
+- `slot-count` also accepts Magic Missile's per-slot dart, `slot-duration`
+  Magic Circle's typed increment and `slot-targets` Longstrider's increment.
+
+Validation pins each record's whole printed value, including header, scaling
+row, effects, required mechanics and typed payload, so a positive but wrong value
+is rejected. The #212 verifier script checks identities, pages, printed headers,
+material costs and anchor phrases only; typed payload values are covered by the
+literal fixtures and pins, not by the script. A batch payload on a record of
+another batch is rejected too. Composition of the bounded fixtures with #196,
+#218, #198, #199, #200, #201, #202 and #203 through #214 yields 240 unique
+records. Every imported record remains unavailable: no resolver, action,
+entitlement, tool, inventory, coverage or Full Rules behavior is added.
+
+To recheck the PDF pin, identities, pages, printed headers and source anchors,
+run:
+
+```sh
+rtk proxy python3 scripts/verify_srd_spells_212.py /path/to/SRD_CC_v5.2.1.pdf
+```
+
+The same limits as #198 apply: the source check supplements the offline literal
+fixtures and is not an automatic conformance proof.
+
+## Issue #213: Mass Heal through Mirage Arcane
+
+`testdata/spells_213.json` imports the twelve families the issue-80 inventory
+assigns to #213, on PDF pp.147-150: Mass Heal, Mass Healing Word, Mass
+Suggestion, Maze, Meld into Stone, Mending, Message, Meteor Swarm, Mind Blank,
+Mind Spike, Minor Illusion and Mirage Arcane. Message keeps its p.148 to p.149
+continuation and Mirage Arcane its p.149 to p.150 continuation in explicit
+`source_pages` lists. `spells_213_test.go` supplies literal source-value
+fixtures for every header, option, effect and scaling value, and checks the
+family list and pages against the decision inventory.
+
+The typed payloads retain Mass Heal's shared pool; Mass Healing Word's targets;
+Mass Suggestion's limits and slot duration table; Maze's escape check; both
+Meld into Stone expulsion cases; Mending's size limit; Message's barriers;
+Meteor Swarm's four points and objects; Mind Blank's protections; Mind Spike's
+tracking; both Minor Illusion options; and Mirage Arcane's terrain rules.
+
+Schema version 1 gains only shapes present in this batch:
+
+- Range kind `sight` (Mirage Arcane). It carries `feet = 0`, requires source
+  details and lists `range.sight`.
+- Target shape `spheres` (Meteor Swarm, four points), plus the eligibilities
+  this batch lists on `up-to-count`, `single`, `choice` and `square` targets.
+- `slot-duration` accepts Mass Suggestion's typed table. Its 366 days are
+  31622400 seconds.
+- Meteor Swarm's 1 mile is stored as 5280 feet. Mass Heal's 700-point pool
+  lives in the payload because the caster divides it; its effects carry no
+  bonus.
+
+Validation pins each record's whole printed value, including header, scaling
+row, effects, required mechanics and typed payload, so a positive but wrong value
+is rejected. The #213 verifier script checks identities, pages, printed headers,
+material costs and anchor phrases only; typed payload values are covered by the
+literal fixtures and pins, not by the script. A batch payload on a record of
+another batch is rejected too. Composition of the bounded fixtures with #196,
+#218, #198, #199, #200, #201, #202 and #203 through #214 yields 240 unique
+records. Every imported record remains unavailable: no resolver, action,
+entitlement, tool, inventory, coverage or Full Rules behavior is added.
+
+To recheck the PDF pin, identities, pages, printed headers and source anchors,
+run:
+
+```sh
+rtk proxy python3 scripts/verify_srd_spells_213.py /path/to/SRD_CC_v5.2.1.pdf
+```
+
+The same limits as #198 apply: the source check supplements the offline literal
+fixtures and is not an automatic conformance proof.
+
+## Issue #214: Mirror Image through Phantom Steed
+
+`testdata/spells_214.json` imports the twelve families the issue-80 inventory
+assigns to #214, on PDF pp.150-152: Mirror Image, Mislead, Misty Step, Modify
+Memory, Moonbeam, Move Earth, Nondetection, Pass without Trace, Passwall,
+Phantasmal Force, Phantasmal Killer and Phantom Steed. Moonbeam keeps its p.150
+to p.151 continuation and Phantasmal Force its p.151 to p.152 continuation in
+explicit `source_pages` lists. The PDF prints Passwall before Pass without
+Trace; the records follow the inventory order. `spells_214_test.go` supplies
+literal source-value fixtures for every header, option, effect and scaling
+value, and checks the family list and pages against the decision inventory.
+
+The typed payloads retain Mirror Image's duplicate roll; Mislead's double;
+Misty Step's distance; Modify Memory's options, interruptions and slot windows;
+Moonbeam's area, save triggers and shape-shift rule; Move Earth's limits;
+Nondetection's targets; Pass without Trace's bonus; Passwall's dimensions;
+Phantasmal Force's belief and damage; Phantasmal Killer's repeat save; and
+Phantom Steed's stat block changes.
+
+Schema version 1 gains only shapes present in this batch:
+
+- Scaling kind `slot-memory-window` (Modify Memory) requires its three typed
+  rows, the any-time slot and `scaling.memory-window-by-slot`.
+- Target eligibilities `terrain-area-in-range` on a `square`,
+  `willing-creature-place-or-object-touch` on a `choice`,
+  `caster-and-chosen-creatures-in-aura` on an `emanation` and
+  `visible-point-on-wood-plaster-or-stone-surface` on a `created-effect`.
+
+Validation pins each record's whole printed value, including header, scaling
+row, effects, required mechanics and typed payload, so a positive but wrong value
+is rejected. The #214 verifier script checks identities, pages, printed headers,
+material costs and anchor phrases only; typed payload values are covered by the
+literal fixtures and pins, not by the script. A batch payload on a record of
+another batch is rejected too. Composition of the bounded fixtures with #196,
+#218, #198, #199, #200, #201, #202 and #203 through #214 yields 240 unique
+records. Every imported record remains unavailable: no resolver, action,
+entitlement, tool, inventory, coverage or Full Rules behavior is added.
+
+To recheck the PDF pin, identities, pages, printed headers and source anchors,
+run:
+
+```sh
+rtk proxy python3 scripts/verify_srd_spells_214.py /path/to/SRD_CC_v5.2.1.pdf
 ```
 
 The same limits as #198 apply: the source check supplements the offline literal

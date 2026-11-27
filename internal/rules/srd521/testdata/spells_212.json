@@ -1,0 +1,1321 @@
+{
+  "schema_version": 1,
+  "source": {
+    "version": "5.2.1",
+    "language": "en",
+    "landing_url": "https://www.dndbeyond.com/srd",
+    "artifact_url": "https://media.dndbeyond.com/compendium-images/srd/5.2/SRD_CC_v5.2.1.pdf",
+    "sha256": "8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87",
+    "bytes": 6031375,
+    "pages": 364,
+    "retrieved_at": "2026-11-15",
+    "license": "CC-BY-4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/legalcode",
+    "attribution": "This work includes material from the System Reference Document 5.2.1 (“SRD 5.2.1”) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd. The SRD 5.2.1 is licensed under the Creative Commons Attribution 4.0 International License, available at https://creativecommons.org/licenses/by/4.0/legalcode.",
+    "changes": "SRD 5.2.1 PDF pp.145-147 adapted into twelve complete offline spell families for issue #212, including page-break continuation text for Magic Circle (pp.145-146) and Magic Weapon (pp.146-147). No executable effects or availability grants."
+  },
+  "records": [
+    {
+      "id": "srd-5.2.1:content/spells/locate-object",
+      "name": "Locate Object",
+      "source_id": "srd-5.2.1:content/spells/locate-object",
+      "source_page": 145,
+      "scope": "complete-source-record",
+      "level": 2,
+      "school": "divination",
+      "lists": [
+        "bard",
+        "cleric",
+        "druid",
+        "paladin",
+        "ranger",
+        "wizard"
+      ],
+      "casting_time": "action",
+      "range": {
+        "kind": "self",
+        "feet": 0
+      },
+      "target": {
+        "shape": "single",
+        "count": 1,
+        "eligibility": "self"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": {
+          "description": "a forked twig",
+          "cost_cp": 0,
+          "consumed": false
+        }
+      },
+      "ritual": false,
+      "concentration": true,
+      "duration": "timed",
+      "duration_seconds": 600,
+      "scaling": {
+        "kind": "none",
+        "above_level": 0,
+        "dice_count": 0,
+        "die_sides": 0,
+        "effect_ids": []
+      },
+      "effects": [
+        {
+          "id": "locate",
+          "mechanic": "detect.locate-object",
+          "timing": "for-duration",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "detect.locate-object",
+        "blocker.locate-object-lead",
+        "concentration.source-duration",
+        "components.material"
+      ],
+      "slot_levels": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 0,
+        "casting_triggers": [],
+        "end_timing": "duration-or-concentration-ended",
+        "locate_object": {
+          "query": "describe-or-name-familiar-object",
+          "senses": "direction-to-objects-location",
+          "sense_radius_feet": 1000,
+          "moving_target": "know-direction-of-motion",
+          "specific_requirement": "seen-up-close",
+          "close_distance_feet": 30,
+          "close_sightings_minimum": 1,
+          "alternative": "nearest-object-of-particular-kind",
+          "kind_examples": [
+            "apparel",
+            "jewelry",
+            "furniture",
+            "tool",
+            "weapon"
+          ],
+          "lead_blocker": "any-thickness-of-lead-blocking-direct-path"
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/longstrider",
+      "name": "Longstrider",
+      "source_id": "srd-5.2.1:content/spells/longstrider",
+      "source_page": 145,
+      "scope": "complete-source-record",
+      "level": 1,
+      "school": "transmutation",
+      "lists": [
+        "bard",
+        "druid",
+        "ranger",
+        "wizard"
+      ],
+      "casting_time": "action",
+      "range": {
+        "kind": "touch",
+        "feet": 0
+      },
+      "target": {
+        "shape": "single",
+        "count": 1,
+        "eligibility": "creature-touch"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": {
+          "description": "a pinch of dirt",
+          "cost_cp": 0,
+          "consumed": false
+        }
+      },
+      "ritual": false,
+      "concentration": false,
+      "duration": "timed",
+      "duration_seconds": 3600,
+      "scaling": {
+        "kind": "slot-targets",
+        "above_level": 1,
+        "dice_count": 0,
+        "die_sides": 0,
+        "effect_ids": [
+          "speed"
+        ]
+      },
+      "effects": [
+        {
+          "id": "speed",
+          "mechanic": "speed.longstrider",
+          "timing": "for-duration",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 10,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "speed.longstrider",
+        "scaling.targets-per-slot",
+        "components.material"
+      ],
+      "slot_levels": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 0,
+        "casting_triggers": [],
+        "end_timing": "duration-ended",
+        "longstrider": {
+          "target": "creature-touched",
+          "speed_increase_feet": 10,
+          "base_targets": 1,
+          "additional_targets_per_slot": 1
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/mage-armor",
+      "name": "Mage Armor",
+      "source_id": "srd-5.2.1:content/spells/mage-armor",
+      "source_page": 145,
+      "scope": "complete-source-record",
+      "level": 1,
+      "school": "abjuration",
+      "lists": [
+        "sorcerer",
+        "wizard"
+      ],
+      "casting_time": "action",
+      "range": {
+        "kind": "touch",
+        "feet": 0
+      },
+      "target": {
+        "shape": "single",
+        "count": 1,
+        "eligibility": "willing-unarmored-creature-touch"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": {
+          "description": "a piece of cured leather",
+          "cost_cp": 0,
+          "consumed": false
+        }
+      },
+      "ritual": false,
+      "concentration": false,
+      "duration": "timed",
+      "duration_seconds": 28800,
+      "scaling": {
+        "kind": "none",
+        "above_level": 0,
+        "dice_count": 0,
+        "die_sides": 0,
+        "effect_ids": []
+      },
+      "effects": [
+        {
+          "id": "armor",
+          "mechanic": "defense.mage-armor-base-armor-class",
+          "timing": "for-duration",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "defense.mage-armor-base-armor-class",
+        "ending.mage-armor-don-armor",
+        "components.material"
+      ],
+      "slot_levels": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 0,
+        "casting_triggers": [],
+        "end_timing": "duration-ended-or-target-dons-armor",
+        "mage_armor": {
+          "target": "willing-creature-not-wearing-armor",
+          "base_armor_class": 13,
+          "armor_class_modifier": "target-dexterity-modifier",
+          "early_end": "target-dons-armor"
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/mage-hand",
+      "name": "Mage Hand",
+      "source_id": "srd-5.2.1:content/spells/mage-hand",
+      "source_page": 145,
+      "scope": "complete-source-record",
+      "level": 0,
+      "school": "conjuration",
+      "lists": [
+        "bard",
+        "sorcerer",
+        "warlock",
+        "wizard"
+      ],
+      "casting_time": "action",
+      "range": {
+        "kind": "feet",
+        "feet": 30
+      },
+      "target": {
+        "shape": "created-effect",
+        "count": 1,
+        "eligibility": "point-in-range"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": null
+      },
+      "ritual": false,
+      "concentration": false,
+      "duration": "timed",
+      "duration_seconds": 60,
+      "scaling": {
+        "kind": "none",
+        "above_level": 0,
+        "dice_count": 0,
+        "die_sides": 0,
+        "effect_ids": []
+      },
+      "effects": [
+        {
+          "id": "hand",
+          "mechanic": "summon.mage-hand",
+          "timing": "for-duration",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "control",
+          "mechanic": "control.mage-hand-magic-action",
+          "timing": "magic-action-later-turns",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "summon.mage-hand",
+        "control.mage-hand-magic-action",
+        "ending.mage-hand-distance-or-recast"
+      ],
+      "slot_levels": [],
+      "source_details": {
+        "casting_seconds": 0,
+        "casting_triggers": [],
+        "end_timing": "duration-distance-or-cast-again",
+        "mage_hand": {
+          "hand": "spectral-floating-hand",
+          "vanish_distance_feet": 30,
+          "vanish_triggers": [
+            "ever-farther-than-vanish-distance-from-caster",
+            "spell-cast-again"
+          ],
+          "uses": [
+            "manipulate-object",
+            "open-unlocked-door-or-container",
+            "stow-or-retrieve-item-from-open-container",
+            "pour-contents-out-of-vial"
+          ],
+          "later_action": "magic-action",
+          "later_move_feet": 30,
+          "forbidden": [
+            "attack",
+            "activate-magic-items",
+            "carry-more-than-weight-limit"
+          ],
+          "carry_limit_pounds": 10
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/magic-circle",
+      "name": "Magic Circle",
+      "source_id": "srd-5.2.1:content/spells/magic-circle",
+      "source_page": 145,
+      "scope": "complete-source-record",
+      "level": 3,
+      "school": "abjuration",
+      "lists": [
+        "cleric",
+        "paladin",
+        "warlock",
+        "wizard"
+      ],
+      "casting_time": "1-minute",
+      "range": {
+        "kind": "feet",
+        "feet": 10
+      },
+      "target": {
+        "shape": "cylinder",
+        "count": 0,
+        "eligibility": "circle-on-visible-ground-point-in-range"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": {
+          "description": "salt and powdered silver worth 100+ GP, which the spell consumes",
+          "cost_cp": 10000,
+          "consumed": true
+        }
+      },
+      "ritual": false,
+      "concentration": false,
+      "duration": "timed",
+      "duration_seconds": 3600,
+      "scaling": {
+        "kind": "slot-duration",
+        "above_level": 3,
+        "dice_count": 0,
+        "die_sides": 0,
+        "effect_ids": [
+          "entry",
+          "attacks",
+          "protection"
+        ]
+      },
+      "effects": [
+        {
+          "id": "entry",
+          "mechanic": "barrier.magic-circle-entry",
+          "timing": "for-duration",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "attacks",
+          "mechanic": "disadvantage.magic-circle-attacks",
+          "timing": "for-duration",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "protection",
+          "mechanic": "protection.magic-circle-possession-and-conditions",
+          "timing": "for-duration",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "barrier.magic-circle-entry",
+        "disadvantage.magic-circle-attacks",
+        "protection.magic-circle-possession-and-conditions",
+        "save.magic-circle-charisma-travel",
+        "variant.magic-circle-reverse",
+        "scaling.duration-per-slot",
+        "cast.one-minute",
+        "components.material"
+      ],
+      "slot_levels": [
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 60,
+        "casting_triggers": [],
+        "end_timing": "duration-ended",
+        "magic_circle": {
+          "source_pages": [
+            145,
+            146
+          ],
+          "cylinder_radius_feet": 10,
+          "cylinder_height_feet": 20,
+          "center": "point-on-ground-visible-in-range",
+          "runes": "glowing-where-cylinder-intersects-floor-or-other-surface",
+          "creature_types": [
+            "celestial",
+            "elemental",
+            "fey",
+            "fiend",
+            "undead"
+          ],
+          "type_choice": "one-or-more",
+          "entry_rule": "cannot-willingly-enter-by-nonmagical-means",
+          "travel_methods": [
+            "teleportation",
+            "interplanar-travel"
+          ],
+          "travel_save": "charisma",
+          "travel_save_result": "must-succeed-before-using-travel-to-enter",
+          "attack_rule": "disadvantage-on-attack-rolls-against-targets-within",
+          "protections": [
+            "cannot-be-possessed-by-creature",
+            "cannot-gain-charmed-condition-from-creature",
+            "cannot-gain-frightened-condition-from-creature"
+          ],
+          "reverse_option": "each-casting-may-reverse-direction",
+          "reverse_effect": "prevents-chosen-type-leaving-and-protects-targets-outside",
+          "additional_duration_seconds_per_slot": 3600
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/magic-jar",
+      "name": "Magic Jar",
+      "source_id": "srd-5.2.1:content/spells/magic-jar",
+      "source_page": 146,
+      "scope": "complete-source-record",
+      "level": 6,
+      "school": "necromancy",
+      "lists": [
+        "wizard"
+      ],
+      "casting_time": "1-minute",
+      "range": {
+        "kind": "self",
+        "feet": 0
+      },
+      "target": {
+        "shape": "single",
+        "count": 1,
+        "eligibility": "self"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": {
+          "description": "a gem, crystal, or reliquary worth 500+ GP",
+          "cost_cp": 50000,
+          "consumed": false
+        }
+      },
+      "ritual": false,
+      "concentration": false,
+      "duration": "until-dispelled",
+      "duration_seconds": 0,
+      "scaling": {
+        "kind": "none",
+        "above_level": 0,
+        "dice_count": 0,
+        "die_sides": 0,
+        "effect_ids": []
+      },
+      "effects": [
+        {
+          "id": "soul",
+          "mechanic": "soul.magic-jar-transfer",
+          "timing": "until-dispelled",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "possession",
+          "mechanic": "possession.magic-jar",
+          "timing": "project-soul-action",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "return",
+          "mechanic": "return.magic-jar",
+          "timing": "magic-action-from-host",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "soul.magic-jar-transfer",
+        "possession.magic-jar",
+        "return.magic-jar",
+        "save.magic-jar-charisma",
+        "ending.magic-jar-soul-return-or-death",
+        "cast.one-minute",
+        "components.material"
+      ],
+      "slot_levels": [
+        6,
+        7,
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 60,
+        "casting_triggers": [],
+        "end_timing": "dispelled-container-destroyed-or-caster-returns",
+        "magic_jar": {
+          "body_state": "catatonic",
+          "soul_destination": "container-used-as-material-component",
+          "container_awareness": "as-if-in-containers-space",
+          "container_restrictions": [
+            "cannot-move",
+            "cannot-take-reactions"
+          ],
+          "container_only_action": "project-soul-out-of-container",
+          "projection_distance_feet": 100,
+          "projection_choices": [
+            "return-to-living-body-and-end-spell",
+            "attempt-to-possess-humanoid-body"
+          ],
+          "possession_target": "humanoid-visible-within-distance",
+          "possession_distance_feet": 100,
+          "possession_wards": [
+            "protection-from-evil-and-good",
+            "magic-circle"
+          ],
+          "possession_save": "charisma",
+          "possession_failure": "caster-soul-enters-body-and-target-soul-trapped-in-container",
+          "possession_success": "target-resists-and-cannot-be-targeted-again",
+          "possession_retry_hours": 24,
+          "host_control": "caster-controls-possessed-body",
+          "replaced_statistics": [
+            "hit-points",
+            "hit-point-dice",
+            "strength",
+            "dexterity",
+            "constitution",
+            "speed",
+            "senses"
+          ],
+          "other_statistics": "caster-keeps-own-game-statistics",
+          "trapped_soul": [
+            "perceives-from-container-with-own-senses",
+            "cannot-move",
+            "incapacitated"
+          ],
+          "return_action": "magic-action",
+          "return_distance_feet": 100,
+          "return_result": "caster-returns-to-container-and-host-soul-returns-to-body",
+          "host_death": "host-creature-dies-and-caster-makes-charisma-save",
+          "host_death_save_dc": "casters-own-spellcasting-dc",
+          "host_death_success": "return-to-container-if-within-distance",
+          "host_death_otherwise": "caster-dies",
+          "container_end_triggers": [
+            "container-destroyed",
+            "spell-ends"
+          ],
+          "container_end_result": "caster-soul-returns-to-body",
+          "caster_death_conditions": [
+            "body-more-than-100-feet-away",
+            "body-dead"
+          ],
+          "trapped_soul_on_destruction": "returns-to-its-body-if-body-alive-and-within-distance",
+          "trapped_soul_otherwise": "creature-dies",
+          "spell_end_container": "container-destroyed"
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/magic-missile",
+      "name": "Magic Missile",
+      "source_id": "srd-5.2.1:content/spells/magic-missile",
+      "source_page": 146,
+      "scope": "complete-source-record",
+      "level": 1,
+      "school": "evocation",
+      "lists": [
+        "sorcerer",
+        "wizard"
+      ],
+      "casting_time": "action",
+      "range": {
+        "kind": "feet",
+        "feet": 120
+      },
+      "target": {
+        "shape": "darts",
+        "count": 3,
+        "eligibility": "visible-creatures-in-range"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": null
+      },
+      "ritual": false,
+      "concentration": false,
+      "duration": "instantaneous",
+      "duration_seconds": 0,
+      "scaling": {
+        "kind": "slot-count",
+        "above_level": 1,
+        "dice_count": 0,
+        "die_sides": 0,
+        "effect_ids": [
+          "dart"
+        ]
+      },
+      "effects": [
+        {
+          "id": "dart",
+          "mechanic": "damage.magic-missile-dart",
+          "timing": "each-dart-simultaneously",
+          "dice_count": 1,
+          "die_sides": 4,
+          "damage_type": "force",
+          "bonus": 1,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "damage.magic-missile-dart",
+        "scaling.per-slot-dart"
+      ],
+      "slot_levels": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 0,
+        "casting_triggers": [],
+        "end_timing": "instantaneous",
+        "magic_missile": {
+          "dart_count": 3,
+          "dart_dice_count": 1,
+          "dart_die_sides": 4,
+          "dart_bonus": 1,
+          "damage_type": "force",
+          "strike_timing": "all-darts-strike-simultaneously",
+          "distribution": [
+            "one-creature",
+            "several-creatures"
+          ],
+          "additional_darts_per_slot": 1
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/magic-mouth",
+      "name": "Magic Mouth",
+      "source_id": "srd-5.2.1:content/spells/magic-mouth",
+      "source_page": 146,
+      "scope": "complete-source-record",
+      "level": 2,
+      "school": "illusion",
+      "lists": [
+        "bard",
+        "wizard"
+      ],
+      "casting_time": "1-minute",
+      "range": {
+        "kind": "feet",
+        "feet": 30
+      },
+      "target": {
+        "shape": "single",
+        "count": 1,
+        "eligibility": "visible-unworn-uncarried-object-in-range"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": {
+          "description": "jade dust worth 10+ GP, which the spell consumes",
+          "cost_cp": 1000,
+          "consumed": true
+        }
+      },
+      "ritual": true,
+      "concentration": false,
+      "duration": "until-dispelled",
+      "duration_seconds": 0,
+      "scaling": {
+        "kind": "none",
+        "above_level": 0,
+        "dice_count": 0,
+        "die_sides": 0,
+        "effect_ids": []
+      },
+      "effects": [
+        {
+          "id": "message",
+          "mechanic": "message.magic-mouth",
+          "timing": "when-trigger-occurs",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "message.magic-mouth",
+        "choice.magic-mouth-trigger-and-repeat",
+        "cast.one-minute",
+        "cast.ritual",
+        "components.material"
+      ],
+      "slot_levels": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 60,
+        "casting_triggers": [],
+        "end_timing": "dispelled-or-after-message-if-chosen",
+        "magic_mouth": {
+          "message_max_words": 25,
+          "message_delivery_max_minutes": 10,
+          "trigger_definition": "circumstance-determined-by-caster",
+          "mouth": "magical-mouth-appears-on-object",
+          "recitation": "casters-voice-at-same-volume-spoken",
+          "mouth_placement": "appears-at-existing-mouth-or-mouthlike-feature",
+          "mouth_example": "mouth-of-statue",
+          "after_delivery_choices": [
+            "spell-ends-after-delivering-message",
+            "remains-and-repeats-whenever-trigger-occurs"
+          ],
+          "trigger_detail": "as-general-or-as-detailed-as-caster-likes",
+          "trigger_basis": [
+            "visual-conditions",
+            "audible-conditions"
+          ],
+          "trigger_range_feet": 30,
+          "trigger_examples": [
+            "any-creature-moves-within-30-feet-of-object",
+            "silver-bell-rings-within-30-feet-of-object"
+          ]
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/magic-weapon",
+      "name": "Magic Weapon",
+      "source_id": "srd-5.2.1:content/spells/magic-weapon",
+      "source_page": 146,
+      "scope": "complete-source-record",
+      "level": 2,
+      "school": "transmutation",
+      "lists": [
+        "paladin",
+        "ranger",
+        "sorcerer",
+        "wizard"
+      ],
+      "casting_time": "bonus-action",
+      "range": {
+        "kind": "touch",
+        "feet": 0
+      },
+      "target": {
+        "shape": "single",
+        "count": 1,
+        "eligibility": "nonmagical-weapon-touch"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": null
+      },
+      "ritual": false,
+      "concentration": false,
+      "duration": "timed",
+      "duration_seconds": 3600,
+      "scaling": {
+        "kind": "slot-bonus-table",
+        "above_level": 2,
+        "dice_count": 0,
+        "die_sides": 0,
+        "effect_ids": [
+          "weapon"
+        ]
+      },
+      "effects": [
+        {
+          "id": "weapon",
+          "mechanic": "enchantment.magic-weapon",
+          "timing": "for-duration",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 1,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "enchantment.magic-weapon",
+        "ending.magic-weapon-recast",
+        "scaling.bonus-by-slot"
+      ],
+      "slot_levels": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 0,
+        "casting_triggers": [],
+        "end_timing": "duration-ended-or-cast-again",
+        "magic_weapon": {
+          "source_pages": [
+            146,
+            147
+          ],
+          "target": "nonmagical-weapon-touched",
+          "becomes": "magic-weapon",
+          "attack_roll_bonus": 1,
+          "damage_roll_bonus": 1,
+          "early_end": "spell-cast-again",
+          "slot_bonuses": [
+            {
+              "min_slot": 3,
+              "max_slot": 5,
+              "bonus": 2
+            },
+            {
+              "min_slot": 6,
+              "max_slot": 9,
+              "bonus": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/magnificent-mansion",
+      "name": "Magnificent Mansion",
+      "source_id": "srd-5.2.1:content/spells/magnificent-mansion",
+      "source_page": 147,
+      "scope": "complete-source-record",
+      "level": 7,
+      "school": "conjuration",
+      "lists": [
+        "bard",
+        "wizard"
+      ],
+      "casting_time": "1-minute",
+      "range": {
+        "kind": "feet",
+        "feet": 300
+      },
+      "target": {
+        "shape": "created-effect",
+        "count": 1,
+        "eligibility": "door-in-range"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": {
+          "description": "a miniature door worth 15+ GP",
+          "cost_cp": 1500,
+          "consumed": false
+        }
+      },
+      "ritual": false,
+      "concentration": false,
+      "duration": "timed",
+      "duration_seconds": 86400,
+      "scaling": {
+        "kind": "none",
+        "above_level": 0,
+        "dice_count": 0,
+        "die_sides": 0,
+        "effect_ids": []
+      },
+      "effects": [
+        {
+          "id": "door",
+          "mechanic": "create.magnificent-mansion-door",
+          "timing": "for-duration",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "dwelling",
+          "mechanic": "create.magnificent-mansion-dwelling",
+          "timing": "for-duration",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "servants",
+          "mechanic": "summon.magnificent-mansion-servants",
+          "timing": "for-duration",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "create.magnificent-mansion-door",
+        "create.magnificent-mansion-dwelling",
+        "summon.magnificent-mansion-servants",
+        "expulsion.magnificent-mansion",
+        "cast.one-minute",
+        "components.material"
+      ],
+      "slot_levels": [
+        7,
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 60,
+        "casting_triggers": [],
+        "end_timing": "duration-ended",
+        "magnificent_mansion": {
+          "door_appearance": "shimmering",
+          "door_width_feet": 5,
+          "door_height_feet": 10,
+          "door_destination": "extradimensional-dwelling",
+          "entrants": "caster-and-creatures-designated-when-cast",
+          "entry_requirement": "door-remains-open",
+          "door_control_action": "no-action-required",
+          "door_control_distance_feet": 30,
+          "closed_door": "imperceptible",
+          "foyer": "magnificent-foyer-with-numerous-chambers-beyond",
+          "atmosphere": [
+            "clean",
+            "fresh",
+            "warm"
+          ],
+          "floor_plan": "any-floor-plan-caster-likes",
+          "max_contiguous_cubes": 50,
+          "cube_feet": 10,
+          "furnishing": "furnished-and-decorated-as-caster-chooses",
+          "banquet_courses": 9,
+          "banquet_people": 100,
+          "removed_objects": "dissipate-into-smoke",
+          "servant_count": 100,
+          "servant_appearance": "near-transparent-with-appearance-and-attire-determined-by-caster",
+          "servant_traits": [
+            "invulnerable",
+            "obey-casters-commands"
+          ],
+          "servant_tasks": "any-task-a-human-could-perform",
+          "servant_task_examples": [
+            "fetch-things",
+            "clean",
+            "mend",
+            "fold-clothes",
+            "light-fires",
+            "serve-food",
+            "pour-wine"
+          ],
+          "servant_limits": [
+            "cannot-attack",
+            "cannot-take-action-that-directly-harms-another-creature",
+            "cannot-leave-dwelling"
+          ],
+          "end_expulsion": "creatures-and-objects-inside-expelled-into-unoccupied-spaces-nearest-entrance"
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/major-image",
+      "name": "Major Image",
+      "source_id": "srd-5.2.1:content/spells/major-image",
+      "source_page": 147,
+      "scope": "complete-source-record",
+      "level": 3,
+      "school": "illusion",
+      "lists": [
+        "bard",
+        "sorcerer",
+        "warlock",
+        "wizard"
+      ],
+      "casting_time": "action",
+      "range": {
+        "kind": "feet",
+        "feet": 120
+      },
+      "target": {
+        "shape": "created-effect",
+        "count": 1,
+        "eligibility": "visible-spot-in-range"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": {
+          "description": "a bit of fleece",
+          "cost_cp": 0,
+          "consumed": false
+        }
+      },
+      "ritual": false,
+      "concentration": true,
+      "duration": "timed",
+      "duration_seconds": 600,
+      "scaling": {
+        "kind": "slot-until-dispelled",
+        "above_level": 3,
+        "dice_count": 0,
+        "die_sides": 0,
+        "effect_ids": [
+          "image"
+        ]
+      },
+      "effects": [
+        {
+          "id": "image",
+          "mechanic": "illusion.major-image",
+          "timing": "for-duration",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "movement",
+          "mechanic": "control.major-image-magic-action",
+          "timing": "magic-action-while-in-range",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "illusion.major-image",
+        "control.major-image-magic-action",
+        "check.major-image-investigation",
+        "scaling.until-dispelled-by-slot",
+        "concentration.source-duration",
+        "components.material"
+      ],
+      "slot_levels": [
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 0,
+        "casting_triggers": [],
+        "end_timing": "duration-or-concentration-ended",
+        "major_image": {
+          "image_subjects": [
+            "object",
+            "creature",
+            "other-visible-phenomenon"
+          ],
+          "max_cube_feet": 20,
+          "qualities": [
+            "seems-real",
+            "sounds",
+            "smells",
+            "temperature-appropriate-to-thing-depicted"
+          ],
+          "limits": [
+            "cannot-deal-damage",
+            "cannot-cause-conditions"
+          ],
+          "move_requirement": "caster-within-range-of-illusion",
+          "move_action": "magic-action",
+          "move_destination": "any-other-spot-within-range",
+          "movement_appearance": "appearance-can-be-altered-so-movement-appears-natural",
+          "sound_changes": "different-sounds-at-different-times-including-conversation",
+          "physical_interaction": "reveals-illusion-because-things-pass-through",
+          "discern_action": "study",
+          "discern_check": "intelligence-investigation",
+          "discern_dc": "caster-spell-save-dc",
+          "discerned": [
+            "can-see-through-image",
+            "other-sensory-qualities-become-faint"
+          ],
+          "until_dispelled_min_slot": 4,
+          "until_dispelled_concentration": "not-required"
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/mass-cure-wounds",
+      "name": "Mass Cure Wounds",
+      "source_id": "srd-5.2.1:content/spells/mass-cure-wounds",
+      "source_page": 147,
+      "scope": "complete-source-record",
+      "level": 5,
+      "school": "abjuration",
+      "lists": [
+        "bard",
+        "cleric",
+        "druid"
+      ],
+      "casting_time": "action",
+      "range": {
+        "kind": "feet",
+        "feet": 60
+      },
+      "target": {
+        "shape": "up-to-count",
+        "count": 6,
+        "eligibility": "creatures-in-sphere-on-visible-point"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": null
+      },
+      "ritual": false,
+      "concentration": false,
+      "duration": "instantaneous",
+      "duration_seconds": 0,
+      "scaling": {
+        "kind": "slot",
+        "above_level": 5,
+        "dice_count": 1,
+        "die_sides": 8,
+        "effect_ids": [
+          "healing"
+        ]
+      },
+      "effects": [
+        {
+          "id": "healing",
+          "mechanic": "healing.mass-cure-wounds",
+          "timing": "immediate",
+          "dice_count": 5,
+          "die_sides": 8,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": true,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "healing.mass-cure-wounds",
+        "scaling.per-slot"
+      ],
+      "slot_levels": [
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 0,
+        "casting_triggers": [],
+        "end_timing": "instantaneous",
+        "mass_cure_wounds": {
+          "center": "point-visible-within-range",
+          "sphere_radius_feet": 30,
+          "max_targets": 6,
+          "healing_dice_count": 5,
+          "healing_die_sides": 8,
+          "healing_adds": "spellcasting-ability-modifier",
+          "slot_dice_count": 1,
+          "slot_die_sides": 8
+        }
+      }
+    }
+  ]
+}
