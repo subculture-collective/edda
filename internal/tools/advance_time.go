@@ -5,8 +5,6 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/jackc/pgx/v5"
-
 	"git.subcult.tv/subculture-collective/edda/internal/db"
 	"git.subcult.tv/subculture-collective/edda/internal/llm"
 )
@@ -57,20 +55,6 @@ func NewAdvanceTimeHandler(db TimeStore) *AdvanceTimeHandler {
 	return &AdvanceTimeHandler{db: db}
 }
 
-const getCampaignTimeForToolSQL = `
-SELECT day, hour, minute FROM campaign_time WHERE campaign_id = $1
-`
-
-// The update leaves campaign_time.second alone on purpose: adding whole
-// minutes keeps the SRD rules clock's absolute-second expiries exact.
-const upsertCampaignTimeForToolSQL = `
-INSERT INTO campaign_time (campaign_id, day, hour, minute)
-VALUES ($1, $2, $3, $4)
-ON CONFLICT (campaign_id) DO UPDATE
-SET day = EXCLUDED.day, hour = EXCLUDED.hour, minute = EXCLUDED.minute, updated_at = now()
-RETURNING day, hour, minute
-`
-
 // Handle executes the advance_time tool.
 func (h *AdvanceTimeHandler) Handle(ctx context.Context, args map[string]any) (*ToolResult, error) {
 	if h == nil {
@@ -105,28 +89,7 @@ func (h *AdvanceTimeHandler) Handle(ctx context.Context, args map[string]any) (*
 		return nil, errors.New("advance_time requires current campaign id in context")
 	}
 
-	pgCID := db.ToPgUUID(campaignID)
-
-	// Read current time (defaults if not set).
-	var day, hour, minute int
-	err = h.db.QueryRow(ctx, getCampaignTimeForToolSQL, pgCID).Scan(&day, &hour, &minute)
-	if errors.Is(err, pgx.ErrNoRows) {
-		day, hour, minute = 1, 8, 0
-	} else if err != nil {
-		return nil, fmt.Errorf("read campaign time: %w", err)
-	}
-
-	// Advance.
-	totalMinutes := minute + minutes
-	hour += totalMinutes / 60
-	minute = totalMinutes % 60
-
-	totalHours := hour + hours
-	day += totalHours / 24
-	hour = totalHours % 24
-
-	// Write back.
-	err = h.db.QueryRow(ctx, upsertCampaignTimeForToolSQL, pgCID, day, hour, minute).Scan(&day, &hour, &minute)
+	day, hour, minute, err := db.AdvanceCampaignTime(ctx, h.db, campaignID, hours, minutes)
 	if err != nil {
 		return nil, fmt.Errorf("update campaign time: %w", err)
 	}

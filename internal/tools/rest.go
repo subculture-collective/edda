@@ -5,8 +5,6 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/jackc/pgx/v5"
-
 	"git.subcult.tv/subculture-collective/edda/internal/db"
 	"git.subcult.tv/subculture-collective/edda/internal/llm"
 )
@@ -119,19 +117,7 @@ func (h *RestHandler) Handle(ctx context.Context, args map[string]any) (*ToolRes
 	}
 
 	// Advance time.
-	var day, hour, minute int
-	err = h.db.QueryRow(ctx, getCampaignTimeForToolSQL, pgCID).Scan(&day, &hour, &minute)
-	if errors.Is(err, pgx.ErrNoRows) {
-		day, hour, minute = 1, 8, 0
-	} else if err != nil {
-		return nil, fmt.Errorf("read campaign time: %w", err)
-	}
-
-	totalHours := hour + hours
-	day += totalHours / 24
-	hour = totalHours % 24
-
-	err = h.db.QueryRow(ctx, upsertCampaignTimeForToolSQL, pgCID, day, hour, minute).Scan(&day, &hour, &minute)
+	day, hour, minute, err := db.AdvanceCampaignTime(ctx, h.db, campaignID, hours, 0)
 	if err != nil {
 		return nil, fmt.Errorf("update campaign time: %w", err)
 	}

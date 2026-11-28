@@ -32,10 +32,10 @@ func (q *Queries) GetCampaignTime(ctx context.Context, campaignID pgtype.UUID) (
 }
 
 const upsertCampaignTime = `-- name: UpsertCampaignTime :one
-INSERT INTO campaign_time (campaign_id, day, hour, minute)
-VALUES ($1, $2, $3, $4)
+INSERT INTO campaign_time (campaign_id, day, hour, minute, second)
+VALUES ($1, $2, $3, $4, 0)
 ON CONFLICT (campaign_id) DO UPDATE
-SET day = EXCLUDED.day, hour = EXCLUDED.hour, minute = EXCLUDED.minute, updated_at = now()
+SET day = EXCLUDED.day, hour = EXCLUDED.hour, minute = EXCLUDED.minute, second = 0, updated_at = now()
 RETURNING campaign_id, day, hour, minute, updated_at, second
 `
 
@@ -46,6 +46,8 @@ type UpsertCampaignTimeParams struct {
 	Minute     int32
 }
 
+// Sets the time to the start of the given minute, so a stale second from the
+// SRD rules clock does not shift it.
 func (q *Queries) UpsertCampaignTime(ctx context.Context, arg UpsertCampaignTimeParams) (CampaignTime, error) {
 	row := q.db.QueryRow(ctx, upsertCampaignTime,
 		arg.CampaignID,

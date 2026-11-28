@@ -163,6 +163,8 @@ type Querier interface {
 	UpdateQuestStatus(ctx context.Context, arg UpdateQuestStatusParams) (Quest, error)
 	UpdateRelationship(ctx context.Context, arg UpdateRelationshipParams) (EntityRelationship, error)
 	UpdateUser(ctx context.Context, arg UpdateUserParams) (User, error)
+	// Sets the time to the start of the given minute, so a stale second from the
+	// SRD rules clock does not shift it.
 	UpsertCampaignTime(ctx context.Context, arg UpsertCampaignTimeParams) (CampaignTime, error)
 }
 
