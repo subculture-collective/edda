@@ -91,9 +91,29 @@ jobs:
           go-version-file: go.mod
           cache: true
           cache-dependency-path: go.sum
+      # Testcontainers pulls only a missing image, so pull it once here with
+      # retries. Hosted runners share Docker Hub's anonymous pull limit; on a
+      # rate limit, fall back to Google's Docker Hub mirror and retag.
+      - name: Pull the pgvector image
+        run: |
+          image=docker.io/pgvector/pgvector:pg16
+          for attempt in 1 2 3 4 5; do
+            if docker pull "$image"; then exit 0; fi
+            if docker pull mirror.gcr.io/pgvector/pgvector:pg16; then
+              docker tag mirror.gcr.io/pgvector/pgvector:pg16 "$image"
+              exit 0
+            fi
+            sleep $((attempt * 20))
+          done
+          echo "::error::could not pull $image"
+          exit 1
       # Each tagged suite owns a fresh pgvector container through Testcontainers.
       # No application DSN or shared database is supplied to this job.
       - name: Run database-backed suites
+        # The runner is discarded after the job, so the Ryuk reaper (another
+        # Docker Hub pull) is not needed.
+        env:
+          TESTCONTAINERS_RYUK_DISABLED: "true"
         run: go test -tags integration -run Integration -count=1 -timeout 10m ./...
 
   frontend:
