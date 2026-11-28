@@ -29,6 +29,7 @@ same preview and confirm flow as the web client.
 | `/study-detect-magic` | Previews the study. |
 | `/confirm-detect-magic` | Commits the preview. A retry reuses the action ID. |
 | `/cancel-detect-magic` | Drops the preview. |
+| `/end-concentration <caster UUID>` | Previews ending the caster's current concentration, whatever the spell. `/confirm-faith` commits it and `/cancel-faith` drops it. |
 
 ## Scene facts
 
