@@ -297,6 +297,14 @@ it('lists saved receipts in the order the server sent them', async () => {
   expect(saved.textContent).toMatch(/Unarmed Strike against Mira.*Death Saving Throw after the attack\..*Concentration expired after the round\./);
 });
 
+it('shows a saved Detect Magic receipt in the result panel', async () => {
+  const receipt = { rules_version: 'srd-5.2.1', kind: 'detect-magic-study', spell: 'detect-magic', use: '', magic_initiate_uses_before: 0, magic_initiate_uses_after: 0, slots_before: 1, slots_after: 1, time_before: 0, time_after: 0, presence: true, auras: [], reason: 'Detect Magic study; Magic action; no slot or feat use. No sensed magic is on a visible creature or object.', source_ids: [] };
+  vi.mocked(confirmCharacterAction).mockResolvedValueOnce({ action_id: 'saved', turn_number: 4, narrative: 'Recorded study.', state_changes: [], combat_active: false, resolution_events: [{ type: 'srd_detect_magic', label: 'Detect Magic', outcome: receipt.reason, details: { receipt } }] });
+  mount('detect-magic', 'hero', ready);
+  await userEvent.click(screen.getByRole('button', { name: 'Confirm action' }));
+  expect(await screen.findByRole('region', { name: 'Saved Detect Magic receipt' })).toHaveTextContent(receipt.reason);
+});
+
 it('drops the confirmed preview while its menu entry stays offered', async () => {
   vi.mocked(previewCharacterAction).mockResolvedValueOnce(ready);
   vi.mocked(confirmCharacterAction).mockResolvedValueOnce({ action_id: 'saved', turn_number: 1, narrative: 'Recorded check.', state_changes: [], resolution_events: [], combat_active: false });

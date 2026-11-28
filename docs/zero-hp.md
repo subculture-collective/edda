@@ -89,6 +89,8 @@ shows them in that order. In an encounter turn, each NPC attack comes before the
 Concentration saves it caused (`concentration_after_attack` records which attack
 caused each one), then the 0 HP receipts, then any effect the clock expired.
 Turns saved without that field list their saves after all the attacks.
+The turn's narrative text names them in the same order. Narrative that earlier
+builds saved is not rewritten.
 
 Every roll is in a durable receipt (`zero_hp` on fall and NPC attack receipts,
 `death_save` on the encounter result, `srd_death_save` for the explicit

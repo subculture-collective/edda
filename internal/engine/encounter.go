@@ -153,6 +153,37 @@ func resolveEncounterNPC(ctx context.Context, tx pgx.Tx, campaignID uuid.UUID, e
 	return receipts, effects, nil
 }
 
+// npcTurnNarrative describes each NPC attack, then the Concentration saves it
+// caused. after holds, for each effect, the number (from 1) of that attack.
+func npcTurnNarrative(attacks []*srd521.AttackReceipt, effects []*srd521.EffectReceipt, after []int) string {
+	narrative := ""
+	saved := 0
+	for i, attack := range attacks {
+		narrative += fmt.Sprintf(" %s: %s (d20 %d + %d = %d), %d %s damage.", attack.Weapon, attack.Outcome, attack.Die, attack.Modifier.Value, attack.Total, attack.Damage, attack.DamageType)
+		if note := attack.RollNote(); note != "" {
+			narrative += " " + note
+		}
+		if attack.AutoCritical != "" {
+			narrative += " Automatic Critical Hit: " + attack.AutoCritical + "."
+		}
+		switch attack.Condition {
+		case "prone-applied":
+			narrative += " " + attack.Target + " has the Prone condition."
+		case "already-prone":
+			narrative += " " + attack.Target + " is already Prone."
+		case "size-exempt":
+			narrative += " " + attack.Target + " is too large to be knocked Prone."
+		}
+		if attack.ZeroHP != nil {
+			narrative += " " + attack.ZeroHP.Reason
+		}
+		for ; saved < len(effects) && after[saved] == i+1; saved++ {
+			narrative += " " + effects[saved].Reason
+		}
+	}
+	return narrative
+}
+
 // finishWithdrawal consumes the pending NPC movement once, then returns control
 // to the player. A changed/unclear path cancels the step rather than guessing.
 func finishWithdrawal(encounter *combat.Encounter) {
