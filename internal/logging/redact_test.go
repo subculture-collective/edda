@@ -276,3 +276,67 @@ func TestRedactURLErrorAmbiguousUserinfo(t *testing.T) {
 		t.Errorf("error = %q, want a bare deadline error", got)
 	}
 }
+
+// A reply can be cut inside a password after a /, ? or #, or can end a cut-off
+// URL with a single quote. Each row cuts "http://fake-user:...@h.example".
+func TestRedactReplyCutPasswords(t *testing.T) {
+	tests := []struct {
+		name, in, want string
+	}{
+		{"single quote", `'x http://fake-user:fake-pa'`, `'x http://xxxxx'`},
+		{"single quote without a colon", `'x http://fake-tok'`, `'x http://xxxxx'`},
+		{"escaped single quote", `'x http://fake-tok\'`, `'x http://xxxxx\'`},
+		{"single quote after an ellipsis", `'x http://fake-tok...'`, `'x http://xxxxx...'`},
+		{"single quote in json", `{"d":"got 'http://fake-tok'"}`, `{"d":"got 'http://xxxxx'"}`},
+		{"single quote inside the password", `x http://fake-user:fa'fake`, `x http://xxxxx'fake`},
+		{"slash, in json", `{"d":"http://fake-user:fake/pa"}`, `{"d":"http://xxxxx"}`},
+		{"slash at the end", "x http://fake-user:fake/pa", "x http://xxxxx"},
+		{"nothing after the slash", "x http://fake-user:fake/", "x http://xxxxx"},
+		{"question mark at the end", "x http://fake-user:fa?ke", "x http://xxxxx"},
+		{"hash at the end", "x http://fake-user:fa#ke", "x http://xxxxx"},
+		{"question mark, in json", `{"d":"x http://fake-user:fa?ke"}`, `{"d":"x http://xxxxx"}`},
+		{"hash before a single quote", `'x http://fake-user:fa#ke'`, `'x http://xxxxx'`},
+		{"slash before a space", "x http://fake-user:fa/ke refused", "x http://xxxxx refused"},
+		{"slash before a space, no more text", "x http://fake-user:fa/ke\n", "x http://xxxxx\n"},
+		{"cut before a space", "x http://fake-user:fake-pa refused", "x http://xxxxx refused"},
+		{"slash, in cut json", `{"d":"x http://fake-user:fa/ke`, `{"d":"x http://xxxxx`},
+		{"slash, in nested json", `{"body":"{\"d\":\"http://fake-user:fa/ke\"}"}`, `{"body":"{\"d\":\"http://xxxxx\"}"}`},
+		{"slash then an ellipsis", "x http://fake-user:fa/ke…", "x http://xxxxx…"},
+		{"digits too big for a port", "x http://fake.user:99999/fake", "x http://xxxxx"},
+		{"digits then letters", "x http://fake.user:12fake/pa", "x http://xxxxx"},
+		{"digits without a dot in the user name", "x http://fake-user:12/fake", "x http://xxxxx"},
+		{"database url", "open postgres://fake-user:fa/ke", "open postgres://xxxxx"},
+		// What was masked before stays masked: the new rules run last, on the
+		// finished result. Run earlier, they would show part of each of these.
+		{"encoded single quote in the password", `{"d":"http://fake-user:pa\u0027fake"}`, `{"d":"http://xxxxx"}`},
+		{"encoded angle bracket in the password", `{"d":"http://fake-user:pa\u003cfake"}`, `{"d":"http://xxxxx"}`},
+		{"keyword value past the url", `x http://fake-user:fa/password="fake"`, "x http://xxxxx"},
+		// Accepted over-redaction: the check runs after the userinfo is removed.
+		{"userinfo before a host without a dot", "get http://fake-user:fake-pass@ollama:11434/api now", "get http://xxxxx now"},
+		// Accepted over-redaction: a host with no dot has the shape of a user name.
+		{"host without a dot, with a port and a path", "x http://ollama:11434/api/chat refused", "x http://xxxxx refused"},
+		{"complete url in single quotes", "cannot reach 'http://h.example'", "cannot reach 'http://xxxxx'"},
+
+		// Ordinary complete URLs do not change.
+		{"path", "get https://h.example/a/b?page=2#top refused", "get https://h.example/a/b?page=2#top refused"},
+		{"port and path", "get http://h.example:8080/v1/models refused", "get http://h.example:8080/v1/models refused"},
+		{"port and path at the end", "get http://h.example:65535/v1/models", "get http://h.example:65535/v1/models"},
+		{"ip address, port and path", `{"d":"get http://127.0.0.1:11434/api/chat"}`, `{"d":"get http://127.0.0.1:11434/api/chat"}`},
+		{"localhost, port and query", "get http://localhost:11434?page=2", "get http://localhost:11434?page=2"},
+		{"ipv6, port and path", "get http://[::1]:11434/api/chat", "get http://[::1]:11434/api/chat"},
+		{"ipv6 and path", "get http://[2001:db8::1]/api", "get http://[2001:db8::1]/api"},
+		{"port before text", "http://h.example:8080 refused", "http://h.example:8080 refused"},
+		{"port before punctuation", "dial (http://h.example:8080), http://localhost:11434: refused", "dial (http://h.example:8080), http://localhost:11434: refused"},
+		{"port in single quotes with a path", "get 'http://h.example:8080/'", "get 'http://h.example:8080/'"},
+		{"port before an escaped slash", `{"d":"http://h.example:8080\/x"} http://h.example:8080\/x`, `{"d":"http://h.example:8080\/x"} http://h.example:8080\/x`},
+		{"colon in a path", "see https://h.example/wiki/Help:Contents now", "see https://h.example/wiki/Help:Contents now"},
+		{"colon in a path, host without a dot", "see http://ollama/library/llama3:8b now", "see http://ollama/library/llama3:8b now"},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := RedactReply(tt.in); got != tt.want {
+				t.Errorf("RedactReply(%q) = %q, want %q", tt.in, got, tt.want)
+			}
+		})
+	}
+}
