@@ -1,0 +1,102 @@
+{
+  "schema_version": 1,
+  "rules_version": "srd-5.2.1",
+  "batch": "data-armor-02",
+  "catalogue_issue": 252,
+  "source": {
+    "version": "5.2.1",
+    "language": "en",
+    "landing_url": "https://www.dndbeyond.com/srd",
+    "artifact_url": "https://media.dndbeyond.com/compendium-images/srd/5.2/SRD_CC_v5.2.1.pdf",
+    "sha256": "8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87",
+    "bytes": 6031375,
+    "pages": 364,
+    "retrieved_at": "2026-11-15",
+    "license": "CC-BY-4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/legalcode",
+    "attribution": "This work includes material from the System Reference Document 5.2.1 (\u201cSRD 5.2.1\u201d) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd. The SRD 5.2.1 is licensed under the Creative Commons Attribution 4.0 International License, available at https://creativecommons.org/licenses/by/4.0/legalcode.",
+    "changes": "SRD 5.2.1 p. 92 Armor table row (Studded Leather Armor) and its category heading's don and doff times adapted into one versioned mundane armor record with structured Armor Class, Strength, Stealth, weight and listed price. Names, numeric values and table keys are adapted; no rules prose is reproduced. Catalogue data grants no inventory, action or gameplay permissions; every record is unavailable."
+  },
+  "families": [
+    {
+      "id": "srd-5.2.1:content/items/studded-leather-armor",
+      "name": "Studded Leather Armor",
+      "kind": "mundane",
+      "category": "armor",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/armor/studded-leather-armor",
+          "pages": [
+            92,
+            92
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/studded-leather-armor/variant/standard",
+          "name": "Studded Leather Armor",
+          "rarity": "none",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wear",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "listed",
+            "amount": 45,
+            "currency": "gp",
+            "source_pages": [
+              92,
+              92
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.wear",
+            "armor.light",
+            "armor.training",
+            "armor-class.12-plus-dexterity",
+            "don.minutes-1",
+            "doff.minutes-1"
+          ],
+          "details": {
+            "armor": {
+              "armor_category": "light",
+              "armor_class": {
+                "base": 12,
+                "bonus": 0,
+                "dexterity": "full",
+                "dexterity_maximum": 0
+              },
+              "strength_requirement": 0,
+              "stealth_disadvantage": false,
+              "don_doff": {
+                "action": "none",
+                "don_minutes": 1,
+                "doff_minutes": 1
+              },
+              "weight_pounds": 13
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
