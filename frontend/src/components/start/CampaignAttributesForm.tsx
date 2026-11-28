@@ -54,7 +54,6 @@ const toneOptions: readonly AttributeOption[] = [
   },
 ];
 
-export type { CampaignAttributesFormProps };
 
 type CampaignAttributeField = keyof CampaignAttributesValue;
 
