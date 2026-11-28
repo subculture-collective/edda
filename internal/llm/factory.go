@@ -12,6 +12,7 @@ import (
 	"time"
 
 	"git.subcult.tv/subculture-collective/edda/internal/config"
+	"git.subcult.tv/subculture-collective/edda/internal/logging"
 )
 
 // LLMProvider is an alias for the provider interface used by the game engine.
@@ -115,10 +116,16 @@ func validateOllamaEndpoint(baseURL, apiKey string) error {
 
 	parsed, err := url.ParseRequestURI(baseURL)
 	if err != nil {
-		return fmt.Errorf("ollama provider unavailable: invalid endpoint %q: %w", baseURL, err)
+		return fmt.Errorf("ollama provider unavailable: invalid endpoint %q: %w", logging.RedactURL(baseURL), logging.RedactURLError(err))
 	}
 	if parsed.Scheme != "http" && parsed.Scheme != "https" {
-		return fmt.Errorf("ollama provider unavailable: invalid endpoint scheme %q for %q", parsed.Scheme, baseURL)
+		// With the scheme left out, "user:password@host" parses with the user
+		// name as its scheme.
+		scheme := parsed.Scheme
+		if parsed.Opaque != "" {
+			scheme = ""
+		}
+		return fmt.Errorf("ollama provider unavailable: invalid endpoint scheme %q for %q", scheme, logging.RedactURL(baseURL))
 	}
 
 	client := &http.Client{Timeout: ollamaHealthCheckTimeout}
@@ -127,7 +134,7 @@ func validateOllamaEndpoint(baseURL, apiKey string) error {
 	for i, path := range paths {
 		healthURL, err := healthCheckURL(parsed, path)
 		if err != nil {
-			return fmt.Errorf("ollama provider unavailable: failed to build health-check URL from %q: %w", baseURL, err)
+			return fmt.Errorf("ollama provider unavailable: failed to build health-check URL from %q: %w", logging.RedactURL(baseURL), logging.RedactURLError(err))
 		}
 
 		err = probeOllamaCompatibleEndpoint(client, healthURL, apiKey)
@@ -158,7 +165,7 @@ func healthCheckURL(base *url.URL, path string) (string, error) {
 func probeOllamaCompatibleEndpoint(client *http.Client, healthURL, apiKey string) error {
 	req, err := http.NewRequest(http.MethodGet, healthURL, nil)
 	if err != nil {
-		return fmt.Errorf("ollama provider unavailable: failed to build health-check request: %w", err)
+		return fmt.Errorf("ollama provider unavailable: failed to build health-check request: %w", logging.RedactURLError(err))
 	}
 	// Switchyard-compatible model endpoints may require the Bearer token.
 	// Vanilla ollama ignores the header when probing /api/tags.
@@ -168,13 +175,13 @@ func probeOllamaCompatibleEndpoint(client *http.Client, healthURL, apiKey string
 
 	resp, err := client.Do(req)
 	if err != nil {
-		return fmt.Errorf("ollama provider unavailable: cannot reach %s: %w", healthURL, err)
+		return fmt.Errorf("ollama provider unavailable: cannot reach %s: %w", logging.RedactURL(healthURL), logging.RedactURLError(err))
 	}
 	defer func() { _ = resp.Body.Close() }()
 
 	if resp.StatusCode < 200 || resp.StatusCode >= 300 {
 		body, _ := io.ReadAll(io.LimitReader(resp.Body, ollamaHealthCheckErrorBodyLimit))
-		return &ollamaHealthCheckHTTPError{URL: healthURL, StatusCode: resp.StatusCode, Body: redactSecretText(strings.TrimSpace(string(body)))}
+		return &ollamaHealthCheckHTTPError{URL: logging.RedactURL(healthURL), StatusCode: resp.StatusCode, Body: redactSecretText(logging.Redact(strings.TrimSpace(string(body))))}
 	}
 
 	return nil

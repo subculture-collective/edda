@@ -14,6 +14,8 @@ import (
 	"strings"
 	"sync"
 	"time"
+
+	"git.subcult.tv/subculture-collective/edda/internal/logging"
 )
 
 // Sign in with ChatGPT endpoints and constants. See
@@ -188,19 +190,21 @@ func (s *ChatGPTTokenStore) refreshLocked(ctx context.Context) error {
 		"refresh_token": {s.creds.RefreshToken},
 		"resource":      {ChatGPTResource},
 	}
+	endpoint := logging.RedactURL(s.tokenURL)
 	req, err := http.NewRequestWithContext(ctx, http.MethodPost, s.tokenURL, strings.NewReader(form.Encode()))
 	if err != nil {
-		return err
+		return logging.RedactURLError(err)
 	}
 	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
 	req.Header.Set("Accept", "application/json")
 
 	resp, err := s.client.Do(req)
 	if err != nil {
+		err = logging.RedactURLError(err)
 		if errors.Is(err, context.Canceled) || errors.Is(err, context.DeadlineExceeded) {
-			return &ErrTimeout{URL: s.tokenURL, Err: err}
+			return &ErrTimeout{URL: endpoint, Err: err}
 		}
-		return &ErrConnection{URL: s.tokenURL, Err: fmt.Errorf("refresh chatgpt token: %w", err)}
+		return &ErrConnection{URL: endpoint, Err: fmt.Errorf("refresh chatgpt token: %w", err)}
 	}
 	defer func() { _ = resp.Body.Close() }()
 	body, _ := io.ReadAll(io.LimitReader(resp.Body, 1<<20))
@@ -208,18 +212,18 @@ func (s *ChatGPTTokenStore) refreshLocked(ctx context.Context) error {
 	var tok chatGPTTokenResponse
 	_ = json.Unmarshal(body, &tok)
 	if resp.StatusCode != http.StatusOK || tok.AccessToken == "" {
-		code := tok.Error
+		code := logging.Redact(tok.Error)
 		if code == "" {
 			code = fmt.Sprintf("HTTP %d", resp.StatusCode)
 		}
 		if chatGPTUnusableRefreshCodes[tok.Error] {
-			return &ErrAuth{URL: s.tokenURL, StatusCode: resp.StatusCode,
+			return &ErrAuth{URL: endpoint, StatusCode: resp.StatusCode,
 				Err: fmt.Errorf("chatgpt sign-in is no longer valid (%s); run cmd/chatgpt-login again", code)}
 		}
 		if resp.StatusCode >= 500 {
-			return &ErrTransient{URL: s.tokenURL, StatusCode: resp.StatusCode, Err: fmt.Errorf("refresh chatgpt token: %s", code)}
+			return &ErrTransient{URL: endpoint, StatusCode: resp.StatusCode, Err: fmt.Errorf("refresh chatgpt token: %s", code)}
 		}
-		return &ErrAuth{URL: s.tokenURL, StatusCode: resp.StatusCode, Err: fmt.Errorf("refresh chatgpt token: %s", code)}
+		return &ErrAuth{URL: endpoint, StatusCode: resp.StatusCode, Err: fmt.Errorf("refresh chatgpt token: %s", code)}
 	}
 
 	next := s.creds

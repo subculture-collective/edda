@@ -6,6 +6,7 @@ import (
 	"git.subcult.tv/subculture-collective/edda/internal/rules/srd521"
 	"github.com/google/uuid"
 	"slices"
+	"strings"
 	"time"
 
 	"git.subcult.tv/subculture-collective/edda/internal/dbutil"
@@ -136,6 +137,19 @@ func itemToResponse(i statedb.Item) api.ItemResponse {
 	}
 }
 
+// withheldWarning replaces the error text of a tool's "*_warning" result in
+// responses. That text is internal: it can name a provider or database address
+// and quote an upstream reply. The stored tool call keeps it.
+const withheldWarning = "details withheld"
+
+func withholdWarnings(fields map[string]any) {
+	for key, value := range fields {
+		if text, ok := value.(string); ok && text != "" && strings.HasSuffix(key, "_warning") {
+			fields[key] = withheldWarning
+		}
+	}
+}
+
 func engineStateChangesToAPI(changes []engine.StateChange) []api.StateChange {
 	out := make([]api.StateChange, 0, len(changes))
 	for _, sc := range changes {
@@ -150,6 +164,7 @@ func engineStateChangesToAPI(changes []engine.StateChange) []api.StateChange {
 			var nv any
 			if json.Unmarshal(sc.NewValue, &nv) == nil {
 				if fields, ok := nv.(map[string]any); ok {
+					withholdWarnings(fields)
 					for key, value := range fields {
 						details[key] = value
 					}

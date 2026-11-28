@@ -13,6 +13,8 @@ import (
 	"net/url"
 	"strings"
 	"time"
+
+	"git.subcult.tv/subculture-collective/edda/internal/logging"
 )
 
 const (
@@ -182,7 +184,7 @@ func (o *OllamaEmbedder) BatchEmbed(ctx context.Context, texts []string) ([][]fl
 
 func (o *OllamaEmbedder) endpoint() (string, error) {
 	if _, err := url.ParseRequestURI(o.baseURL); err != nil {
-		return "", fmt.Errorf("invalid ollama base URL %q: %w", o.baseURL, err)
+		return "", fmt.Errorf("invalid ollama base URL %q: %w", logging.RedactURL(o.baseURL), logging.RedactURLError(err))
 	}
 	return o.baseURL + ollamaEmbedPath, nil
 }
@@ -203,7 +205,7 @@ func (o *OllamaEmbedder) embed(ctx context.Context, input any) (*ollamaEmbedResp
 
 	req, err := http.NewRequestWithContext(ctx, http.MethodPost, endpoint, bytes.NewReader(body))
 	if err != nil {
-		return nil, fmt.Errorf("failed to create ollama embed request: %w", err)
+		return nil, fmt.Errorf("failed to create ollama embed request: %w", logging.RedactURLError(err))
 	}
 	req.Header.Set("Content-Type", "application/json")
 	if o.apiKey != "" {
@@ -221,7 +223,7 @@ func (o *OllamaEmbedder) embed(ctx context.Context, input any) (*ollamaEmbedResp
 		respBody, _ := io.ReadAll(io.LimitReader(resp.Body, ollamaEmbedErrorBodyLimit))
 		return nil, &ollamaEmbedHTTPStatusError{
 			StatusCode: resp.StatusCode,
-			Body:       strings.TrimSpace(string(respBody)),
+			Body:       logging.Redact(strings.TrimSpace(string(respBody))),
 		}
 	}
 
@@ -275,7 +277,7 @@ func unwrapBrokerSSE(resp *http.Response, body []byte) ([]byte, error) {
 			case "queued":
 				continue
 			case "ollama_unavailable":
-				msg := probe.Message
+				msg := logging.Redact(probe.Message)
 				if msg == "" {
 					msg = "ollama unavailable"
 				}
@@ -306,6 +308,7 @@ func isEmbedSSEResponse(resp *http.Response, body []byte) bool {
 }
 
 func formatOllamaEmbedConnectionError(endpoint string, err error) error {
+	endpoint, err = logging.RedactURL(endpoint), logging.RedactURLError(err)
 	if errors.Is(err, context.DeadlineExceeded) || errors.Is(err, context.Canceled) {
 		return fmt.Errorf("ollama embed timeout (%s): %w", endpoint, err)
 	}

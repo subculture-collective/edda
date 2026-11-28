@@ -12,6 +12,8 @@ import (
 	"net/http"
 	"strings"
 	"time"
+
+	"git.subcult.tv/subculture-collective/edda/internal/logging"
 )
 
 const (
@@ -94,7 +96,7 @@ func (c *OpenRouterClient) Complete(ctx context.Context, messages []Message, too
 	var chatResp openRouterChatResponse
 	if err := json.NewDecoder(resp.Body).Decode(&chatResp); err != nil {
 		return nil, &ErrMalformedResponse{
-			URL: c.chatURL(),
+			URL: c.errorURL(),
 			Err: fmt.Errorf("failed to decode openrouter response: %w", err),
 		}
 	}
@@ -116,7 +118,7 @@ func (c *OpenRouterClient) Stream(ctx context.Context, messages []Message, tools
 	if ct := resp.Header.Get("Content-Type"); !strings.HasPrefix(ct, "text/event-stream") {
 		_ = resp.Body.Close()
 		return nil, &ErrMalformedResponse{
-			URL: c.chatURL(),
+			URL: c.errorURL(),
 			Err: fmt.Errorf("expected SSE stream with Content-Type %q, got %q", "text/event-stream", ct),
 		}
 	}
@@ -187,7 +189,7 @@ func (c *OpenRouterClient) buildRequest(messages []Message, tools []Tool, stream
 func (c *OpenRouterClient) doRequest(ctx context.Context, body []byte) (*http.Response, error) {
 	req, err := http.NewRequestWithContext(ctx, http.MethodPost, c.chatURL(), bytes.NewReader(body))
 	if err != nil {
-		return nil, fmt.Errorf("failed to create openrouter request: %w", err)
+		return nil, fmt.Errorf("failed to create openrouter request: %w", logging.RedactURLError(err))
 	}
 	req.Header.Set("Content-Type", "application/json")
 	req.Header.Set("Authorization", "Bearer "+c.apiKey)
@@ -208,10 +210,15 @@ func (c *OpenRouterClient) chatURL() string {
 	return c.baseURL + openRouterChatPath
 }
 
+// errorURL is the chat URL as errors may hold it, without credentials.
+func (c *OpenRouterClient) errorURL() string {
+	return logging.RedactURL(c.chatURL())
+}
+
 func (c *OpenRouterClient) toResponse(resp *openRouterChatResponse) (*Response, error) {
 	if len(resp.Choices) == 0 {
 		return nil, &ErrMalformedResponse{
-			URL: c.chatURL(),
+			URL: c.errorURL(),
 			Err: fmt.Errorf("openrouter response contained no choices"),
 		}
 	}
@@ -340,6 +347,7 @@ func (c *OpenRouterClient) parseSSEStream(ctx context.Context, body io.Reader, c
 }
 
 func classifyOpenRouterHTTPError(endpoint, model string, statusCode int, body string) error {
+	endpoint = logging.RedactURL(endpoint)
 	baseErr := openRouterAPIError(body, statusCode)
 
 	switch statusCode {
@@ -395,13 +403,15 @@ func openRouterAPIError(body string, statusCode int) error {
 		} `json:"error"`
 	}
 	if err := json.Unmarshal([]byte(body), &apiErr); err == nil && apiErr.Error.Message != "" {
-		return fmt.Errorf("openrouter: %s (status %d)", apiErr.Error.Message, statusCode)
+		return fmt.Errorf("openrouter: %s (status %d)", logging.Redact(apiErr.Error.Message), statusCode)
 	}
 	return fmt.Errorf("openrouter error (status %d): %s", statusCode, sanitizeErrorBody(body))
 }
 
 func sanitizeErrorBody(body string) string {
 	const maxLen = 1024
+	// Redact first: a cut inside a URL could hide the @ that marks its password.
+	body = logging.Redact(body)
 	if len(body) > maxLen {
 		return body[:maxLen] + "..."
 	}

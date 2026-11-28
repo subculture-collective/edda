@@ -50,7 +50,13 @@ func (h *ActionHandlers) ProcessAction(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 		if engine.IsLLMOutputError(err) {
-			writeError(w, http.StatusBadGateway, err.Error())
+			// The wrapped detail can quote a provider error, with its endpoint
+			// and reply. It is logged above; the client gets the category only.
+			message := engine.ErrEmptyTurnResponse
+			if errors.Is(err, engine.ErrUnresolvedDurableClaims) {
+				message = engine.ErrUnresolvedDurableClaims
+			}
+			writeError(w, http.StatusBadGateway, message.Error())
 			return
 		}
 		writeError(w, http.StatusInternalServerError, "failed to process turn")
