@@ -79,7 +79,7 @@ func TestBridgeWriterReadsRecordsFromCharmLogger(t *testing.T) {
 			name:    "composite values",
 			msg:     "boom",
 			keyvals: []any{"tools", []string{"a", "b c"}},
-			fields:  []Field{{"tools", `["a","b c"]`}},
+			fields:  []Field{{"tools", "[a b c]"}},
 		},
 		{
 			name:    "repeated keys and keys named like record parts",
@@ -138,7 +138,7 @@ func TestBridgeWriterReadsRecordsFromCharmLogger(t *testing.T) {
 			t.Run(level.name+"/"+shape.name, func(t *testing.T) {
 				t.Parallel()
 
-				got := bridgeCharmRecord(t, func(logger *log.Logger) {
+				got := bridgeCharmRecord(t, func(logger *CharmLogger) {
 					if shape.prefix != "" {
 						logger = logger.WithPrefix(shape.prefix)
 					}
@@ -177,7 +177,7 @@ func TestBridgeWriterReadsRecordsFromCharmLogger(t *testing.T) {
 		t.Run("print/"+msg, func(t *testing.T) {
 			t.Parallel()
 
-			got := bridgeCharmRecord(t, func(logger *log.Logger) { logger.Print(msg) })
+			got := bridgeCharmRecord(t, func(logger *CharmLogger) { logger.base.Print(msg) })
 
 			if got.Level != slog.LevelInfo || got.Message != msg || got.Service != "app" || len(got.Fields) != 0 {
 				t.Errorf("got %v %q %q %q, want INFO app %q without fields", got.Level, got.Service, got.Message, got.Fields, msg)
@@ -190,7 +190,7 @@ func TestBridgeWriterReadsRecordsFromCharmLogger(t *testing.T) {
 func TestBridgeWriterKeepsEscapeCodesOutWhenColorIsForced(t *testing.T) {
 	t.Setenv("CLICOLOR_FORCE", "1")
 
-	got := bridgeCharmRecord(t, func(logger *log.Logger) {
+	got := bridgeCharmRecord(t, func(logger *CharmLogger) {
 		logger.WithPrefix("server").Error("boom", "status", 500)
 	})
 
@@ -202,7 +202,7 @@ func TestBridgeWriterKeepsEscapeCodesOutWhenColorIsForced(t *testing.T) {
 
 // bridgeCharmRecord logs one record through a charmbracelet/log logger built as
 // the commands build it, and returns what the bridge recorded.
-func bridgeCharmRecord(t *testing.T, write func(*log.Logger)) LogEntry {
+func bridgeCharmRecord(t *testing.T, write func(*CharmLogger)) LogEntry {
 	t.Helper()
 
 	buf := NewRingBuffer(4)
@@ -214,7 +214,7 @@ func bridgeCharmRecord(t *testing.T, write func(*log.Logger)) LogEntry {
 	})
 	// Setup gives the bridge a logger in the "app" group.
 	logger := NewCharmLogger(NewBridgeWriter(slog.New(handler).WithGroup("app")))
-	logger.SetLevel(log.DebugLevel)
+	logger.base.SetLevel(log.DebugLevel)
 
 	write(logger)
 

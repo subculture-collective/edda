@@ -12,6 +12,7 @@ import (
 	"git.subcult.tv/subculture-collective/edda/internal/db"
 	"git.subcult.tv/subculture-collective/edda/internal/engine"
 	"git.subcult.tv/subculture-collective/edda/internal/llm"
+	"git.subcult.tv/subculture-collective/edda/internal/logging"
 	statedb "git.subcult.tv/subculture-collective/edda/internal/state/sqlc"
 )
 
@@ -19,21 +20,21 @@ import (
 type CampaignHandlers struct {
 	Engine  engine.GameEngine
 	Queries statedb.Querier
-	Logger  *log.Logger
+	Logger  logging.Logger
 	Pool    db.DBTX
 }
 
 // CharacterHandlers handles character data, feats, and skills.
 type CharacterHandlers struct {
 	Queries statedb.Querier
-	Logger  *log.Logger
+	Logger  logging.Logger
 	Pool    db.DBTX
 }
 
 // WorldHandlers handles NPCs, locations, quests, facts, codex, relationships, and map.
 type WorldHandlers struct {
 	Queries statedb.Querier
-	Logger  *log.Logger
+	Logger  logging.Logger
 }
 
 // ActionHandlers handles turn processing and WebSocket connections.
@@ -41,7 +42,7 @@ type ActionHandlers struct {
 	Engine      engine.GameEngine
 	Queries     statedb.Querier
 	Provider    llm.Provider
-	Logger      *log.Logger
+	Logger      logging.Logger
 	TurnTimeout time.Duration
 }
 
@@ -50,15 +51,15 @@ type StartupHandlers struct {
 	Provider         llm.Provider
 	WorldgenProvider llm.Provider
 	Queries          statedb.Querier
-	Logger           *log.Logger
+	Logger           logging.Logger
 	Pool             db.DBTX
 	sessions         *startupSessionStore
 }
 
 // NewStartupHandlers creates a StartupHandlers with an initialized session store.
-func NewStartupHandlers(provider llm.Provider, queries statedb.Querier, logger *log.Logger, pool db.DBTX) *StartupHandlers {
+func NewStartupHandlers(provider llm.Provider, queries statedb.Querier, logger logging.Logger, pool db.DBTX) *StartupHandlers {
 	if logger == nil {
-		logger = log.Default()
+		logger = logging.WrapCharmLogger(log.Default())
 	}
 	return &StartupHandlers{
 		Provider: provider,

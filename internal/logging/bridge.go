@@ -1,6 +1,7 @@
 package logging
 
 import (
+	"bytes"
 	"context"
 	"encoding/json"
 	"io"
@@ -24,8 +25,8 @@ func NewBridgeWriter(logger *slog.Logger) io.Writer {
 // a bridge writer. parseBridgeLine relies on this setup: the JSON format and no
 // timestamp, since the slog record carries the time. The text format does not
 // escape the message or the prefix, so its parts cannot be told apart.
-func NewCharmLogger(w io.Writer) *log.Logger {
-	return log.NewWithOptions(w, log.Options{Formatter: log.JSONFormatter})
+func NewCharmLogger(w io.Writer) *CharmLogger {
+	return WrapCharmLogger(log.NewWithOptions(w, log.Options{Formatter: log.JSONFormatter}))
 }
 
 // Write forwards one charmbracelet/log record to slog. A prefix becomes a group,
@@ -116,15 +117,11 @@ func parseBridgeLine(line string) (bridgeRecord, bool) {
 }
 
 // bridgeValue returns a string value as it was logged and any other value as its
-// JSON text. null is written as slog writes a nil value.
+// JSON text. NewCharmLogger writes only strings.
 func bridgeValue(raw json.RawMessage) string {
 	var text string
-	switch {
-	case string(raw) == "null":
-		return "<nil>"
-	case json.Unmarshal(raw, &text) == nil:
+	if bytes.HasPrefix(raw, []byte(`"`)) && json.Unmarshal(raw, &text) == nil {
 		return text
-	default:
-		return string(raw)
 	}
+	return string(raw)
 }
