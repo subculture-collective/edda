@@ -298,6 +298,7 @@ func TestBarbarianExactNumbersPredicatesAndEquipment(t *testing.T) {
 		"unarmored-defense":       {"feature/unarmored-defense", "barbarian/unarmored-defense/not-wearing-any-armor", []string{}, map[string]int{}},
 		"danger-sense":            {"feature/danger-sense", "barbarian/danger-sense/not-incapacitated", []string{}, map[string]int{}},
 		"primal-knowledge-raging": {"choice/primal-knowledge-strength-check", "barbarian/rage/active", []string{"feature/rage"}, map[string]int{}},
+
 		"ability-score-improvement-qualification": {"choice/ability-score-improvement", "prerequisite/feat-qualification", []string{}, map[string]int{}},
 		"epic-boon-qualification":                 {"choice/epic-boon", "prerequisite/feat-qualification", []string{}, map[string]int{}},
 		"fast-movement":                           {"feature/fast-movement", "barbarian/fast-movement/not-wearing-heavy-armor", []string{}, map[string]int{}},
