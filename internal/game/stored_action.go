@@ -45,6 +45,7 @@ type StoredAction struct {
 	Light          *srd521.LightEffect
 	LightItem      string
 	Fall           *DeclaredFall
+	Travel         []TravelOption
 }
 
 // PrepareStoredAction is shared by API preparation and transactional confirmation.

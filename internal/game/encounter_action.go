@@ -61,6 +61,9 @@ func PrepareStoredAction(ctx context.Context, database statedb.DBTX, campaign do
 			return prepareProneStand(ctx, campaign, pc, intent)
 		}
 	}
+	if intent.Kind == srd521.TravelHour {
+		return prepareTravel(ctx, database, campaign, pc, intent, lock)
+	}
 	if intent.Kind == srd521.TacticalMind {
 		return prepareStoredActionBase(ctx, database, campaign, pc, intent, lock)
 	}
