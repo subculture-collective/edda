@@ -46,3 +46,15 @@ func AdvanceCampaignTime(ctx context.Context, database DBTX, campaignID uuid.UUI
 	err = database.QueryRow(ctx, advanceCampaignTimeSQL, ToPgUUID(campaignID), delta).Scan(&day, &hour, &minute)
 	return day, hour, minute, err
 }
+
+// LockCampaignForClock takes the campaign row lock that AdvanceCampaignTime
+// takes. A legacy writer that changes a character row and then advances the
+// clock in one transaction calls it first, so it locks the campaign before the
+// character, the order the SRD rules actions use.
+func LockCampaignForClock(ctx context.Context, database DBTX, campaignID uuid.UUID) error {
+	var locked bool
+	if err := database.QueryRow(ctx, `SELECT true FROM campaigns WHERE id = $1 FOR NO KEY UPDATE`, ToPgUUID(campaignID)).Scan(&locked); err != nil {
+		return fmt.Errorf("lock campaign: %w", err)
+	}
+	return nil
+}

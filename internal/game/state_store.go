@@ -194,6 +194,13 @@ func (s *StateStore) MovePlayer(ctx context.Context, cmd MovePlayerCommand) (*Mo
 	if !connected {
 		return nil, errors.New("target location is not connected to current location")
 	}
+	// The clock advance below locks the campaign row; take that lock before
+	// the character row.
+	if travelTime != "" && s.timeDB != nil {
+		if err := db.LockCampaignForClock(ctx, s.timeDB, cmd.CampaignID); err != nil {
+			return nil, err
+		}
+	}
 	if _, err := s.queries.UpdatePlayerLocation(ctx, statedb.UpdatePlayerLocationParams{CurrentLocationID: dbutil.ToPgtype(cmd.TargetLocationID), ID: dbutil.ToPgtype(cmd.PlayerCharacterID)}); err != nil {
 		return nil, fmt.Errorf("update player location: %w", err)
 	}

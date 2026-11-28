@@ -30,7 +30,7 @@ type ReturnReminder struct {
 const returnReminderSQL = `
 WITH current_character AS (
     SELECT current_location_id FROM player_characters
-    WHERE campaign_id=$1 ORDER BY created_at DESC,id LIMIT 1
+    WHERE campaign_id=$1 ORDER BY created_at DESC,id DESC LIMIT 1
 ), current_quest AS (
     SELECT id,title FROM quests
     WHERE campaign_id=$1 AND status='active' AND btrim(title)<>''

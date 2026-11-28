@@ -75,7 +75,7 @@ type Querier interface {
 	GetUserByEmail(ctx context.Context, email pgtype.Text) (GetUserByEmailRow, error)
 	GetUserByID(ctx context.Context, id pgtype.UUID) (User, error)
 	GetUserByName(ctx context.Context, name string) (User, error)
-	KillNPC(ctx context.Context, id pgtype.UUID) (Npc, error)
+	KillNPC(ctx context.Context, arg KillNPCParams) (Npc, error)
 	ListActiveFactsByCampaign(ctx context.Context, campaignID pgtype.UUID) ([]WorldFact, error)
 	ListActiveQuests(ctx context.Context, campaignID pgtype.UUID) ([]Quest, error)
 	ListAliveNPCsByLocation(ctx context.Context, arg ListAliveNPCsByLocationParams) ([]Npc, error)

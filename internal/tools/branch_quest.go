@@ -195,6 +195,17 @@ func (h *BranchQuestHandler) Handle(ctx context.Context, args map[string]any) (*
 		})
 	}
 
+	// Read the original quest's relationships before linking the branch, so
+	// the new quest_branch link is not copied onto the branch itself.
+	originalRels, err := h.store.GetRelationshipsByEntity(ctx, statedb.GetRelationshipsByEntityParams{
+		CampaignID: currentLocation.CampaignID,
+		EntityType: "quest",
+		EntityID:   dbutil.ToPgtype(originalQuestID),
+	})
+	if err != nil {
+		return nil, fmt.Errorf("get original quest relationships: %w", err)
+	}
+
 	// Link branch to original via a quest_branch relationship.
 	branchQuestID := dbutil.FromPgtype(branchQuest.ID)
 	_, err = h.store.CreateRelationship(ctx, statedb.CreateRelationshipParams{
@@ -210,18 +221,12 @@ func (h *BranchQuestHandler) Handle(ctx context.Context, args map[string]any) (*
 		return nil, fmt.Errorf("create branch relationship: %w", err)
 	}
 
-	// Copy entity relationships from the original quest to the branch.
-	originalRels, err := h.store.GetRelationshipsByEntity(ctx, statedb.GetRelationshipsByEntityParams{
-		CampaignID: currentLocation.CampaignID,
-		EntityType: "quest",
-		EntityID:   dbutil.ToPgtype(originalQuestID),
-	})
-	if err != nil {
-		return nil, fmt.Errorf("get original quest relationships: %w", err)
-	}
-
 	copiedCount := 0
 	for _, rel := range originalRels {
+		// Other branches' links to the original belong to those branches.
+		if rel.RelationshipType == "quest_branch" {
+			continue
+		}
 		// Copy each relationship, substituting the branch quest for the original.
 		params := statedb.CreateRelationshipParams{
 			CampaignID:       rel.CampaignID,

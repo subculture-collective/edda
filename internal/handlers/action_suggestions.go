@@ -28,7 +28,7 @@ func (h *CharacterHandlers) SuggestActions(w http.ResponseWriter, r *http.Reques
 	var location pgtype.UUID
 	var sceneName string
 	err = h.Pool.QueryRow(r.Context(), `SELECT c.rules_version,c.status,c.updated_at,p.id,p.name,p.stats,p.hp,p.max_hp,p.level,p.experience,p.status,p.updated_at,p.current_location_id,COALESCE(l.name,'')
- FROM campaigns c JOIN player_characters p ON p.campaign_id=c.id LEFT JOIN locations l ON l.id=p.current_location_id AND l.campaign_id=c.id AND (l.player_known OR l.player_visited) WHERE c.id=$1 ORDER BY p.created_at DESC,p.id LIMIT 1`, dbutil.ToPgtype(campaignID)).Scan(&campaign.RulesVersion, &campaign.Status, &campaign.UpdatedAt, &pc.ID, &pc.Name, &pc.Stats, &pc.HP, &pc.MaxHP, &pc.Level, &pc.Experience, &pc.Status, &pc.UpdatedAt, &location, &sceneName)
+ FROM campaigns c JOIN player_characters p ON p.campaign_id=c.id LEFT JOIN locations l ON l.id=p.current_location_id AND l.campaign_id=c.id AND (l.player_known OR l.player_visited) WHERE c.id=$1 ORDER BY p.created_at DESC,p.id DESC LIMIT 1`, dbutil.ToPgtype(campaignID)).Scan(&campaign.RulesVersion, &campaign.Status, &campaign.UpdatedAt, &pc.ID, &pc.Name, &pc.Stats, &pc.HP, &pc.MaxHP, &pc.Level, &pc.Experience, &pc.Status, &pc.UpdatedAt, &location, &sceneName)
 	if errors.Is(err, pgx.ErrNoRows) {
 		writeJSON(w, 200, game.ActionSuggestions{Version: "suggestions-v1:empty", Candidates: []game.ActionSuggestion{}})
 		return

@@ -695,6 +695,7 @@ func TestIntegrationNPCs(t *testing.T) {
 	// UpdateNPC
 	upd, err := q.UpdateNPC(ctx, statedb.UpdateNPCParams{
 		ID:          npc.ID,
+		CampaignID:  camp.ID,
 		Name:        "Gandalf the White",
 		Disposition: 75,
 		LocationID:  loc.ID,
@@ -710,7 +711,7 @@ func TestIntegrationNPCs(t *testing.T) {
 	}
 
 	// UpdateNPCDisposition
-	upd, err = q.UpdateNPCDisposition(ctx, statedb.UpdateNPCDispositionParams{ID: npc.ID, Disposition: -10})
+	upd, err = q.UpdateNPCDisposition(ctx, statedb.UpdateNPCDispositionParams{ID: npc.ID, CampaignID: camp.ID, Disposition: -10})
 	if err != nil {
 		t.Fatalf("UpdateNPCDisposition: %v", err)
 	}
@@ -729,7 +730,7 @@ func TestIntegrationNPCs(t *testing.T) {
 	}
 
 	// KillNPC
-	killed, err := q.KillNPC(ctx, npc.ID)
+	killed, err := q.KillNPC(ctx, statedb.KillNPCParams{ID: npc.ID, CampaignID: camp.ID})
 	if err != nil {
 		t.Fatalf("KillNPC: %v", err)
 	}

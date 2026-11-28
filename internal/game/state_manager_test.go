@@ -612,7 +612,7 @@ func (m *mockQuerier) UpdateNPCLocation(_ context.Context, _ statedb.UpdateNPCLo
 	return statedb.Npc{}, pgx.ErrNoRows
 }
 
-func (m *mockQuerier) KillNPC(_ context.Context, _ pgtype.UUID) (statedb.Npc, error) {
+func (m *mockQuerier) KillNPC(_ context.Context, _ statedb.KillNPCParams) (statedb.Npc, error) {
 	return statedb.Npc{}, pgx.ErrNoRows
 }
 

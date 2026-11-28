@@ -332,11 +332,9 @@ func (h *RemoveItemHandler) Handle(ctx context.Context, args map[string]any) (*T
 	if err != nil {
 		return nil, fmt.Errorf("get item: %w", err)
 	}
-	if item == nil {
+	// Another player's item looks missing.
+	if item == nil || item.PlayerCharacterID != playerCharacterID {
 		return nil, errors.New("item_id does not reference an existing item")
-	}
-	if item.PlayerCharacterID != playerCharacterID {
-		return nil, errors.New("item does not belong to current player")
 	}
 
 	removeQuantity, hasQuantity, err := parseOptionalPositiveIntArg(args, "quantity")
@@ -413,11 +411,9 @@ func (h *ModifyItemHandler) Handle(ctx context.Context, args map[string]any) (*T
 	if err != nil {
 		return nil, fmt.Errorf("get item: %w", err)
 	}
-	if item == nil {
+	// Another player's item looks missing.
+	if item == nil || item.PlayerCharacterID != playerCharacterID {
 		return nil, errors.New("item_id does not reference an existing item")
-	}
-	if item.PlayerCharacterID != playerCharacterID {
-		return nil, errors.New("item does not belong to current player")
 	}
 
 	mergedProperties := mergeItemProperties(item.Properties, updates)

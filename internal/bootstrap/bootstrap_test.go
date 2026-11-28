@@ -268,7 +268,7 @@ func (s *stubQuerier) GetUserByID(ctx context.Context, id pgtype.UUID) (statedb.
 	return statedb.User{}, nil
 }
 
-func (s *stubQuerier) KillNPC(ctx context.Context, id pgtype.UUID) (statedb.Npc, error) {
+func (s *stubQuerier) KillNPC(ctx context.Context, arg statedb.KillNPCParams) (statedb.Npc, error) {
 	return statedb.Npc{}, nil
 }
 

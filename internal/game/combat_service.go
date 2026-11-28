@@ -32,10 +32,10 @@ type ResolveCombatStore interface {
 	UpdatePlayerAbilities(ctx context.Context, playerCharacterID uuid.UUID, abilities json.RawMessage) error
 	AddPlayerExperience(ctx context.Context, playerCharacterID uuid.UUID, xpAmount int) error
 	CreatePlayerItem(ctx context.Context, playerCharacterID uuid.UUID, name, description, itemType, rarity string, quantity int) (uuid.UUID, error)
-	MarkNPCDead(ctx context.Context, npcID uuid.UUID) error
+	MarkNPCDead(ctx context.Context, campaignID, npcID uuid.UUID) error
 	GetNPCByID(ctx context.Context, campaignID, npcID uuid.UUID) (*domain.NPC, error)
 	LocationExistsInCampaign(ctx context.Context, locationID, campaignID uuid.UUID) (bool, error)
-	UpdateNPCDisposition(ctx context.Context, npcID uuid.UUID, newDisposition int) error
+	UpdateNPCDisposition(ctx context.Context, campaignID, npcID uuid.UUID, newDisposition int) error
 }
 
 type UpdatePlayerStatsStore interface {
@@ -231,11 +231,11 @@ func (s *combatService) CreatePlayerItem(ctx context.Context, playerCharacterID 
 	return dbutil.FromPgtype(item.ID), nil
 }
 
-func (s *combatService) MarkNPCDead(ctx context.Context, npcID uuid.UUID) error {
-	if _, err := statedb.GetCharacterNPC(ctx, s.queries, statedb.GetNPCByIDParams{ID: dbutil.ToPgtype(npcID)}); err != nil {
+func (s *combatService) MarkNPCDead(ctx context.Context, campaignID, npcID uuid.UUID) error {
+	if _, err := statedb.GetCharacterNPC(ctx, s.queries, statedb.GetNPCByIDParams{ID: dbutil.ToPgtype(npcID), CampaignID: dbutil.ToPgtype(campaignID)}); err != nil {
 		return err
 	}
-	_, err := s.queries.KillNPC(ctx, dbutil.ToPgtype(npcID))
+	_, err := s.queries.KillNPC(ctx, statedb.KillNPCParams{ID: dbutil.ToPgtype(npcID), CampaignID: dbutil.ToPgtype(campaignID)})
 	return err
 }
 
@@ -247,9 +247,10 @@ func (s *combatService) LocationExistsInCampaign(ctx context.Context, locationID
 	return NewNPCService(s.queries).LocationExistsInCampaign(ctx, locationID, campaignID)
 }
 
-func (s *combatService) UpdateNPCDisposition(ctx context.Context, npcID uuid.UUID, newDisposition int) error {
+func (s *combatService) UpdateNPCDisposition(ctx context.Context, campaignID, npcID uuid.UUID, newDisposition int) error {
 	_, err := s.queries.UpdateNPCDisposition(ctx, statedb.UpdateNPCDispositionParams{
 		ID:          dbutil.ToPgtype(npcID),
+		CampaignID:  dbutil.ToPgtype(campaignID),
 		Disposition: int32(newDisposition),
 	})
 	return err

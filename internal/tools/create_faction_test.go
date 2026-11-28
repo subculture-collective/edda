@@ -280,8 +280,9 @@ func TestCreateFactionValidationAndErrors(t *testing.T) {
 		}
 		h := NewCreateFactionHandler(store, nil, nil)
 		_, err := h.Handle(WithCurrentLocationID(context.Background(), currentLocationID), copyArgs(baseArgs))
-		if err == nil || !strings.Contains(err.Error(), "must belong to active campaign") {
-			t.Fatalf("error = %v, want campaign validation", err)
+		want := "relationships[0].faction_id: faction not found: " + relatedFactionID.String()
+		if err == nil || err.Error() != want {
+			t.Fatalf("error = %v, want %q", err, want)
 		}
 		if store.createFactionCalls != 0 {
 			t.Fatalf("CreateFaction calls = %d, want 0", store.createFactionCalls)

@@ -8,6 +8,7 @@ import (
 	"strings"
 
 	"github.com/google/uuid"
+	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgtype"
 
 	"git.subcult.tv/subculture-collective/edda/internal/dbutil"
@@ -332,12 +333,13 @@ func mergeLocationResultData(dst map[string]any, src map[string]any) {
 
 func (h *CreateLocationHandler) validateConnectionTargets(ctx context.Context, campaignID pgtype.UUID, connections []locationConnectionInput) error {
 	for i, conn := range connections {
+		// Another campaign's location looks missing.
 		location, err := h.locationStore.GetLocationByID(ctx, dbutil.ToPgtype(conn.LocationID))
+		if errors.Is(err, pgx.ErrNoRows) || (err == nil && dbutil.FromPgtype(location.CampaignID) != dbutil.FromPgtype(campaignID)) {
+			return fmt.Errorf("connections[%d].location_id: location not found: %s", i, conn.LocationID)
+		}
 		if err != nil {
 			return fmt.Errorf("validate connections[%d].location_id: %w", i, err)
-		}
-		if dbutil.FromPgtype(location.CampaignID) != dbutil.FromPgtype(campaignID) {
-			return fmt.Errorf("connections[%d].location_id must belong to active campaign", i)
 		}
 	}
 	return nil

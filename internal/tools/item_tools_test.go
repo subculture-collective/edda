@@ -387,8 +387,8 @@ func TestRemoveItemHandleInvalidInputs(t *testing.T) {
 			},
 		})
 		_, err := h.Handle(ctx, map[string]any{"item_id": itemID.String()})
-		if err == nil || !strings.Contains(err.Error(), "does not belong to current player") {
-			t.Fatalf("error = %v, want ownership error", err)
+		if err == nil || err.Error() != "item_id does not reference an existing item" {
+			t.Fatalf("error = %v, want the missing item error", err)
 		}
 	})
 
@@ -623,8 +623,8 @@ func TestModifyItemHandleInvalidInputs(t *testing.T) {
 			},
 		})
 		_, err := h.Handle(ctx, map[string]any{"item_id": itemID.String(), "properties": map[string]any{"charges": 2}})
-		if err == nil || !strings.Contains(err.Error(), "does not belong to current player") {
-			t.Fatalf("error = %v, want ownership error", err)
+		if err == nil || err.Error() != "item_id does not reference an existing item" {
+			t.Fatalf("error = %v, want the missing item error", err)
 		}
 	})
 

@@ -8,6 +8,7 @@ import (
 	"strings"
 
 	"github.com/google/uuid"
+	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgtype"
 
 	"git.subcult.tv/subculture-collective/edda/internal/dbutil"
@@ -221,12 +222,13 @@ func (h *CreateFactionHandler) Handle(ctx context.Context, args map[string]any) 
 
 func (h *CreateFactionHandler) validateRelatedFactionIDs(ctx context.Context, campaignID pgtype.UUID, relationships []factionRelationshipInput) error {
 	for i, relationship := range relationships {
+		// Another campaign's faction looks missing.
 		faction, err := h.factionStore.GetFactionByID(ctx, dbutil.ToPgtype(relationship.FactionID))
+		if errors.Is(err, pgx.ErrNoRows) || (err == nil && faction.CampaignID != campaignID) {
+			return fmt.Errorf("relationships[%d].faction_id: faction not found: %s", i, relationship.FactionID)
+		}
 		if err != nil {
 			return fmt.Errorf("validate relationships[%d].faction_id: %w", i, err)
-		}
-		if faction.CampaignID != campaignID {
-			return fmt.Errorf("relationships[%d].faction_id must belong to active campaign", i)
 		}
 	}
 	return nil
