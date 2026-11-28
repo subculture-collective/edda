@@ -9,7 +9,6 @@ import (
 	"strings"
 	"testing"
 
-
 	"git.subcult.tv/subculture-collective/edda/internal/logging"
 )
 
