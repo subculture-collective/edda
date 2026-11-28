@@ -41,13 +41,14 @@ type UserWithAuth struct {
 type AuthHandlers struct {
 	queries     AuthQuerier
 	revocations RevocationQuerier
+	sessions    *WebSocketSessions
 	jwtSecret   string
 }
 
 // NewAuthHandlers creates a new AuthHandlers. Logout lists signed-out tokens
-// in revocations.
-func NewAuthHandlers(queries AuthQuerier, revocations RevocationQuerier, jwtSecret string) *AuthHandlers {
-	return &AuthHandlers{queries: queries, revocations: revocations, jwtSecret: jwtSecret}
+// in revocations and closes their WebSockets in sessions.
+func NewAuthHandlers(queries AuthQuerier, revocations RevocationQuerier, sessions *WebSocketSessions, jwtSecret string) *AuthHandlers {
+	return &AuthHandlers{queries: queries, revocations: revocations, sessions: sessions, jwtSecret: jwtSecret}
 }
 
 type registerRequest struct {
@@ -116,8 +117,6 @@ func (h *AuthHandlers) Register(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	IssueSessionCookie(w, r, token)
-
 	writeJSON(w, http.StatusCreated, authResponse{
 		Token: token,
 		User: userJSON{
@@ -164,8 +163,6 @@ func (h *AuthHandlers) Login(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	IssueSessionCookie(w, r, token)
-
 	writeJSON(w, http.StatusOK, authResponse{
 		Token: token,
 		User: userJSON{
@@ -176,33 +173,19 @@ func (h *AuthHandlers) Login(w http.ResponseWriter, r *http.Request) {
 	})
 }
 
-// Logout handles POST /api/v1/auth/logout. It revokes the bearer token, or the
-// session cookie's token when no bearer token is sent, so the token is refused
-// from then on. It clears the session cookie unless the request shows that the
-// cookie belongs to a session other than the bearer token's, so logging out one
-// session leaves another one's cookie alone.
-//
-// Only the cookie sent with this request is visible here. If a client signs in
-// while this reply is in flight, the reply can still clear the new cookie; the
-// client then calls Me to set it again.
+// Logout handles POST /api/v1/auth/logout. It revokes the bearer token, so
+// the token is refused from then on, and closes the WebSockets it opened.
+// Other sessions of the same user are not affected.
 func (h *AuthHandlers) Logout(w http.ResponseWriter, r *http.Request) {
-	cookieToken := ""
-	if cookie, err := r.Cookie(AuthCookieName); err == nil {
-		cookieToken = strings.TrimSpace(cookie.Value)
-	}
-	token, err := TokenFromRequest(r)
-	clearCookie := err != nil || cookieToken == token
-	if err != nil {
-		token = cookieToken
-	}
-	if token != "" {
-		if err := revokeToken(r.Context(), h.revocations, token, h.jwtSecret); err != nil {
+	if token, err := TokenFromRequest(r); err == nil {
+		jti, err := revokeToken(r.Context(), h.revocations, token, h.jwtSecret)
+		if err != nil {
 			writeError(w, http.StatusInternalServerError, "failed to revoke session")
 			return
 		}
-	}
-	if clearCookie {
-		ClearSessionCookie(w, r)
+		if jti != "" {
+			h.sessions.signOut(jti)
+		}
 	}
 	w.WriteHeader(http.StatusNoContent)
 }
@@ -217,8 +200,7 @@ func writeError(w http.ResponseWriter, status int, message string) {
 	writeJSON(w, status, map[string]string{"error": message})
 }
 
-// Me handles GET /api/v1/auth/me — returns the current authenticated user and
-// sets the session cookie to the token that authenticated the request.
+// Me handles GET /api/v1/auth/me — returns the current authenticated user.
 func (h *AuthHandlers) Me(w http.ResponseWriter, r *http.Request) {
 	userID, ok := UserFromContext(r.Context())
 	if !ok {
@@ -234,10 +216,6 @@ func (h *AuthHandlers) Me(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		writeError(w, http.StatusNotFound, "user not found")
 		return
-	}
-
-	if token, err := TokenFromRequest(r); err == nil {
-		IssueSessionCookie(w, r, token)
 	}
 
 	writeJSON(w, http.StatusOK, authResponse{

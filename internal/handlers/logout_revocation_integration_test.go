@@ -4,6 +4,7 @@ package handlers_test
 
 import (
 	"context"
+	"encoding/json"
 	"io"
 	"net/http"
 	"net/http/httptest"
@@ -18,6 +19,7 @@ import (
 	"git.subcult.tv/subculture-collective/edda/internal/auth"
 	"git.subcult.tv/subculture-collective/edda/internal/config"
 	"git.subcult.tv/subculture-collective/edda/internal/db"
+	"git.subcult.tv/subculture-collective/edda/internal/handlers"
 	"git.subcult.tv/subculture-collective/edda/internal/server"
 	statedb "git.subcult.tv/subculture-collective/edda/internal/state/sqlc"
 )
@@ -54,6 +56,33 @@ func TestIntegrationLogoutRevokesToken(t *testing.T) {
 	}
 	signedOut, other := token(), token()
 	campaignPath := "/api/v1/campaigns/" + db.FromPgUUID(campaign.ID).String()
+	url := "ws" + strings.TrimPrefix(srv.URL, "http") + campaignPath + "/ws"
+	dialCtx, cancel := context.WithTimeout(ctx, 10*time.Second)
+	defer cancel()
+
+	// Sockets opened with a ticket before the logout.
+	openWithTicket := func(tok string) *websocket.Conn {
+		t.Helper()
+		req, _ := http.NewRequest(http.MethodPost, srv.URL+"/api/v1/auth/ws-ticket", nil)
+		req.Header.Set("Authorization", "Bearer "+tok)
+		resp, err := http.DefaultClient.Do(req)
+		if err != nil {
+			t.Fatal(err)
+		}
+		defer func() { _ = resp.Body.Close() }()
+		var body struct{ Ticket string }
+		if err := json.NewDecoder(resp.Body).Decode(&body); err != nil || resp.StatusCode != http.StatusOK {
+			t.Fatalf("ticket = %d: %v", resp.StatusCode, err)
+		}
+		conn, _, err := websocket.Dial(dialCtx, url+"?ticket="+body.Ticket, nil)
+		if err != nil {
+			t.Fatalf("dial with ticket: %v", err)
+		}
+		return conn
+	}
+	closedConn, openConn := openWithTicket(signedOut), openWithTicket(other)
+	defer func() { _ = closedConn.CloseNow(); _ = openConn.CloseNow() }()
+	openCtx := openConn.CloseRead(dialCtx)
 
 	// Concurrent logouts of one token all succeed and leave one row.
 	var wg sync.WaitGroup
@@ -75,12 +104,16 @@ func TestIntegrationLogoutRevokesToken(t *testing.T) {
 		t.Fatalf("another session of the same user: %d, want 200", got)
 	}
 
-	dialCtx, cancel := context.WithTimeout(ctx, 5*time.Second)
-	defer cancel()
-	url := "ws" + strings.TrimPrefix(srv.URL, "http") + campaignPath + "/ws"
+	if _, _, err := closedConn.Read(dialCtx); websocket.CloseStatus(err) != handlers.StatusSignedOut {
+		t.Fatalf("signed-out socket: %v, want close status %d", err, handlers.StatusSignedOut)
+	}
+	if err := openConn.Ping(openCtx); err != nil {
+		t.Fatalf("another session's socket closed: %v", err)
+	}
+
 	dial := func(tok string) (*websocket.Conn, *http.Response, error) {
 		h := http.Header{}
-		h.Set("Cookie", auth.AuthCookieName+"="+tok)
+		h.Set("Authorization", "Bearer "+tok)
 		return websocket.Dial(dialCtx, url, &websocket.DialOptions{HTTPHeader: h})
 	}
 	conn, resp, err := dial(signedOut)

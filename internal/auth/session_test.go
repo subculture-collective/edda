@@ -9,99 +9,43 @@ import (
 	"github.com/google/uuid"
 )
 
-func TestTokenFromRequest_PrecedenceAndFallback(t *testing.T) {
-	userID := uuid.New()
-	token, err := GenerateToken(userID, "secret", DefaultTokenTTL)
+func TestTokenFromRequestReadsOnlyTheBearerToken(t *testing.T) {
+	token, err := GenerateToken(uuid.New(), "secret", DefaultTokenTTL)
 	if err != nil {
 		t.Fatalf("generate token: %v", err)
 	}
-
-	tests := []struct {
+	upgrade := func(authorization string) *http.Request {
+		r := httptest.NewRequest(http.MethodGet, "/api/v1/campaigns/1/ws", nil)
+		r.Header.Set("Upgrade", "websocket")
+		// The cookie that once authenticated WebSocket upgrades is ignored.
+		r.AddCookie(&http.Cookie{Name: "gm_token", Value: token})
+		if authorization != "" {
+			r.Header.Set("Authorization", authorization)
+		}
+		return r
+	}
+	for _, tc := range []struct {
 		name    string
 		req     *http.Request
 		wantTok string
-		wantErr bool
 	}{
-		{name: "rest cookie rejected", req: func() *http.Request {
-			r := httptest.NewRequest(http.MethodGet, "/api/v1/auth/me", nil)
-			r.AddCookie(&http.Cookie{Name: AuthCookieName, Value: token})
-			return r
-		}(), wantErr: true},
-		{name: "ws cookie accepted", req: func() *http.Request {
-			r := httptest.NewRequest(http.MethodGet, "/api/v1/campaigns/1/ws", nil)
-			r.Header.Set("Upgrade", "websocket")
-			r.AddCookie(&http.Cookie{Name: AuthCookieName, Value: token})
-			return r
-		}(), wantTok: token},
-		{name: "malformed auth no fallback", req: func() *http.Request {
-			r := httptest.NewRequest(http.MethodGet, "/api/v1/campaigns/1/ws", nil)
-			r.Header.Set("Authorization", "Bearer")
-			r.AddCookie(&http.Cookie{Name: AuthCookieName, Value: token})
-			r.Header.Set("Upgrade", "websocket")
-			return r
-		}(), wantErr: true},
-		{name: "invalid auth no fallback", req: func() *http.Request {
-			r := httptest.NewRequest(http.MethodGet, "/api/v1/campaigns/1/ws", nil)
-			r.Header.Set("Authorization", "Basic abc")
-			r.AddCookie(&http.Cookie{Name: AuthCookieName, Value: token})
-			r.Header.Set("Upgrade", "websocket")
-			return r
-		}(), wantErr: true},
-		{name: "bearer precedence over cookie", req: func() *http.Request {
-			r := httptest.NewRequest(http.MethodGet, "/api/v1/campaigns/1/ws", nil)
-			r.Header.Set("Authorization", "Bearer "+token)
-			r.AddCookie(&http.Cookie{Name: AuthCookieName, Value: "other"})
-			r.Header.Set("Upgrade", "websocket")
-			return r
-		}(), wantTok: token},
-	}
-
-	for _, tc := range tests {
+		{name: "cookie only", req: upgrade("")},
+		{name: "malformed", req: upgrade("Bearer")},
+		{name: "not bearer", req: upgrade("Basic abc")},
+		{name: "bearer", req: upgrade("Bearer " + token), wantTok: token},
+	} {
 		t.Run(tc.name, func(t *testing.T) {
 			got, err := TokenFromRequest(tc.req)
-			if tc.wantErr {
+			if tc.wantTok == "" {
 				if err == nil {
 					t.Fatalf("expected error, got token %q", got)
 				}
 				return
 			}
-			if err != nil {
-				t.Fatalf("token from request: %v", err)
-			}
-			if got != tc.wantTok {
-				t.Fatalf("token = %q, want %q", got, tc.wantTok)
+			if err != nil || got != tc.wantTok {
+				t.Fatalf("token = %q, %v; want %q", got, err, tc.wantTok)
 			}
 		})
-	}
-}
-
-func TestSessionCookieIssueAndClear(t *testing.T) {
-	req := httptest.NewRequest(http.MethodPost, "/api/v1/auth/login", nil)
-	req.Header.Set("X-Forwarded-Proto", "https")
-	rec := httptest.NewRecorder()
-
-	IssueSessionCookie(rec, req, "tok")
-	issue := rec.Result().Cookies()[0]
-	if issue.Path != "/" || !issue.HttpOnly || !issue.Secure || issue.SameSite != http.SameSiteLaxMode || issue.MaxAge <= 0 {
-		t.Fatalf("issue cookie attrs = %+v", issue)
-	}
-
-	rec = httptest.NewRecorder()
-	ClearSessionCookie(rec, req)
-	clear := rec.Result().Cookies()[0]
-	if clear.Path != "/" || !clear.HttpOnly || !clear.Secure || clear.SameSite != http.SameSiteLaxMode || clear.MaxAge != -1 {
-		t.Fatalf("clear cookie attrs = %+v", clear)
-	}
-}
-
-func TestSecureCookieFromRequest(t *testing.T) {
-	req := httptest.NewRequest(http.MethodGet, "/", nil)
-	if SecureCookieFromRequest(req) {
-		t.Fatal("expected insecure request")
-	}
-	req.Header.Set("X-Forwarded-Proto", "https")
-	if !SecureCookieFromRequest(req) {
-		t.Fatal("expected forwarded https to be secure")
 	}
 }
 

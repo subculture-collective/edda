@@ -63,7 +63,7 @@ func TestJWTMiddleware_AuthenticateRequiresBearerForHTTP(t *testing.T) {
 		t.Fatalf("generate token: %v", err)
 	}
 
-	mw := NewJWTMiddleware(secret, newMemRevocations())
+	mw := NewJWTMiddleware(secret, newMemRevocations(), NewWebSocketSessions())
 	nextCalled := false
 	next := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		nextCalled = true
@@ -78,7 +78,7 @@ func TestJWTMiddleware_AuthenticateRequiresBearerForHTTP(t *testing.T) {
 	})
 
 	req := httptest.NewRequest(http.MethodGet, "/api/v1/auth/me", nil)
-	req.AddCookie(&http.Cookie{Name: AuthCookieName, Value: token})
+	req.AddCookie(&http.Cookie{Name: "gm_token", Value: token})
 	rec := httptest.NewRecorder()
 
 	mw.Authenticate(next).ServeHTTP(rec, req)
@@ -91,7 +91,7 @@ func TestJWTMiddleware_AuthenticateRequiresBearerForHTTP(t *testing.T) {
 	}
 }
 
-func TestJWTMiddleware_AuthenticateAllowsCookieForWebSocketUpgrade(t *testing.T) {
+func TestJWTMiddleware_AuthenticateRefusesCookieForWebSocketUpgrade(t *testing.T) {
 	secret := "test-secret"
 	userID := uuid.New()
 	token, err := GenerateToken(userID, secret, DefaultTokenTTL)
@@ -99,7 +99,7 @@ func TestJWTMiddleware_AuthenticateAllowsCookieForWebSocketUpgrade(t *testing.T)
 		t.Fatalf("generate token: %v", err)
 	}
 
-	mw := NewJWTMiddleware(secret, newMemRevocations())
+	mw := NewJWTMiddleware(secret, newMemRevocations(), NewWebSocketSessions())
 	nextCalled := false
 	next := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		nextCalled = true
@@ -115,15 +115,15 @@ func TestJWTMiddleware_AuthenticateAllowsCookieForWebSocketUpgrade(t *testing.T)
 
 	req := httptest.NewRequest(http.MethodGet, "/api/v1/campaigns/test/ws", nil)
 	req.Header.Set("Upgrade", "websocket")
-	req.AddCookie(&http.Cookie{Name: AuthCookieName, Value: token})
+	req.AddCookie(&http.Cookie{Name: "gm_token", Value: token})
 	rec := httptest.NewRecorder()
 
 	mw.Authenticate(next).ServeHTTP(rec, req)
 
-	if rec.Code != http.StatusNoContent {
-		t.Fatalf("status code = %d, want %d", rec.Code, http.StatusNoContent)
+	if rec.Code != http.StatusUnauthorized {
+		t.Fatalf("status code = %d, want %d", rec.Code, http.StatusUnauthorized)
 	}
-	if !nextCalled {
-		t.Fatal("expected next handler to be called")
+	if nextCalled {
+		t.Fatal("expected next handler not to be called")
 	}
 }

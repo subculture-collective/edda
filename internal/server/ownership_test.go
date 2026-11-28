@@ -220,10 +220,8 @@ func TestCampaignOwnershipWebSocket(t *testing.T) {
 	defer cancel()
 	url := "ws" + strings.TrimPrefix(srv.URL, "http") + "/api/v1/campaigns/" + c.String() + "/ws"
 	for _, user := range []uuid.UUID{b, a} {
-		// Browser WebSockets authenticate with the session cookie.
-		headers := http.Header{}
-		headers.Set("Cookie", auth.AuthCookieName+"="+ownershipToken(t, user))
-		conn, resp, err := websocket.Dial(ctx, url, &websocket.DialOptions{HTTPHeader: headers})
+		// Browser WebSockets authenticate with a one-use ticket.
+		conn, resp, err := websocket.Dial(ctx, url+"?ticket="+wsTicket(t, srv.URL, ownershipToken(t, user)), nil)
 		if user == b {
 			if err == nil {
 				_ = conn.CloseNow()
