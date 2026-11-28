@@ -82,11 +82,9 @@ func (m *CharInterviewModel) SetSize(width, height int) {
 	if vpHeight < 0 {
 		vpHeight = 0
 	}
-	m.viewport.Width = vpWidth
-	m.viewport.Height = vpHeight
+	resizeHistory(&m.viewport, m.messages, vpWidth, vpHeight)
 	m.input.Width = styles.InputWidth(vpWidth, m.input.Prompt)
 	m.input.SetCursor(m.input.Position()) // rescroll typed text to the new width
-	m.refreshViewport()
 }
 
 // Init kicks off the interview by calling CharacterInterviewer.Start
@@ -171,6 +169,8 @@ func (m CharInterviewModel) View() string {
 
 	b.WriteString(m.viewport.View())
 	b.WriteString("\n")
+	b.WriteString(moreBelow(m.viewport))
+	b.WriteString("\n")
 	if m.waiting {
 		b.WriteString(m.spinner.View() + " Thinking…")
 	} else {
@@ -181,10 +181,9 @@ func (m CharInterviewModel) View() string {
 		Render(b.String())
 }
 
-// refreshViewport rebuilds the viewport content from the chat history.
+// refreshViewport rebuilds the viewport content after a new message.
 func (m *CharInterviewModel) refreshViewport() {
-	m.viewport.SetContent(wrapHistory(m.messages, m.viewport.Width))
-	m.viewport.GotoBottom()
+	showLatest(&m.viewport, m.messages)
 }
 
 // startCmd returns a tea.Cmd that calls CharacterInterviewer.Start.
