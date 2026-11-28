@@ -70,6 +70,11 @@ jobs:
           cache: true
           cache-dependency-path: go.sum
 
+      - name: Check that go.mod and go.sum are tidy
+        run: |
+          go mod tidy
+          git diff --exit-code go.mod go.sum
+
       - name: Check Go formatting
         run: |
           unformatted=$(gofmt -l $(git ls-files '*.go'))

@@ -9,8 +9,6 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/charmbracelet/log"
-
 	"git.subcult.tv/subculture-collective/edda/internal/logging"
 )
 
@@ -65,7 +63,7 @@ func TestRunQuietlyKeepsLogRecordsOffStderr(t *testing.T) {
 		t.Fatalf("Setup: %v", err)
 	}
 	t.Cleanup(result.Cleanup)
-	charm := log.NewWithOptions(result.BridgeWriter, log.Options{})
+	charm := logging.NewCharmLogger(result.BridgeWriter)
 
 	slog.Info("before the program")
 	if err := runQuietly(result, func() error {
