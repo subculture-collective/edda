@@ -117,9 +117,9 @@ snapshot, so a changed ruling invalidates an open preview.
 
 The actor's own Light spell (#264, see [spell actions](spell-actions.md#light-on-a-carried-object-264))
 raises `light` at the target before `Sight` runs: bright within 20 feet of the
-declared distance, at least dim to 40 feet. It never lowers a declared level,
-does not reduce fog or foliage, and leaves legacy facts without `light`
-unresolved. Other light sources, other senses, NPC sight of the player, hiding
+declared distance, at least dim to 40 feet. A Light declared covered raises
+nothing. It never lowers a declared level, does not reduce fog or foliage, and
+leaves legacy facts without `light` unresolved. Other light sources, other senses, NPC sight of the player, hiding
 contests and invisibility remain unsupported.
 
 

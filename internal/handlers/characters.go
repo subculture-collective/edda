@@ -47,6 +47,9 @@ func (h *CharacterHandlers) GetCharacter(w http.ResponseWriter, r *http.Request)
 				err = clockErr
 			} else {
 				err = game.ApplyFaithAC(r.Context(), h.Pool, campaignID, dbutil.FromPgtype(pc.ID), now, response.Sheet)
+				if err == nil {
+					err = game.ApplyLight(r.Context(), h.Pool, campaignID, dbutil.FromPgtype(pc.ID), now, response.Sheet)
+				}
 			}
 		}
 		if err != nil {

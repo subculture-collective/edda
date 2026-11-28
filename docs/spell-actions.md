@@ -176,19 +176,27 @@ other source record, including the complete Light record, stays unavailable.
   recorded Holy Symbol focus stands in for the firefly or moss. Light is
   supported outside encounters only.
 - **State.** `stats.srd521.casting.light` holds the cast's action ID, item ID,
-  color, `started_at`, `expires_at` (exactly 3600 campaign seconds later) and
-  the 20-foot bright and 20-foot further dim radii. Confirmation writes only
-  that key, so concentration, slots and unknown stats are untouched. A saved
-  effect with other radii, duration or colors makes the build unreadable.
+  color, `started_at`, `expires_at` (exactly 3600 campaign seconds later), the
+  20-foot bright and 20-foot further dim radii and, while covered, `covered`.
+  Confirmation writes only that key, so concentration, slots and unknown stats
+  are untouched. A saved effect with other radii, duration or colors makes the
+  build unreadable.
 - **Recast and dismissal.** Casting again replaces only the caster's previous
   Light and the receipt names it. Dismissal costs nothing and removes only
   that Light. Waiting and resting change the clock, never `expires_at`; the
   effect stops applying at that second.
-- **Sight.** While the effect lasts and the caster still carries the object,
-  sight-based Perception and attack sight checks raise the target's declared
-  light by distance (see [narrative combat turns](narrative-combat-turns.md)).
-  Covering the object, light carried by others and magical darkness are not
-  modelled; they need a declared light ruling.
+- **Covering.** SRD p. 144 says covering the object with something opaque
+  blocks the light. `light-cover` and `light-uncover`, with no entry or target,
+  record the holder's declaration for the one lit object. Both need an active
+  Light on an object the caster still carries, and neither changes its expiry.
+  Edda does not decide what counts as opaque and tracks no action cost for the
+  declaration. A new cast starts uncovered.
+- **Sight.** While the effect lasts, is uncovered and the caster still carries
+  the object, sight-based Perception and attack sight checks raise the target's
+  declared light by distance (see
+  [narrative combat turns](narrative-combat-turns.md)).
+  Light carried by others and magical darkness are not modelled; they need a
+  declared light ruling.
 
 Preparation is read-only. Confirmation re-prepares under the campaign lock,
 locks the item rows and writes the effect, the `srd_light` receipt and history
@@ -197,6 +205,24 @@ in one transaction; replay returns the saved receipt. The bounded record is
 its duration and radii to the batch 211 source record (PDF p. 144).
 `internal/handlers/light_spell_integration_test.go` covers eligibility, refused
 objects, failed history, replay, sight at 15, 40 and 45 feet, a handed-away
-object, recast, exact expiry across a wait and a Short Rest, dismissal and the
-encounter boundary. No web or TUI control exists yet; the spell entry stays
-non-playable on the sheet until one does.
+object, covering, the sheet projection, the TUI preview, recast, exact expiry
+across a wait and a Short Rest, dismissal and the encounter boundary.
+
+### Player controls
+
+The sheet marks Light playable. The SRD sheet's `light` and `light_item` fields
+show the active effect and the carried object's name. `light` is omitted once
+the effect expires; `light_item` is omitted when the caster no longer carries
+the object.
+
+- **Web.** Choose Light under Spells, pick a color, preview, pick the lit object
+  and confirm. While a Light is active, the action menu also offers cover or
+  uncover and dismiss. The Character tab shows the object, color, expiry and
+  cover. `frontend/tests/browser/light.spec.ts` runs the flow at 1440 and 390
+  pixels against API doubles, including a lost cast response.
+- **TUI.** `/light` shows the active Light and its expiry. `/light <color>`
+  lists the carried objects and `/light <color> <number>` previews the cast.
+  `/cover-light`, `/uncover-light` and `/dismiss-light` preview those changes.
+  `/confirm-light` commits and retries with the same action ID;
+  `/cancel-light` drops the preview. The commands act for the campaign owner's
+  first active character.

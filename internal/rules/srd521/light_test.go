@@ -38,8 +38,8 @@ func TestLightConstantsMatchSource(t *testing.T) {
 	if source.DurationSeconds != LightDurationSeconds || d.BrightLightRadiusFeet != LightBrightFeet || d.DimLightAdditionalFeet != LightDimFeet || *source.Concentration || source.Level != 0 || source.CastingTime != "action" {
 		t.Fatal("Light duration, radii or timing differ from source")
 	}
-	if d.ObjectRequirement != "not-worn-or-carried-by-someone-else" || d.Recast != "spell-ends-if-cast-again" || d.Color != "colored-as-caster-likes" {
-		t.Fatal("Light object, recast or color rule differs from source")
+	if d.ObjectRequirement != "not-worn-or-carried-by-someone-else" || d.Recast != "spell-ends-if-cast-again" || d.Color != "colored-as-caster-likes" || d.Blocking != "covering-with-something-opaque-blocks-light" {
+		t.Fatal("Light object, recast, color or covering rule differs from source")
 	}
 	if source.MechanicsAvailable() {
 		t.Fatal("complete source record became available")
@@ -94,7 +94,7 @@ func TestCastLightRecastDismissAndExpiry(t *testing.T) {
 			light = &sheet.Spellcasting.Spells[i]
 		}
 	}
-	if light == nil || !light.ComponentsAvailable || len(light.SlotLevels) != 0 || light.SourceID != prefix+"spells/light" {
+	if light == nil || !light.Playable || !light.ComponentsAvailable || len(light.SlotLevels) != 0 || light.SourceID != prefix+"spells/light" {
 		t.Fatalf("Light not projected as a castable cantrip: %+v", light)
 	}
 	if _, err := Lifecycle(b, sheet, SpellCast, "shield-of-faith", "faith", 100, &spellDice{}); err != nil {
@@ -189,5 +189,47 @@ func TestLightUnavailableAndTamperedSaves(t *testing.T) {
 				t.Fatal("tampered Light accepted")
 			}
 		})
+	}
+}
+
+func TestSetLightCoveredKeepsSpell(t *testing.T) {
+	b, sheet := casterBuild(t)
+	if _, err := SetLightCovered(b, "Torch", CoverLight, 100); err == nil {
+		t.Fatal("covered without a Light")
+	}
+	cast, err := CastLight(b, sheet, "item-a", "Torch", "blue", "cast-1", 100)
+	if err != nil {
+		t.Fatal(err)
+	}
+	for _, kind := range []string{UncoverLight, DismissLight, ""} {
+		if _, err := SetLightCovered(b, "Torch", kind, 100); err == nil {
+			t.Fatalf("%q accepted on an uncovered Light", kind)
+		}
+	}
+	covered, err := SetLightCovered(b, "Torch", CoverLight, 200)
+	if err != nil {
+		t.Fatal(err)
+	}
+	want := *cast.After
+	want.Covered = true
+	if *covered.Before != *cast.After || *covered.After != want || *b.Casting.Light != want || cast.After.Covered {
+		t.Fatalf("cover changed more than the declaration: %+v", covered)
+	}
+	if _, err := SetLightCovered(b, "Torch", CoverLight, 200); err == nil {
+		t.Fatal("covered twice")
+	}
+	if _, err := SetLightCovered(b, "Torch", UncoverLight, 3700); err == nil {
+		t.Fatal("expired Light uncovered")
+	}
+	if _, err := SetLightCovered(b, "Torch", UncoverLight, 300); err != nil || *b.Casting.Light != *cast.After {
+		t.Fatal("uncover did not restore the cast", err)
+	}
+	// A new cast is uncovered even if the previous one was covered.
+	if _, err := SetLightCovered(b, "Torch", CoverLight, 300); err != nil {
+		t.Fatal(err)
+	}
+	recast, err := CastLight(b, sheet, "item-a", "Torch", "red", "cast-2", 400)
+	if err != nil || recast.After.Covered || !recast.Before.Covered {
+		t.Fatalf("recast kept the cover: %+v %v", recast, err)
 	}
 }
