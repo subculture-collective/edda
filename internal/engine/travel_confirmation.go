@@ -13,6 +13,17 @@ import (
 	"github.com/jackc/pgx/v5"
 )
 
+// PreviewTravel prepares one hour of travel at pace for the campaign owner's
+// character for the TUI. The destinations and their route facts come from the
+// preview.
+func (e *Engine) PreviewTravel(ctx context.Context, campaignID uuid.UUID, pace string) (*game.ActionPreview, error) {
+	prepared, err := e.previewOwnerAction(ctx, campaignID, game.ActionIntent{Kind: srd521.TravelHour, EntryID: pace})
+	if err != nil {
+		return nil, err
+	}
+	return prepared.Preview, nil
+}
+
 // confirmTravel moves the actor along one prepared route and advances the
 // campaign clock once, under the caller's locks and transaction. Durable
 // expiries (Light, concentration) keep their absolute seconds; concentration

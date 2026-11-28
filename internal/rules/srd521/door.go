@@ -72,6 +72,14 @@ func ParseDoorFacts(raw []byte) (DoorFacts, error) {
 	return facts, nil
 }
 
+// SheetDoor names one known door for a client. State is set only for a door
+// whose facts ParseDoorFacts accepts; a preview gives the reason otherwise.
+type SheetDoor struct {
+	ID    string `json:"id"`
+	Name  string `json:"name"`
+	State string `json:"state,omitempty"`
+}
+
 // DoorReceipt records one confirmed door state change.
 type DoorReceipt struct {
 	RulesVersion string   `json:"rules_version"`

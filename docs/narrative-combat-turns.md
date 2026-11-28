@@ -155,6 +155,20 @@ reaction is named first. Confirmation sets `state` to `open` only if it is
 still `closed` and records a `srd_door` receipt and history in the same
 transaction. A repeated action ID returns the saved receipt.
 
+The character sheet lists the known doors at the actor's location as
+`sheet.doors`: each has an `id` and a `name`, plus its `state` only when the
+facts are those of a supported ordinary door. A client sends the `id` and
+never a state, distance or lock ruling.
+
+- **Web.** The Character tab lists the doors, and the action menu offers to open
+  each one that is not already open. The preview gives the reason a door cannot
+  be opened. The `srd_door` receipt shows in the action panel and the narrative
+  feed.
+- **TUI.** `/door` lists the known doors by number, and `/door <number>`
+  previews opening one. `/confirm-door` commits and retries with the same action
+  ID; `/cancel-door` drops the preview. The commands act for the campaign
+  owner's first active character.
+
 A spatial target can name the door between it and the actor with
 `"door": "<door id>"`; its other facts then describe the path with the door
 open. A closed door is total cover with no line of sight, so sight checks and

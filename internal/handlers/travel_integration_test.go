@@ -6,6 +6,7 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
+	"slices"
 	"strings"
 	"testing"
 
@@ -131,6 +132,17 @@ func TestIntegrationTravelSegment(t *testing.T) {
 		if p.Available || !strings.Contains(p.Reason, reason) {
 			t.Fatalf("want unavailable %q: %+v", reason, p)
 		}
+	}
+
+	// The sheet offers the paces; only the preview carries destinations and
+	// route facts. The TUI preview is the same one.
+	if got := characterSheet(t, campaign).TravelPaces; !slices.Equal(got, srd521.TravelPaces) {
+		t.Fatalf("sheet travel paces: %v", got)
+	}
+	tuiPreview, err := newEngine().PreviewTravel(ctx, campaign, srd521.PaceNormal)
+	must(err)
+	if !tuiPreview.Available || tuiPreview.ExpectedRevision != travel(srd521.PaceNormal).ExpectedRevision || tuiPreview.Intent.ActorID != actor {
+		t.Fatalf("TUI travel preview: %+v", tuiPreview)
 	}
 
 	// Normal pace: only the declared forest route fits; the hidden destination
@@ -287,10 +299,22 @@ func TestIntegrationTravelSegment(t *testing.T) {
 		t.Fatalf("return preview: %+v", back)
 	}
 
+	// With no declared route facts left to offer, the sheet drops the control.
+	_, err = testPool.Exec(ctx, `UPDATE location_connections SET srd521_route=NULL WHERE campaign_id=$1`, campaign)
+	must(err)
+	if sheet := characterSheet(t, campaign); sheet.TravelPaces != nil || sheet.Prone {
+		t.Fatalf("sheet without route facts: %v prone=%t", sheet.TravelPaces, sheet.Prone)
+	}
+	_, err = testPool.Exec(ctx, `UPDATE location_connections SET srd521_route=$2 WHERE id=$1`, woodRoute, `{"profile":"travel-route-v1","distance_feet":5280,"terrain":"forest","good_road":false}`)
+	must(err)
+
 	// A saved Prone condition or a pending declared fall blocks travel.
 	_, err = testPool.Exec(ctx, `UPDATE player_characters SET stats=stats||'{"srd521_conditions":{"prone":true}}'::jsonb WHERE id=$1`, actor)
 	must(err)
 	unavailable(travel(srd521.PaceNormal), "Stand up from Prone")
+	if !characterSheet(t, campaign).Prone {
+		t.Fatal("saved Prone missing from the sheet")
+	}
 	_, err = testPool.Exec(ctx, `UPDATE player_characters SET stats=(stats-'srd521_conditions')||'{"srd521_fall":{"id":"f"}}'::jsonb WHERE id=$1`, actor)
 	must(err)
 	unavailable(travel(srd521.PaceNormal), "Resolve the declared fall")

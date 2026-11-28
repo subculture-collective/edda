@@ -86,6 +86,14 @@ type CharacterSheet struct {
 	Fall *PendingFall `json:"fall,omitempty"`
 	// DeathSaves is the 0-HP state, set while the character has 0 HP or is dead.
 	DeathSaves *DeathSaves `json:"death_saves,omitempty"`
+	// Prone is the Prone condition saved outside encounters; an active
+	// encounter holds it on its player actor instead.
+	Prone bool `json:"prone,omitempty"`
+	// Doors are the doors the character knows at its location, and TravelPaces
+	// is set when a known connected route has declared facts
+	// (game.ApplyExploration).
+	Doors       []SheetDoor `json:"doors,omitempty"`
+	TravelPaces []string    `json:"travel_paces,omitempty"`
 }
 
 var abilityNames = []string{"strength", "dexterity", "constitution", "intelligence", "wisdom", "charisma"}

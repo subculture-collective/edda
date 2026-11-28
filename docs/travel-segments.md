@@ -18,8 +18,27 @@ target shows distance, terrain, road, maximum pace and travel time, or the
 reason it is unavailable. The preview revision binds the pace and the route
 facts, so a changed pace, a changed route or an earlier move returns
 `ErrActionRefresh` without changing anything. The web API and the TUI share
-`game.PrepareStoredAction` and `engine.ConfirmAction`; there is no web or TUI
-control yet.
+`game.PrepareStoredAction` and `engine.ConfirmAction`.
+
+## Player controls
+
+The character sheet carries `sheet.travel_paces` when at least one known
+connected route has declared facts. It carries no destination and no route
+fact: those come from the preview. A client sends a pace and one offered
+destination, never a distance or terrain.
+
+- **Web.** The action menu offers one hour of travel at each pace. The preview
+  lists every known destination with its facts and, where it applies, the
+  reason it is unavailable, also when no destination can be reached. Choose a
+  destination, then confirm. The `srd_travel` receipt shows the route, travel
+  time, campaign time, travel today, the pace effect and any ended
+  concentration, in the action panel and the narrative feed.
+- **TUI.** `/travel slow`, `/travel normal` or `/travel fast` lists the
+  destinations by number, and `/travel <pace> <number>` previews one.
+  `/confirm-travel` commits and retries with the same action ID;
+  `/cancel-travel` drops the preview. The commands act for the campaign
+  owner's first active character, and the confirmation narrative is the
+  receipt.
 
 ## Route facts
 

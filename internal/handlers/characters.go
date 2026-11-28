@@ -44,6 +44,7 @@ func (h *CharacterHandlers) GetCharacter(w http.ResponseWriter, r *http.Request)
 		if err == nil {
 			response.Sheet.Fall = game.PendingFall(pc.Stats)
 			response.Sheet.DeathSaves = game.ZeroHPState(pc.Stats, int(pc.Hp))
+			response.Sheet.Prone = game.ReadConditions(pc.Stats).Prone
 		}
 		if err == nil && h.Pool != nil {
 			now, clockErr := game.ReadSpellClock(r.Context(), h.Pool, campaignID)
@@ -53,6 +54,14 @@ func (h *CharacterHandlers) GetCharacter(w http.ResponseWriter, r *http.Request)
 				err = game.ApplyFaithAC(r.Context(), h.Pool, campaignID, dbutil.FromPgtype(pc.ID), now, response.Sheet)
 				if err == nil {
 					err = game.ApplyLight(r.Context(), h.Pool, campaignID, dbutil.FromPgtype(pc.ID), now, response.Sheet)
+				}
+				if err == nil {
+					actor := domain.PlayerCharacter{ID: dbutil.FromPgtype(pc.ID)}
+					if pc.CurrentLocationID.Valid {
+						location := dbutil.FromPgtype(pc.CurrentLocationID)
+						actor.CurrentLocationID = &location
+					}
+					err = game.ApplyExploration(r.Context(), h.Pool, domain.Campaign{ID: campaignID}, actor, response.Sheet)
 				}
 			}
 		}

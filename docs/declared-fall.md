@@ -67,6 +67,17 @@ standing for half speed and Disadvantage on attacks then follow the
 [Beast encounter](beast-encounter.md) rules. When the encounter completes, a
 Prone player is saved back to `stats.srd521_conditions`.
 
+The character sheet reports a saved Prone as `sheet.prone`; during an
+encounter it is absent, because the encounter holds the condition.
+
+- **Web.** The Character tab shows the saved Prone, and the action menu offers
+  "Stand up from Prone". The "(half speed)" label belongs only to the encounter
+  turn choice, which the menu shows when no Prone is saved.
+- **TUI.** `/stand` previews standing from a saved Prone, `/confirm-stand`
+  commits and retries with the same action ID, and `/cancel-stand` drops the
+  preview. The TUI plays no encounter turns, so `/stand` refuses during an
+  encounter.
+
 ## Player controls
 
 Clients cannot declare a fall or change one. While a declaration has an `id`,
