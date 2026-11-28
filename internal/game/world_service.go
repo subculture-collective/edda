@@ -191,7 +191,7 @@ func (s *worldService) CreateRelationship(ctx context.Context, arg statedb.Creat
 }
 
 func (s *worldService) GetNPCByID(ctx context.Context, id pgtype.UUID) (statedb.Npc, error) {
-	return s.queries.GetNPCByID(ctx, statedb.GetNPCByIDParams{ID: id})
+	return statedb.GetCharacterNPC(ctx, s.queries, statedb.GetNPCByIDParams{ID: id})
 }
 
 func (s *worldService) GetPlayerCharacterByID(ctx context.Context, id pgtype.UUID) (statedb.PlayerCharacter, error) {

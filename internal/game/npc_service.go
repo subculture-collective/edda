@@ -29,7 +29,7 @@ func NewNPCService(q statedb.Querier) *npcService {
 // --- shared method ---
 
 func (s *npcService) GetNPCByID(ctx context.Context, npcID uuid.UUID) (*domain.NPC, error) {
-	npc, err := s.queries.GetNPCByID(ctx, statedb.GetNPCByIDParams{ID: dbutil.ToPgtype(npcID)})
+	npc, err := statedb.GetCharacterNPC(ctx, s.queries, statedb.GetNPCByIDParams{ID: dbutil.ToPgtype(npcID)})
 	if err != nil {
 		if errors.Is(err, pgx.ErrNoRows) {
 			return nil, nil

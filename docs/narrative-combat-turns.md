@@ -140,7 +140,8 @@ and `locked: true` make opening unavailable; Edda never adds a lock or a
 secret room. The player-facing tools cannot write `srd521_*` NPC properties.
 A row with `srd521_door` is not a character: the NPC list queries, the
 model's "NPCs Present" context and the NPC and encountered-NPC API listings
-leave it out. Campaign export keeps it. The same applies to a
+leave it out. Tools and API routes that take an NPC ID treat it as a missing
+NPC. Campaign export keeps it. The same applies to a
 [Detect Magic](detect-magic.md) object bearer.
 
 The intent is `door-open` with `entry_id` set to the door's ID. It is available

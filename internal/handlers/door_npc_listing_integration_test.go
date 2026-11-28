@@ -62,6 +62,8 @@ func TestIntegrationSceneObjectRowsAreNotNPCs(t *testing.T) {
 	r.Use(auth.NewNoOpMiddleware(testUserID).Authenticate)
 	r.Get("/campaigns/{id}/npcs", worldH.ListNPCs)
 	r.Get("/campaigns/{id}/npcs/encountered", worldH.ListEncounteredNPCs)
+	r.Get("/campaigns/{id}/npcs/{nid}", worldH.GetNPC)
+	r.Get("/campaigns/{id}/npcs/{nid}/dialogue", worldH.GetNPCDialogue)
 
 	for _, path := range []string{"/npcs", "/npcs/encountered"} {
 		rec := httptest.NewRecorder()
@@ -82,6 +84,27 @@ func TestIntegrationSceneObjectRowsAreNotNPCs(t *testing.T) {
 		slices.Sort(listed)
 		if !slices.Equal(listed, characters) {
 			t.Fatalf("GET %s: want the practice foe and the envoy, got %v", path, listed)
+		}
+	}
+
+	// By ID, an object answers like a missing NPC and a creature still resolves.
+	get := func(path string) (int, string) {
+		rec := httptest.NewRecorder()
+		r.ServeHTTP(rec, httptest.NewRequest(http.MethodGet, "/campaigns/"+f.campaign.String()+"/npcs/"+path, nil))
+		return rec.Code, rec.Body.String()
+	}
+	for _, suffix := range []string{"", "/dialogue"} {
+		wantCode, wantBody := get(uuid.NewString() + suffix)
+		if wantCode != http.StatusNotFound {
+			t.Fatalf("GET unknown npc%s: %d %s", suffix, wantCode, wantBody)
+		}
+		for _, object := range []uuid.UUID{door, chest} {
+			if code, body := get(object.String() + suffix); code != wantCode || body != wantBody {
+				t.Fatalf("GET object %s%s: got %d %s, want %d %s", object, suffix, code, body, wantCode, wantBody)
+			}
+		}
+		if code, body := get(envoy.String() + suffix); code != http.StatusOK {
+			t.Fatalf("GET creature %s: %d %s", suffix, code, body)
 		}
 	}
 
