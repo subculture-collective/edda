@@ -93,7 +93,7 @@ func (f clockRaceFixture) advance(ctx context.Context, database db.DBTX, minutes
 }
 
 func (f clockRaceFixture) rest(ctx context.Context, database db.DBTX) error {
-	_, err := tools.NewRestHandler(database).Handle(tools.WithCurrentCampaignID(ctx, f.campaign), map[string]any{"hours": 1, "short_rest": true})
+	_, err := tools.NewRestHandler(database).Handle(tools.WithCurrentPlayerCharacterID(tools.WithCurrentCampaignID(ctx, f.campaign), f.actor), map[string]any{"hours": 1, "short_rest": true})
 	return err
 }
 
@@ -293,12 +293,6 @@ func TestIntegrationConcurrentLegacyClockWritersKeepEveryAdvance(t *testing.T) {
 	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
 	defer cancel()
 	f := newClockRaceFixture(t)
-	// rest updates HP on every character in the campaign, and concurrent
-	// multi-row updates can deadlock on their own. Keep one character here.
-	if _, err := testPool.Exec(ctx, `DELETE FROM player_characters WHERE id=$1`, f.bystander); err != nil {
-		t.Fatal(err)
-	}
-	f.bystander = f.actor
 	start := f.clock(t)
 
 	const rounds = 8

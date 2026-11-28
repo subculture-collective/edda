@@ -82,7 +82,7 @@ func TestIntegrationLegacyClockWritersKeepSeconds(t *testing.T) {
 		return err
 	})
 	step("rest 1 hour", 3600, func() error {
-		_, err := tools.NewRestHandler(testPool).Handle(toolCtx, map[string]any{"hours": 1, "short_rest": true})
+		_, err := tools.NewRestHandler(testPool).Handle(tools.WithCurrentPlayerCharacterID(toolCtx, dbutil.FromPgtype(pc.ID)), map[string]any{"hours": 1, "short_rest": true})
 		return err
 	})
 	step("move with prose travel time", 2*3600+15*60, func() error {

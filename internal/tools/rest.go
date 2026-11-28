@@ -54,12 +54,22 @@ func NewRestHandler(db TimeStore) *RestHandler {
 	return &RestHandler{db: db}
 }
 
-const getPlayerHPSQL = `
-SELECT hp, max_hp FROM player_characters WHERE campaign_id = $1 LIMIT 1
-`
-
-const updatePlayerHPSQL = `
-UPDATE player_characters SET hp = $1 WHERE campaign_id = $2
+// restPlayerHPSQL heals one character from its own row in one statement. A
+// short rest ($3) restores a quarter of maximum HP, at least 1; a long rest
+// restores all of it.
+//
+// It takes the campaign row lock before the character row, the order the SRD
+// rules actions use. The lock mode matches db.AdvanceCampaignTime, so the clock
+// advance that follows in the same transaction does not upgrade it.
+const restPlayerHPSQL = `
+WITH locked AS (
+  SELECT id FROM campaigns WHERE id = $1 FOR NO KEY UPDATE
+)
+UPDATE player_characters AS p
+SET hp = CASE WHEN $3::boolean THEN LEAST(p.max_hp, p.hp + GREATEST(p.max_hp / 4, 1)) ELSE p.max_hp END
+FROM locked
+WHERE p.id = $2 AND p.campaign_id = locked.id
+RETURNING p.hp, p.max_hp
 `
 
 // Handle executes the rest tool.
@@ -86,32 +96,13 @@ func (h *RestHandler) Handle(ctx context.Context, args map[string]any) (*ToolRes
 		return nil, errors.New("rest requires current campaign id in context")
 	}
 
-	pgCID := db.ToPgUUID(campaignID)
-
-	// Read current HP.
-	var hp, maxHP int
-	err = h.db.QueryRow(ctx, getPlayerHPSQL, pgCID).Scan(&hp, &maxHP)
-	if err != nil {
-		return nil, fmt.Errorf("read player HP: %w", err)
+	playerCharacterID, ok := CurrentPlayerCharacterIDFromContext(ctx)
+	if !ok {
+		return nil, errors.New("rest requires current player character id in context")
 	}
 
-	// Calculate healing.
-	var newHP int
-	if shortRest {
-		healing := maxHP / 4
-		if healing < 1 {
-			healing = 1
-		}
-		newHP = hp + healing
-		if newHP > maxHP {
-			newHP = maxHP
-		}
-	} else {
-		newHP = maxHP
-	}
-
-	// Update HP.
-	_, err = h.db.Exec(ctx, updatePlayerHPSQL, newHP, pgCID)
+	var newHP, maxHP int
+	err = h.db.QueryRow(ctx, restPlayerHPSQL, db.ToPgUUID(campaignID), db.ToPgUUID(playerCharacterID), shortRest).Scan(&newHP, &maxHP)
 	if err != nil {
 		return nil, fmt.Errorf("update player HP: %w", err)
 	}
