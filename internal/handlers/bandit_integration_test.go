@@ -230,13 +230,19 @@ func TestIntegrationBandit(t *testing.T) {
 	}
 }
 
-// newBanditFixture reuses the Beast fixture's scene with a pinned Bandit.
-func newBanditFixture(t *testing.T, action string, distance int) *beastFixture {
+// newBanditScene reuses the Beast fixture's scene with a pinned Bandit.
+func newBanditScene(t *testing.T, action string, distance int) *beastFixture {
 	f := newBeastFixture(t, "wolf-v1", "bite", "")
 	_, version, err := srd521.BanditRecord()
 	f.must(err)
 	f.facts = fmt.Sprintf(`{"srd521_target":{"profile":"bandit-v1","actor_id":"%s","distance_feet":%d,"line_of_sight":true,"cover":"none","bandit":{"version":"%s","action_id":"%s"}}}`, f.actor, distance, version, action)
 	f.reset()
+	return f
+}
+
+// newBanditFixture also starts the encounter; the player acts first.
+func newBanditFixture(t *testing.T, action string, distance int) *beastFixture {
+	f := newBanditScene(t, action, distance)
 	f.confirm(f.request(f.prepare(combat.EncounterStart, f.weapon.String()), f.target), 18, 0)
 	return f
 }
@@ -299,5 +305,50 @@ func TestIntegrationBanditApproachesBeyondNormalRange(t *testing.T) {
 	e = f.encounter()
 	if len(r) != 0 || f.dice.calls != calls || *e.Space.DistanceFeet != 110 || !e.Active().Player || e.Round != 3 || f.hp() != 12 {
 		t.Fatalf("receipts=%+v encounter=%+v", r, e)
+	}
+}
+
+// The turn picks the weapon by distance, so the configured weapon need not be
+// legal for the encounter to start.
+func TestIntegrationBanditStartsBeyondScimitarReach(t *testing.T) {
+	f := newBanditFixture(t, "scimitar", 30)
+	if e := f.encounter(); e.Bandit.ActionID != "scimitar" || *e.Space.DistanceFeet != 30 || !e.Active().Player {
+		t.Fatalf("encounter=%+v", e)
+	}
+	r := f.endBanditTurn("Light Crossbow", 18, 2)
+	if len(r) != 1 || r[0].DamageType != "piercing" || f.hp() != 8 {
+		t.Fatalf("receipts=%+v hp=%d", r, f.hp())
+	}
+}
+
+func TestIntegrationBanditStartRefusesUnknownFacts(t *testing.T) {
+	f := newBanditScene(t, "scimitar", 30)
+	for _, mutation := range []string{
+		`UPDATE npcs SET properties=properties #- '{srd521_target,distance_feet}' WHERE id=$1`,
+		`UPDATE npcs SET properties=properties #- '{srd521_target,line_of_sight}' WHERE id=$1`,
+		`UPDATE npcs SET properties=properties #- '{srd521_target,cover}' WHERE id=$1`,
+		`UPDATE npcs SET properties=jsonb_set(properties,'{srd521_target,bandit,version}','"stale"') WHERE id=$1`,
+		`UPDATE npcs SET properties=jsonb_set(properties,'{srd521_target,bandit,action_id}','"multiattack"') WHERE id=$1`,
+	} {
+		f.reset()
+		start := f.prepare(combat.EncounterStart, f.weapon.String())
+		request := f.request(start, f.target)
+		f.setFacts(mutation)
+		if p := f.prepare(combat.EncounterStart, f.weapon.String()); p.Available {
+			t.Fatalf("start offered: %s: %+v", mutation, p)
+		}
+		calls := f.dice.calls
+		if _, err := f.engine().ConfirmAction(f.ctx, f.campaign, request); !errors.Is(err, engine.ErrActionRefresh) || f.dice.calls != calls {
+			t.Fatalf("start accepted or rolled: %s: %v", mutation, err)
+		}
+	}
+	// A declared fact that rules out every attack is known, so the encounter
+	// starts and the Bandit's turn passes without a roll.
+	f.reset()
+	f.setFacts(`UPDATE npcs SET properties=jsonb_set(properties,'{srd521_target,cover}','"total"') WHERE id=$1`)
+	f.confirm(f.request(f.prepare(combat.EncounterStart, f.weapon.String()), f.target), 18, 0)
+	calls := f.dice.calls
+	if r := f.endBanditTurn("does not attack"); len(r) != 0 || f.dice.calls != calls || f.hp() != 12 {
+		t.Fatalf("receipts=%+v hp=%d", r, f.hp())
 	}
 }

@@ -269,20 +269,18 @@ func PrepareStoredAction(ctx context.Context, database statedb.DBTX, campaign do
 			}
 			option := ActionTarget{ID: target.ID, Label: target.Name, DistanceFeet: target.Space.DistanceFeet, ReachFeet: 5}
 			if intent.Kind == combat.EncounterStart && target.Bandit != nil {
-				_, action, err := target.Bandit.Record()
+				m, _, err := target.Bandit.Record()
 				if err != nil {
 					return unavailable(err.Error())
 				}
-				if action.Attack.Kind == "ranged" {
-					option.ReachFeet = action.Attack.Range
+				// It picks its weapon on its turn: show its longest normal range.
+				for _, action := range m.Actions {
+					option.ReachFeet = max(option.ReachFeet, action.Attack.Range)
 				}
 			}
 			var spatialErr error
 			if intent.Kind == combat.EncounterStart {
 				spatialErr = target.Space.Validate()
-				if target.Bandit != nil {
-					spatialErr = combat.BanditAttack(target.Bandit, &target.Space)
-				}
 				if target.Beast != nil {
 					spatialErr = combat.BeastAttack(target.Beast, &target.Space)
 				}
@@ -319,11 +317,11 @@ func PrepareStoredAction(ctx context.Context, database statedb.DBTX, campaign do
 		p.Options = []string{"Two-actor encounter; tied initiative: player first. Confirm to roll initiative."}
 		for _, target := range result.Targets {
 			if target.Bandit != nil {
-				m, a, err := target.Bandit.Record()
+				m, _, err := target.Bandit.Record()
 				if err != nil {
 					return unavailable(err.Error())
 				}
-				p.Options = append(p.Options, fmt.Sprintf("%s: Bandit AC %d; initiative %+d; speed %d feet; selected %s. %s", target.Name, m.AC, m.Initiative.Modifier, m.Speeds["walk"], a.Name, a.Text))
+				p.Options = append(p.Options, fmt.Sprintf("%s: Bandit AC %d; initiative %+d; speed %d feet; it picks its weapon by distance on its turn.", target.Name, m.AC, m.Initiative.Modifier, m.Speeds["walk"]))
 				for _, action := range m.Actions {
 					profile := *target.Bandit
 					profile.ActionID = action.ID
