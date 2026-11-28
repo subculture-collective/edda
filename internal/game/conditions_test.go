@@ -39,10 +39,61 @@ func TestConditionReason(t *testing.T) {
 		"dead death save":                 {[]byte(`{"srd521_death_saves":{"dead":true}}`), nil, ActionIntent{Kind: srd521.DeathSave}, "dead"},
 		"unknown death save state":        {[]byte(`{"srd521_death_saves":{"failures":4}}`), nil, ActionIntent{Kind: combat.EncounterEndTurn}, "adjudication"},
 	} {
-		reason, err := conditionReason(tc.stats, tc.encounter, tc.intent)
+		reason, err := conditionReason(tc.stats, 1, tc.encounter, tc.intent)
 		if err != nil {
 			reason = err.Error()
 		}
+		if (tc.want == "") != (reason == "") || !strings.Contains(reason, tc.want) {
+			t.Errorf("%s: reason %q, want %q", name, reason, tc.want)
+		}
+	}
+}
+
+// An older build could leave 0 HP without Unconscious: outside an active
+// encounter only the repairing Death Saving Throw stays open.
+func TestConditionReasonZeroHPWithoutUnconscious(t *testing.T) {
+	active := &combat.Encounter{Status: "active", Actors: []combat.EncounterActor{{ID: uuid.New(), Player: true}, {ID: uuid.New()}}}
+	for name, tc := range map[string]struct {
+		encounter *combat.Encounter
+		kind      string
+		want      string
+	}{
+		"check":                {nil, srd521.AbilityCheck, "death-save"},
+		"stand":                {nil, combat.EncounterStand, "death-save"},
+		"death save":           {nil, srd521.DeathSave, ""},
+		"encounter end turn":   {active, combat.EncounterEndTurn, ""},
+		"encounter owns state": {active, srd521.MartialAttack, ""},
+	} {
+		reason, err := conditionReason([]byte(`{}`), 0, tc.encounter, ActionIntent{Kind: tc.kind})
+		if err != nil || (tc.want == "") != (reason == "") || !strings.Contains(reason, tc.want) {
+			t.Errorf("%s: reason %q %v, want %q", name, reason, err, tc.want)
+		}
+	}
+}
+
+func TestZeroHPTurnReason(t *testing.T) {
+	unconscious := []byte(`{"srd521_conditions":{"prone":true,"unconscious":true}}`)
+	active := func(c srd521.Conditions) *combat.Encounter {
+		return &combat.Encounter{Status: "active", Actors: []combat.EncounterActor{{ID: uuid.New(), Player: true, Conditions: c}, {ID: uuid.New()}}}
+	}
+	for name, tc := range map[string]struct {
+		stats     []byte
+		hp        int
+		encounter *combat.Encounter
+		want      string
+	}{
+		"has HP":                {[]byte(`{}`), 5, nil, ""},
+		"unconscious":           {unconscious, 0, nil, "/death-save"},
+		"stable":                {[]byte(`{"srd521_conditions":{"prone":true,"unconscious":true},"srd521_death_saves":{"stable":true}}`), 0, nil, "Stable"},
+		"dead":                  {[]byte(`{"srd521_death_saves":{"failures":3,"dead":true}}`), 0, nil, "dead"},
+		"missing unconscious":   {[]byte(`{}`), 0, nil, "without the Unconscious condition"},
+		"in an encounter":       {[]byte(`{}`), 0, active(srd521.Conditions{Unconscious: true, Incapacitated: true, Prone: true}), "End your turn"},
+		"unconscious with HP":   {unconscious, 3, nil, "Unconscious and cannot act"},
+		"unknown death saves":   {[]byte(`{"srd521_death_saves":{"failures":4}}`), 0, nil, "adjudication"},
+		"completed encounter":   {unconscious, 0, &combat.Encounter{Status: "completed"}, "/death-save"},
+		"encounter has HP, foe": {[]byte(`{}`), 8, active(srd521.Conditions{}), ""},
+	} {
+		reason := ZeroHPTurnReason(tc.stats, tc.hp, tc.encounter)
 		if (tc.want == "") != (reason == "") || !strings.Contains(reason, tc.want) {
 			t.Errorf("%s: reason %q, want %q", name, reason, tc.want)
 		}

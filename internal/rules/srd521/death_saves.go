@@ -19,6 +19,9 @@ const (
 	ZeroHPDamageAtZero   = "damage-at-0"
 	ZeroHPDeathSave      = "death-save"
 	ZeroHPStableRecovery = "stable-recovery"
+	// ZeroHPUnconsciousRepair applies the Unconscious condition an older build
+	// left off a character at 0 HP. It rolls nothing.
+	ZeroHPUnconsciousRepair = "unconscious-repair"
 )
 
 // DeathSaves is a player character's durable 0-HP state, stats.srd521_death_saves.

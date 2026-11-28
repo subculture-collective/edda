@@ -51,7 +51,7 @@ func PrepareStoredAction(ctx context.Context, database statedb.DBTX, campaign do
 			return nil, err
 		}
 	}
-	reason, err := conditionReason(pc.Stats, encounter, intent)
+	reason, err := conditionReason(pc.Stats, pc.HP, encounter, intent)
 	if err != nil {
 		reason = err.Error()
 	}
@@ -67,14 +67,15 @@ func PrepareStoredAction(ctx context.Context, database statedb.DBTX, campaign do
 // otherwise they come from stats, strictly decoded so unknown state fails
 // closed. Only ending a turn, declining a Reaction, movement, a fall with no
 // Reaction and a Death Saving Throw stay open, and movement closes at Speed 0.
-// A dead character has no choices.
-func conditionReason(stats []byte, encounter *combat.Encounter, intent ActionIntent) (string, error) {
+// A dead character has no choices, and one at 0 HP without Unconscious (left
+// by an older build) only the Death Saving Throw that repairs it.
+func conditionReason(stats []byte, hp int, encounter *combat.Encounter, intent ActionIntent) (string, error) {
 	saves, err := srd521.DecodeDeathSaves(stats)
 	if err != nil {
 		return "", err
 	}
 	if saves.Dead {
-		return "Your character is dead. No supported rule revives them.", nil
+		return deadReason, nil
 	}
 	conditions, err := srd521.DecodeConditions(stats)
 	if encounter != nil && encounter.Status == "active" {
@@ -90,6 +91,11 @@ func conditionReason(stats []byte, encounter *combat.Encounter, intent ActionInt
 	switch intent.Kind {
 	case combat.EncounterEndTurn, combat.EncounterDecline, srd521.DeathSave:
 		return "", nil
+	}
+	if hp == 0 && !conditions.Unconscious && (encounter == nil || encounter.Status != "active") {
+		return missingUnconsciousReason, nil
+	}
+	switch intent.Kind {
 	case srd521.FallResolve:
 		if intent.Skill == "" {
 			return "", nil

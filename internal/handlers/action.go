@@ -45,7 +45,7 @@ func (h *ActionHandlers) ProcessAction(w http.ResponseWriter, r *http.Request) {
 			writeJSON(w, http.StatusConflict, map[string]string{"error": err.Error(), "action_id": engine.RecoveryActionID(err)})
 			return
 		}
-		if errors.Is(err, engine.ErrTurnInProgress) || errors.Is(err, engine.ErrActionIDConflict) {
+		if errors.Is(err, engine.ErrTurnInProgress) || errors.Is(err, engine.ErrActionIDConflict) || errors.Is(err, engine.ErrPlayerCannotAct) {
 			writeError(w, http.StatusConflict, err.Error())
 			return
 		}

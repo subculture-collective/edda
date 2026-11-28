@@ -3,6 +3,7 @@ package engine
 import (
 	"context"
 	"encoding/json"
+	"errors"
 
 	"git.subcult.tv/subculture-collective/edda/internal/combat"
 	"git.subcult.tv/subculture-collective/edda/internal/game"
@@ -10,6 +11,47 @@ import (
 	"github.com/google/uuid"
 	"github.com/jackc/pgx/v5"
 )
+
+// ErrPlayerCannotAct matches PlayerCannotActError.
+var ErrPlayerCannotAct = errors.New("the player character cannot act")
+
+// PlayerCannotActError refuses a free-text turn for a player character that
+// cannot act (dead, at 0 HP or Unconscious). Reason is safe to show players.
+type PlayerCannotActError struct{ Reason string }
+
+func (e PlayerCannotActError) Error() string { return e.Reason }
+
+// Is makes errors.Is(err, ErrPlayerCannotAct) report this error.
+func (e PlayerCannotActError) Is(target error) bool { return target == ErrPlayerCannotAct }
+
+// repairUnconscious applies the Unconscious condition that an older build
+// left off a character at 0 HP, through ApplyConditionChange so held objects
+// drop and Concentration ends. It returns nil when no repair is due.
+func repairUnconscious(ctx context.Context, tx pgx.Tx, campaignID, actorID uuid.UUID, dice srd521.Dice) (*srd521.ZeroHPReceipt, error) {
+	var hp, maxHP int
+	var stats []byte
+	if err := tx.QueryRow(ctx, `SELECT hp,max_hp,stats FROM player_characters WHERE id=$1 AND campaign_id=$2 FOR UPDATE`, actorID, campaignID).Scan(&hp, &maxHP, &stats); err != nil {
+		return nil, err
+	}
+	saves, err := srd521.DecodeDeathSaves(stats)
+	if err != nil {
+		return nil, err
+	}
+	conditions, err := srd521.DecodeConditions(stats)
+	if err != nil {
+		return nil, err
+	}
+	if hp != 0 || saves.Dead || conditions.Unconscious {
+		return nil, nil
+	}
+	r := &srd521.ZeroHPReceipt{RulesVersion: "srd-5.2.1", Event: srd521.ZeroHPUnconsciousRepair, MaxHP: maxHP, Before: saves, After: saves,
+		SourceIDs: []string{"srd-5.2.1:content/damage/falling-unconscious", "srd-5.2.1:content/rules-glossary/unconscious"},
+		Reason:    "At 0 HP without the Unconscious condition, which earlier versions of Edda did not apply: now Unconscious and Prone. Death Saving Throws follow."}
+	if r.Condition, err = ApplyConditionChange(ctx, tx, campaignID, actorID, nil, srd521.ConditionChange{Condition: srd521.ConditionUnconscious, Apply: true}, dice); err != nil {
+		return nil, err
+	}
+	return r, nil
+}
 
 // playerDamage is what one damage source did to the player character.
 type playerDamage struct {

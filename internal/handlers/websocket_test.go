@@ -346,6 +346,21 @@ func TestHandleWebSocket_StreamErrorEvent(t *testing.T) {
 			t.Errorf("error leaked internal details: %q", errPayload["error"])
 		}
 	})
+	// A player who cannot act at 0 HP sees why, not a generic error.
+	t.Run("PlayerCannotAct", func(t *testing.T) {
+		reason := "Your character is Unconscious at 0 HP and cannot act."
+		eng := &wsStubEngine{streamEvents: []engine.StreamEvent{{Type: "error", Err: engine.PlayerCannotActError{Reason: reason}}}}
+		h := &ActionHandlers{Engine: eng, Logger: log.Default()}
+		conn, _ := dialWS(t, h, uuid.New().String())
+		ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+		defer cancel()
+		sendAction(t, ctx, conn, "look")
+		env := readEnvelope(t, ctx, conn)
+		var errPayload map[string]string
+		if err := json.Unmarshal(env.Payload, &errPayload); err != nil || env.Type != "error" || errPayload["error"] != reason {
+			t.Fatalf("envelope %q %q: %v", env.Type, errPayload["error"], err)
+		}
+	})
 }
 
 func TestHandleWebSocket_AllowsCookieBackedJWTUpgrade(t *testing.T) {
