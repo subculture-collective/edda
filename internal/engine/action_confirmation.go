@@ -6,6 +6,7 @@ import (
 	"errors"
 	"fmt"
 	"math/rand/v2"
+	"strings"
 
 	"git.subcult.tv/subculture-collective/edda/internal/combat"
 	"git.subcult.tv/subculture-collective/edda/internal/db"
@@ -169,17 +170,26 @@ func (e *Engine) ConfirmAction(ctx context.Context, campaignID uuid.UUID, reques
 			foe.Initiative = m.Initiative.Modifier
 			foe.Speed = m.Speeds["walk"]
 		}
+		if target.Beast != nil {
+			m, err := target.Beast.Pinned()
+			if err != nil {
+				return nil, ErrActionRefresh
+			}
+			foe.Initiative = m.Initiative.Modifier
+			foe.Speed = m.Speeds["walk"]
+		}
 		encounter, err = combat.NewEncounter(combat.EncounterActor{ID: pc.ID, Name: pc.Name, HP: pc.HP, MaxHP: pc.MaxHP}, foe, sheet.Defenses["initiative"].Value, dice)
 		if err != nil {
 			return nil, err
 		}
 		encounter.Bandit = target.Bandit
+		encounter.Beast = target.Beast
 		encounter.Space = &target.Space
 		encounter.NPCTactic = target.Tactic
 		label = "Initiative"
 		tool = "srd_encounter"
 		narrative = "Initiative rolled for the two-actor encounter."
-	} else if request.Intent.Kind == combat.EncounterEndTurn || request.Intent.Kind == combat.EncounterMove || request.Intent.Kind == combat.EncounterDash || request.Intent.Kind == combat.EncounterApproach || request.Intent.Kind == combat.EncounterRetreat {
+	} else if request.Intent.Kind == combat.EncounterEndTurn || request.Intent.Kind == combat.EncounterMove || request.Intent.Kind == combat.EncounterDash || request.Intent.Kind == combat.EncounterApproach || request.Intent.Kind == combat.EncounterRetreat || request.Intent.Kind == combat.EncounterStand {
 		if encounter == nil || encounter.Status != "active" {
 			return nil, ErrActionRefresh
 		}
@@ -191,6 +201,9 @@ func (e *Engine) ConfirmAction(ctx context.Context, campaignID uuid.UUID, reques
 		}
 		if request.Intent.Kind == combat.EncounterDash {
 			narrative = "Dash: 30 feet added to this turn's movement."
+		}
+		if request.Intent.Kind == combat.EncounterStand {
+			narrative = fmt.Sprintf("Stood up from Prone; %d feet of movement remain.", encounter.Budget.Movement)
 		}
 		if request.Intent.Kind == combat.EncounterEndTurn {
 			encounter.Advance()
@@ -234,6 +247,13 @@ func (e *Engine) ConfirmAction(ctx context.Context, campaignID uuid.UUID, reques
 		ac := 10
 		if target.Bandit != nil {
 			m, _, err := target.Bandit.Record()
+			if err != nil {
+				return nil, ErrActionRefresh
+			}
+			ac = m.AC
+		}
+		if target.Beast != nil {
+			m, err := target.Beast.Pinned()
 			if err != nil {
 				return nil, ErrActionRefresh
 			}
@@ -527,6 +547,17 @@ func (e *Engine) ConfirmAction(ctx context.Context, campaignID uuid.UUID, reques
 		}
 		for _, attack := range npcReceipts {
 			narrative += fmt.Sprintf(" %s: %s (d20 %d + %d = %d), %d %s damage.", attack.Weapon, attack.Outcome, attack.Die, attack.Modifier.Value, attack.Total, attack.Damage, attack.DamageType)
+			if len(attack.D20s) == 2 {
+				narrative += fmt.Sprintf(" Advantage (%s): rolled %d and %d.", strings.Join(attack.Advantage, "; "), attack.D20s[0], attack.D20s[1])
+			}
+			switch attack.Condition {
+			case "prone-applied":
+				narrative += " " + attack.Target + " has the Prone condition."
+			case "already-prone":
+				narrative += " " + attack.Target + " is already Prone."
+			case "size-exempt":
+				narrative += " " + attack.Target + " is too large to be knocked Prone."
+			}
 		}
 		if encounter.Reaction.Pending != nil {
 			narrative += " A visible foe is about to leave your reach. Choose an opportunity attack or decline; no reaction has been spent."
