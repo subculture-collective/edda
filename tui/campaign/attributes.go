@@ -24,7 +24,7 @@ type attributeFormResult struct {
 // genre, setting style, and tone via guided dropdowns.
 type AttributesModel struct {
 	form      *huh.Form
-	result    attributeFormResult
+	result    *attributeFormResult // the form writes the choices here
 	errorText string
 	errorView viewport.Model
 	gap       bool // blank line under the title
@@ -49,7 +49,7 @@ func NewAttributesModelWithValues(genre, settingStyle, tone string) AttributesMo
 // NewAttributesModelWithState builds the attribute form with preselected values
 // and an inline error message displayed above the form body when non-empty.
 func NewAttributesModelWithState(genre, settingStyle, tone, errorText string) AttributesModel {
-	result := attributeFormResult{
+	result := &attributeFormResult{
 		Genre:        genre,
 		SettingStyle: settingStyle,
 		Tone:         tone,

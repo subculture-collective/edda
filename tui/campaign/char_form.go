@@ -22,7 +22,7 @@ type charFormResult struct {
 // character through guided attribute selection.
 type CharFormModel struct {
 	form   *huh.Form
-	result charFormResult
+	result *charFormResult // the form writes the choices here
 	width  int
 	height int
 }
@@ -37,7 +37,7 @@ func selectOptions(values []string) []huh.Option[string] {
 
 // NewCharFormModel builds the five-step character creation form.
 func NewCharFormModel() CharFormModel {
-	var result charFormResult
+	result := &charFormResult{}
 
 	form := huh.NewForm(
 		huh.NewGroup(
