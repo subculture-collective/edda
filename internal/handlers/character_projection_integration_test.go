@@ -65,3 +65,28 @@ func TestIntegrationCharacterProjection(t *testing.T) {
 		}
 	}
 }
+
+// The sheet shows the same current character the turn loader acts as: the
+// most recently created one.
+func TestIntegrationCharacterSheetUsesCurrentCharacter(t *testing.T) {
+	ctx := context.Background()
+	q := statedb.New(testPool)
+	c, err := q.CreateCampaign(ctx, statedb.CreateCampaignParams{Name: "Two characters", RulesVersion: "legacy", Status: "active", CreatedBy: dbutil.ToPgtype(testUserID)})
+	if err != nil {
+		t.Fatal(err)
+	}
+	for _, name := range []string{"Older", "Newer"} {
+		if _, err := q.CreatePlayerCharacter(ctx, statedb.CreatePlayerCharacterParams{CampaignID: c.ID, UserID: dbutil.ToPgtype(testUserID), Name: name, Stats: []byte(`{}`), Hp: 5, MaxHp: 5, Level: 1, Status: "active", Abilities: []byte(`[]`)}); err != nil {
+			t.Fatal(err)
+		}
+	}
+	h := &handlers.CharacterHandlers{Queries: q, Logger: log.New(io.Discard)}
+	r := chi.NewRouter()
+	r.Get("/campaigns/{id}/character", h.GetCharacter)
+	rec := httptest.NewRecorder()
+	r.ServeHTTP(rec, httptest.NewRequest("GET", "/campaigns/"+dbutil.FromPgtype(c.ID).String()+"/character", nil))
+	var response api.CharacterResponse
+	if rec.Code != 200 || json.Unmarshal(rec.Body.Bytes(), &response) != nil || response.Name != "Newer" {
+		t.Fatalf("sheet character = %d %s, want Newer", rec.Code, rec.Body.String())
+	}
+}
