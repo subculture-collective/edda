@@ -352,15 +352,13 @@ func prepareStoredAction(ctx context.Context, database statedb.DBTX, campaign do
 					return unavailable(err.Error())
 				}
 				// It picks its weapon on its turn: show its longest normal range.
-				for _, action := range m.Actions {
-					option.ReachFeet = max(option.ReachFeet, action.Attack.Range)
-				}
+				option.ReachFeet = longestRange(m)
 			}
 			var spatialErr error
 			if intent.Kind == combat.EncounterStart {
 				spatialErr = target.Space.Validate()
 				if target.Beast != nil {
-					spatialErr = combat.BeastAttack(target.Beast, &target.Space)
+					spatialErr = combat.BeastFacts(target.Beast, &target.Space)
 				}
 			} else {
 				spatialErr = target.Space.Melee()
@@ -400,6 +398,10 @@ func prepareStoredAction(ctx context.Context, database statedb.DBTX, campaign do
 					return unavailable(err.Error())
 				}
 				p.Options = append(p.Options, fmt.Sprintf("%s: Bandit AC %d; initiative %+d; speed %d feet; it picks its weapon by distance on its turn.", target.Name, m.AC, m.Initiative.Modifier, m.Speeds["walk"]))
+				if note := beyondRangeNote(target.Name, target.Space, longestRange(m), "range", m.Speeds["walk"]); note != "" {
+					p.Options = append(p.Options, note)
+					continue
+				}
 				for _, action := range m.Actions {
 					profile := *target.Bandit
 					profile.ActionID = action.ID
@@ -415,6 +417,11 @@ func prepareStoredAction(ctx context.Context, database statedb.DBTX, campaign do
 					return unavailable(err.Error())
 				}
 				p.Options = append(p.Options, fmt.Sprintf("%s: %s AC %d; initiative %+d; speed %d feet; target size %s.", target.Name, m.Name, m.AC, m.Initiative.Modifier, m.Speeds["walk"], target.Beast.TargetSize))
+				if note := beyondRangeNote(target.Name, target.Space, 5, "reach", m.Speeds["walk"]); note != "" {
+					p.Options = append(p.Options, note)
+				} else if err := target.Space.Melee(); err != nil {
+					p.Options = append(p.Options, "Unavailable at the declared facts: "+err.Error())
+				}
 				p.Options = append(p.Options, beastOptions(m, attacks)...)
 			} else {
 				p.Options = append(p.Options, target.Name+": ordinary fixture; NPC Unarmed Strike +2, 1 bludgeoning; speed 30 feet.")
@@ -556,6 +563,8 @@ func prepareStoredAction(ctx context.Context, database statedb.DBTX, campaign do
 		p.SourceIDs = append(p.SourceIDs, m.ID)
 		if !reach {
 			p.Options = []string{fmt.Sprintf("End turn: the %s moves %d feet toward %s and is still %d feet away, out of reach; it does not attack.", m.Name, closed, pc.Name, *turn.Space.DistanceFeet)}
+		} else if err := turn.Space.Melee(); err != nil {
+			p.Options = []string{fmt.Sprintf("End turn: the %s does not attack %s. %s", m.Name, pc.Name, err)}
 		} else {
 			advantage, err := turn.BeastAdvantage()
 			if err != nil {
@@ -591,6 +600,31 @@ func prepareStoredAction(ctx context.Context, database statedb.DBTX, campaign do
 	p.CostStatus = "encounter"
 	p.SourceIDs = append(p.SourceIDs, "srd-5.2.1:content/combat/initiative", "srd-5.2.1:content/combat/your-turn")
 	return result, nil
+}
+
+// longestRange is the farthest normal range among a stat block's attacks.
+func longestRange(m srd521.Monster) int {
+	feet := 0
+	for _, a := range m.Actions {
+		feet = max(feet, a.Attack.Range)
+	}
+	return feet
+}
+
+// beyondRangeNote tells a start preview what an NPC declared beyond limit feet
+// does about it on its turn. It is empty within that distance. The space must
+// already be validated.
+func beyondRangeNote(name string, space combat.Space, limit int, measure string, speed int) string {
+	distance := *space.DistanceFeet
+	if distance <= limit {
+		return ""
+	}
+	note := fmt.Sprintf("%s starts %d feet away, beyond its %d-foot %s", name, distance, limit, measure)
+	// Try one step on this copy: the turn moves only along a clear path.
+	if space.Move(combat.EncounterApproach) != nil {
+		return note + ". Moving closer needs line of sight and no cover; while these facts stand it stays there and does not attack."
+	}
+	return fmt.Sprintf("%s; it moves closer on its turn, up to its %d-foot speed, and attacks only if it ends within %d feet.", note, speed, limit)
 }
 
 // beastOptions previews each pinned attack in resolution order and the stop rule.

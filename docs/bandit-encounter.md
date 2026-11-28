@@ -28,9 +28,11 @@ Starting the encounter needs a current profile (revision and a supported
 missing or unrecognized fact refuses the start before any roll. No weapon has to
 be legal at the starting distance, because the Bandit picks one on its turn.
 As with the ordinary fixture, declared facts such as an unseen target or total
-cover do not block the start. The start preview lists both named actions with
-their eligibility at the declared geometry, before any approach, and shows the
-Light Crossbow's 80-foot normal range as the target's reach.
+cover do not block the start. Within 80 feet the start preview lists both named
+actions with their eligibility at the declared geometry. Beyond 80 feet it
+instead says the Bandit moves closer on its turn, with its 30-foot speed, or
+that it stays where it is when the path is not clear. It shows the Light
+Crossbow's 80-foot normal range as the target's reach.
 
 Scimitar requires visible melee reach within 5 feet. Light Crossbow requires a
 visible target beyond 5 feet and within its normal 80-foot range. Half and

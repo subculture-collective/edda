@@ -443,3 +443,110 @@ func TestIntegrationWolfApproachesOutOfReach(t *testing.T) {
 		t.Fatalf("encounter=%+v calls=%d narrative=%q", e, f.dice.calls-calls, result.Narrative)
 	}
 }
+
+// startAt redeclares the Beast fixture's distance before the encounter starts.
+func (f *beastFixture) startAt(feet int) {
+	f.t.Helper()
+	f.facts = strings.Replace(f.facts, `"distance_feet":5,"line_of_sight"`, fmt.Sprintf(`"distance_feet":%d,"line_of_sight"`, feet), 1)
+	f.reset()
+}
+
+// The turn can approach, so a Beast need not be within reach for the encounter
+// to start.
+func TestIntegrationWolfStartsBeyondReach(t *testing.T) {
+	f := newBeastFixture(t, "wolf-v1", "bite", `,"pack_ally":{"present":false}`)
+	f.startAt(30)
+	start := f.prepare(combat.EncounterStart, f.weapon.String())
+	if text := strings.Join(start.Options, "\n"); !start.Available || !strings.Contains(text, "30 feet away, beyond its 5-foot reach") || !strings.Contains(text, "moves closer on its turn, up to its 40-foot speed") {
+		t.Fatalf("start=%+v targets=%+v", start, start.Targets)
+	}
+	f.confirm(f.request(start, f.target), 18, 0)
+	if e := f.encounter(); *e.Space.DistanceFeet != 30 || !e.Active().Player {
+		t.Fatalf("encounter=%+v", e)
+	}
+	end := f.prepare(combat.EncounterEndTurn, "")
+	if !end.Available || !strings.Contains(strings.Join(end.Options, " "), "moves 25 feet") {
+		t.Fatalf("end=%+v", end)
+	}
+	r := npcReceipts(t, f.confirm(f.request(end, uuid.Nil), 0))
+	if e := f.encounter(); len(r) != 1 || r[0].Outcome != "miss" || *e.Space.DistanceFeet != 5 || !e.Active().Player || e.Round != 2 {
+		t.Fatalf("receipts=%+v encounter=%+v", r, e)
+	}
+}
+
+// A Beast that wins initiative approaches inside the start confirmation.
+func TestIntegrationBrownBearStartsBeyondReachAndActsFirst(t *testing.T) {
+	f := newBeastFixture(t, "brown-bear-v1", "multiattack", "")
+	f.startAt(65)
+	// Player d20 1, Bear d20 19; 40 feet of Speed ends at 25 feet.
+	r := npcReceipts(t, f.confirm(f.request(f.prepare(combat.EncounterStart, f.weapon.String()), f.target), 0, 18))
+	if e := f.encounter(); len(r) != 0 || f.dice.calls != 2 || *e.Space.DistanceFeet != 25 || !e.Active().Player || f.hp() != 12 {
+		t.Fatalf("receipts=%+v calls=%d encounter=%+v", r, f.dice.calls, e)
+	}
+}
+
+func TestIntegrationBeastStartRefusesUnknownFacts(t *testing.T) {
+	f := newBeastFixture(t, "wolf-v1", "bite", `,"pack_ally":{"present":true,"distance_feet":5,"incapacitated":false}`)
+	f.startAt(30)
+	for _, mutation := range []string{
+		`UPDATE npcs SET properties=properties #- '{srd521_target,distance_feet}' WHERE id=$1`,
+		`UPDATE npcs SET properties=properties #- '{srd521_target,line_of_sight}' WHERE id=$1`,
+		`UPDATE npcs SET properties=properties #- '{srd521_target,cover}' WHERE id=$1`,
+		`UPDATE npcs SET properties=jsonb_set(properties,'{srd521_target,beast,version}','"wolf-v1:stale"') WHERE id=$1`,
+		`UPDATE npcs SET properties=jsonb_set(properties,'{srd521_target,beast,action_id}','"claw"') WHERE id=$1`,
+		`UPDATE npcs SET properties=properties #- '{srd521_target,beast,target_size}' WHERE id=$1`,
+		`UPDATE npcs SET properties=properties #- '{srd521_target,pack_ally}' WHERE id=$1`,
+		`UPDATE npcs SET properties=properties #- '{srd521_target,pack_ally,distance_feet}' WHERE id=$1`,
+		`UPDATE npcs SET properties=properties #- '{srd521_target,pack_ally,incapacitated}' WHERE id=$1`,
+	} {
+		f.reset()
+		request := f.request(f.prepare(combat.EncounterStart, f.weapon.String()), f.target)
+		f.setFacts(mutation)
+		if p := f.prepare(combat.EncounterStart, f.weapon.String()); p.Available {
+			t.Fatalf("start offered: %s: %+v", mutation, p)
+		}
+		calls := f.dice.calls
+		if _, err := f.engine().ConfirmAction(f.ctx, f.campaign, request); !errors.Is(err, engine.ErrActionRefresh) || f.dice.calls != calls {
+			t.Fatalf("start accepted or rolled: %s: %v", mutation, err)
+		}
+	}
+	// A path that is not clear is a known fact: the preview says the Wolf stays.
+	f.reset()
+	f.setFacts(`UPDATE npcs SET properties=jsonb_set(properties,'{srd521_target,cover}','"half"') WHERE id=$1`)
+	if text := strings.Join(f.prepare(combat.EncounterStart, f.weapon.String()).Options, "\n"); !strings.Contains(text, "stays there and does not attack") || strings.Contains(text, "moves closer on its turn") {
+		t.Fatalf("options=%s", text)
+	}
+}
+
+// Known facts that rule out the attack within 5 feet start the encounter, and
+// the Beast's turn passes without a roll instead of stalling End turn.
+func TestIntegrationBeastPassesWhenDeclaredFactsRuleOutAttack(t *testing.T) {
+	for fact, reason := range map[string]string{
+		`'{srd521_target,cover}','"total"'`:       "Total cover",
+		`'{srd521_target,line_of_sight}','false'`: "line of sight",
+	} {
+		for _, npcFirst := range []bool{false, true} {
+			f := newBeastFixture(t, "wolf-v1", "bite", `,"pack_ally":{"present":false}`)
+			f.setFacts(`UPDATE npcs SET properties=jsonb_set(properties,` + fact + `) WHERE id=$1`)
+			start := f.prepare(combat.EncounterStart, f.weapon.String())
+			if text := strings.Join(start.Options, "\n"); !strings.Contains(text, "Unavailable at the declared facts:") || !strings.Contains(text, reason) {
+				t.Fatalf("%s: start=%+v targets=%+v", reason, start, start.Targets)
+			}
+			rolls := []int{18, 0}
+			if npcFirst {
+				rolls = []int{0, 18}
+			}
+			result := f.confirm(f.request(start, f.target), rolls...)
+			if !npcFirst {
+				end := f.prepare(combat.EncounterEndTurn, "")
+				if !end.Available || !strings.Contains(strings.Join(end.Options, " "), "does not attack") || !strings.Contains(strings.Join(end.Options, " "), reason) {
+					t.Fatalf("%s: end=%+v", reason, end)
+				}
+				result = f.confirm(f.request(end, uuid.Nil))
+			}
+			if e := f.encounter(); len(npcReceipts(t, result)) != 0 || f.dice.calls != 2 || f.hp() != 12 || !e.Active().Player || *e.Space.DistanceFeet != 5 {
+				t.Fatalf("%s first=%t: calls=%d encounter=%+v", reason, npcFirst, f.dice.calls, e)
+			}
+		}
+	}
+}
