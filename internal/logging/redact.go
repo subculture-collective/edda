@@ -7,6 +7,7 @@ import (
 	"net/url"
 	"regexp"
 	"slices"
+	"strconv"
 	"strings"
 )
 
@@ -35,6 +36,10 @@ var (
 	// string. The first group runs through "://". The last is what follows the
 	// host: an ellipsis, space, and the end or the quote.
 	openAuthorityPattern = regexp.MustCompile("([a-zA-Z][a-zA-Z0-9+.-]*://)[^\\s\"'`<>/?#]+?((?:\\.\\.\\.|…)?\\s*(?:$|\\\\*\"))")
+	// plainHostPortPattern matches an authority with a colon that is plainly a
+	// host: a bracketed IPv6 address, localhost or a dotted name, then a port or
+	// nothing, then any punctuation around the URL. The first group is the port.
+	plainHostPortPattern = regexp.MustCompile(`^(?:\[[0-9a-fA-F]*:[0-9a-fA-F:.]*(?:%[^\]]*)?\]|localhost|[^:\[\]]*\.[^:\[\]]*)(?::([0-9]*))?[.,;:!)\]}…]*$`)
 	// jsonStringPattern matches a JSON string literal.
 	jsonStringPattern = regexp.MustCompile(`"(?:[^"\\]|\\.)*"`)
 )
@@ -237,23 +242,106 @@ func contextCauseOnly(cause error) error {
 // before it was put in JSON, so a URL may be the start of a password when the
 // text or a double quote ends it before anything ends its host: everything
 // after its "://" is masked. A complete URL with no path in those places is
-// masked too. Quoted strings are also decoded, so that JSON escapes cannot hide
-// a URL or its parts. The text need not be valid JSON.
+// masked too, and so is one that a single quote ends. A URL may also have been
+// cut after a /, ? or # in a password: see maskCutURLs. Quoted strings are also
+// decoded, so that JSON escapes cannot hide a URL or its parts. The text need
+// not be valid JSON.
 func RedactReply(text string) string {
-	text = jsonStringPattern.ReplaceAllStringFunc(text, redactJSONString)
+	// maskCutURLs runs on the finished result, so it can only mask more. Inside
+	// redactReply, a string that it changed would be encoded again, and the pass
+	// over the whole text could no longer mask across that string's escapes.
+	return maskReplyCutURLs(redactReply(text))
+}
+
+// redactReply is RedactReply without maskCutURLs.
+func redactReply(text string) string {
+	text = replaceJSONStrings(text, redactReply)
 	// The text as a whole covers what is not in a whole string literal.
 	return Redact(openAuthorityPattern.ReplaceAllString(text, "${1}"+redactedPassword+"${2}"))
 }
 
-// redactJSONString applies RedactReply to the string that literal encodes, which
-// may hold JSON itself. A literal with nothing to redact, or that does not
-// decode, is returned as it is.
-func redactJSONString(literal string) string {
+// maskReplyCutURLs applies maskCutURLs to the quoted strings in text, decoded,
+// and then to text as a whole.
+func maskReplyCutURLs(text string) string {
+	return maskCutURLs(replaceJSONStrings(text, maskReplyCutURLs))
+}
+
+// maskCutURLs masks everything after the "://" of each URL in text that may
+// hold the start of a password: one with no @ whose authority has a colon and is
+// not plainly a host and port (see mayHoldCutPassword), and one with nothing
+// after its authority that a single quote, escaped or not, ends.
+func maskCutURLs(text string) string {
+	var out strings.Builder
+	done := 0 // the end of what has been written
+	for _, span := range urlPattern.FindAllStringIndex(text, -1) {
+		start, end := span[0], span[1]
+		scheme, rest, _ := strings.Cut(text[start:end], "://")
+		// Backslashes that end it may escape the quote after it.
+		body := strings.TrimRight(rest, `\`)
+		quoted := body != "" && !strings.ContainsAny(body, "/?#") && strings.HasPrefix(text[end:], "'")
+		if !quoted && !mayHoldCutPassword(rest) {
+			continue
+		}
+		// Those backslashes stay, as does an ellipsis that the sender added.
+		suffix := rest[len(body):]
+		for _, mark := range []string{"...", "…"} {
+			if strings.HasSuffix(body, mark) {
+				suffix = mark + suffix
+				break
+			}
+		}
+		out.WriteString(text[done:start])
+		out.WriteString(scheme + "://" + redactedPassword + suffix)
+		done = end
+	}
+	out.WriteString(text[done:])
+	return out.String()
+}
+
+// mayHoldCutPassword reports whether rest, a URL after its "://", may be
+// "user:password" cut off before the @: it has no @, and its authority has a
+// colon and is not plainly a host with a valid port (see hidesUserinfo for what
+// is plainly a host). A backslash ends the authority too, because in JSON it
+// starts an escape.
+func mayHoldCutPassword(rest string) bool {
+	if strings.Contains(rest, "@") {
+		return false
+	}
+	authority := rest
+	if i := strings.IndexAny(rest, `/?#\`); i >= 0 {
+		authority = rest[:i]
+	}
+	if !strings.Contains(authority, ":") {
+		return false
+	}
+	match := plainHostPortPattern.FindStringSubmatch(authority)
+	if match == nil {
+		return true
+	}
+	if match[1] == "" {
+		return false
+	}
+	_, err := strconv.ParseUint(match[1], 10, 16)
+	return err != nil
+}
+
+// replaceJSONStrings returns text with redact applied to what each JSON string
+// literal in it encodes.
+func replaceJSONStrings(text string, redact func(string) string) string {
+	return jsonStringPattern.ReplaceAllStringFunc(text, func(literal string) string {
+		return redactJSONString(literal, redact)
+	})
+}
+
+// redactJSONString applies redact to the string that literal encodes, which may
+// hold JSON itself. A literal with nothing to redact, or that does not decode,
+// is returned as it is.
+func redactJSONString(literal string, redact func(string) string) string {
 	var decoded string
 	if json.Unmarshal([]byte(literal), &decoded) != nil {
 		return literal
 	}
-	clean := RedactReply(decoded)
+	clean := redact(decoded)
 	if clean == decoded {
 		return literal
 	}
