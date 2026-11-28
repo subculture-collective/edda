@@ -20,10 +20,17 @@ No production data is seeded or migrated.
 The existing campaign, player, location, prior encounter, hidden-NPC, ownership,
 turn and spatial checks still apply. The instance retains its stored HP; public
 previews omit NPC HP and private tactics. AC 12, initiative +1, walk speed 30,
-and both named weapons come from the pinned record. The configured `action_id`
-must be legal when the encounter starts. Preview lists the named actions with
-their current geometry eligibility. Changes to its profile require
-adjudication rather than silently changing an active encounter's rules.
+and both named weapons come from the pinned record. Changes to its profile
+require adjudication rather than silently changing an active encounter's rules.
+
+Starting the encounter needs a current profile (revision and a supported
+`action_id`) and declared facts: exact distance, line of sight and cover. A
+missing or unrecognized fact refuses the start before any roll. No weapon has to
+be legal at the starting distance, because the Bandit picks one on its turn.
+As with the ordinary fixture, declared facts such as an unseen target or total
+cover do not block the start. The start preview lists both named actions with
+their eligibility at the declared geometry, before any approach, and shows the
+Light Crossbow's 80-foot normal range as the target's reach.
 
 Scimitar requires visible melee reach within 5 feet. Light Crossbow requires a
 visible target beyond 5 feet and within its normal 80-foot range. Half and
