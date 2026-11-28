@@ -24,6 +24,8 @@ type HealingTarget struct {
 	MaxHP     int
 	Space     combat.Space
 	UpdatedAt time.Time
+	// Medicine is an aid-player-v1 helper's Wisdom (Medicine) modifier.
+	Medicine int
 }
 
 // HealingTarget returns only a target revalidated in this preparation snapshot.
@@ -79,6 +81,25 @@ func prepareStoredSpell(ctx context.Context, database statedb.DBTX, campaign dom
 // appendHealingTargets shares strict scene-bound eligibility without broadening
 // either caller's reserved fixture profile.
 func appendHealingTargets(ctx context.Context, database statedb.DBTX, campaign domain.Campaign, pc domain.PlayerCharacter, result *StoredAction, profile string, lock bool) error {
+	allies, err := readAllies(ctx, database, campaign, pc, profile, lock)
+	if err != nil {
+		return err
+	}
+	for _, target := range allies {
+		result.HealingTargets = append(result.HealingTargets, target)
+		result.Preview.Targets = append(result.Preview.Targets, ActionTarget{ID: target.ID, Label: target.Name + " (willing conscious ally; touch)", DistanceFeet: target.Space.DistanceFeet, ReachFeet: 5})
+	}
+	return nil
+}
+
+// allyKeys is the exact srd521_ally vocabulary. The aid-player-v1 profile
+// adds the helper's Wisdom (Medicine) modifier.
+var allyKeys = []string{"profile", "actor_id", "location_id", "allied", "willing", "conscious", "hidden", "conditions", "max_hp", "distance_feet", "line_of_sight", "cover"}
+
+// readAllies returns the living, campaign-known NPCs whose trusted
+// srd521_ally ruling under profile names this actor and its current location,
+// with every fact explicit and ordinary. Anything else is left out.
+func readAllies(ctx context.Context, database statedb.DBTX, campaign domain.Campaign, pc domain.PlayerCharacter, profile string, lock bool) ([]HealingTarget, error) {
 	locking := ""
 	if lock {
 		locking = " FOR UPDATE OF n"
@@ -90,15 +111,20 @@ func appendHealingTargets(ctx context.Context, database statedb.DBTX, campaign d
  AND EXISTS(SELECT 1 FROM session_logs l WHERE l.campaign_id=n.campaign_id AND n.id=ANY(l.npcs_involved))
  ORDER BY n.id`+locking, dbutil.ToPgtype(campaign.ID), pc.CurrentLocationID, pc.ID.String(), profile)
 	if err != nil {
-		return err
+		return nil, err
 	}
 	defer rows.Close()
+	keys := allyKeys
+	if profile == AidPlayerProfile {
+		keys = append(append([]string{}, allyKeys...), "medicine_modifier")
+	}
 	yes := func(v *bool) bool { return v != nil && *v }
+	var result []HealingTarget
 	for rows.Next() {
 		var target HealingTarget
 		var data []byte
 		if err := rows.Scan(&target.ID, &target.Name, &target.HP, &target.UpdatedAt, &data); err != nil {
-			return err
+			return nil, err
 		}
 		// Require the exact documented vocabulary before Go's case-insensitive
 		// struct decoding. Every fixture field is explicit and non-null.
@@ -106,7 +132,6 @@ func appendHealingTargets(ctx context.Context, database statedb.DBTX, campaign d
 		if json.Unmarshal(data, &fields) != nil {
 			continue
 		}
-		keys := []string{"profile", "actor_id", "location_id", "allied", "willing", "conscious", "hidden", "conditions", "max_hp", "distance_feet", "line_of_sight", "cover"}
 		valid := len(fields) == len(keys)
 		for _, key := range keys {
 			value := bytes.TrimSpace(fields[key])
@@ -122,13 +147,18 @@ func appendHealingTargets(ctx context.Context, database statedb.DBTX, campaign d
 		if facts.Profile != profile || facts.ActorID != pc.ID || facts.LocationID == uuid.Nil || pc.CurrentLocationID == nil || facts.LocationID != *pc.CurrentLocationID || !yes(facts.Allied) || !yes(facts.Willing) || !yes(facts.Conscious) || facts.Hidden == nil || *facts.Hidden || facts.Conditions != "ordinary" || facts.MaxHP < target.HP || space.Melee() != nil || facts.Cover != "none" {
 			continue
 		}
+		if profile == AidPlayerProfile {
+			// An integer from Wisdom 1 (-5) to Wisdom 30 with doubled
+			// proficiency at CR 30 (+28); never a float, string or boolean.
+			var medicine int
+			if json.Unmarshal(fields["medicine_modifier"], &medicine) != nil || medicine < -5 || medicine > 28 {
+				continue
+			}
+			target.Medicine = medicine
+		}
 		target.MaxHP, target.Space = facts.MaxHP, space
 		target.Space.Revision = fmt.Sprintf("%x", sha256.Sum256(data))
-		result.HealingTargets = append(result.HealingTargets, target)
-		result.Preview.Targets = append(result.Preview.Targets, ActionTarget{ID: target.ID, Label: target.Name + " (willing conscious ally; touch)", DistanceFeet: target.Space.DistanceFeet, ReachFeet: 5})
+		result = append(result, target)
 	}
-	if err := rows.Err(); err != nil {
-		return err
-	}
-	return nil
+	return result, rows.Err()
 }

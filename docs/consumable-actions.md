@@ -34,8 +34,9 @@ participants to another scene requires a fresh trusted location/touch ruling.
 Model NPC creation rejects the entire reserved namespace; update/dialogue tools
 cannot author it. Disposition and narrative prose never provide consent.
 
-Unconscious/unwilling targets, thrown effects and stronger variants remain
-unsupported. The two-actor encounter offers only self-use; it has no allied
+Unconscious/unwilling NPC targets, thrown effects and stronger variants remain
+unsupported. A trusted ally can give an Unconscious player one of the player's
+potions; see [Dropping to 0 HP](zero-hp.md#help-from-an-ally). The two-actor encounter offers only self-use; it has no allied
 participant support. Active legacy combat remains rejected.
 The wider magic-item catalogue stays explicitly unsupported.
 

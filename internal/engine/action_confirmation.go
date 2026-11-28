@@ -107,6 +107,11 @@ func (e *Engine) ConfirmAction(ctx context.Context, campaignID uuid.UUID, reques
 		} else if request.TargetID != pc.ID && !((request.Intent.Kind == srd521.ConsumableUse || (request.Intent.Kind == srd521.SpellCast && (request.Intent.EntryID == "cure-wounds" || request.Intent.EntryID == "shield-of-faith"))) && prepared.HealingTarget(request.TargetID) != nil) {
 			return nil, ErrActionRefresh
 		}
+	} else if request.Intent.Kind == srd521.AllyAid {
+		// The target is the prepared ally who helps, never the player.
+		if prepared.HealingTarget(request.TargetID) == nil {
+			return nil, ErrActionRefresh
+		}
 	} else if request.Intent.Kind == srd521.TravelHour {
 		if prepared.TravelOption(request.TargetID) == nil {
 			return nil, ErrActionRefresh
@@ -242,6 +247,13 @@ func (e *Engine) ConfirmAction(ctx context.Context, campaignID uuid.UUID, reques
 		}
 		receipt, tool, label = save, "srd_death_save", "Death saving throw"
 		narrative = save.Reason
+	} else if request.Intent.Kind == srd521.AllyAid {
+		aid, err := resolveAllyAid(ctx, tx, campaignID, pc, prepared, request, dice)
+		if err != nil {
+			return nil, err
+		}
+		receipt, tool, label = aid, "srd_death_save", "Ally aid"
+		narrative = aid.Reason
 	} else if request.Intent.Kind == srd521.FallResolve {
 		fallReceipt, err := resolveDeclaredFall(ctx, tx, campaignID, pc.ID, pc.HP, pc.Stats, prepared.Fall, request.Intent.Skill, sheet, dice)
 		if err != nil {

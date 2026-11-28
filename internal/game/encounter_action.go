@@ -66,9 +66,10 @@ func PrepareStoredAction(ctx context.Context, database statedb.DBTX, campaign do
 // replaces any other. An active encounter owns the player's conditions;
 // otherwise they come from stats, strictly decoded so unknown state fails
 // closed. Only ending a turn, declining a Reaction, movement, a fall with no
-// Reaction and a Death Saving Throw stay open, and movement closes at Speed 0.
-// A dead character has no choices, and one at 0 HP without Unconscious (left
-// by an older build) only the Death Saving Throw that repairs it.
+// Reaction, a Death Saving Throw and an ally's aid stay open, and movement
+// closes at Speed 0. A dead character has no choices, and one at 0 HP without
+// Unconscious (left by an older build) only the Death Saving Throw that
+// repairs it.
 func conditionReason(stats []byte, hp int, encounter *combat.Encounter, intent ActionIntent) (string, error) {
 	saves, err := srd521.DecodeDeathSaves(stats)
 	if err != nil {
@@ -89,7 +90,8 @@ func conditionReason(stats []byte, hp int, encounter *combat.Encounter, intent A
 		return "", err
 	}
 	switch intent.Kind {
-	case combat.EncounterEndTurn, combat.EncounterDecline, srd521.DeathSave:
+	case combat.EncounterEndTurn, combat.EncounterDecline, srd521.DeathSave, srd521.AllyAid:
+		// An ally's aid is the ally's action, not the player's.
 		return "", nil
 	}
 	if hp == 0 && !conditions.Unconscious && (encounter == nil || encounter.Status != "active") {
@@ -124,6 +126,9 @@ func prepareStoredAction(ctx context.Context, database statedb.DBTX, campaign do
 	}
 	if intent.Kind == srd521.DeathSave {
 		return prepareDeathSave(ctx, database, campaign, pc, intent)
+	}
+	if intent.Kind == srd521.AllyAid {
+		return prepareAllyAid(ctx, database, campaign, pc, intent, lock)
 	}
 	if intent.Kind == combat.EncounterStand {
 		// Outside an active encounter Prone lives on the actor (#147).
