@@ -17,7 +17,6 @@ export const test = base.extend<{ game: { sockets: WebSocketRoute[]; actions: st
       if (path === '/auth/me') body = { user };
       else if (path === '/auth/login' || path === '/auth/register') body = { token: 'fixture-token', user };
       else if (path === '/auth/logout') body = {};
-      else if (path === '/auth/ws-ticket') body = { ticket: 'fixture-ticket', expires_in: 30 };
       else if (path === '/campaigns') body = { campaigns: [campaign(), campaign('beta')] };
       else if (path === '/campaigns/start/name') body = { name: 'Adventure alpha' };
       else if (path === '/campaigns/start/world') {

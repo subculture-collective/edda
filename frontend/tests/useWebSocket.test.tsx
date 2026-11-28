@@ -1,6 +1,5 @@
 import { act, renderHook } from '@testing-library/react';
 import { expect, it, vi } from 'vitest';
-import { setStoredSession } from '../src/api/authSession';
 import { useWebSocket } from '../src/hooks/useWebSocket';
 import { result, timestamp } from './fixtures/data';
 
@@ -101,42 +100,4 @@ it('does not carry a rejected action into another campaign', async () => {
   const secondAlpha = FixtureSocket.instances[2]; act(() => secondAlpha.open());
   act(() => { hook.result.current.sendAction('Alpha action'); });
   expect(JSON.parse(secondAlpha.sent[0]).payload.action_id).not.toBe(JSON.parse(alpha.sent[0]).payload.action_id);
-});
-
-it('opens each connection with its own one-use ticket', async () => {
-  vi.useFakeTimers(); FixtureSocket.instances = []; vi.stubGlobal('WebSocket', FixtureSocket);
-  setStoredSession('session-token', { id: '1', name: 'Player', email: 'player@example.com' });
-  let issued = 0;
-  const fetch = vi.fn(() => Promise.resolve(Response.json({ ticket: `ticket-${++issued}`, expires_in: 30 })));
-  vi.stubGlobal('fetch', fetch);
-  renderHook(() => useWebSocket('alpha'));
-  await act(() => vi.advanceTimersByTimeAsync(0));
-  const first = FixtureSocket.instances[0];
-  expect(fetch).toHaveBeenCalledWith('/api/v1/auth/ws-ticket', expect.objectContaining({ method: 'POST' }));
-  expect(new Headers((fetch.mock.calls[0] as unknown as [string, RequestInit])[1].headers).get('Authorization')).toBe('Bearer session-token');
-  expect(new URL(first.url).searchParams.get('ticket')).toBe('ticket-1');
-  act(() => first.open()); act(() => first.close());
-  await act(() => vi.advanceTimersByTimeAsync(1000)); await act(() => vi.advanceTimersByTimeAsync(0));
-  expect(new URL(FixtureSocket.instances[1].url).searchParams.get('ticket')).toBe('ticket-2');
-});
-
-it('stops reconnecting when the server closes the socket because the session signed out', async () => {
-  vi.useFakeTimers(); FixtureSocket.instances = []; vi.stubGlobal('WebSocket', FixtureSocket);
-  const hook = renderHook(() => useWebSocket('alpha'));
-  await act(() => vi.advanceTimersByTimeAsync(0));
-  const socket = FixtureSocket.instances[0]; act(() => socket.open());
-  act(() => { socket.readyState = 3; socket.dispatchEvent(new CloseEvent('close', { code: 4401, reason: 'signed out' })); });
-  expect(hook.result.current).toMatchObject({ connectionStatus: 'closed', error: 'Your session has ended. Sign in again to keep playing.' });
-  await act(() => vi.advanceTimersByTimeAsync(60000));
-  expect(FixtureSocket.instances).toHaveLength(1);
-});
-
-it('does not open a socket when the ticket request is refused', async () => {
-  vi.useFakeTimers(); FixtureSocket.instances = []; vi.stubGlobal('WebSocket', FixtureSocket);
-  setStoredSession('revoked-token', { id: '1', name: 'Player', email: 'player@example.com' });
-  vi.stubGlobal('fetch', vi.fn(() => Promise.resolve(Response.json({ error: 'invalid or expired token' }, { status: 401 }))));
-  const hook = renderHook(() => useWebSocket('alpha'));
-  await act(() => vi.advanceTimersByTimeAsync(60000));
-  expect(FixtureSocket.instances).toHaveLength(0);
-  expect(hook.result.current.error).toBe('Your session has ended. Sign in again to keep playing.');
 });

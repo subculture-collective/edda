@@ -370,7 +370,7 @@ func TestHandleWebSocket_StreamErrorEvent(t *testing.T) {
 	})
 }
 
-func TestHandleWebSocket_AllowsBearerJWTUpgrade(t *testing.T) {
+func TestHandleWebSocket_AllowsCookieBackedJWTUpgrade(t *testing.T) {
 	eng := &wsStubEngine{
 		streamEvents: []engine.StreamEvent{{Type: "chunk", Text: "You see a dragon."}},
 	}
@@ -383,7 +383,7 @@ func TestHandleWebSocket_AllowsBearerJWTUpgrade(t *testing.T) {
 	}
 
 	r := chi.NewRouter()
-	r.Use(auth.NewJWTMiddleware(testJWTSecret, wsRevocations{}, auth.NewWebSocketSessions()).Authenticate)
+	r.Use(auth.NewJWTMiddleware(testJWTSecret, wsRevocations{}).Authenticate)
 	r.Route("/campaigns/{id}", func(r chi.Router) {
 		r.Get("/ws", h.HandleWebSocket)
 	})
@@ -397,8 +397,8 @@ func TestHandleWebSocket_AllowsBearerJWTUpgrade(t *testing.T) {
 
 	conn, _, err := websocket.Dial(ctx, wsURL, &websocket.DialOptions{
 		HTTPHeader: http.Header{
-			"Origin":        []string{"http://127.0.0.1:5173"},
-			"Authorization": []string{"Bearer " + token},
+			"Origin": []string{"http://127.0.0.1:5173"},
+			"Cookie": []string{auth.AuthCookieName + "=" + token},
 		},
 	})
 	if err != nil {

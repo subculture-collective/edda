@@ -47,11 +47,10 @@ func (m *memRevocations) IsTokenRevoked(_ context.Context, jti string) (bool, er
 func revocationFixture(t *testing.T) (*memRevocations, http.Handler, *AuthHandlers) {
 	t.Helper()
 	rev := newMemRevocations()
-	sessions := NewWebSocketSessions()
-	protected := NewJWTMiddleware("secret", rev, sessions).Authenticate(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
+	protected := NewJWTMiddleware("secret", rev).Authenticate(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
 		w.WriteHeader(http.StatusNoContent)
 	}))
-	return rev, protected, NewAuthHandlers(nil, rev, sessions, "secret")
+	return rev, protected, NewAuthHandlers(nil, rev, "secret")
 }
 
 func mustToken(t *testing.T, userID uuid.UUID) string {
@@ -74,17 +73,20 @@ func bearerStatus(h http.Handler, token string) int {
 func webSocketStatus(h http.Handler, token string) int {
 	req := httptest.NewRequest(http.MethodGet, "/api/v1/campaigns/x/ws", nil)
 	req.Header.Set("Upgrade", "websocket")
-	req.Header.Set("Authorization", "Bearer "+token)
+	req.AddCookie(&http.Cookie{Name: AuthCookieName, Value: token})
 	rec := httptest.NewRecorder()
 	h.ServeHTTP(rec, req)
 	return rec.Code
 }
 
-func logout(t *testing.T, h *AuthHandlers, bearer string) *httptest.ResponseRecorder {
+func logout(t *testing.T, h *AuthHandlers, bearer, cookie string) *httptest.ResponseRecorder {
 	t.Helper()
 	req := httptest.NewRequest(http.MethodPost, "/api/v1/auth/logout", nil)
 	if bearer != "" {
 		req.Header.Set("Authorization", "Bearer "+bearer)
+	}
+	if cookie != "" {
+		req.AddCookie(&http.Cookie{Name: AuthCookieName, Value: cookie})
 	}
 	rec := httptest.NewRecorder()
 	h.Logout(rec, req)
@@ -96,14 +98,14 @@ func TestLogoutRevokesTheBearerTokenOnly(t *testing.T) {
 	user := uuid.New()
 	a, b := mustToken(t, user), mustToken(t, user)
 
-	if rec := logout(t, h, a); rec.Code != http.StatusNoContent {
+	if rec := logout(t, h, a, a); rec.Code != http.StatusNoContent {
 		t.Fatalf("logout = %d %s", rec.Code, rec.Body.String())
 	}
 	if got := bearerStatus(protected, a); got != http.StatusUnauthorized {
 		t.Fatalf("signed-out bearer token: status %d, want 401", got)
 	}
 	if got := webSocketStatus(protected, a); got != http.StatusUnauthorized {
-		t.Fatalf("signed-out WebSocket upgrade: status %d, want 401", got)
+		t.Fatalf("signed-out WebSocket cookie: status %d, want 401", got)
 	}
 	if got := bearerStatus(protected, b); got != http.StatusNoContent {
 		t.Fatalf("other session of the same user: status %d, want 204", got)
@@ -113,14 +115,15 @@ func TestLogoutRevokesTheBearerTokenOnly(t *testing.T) {
 	}
 }
 
-func TestLogoutIgnoresTheOldSessionCookie(t *testing.T) {
-	rev, _, h := revocationFixture(t)
-	req := httptest.NewRequest(http.MethodPost, "/api/v1/auth/logout", nil)
-	req.AddCookie(&http.Cookie{Name: "gm_token", Value: mustToken(t, uuid.New())})
-	rec := httptest.NewRecorder()
-	h.Logout(rec, req)
-	if rec.Code != http.StatusNoContent || len(rec.Result().Cookies()) != 0 || len(rev.revoked) != 0 {
-		t.Fatalf("logout = %d, cookies %v, revoked %v", rec.Code, rec.Result().Cookies(), rev.revoked)
+func TestLogoutWithoutBearerRevokesTheCookieToken(t *testing.T) {
+	_, protected, h := revocationFixture(t)
+	a := mustToken(t, uuid.New())
+
+	if rec := logout(t, h, "", a); rec.Code != http.StatusNoContent {
+		t.Fatalf("logout = %d", rec.Code)
+	}
+	if got := webSocketStatus(protected, a); got != http.StatusUnauthorized {
+		t.Fatalf("signed-out cookie token: status %d, want 401", got)
 	}
 }
 
@@ -130,7 +133,7 @@ func TestLogoutIgnoresATokenItCannotVerify(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	if rec := logout(t, h, forged); rec.Code != http.StatusNoContent {
+	if rec := logout(t, h, forged, ""); rec.Code != http.StatusNoContent {
 		t.Fatalf("logout = %d", rec.Code)
 	}
 	if len(rev.revoked) != 0 {
@@ -141,7 +144,7 @@ func TestLogoutIgnoresATokenItCannotVerify(t *testing.T) {
 func TestLogoutReportsAFailedRevocation(t *testing.T) {
 	rev, _, h := revocationFixture(t)
 	rev.err = errors.New("database down")
-	rec := logout(t, h, mustToken(t, uuid.New()))
+	rec := logout(t, h, mustToken(t, uuid.New()), "")
 	if rec.Code != http.StatusInternalServerError {
 		t.Fatalf("logout = %d, want 500", rec.Code)
 	}
