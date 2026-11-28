@@ -39,8 +39,9 @@ func run(args []string) int {
 	}
 	defer logResult.Cleanup()
 
-	logger := logging.NewCharmLogger(logResult.BridgeWriter)
-	logger.SetDefault()
+	charm := logging.NewCharmLogger(logResult.BridgeWriter)
+	charm.SetDefault() // without a prefix: each package adds its own
+	logger := charm.WithPrefix("tui")
 
 	cfg, err := config.Load(configPath)
 	if err != nil {
@@ -52,7 +53,7 @@ func run(args []string) int {
 		return 1
 	}
 
-	logger.Infof("starting TUI (provider=%s model=%s endpoint=%s timeout=%s altscreen=%t mouse=%t)", cfg.LLM.Provider, cfg.LLM.Ollama.Model, cfg.LLM.Ollama.Endpoint, cfg.LLM.Ollama.RequestTimeout(), tuiAltScreenEnabled(), tuiMouseEnabled())
+	logStartup(logger, cfg)
 	ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM)
 	defer stop()
 
@@ -116,6 +117,17 @@ func run(args []string) int {
 
 	logger.Info("TUI stopped")
 	return 0
+}
+
+func logStartup(logger logging.Logger, cfg config.Config) {
+	logger.Info("starting TUI",
+		"provider", cfg.LLM.Provider,
+		"model", cfg.LLM.Ollama.Model,
+		"endpoint", cfg.LLM.Ollama.Endpoint,
+		"timeout", cfg.LLM.Ollama.RequestTimeout(),
+		"altscreen", tuiAltScreenEnabled(),
+		"mouse", tuiMouseEnabled(),
+	)
 }
 
 // runQuietly runs the terminal UI with the stderr copy of log records off. The

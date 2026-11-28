@@ -32,7 +32,7 @@ type AutoEmbedder struct {
 // calls become no-ops. If logger is nil, the default logger is used.
 func NewAutoEmbedder(embedder memory.Embedder, store AutoEmbedStore, logger logging.Logger) *AutoEmbedder {
 	if logger == nil {
-		logger = logging.WrapCharmLogger(log.Default())
+		logger = logging.WrapCharmLogger(log.Default().WithPrefix("tools"))
 	}
 	return &AutoEmbedder{
 		embedder: embedder,

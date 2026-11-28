@@ -6,9 +6,11 @@ import (
 )
 
 // Field is a structured logging key/value pair prepared for display and JSONL output.
+// Older log files name these "Key" and "Value", which still decode because
+// encoding/json ignores case.
 type Field struct {
-	Key   string
-	Value string
+	Key   string `json:"key"`
+	Value string `json:"value"`
 }
 
 // LogEntry is a single structured log event captured for UI display and streaming.
