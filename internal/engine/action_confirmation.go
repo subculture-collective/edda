@@ -6,7 +6,6 @@ import (
 	"errors"
 	"fmt"
 	"math/rand/v2"
-	"strings"
 
 	"git.subcult.tv/subculture-collective/edda/internal/combat"
 	"git.subcult.tv/subculture-collective/edda/internal/db"
@@ -270,7 +269,11 @@ func (e *Engine) ConfirmAction(ctx context.Context, campaignID uuid.UUID, reques
 		if faith != nil {
 			ac += 2
 		}
-		attack, err := srd521.ResolveLongsword(sheet, ac+target.Space.CoverBonus(), dice)
+		var disadvantage []string
+		if encounter != nil && encounter.Status == "active" {
+			disadvantage = encounter.PlayerAttackDisadvantage()
+		}
+		attack, err := srd521.ResolveLongswordRoll(sheet, ac+target.Space.CoverBonus(), nil, disadvantage, dice)
 		if err != nil {
 			return nil, err
 		}
@@ -291,6 +294,9 @@ func (e *Engine) ConfirmAction(ctx context.Context, campaignID uuid.UUID, reques
 		if request.Intent.Kind == combat.EncounterReact {
 			narrative = fmt.Sprintf("Opportunity attack against %s: %s (total %d), %d slashing damage. One reaction spent; it recovers at the start of your next turn.", target.Name, attack.Outcome, attack.Total, attack.Damage)
 			finishWithdrawal(encounter)
+		}
+		if note := attack.RollNote(); note != "" {
+			narrative += " " + note
 		}
 	} else if request.Intent.Kind == combat.EncounterDecline {
 		tool = "srd_encounter"
@@ -573,8 +579,8 @@ func (e *Engine) ConfirmAction(ctx context.Context, campaignID uuid.UUID, reques
 		}
 		for _, attack := range npcReceipts {
 			narrative += fmt.Sprintf(" %s: %s (d20 %d + %d = %d), %d %s damage.", attack.Weapon, attack.Outcome, attack.Die, attack.Modifier.Value, attack.Total, attack.Damage, attack.DamageType)
-			if len(attack.D20s) == 2 {
-				narrative += fmt.Sprintf(" Advantage (%s): rolled %d and %d.", strings.Join(attack.Advantage, "; "), attack.D20s[0], attack.D20s[1])
+			if note := attack.RollNote(); note != "" {
+				narrative += " " + note
 			}
 			switch attack.Condition {
 			case "prone-applied":

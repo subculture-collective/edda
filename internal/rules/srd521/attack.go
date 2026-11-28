@@ -1,6 +1,9 @@
 package srd521
 
-import "fmt"
+import (
+	"fmt"
+	"strings"
+)
 
 const MartialAttack = "martial-attack"
 
@@ -22,10 +25,13 @@ type AttackReceipt struct {
 	DamageType     string   `json:"damage_type"`
 	SourceIDs      []string `json:"source_ids"`
 
-	// Advantage lists the durable facts that granted Advantage; D20s then holds
-	// both rolled dice and Die the higher one. Both are empty for a single roll.
-	Advantage []string `json:"advantage,omitempty"`
-	D20s      []int    `json:"d20s,omitempty"`
+	// Advantage and Disadvantage list the durable facts that granted each.
+	// When only one applies, D20s holds both rolled dice and Die the kept one
+	// (higher for Advantage, lower for Disadvantage). When both apply they
+	// cancel: one d20 is rolled and D20s is empty.
+	Advantage    []string `json:"advantage,omitempty"`
+	Disadvantage []string `json:"disadvantage,omitempty"`
+	D20s         []int    `json:"d20s,omitempty"`
 	// Condition records a size-gated condition outcome on a hit: "prone-applied",
 	// "already-prone" or "size-exempt". It is empty when no condition applies.
 	Condition string `json:"condition,omitempty"`
@@ -39,10 +45,16 @@ func LongswordModifier(sheet *CharacterSheet) Value {
 // ResolveLongsword handles an ordinary attack with no mastery, conditions,
 // resistance or other situational effects. Callers must validate that scope.
 func ResolveLongsword(sheet *CharacterSheet, armorClass int, dice Dice) (*AttackReceipt, error) {
+	return ResolveLongswordRoll(sheet, armorClass, nil, nil, dice)
+}
+
+// ResolveLongswordRoll is ResolveLongsword with the durable facts that give
+// the roll Advantage or Disadvantage, such as the attacker's Prone condition.
+func ResolveLongswordRoll(sheet *CharacterSheet, armorClass int, advantage, disadvantage []string, dice Dice) (*AttackReceipt, error) {
 	if sheet == nil || sheet.RulesVersion != "srd-5.2.1" || armorClass < 1 || dice == nil {
 		return nil, fmt.Errorf("supported sheet, target and dice required")
 	}
-	return resolveWeaponAttack(sheet.RulesVersion, "Longsword (one hand)", LongswordModifier(sheet), sheet.Abilities["strength"].Modifier.Value, 8, "slashing", armorClass, dice)
+	return resolveAttackRoll(sheet.RulesVersion, "Longsword (one hand)", LongswordModifier(sheet), sheet.Abilities["strength"].Modifier.Value, 8, "slashing", armorClass, advantage, disadvantage, dice)
 }
 
 // ResolveFixtureUnarmed resolves the declared Strength 10, proficiency +2 NPC
@@ -55,26 +67,40 @@ func ResolveFixtureUnarmed(armorClass int, dice Dice) (*AttackReceipt, error) {
 }
 
 func resolveWeaponAttack(version, weapon string, modifier Value, damageModifier, damageDie int, damageType string, armorClass int, dice Dice) (*AttackReceipt, error) {
-	return resolveAttackRoll(version, weapon, modifier, damageModifier, damageDie, damageType, armorClass, nil, dice)
+	return resolveAttackRoll(version, weapon, modifier, damageModifier, damageDie, damageType, armorClass, nil, nil, dice)
 }
 
-// resolveAttackRoll rolls two d20s and keeps the higher when advantage names
-// at least one reason. Advantage never stacks: two reasons still roll twice.
-func resolveAttackRoll(version, weapon string, modifier Value, damageModifier, damageDie int, damageType string, armorClass int, advantage []string, dice Dice) (*AttackReceipt, error) {
+// resolveAttackRoll rolls two d20s when only Advantage or only Disadvantage
+// names a reason, keeping the higher or lower die. Neither stacks: several
+// reasons still roll twice. When both name a reason they cancel and one d20
+// is rolled, however many reasons each side has.
+func resolveAttackRoll(version, weapon string, modifier Value, damageModifier, damageDie int, damageType string, armorClass int, advantage, disadvantage []string, dice Dice) (*AttackReceipt, error) {
 	roll := dice.Intn(20)
 	if roll < 0 || roll >= 20 {
 		return nil, fmt.Errorf("invalid d20")
 	}
 	r := &AttackReceipt{RulesVersion: version, Kind: MartialAttack, Weapon: weapon, Die: roll + 1, Modifier: modifier, Outcome: "miss", DamageType: damageType, DamageDice: []int{}, SourceIDs: []string{prefix + "d20-tests/attack-rolls", prefix + "weapons/longsword", prefix + "damage/critical-hits"}}
 	if len(advantage) > 0 {
+		r.Advantage = append([]string(nil), advantage...)
+	}
+	if len(disadvantage) > 0 {
+		r.Disadvantage = append([]string(nil), disadvantage...)
+	}
+	if (len(advantage) > 0) != (len(disadvantage) > 0) {
 		second := dice.Intn(20)
 		if second < 0 || second >= 20 {
 			return nil, fmt.Errorf("invalid d20")
 		}
-		r.Advantage, r.D20s, r.Die = append([]string(nil), advantage...), []int{roll + 1, second + 1}, max(roll, second)+1
+		r.D20s, r.Die = []int{roll + 1, second + 1}, max(roll, second)+1
+		if len(disadvantage) > 0 {
+			r.Die = min(roll, second) + 1
+		}
 	}
 	if damageDie == 0 {
 		r.SourceIDs = []string{prefix + "d20-tests/attack-rolls", prefix + "rules-glossary/unarmed-strike"}
+	}
+	if len(advantage) > 0 || len(disadvantage) > 0 {
+		r.SourceIDs = append(r.SourceIDs, prefix+"d20-tests/advantage-disadvantage")
 	}
 	r.Total = r.Die + r.Modifier.Value
 	if r.Die == 1 || (r.Die != 20 && r.Total < armorClass) {
@@ -100,4 +126,18 @@ func resolveAttackRoll(version, weapon string, modifier Value, damageModifier, d
 		r.Damage = 0
 	}
 	return r, nil
+}
+
+// RollNote explains how the d20 was rolled, for narration. It is empty for an
+// ordinary single roll.
+func (r *AttackReceipt) RollNote() string {
+	switch {
+	case len(r.Advantage) > 0 && len(r.Disadvantage) > 0:
+		return fmt.Sprintf("Advantage (%s) and Disadvantage (%s) cancel: one d20.", strings.Join(r.Advantage, "; "), strings.Join(r.Disadvantage, "; "))
+	case len(r.D20s) == 2 && len(r.Disadvantage) > 0:
+		return fmt.Sprintf("Disadvantage (%s): rolled %d and %d, kept %d.", strings.Join(r.Disadvantage, "; "), r.D20s[0], r.D20s[1], r.Die)
+	case len(r.D20s) == 2:
+		return fmt.Sprintf("Advantage (%s): rolled %d and %d.", strings.Join(r.Advantage, "; "), r.D20s[0], r.D20s[1])
+	}
+	return ""
 }

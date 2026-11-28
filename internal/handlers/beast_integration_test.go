@@ -258,9 +258,38 @@ func TestIntegrationWolfPackTactics(t *testing.T) {
 	}
 	f.replay(request, result)
 
-	// Prone blocks the unsupported Disadvantage attack and crawling; standing is legal.
-	if f.prepare(srd521.MartialAttack, f.weapon.String()).Available || f.prepare(combat.EncounterApproach, "").Available || f.prepare(combat.EncounterMove, "").Available {
-		t.Fatal("attack or movement while Prone available")
+	// Prone: the longsword attack has Disadvantage, shown in the preview.
+	attack := f.prepare(srd521.MartialAttack, f.weapon.String())
+	if !strings.Contains(strings.Join(attack.Options, " "), "Disadvantage on this attack roll (attacker is Prone)") {
+		t.Fatalf("attack options=%v", attack.Options)
+	}
+	request = f.request(attack, f.target)
+	before := f.encounter()
+	f.dice.values = []int{19, -1}
+	if _, err := f.engine().ConfirmAction(f.ctx, f.campaign, request); err == nil {
+		t.Fatal("invalid second d20 committed")
+	}
+	if !reflect.DeepEqual(before, f.encounter()) {
+		t.Fatal("dice failure leaked state")
+	}
+	// d20s 20 and 4: the lower die is kept, so no critical hit; 4 + 5 misses AC 13.
+	result = f.confirm(request, 19, 3)
+	var payload struct {
+		Receipt srd521.AttackReceipt `json:"receipt"`
+	}
+	f.must(json.Unmarshal(result.AppliedToolCalls[0].Result, &payload))
+	if a := payload.Receipt; a.Die != 4 || !reflect.DeepEqual(a.D20s, []int{20, 4}) || !reflect.DeepEqual(a.Disadvantage, []string{"attacker is Prone"}) || a.Advantage != nil || a.Outcome != "miss" || !strings.Contains(result.Narrative, "Disadvantage (attacker is Prone): rolled 20 and 4, kept 4.") {
+		t.Fatalf("attack=%+v narrative=%q", a, result.Narrative)
+	}
+	f.replay(request, result)
+	// Crawling: 5 feet costs 10 feet of movement and keeps Prone.
+	move := f.prepare(combat.EncounterMove, "")
+	if !move.Available || len(move.Costs) != 1 || move.Costs[0].Amount != 10 {
+		t.Fatalf("crawl=%+v", move)
+	}
+	f.confirm(f.request(move, uuid.Nil))
+	if e := f.encounter(); !playerProne(e) || e.Budget.Movement != 20 || e.Budget.Action {
+		t.Fatalf("crawl=%+v", e)
 	}
 	if stand := f.prepare(combat.EncounterStand, ""); !stand.Available || len(stand.Costs) != 1 || stand.Costs[0].Amount != 15 {
 		t.Fatalf("stand=%+v", stand)
@@ -326,5 +355,45 @@ func TestIntegrationBrownBearMultiattack(t *testing.T) {
 	r = npcReceipts(t, result)
 	if len(r) != 1 || r[0].Weapon != "Bite" || r[0].Damage != 11 || len(r[0].D20s) != 2 || f.dice.calls != calls+3 || f.hp() != 0 || f.encounter().Status != "completed" {
 		t.Fatalf("receipts=%+v hp=%d calls=%d", r, f.hp(), f.dice.calls-calls)
+	}
+}
+
+// A Prone player's opportunity attack has Disadvantage, and crawling back into
+// reach costs double movement.
+func TestIntegrationProneOpportunityAttack(t *testing.T) {
+	f := newBeastFixture(t, "wolf-v1", "bite", `,"pack_ally":{"present":false},"tactic":"withdraw"`)
+	f.confirm(f.request(f.prepare(combat.EncounterStart, f.weapon.String()), f.target), 18, 0)
+	// The Bite hits (d20 16), deals 1d6 (3) + 2 and knocks the player Prone;
+	// the Wolf then starts to withdraw.
+	f.confirm(f.request(f.prepare(combat.EncounterEndTurn, ""), uuid.Nil), 15, 2)
+	if e := f.encounter(); !playerProne(e) || e.Reaction.Pending == nil {
+		t.Fatalf("encounter=%+v", e)
+	}
+	react := f.prepare(combat.EncounterReact, f.weapon.String())
+	if !react.Available || !strings.Contains(strings.Join(react.Options, " "), "Disadvantage on this attack roll (attacker is Prone)") {
+		t.Fatalf("react=%+v", react)
+	}
+	// d20s 20 and 10: the lower die is kept, so the hit is not critical.
+	request := f.request(react, f.target)
+	result := f.confirm(request, 19, 9, 3)
+	var payload struct {
+		Receipt srd521.AttackReceipt `json:"receipt"`
+	}
+	f.must(json.Unmarshal(result.AppliedToolCalls[0].Result, &payload))
+	if a := payload.Receipt; a.Die != 10 || a.Outcome != "hit" || len(a.DamageDice) != 1 || !reflect.DeepEqual(a.D20s, []int{20, 10}) || len(a.Disadvantage) != 1 {
+		t.Fatalf("opportunity attack=%+v", a)
+	}
+	f.replay(request, result)
+	e := f.encounter()
+	if !playerProne(e) || !e.Active().Player || *e.Space.DistanceFeet != 10 || e.Budget.Movement != 30 {
+		t.Fatalf("after withdrawal=%+v", e)
+	}
+	approach := f.prepare(combat.EncounterApproach, "")
+	if !approach.Available || approach.Costs[0].Amount != 10 || !strings.Contains(strings.Join(approach.Options, " "), "crawl") {
+		t.Fatalf("approach=%+v", approach)
+	}
+	f.confirm(f.request(approach, uuid.Nil))
+	if e := f.encounter(); !playerProne(e) || *e.Space.DistanceFeet != 5 || e.Budget.Movement != 20 {
+		t.Fatalf("crawl=%+v", e)
 	}
 }

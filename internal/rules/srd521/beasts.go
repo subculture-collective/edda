@@ -202,12 +202,12 @@ func ResolveBeastAttack(p BeastProfile, attack BeastAttack, dice Dice) (*AttackR
 	}
 	source := "animals/" + strings.TrimPrefix(m.ID, prefix+"animals/")
 	w := a.Attack
-	r, err := resolveAttackRoll("srd-5.2.1", a.Name, derived(term(m.Name+" attack", w.Bonus, source)), w.Damage.Modifier, w.Damage.Sides, w.DamageType, attack.ArmorClass, attack.Advantage, dice)
+	r, err := resolveAttackRoll("srd-5.2.1", a.Name, derived(term(m.Name+" attack", w.Bonus, source)), w.Damage.Modifier, w.Damage.Sides, w.DamageType, attack.ArmorClass, attack.Advantage, nil, dice)
 	if err != nil {
 		return nil, err
 	}
 	r.SourceIDs = []string{m.ID, prefix + "d20-tests/attack-rolls", prefix + "damage/critical-hits"}
-	if len(r.Advantage) > 0 {
+	if len(r.Advantage) > 0 || len(r.Disadvantage) > 0 {
 		r.SourceIDs = append(r.SourceIDs, prefix+"d20-tests/advantage-disadvantage")
 	}
 	gated := false

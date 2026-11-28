@@ -381,6 +381,7 @@ func PrepareStoredAction(ctx context.Context, database statedb.DBTX, campaign do
 			return unavailable(err.Error())
 		}
 		p.Costs = []ActionCost{{ResourceID: "reaction", Amount: 1}}
+		p.Options, p.SourceIDs = withAttackDisadvantage(encounter, p.Options, p.SourceIDs)
 		return result, nil
 	}
 	if intent.Kind == combat.EncounterReact || intent.Kind == combat.EncounterDecline {
@@ -391,7 +392,9 @@ func PrepareStoredAction(ctx context.Context, database statedb.DBTX, campaign do
 	}
 	// Do not pretend arbitrary checks are encounter actions in this slice.
 	switch intent.Kind {
-	case srd521.ActionSurge, srd521.MartialAttack:
+	case srd521.ActionSurge:
+	case srd521.MartialAttack:
+		p.Options, p.SourceIDs = withAttackDisadvantage(encounter, p.Options, p.SourceIDs)
 
 	case srd521.EndConcentration, srd521.SpellCast, srd521.ConsumableUse:
 	case combat.EncounterMove, combat.EncounterDash, combat.EncounterEndTurn, combat.EncounterApproach, combat.EncounterRetreat, combat.EncounterStand, combat.EncounterDecline:
@@ -403,10 +406,14 @@ func PrepareStoredAction(ctx context.Context, database statedb.DBTX, campaign do
 		p.Costs = []ActionCost{}
 		p.Options = []string{"End turn resolves the NPC turn through saved dice mechanics."}
 		if intent.Kind == combat.EncounterMove || intent.Kind == combat.EncounterApproach || intent.Kind == combat.EncounterRetreat {
-			p.Costs = []ActionCost{{ResourceID: "movement-feet", Amount: 5}}
+			p.Costs = []ActionCost{{ResourceID: "movement-feet", Amount: encounter.MoveCost()}}
 			p.Options = []string{"Spend 5 feet of movement without changing distance."}
 			if intent.Kind != combat.EncounterMove {
 				p.Options = []string{"Change the declared exact distance by 5 feet on a clear path."}
+			}
+			if encounter.Active().Prone {
+				p.Options = append(p.Options, fmt.Sprintf("Prone: you crawl, so these 5 feet cost %d feet of movement.", encounter.MoveCost()))
+				p.SourceIDs = append(p.SourceIDs, "srd-5.2.1:content/rules-glossary/prone", "srd-5.2.1:content/rules-glossary/crawling")
 			}
 		}
 		if intent.Kind == combat.EncounterDash {
@@ -484,4 +491,15 @@ func beastOptions(m srd521.Monster, attacks []srd521.MonsterAction) []string {
 		options = append(options, t.Text)
 	}
 	return options
+}
+
+// withAttackDisadvantage adds the player's attack Disadvantage, if any, to a
+// preview so the confirmation rolls exactly what the preview showed.
+func withAttackDisadvantage(encounter *combat.Encounter, options, sources []string) ([]string, []string) {
+	reasons := encounter.PlayerAttackDisadvantage()
+	if len(reasons) == 0 {
+		return options, sources
+	}
+	options = append(options, "Disadvantage on this attack roll ("+strings.Join(reasons, "; ")+"): roll two d20s and keep the lower.")
+	return options, append(sources, "srd-5.2.1:content/rules-glossary/prone", "srd-5.2.1:content/d20-tests/advantage-disadvantage")
 }
