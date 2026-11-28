@@ -36,8 +36,9 @@ WHERE id = sqlc.arg(id)
 SELECT id, campaign_id, name, description, personality, disposition, location_id, faction_id, alive, hp, stats, properties, created_at, updated_at
 FROM npcs
 WHERE campaign_id = sqlc.arg(campaign_id)
-  -- Door rows are scene objects, not characters (see IsSceneObject).
+  -- Door and magic object rows are not characters (see IsSceneObject).
   AND NOT (properties ? 'srd521_door')
+  AND properties->'srd521_magic'->>'bearer' IS DISTINCT FROM 'object'
 ORDER BY created_at, id;
 
 -- name: ListNPCsByLocation :many
@@ -45,8 +46,9 @@ SELECT id, campaign_id, name, description, personality, disposition, location_id
 FROM npcs
 WHERE campaign_id = sqlc.arg(campaign_id)
   AND location_id = sqlc.arg(location_id)
-  -- Door rows are scene objects, not characters (see IsSceneObject).
+  -- Door and magic object rows are not characters (see IsSceneObject).
   AND NOT (properties ? 'srd521_door')
+  AND properties->'srd521_magic'->>'bearer' IS DISTINCT FROM 'object'
 ORDER BY created_at, id;
 
 -- name: ListNPCsByFaction :many
@@ -54,8 +56,9 @@ SELECT id, campaign_id, name, description, personality, disposition, location_id
 FROM npcs
 WHERE campaign_id = sqlc.arg(campaign_id)
   AND faction_id = sqlc.arg(faction_id)
-  -- Door rows are scene objects, not characters (see IsSceneObject).
+  -- Door and magic object rows are not characters (see IsSceneObject).
   AND NOT (properties ? 'srd521_door')
+  AND properties->'srd521_magic'->>'bearer' IS DISTINCT FROM 'object'
 ORDER BY created_at, id;
 
 -- name: ListAliveNPCsByLocation :many
@@ -64,8 +67,9 @@ FROM npcs
 WHERE campaign_id = sqlc.arg(campaign_id)
   AND location_id = sqlc.arg(location_id)
   AND alive = TRUE
-  -- Door rows are scene objects, not characters (see IsSceneObject).
+  -- Door and magic object rows are not characters (see IsSceneObject).
   AND NOT (properties ? 'srd521_door')
+  AND properties->'srd521_magic'->>'bearer' IS DISTINCT FROM 'object'
 ORDER BY created_at, id;
 
 -- name: UpdateNPC :one

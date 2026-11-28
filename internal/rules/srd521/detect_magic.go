@@ -26,8 +26,11 @@ var detectMagicBarriers = []string{"stone-dirt-or-wood-1-foot", "metal-1-inch", 
 
 // DetectMagicFacts is an explicitly adjudicated, player-known magic bearer.
 // Every field is required; nothing is inferred from prose or item names.
+// Bearer says whether the npcs row is an "object" or a "creature"; sensing
+// treats both alike, and the NPC listings leave objects out.
 type DetectMagicFacts struct {
 	Profile      string   `json:"profile"`
+	Bearer       string   `json:"bearer"`
 	ActorIDs     []string `json:"actor_ids"`
 	LocationID   string   `json:"location_id"`
 	Hidden       *bool    `json:"hidden"`
@@ -38,10 +41,10 @@ type DetectMagicFacts struct {
 	School       string   `json:"school"`
 }
 
-var detectMagicFactKeys = []string{"profile", "actor_ids", "location_id", "hidden", "distance_feet", "barrier", "visible", "origin", "school"}
+var detectMagicFactKeys = []string{"profile", "bearer", "actor_ids", "location_id", "hidden", "distance_feet", "barrier", "visible", "origin", "school"}
 
 // ParseDetectMagicFacts accepts only the exact vocabulary. Hidden lore, unknown
-// barriers, unknown origins and unknown schools are rejected, never guessed.
+// bearers, unknown barriers, unknown origins and unknown schools are rejected, never guessed.
 func ParseDetectMagicFacts(raw []byte) (DetectMagicFacts, bool) {
 	var facts DetectMagicFacts
 	var fields map[string]json.RawMessage
@@ -57,6 +60,9 @@ func ParseDetectMagicFacts(raw []byte) (DetectMagicFacts, bool) {
 	d := json.NewDecoder(bytes.NewReader(raw))
 	d.DisallowUnknownFields()
 	if d.Decode(&facts) != nil || facts.Profile != DetectMagicFactsProfile || len(facts.ActorIDs) == 0 || facts.LocationID == "" || *facts.Hidden || *facts.DistanceFeet < 0 {
+		return facts, false
+	}
+	if facts.Bearer != "object" && facts.Bearer != "creature" {
 		return facts, false
 	}
 	if facts.Barrier != "none" && !slices.Contains(detectMagicBarriers, facts.Barrier) {

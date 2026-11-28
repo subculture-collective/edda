@@ -39,11 +39,14 @@ reserved for trusted fixtures, so model-created NPCs cannot set it. Every key
 is required and non-null; anything else is skipped and never disclosed:
 
 ```json
-{"profile":"detect-magic-v1","actor_ids":["<pc id>"],"location_id":"<location id>",
+{"profile":"detect-magic-v1","bearer":"object","actor_ids":["<pc id>"],"location_id":"<location id>",
  "hidden":false,"distance_feet":20,"barrier":"none","visible":true,
  "origin":"spell","school":"abjuration"}
 ```
 
+- `bearer` is `object` or `creature`. Sensing and studying treat both alike.
+  It has no default: Edda cannot tell from the row which one it is, so a fact
+  without it is invalid like any other incomplete fact.
 - `hidden: true` is rejected: hidden lore is never sensed.
 - `barrier` is `none` or one of the source blockers `stone-dirt-or-wood-1-foot`,
   `metal-1-inch`, `lead-thin-sheet`; a blocker hides the bearer.
@@ -55,10 +58,21 @@ is present. Objects without NPC facts, encounter use and other senses remain
 unsupported. Preview fingerprints the facts, so a changed ruling requires a
 fresh preview.
 
+A row whose fact has `"bearer":"object"` is not a character, like a
+[door](narrative-combat-turns.md): the NPC list queries, the model's
+"NPCs Present" context and the NPC and encountered-NPC API listings leave it
+out. Campaign export keeps it. This test reads only `bearer`, so an object
+stays out of the listings even if another key makes Detect Magic skip the
+fact. A creature bearer stays listed, as does a row whose `bearer` is missing
+or unknown. Add `bearer` by hand to a fact written before the field existed.
+
 ## Checks
 
 - `internal/rules/srd521/detect_magic_test.go`: source-record agreement, fact
   validation, cast, study, expiry, Long Rest and damage.
+- `internal/handlers/door_npc_listing_integration_test.go` and
+  `internal/state/sqlc/scene_objects_test.go`: object bearers stay out of the
+  NPC listings and prompt context; creature bearers stay in.
 - `internal/handlers/detect_magic_integration_test.go`: PostgreSQL cast and
   study receipts, replacement, replay, rollback, stale facts, reload,
   missing or spent feat use, and the TUI preview.

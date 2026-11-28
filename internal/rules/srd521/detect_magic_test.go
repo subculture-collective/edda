@@ -9,7 +9,7 @@ import (
 
 func magicFacts(t *testing.T, change func(map[string]any)) []byte {
 	t.Helper()
-	m := map[string]any{"profile": DetectMagicFactsProfile, "actor_ids": []string{"actor"}, "location_id": "loc", "hidden": false, "distance_feet": 20, "barrier": "none", "visible": true, "origin": "spell", "school": "abjuration"}
+	m := map[string]any{"profile": DetectMagicFactsProfile, "bearer": "object", "actor_ids": []string{"actor"}, "location_id": "loc", "hidden": false, "distance_feet": 20, "barrier": "none", "visible": true, "origin": "spell", "school": "abjuration"}
 	if change != nil {
 		change(m)
 	}
@@ -76,6 +76,10 @@ func TestDetectMagicProjectsOnlyTheFreeUse(t *testing.T) {
 
 func TestDetectMagicFactsFailClosed(t *testing.T) {
 	for name, change := range map[string]func(map[string]any){
+		"missing bearer":  func(m map[string]any) { delete(m, "bearer") },
+		"null bearer":     func(m map[string]any) { m["bearer"] = nil },
+		"empty bearer":    func(m map[string]any) { m["bearer"] = "" },
+		"unknown bearer":  func(m map[string]any) { m["bearer"] = "construct" },
 		"hidden lore":     func(m map[string]any) { m["hidden"] = true },
 		"missing field":   func(m map[string]any) { delete(m, "visible") },
 		"null field":      func(m map[string]any) { m["barrier"] = nil },
@@ -97,6 +101,9 @@ func TestDetectMagicFactsFailClosed(t *testing.T) {
 	}
 	if _, ok := ParseDetectMagicFacts(magicFacts(t, func(m map[string]any) { m["origin"], m["school"] = "other", "" })); !ok {
 		t.Fatal("non-spell magic rejected")
+	}
+	if _, ok := ParseDetectMagicFacts(magicFacts(t, func(m map[string]any) { m["bearer"] = "creature" })); !ok {
+		t.Fatal("creature bearer rejected")
 	}
 }
 
@@ -161,7 +168,7 @@ func TestDetectMagicStudyDisclosesOnlyVisibleAdjudicatedAuras(t *testing.T) {
 	b, sheet := casterBuild(t)
 	subjects := []DetectMagicSubject{
 		magicSubject(t, "ward", nil),
-		magicSubject(t, "relic", func(m map[string]any) { m["origin"], m["school"] = "other", "" }),
+		magicSubject(t, "relic", func(m map[string]any) { m["bearer"], m["origin"], m["school"] = "creature", "other", "" }),
 		magicSubject(t, "unseen", func(m map[string]any) { m["visible"] = false; m["school"] = "illusion" }),
 		magicSubject(t, "walled", func(m map[string]any) { m["barrier"] = "stone-dirt-or-wood-1-foot"; m["school"] = "necromancy" }),
 	}
