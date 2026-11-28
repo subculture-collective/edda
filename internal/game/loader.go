@@ -94,7 +94,8 @@ func (l *StateLoader) Load(ctx context.Context, campaignID uuid.UUID) (*GameStat
 		state.ActiveCombatState = l.loadActiveCombatState(ctx, pgID)
 	}
 
-	// Campaign time — raw SQL since campaign_time is not in sqlc yet.
+	// Campaign time for the prompt: day, hour and minute only. The SRD rules
+	// clock reads campaign_time.second itself.
 	if l.db != nil {
 		ct, err := loadCampaignTime(ctx, l.db, pgID)
 		if err == nil {

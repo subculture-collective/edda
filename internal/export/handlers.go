@@ -31,15 +31,20 @@ func writeError(w http.ResponseWriter, status int, message string) {
 }
 
 // FullExport is the JSON structure for a complete campaign export.
+//
+// It is a read-only record for people; nothing imports it. It leaves out
+// location connections (and so their srd521_route facts) and the campaign
+// clock, which only the engine needs to resume play. Add them together with
+// an import path, not before.
 type FullExport struct {
-	Campaign   CampaignMeta      `json:"campaign"`
-	Character  *ExportCharacter  `json:"character,omitempty"`
-	NPCs       []ExportNPC       `json:"npcs"`
-	Locations  []ExportLocation  `json:"locations"`
-	Quests     []ExportQuest     `json:"quests"`
+	Campaign   CampaignMeta       `json:"campaign"`
+	Character  *ExportCharacter   `json:"character,omitempty"`
+	NPCs       []ExportNPC        `json:"npcs"`
+	Locations  []ExportLocation   `json:"locations"`
+	Quests     []ExportQuest      `json:"quests"`
 	SessionLog []ExportSessionLog `json:"session_logs"`
-	WorldFacts []ExportWorldFact `json:"world_facts"`
-	Inventory  []ExportItem      `json:"inventory"`
+	WorldFacts []ExportWorldFact  `json:"world_facts"`
+	Inventory  []ExportItem       `json:"inventory"`
 }
 
 // ExportJSON handles GET /api/v1/campaigns/{id}/export/json.
