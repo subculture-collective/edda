@@ -14,46 +14,27 @@ const CHARS_PER_TICK = 30;
 const TICK_INTERVAL_MS = 33; // ~30fps
 
 export function ReplayNarrative({ visibleEntries, currentTurnIndex }: ReplayNarrativeProps) {
-  const [typedText, setTypedText] = useState('');
-  const [isTyping, setIsTyping] = useState(false);
+  const [typed, setTyped] = useState({ turn: currentTurnIndex, chars: 0 });
   const scrollRef = useRef<HTMLDivElement>(null);
-  const prevTurnRef = useRef(-1);
+
+  // Restart the typewriter only when the turn index changes.
+  if (typed.turn !== currentTurnIndex) {
+    setTyped({ turn: currentTurnIndex, chars: 0 });
+  }
 
   // Typewriter effect for the latest entry's llm_response
+  const fullText = visibleEntries[visibleEntries.length - 1]?.llm_response ?? '';
+  const typedText = fullText.slice(0, typed.chars);
+  const isTyping = typed.chars < fullText.length;
+
   useEffect(() => {
-    if (visibleEntries.length === 0) return;
-
-    const latestEntry = visibleEntries[visibleEntries.length - 1];
-    if (!latestEntry) return;
-
-    // Only animate when the turn index changes
-    if (prevTurnRef.current === currentTurnIndex) return;
-    prevTurnRef.current = currentTurnIndex;
-
-    const fullText = latestEntry.llm_response;
-    if (!fullText) {
-      setTypedText('');
-      setIsTyping(false);
-      return;
-    }
-
-    setIsTyping(true);
-    setTypedText('');
-
-    let charIndex = 0;
+    if (!isTyping) return;
     const timer = setInterval(() => {
-      charIndex += CHARS_PER_TICK;
-      if (charIndex >= fullText.length) {
-        setTypedText(fullText);
-        setIsTyping(false);
-        clearInterval(timer);
-      } else {
-        setTypedText(fullText.slice(0, charIndex));
-      }
+      setTyped((prev) => ({ ...prev, chars: prev.chars + CHARS_PER_TICK }));
     }, TICK_INTERVAL_MS);
 
     return () => clearInterval(timer);
-  }, [currentTurnIndex, visibleEntries]);
+  }, [isTyping]);
 
   // Auto-scroll to bottom
   useEffect(() => {

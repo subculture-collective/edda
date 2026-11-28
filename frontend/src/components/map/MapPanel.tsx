@@ -68,10 +68,11 @@ export function MapPanel({ campaignId, className }: MapPanelProps) {
     enabled: campaignId.length > 0,
   });
 
+  const locations = data?.locations;
   const regionGroups = useMemo(() => {
-    if (!data?.locations) return [];
-    return groupByRegion(data.locations);
-  }, [data?.locations]);
+    if (!locations) return [];
+    return groupByRegion(locations);
+  }, [locations]);
 
   if (isPending) {
     return (

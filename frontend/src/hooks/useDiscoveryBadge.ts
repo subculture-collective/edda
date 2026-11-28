@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useState } from 'react';
 
 import type { TurnResponseWithChoices } from './useWebSocket';
 
@@ -25,18 +25,19 @@ export function useDiscoveryBadge({
   entityTypes = CODEX_ENTITY_TYPES,
 }: UseDiscoveryBadgeOptions): UseDiscoveryBadgeResult {
   const [hasUnread, setHasUnread] = useState(false);
+  const [checkedResult, setCheckedResult] = useState<TurnResponseWithChoices | null>(null);
 
-  useEffect(() => {
-    if (!latestResult?.state_changes) return;
+  if (latestResult !== checkedResult) {
+    setCheckedResult(latestResult);
 
-    const hasNewDiscovery = latestResult.state_changes.some(
+    const hasNewDiscovery = latestResult?.state_changes?.some(
       (change) => entityTypes.has(change.entity_type) && change.change_type === 'created',
     );
 
     if (hasNewDiscovery) {
       setHasUnread(true);
     }
-  }, [latestResult, entityTypes]);
+  }
 
   const clearUnread = useCallback(() => {
     setHasUnread(false);

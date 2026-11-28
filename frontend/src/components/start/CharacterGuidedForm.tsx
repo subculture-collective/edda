@@ -30,7 +30,7 @@ interface SelectFieldConfig {
   readonly options: readonly string[];
 }
 
-export const CHARACTER_RACE_OPTIONS = [
+const CHARACTER_RACE_OPTIONS = [
   'Human',
   'Elf',
   'Dwarf',
@@ -42,7 +42,7 @@ export const CHARACTER_RACE_OPTIONS = [
   'Dragonborn',
 ] as const;
 
-export const CHARACTER_CLASS_OPTIONS = [
+const CHARACTER_CLASS_OPTIONS = [
   'Barbarian',
   'Bard',
   'Cleric',
@@ -57,7 +57,7 @@ export const CHARACTER_CLASS_OPTIONS = [
   'Wizard',
 ] as const;
 
-export const CHARACTER_BACKGROUND_OPTIONS = [
+const CHARACTER_BACKGROUND_OPTIONS = [
   'Acolyte',
   'Charlatan',
   'Criminal',
@@ -73,7 +73,7 @@ export const CHARACTER_BACKGROUND_OPTIONS = [
   'Urchin',
 ] as const;
 
-export const CHARACTER_ALIGNMENT_OPTIONS = [
+const CHARACTER_ALIGNMENT_OPTIONS = [
   'Lawful Good',
   'Neutral Good',
   'Chaotic Good',

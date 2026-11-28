@@ -1,7 +1,7 @@
 import { useState, type ReactNode } from 'react';
 import { useNavigate } from 'react-router';
 
-import { useAuth } from '../../context/AuthContext';
+import { useAuth } from '../../context/auth';
 
 export function UserMenu({ actions }: { readonly actions?: ReactNode }) {
   const { user, logout } = useAuth();

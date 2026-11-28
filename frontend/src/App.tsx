@@ -1,6 +1,6 @@
 import { Navigate, Route, Routes } from 'react-router';
 
-import { useAuth } from './context/AuthContext';
+import { useAuth } from './context/auth';
 import { CampaignCreatePage } from './pages/CampaignCreatePage';
 import { CampaignListPage } from './pages/CampaignListPage';
 import { CampaignPlayPage } from './pages/CampaignPlayPage';

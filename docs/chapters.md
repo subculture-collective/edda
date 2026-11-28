@@ -38,7 +38,7 @@ pnpm --dir frontend build
 pnpm --dir frontend lint
 ```
 
-The isolated frontend tests cover failure, same-key retry, regeneration, reload and continued play through fixture sockets. The existing frontend lint baseline has 22 errors outside the chapter files; do not suppress those errors to qualify this change.
+The isolated frontend tests cover failure, same-key retry, regeneration, reload and continued play through fixture sockets.
 
 ## Chapter reader (#76)
 

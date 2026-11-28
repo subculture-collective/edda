@@ -1,4 +1,4 @@
-import { createContext, useCallback, useMemo, useState, type PropsWithChildren } from 'react';
+import { createContext, useCallback, useMemo, useState } from 'react';
 
 import type { CampaignResponse } from '../api/types';
 
@@ -11,10 +11,6 @@ export interface CampaignContextValue extends ActiveCampaignState {
   setActiveCampaign: (campaign: CampaignResponse | null) => void;
   setActiveCampaignId: (campaignId: string | null) => void;
   clearActiveCampaign: () => void;
-}
-
-export interface CampaignProviderProps extends PropsWithChildren {
-  initialCampaign?: CampaignResponse | null;
 }
 
 const DEFAULT_ACTIVE_CAMPAIGN_STATE: ActiveCampaignState = {
@@ -67,10 +63,4 @@ export function useCampaignState(initialCampaign: CampaignResponse | null = null
     }),
     [clearActiveCampaign, setActiveCampaign, setActiveCampaignId, state],
   );
-}
-
-export function CampaignProvider({ children, initialCampaign = null }: CampaignProviderProps) {
-  const value = useCampaignState(initialCampaign);
-
-  return <CampaignContext.Provider value={value}>{children}</CampaignContext.Provider>;
 }

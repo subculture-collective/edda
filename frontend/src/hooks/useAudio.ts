@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 
 const LS_AMBIENT_VOL = 'gm_audio_ambient_vol';
 const LS_MUSIC_VOL = 'gm_audio_music_vol';
@@ -121,13 +121,16 @@ export function useAudio(): UseAudioResult {
   const sfxMutedRef = useRef(sfxMuted);
   const userInteractedRef = useRef(false);
 
-  ambientVolRef.current = ambientVolume;
-  musicVolRef.current = musicVolume;
-  sfxVolRef.current = sfxVolume;
-  ambientMutedRef.current = ambientMuted;
-  musicMutedRef.current = musicMuted;
-  sfxMutedRef.current = sfxMuted;
-  userInteractedRef.current = userInteracted;
+  // A layout effect runs before any passive effect that calls the play functions.
+  useLayoutEffect(() => {
+    ambientVolRef.current = ambientVolume;
+    musicVolRef.current = musicVolume;
+    sfxVolRef.current = sfxVolume;
+    ambientMutedRef.current = ambientMuted;
+    musicMutedRef.current = musicMuted;
+    sfxMutedRef.current = sfxMuted;
+    userInteractedRef.current = userInteracted;
+  });
 
   // Listen for first user interaction
   useEffect(() => {
