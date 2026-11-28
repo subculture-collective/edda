@@ -115,10 +115,12 @@ cover or, in dim light or darkness, unknown senses make the check unavailable.
 The declarations are part of the target's spatial revision and the actor
 snapshot, so a changed ruling invalidates an open preview.
 
-A light source carried by an actor (#264) should raise `light` at the target
-before calling `Sight`, using the declared distance, and leave the derivation
-unchanged. Light sources, other senses, NPC sight of the player, hiding contests
-and invisibility remain unsupported.
+The actor's own Light spell (#264, see [spell actions](spell-actions.md#light-on-a-carried-object-264))
+raises `light` at the target before `Sight` runs: bright within 20 feet of the
+declared distance, at least dim to 40 feet. It never lowers a declared level,
+does not reduce fog or foliage, and leaves legacy facts without `light`
+unresolved. Other light sources, other senses, NPC sight of the player, hiding
+contests and invisibility remain unsupported.
 
 
 ## Explicit opportunity attacks (#81)

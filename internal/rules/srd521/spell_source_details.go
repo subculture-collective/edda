@@ -695,6 +695,14 @@ func validSpellTarget(t SpellTarget) bool {
 }
 
 func (s SpellRecord) validateSourceDetails() error {
+	// The bounded Light fixture carries no source payload; its pinned values
+	// live in the complete batch 211 record.
+	if s.Scope == lightFixtureScope {
+		if s.SourceDetails != nil {
+			return fmt.Errorf("bounded Light fixture cannot carry source details")
+		}
+		return nil
+	}
 	if handled, err := s.validateSpell196(); handled || err != nil {
 		return err
 	}

@@ -100,7 +100,11 @@ func (e *Engine) ConfirmAction(ctx context.Context, campaignID uuid.UUID, reques
 	}
 	// Only prepared targets can cross the confirmation boundary.
 	if request.Intent.Kind == srd521.SpellCast || request.Intent.Kind == srd521.SavingThrow || request.Intent.Kind == srd521.ConsumableUse {
-		if request.TargetID != pc.ID && !((request.Intent.Kind == srd521.ConsumableUse || (request.Intent.Kind == srd521.SpellCast && (request.Intent.EntryID == "cure-wounds" || request.Intent.EntryID == "shield-of-faith"))) && prepared.HealingTarget(request.TargetID) != nil) {
+		if game.IsLightIntent(request.Intent) {
+			if prepared.LightObject(request.TargetID) == nil {
+				return nil, ErrActionRefresh
+			}
+		} else if request.TargetID != pc.ID && !((request.Intent.Kind == srd521.ConsumableUse || (request.Intent.Kind == srd521.SpellCast && (request.Intent.EntryID == "cure-wounds" || request.Intent.EntryID == "shield-of-faith"))) && prepared.HealingTarget(request.TargetID) != nil) {
 			return nil, ErrActionRefresh
 		}
 	} else if request.Intent.Kind != srd521.MartialAttack && request.Intent.Kind != combat.EncounterStart && request.Intent.Kind != combat.EncounterReact && request.TargetID != uuid.Nil {
@@ -340,6 +344,13 @@ func (e *Engine) ConfirmAction(ctx context.Context, campaignID uuid.UUID, reques
 		}
 		receipt, tool, label = advancement, "srd_advancement", "Fighter level 2"
 		narrative = fmt.Sprintf("Fighter level 2 saved: %s HP choice, d10 value %d, maximum HP %d to %d. Current HP unchanged. Defense and weapon mastery choices retained. Action Surge available on your encounter turn; Tactical Mind supports a saved failed check from the selected Edda Easy Strength (Athletics) DC 10 fixture.", advancement.Choice, advancement.Die, advancement.MaxHPBefore, advancement.MaxHPAfter)
+	} else if game.IsLightIntent(request.Intent) {
+		light, err := confirmLight(ctx, tx, campaignID, pc, sheet, prepared, request)
+		if err != nil {
+			return nil, err
+		}
+		receipt, tool, label = light, "srd_light", "Light"
+		narrative = light.Reason
 	} else if srd521.IsLifecycle(request.Intent.Kind) || (request.Intent.Kind == srd521.SpellCast && request.Intent.EntryID == "shield-of-faith") {
 		var envelope struct {
 			Build srd521.Build `json:"srd521"`

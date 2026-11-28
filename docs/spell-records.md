@@ -18,7 +18,7 @@ or casting abilities. See [the source pin](srd-5.2.1-conformance.md) and
 
 | Field | Contract |
 | --- | --- |
-| `scope` | `complete-source-record` or `bounded-self-level-1` |
+| `scope` | `complete-source-record`, `bounded-self-level-1` or `bounded-carried-object-cantrip` (Light, #264) |
 | `level`, `school`, `lists` | Spell level 0–9, school and unique class lists |
 | `casting_time`, `range` | Casting time category; feet, touch or self range |
 | `target` | Single target shape, count and explicit eligibility |

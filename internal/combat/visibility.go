@@ -87,3 +87,25 @@ func (s Space) Sight(observer *Senses) (Sight, error) {
 	}
 	return sight, nil
 }
+
+// Illuminated returns s with the light at the target's space raised by a light
+// source the observer carries, which sheds bright light within brightFeet and
+// dim light for dimFeet further (#264). Light never lowers a declared level.
+// Unresolved light or distance is returned unchanged, so Sight still fails
+// closed. The bool reports whether the source changed the level.
+func (s Space) Illuminated(brightFeet, dimFeet int) (Space, bool) {
+	current, ok := lightObscurement[s.Light]
+	if !ok || s.DistanceFeet == nil || *s.DistanceFeet < 0 || brightFeet < 0 || dimFeet < 0 {
+		return s, false
+	}
+	distance := *s.DistanceFeet
+	switch {
+	case distance <= brightFeet && current > lightObscurement[LightBright]:
+		s.Light = LightBright
+	case distance > brightFeet && distance <= brightFeet+dimFeet && current > lightObscurement[LightDim]:
+		s.Light = LightDim
+	default:
+		return s, false
+	}
+	return s, true
+}
