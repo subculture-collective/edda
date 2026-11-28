@@ -88,14 +88,19 @@ func (e *Engine) previewOwnerAction(ctx context.Context, campaignID uuid.UUID, i
 	if e.baseDB == nil {
 		return nil, ErrActionRefresh
 	}
-	var actorID uuid.UUID
-	if err := e.baseDB.QueryRow(ctx, `SELECT p.id FROM player_characters p JOIN campaigns c ON c.id=p.campaign_id WHERE c.id=$1 AND p.user_id=c.created_by AND p.status='active' ORDER BY p.id LIMIT 1`, campaignID).Scan(&actorID); err != nil {
-		return nil, err
-	}
-	c, pc, err := game.ReadActionSnapshot(ctx, e.baseDB, campaignID, actorID, uuid.Nil, false)
+	c, pc, err := e.ownerSnapshot(ctx, campaignID)
 	if err != nil {
 		return nil, err
 	}
-	intent.ActorID = actorID
+	intent.ActorID = pc.ID
 	return game.PrepareStoredAction(ctx, e.baseDB, c, pc, intent, false)
+}
+
+// ownerSnapshot reads the campaign owner's first active character.
+func (e *Engine) ownerSnapshot(ctx context.Context, campaignID uuid.UUID) (domain.Campaign, domain.PlayerCharacter, error) {
+	var actorID uuid.UUID
+	if err := e.baseDB.QueryRow(ctx, `SELECT p.id FROM player_characters p JOIN campaigns c ON c.id=p.campaign_id WHERE c.id=$1 AND p.user_id=c.created_by AND p.status='active' ORDER BY p.id LIMIT 1`, campaignID).Scan(&actorID); err != nil {
+		return domain.Campaign{}, domain.PlayerCharacter{}, err
+	}
+	return game.ReadActionSnapshot(ctx, e.baseDB, campaignID, actorID, uuid.Nil, false)
 }

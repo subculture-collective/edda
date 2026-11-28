@@ -64,3 +64,21 @@ func TestReadConditions(t *testing.T) {
 		t.Fatal("conditions")
 	}
 }
+
+func TestPendingFallNamesOnlyAcceptedFacts(t *testing.T) {
+	const facts = `"height_feet":0,"landing":"water","flying":false,"onto_creature":false,"fall_prevention":false`
+	got := PendingFall([]byte(`{"srd521_fall":{"id":"f1",` + facts + `}}`))
+	if got == nil || got.ID != "f1" || got.HeightFeet == nil || *got.HeightFeet != 0 || got.Landing != "water" {
+		t.Fatalf("accepted declaration: %+v", got)
+	}
+	for _, refused := range []string{`{"id":"f2",` + facts + `,"spikes":true}`, `{"id":"f2","height_feet":30,"landing":"lava"}`} {
+		if got := PendingFall([]byte(`{"srd521_fall":` + refused + `}`)); got == nil || got.ID != "f2" || got.HeightFeet != nil || got.Landing != "" {
+			t.Fatalf("%s: %+v", refused, got)
+		}
+	}
+	for _, unnamed := range []string{`{}`, `{"srd521_fall":null}`, `{"srd521_fall":{` + facts + `}}`, `{"srd521_fall":{"id":7}}`} {
+		if got := PendingFall([]byte(unnamed)); got != nil {
+			t.Fatalf("%s: %+v", unnamed, got)
+		}
+	}
+}

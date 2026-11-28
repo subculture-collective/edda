@@ -77,6 +77,13 @@ export interface LightReceipt {
  rules_version: string; kind: string; reason: string; item?: string;
  before?: LightEffect; after?: LightEffect; time: number; source_ids: string[];
 }
+export interface PendingFall { id: string; height_feet?: number; landing?: 'solid' | 'water' }
+export interface FallReceipt {
+ rules_version: string; height_feet: number; landing: 'solid' | 'water';
+ dice_count: number; dice: number[]; rolled: number; halved: boolean; damage: number; damage_type: string;
+ hp_before: number; hp_after: number; prone_before: boolean; prone_after: boolean;
+ water_check?: CheckReceipt; concentration?: EffectReceipt; source_ids: string[];
+}
 export interface EffectReceipt {
  action_surge_before?: number; action_surge_after?: number;
  rules_version: string; kind: string; reason: string;
@@ -108,6 +115,7 @@ export interface CharacterSheetProjection {
  concentration?: Concentration;
   light?: LightEffect;
   light_item?: string;
+  fall?: PendingFall;
   spellcasting?: Spellcasting;
   rules_version: string;
   scope: string;

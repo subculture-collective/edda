@@ -38,3 +38,13 @@ func TestAllySpellReceiptProjectionAndHistory(t *testing.T) {
 		t.Fatalf("unsafe or changed ally receipt: %s", data)
 	}
 }
+
+func TestFallReceiptProjectionAndHistory(t *testing.T) {
+	call := engine.AppliedToolCall{Tool: "srd_fall", Arguments: json.RawMessage(`{"secret":"private notes"}`), Result: json.RawMessage(`{"secret":"private notes","receipt":{"rules_version":"srd-5.2.1","height_feet":35,"landing":"solid","dice_count":3,"dice":[2,5,1],"rolled":8,"damage":8,"damage_type":"bludgeoning","hp_before":12,"hp_after":4,"prone_after":true,"secret":"private notes"}}`)}
+	live := engineResolutionEventsToAPI([]engine.AppliedToolCall{call})
+	history := engineResolutionEventsToAPI(appliedToolCallsFromSessionLog(mustJSON(t, []engine.AppliedToolCall{call})))
+	data := mustJSON(t, live)
+	if len(live) != 1 || live[0].Type != "srd_fall" || !bytes.Equal(data, mustJSON(t, history)) || !bytes.Contains(data, []byte(`"dice":[2,5,1]`)) || bytes.Contains(data, []byte("private notes")) {
+		t.Fatalf("unsafe or changed fall receipt: %s", data)
+	}
+}

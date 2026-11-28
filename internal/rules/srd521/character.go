@@ -81,6 +81,9 @@ type CharacterSheet struct {
 	// names the object, which is empty once it is no longer carried.
 	Light     *LightEffect `json:"light,omitempty"`
 	LightItem string       `json:"light_item,omitempty"`
+
+	// Fall is the server-declared fall waiting to be resolved (game.PendingFall).
+	Fall *PendingFall `json:"fall,omitempty"`
 }
 
 var abilityNames = []string{"strength", "dexterity", "constitution", "intelligence", "wisdom", "charisma"}

@@ -24,6 +24,11 @@ export function RulesSheet({ sheet, receipts = [], campaignId, actorId, initialP
       <RuleValue label={`${name} modifier`} value={ability.modifier} />
       <RuleValue label={`${name} save`} value={sheet.saves[name]} />
     </div>)}</dl>
+    {sheet.fall && <section aria-label="Declared fall">
+      <h3 className="font-heading text-gold">Declared fall</h3>
+      <p>{sheet.fall.height_feet === undefined ? 'A declared fall is waiting. Preview it to see why it requires adjudication.' : `A fall of ${sheet.fall.height_feet} feet onto ${sheet.fall.landing === 'water' ? 'water' : 'solid ground'} is waiting.`}</p>
+      <p className="text-sm text-pewter">Resolve it from the action menu. The server holds the declaration and rolls the dice.</p>
+    </section>}
     {sheet.spellcasting && <section aria-label="Spellcasting" className="space-y-2">
       <h3 className="font-heading text-gold">Spellcasting</h3>
       <p>Casting ability: {sheet.spellcasting.ability} ({sheet.spellcasting.modifier.value >= 0 ? '+' : ''}{sheet.spellcasting.modifier.value})</p>

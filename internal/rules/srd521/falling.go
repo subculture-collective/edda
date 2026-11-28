@@ -20,6 +20,15 @@ const (
 // Falls shorter than 10 feet deal no damage.
 func FallDice(heightFeet int) int { return min(max(heightFeet, 0)/10, FallMaxDice) }
 
+// PendingFall is the declared fall waiting for the actor. A client can only
+// name it by ID and, for water, choose the entry check. HeightFeet and Landing
+// are set only for a declaration the supported rules accept.
+type PendingFall struct {
+	ID         string `json:"id"`
+	HeightFeet *int   `json:"height_feet,omitempty"`
+	Landing    string `json:"landing,omitempty"`
+}
+
 // Fall is one declared fall at the moment of landing. Halved is the trusted
 // result of the water-entry check; callers never pass a damage amount.
 type Fall struct {

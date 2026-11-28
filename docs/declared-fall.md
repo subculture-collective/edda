@@ -66,4 +66,18 @@ standing for half speed and Disadvantage on attacks then follow the
 [Beast encounter](beast-encounter.md) rules. When the encounter completes, a
 Prone player is saved back to `stats.srd521_conditions`.
 
-No web or TUI control prepares a fall yet.
+## Player controls
+
+Clients cannot declare a fall or change one. While a declaration has an `id`,
+the character sheet carries it as `sheet.fall`. `height_feet` and `landing` are
+included only when the declaration passes the checks above.
+
+- **Web.** The Character tab shows the waiting fall, and the action menu offers
+  to resolve it. For water it also offers each Reaction check. The preview,
+  confirm and retry flow is the one other actions use, and the `srd_fall`
+  receipt shows in the action panel and the narrative feed.
+- **TUI.** `/fall` previews the declared fall; `/fall athletics` and
+  `/fall acrobatics` preview it with the water Reaction. `/confirm-fall`
+  commits and retries with the same action ID. `/cancel-fall` drops the preview
+  and leaves the fall declared. The commands act for the campaign owner's first
+  active character, and the confirmation narrative lists the dice.
