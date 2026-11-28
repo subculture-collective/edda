@@ -567,9 +567,20 @@ func (e *Engine) ConfirmAction(ctx context.Context, campaignID uuid.UUID, reques
 		payload["reaction_cost"] = 0
 	}
 	if encounter != nil {
+		before := -1
+		if encounter.Beast != nil && encounter.Space != nil && encounter.Space.DistanceFeet != nil {
+			before = *encounter.Space.DistanceFeet
+		}
 		npcReceipts, concentrationReceipts, err := resolveEncounterNPC(ctx, tx, campaignID, encounter, sheet, dice)
 		if err != nil {
 			return nil, err
+		}
+		if after := *encounter.Space.DistanceFeet; before > after {
+			for _, a := range encounter.Actors {
+				if !a.Player {
+					narrative += fmt.Sprintf(" %s moved %d feet closer; target distance is now %d feet.", a.Name, before-after, after)
+				}
+			}
 		}
 		payload["encounter"] = encounter
 		payload["npc_receipts"] = npcReceipts

@@ -397,3 +397,41 @@ func TestIntegrationProneOpportunityAttack(t *testing.T) {
 		t.Fatalf("crawl=%+v", e)
 	}
 }
+
+// A player who retreats out of the Wolf's reach does not stall the encounter:
+// the Wolf uses its 40-foot speed to close the declared distance and attacks
+// only when it ends within 5 feet.
+func TestIntegrationWolfApproachesOutOfReach(t *testing.T) {
+	f := newBeastFixture(t, "wolf-v1", "bite", `,"pack_ally":{"present":false}`)
+	f.confirm(f.request(f.prepare(combat.EncounterStart, f.weapon.String()), f.target), 18, 0)
+	for range 2 {
+		f.confirm(f.request(f.prepare(combat.EncounterRetreat, ""), uuid.Nil))
+	}
+	end := f.prepare(combat.EncounterEndTurn, "")
+	if !end.Available || !strings.Contains(strings.Join(end.Options, " "), "moves 10 feet") {
+		t.Fatalf("end=%+v", end)
+	}
+	// The Wolf closes 15 to 5 feet, then its Bite misses (d20 1).
+	result := f.confirm(f.request(end, uuid.Nil), 0)
+	r := npcReceipts(t, result)
+	e := f.encounter()
+	if len(r) != 1 || r[0].Outcome != "miss" || *e.Space.DistanceFeet != 5 || !e.Active().Player || e.Round != 2 || !strings.Contains(result.Narrative, "moved 10 feet") {
+		t.Fatalf("receipts=%+v encounter=%+v narrative=%q", r, e, result.Narrative)
+	}
+	// Dash and retreat 60 feet to 65: 40 feet of movement leaves it at 25 feet,
+	// so the Wolf takes its turn without rolling an attack.
+	f.confirm(f.request(f.prepare(combat.EncounterDash, ""), uuid.Nil))
+	for range 12 {
+		f.confirm(f.request(f.prepare(combat.EncounterRetreat, ""), uuid.Nil))
+	}
+	end = f.prepare(combat.EncounterEndTurn, "")
+	if !end.Available || !strings.Contains(strings.Join(end.Options, " "), "does not attack") {
+		t.Fatalf("end=%+v", end)
+	}
+	calls := f.dice.calls
+	result = f.confirm(f.request(end, uuid.Nil))
+	e = f.encounter()
+	if len(npcReceipts(t, result)) != 0 || f.dice.calls != calls || *e.Space.DistanceFeet != 25 || !e.Active().Player || e.Round != 3 || f.hp() != 12 {
+		t.Fatalf("encounter=%+v calls=%d narrative=%q", e, f.dice.calls-calls, result.Narrative)
+	}
+}

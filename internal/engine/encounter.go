@@ -32,6 +32,17 @@ func resolveEncounterNPC(ctx context.Context, tx pgx.Tx, campaignID uuid.UUID, e
 			return nil, nil, ErrActionRefresh
 		}
 	} else if encounter.Beast != nil {
+		// Out of reach, the Beast first uses its movement to approach. If it
+		// still cannot reach, it takes its turn without attacking.
+		if _, _, err := encounter.Beast.Record(); err != nil {
+			return nil, nil, ErrActionRefresh
+		}
+		if _, reach, err := encounter.BeastApproach(); err != nil {
+			return nil, nil, ErrActionRefresh
+		} else if !reach {
+			encounter.Advance()
+			return receipts, effects, nil
+		}
 		if err := combat.BeastAttack(encounter.Beast, encounter.Space); err != nil {
 			return nil, nil, ErrActionRefresh
 		}

@@ -53,8 +53,12 @@ every record.
   10 feet of the turn's movement. The fixture declares no Difficult Terrain.
   Standing up (`combat-stand`) costs half of 30 feet and ends the condition.
 - Every attack against the Prone player is a melee attack within 5 feet, so
-  none has the beyond-5-feet Disadvantage. A Beast out of reach refuses the
-  End turn, as before.
+  none has the beyond-5-feet Disadvantage.
+- A Beast beyond 5 feet first uses its walk speed (40 feet for both blocks) to
+  close the declared distance in 5-foot steps on a clear path, then attacks if
+  it ends within 5 feet. If its speed runs out, or the path is not clear
+  (cover or no line of sight), it takes its turn without attacking and the
+  encounter continues. The End turn preview names the approach.
 - Multiattack spends one Action. Ruling: the Bite resolves before the Claw.
   Reach, sight, size and revision are checked before any roll, so an invalid
   target rolls neither attack. If the Bite reduces the player to 0 HP, the
