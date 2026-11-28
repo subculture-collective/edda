@@ -6,6 +6,9 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
+	"io"
+	"net/http"
+	"net/http/httptest"
 	"strings"
 	"testing"
 
@@ -13,7 +16,12 @@ import (
 	"git.subcult.tv/subculture-collective/edda/internal/config"
 	"git.subcult.tv/subculture-collective/edda/internal/engine"
 	"git.subcult.tv/subculture-collective/edda/internal/game"
+	"git.subcult.tv/subculture-collective/edda/internal/handlers"
 	"git.subcult.tv/subculture-collective/edda/internal/rules/srd521"
+	statedb "git.subcult.tv/subculture-collective/edda/internal/state/sqlc"
+	"git.subcult.tv/subculture-collective/edda/pkg/api"
+	"github.com/charmbracelet/log"
+	"github.com/go-chi/chi/v5"
 	"github.com/google/uuid"
 )
 
@@ -122,6 +130,44 @@ func TestIntegrationDeclaredFall(t *testing.T) {
 	unavailable(f.preview(srd521.FallResolve, "f1", "athletics"), "Choose no check")
 	unavailable(f.preview(srd521.FallResolve, "other", ""), "No declared fall")
 
+	// Clients learn only a declaration's ID, plus height and landing once the
+	// rules accept it. The TUI preview takes no ID, height or damage.
+	e, err := engine.New(testPool, nil, config.LLMConfig{}, engine.WithActionDice(f.faces))
+	f.must(err)
+	tuiPreview := func() *game.ActionPreview {
+		t.Helper()
+		p, err := e.PreviewFall(ctx, f.campaign, "")
+		f.must(err)
+		return p
+	}
+	// pending reads the fall from the character sheet the web client loads.
+	characters := &handlers.CharacterHandlers{Queries: statedb.New(testPool), Pool: testPool, Logger: log.New(io.Discard)}
+	router := chi.NewRouter()
+	router.Get("/campaigns/{id}/character", characters.GetCharacter)
+	pending := func() *srd521.PendingFall {
+		t.Helper()
+		recorder := httptest.NewRecorder()
+		router.ServeHTTP(recorder, httptest.NewRequest(http.MethodGet, "/campaigns/"+f.campaign.String()+"/character", nil))
+		var response api.CharacterResponse
+		f.must(json.Unmarshal(recorder.Body.Bytes(), &response))
+		if response.Sheet == nil {
+			t.Fatalf("sheet unavailable: %d %s", recorder.Code, recorder.Body)
+		}
+		return response.Sheet.Fall
+	}
+	f.declare(fallDecl("f1", 30, "lava"))
+	if got := pending(); got == nil || got.ID != "f1" || got.HeightFeet != nil || got.Landing != "" {
+		t.Fatalf("refused declaration projected: %+v", got)
+	}
+	unavailable(tuiPreview(), "requires adjudication")
+	f.declare(fallDecl("f1", 30, "solid"))
+	if got := pending(); got == nil || got.HeightFeet == nil || *got.HeightFeet != 30 || got.Landing != "solid" {
+		t.Fatalf("pending fall: %+v", got)
+	}
+	if p := tuiPreview(); !p.Available || p.Intent.EntryID != "f1" || p.Intent.ActorID != f.actor {
+		t.Fatalf("TUI preview: %+v", p)
+	}
+
 	// A changed height invalidates an open preview without rolling.
 	stale := f.preview(srd521.FallResolve, "f1", "")
 	f.declare(fallDecl("f1", 40, "solid"))
@@ -141,7 +187,7 @@ func TestIntegrationDeclaredFall(t *testing.T) {
 	if hp, declared, prone := f.state(); hp != 12 || !declared || prone {
 		t.Fatalf("dice failure partially committed: hp=%d declared=%t prone=%t", hp, declared, prone)
 	}
-	_, err := testPool.Exec(ctx, `ALTER TABLE session_logs ADD CONSTRAINT fall_history_failure CHECK (player_input NOT LIKE 'Confirm Fall%') NOT VALID`)
+	_, err = testPool.Exec(ctx, `ALTER TABLE session_logs ADD CONSTRAINT fall_history_failure CHECK (player_input NOT LIKE 'Confirm Fall%') NOT VALID`)
 	f.must(err)
 	t.Cleanup(func() {
 		_, _ = testPool.Exec(ctx, `ALTER TABLE session_logs DROP CONSTRAINT IF EXISTS fall_history_failure`)
@@ -170,9 +216,11 @@ func TestIntegrationDeclaredFall(t *testing.T) {
 	if hp, declared, prone := f.state(); hp != 4 || declared || !prone {
 		t.Fatalf("saved state: hp=%d declared=%t prone=%t", hp, declared, prone)
 	}
+	if pending() != nil {
+		t.Fatal("consumed fall is still pending")
+	}
+	unavailable(tuiPreview(), "No declared fall")
 	// Replay returns the saved result without rolling; the declaration is gone.
-	e, err := engine.New(testPool, nil, config.LLMConfig{}, engine.WithActionDice(f.faces))
-	f.must(err)
 	f.faces.calls = 0
 	replayed, err := e.ConfirmAction(ctx, f.campaign, request)
 	f.must(err)

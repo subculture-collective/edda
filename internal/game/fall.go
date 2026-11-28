@@ -60,6 +60,25 @@ func readDeclaredFall(stats []byte) (*DeclaredFall, bool, error) {
 	return &fall, true, nil
 }
 
+// PendingFall names the actor's declared fall for a client, or returns nil when
+// no declaration has an ID. It copies no fact from a declaration that Validate
+// or the strict decoder refuses; the preview gives the reason.
+func PendingFall(stats []byte) *srd521.PendingFall {
+	var envelope struct {
+		Fall struct {
+			ID string `json:"id"`
+		} `json:"srd521_fall"`
+	}
+	if err := json.Unmarshal(stats, &envelope); err != nil || envelope.Fall.ID == "" {
+		return nil
+	}
+	pending := &srd521.PendingFall{ID: envelope.Fall.ID}
+	if fall, declared, err := readDeclaredFall(stats); declared && err == nil && fall.Validate() == nil {
+		pending.HeightFeet, pending.Landing = fall.HeightFeet, fall.Landing
+	}
+	return pending
+}
+
 // Validate requires every fact and refuses the excluded cases.
 func (f *DeclaredFall) Validate() error {
 	if f.HeightFeet == nil || *f.HeightFeet < 0 {

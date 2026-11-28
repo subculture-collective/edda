@@ -27,6 +27,28 @@ func saveConditions(ctx context.Context, tx pgx.Tx, campaignID, actorID uuid.UUI
 	return err
 }
 
+// PreviewFall prepares the declared fall of the campaign owner's character for
+// the TUI. The caller chooses only the water-entry skill: the saved declaration
+// names the fall and carries its height and landing.
+func (e *Engine) PreviewFall(ctx context.Context, campaignID uuid.UUID, skill string) (*game.ActionPreview, error) {
+	if e.baseDB == nil {
+		return nil, ErrActionRefresh
+	}
+	c, pc, err := e.ownerSnapshot(ctx, campaignID)
+	if err != nil {
+		return nil, err
+	}
+	intent := game.ActionIntent{ActorID: pc.ID, Kind: srd521.FallResolve, Skill: skill}
+	if pending := game.PendingFall(pc.Stats); pending != nil {
+		intent.EntryID = pending.ID
+	}
+	prepared, err := game.PrepareStoredAction(ctx, e.baseDB, c, pc, intent, false)
+	if err != nil {
+		return nil, err
+	}
+	return prepared.Preview, nil
+}
+
 // resolveDeclaredFall rolls the optional water-entry check, then the falling
 // dice, and in the same transaction consumes the declaration, saves HP and
 // Prone, and applies a Concentration save. Nothing here accepts a damage amount.

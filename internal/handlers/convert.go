@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"encoding/json"
+	"fmt"
 	"git.subcult.tv/subculture-collective/edda/internal/rules/srd521"
 	"github.com/google/uuid"
 	"slices"
@@ -243,6 +244,13 @@ func engineResolutionEventsToAPI(applied []engine.AppliedToolCall) []api.Resolut
 			}
 			if json.Unmarshal(call.Result, &result) == nil && result.Receipt != nil && result.Receipt.RulesVersion == "srd-5.2.1" && slices.Contains([]string{srd521.SpellCast, srd521.DismissLight, srd521.CoverLight, srd521.UncoverLight}, result.Receipt.Kind) {
 				out = append(out, api.ResolutionEvent{Type: "srd_light", Label: "Light", Outcome: result.Receipt.Kind, Details: map[string]any{"receipt": result.Receipt}})
+			}
+		case "srd_fall":
+			var result struct {
+				Receipt *srd521.FallReceipt `json:"receipt"`
+			}
+			if json.Unmarshal(call.Result, &result) == nil && result.Receipt != nil && result.Receipt.RulesVersion == "srd-5.2.1" {
+				out = append(out, api.ResolutionEvent{Type: "srd_fall", Label: "Fall", Outcome: fmt.Sprintf("%d bludgeoning damage", result.Receipt.Damage), Details: map[string]any{"receipt": result.Receipt}})
 			}
 		case "srd_equipment":
 			var result struct {
