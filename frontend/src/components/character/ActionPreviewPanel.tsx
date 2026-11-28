@@ -1,23 +1,10 @@
-import { TacticalReceipt, type TacticalMindReceipt } from './TacticalReceipt';
-import { ActionSurgeReceipt } from './ActionSurgeReceipt';
-import { EquipmentReceipt } from './EquipmentReceipt';
-import { AdvancementReceipt } from './AdvancementReceipt';
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { APIError } from '../../api/client';
 import { confirmCharacterAction, readActionReceipt, publishConfirmedAction, type PreparedAction } from '../../api/actions';
 import { EncounterSummary } from '../combat/EncounterSummary';
-import { EffectReceipt } from './EffectReceipt';
-import { SpellReceipt } from './SpellReceipt';
-import { LightReceipt } from './LightReceipt';
-import { FallReceipt } from './FallReceipt';
-import { DoorReceipt } from './DoorReceipt';
-import { TravelReceipt } from './TravelReceipt';
-import { ZeroHPReceipt } from './ZeroHPReceipt';
-import { HealingReceipt } from './HealingReceipt';
-import { AttackReceipt } from './AttackReceipt';
-import { CheckReceipt } from './CheckReceipt';
-import type { CheckReceipt as Receipt, TurnResponse } from '../../api/types';
+import { ResolutionEventBadge } from '../narrative/NarrativeEntry';
+import type { TurnResponse } from '../../api/types';
 import { getCampaignCharacterInventory, previewCharacterAction } from '../../api/characters';
 import type { ActionPreview, CharacterSheetProjection, Encounter } from '../../api/types';
 
@@ -51,6 +38,11 @@ export function ActionPreviewPanel({ campaignId, actorId, sheet, initialSelectio
   const finish = (result: TurnResponse) => {
     setCompleted(result);
     setPending(null);
+    // The preview describes the state before this action: drop it, with any
+    // reaction only it offered.
+    preview.reset();
+    setProvidedPreview(undefined);
+    setTarget('');
     setChosenReaction(undefined);
 
     try { sessionStorage.removeItem(storageKey); } catch { /* Storage is optional. */ }
@@ -142,11 +134,11 @@ export function ActionPreviewPanel({ campaignId, actorId, sheet, initialSelectio
     </label>
     {selection === 'spell-cast:light' && <label className="block text-sm">Light color<select value={lightColor} disabled={!!pending || preview.isPending} onChange={event => { setLightColor(event.target.value); setProvidedPreview(undefined); setTarget(''); preview.reset(); }} className="block min-h-11 w-full bg-midnight p-2">{lightColors.map(color => <option key={color} value={color}>{color}</option>)}</select></label>}
     {selection.startsWith('spell-cast:') && selection !== 'spell-cast:light' && slotLevels(selection.slice('spell-cast:'.length)).length > 0 && <label className="block text-sm">Spell slot level<select value={slotLevel} disabled={!!pending || preview.isPending} onChange={event => { setSlotLevel(event.target.value); setTarget(''); preview.reset(); }} className="block min-h-11 w-full bg-midnight p-2">{sheet.spellcasting?.spells.find(spell => `spell-cast:${spell.id}` === selection)?.slot_levels.map(level => <option key={level} value={level}>Level {level} (one slot)</option>)}</select></label>}
-    <button type="button" className="min-h-11 border border-gold/40 px-4 text-gold disabled:opacity-50" disabled={!selection || preview.isPending || !!pending} onClick={() => preview.mutate(selection)}>{preview.isPending ? 'Preparing preview…' : 'Preview action'}</button>
+    <button type="button" className="min-h-11 border border-gold/40 px-4 text-gold disabled:opacity-50" disabled={!selection || preview.isPending || !!pending} onClick={() => { confirmation.reset(); setCompleted(null); preview.mutate(selection); }}>{preview.isPending ? 'Preparing preview…' : 'Preview action'}</button>
     {preview.isError && <p role="alert" className="text-ruby">Could not prepare this action. Try the preview again.</p>}
     {pending && !result && <button type="button" disabled={confirmation.isPending} className="min-h-11 text-gold" onClick={() => confirmation.mutate(pending)}>Retry same action</button>}
     {confirmation.isError && <p role="alert">{confirmation.error instanceof APIError && confirmation.error.status === 409 ? confirmation.error.message : 'Could not confirm delivery. Retry the same action; its ID is retained.'}</p>}
-    {completed && <section aria-label="Saved action result"><p>Action saved.</p><p>{completed.narrative}</p>{completed.resolution_events?.filter(event => event.type === 'srd_tactical_mind').map((event,index) => <TacticalReceipt key={index} receipt={event.details.receipt as TacticalMindReceipt} />)}{completed.resolution_events?.filter(event => event.type === 'srd_action_surge').map((event,index) => <ActionSurgeReceipt key={index} receipt={event.details.receipt as import('../../api/types').ActionSurgeReceipt} />)}{completed.resolution_events?.filter(event => event.type === 'srd_equipment').map((event,index) => <EquipmentReceipt key={index} receipt={event.details.receipt as import('../../api/types').EquipmentReceipt} />)}{completed.resolution_events?.filter(event => event.type === 'srd_advancement').map((event, index) => <AdvancementReceipt key={index} receipt={event.details.receipt as import('../../api/types').AdvancementReceipt} />)}{completed.resolution_events?.filter(event => event.type === 'srd_effect').map((event,index) => <EffectReceipt key={index} receipt={event.details.receipt as import('../../api/types').EffectReceipt} />)}{completed.resolution_events?.filter(event => event.type === 'srd_spell').map((event,index) => <SpellReceipt key={index} receipt={event.details.receipt as import('../../api/types').SpellReceipt} />)}{completed.resolution_events?.filter(event => event.type === 'srd_light').map((event, index) => <LightReceipt key={index} receipt={event.details.receipt as import('../../api/types').LightReceipt} />)}{completed.resolution_events?.filter(event => event.type === 'srd_fall').map((event, index) => <FallReceipt key={index} receipt={event.details.receipt as import('../../api/types').FallReceipt} />)}{completed.resolution_events?.filter(event => event.type === 'srd_door').map((event, index) => <DoorReceipt key={index} receipt={event.details.receipt as import('../../api/types').DoorReceipt} />)}{completed.resolution_events?.filter(event => event.type === 'srd_travel').map((event, index) => <TravelReceipt key={index} receipt={event.details.receipt as import('../../api/types').TravelReceipt} />)}{completed.resolution_events?.filter(event => event.type === 'srd_death_save').map((event, index) => <ZeroHPReceipt key={index} receipt={event.details.receipt as import('../../api/types').ZeroHPReceipt} />)}{completed.resolution_events?.filter(event => event.type === 'srd_consumable').map((event, index) => <HealingReceipt key={index} receipt={event.details.receipt as import('../../api/types').HealingReceipt} />)}{completed.resolution_events?.filter(event => event.type === 'srd_attack').map((event, index) => <AttackReceipt key={index} receipt={event.details.receipt as import('../../api/types').AttackReceipt} />)}{completed.resolution_events?.filter(event => event.type === 'srd_check').map((event, index) => <CheckReceipt key={index} receipt={event.details.receipt as Receipt} />)}</section>}
+    {completed && <section aria-label="Saved action result"><p>Action saved.</p><p>{completed.narrative}</p>{completed.resolution_events?.map((event, index) => <ResolutionEventBadge key={index} event={event} />)}</section>}
     {result?.encounter && <EncounterSummary encounter={result.encounter} />}
     {result && <div role="status" className="space-y-2 text-sm">
       {result.targets.some(option => option.reach_feet !== undefined) && <ul aria-label="Target ranges">{result.targets.map(option => <li key={option.id}>{option.label}: {option.distance_feet === undefined ? 'distance needs clarification' : `${option.distance_feet} ft`} · reach {option.reach_feet} ft. {option.unavailable_reason}</li>)}</ul>}

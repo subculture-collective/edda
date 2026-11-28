@@ -243,10 +243,33 @@ func TestIntegrationSpatialStartPreviewSaysFoeHoldsPosition(t *testing.T) {
 	f.dice.d20 = []int{19, 0}
 	f.confirm(f.prepare(combat.EncounterStart))
 	calls := f.dice.calls
-	f.confirm(f.prepare(combat.EncounterEndTurn))
+	end := f.prepare(combat.EncounterEndTurn)
+	if got := strings.Join(end.Options, "\n"); got != "End turn: Practice foe does not attack Mira. Out of reach: this melee attack requires 5 feet or less." {
+		t.Fatalf("passed turn preview: %s", got)
+	}
+	f.confirm(end)
 	encounter, err := game.ReadEncounter(context.Background(), testPool, f.campaign)
 	f.must(err)
 	if f.dice.calls != calls || *encounter.Space.DistanceFeet != 15 || !encounter.Active().Player || encounter.Round != 2 {
 		t.Fatalf("foe turn: rolls=%d encounter=%+v", f.dice.calls-calls, encounter)
+	}
+}
+
+// The ordinary fixture NPC's End turn preview says whether it attacks.
+func TestIntegrationSpatialEndTurnPreviewSaysWhetherFoeAttacks(t *testing.T) {
+	for name, tc := range map[string]struct{ facts, want string }{
+		"within reach": {`"distance_feet":5,"line_of_sight":true,"cover":"none"`, "End turn resolves the NPC turn through saved dice mechanics."},
+		"total cover":  {`"distance_feet":5,"line_of_sight":true,"cover":"total"`, "End turn: Practice foe does not attack Mira. Total cover blocks this attack."},
+		"no sight":     {`"distance_feet":5,"line_of_sight":false,"cover":"none"`, "End turn: Practice foe does not attack Mira. No clear line of sight; unseen attacks require adjudication."},
+	} {
+		t.Run(name, func(t *testing.T) {
+			f := newSpatialFixture(t)
+			f.facts(tc.facts)
+			f.dice.d20 = []int{19, 0}
+			f.confirm(f.prepare(combat.EncounterStart))
+			if got := strings.Join(f.prepare(combat.EncounterEndTurn).Options, "\n"); got != tc.want {
+				t.Fatalf("preview: %s", got)
+			}
+		})
 	}
 }

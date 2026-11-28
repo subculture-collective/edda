@@ -100,6 +100,8 @@ func TestZeroHPTurnReason(t *testing.T) {
 		"unknown death saves":   {[]byte(`{"srd521_death_saves":{"failures":4}}`), 0, nil, "adjudication"},
 		"completed encounter":   {unconscious, 0, &combat.Encounter{Status: "completed"}, "/death-save"},
 		"encounter has HP, foe": {[]byte(`{}`), 8, active(srd521.Conditions{}), ""},
+		// An older build's state keeps its own wording: it is not yet Unconscious.
+		"encounter missing unconscious": {[]byte(`{}`), 0, active(srd521.Conditions{}), "without the Unconscious condition, which earlier versions of Edda did not apply. End your turn"},
 	} {
 		reason := ZeroHPTurnReason(tc.stats, tc.hp, tc.encounter)
 		if (tc.want == "") != (reason == "") || !strings.Contains(reason, tc.want) {

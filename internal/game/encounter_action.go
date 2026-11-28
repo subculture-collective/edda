@@ -603,6 +603,14 @@ func prepareStoredAction(ctx context.Context, database statedb.DBTX, campaign do
 		if err := encounter.Space.Validate(); err != nil {
 			return unavailable(err.Error())
 		}
+		if encounter.Bandit == nil && encounter.Beast == nil {
+			// The ordinary fixture NPC does not move: without a legal melee
+			// attack, it passes its turn.
+			turn := npcTurn(encounter)
+			if err := turn.Space.Melee(); err != nil {
+				p.Options = []string{fmt.Sprintf("End turn: %s does not attack %s. %s", turn.Active().Name, pc.Name, err)}
+			}
+		}
 	}
 	// Spend only on a copy so previews remain read-only.
 	copy := *encounter

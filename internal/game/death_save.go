@@ -64,6 +64,8 @@ func ZeroHPTurnReason(stats []byte, hp int, encounter *combat.Encounter) string 
 		return ""
 	case hp > 0:
 		return "Your character is Unconscious and cannot act."
+	case active && !conditions.Unconscious:
+		return missingUnconsciousEncounterReason
 	case active:
 		return "Your character is Unconscious at 0 HP and cannot act. End your turn in the encounter; the Death Saving Throw is rolled at the start of your next turn."
 	case !conditions.Unconscious:

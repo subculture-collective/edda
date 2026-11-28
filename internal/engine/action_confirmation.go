@@ -654,7 +654,8 @@ func (e *Engine) ConfirmAction(ctx context.Context, campaignID uuid.UUID, reques
 		if (encounter.Beast != nil || encounter.Bandit != nil) && encounter.Space != nil && encounter.Space.DistanceFeet != nil {
 			before = *encounter.Space.DistanceFeet
 		}
-		npcReceipts, concentrationReceipts, err := resolveEncounterNPC(ctx, tx, campaignID, encounter, sheet, dice)
+		concentrationAfter := []int{}
+		npcReceipts, concentrationReceipts, err := resolveEncounterNPC(ctx, tx, campaignID, encounter, sheet, dice, &concentrationAfter)
 		if err != nil {
 			return nil, err
 		}
@@ -695,6 +696,7 @@ func (e *Engine) ConfirmAction(ctx context.Context, campaignID uuid.UUID, reques
 		}
 		payload["npc_receipts"] = npcReceipts
 		payload["concentration_receipts"] = concentrationReceipts
+		payload["concentration_after_attack"] = concentrationAfter
 		for _, r := range concentrationReceipts {
 			narrative += " " + r.Reason
 		}

@@ -5,7 +5,7 @@ import { expect, it, vi } from 'vitest';
 import { ActionPreviewPanel } from '../src/components/character/ActionPreviewPanel';
 import { confirmCharacterAction, readActionReceipt } from '../src/api/actions';
 import { getCampaignCharacterInventory, previewCharacterAction } from '../src/api/characters';
-import type { ActionPreview, CharacterSheetProjection } from '../src/api/types';
+import type { ActionPreview, CharacterSheetProjection, Encounter } from '../src/api/types';
 import fixture from './fixtures/srd-check-sheet.json';
 
 vi.mock('../src/api/actions', () => ({ confirmCharacterAction: vi.fn(), readActionReceipt: vi.fn().mockResolvedValue(null), publishConfirmedAction: vi.fn() }));
@@ -279,5 +279,64 @@ it('keeps an unacknowledged request when its menu entry disappears, then clears 
   expect(calls[1][1]).toEqual(calls[0][1]);
   expect(await screen.findByText('Covered.')).toBeVisible();
   expect(screen.getByLabelText('Character action')).toHaveValue('');
+  expect(screen.getByRole('button', { name: 'Preview action' })).toBeDisabled();
+});
+
+it('lists saved receipts in the order the server sent them', async () => {
+  const zero = { rules_version: 'srd-5.2.1', event: 'death-save', reason: 'Death Saving Throw after the attack.', hp_before: 0, hp_after: 0, max_hp: 12, before: {}, after: { successes: 1 }, source_ids: [] };
+  const attack = { rules_version: 'srd-5.2.1', weapon: 'Unarmed Strike', target: 'Mira', outcome: 'hit', damage: 1, damage_type: 'bludgeoning', die: 12, total: 14, damage_dice: [], damage_modifier: 1, modifier: { value: 2, derivation: [] }, source_ids: [] };
+  const effect = { rules_version: 'srd-5.2.1', reason: 'Concentration expired after the round.', time_before: 0, time_after: 6, hp_before: 0, hp_after: 0, slots_before: 0, slots_after: 0, hit_dice_before: 1, hit_dice_after: 1, source_ids: [] };
+  vi.mocked(confirmCharacterAction).mockResolvedValueOnce({ action_id: 'saved', turn_number: 2, narrative: 'Player turn ended.', state_changes: [], combat_active: false, resolution_events: [
+    { type: 'srd_attack', label: 'NPC Unarmed Strike', outcome: 'hit', details: { receipt: attack } },
+    { type: 'srd_death_save', label: '0 HP', outcome: zero.reason, details: { receipt: zero } },
+    { type: 'srd_effect', label: 'Caster effects and recovery', outcome: effect.reason, details: { receipt: effect } },
+  ] });
+  mount('ordered', 'hero', ready);
+  await userEvent.click(screen.getByRole('button', { name: 'Confirm action' }));
+  const saved = await screen.findByRole('region', { name: 'Saved action result' });
+  expect(saved.textContent).toMatch(/Unarmed Strike against Mira.*Death Saving Throw after the attack\..*Concentration expired after the round\./);
+});
+
+it('drops the confirmed preview while its menu entry stays offered', async () => {
+  vi.mocked(previewCharacterAction).mockResolvedValueOnce(ready);
+  vi.mocked(confirmCharacterAction).mockResolvedValueOnce({ action_id: 'saved', turn_number: 1, narrative: 'Recorded check.', state_changes: [], resolution_events: [], combat_active: false });
+  mount('stale-preview');
+  await userEvent.selectOptions(screen.getByLabelText('Character action'), 'skill:athletics');
+  await userEvent.click(screen.getByRole('button', { name: 'Preview action' }));
+  await userEvent.click(await screen.findByRole('button', { name: 'Confirm action' }));
+  expect(await screen.findByText('Action saved.')).toBeVisible();
+  expect(screen.queryByText('Preview ready. No action has been performed.')).not.toBeInTheDocument();
+  expect(screen.queryByText('Modifier: 5')).not.toBeInTheDocument();
+  // The entry stays chosen, ready for another preview.
+  expect(screen.getByLabelText('Character action')).toHaveValue('skill:athletics');
+  expect(screen.getByRole('button', { name: 'Preview action' })).toBeEnabled();
+  // Previewing it again replaces the saved result with a confirmable preview.
+  vi.mocked(previewCharacterAction).mockResolvedValueOnce({ ...ready, expected_revision: 'actor-v2:fixture' });
+  await userEvent.click(screen.getByRole('button', { name: 'Preview action' }));
+  expect(await screen.findByRole('button', { name: 'Confirm action' })).toBeEnabled();
+  expect(screen.queryByText('Action saved.')).not.toBeInTheDocument();
+});
+
+// The Character tab has no saved reaction of its own: only a preview offers it.
+it.each(['supplied', 'requested'])('stops offering a reaction once it is confirmed from a %s preview', async source => {
+  const encounter: Encounter = { id: 'encounter', status: 'active', round: 1, turn: 0, actors: [{ id: 'foe', name: 'Practice foe', player: false, initiative: 19, initiative_die: 19 }], budget: { action: false, bonus_action: true, movement: 30 }, reaction: { available: true, pending: { id: 'trigger', target_id: 'foe', weapon_id: 'sword', space_revision: 'scene' } } };
+  const offered: ActionPreview = { ...ready, intent: { actor_id: 'hero', kind: 'combat-end-turn' }, available: false, reason: 'Choose or decline the pending reaction before continuing.', modifier: undefined, cost_status: 'encounter', encounter };
+  vi.mocked(previewCharacterAction).mockReset();
+  if (source === 'requested') vi.mocked(previewCharacterAction).mockResolvedValueOnce(offered);
+  vi.mocked(previewCharacterAction).mockResolvedValueOnce({ ...ready, intent: { actor_id: 'hero', kind: 'combat-decline-reaction' }, modifier: undefined, cost_status: 'encounter', encounter });
+  vi.mocked(confirmCharacterAction).mockResolvedValueOnce({ action_id: 'saved', turn_number: 3, narrative: 'Opportunity attack declined.', state_changes: [], resolution_events: [], combat_active: false });
+  mount(`reaction-${source}`, 'hero', source === 'supplied' ? offered : undefined);
+  const menu = screen.getByLabelText('Character action');
+  if (source === 'requested') {
+    await userEvent.selectOptions(menu, 'combat-end-turn');
+    await userEvent.click(screen.getByRole('button', { name: 'Preview action' }));
+  }
+  await screen.findByRole('option', { name: 'Decline opportunity attack (no cost)' });
+  await userEvent.selectOptions(menu, 'combat-decline-reaction');
+  await userEvent.click(screen.getByRole('button', { name: 'Preview action' }));
+  await userEvent.click(await screen.findByRole('button', { name: 'Confirm action' }));
+  expect(await screen.findByText('Action saved.')).toBeVisible();
+  expect(screen.queryByRole('option', { name: 'Decline opportunity attack (no cost)' })).not.toBeInTheDocument();
+  expect(menu).toHaveValue('');
   expect(screen.getByRole('button', { name: 'Preview action' })).toBeDisabled();
 });
