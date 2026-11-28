@@ -14,6 +14,7 @@ import (
 	"git.subcult.tv/subculture-collective/edda/internal/dbutil"
 	"git.subcult.tv/subculture-collective/edda/internal/engine"
 	statedb "git.subcult.tv/subculture-collective/edda/internal/state/sqlc"
+	"git.subcult.tv/subculture-collective/edda/tui/narrative"
 )
 
 // testApp returns a minimal App suitable for teatest integration tests.
@@ -29,6 +30,38 @@ func testAppWithEngine(gameEngine engine.GameEngine) App {
 		gameEngine,
 		nil,
 	)
+}
+
+// submitProbe signals after the wrapped model has handled a narrative.SubmitMsg.
+// Enter only returns a command; Bubble Tea runs it in its own goroutine and sends
+// the SubmitMsg later, so a key sent right after Enter can overtake it. The
+// rendered output is no substitute: the renderer keeps only the bottom lines that
+// fit the terminal, which can leave out the submitted entry.
+type submitProbe struct {
+	tea.Model
+	submitted chan struct{}
+}
+
+func (p submitProbe) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
+	next, cmd := p.Model.Update(msg)
+	p.Model = next
+	if _, ok := msg.(narrative.SubmitMsg); ok {
+		p.submitted <- struct{}{}
+	}
+	return p, cmd
+}
+
+func newSubmitProbe(m tea.Model) submitProbe {
+	return submitProbe{Model: m, submitted: make(chan struct{}, 1)}
+}
+
+func (p submitProbe) waitForSubmit(t *testing.T) {
+	t.Helper()
+	select {
+	case <-p.submitted:
+	case <-time.After(3 * time.Second):
+		t.Fatal("timed out waiting for the model to handle narrative.SubmitMsg")
+	}
 }
 
 // finalTimeout is the maximum time to wait for the program to finish.
@@ -64,9 +97,10 @@ func TestTeatest_AppBootsShowsNarrativeView(t *testing.T) {
 }
 
 func TestTeatest_TextInputAppearsInViewport(t *testing.T) {
+	probe := newSubmitProbe(testApp())
 	tm := teatest.NewTestModel(
 		t,
-		testApp(),
+		probe,
 		teatest.WithInitialTermSize(100, 30),
 	)
 
@@ -82,13 +116,18 @@ func TestTeatest_TextInputAppearsInViewport(t *testing.T) {
 		tm.Send(tea.KeyMsg{Type: tea.KeyRunes, Runes: []rune{r}})
 	}
 	tm.Send(tea.KeyMsg{Type: tea.KeyEnter})
+	probe.waitForSubmit(t)
 
 	// Quit and use FinalModel to verify the entry was added.
 	tm.Send(tea.KeyMsg{Type: tea.KeyCtrlC})
 	fm := tm.FinalModel(t, finalTimeout)
-	app, ok := fm.(App)
+	final, ok := fm.(submitProbe)
 	if !ok {
-		t.Fatalf("expected App model, got %T", fm)
+		t.Fatalf("expected submitProbe model, got %T", fm)
+	}
+	app, ok := final.Model.(App)
+	if !ok {
+		t.Fatalf("expected App model, got %T", final.Model)
 	}
 
 	// Verify the submitted text is in the final rendered view.
@@ -323,9 +362,10 @@ func TestTeatest_TabCyclesThroughViewsInOrder(t *testing.T) {
 }
 
 func TestTeatest_ViewSwitchingPreservesState(t *testing.T) {
+	probe := newSubmitProbe(testApp())
 	tm := teatest.NewTestModel(
 		t,
-		testApp(),
+		probe,
 		teatest.WithInitialTermSize(100, 30),
 	)
 
@@ -340,6 +380,7 @@ func TestTeatest_ViewSwitchingPreservesState(t *testing.T) {
 		tm.Send(tea.KeyMsg{Type: tea.KeyRunes, Runes: []rune{r}})
 	}
 	tm.Send(tea.KeyMsg{Type: tea.KeyEnter})
+	probe.waitForSubmit(t)
 
 	// Switch away with Tab, then back with Shift+Tab, so the narrative view round-trips through the router.
 	tm.Send(tea.KeyMsg{Type: tea.KeyTab})
@@ -354,9 +395,13 @@ func TestTeatest_ViewSwitchingPreservesState(t *testing.T) {
 	// Quit and use FinalModel to verify state was preserved.
 	tm.Send(tea.KeyMsg{Type: tea.KeyCtrlC})
 	fm := tm.FinalModel(t, finalTimeout)
-	app, ok := fm.(App)
+	final, ok := fm.(submitProbe)
 	if !ok {
-		t.Fatalf("expected App model, got %T", fm)
+		t.Fatalf("expected submitProbe model, got %T", fm)
+	}
+	app, ok := final.Model.(App)
+	if !ok {
+		t.Fatalf("expected App model, got %T", final.Model)
 	}
 
 	if app.ActiveViewState() != ViewNarrative {
