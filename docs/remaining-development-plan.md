@@ -225,7 +225,7 @@ criteria qualify, or the owner explicitly narrows the target and claims.
 | --- | --- |
 | Go rules/engine | `rtk go test -short -race ./...` and `rtk go vet ./...` |
 | Persistence/handler mutation | `rtk go test -tags integration -race -run Integration -count=1 -timeout 10m ./...` with Docker available for disposable pgvector containers |
-| Web caller or presentation | `rtk proxy pnpm --dir frontend test`, `rtk proxy pnpm --dir frontend test:browser`, `rtk proxy pnpm --dir frontend build`, changed-file lint and comparison against current lint baseline |
+| Web caller or presentation | `rtk proxy pnpm --dir frontend test`, `rtk proxy pnpm --dir frontend test:browser`, `rtk proxy pnpm --dir frontend build` and `rtk proxy pnpm --dir frontend lint` (must pass; CI runs it) |
 | Shared client behavior | `rtk go test -short ./tui/...` plus an explicit legacy-read/TUI fixture for the touched boundary |
 | Source-only catalogue | Offline pin/schema/identity/variant/key-completeness fixtures for that exact batch; no inference or production data |
 | Investigation | Recorded decision, published bounded children and readback of parent/blocker links, terminal gate coverage and acyclicity |
@@ -233,8 +233,7 @@ criteria qualify, or the owner explicitly narrows the target and claims.
 
 Choose a free `EDDA_FIXTURE_PORT` when the default is occupied; Playwright owns
 its fixture server. Preserve unrelated processes. Check disk space before large
-builds/downloads. Record existing broad lint failures separately and fix new
-findings in changed files without absorbing unrelated cleanup.
+builds/downloads. `gofmt` and frontend lint must be clean; CI checks both.
 
 Hosted `Mirror CI gate` joins Go tests, PostgreSQL integration, frontend image
 build and frontend behavior. Passing local checks is separate from hosted CI.

@@ -46,4 +46,3 @@ export function useDiscoveryBadge({
   return { hasUnread, clearUnread };
 }
 
-export { CODEX_ENTITY_TYPES };
