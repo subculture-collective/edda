@@ -61,11 +61,14 @@ has no mode in which the model narrates the world while the player waits.
 ## Characters left at 0 HP by older builds
 
 Before #2211, a fall or NPC attack could leave a character at 0 HP without
-the Unconscious condition. Every action except `death-save` (and, in an
-encounter, ending the turn) is unavailable for that character. Confirming
-`death-save` once applies Unconscious through `ApplyConditionChange`, which
-makes it Prone, drops held weapons and a Shield, and ends Concentration. It
-rolls nothing and takes no time; its `srd_death_save` receipt has the event
+the Unconscious condition. Every other action is unavailable for that
+character, and its reason says what to do next. Outside an encounter the only
+choice is `death-save`. Inside an active encounter `death-save` is refused;
+the character can end its turn, or decline a pending opportunity attack (an
+older build could offer one, and the turn cannot end while it waits).
+Confirming `death-save` once applies Unconscious through
+`ApplyConditionChange`, which makes it Prone, drops held weapons and a Shield,
+and ends Concentration. It rolls nothing and takes no time; its `srd_death_save` receipt has the event
 `unconscious-repair`. The next `death-save` rolls the first save. A repair on
 load would write state from a read, and a data migration could not end
 Concentration or drop held items, so the repair is an explicit action.
@@ -76,6 +79,10 @@ Unconscious to the encounter's player actor through `ApplyConditionChange`
 and rolls nothing; the encounter result carries its receipt as
 `unconscious_repair` beside `death_save`. The save that follows uses the
 ordinary rules.
+
+The API sends the encounter's `unconscious_repair` and `death_save`, and the
+`receipt` of an `srd_death_save` call, as `srd_death_save` resolution events,
+live and in history. The web shows each as a 0 HP receipt.
 
 Every roll is in a durable receipt (`zero_hp` on fall and NPC attack receipts,
 `death_save` on the encounter result, `srd_death_save` for the explicit

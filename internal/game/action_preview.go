@@ -65,8 +65,9 @@ func PrepareCharacterAction(ctx context.Context, campaign domain.Campaign, pc do
 }
 
 // prepareCharacterAction is PrepareCharacterAction; zeroHP admits a character
-// at 0 HP, for the few choices it still has (ending its turn, a Death Saving
-// Throw). The caller's condition gate decides those choices.
+// at 0 HP, for the few choices it still has (ending its turn, declining a
+// Reaction, a Death Saving Throw). The caller's condition gate decides those
+// choices.
 func prepareCharacterAction(ctx context.Context, campaign domain.Campaign, pc domain.PlayerCharacter, intent ActionIntent, zeroHP bool) (*ActionPreview, error) {
 	if err := ctx.Err(); err != nil {
 		return nil, err

@@ -67,9 +67,10 @@ func PrepareStoredAction(ctx context.Context, database statedb.DBTX, campaign do
 // otherwise they come from stats, strictly decoded so unknown state fails
 // closed. Only ending a turn, declining a Reaction, movement, a fall with no
 // Reaction, a Death Saving Throw and an ally's aid stay open, and movement
-// closes at Speed 0. A dead character has no choices, and one at 0 HP without
-// Unconscious (left by an older build) only the Death Saving Throw that
-// repairs it.
+// closes at Speed 0. A dead character has no choices. One at 0 HP without
+// Unconscious (left by an older build) has only the Death Saving Throw that
+// repairs it or, in an active encounter, ending its turn and declining a
+// Reaction; the repair then runs when its next turn starts.
 func conditionReason(stats []byte, hp int, encounter *combat.Encounter, intent ActionIntent) (string, error) {
 	saves, err := srd521.DecodeDeathSaves(stats)
 	if err != nil {
@@ -94,7 +95,10 @@ func conditionReason(stats []byte, hp int, encounter *combat.Encounter, intent A
 		// An ally's aid is the ally's action, not the player's.
 		return "", nil
 	}
-	if hp == 0 && !conditions.Unconscious && (encounter == nil || encounter.Status != "active") {
+	if hp == 0 && !conditions.Unconscious {
+		if encounter != nil && encounter.Status == "active" {
+			return missingUnconsciousEncounterReason, nil
+		}
 		return missingUnconsciousReason, nil
 	}
 	switch intent.Kind {
@@ -158,8 +162,9 @@ func prepareStoredAction(ctx context.Context, database statedb.DBTX, campaign do
 	case srd521.ActionSurge, combat.EncounterEndTurn, combat.EncounterMove, combat.EncounterDash, combat.EncounterApproach, combat.EncounterRetreat, combat.EncounterStand, combat.EncounterDecline:
 		base = ActionIntent{ActorID: intent.ActorID, Kind: srd521.AbilityCheck, Ability: "strength"}
 	}
-	// A player at 0 HP can still end its encounter turn.
-	result, err := prepareStoredActionBase(ctx, database, campaign, pc, base, lock, intent.Kind == combat.EncounterEndTurn)
+	// A player at 0 HP can still end its encounter turn, or decline a pending
+	// Reaction that the turn cannot continue without.
+	result, err := prepareStoredActionBase(ctx, database, campaign, pc, base, lock, intent.Kind == combat.EncounterEndTurn || intent.Kind == combat.EncounterDecline)
 	if err != nil {
 		return nil, err
 	}
@@ -388,6 +393,10 @@ func prepareStoredAction(ctx context.Context, database statedb.DBTX, campaign do
 		}
 		result.Targets = legal
 		if len(legal) == 0 {
+			// Reach does not block an encounter start; attacks need it.
+			if intent.Kind == combat.EncounterStart {
+				return unavailable("No legal target. Clarify unresolved scene facts.")
+			}
 			return unavailable("No legal target. Clarify unresolved scene facts or choose a target within reach.")
 		}
 	}
@@ -430,6 +439,12 @@ func prepareStoredAction(ctx context.Context, database statedb.DBTX, campaign do
 				p.Options = append(p.Options, beastOptions(m, attacks)...)
 			} else {
 				p.Options = append(p.Options, target.Name+": ordinary fixture; NPC Unarmed Strike +2, 1 bludgeoning; speed 30 feet.")
+				// It has no approach rule: out of reach, it passes its turn.
+				if distance := *target.Space.DistanceFeet; distance > 5 {
+					p.Options = append(p.Options, fmt.Sprintf("%s starts %d feet away, beyond its 5-foot reach. It does not move closer; on its turn it does not attack while you stay beyond 5 feet.", target.Name, distance))
+				} else if err := target.Space.Melee(); err != nil {
+					p.Options = append(p.Options, "Unavailable at the declared facts: "+err.Error())
+				}
 			}
 		}
 		for _, target := range result.Targets {

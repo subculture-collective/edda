@@ -30,6 +30,11 @@ const deadReason = "Your character is dead. No supported rule revives them."
 // without the Unconscious condition. The death-save action repairs it.
 const missingUnconsciousReason = "Your character is at 0 HP without the Unconscious condition, which earlier versions of Edda did not apply. Use the death-save action (web action menu, TUI /death-save) to apply it, then make Death Saving Throws."
 
+// missingUnconsciousEncounterReason is the same state inside an active
+// encounter, where the death-save action is refused and the repair runs when
+// the player's next turn starts.
+const missingUnconsciousEncounterReason = "Your character is at 0 HP without the Unconscious condition, which earlier versions of Edda did not apply. End your turn in the encounter, or decline a pending reaction; Unconscious is applied when your next turn starts, before its Death Saving Throw."
+
 // ZeroHPTurnReason says why the player character cannot take a free-text
 // turn: it is dead, at 0 HP, or Unconscious. It reads the same death saves
 // and conditions that gate rules actions; an active encounter owns the
