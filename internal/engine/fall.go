@@ -14,7 +14,7 @@ import (
 
 // saveConditions replaces the actor's saved out-of-encounter conditions.
 func saveConditions(ctx context.Context, tx pgx.Tx, campaignID, actorID uuid.UUID, conditions game.Conditions) error {
-	if !conditions.Prone {
+	if conditions == (game.Conditions{}) {
 		_, err := tx.Exec(ctx, `UPDATE player_characters SET stats=stats-'srd521_conditions',updated_at=clock_timestamp() WHERE id=$1 AND campaign_id=$2`, actorID, campaignID)
 		return err
 	}

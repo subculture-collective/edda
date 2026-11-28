@@ -26,8 +26,10 @@ type EncounterActor struct {
 	Initiative    int       `json:"initiative"`
 	InitiativeDie int       `json:"initiative_die"`
 	Speed         int       `json:"speed,omitempty"`
-	// Prone is the actor's saved Prone condition. Standing costs half its speed.
-	Prone bool `json:"prone,omitempty"`
+	// Conditions holds the actor's Prone, Incapacitated and Unconscious state
+	// under the same JSON keys as stats.srd521_conditions. Standing from Prone
+	// costs half its speed.
+	srd521.Conditions
 }
 
 // Public returns a detached preview without NPC HP or its unplayed tactic.
@@ -72,7 +74,12 @@ type Encounter struct {
 
 // NewEncounter rolls the ordinary fixture's initiative without model input.
 func NewEncounter(player, foe EncounterActor, dexterity int, dice srd521.Dice) (*Encounter, error) {
-	p, n := dice.Intn(20)+1, dice.Intn(20)+1
+	p := dice.Intn(20) + 1
+	if player.IsIncapacitated() {
+		// An Incapacitated actor rolls Initiative with Disadvantage.
+		p = min(p, dice.Intn(20)+1)
+	}
+	n := dice.Intn(20) + 1
 	if p < 1 || p > 20 || n < 1 || n > 20 {
 		return nil, fmt.Errorf("invalid initiative dice")
 	}
@@ -93,6 +100,10 @@ func (e *Encounter) Active() *EncounterActor { return &e.Actors[e.Turn] }
 func (e *Encounter) Spend(actor uuid.UUID, kind string) error {
 	if e.Status != "active" || e.Active().ID != actor || e.Active().HP <= 0 {
 		return fmt.Errorf("not this actor's turn")
+	}
+	move := kind == EncounterMove || kind == EncounterApproach || kind == EncounterRetreat || kind == EncounterStand
+	if reason := e.Active().UnavailableReason(move); reason != "" && kind != EncounterEndTurn {
+		return fmt.Errorf("%s", reason)
 	}
 	switch kind {
 	case srd521.ActionSurge:
@@ -245,7 +256,11 @@ func (e *Encounter) PlayerAttackDisadvantage() []string {
 func (e *Encounter) StandCost() int { return actorSpeed(*e.Active()) / 2 }
 
 // actorSpeed keeps historical fixtures at 30 feet while honoring pinned actors.
+// An Unconscious actor's Speed is 0.
 func actorSpeed(actor EncounterActor) int {
+	if actor.Unconscious {
+		return 0
+	}
 	if actor.Speed > 0 {
 		return actor.Speed
 	}

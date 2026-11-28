@@ -66,7 +66,7 @@ func TestBeastGeometryAndAdvantage(t *testing.T) {
 		t.Run(tc.name, func(t *testing.T) {
 			p := beastProfile(t, tc.profile, tc.action, tc.size)
 			space := &Space{DistanceFeet: &tc.distance, LineOfSight: &tc.sight, Cover: "none", PackAlly: tc.ally}
-			e := &Encounter{Beast: p, Space: space, Status: "active", Actors: []EncounterActor{{ID: uuid.New(), Player: true, HP: 10, Prone: tc.prone}, {ID: uuid.New(), HP: 10}}}
+			e := &Encounter{Beast: p, Space: space, Status: "active", Actors: []EncounterActor{{ID: uuid.New(), Player: true, HP: 10, Conditions: srd521.Conditions{Prone: tc.prone}}, {ID: uuid.New(), HP: 10}}}
 			reasons, err := e.BeastAdvantage()
 			if (err == nil) != tc.legal || (BeastAttack(p, space) == nil) != tc.legal || len(reasons) != tc.advantage {
 				t.Fatalf("legal=%t err=%v reasons=%v", tc.legal, err, reasons)
@@ -80,7 +80,7 @@ func TestBeastGeometryAndAdvantage(t *testing.T) {
 
 func TestProneCrawlAttackAndStand(t *testing.T) {
 	player := uuid.New()
-	e := &Encounter{Status: "active", Round: 1, Actors: []EncounterActor{{ID: player, Player: true, HP: 10, Prone: true}, {ID: uuid.New(), HP: 10}}, Budget: TurnBudget{Action: true, BonusAction: true, Movement: 30}, Space: &Space{DistanceFeet: ptr(10), LineOfSight: ptr(true), Cover: "none"}}
+	e := &Encounter{Status: "active", Round: 1, Actors: []EncounterActor{{ID: player, Player: true, HP: 10, Conditions: srd521.Conditions{Prone: true}}, {ID: uuid.New(), HP: 10}}, Budget: TurnBudget{Action: true, BonusAction: true, Movement: 30}, Space: &Space{DistanceFeet: ptr(10), LineOfSight: ptr(true), Cover: "none"}}
 	if got := e.PlayerAttackDisadvantage(); len(got) != 1 || got[0] != "attacker is Prone" {
 		t.Fatalf("disadvantage=%v", got)
 	}
