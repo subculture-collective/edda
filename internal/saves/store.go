@@ -180,15 +180,17 @@ func (s *Store) GetCampaignTime(ctx context.Context, campaignID uuid.UUID) (Camp
 	return ct, nil
 }
 
+// Setting an absolute day/hour/minute also resets second, so a stale second
+// from the SRD rules clock does not shift the new time.
 const upsertCampaignTimeSQL = `
-INSERT INTO campaign_time (campaign_id, day, hour, minute)
-VALUES ($1, $2, $3, $4)
+INSERT INTO campaign_time (campaign_id, day, hour, minute, second)
+VALUES ($1, $2, $3, $4, 0)
 ON CONFLICT (campaign_id) DO UPDATE
-SET day = EXCLUDED.day, hour = EXCLUDED.hour, minute = EXCLUDED.minute, updated_at = now()
+SET day = EXCLUDED.day, hour = EXCLUDED.hour, minute = EXCLUDED.minute, second = 0, updated_at = now()
 RETURNING campaign_id, day, hour, minute, updated_at
 `
 
-// UpsertCampaignTime creates or updates the campaign time.
+// UpsertCampaignTime sets the campaign time to the start of the given minute.
 func (s *Store) UpsertCampaignTime(ctx context.Context, campaignID uuid.UUID, day, hour, minute int) (CampaignTime, error) {
 	pgCID := db.ToPgUUID(campaignID)
 	row := s.db.QueryRow(ctx, upsertCampaignTimeSQL, pgCID, day, hour, minute)

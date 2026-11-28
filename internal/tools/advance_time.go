@@ -61,6 +61,8 @@ const getCampaignTimeForToolSQL = `
 SELECT day, hour, minute FROM campaign_time WHERE campaign_id = $1
 `
 
+// The update leaves campaign_time.second alone on purpose: adding whole
+// minutes keeps the SRD rules clock's absolute-second expiries exact.
 const upsertCampaignTimeForToolSQL = `
 INSERT INTO campaign_time (campaign_id, day, hour, minute)
 VALUES ($1, $2, $3, $4)
