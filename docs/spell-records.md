@@ -6,7 +6,7 @@ runtime consumers, action registration, database writes or coverage promotion.
 `testdata/spell_records.json` contains one complete new source record, Acid Arrow,
 and adaptations of the two existing bounded fixtures. Subsequent catalogue
 imports are separately owned; the #218, #198, #196, #199, #200, #201, #202, #203, #204, #205, #206, #207, #208,
-#209, #210, #211, #212, #213 and #214 batches are described below.
+#209, #210, #211, #212, #213, #214, #215, #216, #217, #219, #220 and #221 batches are described below.
 
 The envelope retains the exact `Source` pin, license, attribution and adaptation
 notice checked by the conformance register. Each record has its own stable
@@ -1170,6 +1170,378 @@ run:
 
 ```sh
 rtk proxy python3 scripts/verify_srd_spells_214.py /path/to/SRD_CC_v5.2.1.pdf
+```
+
+The same limits as #198 apply: the source check supplements the offline literal
+fixtures and is not an automatic conformance proof.
+
+## Issue #215: Planar Ally through Prismatic Spray
+
+`testdata/spells_215.json` imports the twelve families the issue-80 inventory
+assigns to #215, on PDF pp.152-155: Planar Ally, Planar Binding, Plane Shift,
+Plant Growth, Poison Spray, Polymorph, Power Word Heal, Power Word Kill, Power
+Word Stun, Prayer of Healing, Prestidigitation and Prismatic Spray. Planar
+Binding keeps its p.152 to p.153 continuation, Polymorph keeps its p.153 to
+p.154 continuation and Prismatic Spray keeps its p.154 to p.155 continuation
+in explicit `source_pages` lists. `spells_215_test.go` supplies literal
+source-value fixtures for every header, option, effect and scaling value, and
+checks the family list and pages against the decision inventory. Agents
+transcribed the values from the pinned PDF's text; the fixtures, literals and
+pins come from that one transcription, so their agreement is not independent
+proof of it.
+
+The typed payloads retain Planar Ally's payment rates and bargaining rules;
+Planar Binding's four slot durations; Plane Shift's travelers and both
+destination forms; Plant Growth's two casting times and their effects; Poison
+Spray's cantrip rows; Polymorph's retained statistics and ending; the three
+Power Words' thresholds and outcomes; Prayer of Healing's rest and healing;
+Prestidigitation's six options; and all eight Prismatic Spray rows.
+
+Plant Growth prints two casting times. The record's `casting_time` is `action`
+and the payload keeps both the Overgrowth and the 8-hour Enrichment rows.
+Enrichment's half-mile radius is stored as 2640 feet. Prestidigitation prints
+"Up to 1 hour" without Concentration; it is a timed record whose `end_timing`
+is `up-to-duration`.
+
+Schema version 1 gains only shapes present in this batch:
+
+- Existing scaling kind `slot-duration` also accepts Planar Binding's four typed
+  rows with `scaling.duration-by-slot`; `cantrip-upgrade` also accepts Poison
+  Spray's three typed rows.
+- Target eligibilities `unoccupied-space-in-range-for-loyal-creature` on
+  `created-effect`, `celestial-elemental-fey-or-fiend-in-range` on `single`,
+  `caster-and-willing-creatures-linked-in-circle` on `selected-creatures`,
+  `overgrowth-or-enrichment-point-in-range` and
+  `one-chosen-minor-effect-in-range` on `choice`,
+  `chosen-creatures-in-range-for-entire-casting` on `up-to-count` and
+  `creatures-in-self-origin-cone` on `cone`.
+
+Validation pins each record's whole printed value, including header, scaling
+row, effects, required mechanics and typed payload, so a positive but wrong
+value is rejected. The #215 verifier script checks identities, pages, printed
+headers, material costs and anchor phrases only; typed payload values are
+covered by the literal fixtures and pins, not by the script. A batch payload
+on a record of another batch is rejected too. Composition of the bounded
+fixtures with #196, #197, #218, #198, #199, #200, #201, #202, #203, #204,
+#205, #206, #207, #208, #209, #210, #211, #212, #213, #214 and #215 yields 252
+unique records. Every imported record remains unavailable: no resolver,
+action, entitlement, tool, inventory, coverage or Full Rules behavior is
+added.
+
+To recheck the PDF pin, identities, pages, printed headers and source anchors,
+run:
+
+```sh
+rtk proxy python3 scripts/verify_srd_spells_215.py /path/to/SRD_CC_v5.2.1.pdf
+```
+
+The same limits as #198 apply: the source check supplements the offline literal
+fixtures and is not an automatic conformance proof.
+
+## Issue #216: Prismatic Wall through Ray of Frost
+
+`testdata/spells_216.json` imports the twelve families the issue-80 inventory
+assigns to #216, on PDF pp.155-157: Prismatic Wall, Private Sanctum, Produce
+Flame, Programmed Illusion, Project Image, Protection from Energy, Protection
+from Evil and Good, Protection from Poison, Purify Food and Drink, Raise Dead,
+Ray of Enfeeblement and Ray of Frost. Project Image keeps its p.156 to p.157
+continuation in an explicit `source_pages` list. `spells_216_test.go` supplies
+literal source-value fixtures for every header, option, effect and scaling
+value, and checks the family list and pages against the decision inventory.
+Agents transcribed the values from the pinned PDF's text; the fixtures,
+literals and pins come from that one transcription, so their agreement is not
+independent proof of it.
+
+The typed payloads retain Prismatic Wall's dimensions, light, seven layer rows
+and layer destruction; Private Sanctum's cube sizes, six security properties
+and permanence; Produce Flame's light and thrown attack; Programmed
+Illusion's trigger and reset; Project Image's control and discovery; the three
+Protection spells' benefits; Purify Food and Drink's area; Raise Dead's limits
+and penalty; Ray of Enfeeblement's two save results; and Ray of Frost's slow
+and cantrip rows.
+
+Project Image's range of 500 miles is stored as 2640000 feet, and its
+"up to 1 day" as 86400 seconds. Prismatic Wall rows with no damage or no
+damage threshold store `none` and 0. Protection from Evil and Good prints
+"Concentration up to 10 minutes" without the usual comma.
+
+Schema version 1 gains only shapes present in this batch:
+
+- Scaling kind `slot-cube-size` (Private Sanctum) requires its typed cube
+  increment and `scaling.cube-size-per-slot`.
+- Existing scaling kind `cantrip-upgrade` also accepts the typed rows of Produce
+  Flame and Ray of Frost.
+- Target eligibilities `wall-or-globe-centered-in-range` on `choice`,
+  `warded-area-in-range` on `cube`, `triggered-illusion-in-range` and
+  `previously-seen-location-in-range` on `created-effect`,
+  `nonmagical-food-and-drink-in-sphere` on `sphere` and `dead-creature-touch`
+  on `single`.
+
+Validation pins each record's whole printed value, including header, scaling
+row, effects, required mechanics and typed payload, so a positive but wrong
+value is rejected. The #216 verifier script checks identities, pages, printed
+headers, material costs and anchor phrases only; typed payload values are
+covered by the literal fixtures and pins, not by the script. A batch payload
+on a record of another batch is rejected too. Composition of the bounded
+fixtures with #196, #197, #218, #198, #199, #200, #201, #202, #203, #204,
+#205, #206, #207, #208, #209, #210, #211, #212, #213, #214, #215 and #216
+yields 264 unique records. Every imported record remains unavailable: no
+resolver, action, entitlement, tool, inventory, coverage or Full Rules
+behavior is added.
+
+To recheck the PDF pin, identities, pages, printed headers and source anchors,
+run:
+
+```sh
+rtk proxy python3 scripts/verify_srd_spells_216.py /path/to/SRD_CC_v5.2.1.pdf
+```
+
+The same limits as #198 apply: the source check supplements the offline literal
+fixtures and is not an automatic conformance proof.
+
+## Issue #217: Ray of Sickness through Sanctuary
+
+`testdata/spells_217.json` imports the twelve families the issue-80 inventory
+assigns to #217, on PDF pp.158-159: Ray of Sickness, Regenerate, Reincarnate,
+Remove Curse, Resilient Sphere, Resistance, Resurrection, Reverse Gravity,
+Revivify, Rope Trick, Sacred Flame and Sanctuary. Resurrection keeps its p.158
+to p.159 continuation in an explicit `source_pages` list. `spells_217_test.go`
+supplies literal source-value fixtures for every header, option, effect and
+scaling value, and checks the family list and pages against the decision
+inventory. Agents transcribed the values from the pinned PDF's text; the
+fixtures, literals and pins come from that one transcription, so their
+agreement is not independent proof of it.
+
+The typed payloads retain Ray of Sickness's poison and slot die; Regenerate's
+healing and regrowth; Reincarnate's ten-row species table; Remove Curse's
+cursed-item rule; Resilient Sphere's barrier and movement; Resistance's eleven
+damage types and reduction die; Resurrection's limits, penalty and long-dead
+cost; Reverse Gravity's cylinder; Revivify's one-minute window; Rope Trick's
+space; Sacred Flame's cover rule and cantrip rows; and Sanctuary's save and
+endings.
+
+The PDF prints Regenerate before Ray of Sickness; the records follow the
+inventory order. "A century" is stored as 100 years and "the last minute" as
+60 seconds. Resistance prints the singular "Component:" label.
+
+Schema version 1 gains only shapes present in this batch:
+
+- Existing scaling kind `cantrip-upgrade` also accepts Sacred Flame's typed rows.
+- Target eligibilities `dead-humanoid-or-piece-of-one-touch`,
+  `creature-or-object-touch`, `large-or-smaller-creature-or-object-in-range`
+  and `rope-touch` on `single` and `creatures-and-objects-in-reversed-gravity`
+  on `cylinder`.
+
+Validation pins each record's whole printed value, including header, scaling
+row, effects, required mechanics and typed payload, so a positive but wrong
+value is rejected. The #217 verifier script checks identities, pages, printed
+headers, material costs and anchor phrases only; typed payload values are
+covered by the literal fixtures and pins, not by the script. A batch payload
+on a record of another batch is rejected too. Composition of the bounded
+fixtures with #196, #197, #218, #198, #199, #200, #201, #202, #203, #204,
+#205, #206, #207, #208, #209, #210, #211, #212, #213, #214, #215, #216 and
+#217 yields 276 unique records. Every imported record remains unavailable: no
+resolver, action, entitlement, tool, inventory, coverage or Full Rules
+behavior is added.
+
+To recheck the PDF pin, identities, pages, printed headers and source anchors,
+run:
+
+```sh
+rtk proxy python3 scripts/verify_srd_spells_217.py /path/to/SRD_CC_v5.2.1.pdf
+```
+
+The same limits as #198 apply: the source check supplements the offline literal
+fixtures and is not an automatic conformance proof.
+
+## Issue #219: Shillelagh through Speak with Animals
+
+`testdata/spells_219.json` imports the twelve families the issue-80 inventory
+assigns to #219, on PDF pp.162-164: Shillelagh, Shining Smite, Shocking Grasp,
+Silence, Silent Image, Simulacrum, Sleep, Sleet Storm, Slow, Sorcerous Burst,
+Spare the Dying and Speak with Animals. Simulacrum keeps its p.162 to p.163
+continuation in an explicit `source_pages` list. `spells_219_test.go` supplies
+literal source-value fixtures for every header, option, effect and scaling
+value, and checks the family list and pages against the decision inventory.
+Agents transcribed the values from the pinned PDF's text; the fixtures,
+literals and pins come from that one transcription, so their agreement is not
+independent proof of it.
+
+The typed payloads retain Shillelagh's weapon die table; Shining Smite's extra
+damage, light and reveal; Shocking Grasp's restriction; Silence's sphere;
+Silent Image's control and discovery; Simulacrum's creation, control and
+repair; Sleep's two saves; Sleet Storm's cylinder; Slow's six penalties;
+Sorcerous Burst's damage choices and extra dice; Spare the Dying's range
+table; and Speak with Animals' information limits.
+
+Simulacrum's 12-hour casting adds casting time `12-hours` with 43200 casting
+seconds. Shining Smite keeps its two printed triggers and prints the singular
+"Component:" label, as does Sorcerous Burst. Sorcerous Burst's damage effect
+stores the damage type `chosen`; the seven choices are in the payload.
+
+Schema version 1 gains only shapes present in this batch:
+
+- Casting time `12-hours` (Simulacrum) requires typed source details.
+- Cantrip scaling kind `cantrip-die-table` (Shillelagh) requires its three die
+  rows and `scaling.cantrip-die-upgrade`.
+- Cantrip scaling kind `cantrip-range` (Spare the Dying) requires its three
+  range rows and `scaling.cantrip-range-upgrade`.
+- Existing scaling kind `cantrip-upgrade` also accepts the typed rows of
+  Shocking Grasp and Sorcerous Burst.
+- Target eligibilities `held-club-or-quarterstaff`,
+  `beast-or-humanoid-within-10-feet-for-entire-casting` and
+  `creature-with-0-hit-points-not-dead` on `single`,
+  `area-centered-on-chosen-point` and `chosen-creatures-in-sphere` on
+  `sphere`, `visible-phenomenon-in-range` on `created-effect`,
+  `area-centered-on-chosen-point` on `cylinder` and
+  `chosen-creatures-in-cube-in-range` on `up-to-count`.
+
+Validation pins each record's whole printed value, including header, scaling
+row, effects, required mechanics and typed payload, so a positive but wrong
+value is rejected. The #219 verifier script checks identities, pages, printed
+headers, material costs and anchor phrases only; typed payload values are
+covered by the literal fixtures and pins, not by the script. A batch payload
+on a record of another batch is rejected too. Composition of the bounded
+fixtures with #196, #197, #218, #198, #199, #200, #201, #202, #203, #204,
+#205, #206, #207, #208, #209, #210, #211, #212, #213, #214, #215, #216, #217
+and #219 yields 288 unique records. Every imported record remains unavailable:
+no resolver, action, entitlement, tool, inventory, coverage or Full Rules
+behavior is added.
+
+To recheck the PDF pin, identities, pages, printed headers and source anchors,
+run:
+
+```sh
+rtk proxy python3 scripts/verify_srd_spells_219.py /path/to/SRD_CC_v5.2.1.pdf
+```
+
+The same limits as #198 apply: the source check supplements the offline literal
+fixtures and is not an automatic conformance proof.
+
+## Issue #220: Speak with Dead through Suggestion
+
+`testdata/spells_220.json` imports the twelve families the issue-80 inventory
+assigns to #220, on PDF pp.164-166: Speak with Dead, Speak with Plants, Spider
+Climb, Spike Growth, Spirit Guardians, Spiritual Weapon, Starry Wisp, Stinking
+Cloud, Stone Shape, Stoneskin, Storm of Vengeance and Suggestion. Spirit
+Guardians keeps its p.164 to p.165 continuation and Storm of Vengeance keeps
+its p.165 to p.166 continuation in explicit `source_pages` lists.
+`spells_220_test.go` supplies literal source-value fixtures for every header,
+option, effect and scaling value, and checks the family list and pages against
+the decision inventory. Agents transcribed the values from the pinned PDF's
+text; the fixtures, literals and pins come from that one transcription, so
+their agreement is not independent proof of it.
+
+The typed payloads retain Speak with Dead's question limits; Speak with Plants'
+area and terrain choices; Spider Climb's movement and extra targets; Spike
+Growth's damage interval and recognition check; Spirit Guardians' three
+alignment rows; Spiritual Weapon's attack and movement; Starry Wisp's reveal;
+Stinking Cloud's poison; Stone Shape's limits; Stoneskin's resistances; Storm
+of Vengeance's initial strike and turn rows; and Suggestion's wording limit and
+endings.
+
+Spirit Guardians stores one Radiant and one Necrotic damage effect; the
+payload's alignment rows say which applies, and the slot scaling names both.
+Storm of Vengeance's range of 1 mile is stored as 5280 feet. "The past day" is
+stored as 1 day.
+
+Schema version 1 gains only shapes present in this batch:
+
+- Existing scaling kind `slot-targets` also accepts Spider Climb; `cantrip-upgrade`
+  also accepts Starry Wisp's typed rows.
+- Target eligibilities `corpse-in-range`, `stone-object-or-section-touch` and
+  `visible-hearing-understanding-creature-in-range` on `single`,
+  `plants-in-immobile-emanation` and `undesignated-creatures-in-emanation` on
+  `emanation`, `ground-in-sphere-on-point-in-range`,
+  `area-centered-on-point-in-range` and
+  `creatures-and-objects-under-storm-cloud` on `sphere` and
+  `chosen-space-in-range` on `created-effect`.
+
+Validation pins each record's whole printed value, including header, scaling
+row, effects, required mechanics and typed payload, so a positive but wrong
+value is rejected. The #220 verifier script checks identities, pages, printed
+headers, material costs and anchor phrases only; typed payload values are
+covered by the literal fixtures and pins, not by the script. A batch payload
+on a record of another batch is rejected too. Composition of the bounded
+fixtures with #196, #197, #218, #198, #199, #200, #201, #202, #203, #204,
+#205, #206, #207, #208, #209, #210, #211, #212, #213, #214, #215, #216, #217,
+#219 and #220 yields 300 unique records. Every imported record remains
+unavailable: no resolver, action, entitlement, tool, inventory, coverage or
+Full Rules behavior is added.
+
+To recheck the PDF pin, identities, pages, printed headers and source anchors,
+run:
+
+```sh
+rtk proxy python3 scripts/verify_srd_spells_220.py /path/to/SRD_CC_v5.2.1.pdf
+```
+
+The same limits as #198 apply: the source check supplements the offline literal
+fixtures and is not an automatic conformance proof.
+
+## Issue #221: Summon Dragon through Tiny Hut
+
+`testdata/spells_221.json` imports the twelve families the issue-80 inventory
+assigns to #221, on PDF pp.166-169: Summon Dragon, Sunbeam, Sunburst, Symbol,
+Telekinesis, Telepathic Bond, Teleport, Teleportation Circle, Thaumaturgy,
+Thunderwave, Time Stop and Tiny Hut. Telekinesis keeps its p.167 to p.168
+continuation and Teleportation Circle keeps its p.168 to p.169 continuation in
+explicit `source_pages` lists. `spells_221_test.go` supplies literal
+source-value fixtures for every header, option, effect and scaling value, and
+checks the family list and pages against the decision inventory. Agents
+transcribed the values from the pinned PDF's text; the fixtures, literals and
+pins come from that one transcription, so their agreement is not independent
+proof of it.
+
+The typed payloads retain Summon Dragon's Draconic Spirit stat block; Sunbeam's
+line and light; Sunburst's blindness; Symbol's triggers and six glyph effects;
+Telekinesis's creature and object options; Telepathic Bond's link; Teleport's
+outcome table, familiarity meanings and results; Teleportation Circle's sigil
+and permanence rules; Thaumaturgy's six options; Thunderwave's push; Time
+Stop's turns and endings; and Tiny Hut's barrier.
+
+The pinned PDF ends Telekinesis's fine-control sentence on p.168 at "such as
+manipulating a simple tool," with no further text. The record keeps that one
+example and notes the printed ending; nothing is supplied from another source.
+In Teleport's table, printed `00` is stored as 100 and a dash is an absent
+outcome row. Teleportation Circle's "1 round" is stored as 6 seconds.
+Thaumaturgy prints "Up to 1 minute" without Concentration; it is a timed record
+whose `end_timing` is `up-to-duration`. Symbol prints "Until dispelled or
+triggered"; the duration is `until-dispelled` and `end_timing` names the
+trigger. The Draconic Spirit's ability modifiers and saves reuse
+`SpellStatAbility`.
+
+Schema version 1 gains only shapes present in this batch:
+
+- Scaling kind `slot-stat-block` (Summon Dragon) requires the typed slot-level
+  rule and `scaling.stat-block-by-slot`.
+- Target eligibilities `creatures-in-self-origin-line` on `line`,
+  `creatures-in-sphere-on-point-in-range` on `sphere`,
+  `surface-or-closable-object-touch`, `visible-creature-or-object-in-range`,
+  `willing-creatures-or-single-object-in-range` and
+  `one-chosen-minor-wonder-in-range` on `choice`,
+  `chosen-willing-creatures-in-range` on `up-to-count`,
+  `circle-on-ground-in-range` on `created-effect`,
+  `creatures-and-unsecured-objects-in-self-origin-cube` on `cube` and
+  `stationary-emanation-around-caster` on `emanation`.
+
+Validation pins each record's whole printed value, including header, scaling
+row, effects, required mechanics and typed payload, so a positive but wrong
+value is rejected. The #221 verifier script checks identities, pages, printed
+headers, material costs and anchor phrases only; typed payload values are
+covered by the literal fixtures and pins, not by the script. A batch payload
+on a record of another batch is rejected too. Composition of the bounded
+fixtures with #196, #197, #218, #198, #199, #200, #201, #202, #203, #204,
+#205, #206, #207, #208, #209, #210, #211, #212, #213, #214, #215, #216, #217,
+#219, #220 and #221 yields 312 unique records. Every imported record remains
+unavailable: no resolver, action, entitlement, tool, inventory, coverage or
+Full Rules behavior is added.
+
+To recheck the PDF pin, identities, pages, printed headers and source anchors,
+run:
+
+```sh
+rtk proxy python3 scripts/verify_srd_spells_221.py /path/to/SRD_CC_v5.2.1.pdf
 ```
 
 The same limits as #198 apply: the source check supplements the offline literal

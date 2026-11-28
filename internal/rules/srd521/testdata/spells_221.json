@@ -1,0 +1,1619 @@
+{
+  "schema_version": 1,
+  "source": {
+    "version": "5.2.1",
+    "language": "en",
+    "landing_url": "https://www.dndbeyond.com/srd",
+    "artifact_url": "https://media.dndbeyond.com/compendium-images/srd/5.2/SRD_CC_v5.2.1.pdf",
+    "sha256": "8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87",
+    "bytes": 6031375,
+    "pages": 364,
+    "retrieved_at": "2026-11-15",
+    "license": "CC-BY-4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/legalcode",
+    "attribution": "This work includes material from the System Reference Document 5.2.1 (“SRD 5.2.1”) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd. The SRD 5.2.1 is licensed under the Creative Commons Attribution 4.0 International License, available at https://creativecommons.org/licenses/by/4.0/legalcode.",
+    "changes": "SRD 5.2.1 PDF pp.166-169 adapted into twelve complete offline spell families for issue #221, including page-break continuation text for Telekinesis (pp.167-168) and Teleportation Circle (pp.168-169). No executable effects or availability grants."
+  },
+  "records": [
+    {
+      "id": "srd-5.2.1:content/spells/summon-dragon",
+      "name": "Summon Dragon",
+      "source_id": "srd-5.2.1:content/spells/summon-dragon",
+      "source_page": 166,
+      "scope": "complete-source-record",
+      "level": 5,
+      "school": "conjuration",
+      "lists": [
+        "wizard"
+      ],
+      "casting_time": "action",
+      "range": {
+        "kind": "feet",
+        "feet": 60
+      },
+      "target": {
+        "shape": "created-effect",
+        "count": 1,
+        "eligibility": "visible-unoccupied-space-in-range"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": {
+          "description": "an object with the image of a dragon engraved on it worth 500+ GP",
+          "cost_cp": 50000,
+          "consumed": false
+        }
+      },
+      "ritual": false,
+      "concentration": true,
+      "duration": "timed",
+      "duration_seconds": 3600,
+      "scaling": {
+        "kind": "slot-stat-block",
+        "above_level": 5,
+        "dice_count": 0,
+        "die_sides": 0,
+        "effect_ids": [
+          "spirit"
+        ]
+      },
+      "effects": [
+        {
+          "id": "spirit",
+          "mechanic": "summon.summon-dragon",
+          "timing": "for-duration",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "summon.summon-dragon",
+        "stat-block.draconic-spirit",
+        "scaling.stat-block-by-slot",
+        "concentration.source-duration",
+        "components.material"
+      ],
+      "slot_levels": [
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 0,
+        "casting_triggers": [],
+        "end_timing": "duration-concentration-or-spirit-at-0-hit-points",
+        "summon_dragon": {
+          "summons": "dragon-spirit",
+          "placement": "unoccupied-space-caster-can-see-within-range",
+          "disappears_when": [
+            "drops-to-0-hit-points",
+            "spell-ends"
+          ],
+          "combat_role": "ally-to-caster-and-casters-allies",
+          "initiative": "shares-casters-initiative-count",
+          "turn_order": "immediately-after-casters-turn",
+          "commands": "obeys-verbal-commands-no-action-required",
+          "no_command": "takes-dodge-action-and-moves-to-avoid-danger",
+          "slot_level_use": "spell-slot-level-is-the-spell-level-in-the-stat-block",
+          "stat_block": {
+            "name": "draconic-spirit",
+            "size": "large",
+            "creature_type": "dragon",
+            "alignment": "neutral",
+            "armor_class_base": 14,
+            "armor_class_adds": "spells-level",
+            "hit_points_base": 50,
+            "hit_points_per_level": 10,
+            "hit_points_above_level": 5,
+            "speed_feet": 30,
+            "fly_speed_feet": 60,
+            "swim_speed_feet": 30,
+            "abilities": [
+              {
+                "ability": "strength",
+                "score": 19,
+                "modifier": 4,
+                "save": 4
+              },
+              {
+                "ability": "dexterity",
+                "score": 14,
+                "modifier": 2,
+                "save": 2
+              },
+              {
+                "ability": "constitution",
+                "score": 17,
+                "modifier": 3,
+                "save": 3
+              },
+              {
+                "ability": "intelligence",
+                "score": 10,
+                "modifier": 0,
+                "save": 0
+              },
+              {
+                "ability": "wisdom",
+                "score": 14,
+                "modifier": 2,
+                "save": 2
+              },
+              {
+                "ability": "charisma",
+                "score": 14,
+                "modifier": 2,
+                "save": 2
+              }
+            ],
+            "damage_resistances": [
+              "acid",
+              "cold",
+              "fire",
+              "lightning",
+              "poison"
+            ],
+            "condition_immunities": [
+              "charmed",
+              "frightened",
+              "poisoned"
+            ],
+            "blindsight_feet": 30,
+            "darkvision_feet": 60,
+            "passive_perception": 12,
+            "languages": [
+              "draconic",
+              "understands-languages-caster-knows"
+            ],
+            "challenge_rating": "none",
+            "xp": 0,
+            "proficiency_bonus": "equals-casters-proficiency-bonus",
+            "shared_resistance": "caster-gains-resistance-to-one-chosen-spirit-resistance-until-spell-ends",
+            "multiattack_rend": "attacks-equal-to-half-spell-level-rounded-down",
+            "multiattack_also": "uses-breath-weapon",
+            "rend_attack_bonus": "casters-spell-attack-modifier",
+            "rend_reach_feet": 10,
+            "rend_dice_count": 1,
+            "rend_die_sides": 6,
+            "rend_bonus": 4,
+            "rend_bonus_adds": "spells-level",
+            "rend_damage_type": "piercing",
+            "breath_save": "dexterity",
+            "breath_save_dc": "casters-spell-save-dc",
+            "breath_cone_feet": 30,
+            "breath_dice_count": 2,
+            "breath_die_sides": 6,
+            "breath_damage_type": "spirit-resistance-type-chosen-at-casting",
+            "breath_success": "half-damage"
+          }
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/sunbeam",
+      "name": "Sunbeam",
+      "source_id": "srd-5.2.1:content/spells/sunbeam",
+      "source_page": 166,
+      "scope": "complete-source-record",
+      "level": 6,
+      "school": "evocation",
+      "lists": [
+        "cleric",
+        "druid",
+        "sorcerer",
+        "wizard"
+      ],
+      "casting_time": "action",
+      "range": {
+        "kind": "self",
+        "feet": 0
+      },
+      "target": {
+        "shape": "line",
+        "count": 0,
+        "eligibility": "creatures-in-self-origin-line"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": {
+          "description": "a magnifying glass",
+          "cost_cp": 0,
+          "consumed": false
+        }
+      },
+      "ritual": false,
+      "concentration": true,
+      "duration": "timed",
+      "duration_seconds": 60,
+      "scaling": {
+        "kind": "none",
+        "above_level": 0,
+        "dice_count": 0,
+        "die_sides": 0,
+        "effect_ids": []
+      },
+      "effects": [
+        {
+          "id": "damage",
+          "mechanic": "damage.sunbeam",
+          "timing": "at-casting-and-on-later-magic-actions",
+          "dice_count": 6,
+          "die_sides": 8,
+          "damage_type": "radiant",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "blinded",
+          "mechanic": "condition.sunbeam-blinded",
+          "timing": "on-failed-save-until-start-of-casters-next-turn",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "sunlight",
+          "mechanic": "light.sunbeam-sunlight",
+          "timing": "for-duration",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "damage.sunbeam",
+        "condition.sunbeam-blinded",
+        "light.sunbeam-sunlight",
+        "save.constitution-half",
+        "action.sunbeam-new-line",
+        "concentration.source-duration",
+        "components.material"
+      ],
+      "slot_levels": [
+        6,
+        7,
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 0,
+        "casting_triggers": [],
+        "end_timing": "duration-or-concentration-ended",
+        "sunbeam": {
+          "line_width_feet": 5,
+          "line_length_feet": 60,
+          "save": "constitution",
+          "damage_dice_count": 6,
+          "damage_die_sides": 8,
+          "damage_type": "radiant",
+          "failure_condition": "blinded",
+          "condition_ends": "start-of-casters-next-turn",
+          "save_success": "half-damage-only",
+          "new_line_action": "magic-action",
+          "mote_location": "above-caster",
+          "bright_light_feet": 30,
+          "dim_light_extra_feet": 30,
+          "light_kind": "sunlight"
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/sunburst",
+      "name": "Sunburst",
+      "source_id": "srd-5.2.1:content/spells/sunburst",
+      "source_page": 167,
+      "scope": "complete-source-record",
+      "level": 8,
+      "school": "evocation",
+      "lists": [
+        "cleric",
+        "druid",
+        "sorcerer",
+        "wizard"
+      ],
+      "casting_time": "action",
+      "range": {
+        "kind": "feet",
+        "feet": 150
+      },
+      "target": {
+        "shape": "sphere",
+        "count": 0,
+        "eligibility": "creatures-in-sphere-on-point-in-range"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": {
+          "description": "a piece of sunstone",
+          "cost_cp": 0,
+          "consumed": false
+        }
+      },
+      "ritual": false,
+      "concentration": false,
+      "duration": "instantaneous",
+      "duration_seconds": 0,
+      "scaling": {
+        "kind": "none",
+        "above_level": 0,
+        "dice_count": 0,
+        "die_sides": 0,
+        "effect_ids": []
+      },
+      "effects": [
+        {
+          "id": "damage",
+          "mechanic": "damage.sunburst",
+          "timing": "immediate",
+          "dice_count": 12,
+          "die_sides": 6,
+          "damage_type": "radiant",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "blinded",
+          "mechanic": "condition.sunburst-blinded",
+          "timing": "on-failed-save-up-to-1-minute",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "dispel",
+          "mechanic": "ending.sunburst-dispels-darkness",
+          "timing": "immediate",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "damage.sunburst",
+        "condition.sunburst-blinded",
+        "ending.sunburst-dispels-darkness",
+        "save.constitution-half",
+        "save.sunburst-repeat",
+        "components.material"
+      ],
+      "slot_levels": [
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 0,
+        "casting_triggers": [],
+        "end_timing": "instantaneous",
+        "sunburst": {
+          "radius_feet": 60,
+          "save": "constitution",
+          "damage_dice_count": 12,
+          "damage_die_sides": 6,
+          "damage_type": "radiant",
+          "failure_condition": "blinded",
+          "condition_seconds": 60,
+          "save_success": "half-damage-only",
+          "repeat_save": "constitution",
+          "repeat_timing": "end-of-each-of-its-turns",
+          "repeat_success": "ends-effect-on-self",
+          "dispels": "darkness-in-area-created-by-any-spell"
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/symbol",
+      "name": "Symbol",
+      "source_id": "srd-5.2.1:content/spells/symbol",
+      "source_page": 167,
+      "scope": "complete-source-record",
+      "level": 7,
+      "school": "abjuration",
+      "lists": [
+        "bard",
+        "cleric",
+        "druid",
+        "wizard"
+      ],
+      "casting_time": "1-minute",
+      "range": {
+        "kind": "touch",
+        "feet": 0
+      },
+      "target": {
+        "shape": "choice",
+        "count": 1,
+        "eligibility": "surface-or-closable-object-touch"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": {
+          "description": "powdered diamond worth 1,000+ GP, which the spell consumes",
+          "cost_cp": 100000,
+          "consumed": true
+        }
+      },
+      "ritual": false,
+      "concentration": false,
+      "duration": "until-dispelled",
+      "duration_seconds": 0,
+      "scaling": {
+        "kind": "none",
+        "above_level": 0,
+        "dice_count": 0,
+        "die_sides": 0,
+        "effect_ids": []
+      },
+      "effects": [
+        {
+          "id": "glyph",
+          "mechanic": "trap.symbol-glyph",
+          "timing": "until-triggered",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "death",
+          "mechanic": "damage.symbol-death",
+          "timing": "on-trigger-death",
+          "dice_count": 10,
+          "die_sides": 10,
+          "damage_type": "necrotic",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "discord",
+          "mechanic": "effect.symbol-discord",
+          "timing": "on-trigger-discord",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "fear",
+          "mechanic": "condition.symbol-frightened",
+          "timing": "on-trigger-fear",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "pain",
+          "mechanic": "condition.symbol-incapacitated",
+          "timing": "on-trigger-pain",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "sleep",
+          "mechanic": "condition.symbol-unconscious",
+          "timing": "on-trigger-sleep",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "stunning",
+          "mechanic": "condition.symbol-stunned",
+          "timing": "on-trigger-stunning",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "trap.symbol-glyph",
+        "damage.symbol-death",
+        "effect.symbol-discord",
+        "condition.symbol-frightened",
+        "condition.symbol-incapacitated",
+        "condition.symbol-unconscious",
+        "condition.symbol-stunned",
+        "trigger.symbol",
+        "check.symbol-perception",
+        "cast.one-minute",
+        "components.material"
+      ],
+      "slot_levels": [
+        7,
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 60,
+        "casting_triggers": [],
+        "end_timing": "dispelled-triggered-or-glyph-broken",
+        "symbol": {
+          "placements": [
+            "surface-such-as-floor-or-wall",
+            "closable-object-such-as-book-or-chest"
+          ],
+          "max_glyph_diameter_feet": 10,
+          "max_object_move_feet": 10,
+          "moved_result": "glyph-broken-and-spell-ends-untriggered",
+          "notice_check": "wisdom-perception",
+          "notice_dc": "caster-spell-save-dc",
+          "cast_choices": [
+            "trigger",
+            "effect"
+          ],
+          "surface_triggers": [
+            "touching-or-stepping-on-glyph",
+            "removing-covering-object",
+            "approaching-within-set-distance"
+          ],
+          "object_triggers": [
+            "opening-object",
+            "seeing-glyph"
+          ],
+          "trigger_refinements": [
+            "only-certain-creature-types",
+            "exempt-conditions-such-as-password"
+          ],
+          "refinement_example": "affect-aberrations",
+          "activation_radius_feet": 60,
+          "activation_light": "dim-light",
+          "active_minutes": 10,
+          "active_end": "spell-ends",
+          "targeted": [
+            "creatures-in-sphere-at-activation",
+            "creature-entering-first-time-on-turn",
+            "creature-ending-turn-there"
+          ],
+          "targets_per_turn": 1,
+          "effects": [
+            {
+              "effect": "death",
+              "save": "constitution",
+              "result": "damage-half-on-success",
+              "dice_count": 10,
+              "die_sides": 10,
+              "damage_type": "necrotic",
+              "condition_seconds": 0
+            },
+            {
+              "effect": "discord",
+              "save": "wisdom",
+              "result": "argues-without-meaningful-communication-and-disadvantage-on-attacks-and-ability-checks",
+              "dice_count": 0,
+              "die_sides": 0,
+              "damage_type": "none",
+              "condition_seconds": 60
+            },
+            {
+              "effect": "fear",
+              "save": "wisdom",
+              "result": "frightened-must-move-away-from-glyph-each-turn-if-able",
+              "dice_count": 0,
+              "die_sides": 0,
+              "damage_type": "none",
+              "condition_seconds": 60
+            },
+            {
+              "effect": "pain",
+              "save": "constitution",
+              "result": "incapacitated",
+              "dice_count": 0,
+              "die_sides": 0,
+              "damage_type": "none",
+              "condition_seconds": 60
+            },
+            {
+              "effect": "sleep",
+              "save": "wisdom",
+              "result": "unconscious-awakens-on-damage-or-action-to-shake",
+              "dice_count": 0,
+              "die_sides": 0,
+              "damage_type": "none",
+              "condition_seconds": 600
+            },
+            {
+              "effect": "stunning",
+              "save": "wisdom",
+              "result": "stunned",
+              "dice_count": 0,
+              "die_sides": 0,
+              "damage_type": "none",
+              "condition_seconds": 60
+            }
+          ],
+          "fear_min_move_feet": 30
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/telekinesis",
+      "name": "Telekinesis",
+      "source_id": "srd-5.2.1:content/spells/telekinesis",
+      "source_page": 167,
+      "scope": "complete-source-record",
+      "level": 5,
+      "school": "transmutation",
+      "lists": [
+        "sorcerer",
+        "wizard"
+      ],
+      "casting_time": "action",
+      "range": {
+        "kind": "feet",
+        "feet": 60
+      },
+      "target": {
+        "shape": "choice",
+        "count": 1,
+        "eligibility": "visible-creature-or-object-in-range"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": null
+      },
+      "ritual": false,
+      "concentration": true,
+      "duration": "timed",
+      "duration_seconds": 600,
+      "scaling": {
+        "kind": "none",
+        "above_level": 0,
+        "dice_count": 0,
+        "die_sides": 0,
+        "effect_ids": []
+      },
+      "effects": [
+        {
+          "id": "creature",
+          "mechanic": "control.telekinesis-creature",
+          "timing": "at-casting-and-on-later-magic-actions",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "object",
+          "mechanic": "control.telekinesis-object",
+          "timing": "at-casting-and-on-later-magic-actions",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "control.telekinesis-creature",
+        "control.telekinesis-object",
+        "save.strength-telekinesis",
+        "concentration.source-duration"
+      ],
+      "slot_levels": [
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 0,
+        "casting_triggers": [],
+        "end_timing": "duration-or-concentration-ended",
+        "telekinesis": {
+          "source_pages": [
+            167,
+            168
+          ],
+          "use_timing": "when-cast-and-as-magic-action-on-later-turns",
+          "target_kinds": [
+            "creature",
+            "object"
+          ],
+          "retargeting": "same-or-new-target-any-time-prior-target-no-longer-affected",
+          "max_creature_size": "huge",
+          "creature_save": "strength",
+          "creature_move_feet": 30,
+          "move_limit": "any-direction-within-spell-range",
+          "creature_condition": "restrained",
+          "condition_ends": "end-of-casters-next-turn",
+          "lifted": "suspended-if-lifted",
+          "fall": "falls-at-end-of-casters-next-turn-unless-used-again-and-save-fails",
+          "max_object_size": "huge",
+          "unattended_object": "moved-automatically",
+          "object_move_feet": 30,
+          "carried_object_save": "strength",
+          "carried_object_failure": "object-pulled-away-and-moved",
+          "fine_control": "can-exert-fine-control-on-objects",
+          "fine_control_examples": [
+            "manipulating-simple-tool"
+          ],
+          "source_text_end": "printed-sentence-ends-after-first-fine-control-example"
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/telepathic-bond",
+      "name": "Telepathic Bond",
+      "source_id": "srd-5.2.1:content/spells/telepathic-bond",
+      "source_page": 168,
+      "scope": "complete-source-record",
+      "level": 5,
+      "school": "divination",
+      "lists": [
+        "bard",
+        "wizard"
+      ],
+      "casting_time": "action",
+      "range": {
+        "kind": "feet",
+        "feet": 30
+      },
+      "target": {
+        "shape": "up-to-count",
+        "count": 8,
+        "eligibility": "chosen-willing-creatures-in-range"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": {
+          "description": "two eggs",
+          "cost_cp": 0,
+          "consumed": false
+        }
+      },
+      "ritual": true,
+      "concentration": false,
+      "duration": "timed",
+      "duration_seconds": 3600,
+      "scaling": {
+        "kind": "none",
+        "above_level": 0,
+        "dice_count": 0,
+        "die_sides": 0,
+        "effect_ids": []
+      },
+      "effects": [
+        {
+          "id": "bond",
+          "mechanic": "utility.telepathic-bond",
+          "timing": "for-duration",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "utility.telepathic-bond",
+        "cast.ritual",
+        "components.material"
+      ],
+      "slot_levels": [
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 0,
+        "casting_triggers": [],
+        "end_timing": "duration-ended",
+        "telepathic_bond": {
+          "max_creatures": 8,
+          "link": "each-creature-linked-to-all-others",
+          "excluded": "creatures-that-cannot-communicate-in-any-language",
+          "communication": "telepathic-with-or-without-shared-language",
+          "distance": "any-distance",
+          "planar_limit": "does-not-extend-to-other-planes"
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/teleport",
+      "name": "Teleport",
+      "source_id": "srd-5.2.1:content/spells/teleport",
+      "source_page": 168,
+      "scope": "complete-source-record",
+      "level": 7,
+      "school": "conjuration",
+      "lists": [
+        "bard",
+        "sorcerer",
+        "wizard"
+      ],
+      "casting_time": "action",
+      "range": {
+        "kind": "feet",
+        "feet": 10
+      },
+      "target": {
+        "shape": "choice",
+        "count": 1,
+        "eligibility": "willing-creatures-or-single-object-in-range"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": false,
+        "material": null
+      },
+      "ritual": false,
+      "concentration": false,
+      "duration": "instantaneous",
+      "duration_seconds": 0,
+      "scaling": {
+        "kind": "none",
+        "above_level": 0,
+        "dice_count": 0,
+        "die_sides": 0,
+        "effect_ids": []
+      },
+      "effects": [
+        {
+          "id": "transport",
+          "mechanic": "teleport.teleport",
+          "timing": "immediate",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "mishap",
+          "mechanic": "damage.teleport-mishap",
+          "timing": "on-each-mishap-result",
+          "dice_count": 3,
+          "die_sides": 10,
+          "damage_type": "force",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "teleport.teleport",
+        "damage.teleport-mishap",
+        "table.teleport-outcome"
+      ],
+      "slot_levels": [
+        7,
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 0,
+        "casting_triggers": [],
+        "end_timing": "instantaneous",
+        "teleport": {
+          "max_additional_creatures": 8,
+          "creature_requirement": "willing-creatures-caster-can-see",
+          "object_alternative": "single-visible-object-in-range",
+          "max_object_size": "large",
+          "object_restriction": "not-held-or-carried-by-unwilling-creature",
+          "destination_requirements": [
+            "known-to-caster",
+            "same-plane-of-existence"
+          ],
+          "table_die_sides": 100,
+          "table": [
+            {
+              "familiarity": "permanent-circle",
+              "outcomes": [
+                {
+                  "outcome": "on-target",
+                  "low": 1,
+                  "high": 100
+                }
+              ]
+            },
+            {
+              "familiarity": "linked-object",
+              "outcomes": [
+                {
+                  "outcome": "on-target",
+                  "low": 1,
+                  "high": 100
+                }
+              ]
+            },
+            {
+              "familiarity": "very-familiar",
+              "outcomes": [
+                {
+                  "outcome": "mishap",
+                  "low": 1,
+                  "high": 5
+                },
+                {
+                  "outcome": "similar-area",
+                  "low": 6,
+                  "high": 13
+                },
+                {
+                  "outcome": "off-target",
+                  "low": 14,
+                  "high": 24
+                },
+                {
+                  "outcome": "on-target",
+                  "low": 25,
+                  "high": 100
+                }
+              ]
+            },
+            {
+              "familiarity": "seen-casually",
+              "outcomes": [
+                {
+                  "outcome": "mishap",
+                  "low": 1,
+                  "high": 33
+                },
+                {
+                  "outcome": "similar-area",
+                  "low": 34,
+                  "high": 43
+                },
+                {
+                  "outcome": "off-target",
+                  "low": 44,
+                  "high": 53
+                },
+                {
+                  "outcome": "on-target",
+                  "low": 54,
+                  "high": 100
+                }
+              ]
+            },
+            {
+              "familiarity": "viewed-once-or-described",
+              "outcomes": [
+                {
+                  "outcome": "mishap",
+                  "low": 1,
+                  "high": 43
+                },
+                {
+                  "outcome": "similar-area",
+                  "low": 44,
+                  "high": 53
+                },
+                {
+                  "outcome": "off-target",
+                  "low": 54,
+                  "high": 73
+                },
+                {
+                  "outcome": "on-target",
+                  "low": 74,
+                  "high": 100
+                }
+              ]
+            },
+            {
+              "familiarity": "false-destination",
+              "outcomes": [
+                {
+                  "outcome": "mishap",
+                  "low": 1,
+                  "high": 50
+                },
+                {
+                  "outcome": "similar-area",
+                  "low": 51,
+                  "high": 100
+                }
+              ]
+            }
+          ],
+          "familiarity_meanings": [
+            {
+              "familiarity": "permanent-circle",
+              "meaning": "permanent-teleportation-circle-with-known-sigil-sequence"
+            },
+            {
+              "familiarity": "linked-object",
+              "meaning": "possess-object-taken-from-destination-recently"
+            },
+            {
+              "familiarity": "very-familiar",
+              "meaning": "visited-often-carefully-studied-or-visible-at-casting"
+            },
+            {
+              "familiarity": "seen-casually",
+              "meaning": "seen-more-than-once-but-not-very-familiar"
+            },
+            {
+              "familiarity": "viewed-once-or-described",
+              "meaning": "seen-once-possibly-by-magic-or-known-from-description-such-as-map"
+            },
+            {
+              "familiarity": "false-destination",
+              "meaning": "place-that-does-not-exist-or-no-longer-exists"
+            }
+          ],
+          "linked_object_months": 6,
+          "linked_object_example": "book-from-wizards-library",
+          "false_destination_examples": [
+            "illusion-seen-while-scrying-enemy-sanctum",
+            "location-that-no-longer-exists"
+          ],
+          "mishap_dice_count": 3,
+          "mishap_die_sides": 10,
+          "mishap_damage_type": "force",
+          "mishap_targets": "each-teleporting-creature-or-target-object",
+          "mishap_reroll": "gm-rerolls-and-multiple-mishaps-damage-each-time",
+          "similar_area": "closest-visually-or-thematically-similar-place",
+          "similar_area_example": "another-persons-laboratory-in-same-city",
+          "off_target_distance_dice_count": 2,
+          "off_target_distance_die_sides": 12,
+          "off_target_distance_unit": "miles",
+          "off_target_direction_die_sides": 8,
+          "off_target_directions": [
+            "east",
+            "southeast",
+            "south",
+            "southwest",
+            "west",
+            "northwest",
+            "north",
+            "northeast"
+          ],
+          "on_target": "appear-where-intended"
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/teleportation-circle",
+      "name": "Teleportation Circle",
+      "source_id": "srd-5.2.1:content/spells/teleportation-circle",
+      "source_page": 168,
+      "scope": "complete-source-record",
+      "level": 5,
+      "school": "conjuration",
+      "lists": [
+        "bard",
+        "sorcerer",
+        "warlock",
+        "wizard"
+      ],
+      "casting_time": "1-minute",
+      "range": {
+        "kind": "feet",
+        "feet": 10
+      },
+      "target": {
+        "shape": "created-effect",
+        "count": 1,
+        "eligibility": "circle-on-ground-in-range"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": false,
+        "material": {
+          "description": "rare inks worth 50+ GP, which the spell consumes",
+          "cost_cp": 5000,
+          "consumed": true
+        }
+      },
+      "ritual": false,
+      "concentration": false,
+      "duration": "timed",
+      "duration_seconds": 6,
+      "scaling": {
+        "kind": "none",
+        "above_level": 0,
+        "dice_count": 0,
+        "die_sides": 0,
+        "effect_ids": []
+      },
+      "effects": [
+        {
+          "id": "portal",
+          "mechanic": "teleport.teleportation-circle",
+          "timing": "until-end-of-casters-next-turn",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "teleport.teleportation-circle",
+        "knowledge.teleportation-circle-sigils",
+        "cast.one-minute",
+        "components.material"
+      ],
+      "slot_levels": [
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 60,
+        "casting_triggers": [],
+        "end_timing": "duration-ended",
+        "teleportation_circle": {
+          "source_pages": [
+            168,
+            169
+          ],
+          "circle_radius_feet": 5,
+          "destination": "known-permanent-circle-on-same-material-plane-of-existence",
+          "portal_closes": "end-of-casters-next-turn",
+          "arrival_distance_feet": 5,
+          "occupied_arrival": "nearest-unoccupied-space",
+          "common_locations": [
+            "major-temples",
+            "guildhalls",
+            "other-important-places"
+          ],
+          "sigil_sequence": "unique-string-of-runes-in-particular-pattern",
+          "initial_destinations": 2,
+          "initial_destination_plane": "material-plane",
+          "initial_destination_chooser": "gm",
+          "learning": "may-learn-more-during-adventures",
+          "memorize_minutes": 1,
+          "permanent_casting_days": 365,
+          "permanent_requirement": "cast-in-same-location-every-day"
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/thaumaturgy",
+      "name": "Thaumaturgy",
+      "source_id": "srd-5.2.1:content/spells/thaumaturgy",
+      "source_page": 169,
+      "scope": "complete-source-record",
+      "level": 0,
+      "school": "transmutation",
+      "lists": [
+        "cleric"
+      ],
+      "casting_time": "action",
+      "range": {
+        "kind": "feet",
+        "feet": 30
+      },
+      "target": {
+        "shape": "choice",
+        "count": 1,
+        "eligibility": "one-chosen-minor-wonder-in-range"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": false,
+        "material": null
+      },
+      "ritual": false,
+      "concentration": false,
+      "duration": "timed",
+      "duration_seconds": 60,
+      "scaling": {
+        "kind": "none",
+        "above_level": 0,
+        "dice_count": 0,
+        "die_sides": 0,
+        "effect_ids": []
+      },
+      "effects": [
+        {
+          "id": "wonder",
+          "mechanic": "utility.thaumaturgy",
+          "timing": "chosen-option",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "utility.thaumaturgy",
+        "limit.thaumaturgy-active-effects"
+      ],
+      "slot_levels": [],
+      "source_details": {
+        "casting_seconds": 0,
+        "casting_triggers": [],
+        "end_timing": "up-to-duration",
+        "thaumaturgy": {
+          "options": [
+            {
+              "choice": "altered-eyes",
+              "effect": "alter-appearance-of-casters-eyes",
+              "lasts": "1-minute"
+            },
+            {
+              "choice": "booming-voice",
+              "effect": "voice-booms-louder-with-advantage-on-charisma-intimidation",
+              "lasts": "1-minute"
+            },
+            {
+              "choice": "fire-play",
+              "effect": "flames-flicker-brighten-dim-or-change-color",
+              "lasts": "1-minute"
+            },
+            {
+              "choice": "invisible-hand",
+              "effect": "unlocked-door-or-window-flies-open-or-slams-shut",
+              "lasts": "instantaneous"
+            },
+            {
+              "choice": "phantom-sound",
+              "effect": "sound-from-chosen-point-such-as-thunder-raven-cry-or-whispers",
+              "lasts": "instantaneous"
+            },
+            {
+              "choice": "tremors",
+              "effect": "harmless-tremors-in-ground",
+              "lasts": "1-minute"
+            }
+          ],
+          "choose_count": 1,
+          "voice_volume_multiplier": 3,
+          "max_active_one_minute": 3
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/thunderwave",
+      "name": "Thunderwave",
+      "source_id": "srd-5.2.1:content/spells/thunderwave",
+      "source_page": 169,
+      "scope": "complete-source-record",
+      "level": 1,
+      "school": "evocation",
+      "lists": [
+        "bard",
+        "druid",
+        "sorcerer",
+        "wizard"
+      ],
+      "casting_time": "action",
+      "range": {
+        "kind": "self",
+        "feet": 0
+      },
+      "target": {
+        "shape": "cube",
+        "count": 0,
+        "eligibility": "creatures-and-unsecured-objects-in-self-origin-cube"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": null
+      },
+      "ritual": false,
+      "concentration": false,
+      "duration": "instantaneous",
+      "duration_seconds": 0,
+      "scaling": {
+        "kind": "slot",
+        "above_level": 1,
+        "dice_count": 1,
+        "die_sides": 8,
+        "effect_ids": [
+          "damage"
+        ]
+      },
+      "effects": [
+        {
+          "id": "damage",
+          "mechanic": "damage.thunderwave",
+          "timing": "immediate",
+          "dice_count": 2,
+          "die_sides": 8,
+          "damage_type": "thunder",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "push",
+          "mechanic": "movement.thunderwave-push",
+          "timing": "immediate",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "boom",
+          "mechanic": "sound.thunderwave-boom",
+          "timing": "immediate",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "damage.thunderwave",
+        "movement.thunderwave-push",
+        "sound.thunderwave-boom",
+        "save.constitution-half",
+        "scaling.per-slot"
+      ],
+      "slot_levels": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 0,
+        "casting_triggers": [],
+        "end_timing": "instantaneous",
+        "thunderwave": {
+          "cube_feet": 15,
+          "save": "constitution",
+          "damage_dice_count": 2,
+          "damage_die_sides": 8,
+          "damage_type": "thunder",
+          "creature_push_feet": 10,
+          "save_success": "half-damage-only",
+          "object_requirement": "unsecured-and-entirely-within-cube",
+          "object_push_feet": 10,
+          "audible_feet": 300,
+          "slot_dice_count": 1,
+          "slot_die_sides": 8
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/time-stop",
+      "name": "Time Stop",
+      "source_id": "srd-5.2.1:content/spells/time-stop",
+      "source_page": 169,
+      "scope": "complete-source-record",
+      "level": 9,
+      "school": "transmutation",
+      "lists": [
+        "sorcerer",
+        "wizard"
+      ],
+      "casting_time": "action",
+      "range": {
+        "kind": "self",
+        "feet": 0
+      },
+      "target": {
+        "shape": "single",
+        "count": 1,
+        "eligibility": "self"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": false,
+        "material": null
+      },
+      "ritual": false,
+      "concentration": false,
+      "duration": "instantaneous",
+      "duration_seconds": 0,
+      "scaling": {
+        "kind": "none",
+        "above_level": 0,
+        "dice_count": 0,
+        "die_sides": 0,
+        "effect_ids": []
+      },
+      "effects": [
+        {
+          "id": "turns",
+          "mechanic": "time.time-stop",
+          "timing": "immediate",
+          "dice_count": 1,
+          "die_sides": 4,
+          "damage_type": "",
+          "bonus": 1,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "time.time-stop",
+        "ending.time-stop-affects-others-or-leaves-area"
+      ],
+      "slot_levels": [
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 0,
+        "casting_triggers": [],
+        "end_timing": "turns-taken-or-early-end",
+        "time_stop": {
+          "turn_dice_count": 1,
+          "turn_die_sides": 4,
+          "turn_bonus": 1,
+          "others": "no-time-passes",
+          "turn_use": "actions-and-movement-as-normal",
+          "ending_triggers": [
+            "action-or-created-effect-affects-another-creature",
+            "action-or-created-effect-affects-object-worn-or-carried-by-another",
+            "caster-moves-too-far-from-casting-location"
+          ],
+          "max_distance_feet": 1000
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/tiny-hut",
+      "name": "Tiny Hut",
+      "source_id": "srd-5.2.1:content/spells/tiny-hut",
+      "source_page": 169,
+      "scope": "complete-source-record",
+      "level": 3,
+      "school": "evocation",
+      "lists": [
+        "bard",
+        "wizard"
+      ],
+      "casting_time": "1-minute",
+      "range": {
+        "kind": "self",
+        "feet": 0
+      },
+      "target": {
+        "shape": "emanation",
+        "count": 0,
+        "eligibility": "stationary-emanation-around-caster"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": {
+          "description": "a crystal bead",
+          "cost_cp": 0,
+          "consumed": false
+        }
+      },
+      "ritual": true,
+      "concentration": false,
+      "duration": "timed",
+      "duration_seconds": 28800,
+      "scaling": {
+        "kind": "none",
+        "above_level": 0,
+        "dice_count": 0,
+        "die_sides": 0,
+        "effect_ids": []
+      },
+      "effects": [
+        {
+          "id": "hut",
+          "mechanic": "barrier.tiny-hut",
+          "timing": "for-duration",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "interior",
+          "mechanic": "environment.tiny-hut",
+          "timing": "for-duration",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "barrier.tiny-hut",
+        "environment.tiny-hut",
+        "ending.tiny-hut-leave-or-recast",
+        "cast.one-minute",
+        "cast.ritual",
+        "components.material"
+      ],
+      "slot_levels": [
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 60,
+        "casting_triggers": [],
+        "end_timing": "duration-caster-leaves-or-cast-again",
+        "tiny_hut": {
+          "emanation_feet": 10,
+          "mobility": "stationary",
+          "casting_failure": "fails-if-emanation-cannot-fully-encapsulate-all-creatures-in-area",
+          "free_passage": "creatures-and-objects-inside-at-casting",
+          "barred": "all-other-creatures-and-objects",
+          "max_blocked_spell_level": 3,
+          "blocked_spells": "cannot-be-cast-through-and-effects-cannot-extend-into-it",
+          "atmosphere": "comfortable-and-dry-regardless-of-weather",
+          "interior_light_choices": [
+            "dim-light",
+            "darkness"
+          ],
+          "interior_light_action": "no-action-required",
+          "exterior": "opaque-in-chosen-color",
+          "interior_view": "transparent-from-inside",
+          "early_end": [
+            "caster-leaves-emanation",
+            "spell-cast-again"
+          ]
+        }
+      }
+    }
+  ]
+}

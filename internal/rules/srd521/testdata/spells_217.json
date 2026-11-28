@@ -1,0 +1,1165 @@
+{
+  "schema_version": 1,
+  "source": {
+    "version": "5.2.1",
+    "language": "en",
+    "landing_url": "https://www.dndbeyond.com/srd",
+    "artifact_url": "https://media.dndbeyond.com/compendium-images/srd/5.2/SRD_CC_v5.2.1.pdf",
+    "sha256": "8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87",
+    "bytes": 6031375,
+    "pages": 364,
+    "retrieved_at": "2026-11-15",
+    "license": "CC-BY-4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/legalcode",
+    "attribution": "This work includes material from the System Reference Document 5.2.1 (“SRD 5.2.1”) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd. The SRD 5.2.1 is licensed under the Creative Commons Attribution 4.0 International License, available at https://creativecommons.org/licenses/by/4.0/legalcode.",
+    "changes": "SRD 5.2.1 PDF pp.158-159 adapted into twelve complete offline spell families for issue #217, including page-break continuation text for Resurrection (pp.158-159). No executable effects or availability grants."
+  },
+  "records": [
+    {
+      "id": "srd-5.2.1:content/spells/ray-of-sickness",
+      "name": "Ray of Sickness",
+      "source_id": "srd-5.2.1:content/spells/ray-of-sickness",
+      "source_page": 158,
+      "scope": "complete-source-record",
+      "level": 1,
+      "school": "necromancy",
+      "lists": [
+        "sorcerer",
+        "wizard"
+      ],
+      "casting_time": "action",
+      "range": {
+        "kind": "feet",
+        "feet": 60
+      },
+      "target": {
+        "shape": "single",
+        "count": 1,
+        "eligibility": "creature-in-range"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": null
+      },
+      "ritual": false,
+      "concentration": false,
+      "duration": "instantaneous",
+      "duration_seconds": 0,
+      "scaling": {
+        "kind": "slot",
+        "above_level": 1,
+        "dice_count": 1,
+        "die_sides": 8,
+        "effect_ids": [
+          "damage"
+        ]
+      },
+      "effects": [
+        {
+          "id": "damage",
+          "mechanic": "damage.ray-of-sickness",
+          "timing": "on-hit",
+          "dice_count": 2,
+          "die_sides": 8,
+          "damage_type": "poison",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "poisoned",
+          "mechanic": "condition.ray-of-sickness-poisoned",
+          "timing": "on-hit-until-end-of-casters-next-turn",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "damage.ray-of-sickness",
+        "condition.ray-of-sickness-poisoned",
+        "attack.ranged-spell",
+        "scaling.per-slot"
+      ],
+      "slot_levels": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 0,
+        "casting_triggers": [],
+        "end_timing": "instantaneous",
+        "ray_of_sickness": {
+          "appearance": "greenish-ray",
+          "attack": "ranged-spell-attack",
+          "condition": "poisoned",
+          "condition_ends": "end-of-casters-next-turn",
+          "damage_dice_count": 2,
+          "damage_die_sides": 8,
+          "damage_type": "poison",
+          "slot_dice_count": 1,
+          "slot_die_sides": 8
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/regenerate",
+      "name": "Regenerate",
+      "source_id": "srd-5.2.1:content/spells/regenerate",
+      "source_page": 158,
+      "scope": "complete-source-record",
+      "level": 7,
+      "school": "transmutation",
+      "lists": [
+        "bard",
+        "cleric",
+        "druid"
+      ],
+      "casting_time": "1-minute",
+      "range": {
+        "kind": "touch",
+        "feet": 0
+      },
+      "target": {
+        "shape": "single",
+        "count": 1,
+        "eligibility": "creature-touch"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": {
+          "description": "a prayer wheel",
+          "cost_cp": 0,
+          "consumed": false
+        }
+      },
+      "ritual": false,
+      "concentration": false,
+      "duration": "timed",
+      "duration_seconds": 3600,
+      "scaling": {
+        "kind": "none",
+        "above_level": 0,
+        "dice_count": 0,
+        "die_sides": 0,
+        "effect_ids": []
+      },
+      "effects": [
+        {
+          "id": "healing",
+          "mechanic": "healing.regenerate-initial",
+          "timing": "immediate",
+          "dice_count": 4,
+          "die_sides": 8,
+          "damage_type": "",
+          "bonus": 15,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "recurring",
+          "mechanic": "healing.regenerate-turn",
+          "timing": "start-of-each-of-targets-turns",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 1,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "regrowth",
+          "mechanic": "restoration.regenerate-body-parts",
+          "timing": "after-2-minutes",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "healing.regenerate-initial",
+        "healing.regenerate-turn",
+        "restoration.regenerate-body-parts",
+        "cast.one-minute",
+        "components.material"
+      ],
+      "slot_levels": [
+        7,
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 60,
+        "casting_triggers": [],
+        "end_timing": "duration-ended",
+        "regenerate": {
+          "initial_dice_count": 4,
+          "initial_die_sides": 8,
+          "initial_bonus": 15,
+          "turn_healing": 1,
+          "turn_timing": "start-of-each-of-its-turns-for-duration",
+          "severed_parts": "any-severed-body-parts-regrow",
+          "regrowth_minutes": 2
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/reincarnate",
+      "name": "Reincarnate",
+      "source_id": "srd-5.2.1:content/spells/reincarnate",
+      "source_page": 158,
+      "scope": "complete-source-record",
+      "level": 5,
+      "school": "necromancy",
+      "lists": [
+        "druid"
+      ],
+      "casting_time": "1-hour",
+      "range": {
+        "kind": "touch",
+        "feet": 0
+      },
+      "target": {
+        "shape": "single",
+        "count": 1,
+        "eligibility": "dead-humanoid-or-piece-of-one-touch"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": {
+          "description": "rare oils worth 1,000+ GP, which the spell consumes",
+          "cost_cp": 100000,
+          "consumed": true
+        }
+      },
+      "ritual": false,
+      "concentration": false,
+      "duration": "instantaneous",
+      "duration_seconds": 0,
+      "scaling": {
+        "kind": "none",
+        "above_level": 0,
+        "dice_count": 0,
+        "die_sides": 0,
+        "effect_ids": []
+      },
+      "effects": [
+        {
+          "id": "new-body",
+          "mechanic": "revive.reincarnate",
+          "timing": "immediate",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "revive.reincarnate",
+        "table.reincarnate-species",
+        "cast.one-hour",
+        "components.material"
+      ],
+      "slot_levels": [
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 3600,
+        "casting_triggers": [],
+        "end_timing": "instantaneous",
+        "reincarnate": {
+          "target_forms": [
+            "dead-humanoid",
+            "piece-of-dead-humanoid"
+          ],
+          "max_days_dead": 10,
+          "result": "forms-new-body-and-calls-soul-into-it",
+          "table_die_sides": 10,
+          "species": [
+            {
+              "roll": 1,
+              "species": "roll-again"
+            },
+            {
+              "roll": 2,
+              "species": "dragonborn"
+            },
+            {
+              "roll": 3,
+              "species": "dwarf"
+            },
+            {
+              "roll": 4,
+              "species": "elf"
+            },
+            {
+              "roll": 5,
+              "species": "gnome"
+            },
+            {
+              "roll": 6,
+              "species": "goliath"
+            },
+            {
+              "roll": 7,
+              "species": "halfling"
+            },
+            {
+              "roll": 8,
+              "species": "human"
+            },
+            {
+              "roll": 9,
+              "species": "orc"
+            },
+            {
+              "roll": 10,
+              "species": "tiefling"
+            }
+          ],
+          "gm_alternative": "gm-chooses-another-playable-species",
+          "species_choices": "creature-makes-choices-species-description-offers",
+          "memory": "recalls-former-life",
+          "retained": "capabilities-of-original-form",
+          "trait_change": "loses-previous-species-traits-and-gains-new-species-traits"
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/remove-curse",
+      "name": "Remove Curse",
+      "source_id": "srd-5.2.1:content/spells/remove-curse",
+      "source_page": 158,
+      "scope": "complete-source-record",
+      "level": 3,
+      "school": "abjuration",
+      "lists": [
+        "cleric",
+        "paladin",
+        "warlock",
+        "wizard"
+      ],
+      "casting_time": "action",
+      "range": {
+        "kind": "touch",
+        "feet": 0
+      },
+      "target": {
+        "shape": "single",
+        "count": 1,
+        "eligibility": "creature-or-object-touch"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": null
+      },
+      "ritual": false,
+      "concentration": false,
+      "duration": "instantaneous",
+      "duration_seconds": 0,
+      "scaling": {
+        "kind": "none",
+        "above_level": 0,
+        "dice_count": 0,
+        "die_sides": 0,
+        "effect_ids": []
+      },
+      "effects": [
+        {
+          "id": "remove",
+          "mechanic": "ending.remove-curse",
+          "timing": "immediate",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "ending.remove-curse"
+      ],
+      "slot_levels": [
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 0,
+        "casting_triggers": [],
+        "end_timing": "instantaneous",
+        "remove_curse": {
+          "curses_ended": "all-curses-affecting-one-creature-or-object",
+          "cursed_magic_item": "curse-remains-but-owners-attunement-breaks",
+          "attunement_result": "item-can-be-removed-or-discarded"
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/resilient-sphere",
+      "name": "Resilient Sphere",
+      "source_id": "srd-5.2.1:content/spells/resilient-sphere",
+      "source_page": 158,
+      "scope": "complete-source-record",
+      "level": 4,
+      "school": "abjuration",
+      "lists": [
+        "wizard"
+      ],
+      "casting_time": "action",
+      "range": {
+        "kind": "feet",
+        "feet": 30
+      },
+      "target": {
+        "shape": "single",
+        "count": 1,
+        "eligibility": "large-or-smaller-creature-or-object-in-range"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": {
+          "description": "a glass sphere",
+          "cost_cp": 0,
+          "consumed": false
+        }
+      },
+      "ritual": false,
+      "concentration": true,
+      "duration": "timed",
+      "duration_seconds": 60,
+      "scaling": {
+        "kind": "none",
+        "above_level": 0,
+        "dice_count": 0,
+        "die_sides": 0,
+        "effect_ids": []
+      },
+      "effects": [
+        {
+          "id": "enclosure",
+          "mechanic": "barrier.resilient-sphere",
+          "timing": "for-duration",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "barrier.resilient-sphere",
+        "save.dexterity-negates",
+        "movement.resilient-sphere-roll",
+        "concentration.source-duration",
+        "components.material"
+      ],
+      "slot_levels": [
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 0,
+        "casting_triggers": [],
+        "end_timing": "duration-concentration-or-disintegrate",
+        "resilient_sphere": {
+          "max_target_size": "large",
+          "target_kinds": [
+            "creature",
+            "object"
+          ],
+          "save": "dexterity",
+          "save_applies": "unwilling-creature",
+          "passage": "nothing-passes-barrier-in-or-out",
+          "blocked": [
+            "physical-objects",
+            "energy",
+            "other-spell-effects"
+          ],
+          "breathing": "creature-inside-can-breathe",
+          "immunity": "sphere-immune-to-all-damage",
+          "inside_protection": "cannot-be-damaged-by-attacks-or-effects-from-outside",
+          "inside_limit": "creature-inside-cannot-damage-anything-outside",
+          "size": "weightless-and-just-large-enough-for-contents",
+          "push_action": "action",
+          "roll_speed_divisor": 2,
+          "outside_movement": "can-be-picked-up-and-moved-by-other-creatures",
+          "destroyed_by": "disintegrate-targeting-globe-without-harming-contents"
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/resistance",
+      "name": "Resistance",
+      "source_id": "srd-5.2.1:content/spells/resistance",
+      "source_page": 158,
+      "scope": "complete-source-record",
+      "level": 0,
+      "school": "abjuration",
+      "lists": [
+        "cleric",
+        "druid"
+      ],
+      "casting_time": "action",
+      "range": {
+        "kind": "touch",
+        "feet": 0
+      },
+      "target": {
+        "shape": "single",
+        "count": 1,
+        "eligibility": "willing-creature-touch"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": null
+      },
+      "ritual": false,
+      "concentration": true,
+      "duration": "timed",
+      "duration_seconds": 60,
+      "scaling": {
+        "kind": "none",
+        "above_level": 0,
+        "dice_count": 0,
+        "die_sides": 0,
+        "effect_ids": []
+      },
+      "effects": [
+        {
+          "id": "reduction",
+          "mechanic": "defense.resistance-damage-reduction",
+          "timing": "on-chosen-damage-once-per-turn",
+          "dice_count": 1,
+          "die_sides": 4,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "defense.resistance-damage-reduction",
+        "concentration.source-duration"
+      ],
+      "slot_levels": [],
+      "source_details": {
+        "casting_seconds": 0,
+        "casting_triggers": [],
+        "end_timing": "duration-or-concentration-ended",
+        "resistance": {
+          "damage_type_choices": [
+            "acid",
+            "bludgeoning",
+            "cold",
+            "fire",
+            "lightning",
+            "necrotic",
+            "piercing",
+            "poison",
+            "radiant",
+            "slashing",
+            "thunder"
+          ],
+          "choose_count": 1,
+          "reduction_dice_count": 1,
+          "reduction_die_sides": 4,
+          "uses_per_turn": 1
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/resurrection",
+      "name": "Resurrection",
+      "source_id": "srd-5.2.1:content/spells/resurrection",
+      "source_page": 158,
+      "scope": "complete-source-record",
+      "level": 7,
+      "school": "necromancy",
+      "lists": [
+        "bard",
+        "cleric"
+      ],
+      "casting_time": "1-hour",
+      "range": {
+        "kind": "touch",
+        "feet": 0
+      },
+      "target": {
+        "shape": "single",
+        "count": 1,
+        "eligibility": "dead-creature-touch"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": {
+          "description": "a diamond worth 1,000+ GP, which the spell consumes",
+          "cost_cp": 100000,
+          "consumed": true
+        }
+      },
+      "ritual": false,
+      "concentration": false,
+      "duration": "instantaneous",
+      "duration_seconds": 0,
+      "scaling": {
+        "kind": "none",
+        "above_level": 0,
+        "dice_count": 0,
+        "die_sides": 0,
+        "effect_ids": []
+      },
+      "effects": [
+        {
+          "id": "revival",
+          "mechanic": "revive.resurrection",
+          "timing": "immediate",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "penalty",
+          "mechanic": "penalty.resurrection-d20-tests",
+          "timing": "until-reduced-by-long-rests",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "exertion",
+          "mechanic": "penalty.resurrection-long-dead-caster",
+          "timing": "until-caster-finishes-long-rest",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "revive.resurrection",
+        "penalty.resurrection-d20-tests",
+        "penalty.resurrection-long-dead-caster",
+        "cast.one-hour",
+        "components.material"
+      ],
+      "slot_levels": [
+        7,
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 3600,
+        "casting_triggers": [],
+        "end_timing": "instantaneous",
+        "resurrection": {
+          "source_pages": [
+            158,
+            159
+          ],
+          "max_years_dead": 100,
+          "death_requirements": [
+            "did-not-die-of-old-age",
+            "not-undead-when-it-died"
+          ],
+          "return_hit_points": "all",
+          "poison_benefit": "neutralizes-poisons-affecting-creature-at-death",
+          "wounds": "closes-all-mortal-wounds",
+          "missing_parts": "restored",
+          "d20_test_penalty": 4,
+          "penalty_reduction_per_long_rest": 1,
+          "penalty_ends_at": 0,
+          "taxing_days_dead": 365,
+          "taxing_penalties": [
+            "cannot-cast-spells",
+            "disadvantage-on-d20-tests"
+          ],
+          "taxing_ends": "caster-finishes-long-rest"
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/reverse-gravity",
+      "name": "Reverse Gravity",
+      "source_id": "srd-5.2.1:content/spells/reverse-gravity",
+      "source_page": 159,
+      "scope": "complete-source-record",
+      "level": 7,
+      "school": "transmutation",
+      "lists": [
+        "druid",
+        "sorcerer",
+        "wizard"
+      ],
+      "casting_time": "action",
+      "range": {
+        "kind": "feet",
+        "feet": 100
+      },
+      "target": {
+        "shape": "cylinder",
+        "count": 0,
+        "eligibility": "creatures-and-objects-in-reversed-gravity"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": {
+          "description": "a lodestone and iron filings",
+          "cost_cp": 0,
+          "consumed": false
+        }
+      },
+      "ritual": false,
+      "concentration": true,
+      "duration": "timed",
+      "duration_seconds": 60,
+      "scaling": {
+        "kind": "none",
+        "above_level": 0,
+        "dice_count": 0,
+        "die_sides": 0,
+        "effect_ids": []
+      },
+      "effects": [
+        {
+          "id": "reversal",
+          "mechanic": "terrain.reverse-gravity",
+          "timing": "for-duration",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "terrain.reverse-gravity",
+        "save.dexterity-reverse-gravity-grab",
+        "concentration.source-duration",
+        "components.material"
+      ],
+      "slot_levels": [
+        7,
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 0,
+        "casting_triggers": [],
+        "end_timing": "duration-or-concentration-ended",
+        "reverse_gravity": {
+          "radius_feet": 50,
+          "height_feet": 100,
+          "affected": "unanchored-creatures-and-objects",
+          "fall": "fall-upward-to-top-of-cylinder",
+          "grab_save": "dexterity",
+          "grab_result": "grab-reachable-fixed-object-and-avoid-upward-fall",
+          "collision": "strike-ceiling-or-anchored-object-as-in-downward-fall",
+          "unobstructed_top": "hovers-at-top-for-duration",
+          "ending": "affected-objects-and-creatures-fall-downward"
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/revivify",
+      "name": "Revivify",
+      "source_id": "srd-5.2.1:content/spells/revivify",
+      "source_page": 159,
+      "scope": "complete-source-record",
+      "level": 3,
+      "school": "necromancy",
+      "lists": [
+        "cleric",
+        "druid",
+        "paladin",
+        "ranger"
+      ],
+      "casting_time": "action",
+      "range": {
+        "kind": "touch",
+        "feet": 0
+      },
+      "target": {
+        "shape": "single",
+        "count": 1,
+        "eligibility": "dead-creature-touch"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": {
+          "description": "a diamond worth 300+ GP, which the spell consumes",
+          "cost_cp": 30000,
+          "consumed": true
+        }
+      },
+      "ritual": false,
+      "concentration": false,
+      "duration": "instantaneous",
+      "duration_seconds": 0,
+      "scaling": {
+        "kind": "none",
+        "above_level": 0,
+        "dice_count": 0,
+        "die_sides": 0,
+        "effect_ids": []
+      },
+      "effects": [
+        {
+          "id": "revival",
+          "mechanic": "revive.revivify",
+          "timing": "immediate",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "revive.revivify",
+        "components.material"
+      ],
+      "slot_levels": [
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 0,
+        "casting_triggers": [],
+        "end_timing": "instantaneous",
+        "revivify": {
+          "max_seconds_dead": 60,
+          "return_hit_points": 1,
+          "cannot_revive": "creature-that-died-of-old-age",
+          "missing_parts": "not-restored"
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/rope-trick",
+      "name": "Rope Trick",
+      "source_id": "srd-5.2.1:content/spells/rope-trick",
+      "source_page": 159,
+      "scope": "complete-source-record",
+      "level": 2,
+      "school": "transmutation",
+      "lists": [
+        "wizard"
+      ],
+      "casting_time": "action",
+      "range": {
+        "kind": "touch",
+        "feet": 0
+      },
+      "target": {
+        "shape": "single",
+        "count": 1,
+        "eligibility": "rope-touch"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": {
+          "description": "a segment of rope",
+          "cost_cp": 0,
+          "consumed": false
+        }
+      },
+      "ritual": false,
+      "concentration": false,
+      "duration": "timed",
+      "duration_seconds": 3600,
+      "scaling": {
+        "kind": "none",
+        "above_level": 0,
+        "dice_count": 0,
+        "die_sides": 0,
+        "effect_ids": []
+      },
+      "effects": [
+        {
+          "id": "space",
+          "mechanic": "space.rope-trick",
+          "timing": "for-duration",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "space.rope-trick",
+        "components.material"
+      ],
+      "slot_levels": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 0,
+        "casting_triggers": [],
+        "end_timing": "duration-ended",
+        "rope_trick": {
+          "rope_motion": "one-end-rises-until-perpendicular-or-reaches-ceiling",
+          "portal_visibility": "invisible",
+          "portal_width_feet": 3,
+          "portal_length_feet": 5,
+          "portal_location": "ropes-upper-end",
+          "space_kind": "extradimensional-until-spell-ends",
+          "access": "climb-rope",
+          "rope_handling": "rope-can-be-pulled-in-or-dropped-out",
+          "max_creatures": 8,
+          "max_creature_size": "medium",
+          "isolation": "attacks-spells-and-effects-cannot-pass-in-or-out",
+          "sight": "creatures-inside-see-through-portal",
+          "ending": "contents-drop-out"
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/sacred-flame",
+      "name": "Sacred Flame",
+      "source_id": "srd-5.2.1:content/spells/sacred-flame",
+      "source_page": 159,
+      "scope": "complete-source-record",
+      "level": 0,
+      "school": "evocation",
+      "lists": [
+        "cleric"
+      ],
+      "casting_time": "action",
+      "range": {
+        "kind": "feet",
+        "feet": 60
+      },
+      "target": {
+        "shape": "single",
+        "count": 1,
+        "eligibility": "visible-creature-in-range"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": null
+      },
+      "ritual": false,
+      "concentration": false,
+      "duration": "instantaneous",
+      "duration_seconds": 0,
+      "scaling": {
+        "kind": "cantrip-upgrade",
+        "above_level": 0,
+        "dice_count": 1,
+        "die_sides": 8,
+        "effect_ids": [
+          "damage"
+        ]
+      },
+      "effects": [
+        {
+          "id": "damage",
+          "mechanic": "damage.sacred-flame",
+          "timing": "on-failed-dexterity-save",
+          "dice_count": 1,
+          "die_sides": 8,
+          "damage_type": "radiant",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "damage.sacred-flame",
+        "save.dexterity-negates",
+        "cover.sacred-flame-ignored",
+        "scaling.cantrip-upgrade"
+      ],
+      "slot_levels": [],
+      "source_details": {
+        "casting_seconds": 0,
+        "casting_triggers": [],
+        "end_timing": "instantaneous",
+        "sacred_flame": {
+          "appearance": "flame-like-radiance",
+          "save": "dexterity",
+          "ignored_cover": [
+            "half-cover",
+            "three-quarters-cover"
+          ],
+          "upgrades": [
+            {
+              "level": 5,
+              "dice_count": 2,
+              "die_sides": 8
+            },
+            {
+              "level": 11,
+              "dice_count": 3,
+              "die_sides": 8
+            },
+            {
+              "level": 17,
+              "dice_count": 4,
+              "die_sides": 8
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/sanctuary",
+      "name": "Sanctuary",
+      "source_id": "srd-5.2.1:content/spells/sanctuary",
+      "source_page": 159,
+      "scope": "complete-source-record",
+      "level": 1,
+      "school": "abjuration",
+      "lists": [
+        "cleric"
+      ],
+      "casting_time": "bonus-action",
+      "range": {
+        "kind": "feet",
+        "feet": 30
+      },
+      "target": {
+        "shape": "single",
+        "count": 1,
+        "eligibility": "creature-in-range"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": {
+          "description": "a shard of glass from a mirror",
+          "cost_cp": 0,
+          "consumed": false
+        }
+      },
+      "ritual": false,
+      "concentration": false,
+      "duration": "timed",
+      "duration_seconds": 60,
+      "scaling": {
+        "kind": "none",
+        "above_level": 0,
+        "dice_count": 0,
+        "die_sides": 0,
+        "effect_ids": []
+      },
+      "effects": [
+        {
+          "id": "ward",
+          "mechanic": "protection.sanctuary",
+          "timing": "for-duration",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "protection.sanctuary",
+        "save.wisdom-sanctuary-retarget",
+        "ending.sanctuary-hostile-act",
+        "components.material"
+      ],
+      "slot_levels": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 0,
+        "casting_triggers": [],
+        "end_timing": "duration-or-warded-creature-attacks-casts-or-damages",
+        "sanctuary": {
+          "triggers": [
+            "targets-warded-creature-with-attack-roll",
+            "targets-warded-creature-with-damaging-spell"
+          ],
+          "save": "wisdom",
+          "failure_choices": [
+            "choose-new-target",
+            "lose-attack-or-spell"
+          ],
+          "area_effects": "no-protection-from-areas-of-effect",
+          "ends_when_warded_creature": [
+            "makes-attack-roll",
+            "casts-spell",
+            "deals-damage"
+          ]
+        }
+      }
+    }
+  ]
+}
