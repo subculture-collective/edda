@@ -8,6 +8,7 @@ import (
 	"errors"
 	"fmt"
 	"io"
+	"log/slog"
 	"net/http"
 	"strings"
 	"time"
@@ -77,9 +78,11 @@ func (c *ChatGPTClient) Stream(ctx context.Context, messages []Message, tools []
 			case <-ctx.Done():
 			}
 		}
-		if _, err := c.readStream(resp.Body, send); err == nil {
-			send(StreamChunk{Done: true})
+		if _, err := c.readStream(resp.Body, send); err != nil {
+			logStreamFailure(ctx, slog.Default().WithGroup("chatgpt"), c.model, err)
+			return
 		}
+		send(StreamChunk{Done: true})
 	}()
 	return ch, nil
 }

@@ -108,6 +108,7 @@ func TestProviderErrorsRedactRequestURL(t *testing.T) {
 		"slash in the password":         {context.Background(), "http://fake-user:fake/pass@h.example"},
 		"question mark in the password": {context.Background(), "http://fake-user:fake?pass@h.example"},
 		"digits then slash in password": {context.Background(), "http://fake-user:1/fake-pass@127.0.0.1:1"},
+		"dotted user, digit password":   {context.Background(), "http://fake.user:1/fake-pass@127.0.0.1:1"},
 	}
 	for name, build := range secretProviders(t) {
 		for caseName, tc := range unreachable {
@@ -220,6 +221,8 @@ func TestProviderErrorsRedactCutOffReplies(t *testing.T) {
 	replies := map[string]string{
 		"plain text":   cut,
 		"cut off json": `{"error":{"message":"model not found: ` + cut,
+		// A shape no client decodes, so the raw body is what gets reported.
+		"cut off nested json": `{"error":{"detail":"model not found: ` + cut + `"}}`,
 		// A sender that cut its message short before encoding it. Only a client
 		// that decodes the message can tell.
 		"cut off message": `{"error":{"type":"x","message":"model not found: ` + cut + `"}}`,

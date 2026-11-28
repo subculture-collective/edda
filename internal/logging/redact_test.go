@@ -57,8 +57,38 @@ func TestRedactURL(t *testing.T) {
 		{"at sign in a path", "https://cdn.example/npm/pkg@1.2.3/file.js", "https://cdn.example/npm/pkg@1.2.3/file.js"},
 		{"at sign in a localhost path", "http://localhost/users/a@b.example", "http://localhost/users/a@b.example"},
 		{"at sign in a query", "http://h.example/search?q=a@b.example&page=2", "http://h.example/search?q=a@b.example&page=2"},
-		// With a port the text could be user:password, so it is cut.
+		// Accepted over-redaction: this valid URL has the same shape as a dotted
+		// user name with a digit password (the rows below), so it is cut too.
 		{"at sign in a path after a port", "http://h.example:8080/users/a@b.example", "http://b.example"},
+		{"dotted user name, digits and a slash", "http://fake.user:12/fake34@h.example", "http://h.example"},
+		{"dotted user name, digits and a question mark", "http://fake.user:12?fake34@h.example", "http://xxxxx"},
+		{"dotted database user, digits and a hash", "postgres://fake.user:2024#fake@db.example/edda", "postgres://xxxxx"},
+		{"dotted user name, scheme left out", "fake.user:12/fake34@h.example", "h.example"},
+
+		// Fragments take the same parameter rule as queries.
+		{"token in a fragment", "http://h.example/cb#access_token=fake", "http://h.example/cb"},
+		{"other fragment pairs survive", "http://h.example/cb#access_token=fake1&token_type=bearer&id_token=fake2&expires_in=3600", "http://h.example/cb#token_type=bearer&expires_in=3600"},
+		{"fragment after a route", "https://h.example/#/callback?access_token=fake&state=a", "https://h.example/#/callback?state=a"},
+		{"fragment right after a route slash", "https://h.example/#/access_token=fake&state=a", "https://h.example/#state=a"},
+		{"escaped fragment name", "http://h.example/#access%5Ftoken=fake&a=b%26c", "http://h.example/#a=b%26c"},
+		{"semicolons in a fragment", "http://h.example/#a=1;client_secret=fake;b=2", "http://h.example/#a=1;b=2"},
+		{"question mark inside a fragment secret", "http://h.example/#access_token=fake1?fake2", "http://h.example/"},
+		{"fragment and query together", "http://h.example/x?key=fake1&page=2#token=fake2", "http://h.example/x?page=2"},
+		{"fragment kept when the query changes", "http://h.example/x?key=fake1#section-2", "http://h.example/x#section-2"},
+		{"anchor survives", "http://h.example/docs#section-key", "http://h.example/docs#section-key"},
+		{"ordinary fragment pairs survive", "http://h.example/docs#page=2&line=5", "http://h.example/docs#page=2&line=5"},
+		{"scheme left out with a fragment", "h.example/cb#access_token=fake", "h.example/cb"},
+		{"userinfo and a fragment", "https://fake-user:fake-pass@h.example/cb#access_token=fake", "https://h.example/cb"},
+
+		// A semicolon separates query pairs too.
+		{"semicolon before a secret", "http://h.example/x?model=a;token=fake;page=2", "http://h.example/x?model=a;page=2"},
+		{"semicolon after a secret", "http://h.example/x?api_key=fake;model=a&page=2", "http://h.example/x?model=a&page=2"},
+		{"semicolon inside a secret value", "http://h.example/x?password=fake1;fake2;fake3&page=2", "http://h.example/x?page=2"},
+		{"mixed separators", "http://h.example/x?a=1&token=fake1;sig=fake2&b=2;key=fake3", "http://h.example/x?a=1&b=2"},
+		{"semicolons without secrets survive", "http://h.example/x?a=1;b=2", "http://h.example/x?a=1;b=2"},
+
+		{"amazon credential", "https://h.example/o?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=fake%2F20260101%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20260101T000000Z", "https://h.example/o?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20260101T000000Z"},
+		{"google credential", "https://h.example/o?x-goog-credential=fake&page=2", "https://h.example/o?page=2"},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -80,6 +110,7 @@ func TestRedactText(t *testing.T) {
 		{"no url", "load config: bad yaml", "load config: bad yaml"},
 		{"quoted url in error", `ollama provider unavailable: invalid endpoint "http://u:fake-pass@h.example:11434": bad port`, `ollama provider unavailable: invalid endpoint "http://h.example:11434": bad port`},
 		{"url followed by colon", "cannot reach http://u:fake-pass@h.example/api/tags: dial tcp: refused", "cannot reach http://h.example/api/tags: dial tcp: refused"},
+		{"url with a token in its fragment", "redirected to http://h.example/cb#access_token=fake: refused", "redirected to http://h.example/cb refused"},
 		{"two urls", "a http://u:fake1@a.example b postgres://e:fake2@b.example/d", "a http://a.example b postgres://e:xxxxx@b.example/d"},
 		{"keyword dsn in error", "open database: cannot parse `host=h password=fake-pass`: bad", "open database: cannot parse `host=h password=xxxxx`: bad"},
 	}
@@ -199,7 +230,24 @@ func TestRedactReply(t *testing.T) {
 		{"cut in a query value", "get http://h.example/x?private_token=fake-to", "get http://h.example/x"},
 		{"host followed by a path", "cannot reach http://h.example/", "cannot reach http://h.example/"},
 		{"host followed by text", "http://h.example refused", "http://h.example refused"},
-		{"host in a complete json string", `{"url":"http://h.example"}`, `{"url":"http://h.example"}`},
+		// A string in a reply can have been cut before it was encoded, so a URL
+		// that ends one is masked as a URL that ends the reply is.
+		{"host ending a json string", `{"url":"http://h.example"}`, `{"url":"http://xxxxx"}`},
+		{"path ending a json string", `{"url":"http://h.example/"}`, `{"url":"http://h.example/"}`},
+		{"cut in nested json", `{"error":{"detail":"x http://fake-user:fake-pa"}}`, `{"error":{"detail":"x http://xxxxx"}}`},
+		{"cut deeper in arrays", `{"a":[{"b":["x http://fake-user:12","y http://fake-tok"]}]}`, `{"a":[{"b":["x http://xxxxx","y http://xxxxx"]}]}`},
+		{"cut in a json key", `{"x http://fake-user:fake-pa":1}`, `{"x http://xxxxx":1}`},
+		{"cut under a repeated key", `{"d":"x http://fake-tok","d":"ok"}`, `{"d":"x http://xxxxx","d":"ok"}`},
+		{"cut in json that is itself cut", `{"error":{"detail":"x http://fake-user:fake-pa"},"trace":"ab`, `{"error":{"detail":"x http://xxxxx"},"trace":"ab`},
+		{"cut in json after other text", `upstream said {"detail":"x http://fake-user:fake-pa…"}`, `upstream said {"detail":"x http://xxxxx…"}`},
+		// In the raw text the escape reads as part of the host, and is masked too.
+		{"cut before an encoded newline", `{"detail":"x http://fake-user:fake-pa\n"}`, `{"detail":"x http://xxxxx"}`},
+		{"cut in json inside a json string", `{"body":"{\"detail\":\"x http://fake-user:fake-pa\"}"}`, `{"body":"{\"detail\":\"x http://xxxxx\"}"}`},
+		{"cut in encoded json inside cut json", `{"body":"{\"detail\":\"x http://fake-user:fake-pa\"}`, `{"body":"{\"detail\":\"x http://xxxxx\"}`},
+		{"escaped slashes", `{"detail":"x http:\/\/fake-user:fake-pass@h.example\/ap"}`, `{"detail":"x http://h.example/ap"}`},
+		{"escaped ampersand", `{"detail":"get http://h.example/x?a=1\u0026token=fake"}`, `{"detail":"get http://h.example/x?a=1"}`},
+		{"escaped at sign", `{"detail":"http://fake-user:fake-pass\u0040h.example/<a>"}`, `{"detail":"http://h.example/<a>"}`},
+		{"json with nothing to redact keeps its escapes", `{"detail":"a\u0026b \/ http:\/\/h.example\/x"}`, `{"detail":"a\u0026b \/ http:\/\/h.example\/x"}`},
 		{"no url", "model not found", "model not found"},
 	}
 	for _, tt := range tests {

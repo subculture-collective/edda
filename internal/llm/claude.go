@@ -5,8 +5,10 @@ import (
 	"bytes"
 	"context"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io"
+	"log/slog"
 	"net"
 	"net/http"
 	"net/url"
@@ -204,7 +206,9 @@ func (c *ClaudeClient) Stream(ctx context.Context, messages []Message, tools []T
 	go func() {
 		defer close(ch)
 		defer func() { _ = resp.Body.Close() }()
-		c.parseSSEStream(ctx, resp.Body, ch)
+		if err := c.parseSSEStream(ctx, resp.Body, ch); err != nil {
+			logStreamFailure(ctx, slog.Default().WithGroup("claude"), c.model, err)
+		}
 	}()
 	return ch, nil
 }
@@ -220,9 +224,10 @@ type claudeSSEToolUseState struct {
 // parseSSEStream reads the SSE response body and emits StreamChunk values on ch.
 // It handles content_block_delta (text and input_json), content_block_stop
 // (to emit assembled tool calls), and message_stop (to emit the final Done chunk).
-// Error events cause the goroutine to return without a Done chunk; malformed JSON
-// in individual events is skipped and the stream continues.
-func (c *ClaudeClient) parseSSEStream(ctx context.Context, body io.Reader, ch chan<- StreamChunk) {
+// It returns nil once it has sent a Done chunk, and otherwise why the stream
+// ended without one. Error events end the stream; a content block event with
+// malformed JSON is skipped and the stream continues.
+func (c *ClaudeClient) parseSSEStream(ctx context.Context, body io.Reader, ch chan<- StreamChunk) error {
 	scanner := bufio.NewScanner(body)
 	// 64 KB initial buffer; 10 MB max to handle large SSE data payloads
 	// (e.g., tool input blocks with complex JSON arguments).
@@ -233,12 +238,12 @@ func (c *ClaudeClient) parseSSEStream(ctx context.Context, body io.Reader, ch ch
 	var stopReason, firstToolID string
 	var blockOrder []int
 	contentByIndex := make(map[int]map[string]any)
+	// If the stream ends early, a skipped event is part of the cause.
+	var skipped error
 
 	for scanner.Scan() {
-		select {
-		case <-ctx.Done():
-			return
-		default:
+		if err := ctx.Err(); err != nil {
+			return err
 		}
 
 		line := scanner.Text()
@@ -269,23 +274,23 @@ func (c *ClaudeClient) parseSSEStream(ctx context.Context, body io.Reader, ch ch
 				} `json:"delta"`
 			}
 			if err := json.Unmarshal([]byte(data), &ev); err != nil {
-				return
+				return fmt.Errorf("decode message_delta event: %w", err)
 			}
 			stopReason = ev.Delta.StopReason
 			if stopReason == claudeStopReasonRefusal {
-				return
+				return errors.New("claude declined the request (stop_reason refusal)")
 			}
 
 		case claudeSSEEventMessageStop:
-			if stopReason == claudeStopReasonRefusal || len(toolUseByIndex) != 0 {
-				return
+			if len(toolUseByIndex) != 0 {
+				return errors.New("message_stop before a tool_use block ended")
 			}
 			if firstToolID != "" {
 				content := make([]json.RawMessage, 0, len(blockOrder))
 				for _, index := range blockOrder {
 					raw, err := json.Marshal(contentByIndex[index])
 					if err != nil {
-						return
+						return fmt.Errorf("encode content for replay: %w", err)
 					}
 					content = append(content, raw)
 				}
@@ -293,9 +298,10 @@ func (c *ClaudeClient) parseSSEStream(ctx context.Context, body io.Reader, ch ch
 			}
 			select {
 			case ch <- StreamChunk{Done: true}:
+				return nil
 			case <-ctx.Done():
+				return ctx.Err()
 			}
-			return
 
 		case claudeSSEEventContentBlockStart:
 			var ev struct {
@@ -307,13 +313,14 @@ func (c *ClaudeClient) parseSSEStream(ctx context.Context, body io.Reader, ch ch
 				} `json:"content_block"`
 			}
 			if err := json.Unmarshal([]byte(data), &ev); err != nil {
+				skipped = err
 				continue
 			}
 			var raw struct {
 				ContentBlock map[string]any `json:"content_block"`
 			}
 			if err := json.Unmarshal([]byte(data), &raw); err != nil {
-				return
+				return fmt.Errorf("decode content_block_start event: %w", err)
 			}
 			contentByIndex[ev.Index] = raw.ContentBlock
 			blockOrder = append(blockOrder, ev.Index)
@@ -336,6 +343,7 @@ func (c *ClaudeClient) parseSSEStream(ctx context.Context, body io.Reader, ch ch
 				} `json:"delta"`
 			}
 			if err := json.Unmarshal([]byte(data), &ev); err != nil {
+				skipped = err
 				continue
 			}
 			// Keep signed/private blocks solely in the replay cache. Only text
@@ -361,7 +369,7 @@ func (c *ClaudeClient) parseSSEStream(ctx context.Context, body io.Reader, ch ch
 					select {
 					case ch <- StreamChunk{ContentDelta: ev.Delta.Text}:
 					case <-ctx.Done():
-						return
+						return ctx.Err()
 					}
 				}
 			case claudeDeltaTypeInputJSON:
@@ -375,6 +383,7 @@ func (c *ClaudeClient) parseSSEStream(ctx context.Context, body io.Reader, ch ch
 				Index int `json:"index"`
 			}
 			if err := json.Unmarshal([]byte(data), &ev); err != nil {
+				skipped = err
 				continue
 			}
 			if tu, ok := toolUseByIndex[ev.Index]; ok {
@@ -383,7 +392,7 @@ func (c *ClaudeClient) parseSSEStream(ctx context.Context, body io.Reader, ch ch
 					if err := json.Unmarshal([]byte(tu.jsonBuf.String()), &args); err != nil {
 						// Reject the entire attempt. A partial set of tool results
 						// cannot safely replay the original assistant content.
-						return
+						return fmt.Errorf("decode arguments for %q: %w", tu.name, err)
 					}
 				}
 				if block := contentByIndex[ev.Index]; block != nil {
@@ -400,15 +409,49 @@ func (c *ClaudeClient) parseSSEStream(ctx context.Context, body io.Reader, ch ch
 				select {
 				case ch <- StreamChunk{ToolCallDelta: tc}:
 				case <-ctx.Done():
-					return
+					return ctx.Err()
 				}
 				delete(toolUseByIndex, ev.Index)
 			}
 
 		case claudeSSEEventError:
-			return
+			return claudeStreamError(data)
 		}
 	}
+	err := scanner.Err()
+	if err != nil {
+		err = fmt.Errorf("read stream: %w", err)
+	} else {
+		err = errors.New("stream ended before message_stop")
+	}
+	if skipped != nil {
+		return fmt.Errorf("%w; skipped an event that did not decode: %v", err, skipped)
+	}
+	return err
+}
+
+// claudeStreamError describes the data of a stream's error event. The message
+// is decoded first, so that URLs in it are read without JSON escapes.
+func claudeStreamError(data string) error {
+	var event struct {
+		Error json.RawMessage `json:"error"`
+	}
+	if err := json.Unmarshal([]byte(data), &event); err != nil || len(event.Error) == 0 {
+		return fmt.Errorf("claude stream error: %s", sanitizeClaudeErrorBody(data))
+	}
+	var apiErr struct {
+		Type    string `json:"type"`
+		Message string `json:"message"`
+	}
+	if err := json.Unmarshal(event.Error, &apiErr); err != nil || apiErr.Message == "" {
+		var text string
+		if json.Unmarshal(event.Error, &text) != nil {
+			text = string(event.Error)
+		}
+		return fmt.Errorf("claude stream error: %s", sanitizeClaudeErrorBody(text))
+	}
+	// The message goes last, so a cut-off URL in it is still seen as one.
+	return fmt.Errorf("claude stream error: %s: %s", sanitizeClaudeErrorField(apiErr.Type), sanitizeClaudeErrorBody(apiErr.Message))
 }
 
 func (c *ClaudeClient) callMessages(ctx context.Context, messages []Message, tools []Tool, stream bool) (*http.Response, error) {

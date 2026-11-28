@@ -140,6 +140,79 @@ func TestOpenRouterStreamFailureIsLoggedOnce(t *testing.T) {
 	}
 }
 
+func TestChatGPTStreamFailureIsLoggedOnce(t *testing.T) {
+	const partial = `data: {"type":"response.output_text.delta","delta":"start"}` + "\n\n"
+	for name, tc := range map[string]struct {
+		wire, cause string
+		cutOff      bool
+	}{
+		"failed response":     {partial + `data: {"type":"response.failed","response":{"error":{"code":"server_error","message":"upstream failed at http://fake-user:fake-pass@h.example/?x=1&token=fake"}}}` + "\n\n", "server_error: upstream failed at http://h.example/?x=1", false},
+		"cut off error event": {partial + `data: {"type":"error","code":"server_error","message":"upstream failed at ` + cutOffURL + `"}` + "\n\n", "upstream failed at http://xxxxx", false},
+		"incomplete response": {partial + `data: {"type":"response.incomplete","response":{"incomplete_details":{"reason":"max_output_tokens"}}}` + "\n\n", "response incomplete: max_output_tokens", false},
+		"invalid event":       {partial + "data: {not json}\n\n", "decode stream event", false},
+		"invalid output item": {`data: {"type":"response.output_item.done","item":"text"}` + "\n\n", "decode output item", false},
+		"invalid tool call":   {`data: {"type":"response.output_item.done","item":{"type":"function_call","call_id":"c","name":"roll","arguments":"{bad"}}` + "\n\n", "decode arguments for roll", false},
+		"ended early":         {partial, "ended before response.completed", false},
+		"read error":          {partial, "unexpected EOF", true},
+	} {
+		t.Run(name, func(t *testing.T) {
+			srv := streamServer(t, "text/event-stream", tc.wire, tc.cutOff)
+			c := testChatGPTClient(t, srv.URL)
+			out := captureLogs(t)
+			if drainStream(t, context.Background(), c) {
+				t.Fatal("failed stream completed")
+			}
+			assertOneStreamFailure(t, out, "chatgpt", tc.cause)
+		})
+	}
+}
+
+func testChatGPTClient(t *testing.T, base string) *ChatGPTClient {
+	t.Helper()
+	tokens, err := LoadChatGPTTokenStore(writeTestCreds(t, 3600))
+	if err != nil {
+		t.Fatal(err)
+	}
+	c := NewChatGPTClient(tokens, "m", "")
+	c.baseURL = base
+	return c
+}
+
+func TestClaudeStreamFailureIsLoggedOnce(t *testing.T) {
+	event := func(name, data string) string { return "event: " + name + "\ndata: " + data + "\n\n" }
+	partial := event("content_block_start", `{"index":0,"content_block":{"type":"text","text":""}}`) +
+		event("content_block_delta", `{"index":0,"delta":{"type":"text_delta","text":"start"}}`)
+	toolStart := event("content_block_start", `{"index":1,"content_block":{"type":"tool_use","id":"c","name":"roll","input":{}}}`)
+	badArgs := event("content_block_delta", `{"index":1,"delta":{"type":"input_json_delta","partial_json":"{bad"}}`) +
+		event("content_block_stop", `{"index":1}`)
+	stop := event("message_stop", `{}`)
+	for name, tc := range map[string]struct {
+		wire, cause string
+		cutOff      bool
+	}{
+		"error event":             {partial + event("error", `{"type":"error","error":{"type":"api_error","message":"upstream failed at http://fake-user:fake-pass@h.example/?x=1&token=fake"}}`) + stop, "api_error: upstream failed at http://h.example/?x=1", false},
+		"cut off error event":     {partial + event("error", `{"type":"error","error":{"type":"overloaded_error","message":"upstream failed at `+cutOffURL+`"}}`), "overloaded_error: upstream failed at http://xxxxx", false},
+		"error of another shape":  {partial + event("error", `{"type":"error","error":"cannot reach `+cutOffURL+`"}`), "cannot reach http://xxxxx", false},
+		"refusal":                 {partial + event("message_delta", `{"delta":{"stop_reason":"refusal"}}`) + stop, "stop_reason refusal", false},
+		"invalid message delta":   {partial + event("message_delta", `{not json}`) + stop, "decode message_delta event", false},
+		"invalid block start":     {event("content_block_start", `{"index":0,"content_block":"text"}`), "ended before message_stop; skipped an event that did not decode", false},
+		"invalid tool call":       {toolStart + badArgs + stop, `decode arguments for "roll"`, false},
+		"stop inside a tool call": {toolStart + stop, "message_stop before a tool_use block ended", false},
+		"ended early":             {partial, "ended before message_stop", false},
+		"only invalid events":     {event("content_block_delta", `{not json}`), "invalid character", false},
+		"read error":              {partial, "unexpected EOF", true},
+	} {
+		t.Run(name, func(t *testing.T) {
+			srv := streamServer(t, "text/event-stream", tc.wire, tc.cutOff)
+			out := captureLogs(t)
+			if drainStream(t, context.Background(), NewClaudeClient(srv.URL, "k", "m")) {
+				t.Fatal("failed stream completed")
+			}
+			assertOneStreamFailure(t, out, "claude", tc.cause)
+		})
+	}
+}
+
 // A finished stream and one the caller gave up on are not failures. A passed
 // deadline is.
 func TestStreamLoggingOnSuccessCancelAndDeadline(t *testing.T) {
@@ -162,6 +235,18 @@ func TestStreamLoggingOnSuccessCancelAndDeadline(t *testing.T) {
 				c.baseURL = base
 				return c
 			},
+		},
+		"claude": {
+			"text/event-stream",
+			"event: content_block_delta\n" + `data: {"index":0,"delta":{"type":"text_delta","text":"a"}}` + "\n\n",
+			"event: message_stop\ndata: {}\n\n",
+			func(base string) Provider { return NewClaudeClient(base, "k", "m") },
+		},
+		"chatgpt": {
+			"text/event-stream",
+			`data: {"type":"response.output_text.delta","delta":"a"}` + "\n\n",
+			"data: " + completedEvent + "\n\n",
+			func(base string) Provider { return testChatGPTClient(t, base) },
 		},
 	}
 	for name, tc := range providers {

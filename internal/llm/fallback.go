@@ -5,6 +5,8 @@ import (
 	"errors"
 	"io"
 	"log/slog"
+
+	"git.subcult.tv/subculture-collective/edda/internal/logging"
 )
 
 // FallbackProvider sends each request to Primary and, when Primary returns an
@@ -87,6 +89,11 @@ func (f *FallbackProvider) Stream(ctx context.Context, messages []Message, tools
 		defer cancelSecondary()
 		secondary, err := f.Secondary.Stream(secondaryCtx, messages, tools)
 		if err != nil {
+			// The caller already has the channel, so it cannot be given err.
+			if !errors.Is(ctx.Err(), context.Canceled) {
+				slog.Error("llm fallback provider failed to open a stream",
+					"primary", f.PrimaryName, "fallback", f.SecondaryName, "error", logging.Redact(err.Error()))
+			}
 			return
 		}
 		forward(secondary)
