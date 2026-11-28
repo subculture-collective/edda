@@ -53,21 +53,6 @@ func NewStateStore(q stateQuerier, timeDB ...db.DBTX) *StateStore {
 	return &StateStore{queries: q, timeDB: t}
 }
 
-const (
-	getCampaignTimeForToolSQL = `
-SELECT day, hour, minute FROM campaign_time WHERE campaign_id = $1
-`
-	// The update leaves campaign_time.second alone on purpose: adding whole
-	// minutes keeps the SRD rules clock's absolute-second expiries exact.
-	upsertCampaignTimeForToolSQL = `
-INSERT INTO campaign_time (campaign_id, day, hour, minute)
-VALUES ($1, $2, $3, $4)
-ON CONFLICT (campaign_id) DO UPDATE
-SET day = EXCLUDED.day, hour = EXCLUDED.hour, minute = EXCLUDED.minute, updated_at = now()
-RETURNING day, hour, minute
-`
-)
-
 // ReviseWorldFact supersedes a fact and propagates player-known visibility.
 func (s *StateStore) ReviseWorldFact(ctx context.Context, cmd ReviseWorldFactCommand) (*ReviseWorldFactResult, error) {
 	if s == nil || s.queries == nil {
@@ -220,24 +205,11 @@ func (s *StateStore) MovePlayer(ctx context.Context, cmd MovePlayerCommand) (*Mo
 	}
 	if travelTime != "" {
 		if dbTX := s.timeDB; dbTX != nil {
-			var day, hour, minute int
-			err = dbTX.QueryRow(ctx, getCampaignTimeForToolSQL, db.ToPgUUID(cmd.CampaignID)).Scan(&day, &hour, &minute)
-			if errors.Is(err, pgx.ErrNoRows) {
-				day, hour, minute = 1, 8, 0
-			} else if err == nil {
-				advHours, advMinutes := parseTravelTime(travelTime)
-				totalMinutes := minute + advMinutes
-				hour += totalMinutes / 60
-				minute = totalMinutes % 60
-				totalHours := hour + advHours
-				day += totalHours / 24
-				hour = totalHours % 24
-				err = dbTX.QueryRow(ctx, upsertCampaignTimeForToolSQL, db.ToPgUUID(cmd.CampaignID), day, hour, minute).Scan(&day, &hour, &minute)
-			}
-			if err != nil && !errors.Is(err, pgx.ErrNoRows) {
+			advHours, advMinutes := parseTravelTime(travelTime)
+			result.Day, result.Hour, result.Minute, err = db.AdvanceCampaignTime(ctx, dbTX, cmd.CampaignID, advHours, advMinutes)
+			if err != nil {
 				result.TimeWarning = err.Error()
 			}
-			result.Day, result.Hour, result.Minute = day, hour, minute
 		}
 	}
 	return result, nil
