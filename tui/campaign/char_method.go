@@ -100,8 +100,6 @@ func (m CharMethodModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 
 // View implements tea.Model.
 func (m CharMethodModel) View() string {
-	return styles.Container.
-		Width(m.width).
-		Height(m.height).
+	return styles.Frame(styles.Container, m.width, m.height).
 		Render(m.list.View())
 }

@@ -84,7 +84,8 @@ func (m *CharInterviewModel) SetSize(width, height int) {
 	}
 	m.viewport.Width = vpWidth
 	m.viewport.Height = vpHeight
-	m.input.Width = vpWidth
+	m.input.Width = styles.InputWidth(vpWidth, m.input.Prompt)
+	m.input.SetCursor(m.input.Position()) // rescroll typed text to the new width
 	m.refreshViewport()
 }
 
@@ -174,9 +175,7 @@ func (m CharInterviewModel) View() string {
 		b.WriteString(m.input.View())
 	}
 
-	return styles.Container.
-		Width(m.width).
-		Height(m.height).
+	return styles.Frame(styles.Container, m.width, m.height).
 		Render(b.String())
 }
 

@@ -48,7 +48,7 @@ func (m Model) View() string {
 	hint := styles.Muted.Render("Press Esc to return to the narrative view.")
 
 	content := styles.JoinVertical(placeholder, "", hint)
-	return styles.Container.Width(m.width).Render(
+	return styles.Frame(styles.Container, m.width, 0).Render(
 		styles.JoinVertical(title, "", content),
 	)
 }

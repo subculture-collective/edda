@@ -147,7 +147,7 @@ func (l Launcher) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		l.width = msg.Width
 		l.height = msg.Height
 		if l.view != nil {
-			l.view.SetSize(msg.Width, msg.Height)
+			l.sizeView(l.view)
 		}
 		return l, nil
 
@@ -196,8 +196,7 @@ func (l Launcher) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		switch msg.Method {
 		case campaign.MethodDescribe:
 			if l.provider == nil {
-				l.errMsg = "LLM provider unavailable"
-				return l, nil
+				return l.showError("LLM provider unavailable")
 			}
 			iv := campaign.NewInterviewModel(l.ctx, l.provider)
 			return l.activateView(launcherInterviewing, &iv)
@@ -227,8 +226,7 @@ func (l Launcher) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 
 	case campaign.AttributesReadyMsg:
 		if l.provider == nil {
-			l.errMsg = "LLM provider unavailable"
-			return l, nil
+			return l.showError("LLM provider unavailable")
 		}
 		l.proposalAttrs = msg
 		l.logger().Info("generating campaign proposals", "genre", msg.Genre, "setting_style", msg.SettingStyle, "tone", msg.Tone)
@@ -269,8 +267,7 @@ func (l Launcher) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		switch msg.Method {
 		case campaign.MethodDescribe:
 			if l.provider == nil {
-				l.errMsg = "LLM provider unavailable"
-				return l, nil
+				return l.showError("LLM provider unavailable")
 			}
 			if l.campaignProfile == nil {
 				l.errMsg = "Campaign profile missing"
@@ -302,8 +299,7 @@ func (l Launcher) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 
 	case campaign.ConfirmedMsg:
 		if l.provider == nil {
-			l.errMsg = "LLM provider unavailable"
-			return l, nil
+			return l.showError("LLM provider unavailable")
 		}
 		l.errMsg = ""
 		profile := msg.Profile
@@ -346,7 +342,7 @@ func (l Launcher) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	if l.view != nil {
 		updated, cmd := l.view.Update(msg)
 		if next := normalizeLauncherView(updated); next != nil {
-			next.SetSize(l.width, l.height)
+			l.sizeView(next)
 			l.view = next
 		}
 		return l, cmd
@@ -360,7 +356,7 @@ func (l Launcher) View() string {
 	switch l.state {
 	case launcherLoading:
 		if l.errMsg != "" {
-			return styles.StatusError.Render("⚠  " + l.errMsg)
+			return l.errorBanner()
 		}
 		return l.loadingView("Connecting to database…")
 	case launcherGeneratingProposals:
@@ -377,10 +373,34 @@ func (l Launcher) View() string {
 	if l.errMsg == "" {
 		return l.view.View()
 	}
-	return styles.JoinVertical(
-		styles.StatusError.Render("⚠  "+l.errMsg),
-		l.view.View(),
-	)
+	return styles.JoinVertical(l.errorBanner(), l.view.View())
+}
+
+// errorBanner renders the launcher error, wrapped to the terminal width.
+func (l Launcher) errorBanner() string {
+	style := styles.StatusError
+	if l.width > 0 {
+		style = style.Width(l.width)
+	}
+	return style.Render("⚠  " + l.errMsg)
+}
+
+// sizeView gives view the terminal size less the rows the error banner takes.
+func (l Launcher) sizeView(view View) {
+	height := l.height
+	if l.errMsg != "" && height > 0 {
+		height = max(height-lipgloss.Height(l.errorBanner()), 1)
+	}
+	view.SetSize(l.width, height)
+}
+
+// showError puts msg above the current view and makes room for it.
+func (l Launcher) showError(msg string) (tea.Model, tea.Cmd) {
+	l.errMsg = msg
+	if l.view != nil {
+		l.sizeView(l.view)
+	}
+	return l, nil
 }
 
 func (l Launcher) usesRootSpinner() bool {
@@ -396,7 +416,7 @@ func (l Launcher) activateView(state launcherState, view View) (Launcher, tea.Cm
 	l.state = state
 	l.view = view
 	if view != nil {
-		view.SetSize(l.width, l.height)
+		l.sizeView(view)
 		return l, view.Init()
 	}
 	return l, nil
@@ -453,6 +473,9 @@ func (l Launcher) loadingView(msg string) string {
 // transitionToApp creates the main App model and returns it as the new model.
 func (l Launcher) transitionToApp(c statedb.Campaign, scene *world.SceneResult) (tea.Model, tea.Cmd) {
 	app := NewAppWithEngine(l.cfg, c, l.ctx, l.engine, l.logBuf)
+	// Bubble Tea reports the terminal size only at startup and on resize, so
+	// the app has to take it from the launcher.
+	app.resize(l.width, l.height)
 	app.seedOpeningScene(scene)
 	l.openingScene = nil
 	return app, app.Init()

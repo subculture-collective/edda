@@ -230,6 +230,22 @@ var ActiveTab = lipgloss.NewStyle().
 // Layout helpers
 // ---------------------------------------------------------------------------
 
+// Frame sizes s so that the rendered block, border included, is width columns
+// wide and at least height rows tall. Lip Gloss Width and Height count padding
+// but not borders. A zero width or height leaves that dimension unset.
+func Frame(s lipgloss.Style, width, height int) lipgloss.Style {
+	return s.
+		Width(width - s.GetHorizontalBorderSize()).
+		Height(height - s.GetVerticalBorderSize())
+}
+
+// InputWidth returns the textinput.Model Width that fits an input with this
+// prompt into width columns. The model's Width leaves out the prompt and the
+// cursor cell.
+func InputWidth(width int, prompt string) int {
+	return max(width-lipgloss.Width(prompt)-1, 1)
+}
+
 // MaxWidth clamps the rendered width of a style.
 func MaxWidth(s lipgloss.Style, w int) lipgloss.Style {
 	return s.MaxWidth(w)

@@ -137,8 +137,6 @@ func (m AttributesModel) View() string {
 		content = styles.JoinVertical(content, styles.StatusError.Render("Error: "+m.errorText), "")
 	}
 	content = styles.JoinVertical(content, body)
-	return styles.Container.
-		Width(m.width).
-		Height(m.height).
+	return styles.Frame(styles.Container, m.width, m.height).
 		Render(content)
 }

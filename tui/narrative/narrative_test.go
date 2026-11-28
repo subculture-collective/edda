@@ -154,8 +154,9 @@ func TestResizeUpdatesViewportDimensions(t *testing.T) {
 	if m.viewport.Height != wantHeight {
 		t.Fatalf("expected viewport height %d, got %d", wantHeight, m.viewport.Height)
 	}
-	if m.input.Width != wantWidth {
-		t.Fatalf("expected input width %d, got %d", wantWidth, m.input.Width)
+	// The input's width leaves room for its "> " prompt and the cursor cell.
+	if m.input.Width != wantWidth-3 {
+		t.Fatalf("expected input width %d, got %d", wantWidth-3, m.input.Width)
 	}
 
 	m.SetSize(20, 6)
@@ -170,8 +171,8 @@ func TestResizeUpdatesViewportDimensions(t *testing.T) {
 	if m.viewport.Height != wantHeight {
 		t.Fatalf("expected viewport height %d after resize, got %d", wantHeight, m.viewport.Height)
 	}
-	if m.input.Width != wantWidth {
-		t.Fatalf("expected input width %d after resize, got %d", wantWidth, m.input.Width)
+	if m.input.Width != wantWidth-3 {
+		t.Fatalf("expected input width %d after resize, got %d", wantWidth-3, m.input.Width)
 	}
 }
 

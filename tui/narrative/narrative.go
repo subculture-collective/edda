@@ -80,6 +80,7 @@ func New() Model {
 	m.choices.SetShowTitle(false)
 	m.choices.SetShowStatusBar(false)
 	m.choices.SetShowHelp(false)
+	m.choices.SetShowPagination(false) // its rows would push the box past its height
 	m.choices.SetFilteringEnabled(false)
 
 	m.spinner = spinner.New()
@@ -243,13 +244,15 @@ func (m Model) View() string {
 		blocks = append(blocks, "", m.spinner.View()+"  "+styles.Body.Render("Thinking…"))
 	}
 	if m.hasChoices() {
-		blocks = append(blocks, "", styles.SubHeader.Render("Suggested choices"), m.choices.View())
+		heading := styles.SubHeader.Render("Suggested choices")
+		if m.choices.Paginator.TotalPages > 1 {
+			heading += "  " + m.choices.Paginator.View()
+		}
+		blocks = append(blocks, "", heading, m.choices.View())
 	}
 	blocks = append(blocks, "", m.input.View())
 
-	box := styles.Container.
-		Width(m.width).
-		Height(m.height).
+	box := styles.Frame(styles.Container, m.width, m.height).
 		Render(styles.JoinVertical(blocks...))
 
 	return box
@@ -268,8 +271,13 @@ func (m *Model) refreshViewportContent() {
 
 func (m *Model) refreshLayout() {
 	m.viewport.Width, m.viewport.Height = m.viewportSize()
-	m.input.Width = m.viewport.Width
+	m.input.Width = styles.InputWidth(m.viewport.Width, m.input.Prompt)
+	m.input.SetCursor(m.input.Position()) // rescroll typed text to the new width
 	m.choices.SetSize(m.viewport.Width, m.visibleChoiceCount())
+	// Choices and the loading line shorten the viewport.
+	if m.autoScroll {
+		m.viewport.GotoBottom()
+	}
 }
 
 func (m Model) viewportSize() (width, height int) {
