@@ -158,7 +158,7 @@ func TestCreateLanguageHandleSuccess(t *testing.T) {
 	embedder := &stubEmbedder{vector: []float32{0.3, 0.4}}
 
 	h := NewCreateLanguageHandler(langStore, memStore, embedder)
-	got, err := h.Handle(context.Background(), map[string]any{
+	got, err := handleInArgsCampaign(h.Handle, map[string]any{
 		"campaign_id": campaignID.String(),
 		"name":        "Eldertongue",
 		"description": "Ancient ritual language",
@@ -220,7 +220,7 @@ func TestCreateLanguageHandleSuccess_NilEmbedding(t *testing.T) {
 	langStore := &stubLanguageStore{createdID: languageID}
 
 	h := NewCreateLanguageHandler(langStore, nil, nil)
-	got, err := h.Handle(context.Background(), map[string]any{
+	got, err := handleInArgsCampaign(h.Handle, map[string]any{
 		"campaign_id": campaignID.String(),
 		"name":        "Elvish",
 		"description": "Forest language",
@@ -272,7 +272,7 @@ func TestCreateLanguageValidationAndErrors(t *testing.T) {
 		args := copyArgs(baseArgs)
 		delete(args, "description")
 
-		_, err := h.Handle(context.Background(), args)
+		_, err := handleInArgsCampaign(h.Handle, args)
 		if err == nil {
 			t.Fatal("expected error for missing description")
 		}
@@ -290,7 +290,7 @@ func TestCreateLanguageValidationAndErrors(t *testing.T) {
 		args := copyArgs(baseArgs)
 		args["spoken_by_faction_ids"] = "not-an-array"
 
-		_, err := h.Handle(context.Background(), args)
+		_, err := handleInArgsCampaign(h.Handle, args)
 		if err == nil {
 			t.Fatal("expected error for invalid spoken_by_faction_ids")
 		}
@@ -319,7 +319,7 @@ func TestCreateLanguageValidationAndErrors(t *testing.T) {
 		args := copyArgs(baseArgs)
 		args["spoken_by_faction_ids"] = []any{factionID.String()}
 		args["spoken_by_culture_ids"] = []any{cultureID.String()}
-		result, err := h.Handle(context.Background(), args)
+		result, err := handleInArgsCampaign(h.Handle, args)
 		if err != nil {
 			t.Fatalf("expected best-effort success, got error: %v", err)
 		}
@@ -349,7 +349,7 @@ func TestCreateLanguageValidationAndErrors(t *testing.T) {
 		args["spoken_by_faction_ids"] = []any{factionID.String()}
 		args["spoken_by_culture_ids"] = []any{cultureID.String()}
 
-		result, err := h.Handle(context.Background(), args)
+		result, err := handleInArgsCampaign(h.Handle, args)
 		if err != nil {
 			t.Fatalf("expected best-effort success, got error: %v", err)
 		}
@@ -380,7 +380,7 @@ func TestCreateLanguageValidationAndErrors(t *testing.T) {
 		args := copyArgs(baseArgs)
 		args["spoken_by_faction_ids"] = []any{factionID.String()}
 		args["spoken_by_culture_ids"] = []any{cultureID.String()}
-		_, err := h.Handle(context.Background(), args)
+		_, err := handleInArgsCampaign(h.Handle, args)
 		if err == nil {
 			t.Fatal("expected campaign scope validation error")
 		}
@@ -408,7 +408,7 @@ func TestCreateLanguageStoresMemoryMetadata(t *testing.T) {
 	memStore := &stubMemoryStore{}
 	h := NewCreateLanguageHandler(langStore, memStore, &stubEmbedder{vector: []float32{1.0}})
 
-	_, err := h.Handle(context.Background(), map[string]any{
+	_, err := handleInArgsCampaign(h.Handle, map[string]any{
 		"campaign_id": campaignID.String(),
 		"name":        "Lang",
 		"description": "desc",
@@ -448,3 +448,39 @@ func copyArgs(in map[string]any) map[string]any {
 var _ Embedder = (*stubEmbedder)(nil)
 var _ LanguageStore = (*stubLanguageStore)(nil)
 var _ MemoryStore = (*stubMemoryStore)(nil)
+
+// handleInArgsCampaign calls a handler with the args' campaign_id as the
+// current campaign, as the server does for a legitimate call.
+func handleInArgsCampaign(handle func(context.Context, map[string]any) (*ToolResult, error), args map[string]any) (*ToolResult, error) {
+	ctx := context.Background()
+	if raw, ok := args["campaign_id"].(string); ok {
+		if id, err := uuid.Parse(raw); err == nil {
+			ctx = WithCurrentCampaignID(ctx, id)
+		}
+	}
+	return handle(ctx, args)
+}
+
+func TestCreateLanguageRejectsCampaignOtherThanCurrent(t *testing.T) {
+	args := map[string]any{
+		"campaign_id":        uuid.New().String(),
+		"name":               "Lang",
+		"description":        "desc",
+		"phonological_rules": map[string]any{},
+		"naming_conventions": map[string]any{},
+		"sample_vocabulary":  map[string]any{},
+	}
+	store := &stubLanguageStore{createdID: uuid.New()}
+	h := NewCreateLanguageHandler(store, nil, nil)
+
+	_, err := h.Handle(WithCurrentCampaignID(context.Background(), uuid.New()), args)
+	if err == nil || !strings.Contains(err.Error(), "campaign_id must be the current campaign") {
+		t.Fatalf("error = %v, want current-campaign error", err)
+	}
+	if store.lastParams.Name != "" {
+		t.Fatalf("language was created: %+v", store.lastParams)
+	}
+	if _, err := h.Handle(context.Background(), args); err == nil || !strings.Contains(err.Error(), "requires current campaign id in context") {
+		t.Fatalf("error = %v, want missing-context error", err)
+	}
+}

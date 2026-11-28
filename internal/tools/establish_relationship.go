@@ -6,8 +6,6 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/google/uuid"
-	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgtype"
 
 	"git.subcult.tv/subculture-collective/edda/internal/dbutil"
@@ -162,11 +160,11 @@ func (h *EstablishRelationshipHandler) Handle(ctx context.Context, args map[stri
 	}
 	campaignID := dbutil.FromPgtype(currentLocation.CampaignID)
 
-	if err := h.validateEntityInCampaign(ctx, campaignID, sourceEntityType, sourceEntityID, "source"); err != nil {
-		return nil, err
+	if err := validateEntityInCampaign(ctx, h.store, campaignID, sourceEntityType, sourceEntityID); err != nil {
+		return nil, fmt.Errorf("source %w", err)
 	}
-	if err := h.validateEntityInCampaign(ctx, campaignID, targetEntityType, targetEntityID, "target"); err != nil {
-		return nil, err
+	if err := validateEntityInCampaign(ctx, h.store, campaignID, targetEntityType, targetEntityID); err != nil {
+		return nil, fmt.Errorf("target %w", err)
 	}
 
 	existing, err := h.store.GetRelationshipsBetween(ctx, statedb.GetRelationshipsBetweenParams{
@@ -284,68 +282,4 @@ func parseRelationshipStrengthArg(args map[string]any, key string) (int, bool, e
 		return 0, false, fmt.Errorf("%s must be between 1 and 10", key)
 	}
 	return strength, true, nil
-}
-
-func (h *EstablishRelationshipHandler) validateEntityInCampaign(ctx context.Context, campaignID uuid.UUID, entityType string, entityID uuid.UUID, role string) error {
-	switch domain.EntityType(entityType) {
-	case domain.EntityTypeNPC:
-		entity, err := h.store.GetNPCByID(ctx, dbutil.ToPgtype(entityID))
-		if err != nil {
-			if errors.Is(err, pgx.ErrNoRows) {
-				return fmt.Errorf("%s entity not found: npc %s", role, entityID)
-			}
-			return fmt.Errorf("lookup %s npc: %w", role, err)
-		}
-		if dbutil.FromPgtype(entity.CampaignID) != campaignID {
-			return fmt.Errorf("%s entity does not belong to current campaign: npc %s", role, entityID)
-		}
-	case domain.EntityTypeLocation:
-		entity, err := h.store.GetLocationByID(ctx, dbutil.ToPgtype(entityID))
-		if err != nil {
-			if errors.Is(err, pgx.ErrNoRows) {
-				return fmt.Errorf("%s entity not found: location %s", role, entityID)
-			}
-			return fmt.Errorf("lookup %s location: %w", role, err)
-		}
-		if dbutil.FromPgtype(entity.CampaignID) != campaignID {
-			return fmt.Errorf("%s entity does not belong to current campaign: location %s", role, entityID)
-		}
-	case domain.EntityTypeFaction:
-		entity, err := h.store.GetFactionByID(ctx, dbutil.ToPgtype(entityID))
-		if err != nil {
-			if errors.Is(err, pgx.ErrNoRows) {
-				return fmt.Errorf("%s entity not found: faction %s", role, entityID)
-			}
-			return fmt.Errorf("lookup %s faction: %w", role, err)
-		}
-		if dbutil.FromPgtype(entity.CampaignID) != campaignID {
-			return fmt.Errorf("%s entity does not belong to current campaign: faction %s", role, entityID)
-		}
-	case domain.EntityTypePlayerCharacter:
-		entity, err := h.store.GetPlayerCharacterByID(ctx, dbutil.ToPgtype(entityID))
-		if err != nil {
-			if errors.Is(err, pgx.ErrNoRows) {
-				return fmt.Errorf("%s entity not found: player_character %s", role, entityID)
-			}
-			return fmt.Errorf("lookup %s player character: %w", role, err)
-		}
-		if dbutil.FromPgtype(entity.CampaignID) != campaignID {
-			return fmt.Errorf("%s entity does not belong to current campaign: player_character %s", role, entityID)
-		}
-	case domain.EntityTypeItem:
-		entity, err := h.store.GetItemByID(ctx, dbutil.ToPgtype(entityID))
-		if err != nil {
-			if errors.Is(err, pgx.ErrNoRows) {
-				return fmt.Errorf("%s entity not found: item %s", role, entityID)
-			}
-			return fmt.Errorf("lookup %s item: %w", role, err)
-		}
-		if dbutil.FromPgtype(entity.CampaignID) != campaignID {
-			return fmt.Errorf("%s entity does not belong to current campaign: item %s", role, entityID)
-		}
-	default:
-		return fmt.Errorf("%s_entity_type must be one of: npc, location, faction, player_character, player, item", role)
-	}
-
-	return nil
 }

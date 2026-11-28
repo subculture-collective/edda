@@ -58,16 +58,21 @@ func TestCombatService_CreateNPC_NoAbilities(t *testing.T) {
 func TestCombatService_GetNPCByID(t *testing.T) {
 	mq := newMockQuerier()
 	id := [16]byte{10, 20, 30}
+	campaignID := uuid.New()
 	mq.npcByID[id] = mockNPCRecord{
 		npc: statedb.Npc{
-			ID:   pgtype.UUID{Bytes: id, Valid: true},
-			Name: "Troll",
+			ID:         pgtype.UUID{Bytes: id, Valid: true},
+			CampaignID: pgtype.UUID{Bytes: campaignID, Valid: true},
+			Name:       "Troll",
 		},
 	}
 
 	svc := NewCombatService(mq)
 
-	npc, err := svc.GetNPCByID(context.Background(), uuid.UUID(id))
+	if other, err := svc.GetNPCByID(context.Background(), uuid.New(), uuid.UUID(id)); err != nil || other != nil {
+		t.Fatalf("NPC from another campaign = %+v, %v; want nil", other, err)
+	}
+	npc, err := svc.GetNPCByID(context.Background(), campaignID, uuid.UUID(id))
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
@@ -82,7 +87,7 @@ func TestCombatService_GetNPCByID(t *testing.T) {
 func TestCombatService_GetNPCByID_NotFound(t *testing.T) {
 	svc := NewCombatService(newMockQuerier())
 
-	npc, err := svc.GetNPCByID(context.Background(), uuid.UUID([16]byte{99}))
+	npc, err := svc.GetNPCByID(context.Background(), uuid.New(), uuid.UUID([16]byte{99}))
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}

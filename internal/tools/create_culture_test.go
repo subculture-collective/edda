@@ -8,6 +8,7 @@ import (
 	"testing"
 
 	"github.com/google/uuid"
+	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgtype"
 
 	"git.subcult.tv/subculture-collective/edda/internal/dbutil"
@@ -134,7 +135,7 @@ func TestCreateCultureHandleSuccess(t *testing.T) {
 	embedder := &stubEmbedder{vector: []float32{0.2, 0.3}}
 	h := NewCreateCultureHandler(store, memStore, embedder)
 
-	got, err := h.Handle(context.Background(), map[string]any{
+	got, err := h.Handle(WithCurrentCampaignID(context.Background(), campaignID), map[string]any{
 		"name":             "Riverborn",
 		"description":      "A culture shaped by river trade and flood seasons.",
 		"values":           []any{"hospitality", "adaptability"},
@@ -237,7 +238,7 @@ func TestCreateCultureValidationAndErrors(t *testing.T) {
 		h := NewCreateCultureHandler(&stubCultureStore{}, &stubMemoryStore{}, &stubEmbedder{vector: []float32{0.1}})
 		args := copyArgs(baseArgs)
 		delete(args, "description")
-		_, err := h.Handle(context.Background(), args)
+		_, err := h.Handle(WithCurrentCampaignID(context.Background(), campaignID), args)
 		if err == nil || !strings.Contains(err.Error(), "description is required") {
 			t.Fatalf("error = %v, want description-required message", err)
 		}
@@ -247,13 +248,13 @@ func TestCreateCultureValidationAndErrors(t *testing.T) {
 		h := NewCreateCultureHandler(&stubCultureStore{}, &stubMemoryStore{}, &stubEmbedder{vector: []float32{0.1}})
 		args := copyArgs(baseArgs)
 		args["associated_factions"] = "bad"
-		_, err := h.Handle(context.Background(), args)
+		_, err := h.Handle(WithCurrentCampaignID(context.Background(), campaignID), args)
 		if err == nil || !strings.Contains(err.Error(), "associated_factions must be an array") {
 			t.Fatalf("error = %v, want associated_factions array-type message", err)
 		}
 	})
 
-	t.Run("language and belief campaign mismatch", func(t *testing.T) {
+	t.Run("belief system in another campaign is not found", func(t *testing.T) {
 		otherCampaignID := uuid.New()
 		h := NewCreateCultureHandler(
 			&stubCultureStore{
@@ -268,9 +269,45 @@ func TestCreateCultureValidationAndErrors(t *testing.T) {
 			&stubMemoryStore{},
 			&stubEmbedder{vector: []float32{0.1}},
 		)
-		_, err := h.Handle(context.Background(), copyArgs(baseArgs))
-		if err == nil || !strings.Contains(err.Error(), "must belong to the same campaign") {
-			t.Fatalf("error = %v, want same campaign validation message", err)
+		_, err := h.Handle(WithCurrentCampaignID(context.Background(), campaignID), copyArgs(baseArgs))
+		if err == nil || !errors.Is(err, pgx.ErrNoRows) || !strings.Contains(err.Error(), "validate belief_system_id") {
+			t.Fatalf("error = %v, want belief system not-found error", err)
+		}
+	})
+
+	t.Run("foreign language or belief system matches unknown", func(t *testing.T) {
+		otherCampaignID := uuid.New()
+		foreign := func(lang, belief uuid.UUID) *stubCultureStore {
+			return &stubCultureStore{
+				languages: map[[16]byte]statedb.Language{
+					dbutil.ToPgtype(languageID).Bytes: {ID: dbutil.ToPgtype(languageID), CampaignID: dbutil.ToPgtype(lang)},
+				},
+				beliefSystems: map[[16]byte]statedb.BeliefSystem{
+					dbutil.ToPgtype(beliefSystemID).Bytes: {ID: dbutil.ToPgtype(beliefSystemID), CampaignID: dbutil.ToPgtype(belief)},
+				},
+			}
+		}
+		ctx := WithCurrentCampaignID(context.Background(), campaignID)
+		// Both entities foreign (same foreign campaign) must not create in it.
+		for name, store := range map[string]*stubCultureStore{
+			"language":      foreign(otherCampaignID, campaignID),
+			"belief system": foreign(campaignID, otherCampaignID),
+			"both":          foreign(otherCampaignID, otherCampaignID),
+		} {
+			_, err := NewCreateCultureHandler(store, nil, nil).Handle(ctx, copyArgs(baseArgs))
+			if err == nil || !errors.Is(err, pgx.ErrNoRows) || !strings.Contains(err.Error(), "validate ") {
+				t.Fatalf("%s: error = %v, want wrapped pgx.ErrNoRows", name, err)
+			}
+			if store.lastCreateCultureArgs.Name != "" {
+				t.Fatalf("%s: culture created", name)
+			}
+		}
+	})
+
+	t.Run("requires current campaign", func(t *testing.T) {
+		_, err := NewCreateCultureHandler(&stubCultureStore{}, nil, nil).Handle(context.Background(), copyArgs(baseArgs))
+		if err == nil || !strings.Contains(err.Error(), "requires current campaign id in context") {
+			t.Fatalf("error = %v, want missing-context error", err)
 		}
 	})
 
@@ -294,7 +331,7 @@ func TestCreateCultureValidationAndErrors(t *testing.T) {
 		)
 		args := copyArgs(baseArgs)
 		args["associated_factions"] = []any{factionID.String()}
-		_, err := h.Handle(context.Background(), args)
+		_, err := h.Handle(WithCurrentCampaignID(context.Background(), campaignID), args)
 		if err == nil || !strings.Contains(err.Error(), "must belong to campaign_id") {
 			t.Fatalf("error = %v, want campaign validation message", err)
 		}
@@ -320,7 +357,7 @@ func TestCreateCultureValidationAndErrors(t *testing.T) {
 			&stubMemoryStore{},
 			&stubEmbedder{err: errors.New("embed failed")},
 		)
-		result, err := h.Handle(context.Background(), copyArgs(baseArgs))
+		result, err := h.Handle(WithCurrentCampaignID(context.Background(), campaignID), copyArgs(baseArgs))
 		if err != nil {
 			t.Fatalf("expected best-effort success, got error: %v", err)
 		}
@@ -354,7 +391,7 @@ func TestCreateCultureStoresMemoryMetadata(t *testing.T) {
 	memStore := &stubMemoryStore{}
 	h := NewCreateCultureHandler(store, memStore, &stubEmbedder{vector: []float32{0.1}})
 
-	_, err := h.Handle(context.Background(), map[string]any{
+	_, err := h.Handle(WithCurrentCampaignID(context.Background(), campaignID), map[string]any{
 		"name":                "Culture",
 		"description":         "desc",
 		"values":              []any{"value"},

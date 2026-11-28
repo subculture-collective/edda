@@ -131,7 +131,7 @@ func TestCreateBeliefSystemHandleSuccess(t *testing.T) {
 	embedder := &stubEmbedder{vector: []float32{0.2, 0.3}}
 	h := NewCreateBeliefSystemHandler(beliefStore, memStore, embedder)
 
-	got, err := h.Handle(context.Background(), map[string]any{
+	got, err := handleInArgsCampaign(h.Handle, map[string]any{
 		"campaign_id":           campaignID.String(),
 		"name":                  "Way of the Dawn",
 		"description":           "A creed of renewal through sacrifice.",
@@ -181,7 +181,7 @@ func TestCreateBeliefSystemHandleFactWarning(t *testing.T) {
 		createFactErr: errors.New("fact write failed"),
 	}
 	h := NewCreateBeliefSystemHandler(beliefStore, nil, nil)
-	result, err := h.Handle(context.Background(), map[string]any{"campaign_id": campaignID.String(), "name": "Way of the Dawn", "description": "A creed.", "deities_or_principles": []any{"Solar Trinity"}, "practices": []any{"Dawn fast"}, "institutions": []any{"Temple"}, "moral_framework": map[string]any{}, "taboos": []any{}, "followers": map[string]any{"faction_ids": []any{factionID.String()}, "culture_ids": []any{cultureID.String()}}})
+	result, err := handleInArgsCampaign(h.Handle, map[string]any{"campaign_id": campaignID.String(), "name": "Way of the Dawn", "description": "A creed.", "deities_or_principles": []any{"Solar Trinity"}, "practices": []any{"Dawn fast"}, "institutions": []any{"Temple"}, "moral_framework": map[string]any{}, "taboos": []any{}, "followers": map[string]any{"faction_ids": []any{factionID.String()}, "culture_ids": []any{cultureID.String()}}})
 	if err != nil {
 		t.Fatalf("Handle returned error: %v", err)
 	}
@@ -216,7 +216,7 @@ func TestCreateBeliefSystemValidationAndErrors(t *testing.T) {
 		h := NewCreateBeliefSystemHandler(&stubBeliefSystemStore{}, &stubMemoryStore{}, &stubEmbedder{vector: []float32{0.1}})
 		args := copyArgs(baseArgs)
 		delete(args, "description")
-		_, err := h.Handle(context.Background(), args)
+		_, err := handleInArgsCampaign(h.Handle, args)
 		if err == nil || !strings.Contains(err.Error(), "description is required") {
 			t.Fatalf("error = %v, want description-required message", err)
 		}
@@ -226,7 +226,7 @@ func TestCreateBeliefSystemValidationAndErrors(t *testing.T) {
 		h := NewCreateBeliefSystemHandler(&stubBeliefSystemStore{}, &stubMemoryStore{}, &stubEmbedder{vector: []float32{0.1}})
 		args := copyArgs(baseArgs)
 		args["deities_or_principles"] = "bad"
-		_, err := h.Handle(context.Background(), args)
+		_, err := handleInArgsCampaign(h.Handle, args)
 		if err == nil || !strings.Contains(err.Error(), "deities_or_principles must be an array") {
 			t.Fatalf("error = %v, want array-type message", err)
 		}
@@ -250,7 +250,7 @@ func TestCreateBeliefSystemValidationAndErrors(t *testing.T) {
 			"faction_ids": []any{factionID.String()},
 			"culture_ids": []any{},
 		}
-		_, err := h.Handle(context.Background(), args)
+		_, err := handleInArgsCampaign(h.Handle, args)
 		if err == nil || !strings.Contains(err.Error(), "must belong to campaign_id") {
 			t.Fatalf("error = %v, want campaign validation message", err)
 		}
@@ -274,7 +274,7 @@ func TestCreateBeliefSystemValidationAndErrors(t *testing.T) {
 			"faction_ids": []any{},
 			"culture_ids": []any{cultureID.String()},
 		}
-		_, err := h.Handle(context.Background(), args)
+		_, err := handleInArgsCampaign(h.Handle, args)
 		if err == nil || !strings.Contains(err.Error(), "must belong to campaign_id") {
 			t.Fatalf("error = %v, want campaign validation message", err)
 		}
@@ -303,7 +303,7 @@ func TestCreateBeliefSystemValidationAndErrors(t *testing.T) {
 			"faction_ids": []any{factionID.String()},
 			"culture_ids": []any{},
 		}
-		result, err := h.Handle(context.Background(), args)
+		result, err := handleInArgsCampaign(h.Handle, args)
 		if err != nil {
 			t.Fatalf("Handle returned error: %v", err)
 		}
@@ -332,7 +332,7 @@ func TestCreateBeliefSystemStoresMemoryMetadata(t *testing.T) {
 	memStore := &stubMemoryStore{}
 	h := NewCreateBeliefSystemHandler(beliefStore, memStore, &stubEmbedder{vector: []float32{0.1}})
 
-	_, err := h.Handle(context.Background(), map[string]any{
+	_, err := handleInArgsCampaign(h.Handle, map[string]any{
 		"campaign_id":           campaignID.String(),
 		"name":                  "Faith",
 		"description":           "desc",
@@ -379,7 +379,7 @@ func TestCreateBeliefSystemEmbedFailureReturnsWarning(t *testing.T) {
 	}
 	h := NewCreateBeliefSystemHandler(beliefStore, &stubMemoryStore{}, &stubEmbedder{err: errors.New("embed error")})
 
-	result, err := h.Handle(context.Background(), map[string]any{
+	result, err := handleInArgsCampaign(h.Handle, map[string]any{
 		"campaign_id":           campaignID.String(),
 		"name":                  "Way of the Dawn",
 		"description":           "A creed of renewal through sacrifice.",
@@ -435,7 +435,7 @@ func TestCreateBeliefSystemFactWarningNarrativeMatchesFailure(t *testing.T) {
 		createFactErr: errors.New("fact write failed"),
 	}
 	h := NewCreateBeliefSystemHandler(beliefStore, nil, nil)
-	result, err := h.Handle(context.Background(), map[string]any{
+	result, err := handleInArgsCampaign(h.Handle, map[string]any{
 		"campaign_id":           campaignID.String(),
 		"name":                  "Way of the Dawn",
 		"description":           "A creed.",
@@ -455,3 +455,23 @@ func TestCreateBeliefSystemFactWarningNarrativeMatchesFailure(t *testing.T) {
 }
 
 var _ BeliefSystemStore = (*stubBeliefSystemStore)(nil)
+
+func TestCreateBeliefSystemRejectsCampaignOtherThanCurrent(t *testing.T) {
+	args := map[string]any{
+		"campaign_id": uuid.New().String(),
+		"name":        "Faith",
+	}
+	store := &stubBeliefSystemStore{}
+	h := NewCreateBeliefSystemHandler(store, nil, nil)
+
+	_, err := h.Handle(WithCurrentCampaignID(context.Background(), uuid.New()), args)
+	if err == nil || !strings.Contains(err.Error(), "campaign_id must be the current campaign") {
+		t.Fatalf("error = %v, want current-campaign error", err)
+	}
+	if store.lastCreateBeliefArgs.Name != "" {
+		t.Fatalf("belief system was created: %+v", store.lastCreateBeliefArgs)
+	}
+	if _, err := h.Handle(context.Background(), args); err == nil || !strings.Contains(err.Error(), "requires current campaign id in context") {
+		t.Fatalf("error = %v, want missing-context error", err)
+	}
+}

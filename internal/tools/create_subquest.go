@@ -116,7 +116,15 @@ func (h *CreateSubquestHandler) Handle(ctx context.Context, args map[string]any)
 		return nil, err
 	}
 
+	campaignID, err := requireCurrentCampaignID(ctx, createSubquestToolName)
+	if err != nil {
+		return nil, err
+	}
+
 	parentQuest, err := h.questStore.GetQuestByID(ctx, dbutil.ToPgtype(parentQuestID))
+	if err == nil && parentQuest.CampaignID != dbutil.ToPgtype(campaignID) {
+		err = pgx.ErrNoRows
+	}
 	if err != nil {
 		if errors.Is(err, pgx.ErrNoRows) {
 			return nil, fmt.Errorf("parent quest not found: %w", err)

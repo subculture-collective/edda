@@ -8,6 +8,7 @@ import (
 	"math/rand/v2"
 	"strings"
 
+	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgtype"
 
 	"git.subcult.tv/subculture-collective/edda/internal/dbutil"
@@ -104,7 +105,15 @@ func (h *GenerateNameHandler) GenerateName(ctx context.Context, languageID *pgty
 		return applyPattern(defaultVowels, defaultConsonants, pickPattern(nil, nameType)), nil
 	}
 
+	campaignID, err := requireCurrentCampaignID(ctx, generateNameToolName)
+	if err != nil {
+		return "", err
+	}
 	lang, err := h.nameStore.GetLanguageByID(ctx, *languageID)
+	if err == nil && lang.CampaignID != dbutil.ToPgtype(campaignID) {
+		// A language in another campaign looks the same as a missing one.
+		err = pgx.ErrNoRows
+	}
 	if err != nil {
 		return "", fmt.Errorf("get language: %w", err)
 	}

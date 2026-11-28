@@ -24,6 +24,7 @@ type QuestStore interface {
 	CreateQuest(ctx context.Context, arg statedb.CreateQuestParams) (statedb.Quest, error)
 	CreateObjective(ctx context.Context, arg statedb.CreateObjectiveParams) (statedb.QuestObjective, error)
 	CreateRelationship(ctx context.Context, arg statedb.CreateRelationshipParams) (statedb.EntityRelationship, error)
+	campaignEntityLookup
 }
 
 // CreateQuestTool returns the create_quest tool definition and JSON schema.
@@ -147,6 +148,12 @@ func (h *CreateQuestHandler) Handle(ctx context.Context, args map[string]any) (*
 	currentLocation, err := h.questStore.GetLocationByID(ctx, dbutil.ToPgtype(currentLocationID))
 	if err != nil {
 		return nil, fmt.Errorf("resolve campaign from current location: %w", err)
+	}
+	campaignID := dbutil.FromPgtype(currentLocation.CampaignID)
+	for i, related := range relatedEntities {
+		if err := validateEntityInCampaign(ctx, h.questStore, campaignID, related.EntityType, related.EntityID); err != nil {
+			return nil, fmt.Errorf("validate related_entities[%d]: %w", i, err)
+		}
 	}
 
 	quest, err := h.questStore.CreateQuest(ctx, statedb.CreateQuestParams{

@@ -6,12 +6,10 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/google/uuid"
 	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgtype"
 
 	"git.subcult.tv/subculture-collective/edda/internal/dbutil"
-	"git.subcult.tv/subculture-collective/edda/internal/domain"
 	"git.subcult.tv/subculture-collective/edda/internal/llm"
 	statedb "git.subcult.tv/subculture-collective/edda/internal/state/sqlc"
 )
@@ -123,15 +121,6 @@ func (h *LinkQuestEntityHandler) Handle(ctx context.Context, args map[string]any
 		}
 	}
 
-	// Validate quest exists.
-	quest, err := h.store.GetQuestByID(ctx, dbutil.ToPgtype(questID))
-	if err != nil {
-		if errors.Is(err, pgx.ErrNoRows) {
-			return nil, fmt.Errorf("quest not found: %s", questID)
-		}
-		return nil, fmt.Errorf("lookup quest: %w", err)
-	}
-
 	// Resolve campaign from current location.
 	currentLocationID, ok := CurrentLocationIDFromContext(ctx)
 	if !ok {
@@ -143,8 +132,18 @@ func (h *LinkQuestEntityHandler) Handle(ctx context.Context, args map[string]any
 	}
 	campaignID := dbutil.FromPgtype(currentLocation.CampaignID)
 
+	// Validate the quest exists in the campaign; another campaign's quest
+	// looks missing.
+	quest, err := h.store.GetQuestByID(ctx, dbutil.ToPgtype(questID))
+	if errors.Is(err, pgx.ErrNoRows) || (err == nil && dbutil.FromPgtype(quest.CampaignID) != campaignID) {
+		return nil, fmt.Errorf("quest not found: %s", questID)
+	}
+	if err != nil {
+		return nil, fmt.Errorf("lookup quest: %w", err)
+	}
+
 	// Validate entity exists and belongs to the same campaign.
-	if err := h.validateEntityInCampaign(ctx, campaignID, entityType, entityID); err != nil {
+	if err := validateEntityInCampaign(ctx, h.store, campaignID, entityType, entityID); err != nil {
 		return nil, err
 	}
 
@@ -180,67 +179,4 @@ func (h *LinkQuestEntityHandler) Handle(ctx context.Context, args map[string]any
 		},
 		Narrative: summary,
 	}, nil
-}
-
-func (h *LinkQuestEntityHandler) validateEntityInCampaign(ctx context.Context, campaignID uuid.UUID, entityType string, entityID uuid.UUID) error {
-	switch domain.EntityType(entityType) {
-	case domain.EntityTypeNPC:
-		entity, err := h.store.GetNPCByID(ctx, dbutil.ToPgtype(entityID))
-		if err != nil {
-			if errors.Is(err, pgx.ErrNoRows) {
-				return fmt.Errorf("entity not found: npc %s", entityID)
-			}
-			return fmt.Errorf("lookup npc: %w", err)
-		}
-		if dbutil.FromPgtype(entity.CampaignID) != campaignID {
-			return fmt.Errorf("entity does not belong to current campaign: npc %s", entityID)
-		}
-	case domain.EntityTypeLocation:
-		entity, err := h.store.GetLocationByID(ctx, dbutil.ToPgtype(entityID))
-		if err != nil {
-			if errors.Is(err, pgx.ErrNoRows) {
-				return fmt.Errorf("entity not found: location %s", entityID)
-			}
-			return fmt.Errorf("lookup location: %w", err)
-		}
-		if dbutil.FromPgtype(entity.CampaignID) != campaignID {
-			return fmt.Errorf("entity does not belong to current campaign: location %s", entityID)
-		}
-	case domain.EntityTypeFaction:
-		entity, err := h.store.GetFactionByID(ctx, dbutil.ToPgtype(entityID))
-		if err != nil {
-			if errors.Is(err, pgx.ErrNoRows) {
-				return fmt.Errorf("entity not found: faction %s", entityID)
-			}
-			return fmt.Errorf("lookup faction: %w", err)
-		}
-		if dbutil.FromPgtype(entity.CampaignID) != campaignID {
-			return fmt.Errorf("entity does not belong to current campaign: faction %s", entityID)
-		}
-	case domain.EntityTypePlayerCharacter:
-		entity, err := h.store.GetPlayerCharacterByID(ctx, dbutil.ToPgtype(entityID))
-		if err != nil {
-			if errors.Is(err, pgx.ErrNoRows) {
-				return fmt.Errorf("entity not found: player_character %s", entityID)
-			}
-			return fmt.Errorf("lookup player character: %w", err)
-		}
-		if dbutil.FromPgtype(entity.CampaignID) != campaignID {
-			return fmt.Errorf("entity does not belong to current campaign: player_character %s", entityID)
-		}
-	case domain.EntityTypeItem:
-		entity, err := h.store.GetItemByID(ctx, dbutil.ToPgtype(entityID))
-		if err != nil {
-			if errors.Is(err, pgx.ErrNoRows) {
-				return fmt.Errorf("entity not found: item %s", entityID)
-			}
-			return fmt.Errorf("lookup item: %w", err)
-		}
-		if dbutil.FromPgtype(entity.CampaignID) != campaignID {
-			return fmt.Errorf("entity does not belong to current campaign: item %s", entityID)
-		}
-	default:
-		return fmt.Errorf("entity_type must be one of: npc, location, faction, player_character, player, item")
-	}
-	return nil
 }

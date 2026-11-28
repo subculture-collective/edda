@@ -313,3 +313,32 @@ func TestLinkQuestEntity_PlayerAliasNormalized(t *testing.T) {
 		t.Fatalf("result target_entity_type = %v, want player_character", result.Data["target_entity_type"])
 	}
 }
+
+// A quest or entity in another campaign gets the not-found error a missing one
+// gets, and its title is not shown.
+func TestLinkQuestEntity_OtherCampaignLooksMissing(t *testing.T) {
+	_, _, questID, npcID, store, ctx := newLinkQuestEntityFixture()
+	other := dbutil.ToPgtype(uuid.New())
+	foreignQuest, foreignNPC := uuid.New(), uuid.New()
+	store.questsByID[foreignQuest] = statedb.Quest{ID: dbutil.ToPgtype(foreignQuest), CampaignID: other, Title: "Other secret quest"}
+	store.npcsByID[foreignNPC] = statedb.Npc{ID: dbutil.ToPgtype(foreignNPC), CampaignID: other}
+	h := NewLinkQuestEntityHandler(store)
+	link := func(quest, entity uuid.UUID) string {
+		_, err := h.Handle(ctx, map[string]any{
+			"quest_id": quest.String(), "entity_type": "npc", "entity_id": entity.String(), "link_description": "Knows.",
+		})
+		if err == nil {
+			return "success"
+		}
+		return strings.NewReplacer(quest.String(), "<quest>", entity.String(), "<entity>").Replace(err.Error())
+	}
+	if got, want := link(foreignQuest, npcID), link(uuid.New(), npcID); got != want || got == "success" {
+		t.Fatalf("foreign quest: %q, want the missing-quest error %q", got, want)
+	}
+	if got, want := link(questID, foreignNPC), link(questID, uuid.New()); got != want || got == "success" {
+		t.Fatalf("foreign npc: %q, want the missing-npc error %q", got, want)
+	}
+	if len(store.createRelationshipCalls) != 0 {
+		t.Fatalf("rejected links wrote %+v", store.createRelationshipCalls)
+	}
+}

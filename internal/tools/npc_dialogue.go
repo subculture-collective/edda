@@ -17,7 +17,8 @@ type NPCDialogueLogEntry = domain.NPCDialogueLogEntry
 
 // NPCDialogueStore loads NPCs and logs NPC dialogue events.
 type NPCDialogueStore interface {
-	GetNPCByID(ctx context.Context, npcID uuid.UUID) (*domain.NPC, error)
+	// GetNPCByID returns nil for an NPC outside the campaign.
+	GetNPCByID(ctx context.Context, campaignID, npcID uuid.UUID) (*domain.NPC, error)
 	LogNPCDialogue(ctx context.Context, entry NPCDialogueLogEntry) error
 }
 
@@ -88,12 +89,16 @@ func (h *NPCDialogueHandler) Handle(ctx context.Context, args map[string]any) (*
 		return nil, err
 	}
 
+	campaignID, err := requireCurrentCampaignID(ctx, npcDialogueToolName)
+	if err != nil {
+		return nil, err
+	}
 	locationID, ok := CurrentLocationIDFromContext(ctx)
 	if !ok {
 		return nil, errors.New("npc_dialogue requires current location id in context")
 	}
 
-	npc, err := h.store.GetNPCByID(ctx, npcID)
+	npc, err := h.store.GetNPCByID(ctx, campaignID, npcID)
 	if err != nil {
 		return nil, fmt.Errorf("get npc: %w", err)
 	}

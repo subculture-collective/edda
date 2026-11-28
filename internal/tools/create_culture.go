@@ -8,6 +8,7 @@ import (
 	"strings"
 
 	"github.com/google/uuid"
+	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgtype"
 
 	"git.subcult.tv/subculture-collective/edda/internal/dbutil"
@@ -205,11 +206,23 @@ func (h *CreateCultureHandler) Handle(ctx context.Context, args map[string]any) 
 		return nil, err
 	}
 
+	currentCampaignID, err := requireCurrentCampaignID(ctx, createCultureToolName)
+	if err != nil {
+		return nil, err
+	}
+	dbCurrentCampaignID := dbutil.ToPgtype(currentCampaignID)
+
 	language, err := h.cultureStore.GetLanguageByID(ctx, dbutil.ToPgtype(languageID))
+	if err == nil && language.CampaignID != dbCurrentCampaignID {
+		err = pgx.ErrNoRows
+	}
 	if err != nil {
 		return nil, fmt.Errorf("validate language_id: %w", err)
 	}
 	beliefSystem, err := h.cultureStore.GetBeliefSystemByID(ctx, dbutil.ToPgtype(beliefSystemID))
+	if err == nil && beliefSystem.CampaignID != dbCurrentCampaignID {
+		err = pgx.ErrNoRows
+	}
 	if err != nil {
 		return nil, fmt.Errorf("validate belief_system_id: %w", err)
 	}

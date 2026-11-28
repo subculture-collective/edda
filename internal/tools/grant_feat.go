@@ -82,6 +82,21 @@ func (h *GrantFeatHandler) Handle(ctx context.Context, args map[string]any) (*To
 		if err != nil {
 			return nil, fmt.Errorf("character_id must be a valid UUID")
 		}
+		// The model supplied this ID: only a player character in the current
+		// campaign may receive the feat. Unknown and foreign IDs fail alike.
+		if currentID, ok := CurrentPlayerCharacterIDFromContext(ctx); !ok || currentID != characterID {
+			var found uuid.UUID
+			err = h.db.QueryRow(ctx,
+				`SELECT id FROM player_characters WHERE id = $1 AND campaign_id = $2`,
+				characterID, campaignID,
+			).Scan(&found)
+			if err != nil {
+				if errors.Is(err, pgx.ErrNoRows) {
+					return nil, fmt.Errorf("character %s not found in this campaign", characterID)
+				}
+				return nil, fmt.Errorf("look up character: %w", err)
+			}
+		}
 	} else {
 		characterID, ok = CurrentPlayerCharacterIDFromContext(ctx)
 		if !ok {
