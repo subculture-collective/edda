@@ -84,6 +84,44 @@ sight or cover ruling blocks their attack. They do not teleport or invent a path
 Unknown spatial facts pause NPC resolution without rolling. General unseen
 attacks, obstacles, asymmetric cover and arbitrary movement remain unsupported.
 
+## Declared light and Darkvision (#145)
+
+A spatial fixture target can also declare `light` at its space (`bright`, `dim`
+or `dark`) and `obscurement` from other causes such as fog or foliage (`none`,
+`light` or `heavy`). The observing actor's senses are the server-owned
+`stats.srd521_senses = {"darkvision_feet": N}`, where `0` means no Darkvision.
+The player-stat tool only changes existing integer stats, so it cannot write
+the senses object.
+
+`combat.Space.Sight` derives what the actor sees (SRD 5.2.1 Vision and Light,
+Darkvision and Blinded). Dim light is lightly obscured and darkness heavily
+obscured. Within its range, Darkvision treats dim light as bright and darkness
+as dim; it does not reduce fog or foliage. The worse of the light and the
+declared obscurement applies. No line of sight, total cover or heavy obscurement
+means the target can't be seen.
+
+The sight check intent is `ability-check` with `entry_id`
+`sight-perception:<target id>` and no ability, skill or slot. It is available
+only outside encounters for a known target from the same list attacks use. A
+lightly obscured target gives Disadvantage. An unseen target makes the check
+unavailable, because a check that relies on sight automatically fails. The
+outcome still needs adjudication. A hidden, unknown or unassigned target gets
+the same reason as a random ID and no target label.
+
+When a target declares `light`, ordinary player attacks also require the actor
+to see it. Facts without `light` keep the #67 rules, and the sight check asks
+for the light to be clarified. Unknown light, obscurement, distance, sight,
+cover or, in dim light or darkness, unknown senses make the check unavailable.
+The declarations are part of the target's spatial revision and the actor
+snapshot, so a changed ruling invalidates an open preview.
+
+The actor's own Light spell (#264, see [spell actions](spell-actions.md#light-on-a-carried-object-264))
+raises `light` at the target before `Sight` runs: bright within 20 feet of the
+declared distance, at least dim to 40 feet. It never lowers a declared level,
+does not reduce fog or foliage, and leaves legacy facts without `light`
+unresolved. Other light sources, other senses, NPC sight of the player, hiding
+contests and invisibility remain unsupported.
+
 
 ## Explicit opportunity attacks (#81)
 

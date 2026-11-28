@@ -413,7 +413,8 @@ def check_potion_of_healing(context):
     basic = family["variants"][0]
     assert basic["name"] == "Potion of Healing" and entry["pages"] == [99, 99]
     assert same(basic["cost"], dict(price(entry["price"]), kind="listed", source_pages=entry["pages"])) and price(row[1]) == price(entry["price"])
-    assert row[0] == "1/2 lb."  # The contract records no weight.
+    assert row[0] == "1/2 lb." and same(basic["weight"], weight(row[0]))
+    assert all("weight" not in v for v in family["variants"][1:])  # the table weighs only this potion
     healed = re.search(r"regains (\d+)d(\d+) \+ (\d+) Hit Points", entry["text"])
     assert same(basic["healing"], {"dice": int(healed[1]), "sides": int(healed[2]), "bonus": int(healed[3])})
     assert "As a Bonus Action, you can drink it or administer it to another creature within 5 feet of yourself" in entry["text"]
@@ -422,21 +423,23 @@ def check_potion_of_healing(context):
 
 
 def check_spell_scroll(context):
-    """The p. 99 entry against the #242 records, their only owner. The two
-    printed prices, 30 GP and 50 GP, are in no record: #242 holds the p. 244
-    presentation, which lists no price. gear_table checks both table rows."""
+    """The p. 99 entry against the #242 records, their only owner. They hold the
+    gear listing and the two prices its heading prints; gear_table and
+    gear_entries check the table rows and the heading against the PDF."""
     entry = context["entries"]["Spell Scroll"]
     text = entry["text"]
     [(path, family)] = owners("Spell Scroll")
     assert path == "items_242.json" and entry["pages"] == [99, 99]
-    assert [p["id"] for p in family["presentations"]] == ["srd-5.2.1:content/magic-items/spell-scroll"]
+    assert family["presentations"][1:] == [{"id": "srd-5.2.1:content/adventuring-gear/spell-scroll", "pages": entry["pages"]}]
+    prices = [int(amount) for amount in re.findall(r"(\d+) GP", " ".join(SCROLL_HEADING))]
     found = re.search(r"the spell save DC is (\d+), and the attack bonus is \+(\d+)", text)
     assert (int(found[1]), int(found[2])) == (13, 5)
     for level, variant in enumerate(family["variants"][:2]):
         scroll = variant["details"]["scroll"]
         assert (scroll["spell_level"], scroll["save_dc"], scroll["attack_bonus"]) == (level, int(found[1]), int(found[2]))
         assert scroll["material_components_required"] is False and scroll["readable_if"] == "spell-on-your-spell-list"
-        assert variant["cost"]["kind"] == "unspecified"
+        assert same(variant["cost"], {"kind": "listed", "amount": prices[level], "currency": "gp", "source_pages": entry["pages"]})
+    assert all(v["cost"]["kind"] == "unspecified" for v in family["variants"][2:])
     for phrase in ("is a magic item that bears the words of a cantrip or level 1 spell", "If the spell is on your class’s spell list",
                    "without providing any Material components", "using its normal casting time"):
         assert phrase in text, phrase

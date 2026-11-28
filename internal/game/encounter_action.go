@@ -42,6 +42,12 @@ func PrepareStoredAction(ctx context.Context, database statedb.DBTX, campaign do
 	if intent.Kind == srd521.AbilityCheck && intent.EntryID == EasyAthleticsEntry {
 		return prepareEasyAthletics(ctx, database, campaign, pc, intent)
 	}
+	if _, ok := SightPerceptionTarget(intent.EntryID); ok && intent.Kind == srd521.AbilityCheck {
+		return prepareSightPerception(ctx, database, campaign, pc, intent, lock)
+	}
+	if IsLightIntent(intent) {
+		return prepareLight(ctx, database, campaign, pc, intent, lock)
+	}
 	if intent.Kind == srd521.TacticalMind {
 		return prepareStoredActionBase(ctx, database, campaign, pc, intent, lock)
 	}
@@ -217,6 +223,18 @@ func PrepareStoredAction(ctx context.Context, database statedb.DBTX, campaign do
 		return result, nil
 	}
 	if intent.Kind == combat.EncounterStart || intent.Kind == srd521.MartialAttack || intent.Kind == combat.EncounterReact {
+		// The actor's own carried Light (#264) raises declared light at the target.
+		emitter, err := ReadLightEmitter(ctx, database, campaign.ID, pc, result.Clock, lock)
+		if err != nil {
+			return nil, err
+		}
+		if emitter != nil {
+			encoded, err := json.Marshal([]any{p.ExpectedRevision, emitter})
+			if err != nil {
+				return nil, err
+			}
+			p.ExpectedRevision = fmt.Sprintf("lit-v1:%x", sha256.Sum256(encoded))
+		}
 		legal := []MartialTarget{}
 		p.Targets = []ActionTarget{}
 		for _, target := range result.Targets {
@@ -253,6 +271,17 @@ func PrepareStoredAction(ctx context.Context, database statedb.DBTX, campaign do
 				}
 			} else {
 				spatialErr = target.Space.Melee()
+				// Declared light (#145) must also let the actor see the target.
+				// Legacy facts without light keep the line-of-sight ruling.
+				if spatialErr == nil && target.Space.Light != "" {
+					lit, _ := illuminate(target.Space, emitter)
+					sight, err := lit.Sight(ReadSenses(pc.Stats))
+					if err != nil {
+						spatialErr = err
+					} else if !sight.Seen {
+						spatialErr = fmt.Errorf("You can't see this target; unseen attacks require adjudication.")
+					}
+				}
 			}
 			if spatialErr != nil {
 				option.UnavailableReason = spatialErr.Error()

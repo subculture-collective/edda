@@ -11,8 +11,8 @@ license and attribution: [source provenance](srd-5.2.1-conformance.md).
 The Healing contract fixture (`item-families.json`, see the
 [item family contract](item-family-contract.md)) owns Potion of Healing with
 both source presentations: the adventuring-gear entry (p. 99) and the Potions
-of Healing magic-item family (p. 236) with its four variants. It is the only
-playable item record. A batch whose inventory lists either presentation, such as
+of Healing magic-item family (p. 236) with its four variants. Its basic variant
+weighs 1/2 lb, from the p. 95 gear table. It is the only playable item record. A batch whose inventory lists either presentation, such as
 #238 or #261, joins that entry to the fixture in its test and verifies the
 source rows against it. It does not add a second record, which
 `ComposeItemSourceIdentities` would reject as a shared identity.
@@ -45,7 +45,10 @@ A batch root records `schema_version: 1`, `rules_version: srd-5.2.1`, the
 planning `batch` key, the `catalogue_issue` and the pinned `source`. Each family
 has a canonical ID (`srd-5.2.1:content/items/<slug>`), name, kind, category, the
 base items its category line allows or excludes, and one presentation that links
-the planning inventory ID and page.
+the planning inventory ID and page. A magic family that is also listed as
+adventuring gear has that listing as a second presentation, and the variants it
+prices carry a listed cost. The manifest pins the listing's page and prices; only
+the #242 Spell Scroll has one.
 
 Each variant has its own stable ID (`<family-id>/variant/<slug>`), name, rarity,
 attunement, charges, equip and use restrictions, cost, required mechanic keys
@@ -965,8 +968,11 @@ Variant rules used in this batch:
   ten rows is a variant, `cantrip` and `level-1` to `level-9`, with the rarity,
   save DC and attack bonus of its row; the cantrip row stores `spell_level` 0.
   The shared reading and copying rules repeat in each payload. A variant names no
-  spell. The mundane-gear Spell Scroll presentation belongs to a later gear batch,
-  which must join this family's identity rather than add a second one.
+  spell.
+- The family also holds the p. 99 adventuring gear presentation
+  (`content/adventuring-gear/spell-scroll`, catalogue issue #262). `cantrip` and
+  `level-1` cost 30 GP and 50 GP, cited to p. 99; the other eight variants have
+  no listed price. #262 joins this record and adds none.
 - The Sphere of Annihilation (pp. 244–245) and the Staff of Power (pp. 245–246)
   record `source_pages` in their payloads. The Sphere's interaction table is a
   random table, so it is payload data; a printed `00` is stored as 100.
@@ -980,7 +986,7 @@ Variant rules used in this batch:
 The six staffs have charge pools: Charming (10, 1d8 + 2 at dawn), Fire, Frost,
 Healing and Striking (10, 1d6 + 4 at dawn) and Power (20, 2d8 + 4 at dawn).
 Their `per_use` is 1, the least a charged use costs. Once-until-dawn properties
-are use limits. No family lists a price.
+are use limits. Apart from those two scroll prices, no family lists a price.
 
 Composing the Healing contract fixture with batches #225 to #241 and this batch
 yields 216 families and 288 variants with no shared identity. The Healing
@@ -989,8 +995,9 @@ fixture, `ResolveHealingPotion` and the coverage register are unchanged.
 The comparison script reads the pages column by column as one text stream. It
 lists every payload leaf with its printed phrase, fails on a leaf it does not
 list, requires a number to appear in its phrase, and derives each family's
-pages from the layout. It supplements the literal fixtures in
-`TestItems242SourceValues`; it is not an automatic conformance proof.
+pages from the layout. It reads the two scroll prices from the p. 99 heading. It
+supplements the literal fixtures in `TestItems242SourceValues`; it is not an
+automatic conformance proof.
 
 ```sh
 rtk proxy python3 -I scripts/verify_srd_items_242.py /path/to/SRD_CC_v5.2.1.pdf
@@ -1685,20 +1692,13 @@ A price's `source_pages` is the entry's first page, except for Ammunition, whose
 prices are printed only in the p. 96 table and the p. 95 gear table; its records
 cite p. 96.
 
-**Ownership.** Two of the 81 inventory entries already had a record, so batches
-#261 and #262 join them in their tests and add none:
+**Ownership.** Two of the 81 inventory entries belong to records outside the gear
+batches, so batches #261 and #262 join them in their tests and add none:
 
 | Gear entry | Owner | What the join checks |
 | --- | --- | --- |
-| Potion of Healing (p. 99) | The Healing contract fixture, which holds the p. 99 presentation | Price, 2d4 + 2 healing, Bonus Action and 5-foot range. The fixture records no weight; the table prints 1/2 lb. |
-| Spell Scroll (p. 99) | Batch #242, which holds only the p. 244 magic-item presentation | The cantrip and level 1 records: save DC 13, attack bonus +5, your spell list, normal casting time and no Material components |
-
-The p. 99 Spell Scroll prices, 30 GP for a cantrip and 50 GP for level 1, are in
-no record. The #242 records leave the price unspecified, as p. 244 does, and the
-magic-item validator accepts one presentation per family. Adding the p. 99
-presentation and prices needs a change to that shared validator. The #262
-comparison script checks both printed prices, and its test fails if a #242
-record gains a price.
+| Potion of Healing (p. 99) | The Healing contract fixture, which holds the p. 99 presentation | Price, weight of 1/2 lb, 2d4 + 2 healing, Bonus Action and 5-foot range |
+| Spell Scroll (p. 99) | Batch #242, which holds the p. 99 and p. 244 presentations | The cantrip and level 1 records: prices of 30 GP and 50 GP, save DC 13, attack bonus +5, your spell list, normal casting time and no Material components |
 
 The other 79 entries had no item record. No tool or other magic item shares a
 gear entry. The runtime names some gear but defines none of it:
@@ -1729,9 +1729,9 @@ prove that a hand-written key summarizes its phrase correctly.
 The planning inventory lists exactly the 81 printed gear entries.
 `items_wave8_test.go` holds the shared gear test helpers and compares the whole
 item catalogue, 413 families and 513 variants, with all 414 item records of the
-inventory in both directions. It allows three differences: Heavy Crossbow is
-not in the inventory, the p. 99 Spell Scroll record joins #242, and the
-inventory's p. 236 name "Potions of Healing" joins the family Potion of Healing.
+inventory in both directions. It allows two differences: Heavy Crossbow is not
+in the inventory, and the inventory's p. 236 name "Potions of Healing" joins the
+family Potion of Healing.
 
 ## Adventuring gear 01 (#256), pp. 94–96
 

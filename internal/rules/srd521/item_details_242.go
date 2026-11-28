@@ -395,7 +395,7 @@ var itemManifest242 = itemSourceManifest{Batch: "data-magic-items-18", Issue: 24
 	{Slug: "sovereign-glue", Name: "Sovereign Glue", Page: 244, Category: "wondrous-item", Attunement: "none", Equip: "none", Use: "utilize-action", UseRestrictions: "apply-one-ounce",
 		Keys: "action.utilize item.permanent-bond item.1-ounce-covers-1-foot-square duration.sets-after-1-minute item.bond-broken-only-by-listed-means", Payload: "glue",
 		Variants: []itemSourceManifestVariant{{"standard", "Sovereign Glue", "legendary"}}},
-	{Slug: "spell-scroll", Name: "Spell Scroll", Page: 244, Category: "scroll", Attunement: "none", Equip: "none", Use: "cast-spell", UseRestrictions: "spell-on-your-spell-list",
+	{Slug: "spell-scroll", Name: "Spell Scroll", Page: 244, Gear: &itemSourceGearListing{Page: 99, PriceGP: map[string]int{"cantrip": 30, "level-1": 50}}, Category: "scroll", Attunement: "none", Equip: "none", Use: "cast-spell", UseRestrictions: "spell-on-your-spell-list",
 		Keys: "item.consume spell.cast-from-scroll spell.must-be-on-your-spell-list spell.no-material-components check.spellcasting-ability-dc-10-plus-level table.spell-level-rarity-save-dc-attack-bonus spell.copy-into-spellbook", Payload: "scroll",
 		Variants: []itemSourceManifestVariant{
 			{"cantrip", "Spell Scroll (cantrip)", "common"},

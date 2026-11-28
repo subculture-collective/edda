@@ -38,6 +38,9 @@ type StoredAction struct {
 	Targets        []MartialTarget
 	Quantity       int
 	Encounter      *combat.Encounter
+	Sight          *combat.Sight
+	LightObjects   []LightObject
+	LightItem      string
 }
 
 // PrepareStoredAction is shared by API preparation and transactional confirmation.

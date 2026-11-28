@@ -156,3 +156,47 @@ locally with SHA-256
 `8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87`.
 The [CC-BY-4.0 attribution and adaptation notice](srd-5.2.1-conformance.md)
 continue to apply.
+
+## Light on a carried object (#264)
+
+The Acolyte Cleric's Magic Initiate cantrip Light is castable on one object the
+caster carries. It is the only catalogued spell made available here; every
+other source record, including the complete Light record, stays unavailable.
+
+- **Intent.** `spell-cast` with `entry_id: "light:<color>"`, no slot level and
+  `target_id` set to one of the offered objects. Colors are `white`, `yellow`,
+  `orange`, `red`, `green`, `blue` and `violet`; the source lets the caster
+  choose any color, and a fixed list keeps free text out of saved rulings.
+  `light-dismiss` with no entry or target ends the current Light.
+- **Objects.** The preview offers the caster's own items with quantity 1 and
+  type `weapon`, `armor` or `misc`. The caster is the willing holder. Objects
+  carried by anyone else, unattended objects, stacks, consumables and quest
+  items are not offered, and confirmation refuses them.
+- **Costs and components.** A Magic action and no slot. Verbal component; the
+  recorded Holy Symbol focus stands in for the firefly or moss. Light is
+  supported outside encounters only.
+- **State.** `stats.srd521.casting.light` holds the cast's action ID, item ID,
+  color, `started_at`, `expires_at` (exactly 3600 campaign seconds later) and
+  the 20-foot bright and 20-foot further dim radii. Confirmation writes only
+  that key, so concentration, slots and unknown stats are untouched. A saved
+  effect with other radii, duration or colors makes the build unreadable.
+- **Recast and dismissal.** Casting again replaces only the caster's previous
+  Light and the receipt names it. Dismissal costs nothing and removes only
+  that Light. Waiting and resting change the clock, never `expires_at`; the
+  effect stops applying at that second.
+- **Sight.** While the effect lasts and the caster still carries the object,
+  sight-based Perception and attack sight checks raise the target's declared
+  light by distance (see [narrative combat turns](narrative-combat-turns.md)).
+  Covering the object, light carried by others and magical darkness are not
+  modelled; they need a declared light ruling.
+
+Preparation is read-only. Confirmation re-prepares under the campaign lock,
+locks the item rows and writes the effect, the `srd_light` receipt and history
+in one transaction; replay returns the saved receipt. The bounded record is
+`internal/rules/srd521/testdata/spell_light_fixture.json`; `light_test.go` pins
+its duration and radii to the batch 211 source record (PDF p. 144).
+`internal/handlers/light_spell_integration_test.go` covers eligibility, refused
+objects, failed history, replay, sight at 15, 40 and 45 feet, a handed-away
+object, recast, exact expiry across a wait and a Short Rest, dismissal and the
+encounter boundary. No web or TUI control exists yet; the spell entry stays
+non-playable on the sheet until one does.

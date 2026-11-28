@@ -8,7 +8,11 @@ type Space struct {
 	DistanceFeet *int   `json:"distance_feet"`
 	LineOfSight  *bool  `json:"line_of_sight"`
 	Cover        string `json:"cover"`
-	Revision     string `json:"revision"`
+	// Light and Obscurement are optional declared rulings at the target's
+	// space (#145). Legacy facts omit them; Sight then fails closed.
+	Light       string `json:"light,omitempty"`
+	Obscurement string `json:"obscurement,omitempty"`
+	Revision    string `json:"revision"`
 	// PackAlly is the declared state of the NPC's nearest ally relative to the
 	// player. It is read only by Pack Tactics; nil means unresolved.
 	PackAlly *PackAlly `json:"pack_ally,omitempty"`

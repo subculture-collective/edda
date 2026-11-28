@@ -15,7 +15,7 @@
     "license": "CC-BY-4.0",
     "license_url": "https://creativecommons.org/licenses/by/4.0/legalcode",
     "attribution": "This work includes material from the System Reference Document 5.2.1 (\u201cSRD 5.2.1\u201d) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd. The SRD 5.2.1 is licensed under the Creative Commons Attribution 4.0 International License, available at https://creativecommons.org/licenses/by/4.0/legalcode.",
-    "changes": "SRD 5.2.1 pp. 243\u2013246 adapted into twelve versioned magic-item families (Shield, +1, +2, or +3 through Staff of Striking) with explicit variant identities, structured requirements and typed source values. Names, numeric rules and key phrases are adapted into keys; no rules prose is reproduced. Prices are not listed and remain unspecified. Catalogue data grants no inventory, action or gameplay permissions; every record is unavailable."
+    "changes": "SRD 5.2.1 pp. 243\u2013246 adapted into twelve versioned magic-item families (Shield, +1, +2, or +3 through Staff of Striking) with explicit variant identities, structured requirements and typed source values. Names, numeric rules and key phrases are adapted into keys; no rules prose is reproduced. The Spell Scroll also carries its p. 99 adventuring gear listing, with the 30 GP cantrip and 50 GP level 1 prices printed there. No other price is listed; the rest remain unspecified. Catalogue data grants no inventory, action or gameplay permissions; every record is unavailable."
   },
   "families": [
     {
@@ -342,6 +342,13 @@
             244,
             244
           ]
+        },
+        {
+          "id": "srd-5.2.1:content/adventuring-gear/spell-scroll",
+          "pages": [
+            99,
+            99
+          ]
         }
       ],
       "variants": [
@@ -370,12 +377,12 @@
             ]
           },
           "cost": {
-            "kind": "unspecified",
-            "amount": 0,
-            "currency": "none",
+            "kind": "listed",
+            "amount": 30,
+            "currency": "gp",
             "source_pages": [
-              244,
-              244
+              99,
+              99
             ]
           },
           "required_mechanic_keys": [
@@ -444,12 +451,12 @@
             ]
           },
           "cost": {
-            "kind": "unspecified",
-            "amount": 0,
-            "currency": "none",
+            "kind": "listed",
+            "amount": 50,
+            "currency": "gp",
             "source_pages": [
-              244,
-              244
+              99,
+              99
             ]
           },
           "required_mechanic_keys": [

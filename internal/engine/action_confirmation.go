@@ -101,7 +101,11 @@ func (e *Engine) ConfirmAction(ctx context.Context, campaignID uuid.UUID, reques
 	}
 	// Only prepared targets can cross the confirmation boundary.
 	if request.Intent.Kind == srd521.SpellCast || request.Intent.Kind == srd521.SavingThrow || request.Intent.Kind == srd521.ConsumableUse {
-		if request.TargetID != pc.ID && !((request.Intent.Kind == srd521.ConsumableUse || (request.Intent.Kind == srd521.SpellCast && (request.Intent.EntryID == "cure-wounds" || request.Intent.EntryID == "shield-of-faith"))) && prepared.HealingTarget(request.TargetID) != nil) {
+		if game.IsLightIntent(request.Intent) {
+			if prepared.LightObject(request.TargetID) == nil {
+				return nil, ErrActionRefresh
+			}
+		} else if request.TargetID != pc.ID && !((request.Intent.Kind == srd521.ConsumableUse || (request.Intent.Kind == srd521.SpellCast && (request.Intent.EntryID == "cure-wounds" || request.Intent.EntryID == "shield-of-faith"))) && prepared.HealingTarget(request.TargetID) != nil) {
 			return nil, ErrActionRefresh
 		}
 	} else if request.Intent.Kind != srd521.MartialAttack && request.Intent.Kind != combat.EncounterStart && request.Intent.Kind != combat.EncounterReact && request.TargetID != uuid.Nil {
@@ -360,6 +364,13 @@ func (e *Engine) ConfirmAction(ctx context.Context, campaignID uuid.UUID, reques
 		}
 		receipt, tool, label = advancement, "srd_advancement", "Fighter level 2"
 		narrative = fmt.Sprintf("Fighter level 2 saved: %s HP choice, d10 value %d, maximum HP %d to %d. Current HP unchanged. Defense and weapon mastery choices retained. Action Surge available on your encounter turn; Tactical Mind supports a saved failed check from the selected Edda Easy Strength (Athletics) DC 10 fixture.", advancement.Choice, advancement.Die, advancement.MaxHPBefore, advancement.MaxHPAfter)
+	} else if game.IsLightIntent(request.Intent) {
+		light, err := confirmLight(ctx, tx, campaignID, pc, sheet, prepared, request)
+		if err != nil {
+			return nil, err
+		}
+		receipt, tool, label = light, "srd_light", "Light"
+		narrative = light.Reason
 	} else if srd521.IsLifecycle(request.Intent.Kind) || (request.Intent.Kind == srd521.SpellCast && request.Intent.EntryID == "shield-of-faith") {
 		var envelope struct {
 			Build srd521.Build `json:"srd521"`
@@ -490,6 +501,18 @@ func (e *Engine) ConfirmAction(ctx context.Context, campaignID uuid.UUID, reques
 		if !fixtureResolution.Success() {
 			narrative += " Inspect Tactical Mind to explicitly use or decline; no d10 rolled or Second Wind spent."
 		}
+	} else if _, ok := game.SightPerceptionTarget(request.Intent.EntryID); ok && request.Intent.Kind == srd521.AbilityCheck {
+		if prepared.Sight == nil || len(preview.Targets) != 1 {
+			return nil, ErrActionRefresh
+		}
+		resolution, err := srd521.ResolveCheck(sheet, srd521.Check{Kind: srd521.AbilityCheck, Ability: "wisdom", Skill: "perception", Disadvantage: prepared.Sight.Circumstance == combat.SightDisadvantage}, srd521.Difficulty{}, dice)
+		if err != nil {
+			return nil, err
+		}
+		check := resolution.PlayerReceipt()
+		receipt = check
+		label = "Sight-based Wisdom (Perception)"
+		narrative = fmt.Sprintf("Sight-based Wisdom (Perception) check on %s recorded (%s light, %s obscurement; %s): total %d. The outcome requires adjudication; no scene effect or time cost has been applied.", preview.Targets[0].Label, prepared.Sight.Light, prepared.Sight.Obscurement, check.Mode, check.Total)
 	} else {
 		resolution, err := srd521.ResolveCheck(sheet, srd521.Check{Kind: preview.Intent.Kind, Ability: preview.Intent.Ability, Skill: preview.Intent.Skill}, srd521.Difficulty{}, dice)
 		if err != nil {
@@ -500,6 +523,9 @@ func (e *Engine) ConfirmAction(ctx context.Context, campaignID uuid.UUID, reques
 		narrative = fmt.Sprintf("%s %s recorded: total %d. The outcome requires adjudication; no scene effect or time cost has been applied.", label, preview.Intent.Kind, check.Total)
 	}
 	payload := map[string]any{"receipt": receipt}
+	if prepared.Sight != nil {
+		payload["sight"] = prepared.Sight
+	}
 	if request.Intent.Kind == combat.EncounterReact {
 		payload["reaction_cost"] = 1
 	}

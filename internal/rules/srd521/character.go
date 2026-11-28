@@ -209,12 +209,19 @@ func Project(stats []byte, level, hp, maxHP, xp int) (*CharacterSheet, error) {
 				if name == "Cure Wounds" {
 					continue
 				}
+				if name == "Light" {
+					sheet.Spellcasting.Spells = append(sheet.Spellcasting.Spells, lightSpell(b.Casting))
+					continue
+				}
 				sheet.Spellcasting.Spells = append(sheet.Spellcasting.Spells, Spell{ID: strings.ReplaceAll(strings.ToLower(name), " ", "-"), Label: name, Known: true, Prepared: true, SourceID: prefix + "spells/" + strings.ReplaceAll(strings.ToLower(name), " ", "-")})
 			}
 		}
 	}
 
 	if b.Class == "cleric" {
+		if l := b.Casting.Light; l != nil && (b.Casting.Choices == nil || l.Validate() != nil) {
+			return nil, fmt.Errorf("invalid saved Light effect")
+		}
 		if c := b.Casting.Concentration; c != nil {
 			if c.ID == "" || c.Spell != "shield-of-faith" || c.StartedAt < 0 || c.ExpiresAt-c.StartedAt != 600 {
 				return nil, fmt.Errorf("invalid saved concentration")
