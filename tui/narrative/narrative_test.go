@@ -5,6 +5,7 @@ import (
 	"testing"
 
 	tea "github.com/charmbracelet/bubbletea"
+	"github.com/charmbracelet/lipgloss"
 
 	"git.subcult.tv/subculture-collective/edda/internal/engine"
 )
@@ -147,7 +148,7 @@ func TestResizeUpdatesViewportDimensions(t *testing.T) {
 	m.SetSize(80, 20)
 
 	wantWidth := 80 - narrativeViewportWidthOffset
-	wantHeight := 20 - narrativeViewportHeightOffset - narrativeInputHeightOffset
+	wantHeight := 20 - narrativeFixedRows - 2 // two blank lines
 	if m.viewport.Width != wantWidth {
 		t.Fatalf("expected viewport width %d, got %d", wantWidth, m.viewport.Width)
 	}
@@ -161,10 +162,7 @@ func TestResizeUpdatesViewportDimensions(t *testing.T) {
 
 	m.SetSize(20, 6)
 	wantWidth = 20 - narrativeViewportWidthOffset
-	wantHeight = 6 - narrativeViewportHeightOffset - narrativeInputHeightOffset
-	if wantHeight < 1 {
-		wantHeight = 1
-	}
+	wantHeight = 6 - narrativeFixedRows // too short for the blank lines
 	if m.viewport.Width != wantWidth {
 		t.Fatalf("expected viewport width %d after resize, got %d", wantWidth, m.viewport.Width)
 	}
@@ -275,5 +273,29 @@ func TestSetLoadingShowsSpinnerState(t *testing.T) {
 	}
 	if !strings.Contains(m.View(), "Thinking…") {
 		t.Fatal("expected loading indicator in view")
+	}
+}
+
+func TestShortViewListsFewerChoicesAndPagesToTheRest(t *testing.T) {
+	m := New()
+	m.SetSize(80, 9)
+	m.AddEntry(Entry{Kind: KindSystem, Text: "newest entry"})
+	m.SetChoices([]engine.Choice{{ID: "1", Text: "Stay"}, {ID: "2", Text: "Leave"}, {ID: "3", Text: "Wait"}})
+	m.SetLoading(true)
+
+	view := m.View()
+	if got := lipgloss.Height(view); got > 9 {
+		t.Fatalf("view is %d lines, want at most 9:\n%s", got, view)
+	}
+	for _, want := range []string{"newest entry", "Thinking", "Stay", "•••", "What do you do?"} {
+		if !strings.Contains(view, want) {
+			t.Fatalf("%q is not on screen:\n%s", want, view)
+		}
+	}
+
+	m.SetLoading(false)
+	updated, _ := m.Update(tea.KeyMsg{Type: tea.KeyDown})
+	if view := updated.View(); !strings.Contains(view, "Leave") {
+		t.Fatalf("Down did not show the next choice:\n%s", view)
 	}
 }

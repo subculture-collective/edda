@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"log/slog"
+	"slices"
 	"strings"
 	"testing"
 	"time"
@@ -89,6 +90,27 @@ func TestLayout_AppViewsFitTerminal(t *testing.T) {
 		{"long typed input", func(nv *narrative.Model) {
 			nv.Update(tea.KeyMsg{Type: tea.KeyRunes, Runes: []rune(long + "typed last")})
 		}, []string{"typed last"}},
+	}
+
+	// A turn in progress with choices on screen needs the most rows, so it is
+	// also checked on terminals shorter than the other states need.
+	choicesWhileThinking := func(nv *narrative.Model) {
+		nv.AddEntry(narrative.Entry{Kind: narrative.KindSystem, Text: "newest entry"})
+		nv.SetChoices(choose(long, "Leave", "Wait"))
+		nv.SetLoading(true)
+	}
+	for _, size := range []struct{ width, height int }{{80, 24}, {100, 30}, {80, 16}, {100, 16}} {
+		t.Run(fmt.Sprintf("%dx%d/narrative/choices while thinking", size.width, size.height), func(t *testing.T) {
+			app := resize(t, testApp(), size.width, size.height)
+			choicesWhileThinking(app.narrativeView())
+			view := app.View()
+			assertFits(t, view, size.width, size.height)
+			for _, want := range []string{"newest entry", "Thinking", "Leave", "Wait", "What do you do?", "Narrative", "Views:"} {
+				if !strings.Contains(view, want) {
+					t.Errorf("%q is not on screen:\n%s", want, view)
+				}
+			}
+		})
 	}
 
 	for _, size := range layoutSizes {
@@ -209,6 +231,65 @@ func TestLayout_LauncherViewsFitTerminal(t *testing.T) {
 			if got := lipgloss.Width(view); got != size.width {
 				t.Errorf("app after launcher is %d columns wide, want %d", got, size.width)
 			}
+		})
+	}
+}
+
+// longField returns about 700 characters ending in marker, so a test can tell
+// whether the end of the text can be reached.
+func longField(marker string) string {
+	return strings.Repeat("A drowned kingdom keeps its debts and its ghosts. ", 14) + marker
+}
+
+// assertScrollsTo pages down through l's view. Every page must fit the terminal
+// and keep onEveryPage on screen, and each marker must appear on some page.
+func assertScrollsTo(t *testing.T, l Launcher, width, height int, onEveryPage, markers []string) {
+	t.Helper()
+	missing := slices.Clone(markers)
+	previous := ""
+	for range 100 {
+		view := l.View()
+		if view == previous {
+			break
+		}
+		previous = view
+		assertFits(t, view, width, height)
+		for _, want := range onEveryPage {
+			if !strings.Contains(view, want) {
+				t.Fatalf("%q is not on screen:\n%s", want, view)
+			}
+		}
+		missing = slices.DeleteFunc(missing, func(m string) bool { return strings.Contains(view, m) })
+		next, _ := l.Update(tea.KeyMsg{Type: tea.KeyPgDown})
+		l = next.(Launcher)
+	}
+	if len(missing) > 0 {
+		t.Errorf("paging down never showed %v; last page:\n%s", missing, previous)
+	}
+}
+
+func TestLayout_LongLauncherTextScrolls(t *testing.T) {
+	for _, size := range layoutSizes[:2] {
+		newLauncher := func(t *testing.T) Launcher {
+			return resize(t, NewLauncher(testCfg, t.Context(), nil), size.width, size.height)
+		}
+
+		t.Run(fmt.Sprintf("%dx%d/confirmation", size.width, size.height), func(t *testing.T) {
+			v := campaign.NewConfirmationModel("The Drowned Crown", longField("SUMMARYEND"),
+				world.CampaignProfile{Genre: "Fantasy", Tone: "Mysterious"},
+				world.CharacterProfile{Name: "Mara", Concept: longField("CONCEPTEND"), Background: longField("BACKGROUNDEND")})
+			l, _ := newLauncher(t).activateView(launcherConfirmation, &v)
+			assertScrollsTo(t, l, size.width, size.height,
+				[]string{"Begin Adventure", "Go Back"},
+				[]string{"The Drowned Crown", "SUMMARYEND", "CONCEPTEND", "BACKGROUNDEND"})
+		})
+
+		t.Run(fmt.Sprintf("%dx%d/attributes after failed proposals", size.width, size.height), func(t *testing.T) {
+			err := errors.New(longField("") + longField("ERROREND"))
+			next, _ := newLauncher(t).Update(proposalsGeneratedMsg{err: err})
+			assertScrollsTo(t, next.(Launcher), size.width, size.height,
+				[]string{"Campaign Attributes", "Genre", "Fantasy", "Steampunk"},
+				[]string{"Generate proposals failed", "ERROREND"})
 		})
 	}
 }

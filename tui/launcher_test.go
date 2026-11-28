@@ -952,15 +952,15 @@ func TestLauncherProposalsGenerated_ErrorReturnsPrefilledAttributes(t *testing.T
 	if launcher2.proposalAttrs.Genre != "Fantasy" || launcher2.proposalAttrs.SettingStyle != "Open Wilderness" || launcher2.proposalAttrs.Tone != "Mysterious" {
 		t.Fatalf("proposal attrs not preserved: %+v", launcher2.proposalAttrs)
 	}
-	if launcher2.errMsg == "" {
-		t.Fatal("expected error message after proposal generation failure")
+	if launcher2.errMsg != "" {
+		t.Fatalf("the view shows the error, so there should be no banner: %q", launcher2.errMsg)
 	}
 	if launcher2.view == nil {
 		t.Fatal("expected attributes view after proposal generation failure")
 	}
 	launcher2.width = 100
 	launcher2.height = 30
-	if view := launcher2.View(); !strings.Contains(view, "Generate proposals failed: parse failure") {
+	if view := launcher2.View(); strings.Count(view, "Generate proposals failed: parse failure") != 1 {
 		t.Fatalf("expected inline proposal error in view, got %q", view)
 	}
 }

@@ -105,7 +105,10 @@ func run(args []string) int {
 		logger.Info("shutdown signal received")
 	}()
 
-	if _, err := p.Run(); err != nil {
+	if err := runQuietly(logResult, func() error {
+		_, err := p.Run()
+		return err
+	}); err != nil {
 		if ctx.Err() != nil && (errors.Is(err, tea.ErrInterrupted) || errors.Is(err, tea.ErrProgramKilled)) {
 			logger.Info("TUI shutdown complete")
 			return 0
@@ -116,6 +119,14 @@ func run(args []string) int {
 
 	logger.Info("TUI stopped")
 	return 0
+}
+
+// runQuietly runs the terminal UI with the stderr copy of log records off. The
+// log panel and the log file still receive them.
+func runQuietly(logs *logging.SetupResult, run func() error) error {
+	logs.SetConsole(false)
+	defer logs.SetConsole(true)
+	return run()
 }
 
 func parseConfigPath(args []string, defaultPath string) (string, error) {
