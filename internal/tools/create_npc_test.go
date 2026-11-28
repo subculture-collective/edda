@@ -202,6 +202,19 @@ func TestCreateNPCHandleSuccessDefaultsAndEmbedding(t *testing.T) {
 		}
 	}
 
+	// Declared target space and light facts are trusted rulings too.
+	for _, key := range []string{"srd521_target", "Srd521_Target"} {
+		if _, err := h.Handle(ctx, map[string]any{
+			"name": "Invented target", "description": "A shadow", "personality": "Quiet",
+			"properties": map[string]any{key: map[string]any{
+				"profile": "ordinary-spatial-fixture-v1", "actor_id": playerID.String(),
+				"hidden": false, "light": "bright",
+			}},
+		}); err == nil {
+			t.Fatalf("model authored trusted target facts through %s", key)
+		}
+	}
+
 	got, err := h.Handle(ctx, map[string]any{
 		"name":        "Captain Maris",
 		"description": "Harbor master of the eastern docks.",
