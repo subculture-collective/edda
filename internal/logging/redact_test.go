@@ -57,20 +57,13 @@ func TestRedactURL(t *testing.T) {
 		{"at sign in a path", "https://cdn.example/npm/pkg@1.2.3/file.js", "https://cdn.example/npm/pkg@1.2.3/file.js"},
 		{"at sign in a localhost path", "http://localhost/users/a@b.example", "http://localhost/users/a@b.example"},
 		{"at sign in a query", "http://h.example/search?q=a@b.example&page=2", "http://h.example/search?q=a@b.example&page=2"},
-		// A dotted host with a numeric port is a complete authority, so a later
-		// @ cannot end userinfo.
-		{"at sign in a path after a port", "http://h.example:8080/users/a@b.example", "http://h.example:8080/users/a@b.example"},
-		{"at sign in a path after a localhost port", "http://localhost:8080/users/a@b.example", "http://localhost:8080/users/a@b.example"},
-		{"at sign in a path after an IPv4 port", "http://127.0.0.1:8080/users/a@b.example", "http://127.0.0.1:8080/users/a@b.example"},
-		{"at sign in a path after an IPv6 port", "http://[::1]:8080/users/a@b.example", "http://[::1]:8080/users/a@b.example"},
-		{"at sign in a path after an IPv6 host", "http://[::1]/users/a@b.example", "http://[::1]/users/a@b.example"},
-		{"colon and at sign in a path after a port", "http://h.example:8080/a:b@c", "http://h.example:8080/a:b@c"},
-		{"at sign in a query after a port", "http://h.example:8080?to=a@b.example", "http://h.example:8080?to=a@b.example"},
-		{"secret query after an at sign in a path", "http://h.example:8080/users/a@b.example?token=fake&page=2", "http://h.example:8080/users/a@b.example?page=2"},
-		{"scheme left out, at sign in a path after a port", "h.example:8080/users/a@b.example", "h.example:8080/users/a@b.example"},
-		{"port out of range is not a port", "http://fake.user:99999/fake34@h.example", "http://h.example"},
-		{"empty port is not a port", "http://fake.user:/fake34@h.example", "http://h.example"},
-		{"single label with digits is still ambiguous", "http://fake-user:8080/fake34@h.example", "http://h.example"},
+		// Accepted over-redaction: this valid URL has the same shape as a dotted
+		// user name with a digit password (the rows below), so it is cut too.
+		{"at sign in a path after a port", "http://h.example:8080/users/a@b.example", "http://b.example"},
+		{"dotted user name, digits and a slash", "http://fake.user:12/fake34@h.example", "http://h.example"},
+		{"dotted user name, digits and a question mark", "http://fake.user:12?fake34@h.example", "http://xxxxx"},
+		{"dotted database user, digits and a hash", "postgres://fake.user:2024#fake@db.example/edda", "postgres://xxxxx"},
+		{"dotted user name, scheme left out", "fake.user:12/fake34@h.example", "h.example"},
 
 		// Fragments take the same parameter rule as queries.
 		{"token in a fragment", "http://h.example/cb#access_token=fake", "http://h.example/cb"},
@@ -237,7 +230,24 @@ func TestRedactReply(t *testing.T) {
 		{"cut in a query value", "get http://h.example/x?private_token=fake-to", "get http://h.example/x"},
 		{"host followed by a path", "cannot reach http://h.example/", "cannot reach http://h.example/"},
 		{"host followed by text", "http://h.example refused", "http://h.example refused"},
-		{"host in a complete json string", `{"url":"http://h.example"}`, `{"url":"http://h.example"}`},
+		// A string in a reply can have been cut before it was encoded, so a URL
+		// that ends one is masked as a URL that ends the reply is.
+		{"host ending a json string", `{"url":"http://h.example"}`, `{"url":"http://xxxxx"}`},
+		{"path ending a json string", `{"url":"http://h.example/"}`, `{"url":"http://h.example/"}`},
+		{"cut in nested json", `{"error":{"detail":"x http://fake-user:fake-pa"}}`, `{"error":{"detail":"x http://xxxxx"}}`},
+		{"cut deeper in arrays", `{"a":[{"b":["x http://fake-user:12","y http://fake-tok"]}]}`, `{"a":[{"b":["x http://xxxxx","y http://xxxxx"]}]}`},
+		{"cut in a json key", `{"x http://fake-user:fake-pa":1}`, `{"x http://xxxxx":1}`},
+		{"cut under a repeated key", `{"d":"x http://fake-tok","d":"ok"}`, `{"d":"x http://xxxxx","d":"ok"}`},
+		{"cut in json that is itself cut", `{"error":{"detail":"x http://fake-user:fake-pa"},"trace":"ab`, `{"error":{"detail":"x http://xxxxx"},"trace":"ab`},
+		{"cut in json after other text", `upstream said {"detail":"x http://fake-user:fake-pa…"}`, `upstream said {"detail":"x http://xxxxx…"}`},
+		// In the raw text the escape reads as part of the host, and is masked too.
+		{"cut before an encoded newline", `{"detail":"x http://fake-user:fake-pa\n"}`, `{"detail":"x http://xxxxx"}`},
+		{"cut in json inside a json string", `{"body":"{\"detail\":\"x http://fake-user:fake-pa\"}"}`, `{"body":"{\"detail\":\"x http://xxxxx\"}"}`},
+		{"cut in encoded json inside cut json", `{"body":"{\"detail\":\"x http://fake-user:fake-pa\"}`, `{"body":"{\"detail\":\"x http://xxxxx\"}`},
+		{"escaped slashes", `{"detail":"x http:\/\/fake-user:fake-pass@h.example\/ap"}`, `{"detail":"x http://h.example/ap"}`},
+		{"escaped ampersand", `{"detail":"get http://h.example/x?a=1\u0026token=fake"}`, `{"detail":"get http://h.example/x?a=1"}`},
+		{"escaped at sign", `{"detail":"http://fake-user:fake-pass\u0040h.example/<a>"}`, `{"detail":"http://h.example/<a>"}`},
+		{"json with nothing to redact keeps its escapes", `{"detail":"a\u0026b \/ http:\/\/h.example\/x"}`, `{"detail":"a\u0026b \/ http:\/\/h.example\/x"}`},
 		{"no url", "model not found", "model not found"},
 	}
 	for _, tt := range tests {
@@ -264,19 +274,5 @@ func TestRedactURLErrorAmbiguousUserinfo(t *testing.T) {
 	got = RedactURLError(&url.Error{Op: "Get", URL: raw, Err: fmt.Errorf("dial fake-user: %w", context.DeadlineExceeded)})
 	if !errors.Is(got, context.DeadlineExceeded) || strings.Contains(got.Error(), "fake") {
 		t.Errorf("error = %q, want a bare deadline error", got)
-	}
-}
-
-// The cause of an error for a URL with a port and a later @ names no
-// credential, so it is kept.
-func TestRedactURLErrorKeepsCauseForAtSignAfterPort(t *testing.T) {
-	raw := "http://h.example:8080/users/a@b.example"
-	cause := errors.New("connection refused")
-	got := RedactURLError(&url.Error{Op: "Get", URL: raw, Err: cause})
-	if want := `Get "` + raw + `": connection refused`; got.Error() != want {
-		t.Errorf("error = %q, want %q", got, want)
-	}
-	if !errors.Is(got, cause) {
-		t.Error("the cause is no longer in the chain")
 	}
 }

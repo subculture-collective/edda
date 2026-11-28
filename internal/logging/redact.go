@@ -2,12 +2,11 @@ package logging
 
 import (
 	"context"
+	"encoding/json"
 	"errors"
-	"net"
 	"net/url"
 	"regexp"
 	"slices"
-	"strconv"
 	"strings"
 )
 
@@ -31,10 +30,13 @@ var (
 	// keywordPasswordPattern matches password=value in a key/value PostgreSQL
 	// DSN, with the value bare or single-quoted.
 	keywordPasswordPattern = regexp.MustCompile(`(?i)\b((?:ssl)?password)=('(?:[^'\\]|\\.)*'|[^\s'` + "`" + `]+)`)
-	// openAuthorityPattern matches a URL that ends the text with nothing to end
-	// its host. A trailing ellipsis or space is not part of it. The group is what
-	// follows "://".
-	openAuthorityPattern = regexp.MustCompile("[a-zA-Z][a-zA-Z0-9+.-]*://([^\\s\"'`<>/?#]+?)(?:\\.\\.\\.|…)?\\s*$")
+	// openAuthorityPattern matches a URL with nothing to end its host before the
+	// text ends, or before a double quote, escaped or not, that may close a JSON
+	// string. The first group runs through "://". The last is what follows the
+	// host: an ellipsis, space, and the end or the quote.
+	openAuthorityPattern = regexp.MustCompile("([a-zA-Z][a-zA-Z0-9+.-]*://)[^\\s\"'`<>/?#]+?((?:\\.\\.\\.|…)?\\s*(?:$|\\\\*\"))")
+	// jsonStringPattern matches a JSON string literal.
+	jsonStringPattern = regexp.MustCompile(`"(?:[^"\\]|\\.)*"`)
 )
 
 // RedactURL returns raw, a URL, configured endpoint or DSN, safe to log or to
@@ -150,11 +152,12 @@ func isSecretQueryParam(name string) bool {
 
 // hidesUserinfo reports whether an @ after the apparent end of raw's authority
 // may be the real end of its userinfo. url.Parse accepts
-// "http://user:12/34@host" as host "user", port "12" and path "/34@host". In a
-// well-formed URL, userinfo ends before the first /, ? or #, so a later @ is
-// part of the path, query or fragment when the authority is unambiguously a host
-// (see isCompleteHost). Otherwise it is read that way only when the authority is
-// plainly a host and no colon comes before the @, so no password can be there.
+// "http://user:12/34@host" as host "user", port "12" and path "/34@host". Such
+// an @ is read as part of a path or query only when the authority is plainly a
+// host (it has a dot, or is localhost) and no colon comes before the @, so no
+// password can be there. A valid URL with a port and a later @ is cut too: a
+// dotted user name with a password that starts with digits and a /, ? or # has
+// the same shape as a host and port.
 func hidesUserinfo(raw string) bool {
 	_, rest, found := strings.Cut(raw, "://")
 	end := strings.IndexAny(rest, "/?#")
@@ -162,39 +165,9 @@ func hidesUserinfo(raw string) bool {
 	if !found || end < 0 || at < end {
 		return false
 	}
-	authority := rest[:end]
-	if isCompleteHost(authority) {
-		return false
-	}
-	return !isPlainHost(authority) || strings.Contains(rest[:at], ":")
-}
-
-// isCompleteHost reports whether authority, which would otherwise be read as
-// user:password, can only be a host: a bracketed IP address with or without a
-// port, or a plain host with a port from 0 to 65535. A single-label name such
-// as "user:12" can be either, and so is not one. A user name with a dot and a
-// password that starts with digits and a /, ? or # looks the same as a host and
-// port, and is taken for one.
-func isCompleteHost(authority string) bool {
-	if address, found := strings.CutPrefix(authority, "["); found {
-		if address, found = strings.CutSuffix(address, "]"); found {
-			return net.ParseIP(address) != nil
-		}
-	}
-	host, port, err := net.SplitHostPort(authority)
-	if err != nil || strings.Contains(host, "@") {
-		return false
-	}
-	if _, err := strconv.ParseUint(port, 10, 16); err != nil {
-		return false
-	}
-	return isPlainHost(host) || net.ParseIP(host) != nil
-}
-
-// isPlainHost reports whether host is unlikely to be a user name: it has a dot,
-// or is localhost.
-func isPlainHost(host string) bool {
-	return host == "localhost" || strings.Contains(host, ".")
+	host := rest[:end]
+	plainHost := host == "localhost" || strings.Contains(host, ".")
+	return !plainHost || strings.Contains(rest[:at], ":")
 }
 
 // redactUnparsed cuts raw, a URL that url.Parse rejects or may misread, down to
@@ -260,15 +233,37 @@ func contextCauseOnly(cause error) error {
 }
 
 // RedactReply is Redact for text that a server sent, such as a reply body or an
-// error message in it. Such text can be cut off anywhere, so a URL that ends it
-// before anything ends the host may be the start of a password: everything
-// after its "://" is masked. A complete URL that ends the text with no path is
-// masked too.
+// error message in it. Such text can be cut off anywhere, and can have been cut
+// before it was put in JSON, so a URL may be the start of a password when the
+// text or a double quote ends it before anything ends its host: everything
+// after its "://" is masked. A complete URL with no path in those places is
+// masked too. Quoted strings are also decoded, so that JSON escapes cannot hide
+// a URL or its parts. The text need not be valid JSON.
 func RedactReply(text string) string {
-	if m := openAuthorityPattern.FindStringSubmatchIndex(text); m != nil {
-		text = text[:m[2]] + redactedPassword + text[m[3]:]
+	text = jsonStringPattern.ReplaceAllStringFunc(text, redactJSONString)
+	// The text as a whole covers what is not in a whole string literal.
+	return Redact(openAuthorityPattern.ReplaceAllString(text, "${1}"+redactedPassword+"${2}"))
+}
+
+// redactJSONString applies RedactReply to the string that literal encodes, which
+// may hold JSON itself. A literal with nothing to redact, or that does not
+// decode, is returned as it is.
+func redactJSONString(literal string) string {
+	var decoded string
+	if json.Unmarshal([]byte(literal), &decoded) != nil {
+		return literal
 	}
-	return Redact(text)
+	clean := RedactReply(decoded)
+	if clean == decoded {
+		return literal
+	}
+	var out strings.Builder
+	encoder := json.NewEncoder(&out)
+	encoder.SetEscapeHTML(false)
+	if encoder.Encode(clean) != nil {
+		return `"` + redactedPassword + `"`
+	}
+	return strings.TrimSuffix(out.String(), "\n")
 }
 
 // Redact returns text with RedactURL applied to every URL in it and the
