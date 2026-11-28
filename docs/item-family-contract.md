@@ -21,6 +21,10 @@ to one canonical family, never two inventory entitlements.
 Every variant has its own stable ID (`<family-id>/variant/<slug>`), name, rarity,
 attunement mode and restrictions, charge capacity/per-use/recharge description,
 equip/use restrictions, cost, required mechanic keys and source healing dice.
+The basic potion also has a `weight`, in the same form as
+[adventuring gear](item-source-batches.md#adventuring-gear-records): 1/2 lb,
+from the p. 95 gear table. The source lists no weight for the other three
+variants, so they have no `weight` member.
 Single-variant mundane families will also require an explicit variant rather
 than inheriting a family identity. A data batch must extend the reviewed source
 manifest and schema with its own source evidence; arbitrary families and new

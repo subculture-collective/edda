@@ -39,6 +39,9 @@ func requirePotionOfHealingOwner(t *testing.T) ItemSourceIdentity {
 	if *basic.Healing != (ItemHealing{Dice: 2, Sides: 4, Bonus: 2}) || !slices.Equal(basic.Use.Restrictions, []string{"bonus-action", "consume-one", "administer-within-5-feet"}) {
 		t.Fatalf("the p. 99 use or healing disagrees with the contract: %+v %v", basic.Healing, basic.Use.Restrictions)
 	}
+	if basic.Weight == nil || *basic.Weight != (ItemGearWeight{Listed: true, PoundsNumerator: 1, PoundsDenominator: 2, Condition: "none"}) {
+		t.Fatalf("the gear table weight of 1/2 lb. disagrees with the contract: %+v", basic.Weight)
+	}
 	owner := ItemSourceIdentity{FamilyID: family.ID, Name: family.Name, PresentationIDs: []string{gear.ID}, VariantIDs: []string{basic.ID}}
 	second := []ItemSourceIdentity{{FamilyID: family.ID, Name: family.Name, PresentationIDs: []string{gear.ID + "-copy"}, VariantIDs: []string{family.ID + "/variant/standard"}}}
 	if _, err := ComposeItemSourceIdentities(contract.SourceIdentities(), second); err == nil {
@@ -47,12 +50,10 @@ func requirePotionOfHealingOwner(t *testing.T) ItemSourceIdentity {
 	return owner
 }
 
-// requireSpellScrollOwner checks that batch #242 owns Spell Scroll and agrees
-// with the p. 99 gear entry (cantrip and level 1, save DC 13, attack +5, no
-// Material components), and returns the gear entry's identity for the batch
-// #262 inventory join. The #242 record has the p. 244 presentation only and no
-// price, so the p. 99 prices of 30 GP and 50 GP are in no record;
-// scripts/verify_srd_items_262.py checks them against the PDF.
+// requireSpellScrollOwner checks that batch #242 owns Spell Scroll, holds the
+// p. 99 gear listing with its two prices and agrees with that entry (cantrip and
+// level 1, save DC 13, attack +5, no Material components). It returns the gear
+// entry's identity for the batch #262 inventory join.
 func requireSpellScrollOwner(t *testing.T) ItemSourceIdentity {
 	t.Helper()
 	batch := loadItems242(t)
@@ -61,8 +62,8 @@ func requireSpellScrollOwner(t *testing.T) ItemSourceIdentity {
 		t.Fatal("batch #242 no longer owns Spell Scroll")
 	}
 	family := batch.Families[index]
-	if len(family.Presentations) != 1 || family.Presentations[0].ID != prefix+"magic-items/spell-scroll" {
-		t.Fatalf("Spell Scroll presentations changed: %+v", family.Presentations)
+	if len(family.Presentations) != 2 || family.Presentations[1].ID != spellScrollGearID || !slices.Equal(family.Presentations[1].Pages, []int{99, 99}) {
+		t.Fatalf("batch #242 no longer holds the gear entry: %+v", family.Presentations)
 	}
 	for level, v := range family.Variants[:2] {
 		scroll := v.Details.Scroll
@@ -70,8 +71,8 @@ func requireSpellScrollOwner(t *testing.T) ItemSourceIdentity {
 			scroll.ReadableIf != "spell-on-your-spell-list" || scroll.CastingTime != "spells-normal-casting-time" {
 			t.Fatalf("%s disagrees with the p. 99 entry: %+v", v.Name, scroll)
 		}
-		if v.Cost.Kind != "unspecified" {
-			t.Fatalf("%s now lists a price: join the p. 99 prices to it", v.Name)
+		if v.Cost.Kind != "listed" || v.Cost.Amount != []int{30, 50}[level] || v.Cost.Currency != "gp" || !slices.Equal(v.Cost.SourcePages, []int{99, 99}) {
+			t.Fatalf("%s disagrees with the p. 99 price: %+v", v.Name, v.Cost)
 		}
 	}
 	owner := ItemSourceIdentity{FamilyID: family.ID, Name: family.Name, PresentationIDs: []string{spellScrollGearID}, VariantIDs: []string{family.Variants[0].ID}}
@@ -345,10 +346,9 @@ func TestItemGearPackContentsNameCatalogueFamilies(t *testing.T) {
 
 // TestItemCatalogueMatchesPlanningInventory compares the whole item catalogue,
 // the Healing contract and batches #225 to #262, with every item record of the
-// planning inventory, in both directions. There are three reviewed differences:
-// the inventory omits Heavy Crossbow; the p. 99 Spell Scroll entry joins the
-// #242 record, which has the p. 244 presentation only; and the contract names
-// its family Potion of Healing where the p. 236 heading is plural.
+// planning inventory, in both directions. There are two reviewed differences:
+// the inventory omits Heavy Crossbow, and the contract names its family Potion
+// of Healing where the p. 236 heading is plural.
 func TestItemCatalogueMatchesPlanningInventory(t *testing.T) {
 	composed, err := ComposeItemSourceIdentities(itemIdentitiesThrough(t, 262)...)
 	if err != nil {
@@ -362,7 +362,7 @@ func TestItemCatalogueMatchesPlanningInventory(t *testing.T) {
 			presented[p] = f.Name
 		}
 	}
-	if len(composed) != 413 || variants != 513 || len(presented) != 414 {
+	if len(composed) != 413 || variants != 513 || len(presented) != 415 {
 		t.Fatalf("unexpected item catalogue: %d families, %d variants, %d presentations", len(composed), variants, len(presented))
 	}
 	counts, listed := map[string]int{}, map[string]bool{}
@@ -374,10 +374,6 @@ func TestItemCatalogueMatchesPlanningInventory(t *testing.T) {
 		listed[r.ID] = true
 		name, ok := presented[r.ID]
 		switch r.ID {
-		case spellScrollGearID:
-			if ok || r.Name != "Spell Scroll" || presented[prefix+"magic-items/spell-scroll"] != r.Name {
-				t.Fatalf("the Spell Scroll join changed: presented=%t name=%s", ok, r.Name)
-			}
 		case prefix + "magic-items/potions-of-healing":
 			if name != "Potion of Healing" || r.Name != "Potions of Healing" {
 				t.Fatalf("the Potions of Healing join changed: %q %q", name, r.Name)

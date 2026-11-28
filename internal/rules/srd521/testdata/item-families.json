@@ -13,7 +13,7 @@
     "license": "CC-BY-4.0",
     "license_url": "https://creativecommons.org/licenses/by/4.0/legalcode",
     "attribution": "This work includes material from the System Reference Document 5.2.1 (“SRD 5.2.1”) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd. The SRD 5.2.1 is licensed under the Creative Commons Attribution 4.0 International License, available at https://creativecommons.org/licenses/by/4.0/legalcode.",
-    "changes": "SRD 5.2.1 pp. 99 and 236 adapted into a versioned item family with explicit variant identities, structured requirements and healing dice. Names and numeric rules are adapted; no rules prose is reproduced. Source presentations are deduplicated; prices absent from the family table remain unspecified. Catalogue data grants no inventory or gameplay permissions."
+    "changes": "SRD 5.2.1 pp. 95, 99 and 236 adapted into a versioned item family with explicit variant identities, structured requirements, healing dice and the basic potion’s weight from the p. 95 gear table. Names and numeric rules are adapted; no rules prose is reproduced. Source presentations are deduplicated; prices absent from the family table remain unspecified. Catalogue data grants no inventory or gameplay permissions."
   },
   "families": [
     {
@@ -76,6 +76,12 @@
             "dice": 2,
             "sides": 4,
             "bonus": 2
+          },
+          "weight": {
+            "listed": true,
+            "pounds_numerator": 1,
+            "pounds_denominator": 2,
+            "condition": "none"
           },
           "required_mechanic_keys": [
             "item.consume",

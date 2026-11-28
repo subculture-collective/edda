@@ -10,6 +10,10 @@ import sys
 ROOT = Path(__file__).resolve().parents[1]
 PIN = "8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87"
 PAGES = (243, 244, 245, 246)
+# The Spell Scroll is also adventuring gear; this p. 99 heading prints its prices.
+GEAR_PAGE = 99
+GEAR_ID = "srd-5.2.1:content/adventuring-gear/spell-scroll"
+GEAR_HEADING = re.compile(r"Spell Scroll \(Cantrip, (\d+) GP; Level 1, (\d+) GP\)")
 RARITY = {"common": "Common", "uncommon": "Uncommon", "rare": "Rare", "very-rare": "Very Rare", "legendary": "Legendary"}
 CATEGORY = {"armor": "Armor (", "potion": "Potion, ", "ring": "Ring, ", "rod": "Rod, ", "scroll": "Scroll, ", "staff": "Staff, ", "weapon": "Weapon (", "wondrous-item": "Wondrous Item, "}
 FOOTER = re.compile(r"\d+ System Reference Document 5\.2\.1")
@@ -634,6 +638,12 @@ def main():
     assert [(f["presentations"][0]["id"], f["name"], f["presentations"][0]["pages"][0]) for f in families] == expected
     assert [f["id"].rsplit("/", 1)[1] for f in families] == list(HEADERS) == list(VALUES)
 
+    gear_text = " ".join(clean(text(pdf, GEAR_PAGE, x)).strip() for x in (0, 306))
+    [amounts] = GEAR_HEADING.findall(gear_text)
+    gear_prices = {("spell-scroll", level): int(amount) for level, amount in zip(("cantrip", "level-1"), amounts)}
+    [record] = [r for r in inventory["records"] if r["id"] == GEAR_ID]
+    assert (record["family"], record["name"], record["source_page"]) == ("adventuring-gear", "Spell Scroll", GEAR_PAGE)
+
     starts = {}
     for f in families:
         slug = f["id"].rsplit("/", 1)[1]
@@ -660,6 +670,8 @@ def main():
         else:
             assert has(block, pool[1]), (slug, pool[1])
             assert pool[0]["maximum"] in numbers(pool[1]), slug
+        listing = [{"id": GEAR_ID, "pages": [GEAR_PAGE, GEAR_PAGE]}] if slug == "spell-scroll" else []
+        assert f["presentations"][1:] == listing, (slug, f["presentations"])
         assert [v["id"].rsplit("/", 1)[1] for v in f["variants"]] == list(VALUES[slug]), slug
         for v in f["variants"]:
             vslug = v["id"].rsplit("/", 1)[1]
@@ -668,7 +680,10 @@ def main():
             assert "Rarity Varies" in header or RARITY[v["rarity"]] in header, label
             assert v["attunement"]["restrictions"] == [], label
             assert v["charges"] == (pool[0] if pool else {"mode": "none", "maximum": 0, "per_use": 0, "recharge": "none"}), label
-            assert v["cost"] == {"kind": "unspecified", "amount": 0, "currency": "none", "source_pages": f["presentations"][0]["pages"]}, label
+            cost = {"kind": "unspecified", "amount": 0, "currency": "none", "source_pages": f["presentations"][0]["pages"]}
+            if (slug, vslug) in gear_prices:
+                cost = {"kind": "listed", "amount": gear_prices[slug, vslug], "currency": "gp", "source_pages": [GEAR_PAGE, GEAR_PAGE]}
+            assert v["cost"] == cost, (label, v["cost"], cost)
             assert len(v["details"]) == 1, label
             payload = next(iter(v["details"].values()))
             assert payload.get("rarity", v["rarity"]) == v["rarity"], label
@@ -689,7 +704,7 @@ def main():
                 elif type(value) is int:
                     assert value in numbers(phrase), where
                 count += 1
-    print(f"ok: {len(families)} families, {sum(len(f['variants']) for f in families)} variants, {count} printed values, pp. 243-246")
+    print(f"ok: {len(families)} families, {sum(len(f['variants']) for f in families)} variants, {count} printed values and {len(gear_prices)} gear prices, pp. 99 and 243-246")
 
 
 main()

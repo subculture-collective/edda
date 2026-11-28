@@ -62,8 +62,12 @@ func TestItems242SourceIdentities(t *testing.T) {
 			if f.ID != id || f.Name != want.name || f.Kind != "magic" || f.Category != want.category || len(f.Base.Excluded) != 0 || !slices.Equal(f.Base.Options, append([]string{}, want.base...)) {
 				t.Fatalf("source identity mismatch: %+v", f)
 			}
-			if len(f.Presentations) != 1 || f.Presentations[0].ID != "srd-5.2.1:content/magic-items/"+want.slug || !slices.Equal(f.Presentations[0].Pages, []int{want.page, want.page}) {
-				t.Fatal("source presentation mismatch")
+			presentations := []ItemReference{{ID: "srd-5.2.1:content/magic-items/" + want.slug, Pages: []int{want.page, want.page}}}
+			if want.slug == "spell-scroll" {
+				presentations = append(presentations, ItemReference{ID: spellScrollGearID, Pages: []int{99, 99}})
+			}
+			if !reflect.DeepEqual(f.Presentations, presentations) {
+				t.Fatalf("source presentation mismatch: %+v", f.Presentations)
 			}
 			if len(f.Variants) != len(want.variants) {
 				t.Fatalf("the source lists %d forms of %s, got %d variants", len(want.variants), want.name, len(f.Variants))
@@ -73,8 +77,13 @@ func TestItems242SourceIdentities(t *testing.T) {
 				if v.ID != id+"/variant/"+wv.slug || v.Name != wv.name || v.Rarity != wv.rarity || v.Attunement.Mode != want.attunement || len(v.Attunement.Restrictions) != 0 {
 					t.Fatalf("variant mismatch: %+v", v)
 				}
-				if v.Cost.Kind != "unspecified" || v.Cost.Amount != 0 || v.Cost.Currency != "none" || !slices.Equal(v.Cost.SourcePages, []int{want.page, want.page}) {
-					t.Fatal("no price is listed; cost must stay unspecified")
+				// Only the p. 99 gear entry prints a price, for two scrolls.
+				cost := ItemCost{Kind: "unspecified", Currency: "none", SourcePages: []int{want.page, want.page}}
+				if gp := map[string]int{"Spell Scroll (cantrip)": 30, "Spell Scroll (level 1)": 50}[wv.name]; gp != 0 {
+					cost = ItemCost{Kind: "listed", Amount: gp, Currency: "gp", SourcePages: []int{99, 99}}
+				}
+				if !reflect.DeepEqual(*v.Cost, cost) {
+					t.Fatalf("price mismatch: %+v", *v.Cost)
 				}
 				if *v.Charges != want.charges {
 					t.Fatalf("charges mismatch: %+v", *v.Charges)
@@ -429,6 +438,23 @@ func TestItems242RejectInvalidFixtures(t *testing.T) {
 		{"shield-1-2-or-3 attunement", func(b *batch) { v(b, 0, 0).Attunement.Mode = "required" }},
 		{"slippers-of-spider-climbing attunement", func(b *batch) { v(b, 1, 0).Attunement.Mode = "none" }},
 		{"sovereign-glue attunement", func(b *batch) { v(b, 2, 0).Attunement.Mode = "required" }},
+		{"spell-scroll dropped gear listing", func(b *batch) { b.Families[3].Presentations = b.Families[3].Presentations[:1] }},
+		{"spell-scroll only gear listing", func(b *batch) { b.Families[3].Presentations = b.Families[3].Presentations[1:] }},
+		{"spell-scroll reordered listings", func(b *batch) { p := b.Families[3].Presentations; p[0], p[1] = p[1], p[0] }},
+		{"spell-scroll gear page", func(b *batch) { b.Families[3].Presentations[1].Pages = []int{95, 95} }},
+		{"gear listing on another family", func(b *batch) {
+			f := &b.Families[0]
+			f.Presentations = append(f.Presentations, ItemReference{ID: "srd-5.2.1:content/adventuring-gear/shield-1-2-or-3", Pages: []int{99, 99}})
+		}},
+		{"spell-scroll dropped price", func(b *batch) {
+			*v(b, 3, 0).Cost = ItemCost{Kind: "unspecified", Currency: "none", SourcePages: []int{244, 244}}
+		}},
+		{"spell-scroll swapped price", func(b *batch) { v(b, 3, 0).Cost.Amount = 50 }},
+		{"spell-scroll price currency", func(b *batch) { v(b, 3, 1).Cost.Currency = "sp" }},
+		{"spell-scroll price page", func(b *batch) { v(b, 3, 1).Cost.SourcePages = []int{244, 244} }},
+		{"spell-scroll invented level 2 price", func(b *batch) {
+			*v(b, 3, 2).Cost = ItemCost{Kind: "listed", Amount: 100, Currency: "gp", SourcePages: []int{99, 99}}
+		}},
 		{"spell-scroll attunement", func(b *batch) { v(b, 3, 0).Attunement.Mode = "required" }},
 		{"spellguard-shield attunement", func(b *batch) { v(b, 4, 0).Attunement.Mode = "none" }},
 		{"sphere-of-annihilation attunement", func(b *batch) { v(b, 5, 0).Attunement.Mode = "required" }},

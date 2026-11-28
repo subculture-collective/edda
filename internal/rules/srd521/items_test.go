@@ -91,6 +91,10 @@ func TestItemCatalogueRejectsInvalidFixtures(t *testing.T) {
 		{"cost page", func(c *ItemCatalogue) { c.Families[0].Variants[0].Cost.SourcePages = []int{236, 236} }},
 		{"invented greater price", func(c *ItemCatalogue) { c.Families[0].Variants[1].Cost.Amount = 200 }},
 		{"invented healing", func(c *ItemCatalogue) { c.Families[0].Variants[0].Healing.Bonus = 20 }},
+		{"missing weight", func(c *ItemCatalogue) { c.Families[0].Variants[0].Weight = nil }},
+		{"changed weight", func(c *ItemCatalogue) { c.Families[0].Variants[0].Weight.PoundsDenominator = 1 }},
+		{"unlisted weight", func(c *ItemCatalogue) { c.Families[0].Variants[0].Weight.Listed = false }},
+		{"invented greater weight", func(c *ItemCatalogue) { c.Families[0].Variants[1].Weight = c.Families[0].Variants[0].Weight }},
 	}
 	for _, tc := range tests {
 		t.Run(tc.name, func(t *testing.T) {

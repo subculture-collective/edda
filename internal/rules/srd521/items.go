@@ -50,6 +50,7 @@ type ItemVariant struct {
 	Use                  *ItemRestriction `json:"use"`
 	Cost                 *ItemCost        `json:"cost"`
 	Healing              *ItemHealing     `json:"healing"`
+	Weight               *ItemGearWeight  `json:"weight,omitempty"`
 	RequiredMechanicKeys []string         `json:"required_mechanic_keys"`
 }
 
@@ -250,6 +251,14 @@ func (c ItemCatalogue) Validate() error {
 		values := map[string][2]int{"basic": {2, 2}, "greater": {4, 4}, "superior": {8, 8}, "supreme": {10, 20}}
 		if v.Healing.Dice != values[variant][0] || v.Healing.Bonus != values[variant][1] {
 			return fmt.Errorf("Healing values disagree with source")
+		}
+		// The Adventuring Gear table (p. 95) weighs only the basic potion.
+		if variant == "basic" {
+			if v.Weight == nil || *v.Weight != (ItemGearWeight{Listed: true, PoundsNumerator: 1, PoundsDenominator: 2, Condition: "none"}) {
+				return fmt.Errorf("Healing weight disagrees with source")
+			}
+		} else if v.Weight != nil {
+			return fmt.Errorf("unlisted variant weight must stay absent")
 		}
 		if v.Cost == nil {
 			return fmt.Errorf("explicit cost required")

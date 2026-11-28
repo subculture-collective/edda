@@ -182,6 +182,14 @@ type itemSourceManifestFamily struct {
 	Keys            string
 	Payload         string
 	Variants        []itemSourceManifestVariant
+	Gear            *itemSourceGearListing // nil: magic item presentation only
+}
+
+// itemSourceGearListing is a magic family's second source listing, as
+// adventuring gear, with the price in GP it prints for each variant slug.
+type itemSourceGearListing struct {
+	Page    int
+	PriceGP map[string]int
 }
 
 type itemSourceManifestVariant struct{ Slug, Name, Rarity string }
@@ -261,7 +269,11 @@ func validateItemSourceBatch[D any](b ItemSourceBatch[D], m itemSourceManifest, 
 		if f.Base == nil || !sameItemKeys(f.Base.Options, want.Options) || !sameItemKeys(f.Base.Excluded, want.Excluded) {
 			return fmt.Errorf("%s: base item restriction disagrees with source", f.Name)
 		}
-		if len(f.Presentations) != 1 || f.Presentations[0].ID != "srd-5.2.1:content/magic-items/"+want.Slug || !slices.Equal(f.Presentations[0].Pages, []int{want.Page, want.Page}) {
+		presentations := []ItemReference{{ID: "srd-5.2.1:content/magic-items/" + want.Slug, Pages: []int{want.Page, want.Page}}}
+		if want.Gear != nil {
+			presentations = append(presentations, ItemReference{ID: "srd-5.2.1:content/adventuring-gear/" + want.Slug, Pages: []int{want.Gear.Page, want.Gear.Page}})
+		}
+		if !reflect.DeepEqual(f.Presentations, presentations) {
 			return fmt.Errorf("%s: invalid, missing or duplicate source presentation", f.Name)
 		}
 		if len(f.Variants) != len(want.Variants) {
@@ -288,9 +300,15 @@ func validateItemSourceBatch[D any](b ItemSourceBatch[D], m itemSourceManifest, 
 			if v.Use == nil || v.Use.Mode != want.Use || !sameItemKeys(v.Use.Restrictions, want.UseRestrictions) {
 				return fmt.Errorf("%s: use restriction disagrees with source", v.Name)
 			}
-			// No batch family lists a price. Unspecified never means free.
-			if v.Cost == nil || v.Cost.Kind != "unspecified" || v.Cost.Amount != 0 || v.Cost.Currency != "none" || !slices.Equal(v.Cost.SourcePages, []int{want.Page, want.Page}) {
-				return fmt.Errorf("%s: unlisted cost must remain unspecified", v.Name)
+			// Only a gear listing prints a price. Unspecified never means free.
+			cost := ItemCost{Kind: "unspecified", Currency: "none", SourcePages: []int{want.Page, want.Page}}
+			if want.Gear != nil {
+				if amount, listed := want.Gear.PriceGP[wv.Slug]; listed {
+					cost = ItemCost{Kind: "listed", Amount: amount, Currency: "gp", SourcePages: []int{want.Gear.Page, want.Gear.Page}}
+				}
+			}
+			if v.Cost == nil || !reflect.DeepEqual(*v.Cost, cost) {
+				return fmt.Errorf("%s: price disagrees with source; an unlisted cost must remain unspecified", v.Name)
 			}
 			if !sameItemKeys(v.RequiredMechanicKeys, want.Keys) || len(v.RequiredMechanicKeys) == 0 {
 				return fmt.Errorf("%s: missing, unknown or reordered mechanic key", v.Name)
