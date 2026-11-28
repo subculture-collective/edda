@@ -24,7 +24,7 @@ func (h *CampaignHandlers) ListCampaigns(w http.ResponseWriter, r *http.Request)
 
 	campaigns, err := h.Queries.ListCampaignsByUser(r.Context(), dbutil.ToPgtype(userID))
 	if err != nil {
-		h.Logger.Errorf("list campaigns: %v", err)
+		h.Logger.Error("list campaigns", "error", err)
 		writeError(w, http.StatusInternalServerError, "failed to list campaigns")
 		return
 	}
@@ -82,7 +82,7 @@ func (h *CampaignHandlers) CreateCampaign(w http.ResponseWriter, r *http.Request
 		CreatedBy:    dbutil.ToPgtype(userID),
 	})
 	if err != nil {
-		h.Logger.Errorf("create campaign: %v", err)
+		h.Logger.Error("create campaign", "error", err)
 		writeError(w, http.StatusInternalServerError, "failed to create campaign")
 		return
 	}
@@ -95,14 +95,14 @@ func (h *CampaignHandlers) CreateCampaign(w http.ResponseWriter, r *http.Request
 			rulesMode, campaign.ID,
 		)
 		if err != nil || tag.RowsAffected() != 1 {
-			h.Logger.Errorf("save campaign rules mode: %v (rows: %d)", err, tag.RowsAffected())
+			h.Logger.Error("save campaign rules mode", "error", err, "rows", tag.RowsAffected())
 			writeError(w, http.StatusInternalServerError, "failed to save campaign rules mode")
 			return
 		}
 		// Read the saved row so the response reflects persisted values.
 		campaign, err = h.Queries.GetCampaignByID(r.Context(), campaign.ID)
 		if err != nil {
-			h.Logger.Errorf("read campaign after rules mode update: %v", err)
+			h.Logger.Error("read campaign after rules mode update", "error", err)
 			writeError(w, http.StatusInternalServerError, "failed to read saved campaign")
 			return
 		}
@@ -122,7 +122,7 @@ func (h *CampaignHandlers) GetCampaign(w http.ResponseWriter, r *http.Request) {
 	campaign, err := h.Queries.GetCampaignByID(r.Context(), dbutil.ToPgtype(id))
 	if err != nil {
 		// pgx returns no rows as an error; treat as 404.
-		h.Logger.Debugf("get campaign %s: %v", id, err)
+		h.Logger.Debug("get campaign", "campaign_id", id, "error", err)
 		writeError(w, http.StatusNotFound, "campaign not found")
 		return
 	}
@@ -170,7 +170,7 @@ func (h *CampaignHandlers) UpdateCampaign(w http.ResponseWriter, r *http.Request
 		Themes:      themes,
 	})
 	if err != nil {
-		h.Logger.Errorf("update campaign %s: %v", id, err)
+		h.Logger.Error("update campaign", "campaign_id", id, "error", err)
 		writeError(w, http.StatusInternalServerError, "failed to update campaign")
 		return
 	}
@@ -188,7 +188,7 @@ func (h *CampaignHandlers) GetSessionHistory(w http.ResponseWriter, r *http.Requ
 
 	logs, err := h.Queries.ListSessionLogsByCampaign(r.Context(), dbutil.ToPgtype(id))
 	if err != nil {
-		h.Logger.Errorf("list session logs for campaign %s: %v", id, err)
+		h.Logger.Error("list session logs for campaign", "campaign_id", id, "error", err)
 		writeError(w, http.StatusInternalServerError, "failed to list session history")
 		return
 	}
@@ -209,7 +209,7 @@ func (h *CampaignHandlers) DeleteCampaign(w http.ResponseWriter, r *http.Request
 	}
 
 	if err := h.Queries.DeleteCampaign(r.Context(), dbutil.ToPgtype(id)); err != nil {
-		h.Logger.Errorf("delete campaign %s: %v", id, err)
+		h.Logger.Error("delete campaign", "campaign_id", id, "error", err)
 		writeError(w, http.StatusInternalServerError, "failed to delete campaign")
 		return
 	}

@@ -3,6 +3,7 @@ package main
 
 import (
 	"bufio"
+	"bytes"
 	"context"
 	"flag"
 	"fmt"
@@ -46,7 +47,7 @@ func main() {
 		}
 	}
 
-	tail(ctx, file, minLevel, services)
+	tail(ctx, file, os.Stdout, minLevel, services)
 }
 
 // waitForFile opens the file, polling every 500ms if it doesn't exist yet.
@@ -124,25 +125,32 @@ func printHistory(file *os.File, n int, minLevel slog.Level, services map[string
 	}
 }
 
-// tail polls the file for new JSONL lines and prints matching entries.
-func tail(ctx context.Context, file *os.File, minLevel slog.Level, services map[string]bool) {
-	scanner := bufio.NewScanner(file)
-	scanner.Buffer(make([]byte, 0, 64*1024), 1024*1024)
+// tail polls the file for new JSONL lines and prints matching entries to out.
+// A bufio.Scanner stops for good at its first EOF, so tail reads with a
+// bufio.Reader, keeps a partial last line until its newline arrives and polls
+// at EOF. When the file shrinks below the read offset it was truncated or
+// replaced in place, and tail starts again from its beginning.
+func tail(ctx context.Context, file *os.File, out io.Writer, minLevel slog.Level, services map[string]bool) {
+	offset, err := file.Seek(0, io.SeekCurrent)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "seek: %v\n", err)
+		return
+	}
+	reader := bufio.NewReader(file)
+	var partial []byte
 
 	for {
-		for scanner.Scan() {
-			line := scanner.Bytes()
-			if len(line) == 0 {
-				continue
-			}
-			entry, err := logging.ParseJSONLEntry(line)
-			if err != nil {
-				continue
-			}
-			if !passesFilter(entry, minLevel, services) {
-				continue
-			}
-			fmt.Print(logging.FormatColorLine(entry))
+		chunk, err := reader.ReadBytes('\n')
+		offset += int64(len(chunk))
+		partial = append(partial, chunk...)
+		if err == nil {
+			printLine(out, partial, minLevel, services)
+			partial = partial[:0]
+			continue
+		}
+		if err != io.EOF {
+			fmt.Fprintf(os.Stderr, "read: %v\n", err)
+			return
 		}
 
 		select {
@@ -150,7 +158,29 @@ func tail(ctx context.Context, file *os.File, minLevel slog.Level, services map[
 			return
 		case <-time.After(100 * time.Millisecond):
 		}
+
+		if info, err := file.Stat(); err == nil && info.Size() < offset {
+			if _, err := file.Seek(0, io.SeekStart); err != nil {
+				fmt.Fprintf(os.Stderr, "seek: %v\n", err)
+				return
+			}
+			offset = 0
+			partial = partial[:0]
+			reader.Reset(file)
+		}
 	}
+}
+
+func printLine(out io.Writer, line []byte, minLevel slog.Level, services map[string]bool) {
+	line = bytes.TrimSpace(line)
+	if len(line) == 0 {
+		return
+	}
+	entry, err := logging.ParseJSONLEntry(line)
+	if err != nil || !passesFilter(entry, minLevel, services) {
+		return
+	}
+	fmt.Fprint(out, logging.FormatColorLine(entry))
 }
 
 func parseLevel(s string) slog.Level {

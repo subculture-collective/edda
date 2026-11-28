@@ -22,7 +22,7 @@ func (h *CharacterHandlers) GetCharacter(w http.ResponseWriter, r *http.Request)
 
 	pcs, err := h.Queries.GetPlayerCharacterByCampaign(r.Context(), dbutil.ToPgtype(campaignID))
 	if err != nil {
-		h.Logger.Errorf("get character for campaign %s: %v", campaignID, err)
+		h.Logger.Error("get character for campaign", "campaign_id", campaignID, "error", err)
 		writeError(w, http.StatusInternalServerError, "failed to get character")
 		return
 	}
@@ -93,7 +93,7 @@ func (h *CharacterHandlers) GetCharacterInventory(w http.ResponseWriter, r *http
 		PlayerCharacterID: pcs[len(pcs)-1].ID,
 	})
 	if err != nil {
-		h.Logger.Errorf("list inventory for campaign %s: %v", campaignID, err)
+		h.Logger.Error("list inventory for campaign", "campaign_id", campaignID, "error", err)
 		writeError(w, http.StatusInternalServerError, "failed to list inventory")
 		return
 	}

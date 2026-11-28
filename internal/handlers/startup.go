@@ -83,7 +83,7 @@ func (h *StartupHandlers) StartCampaignInterview(w http.ResponseWriter, r *http.
 	result, err := iv.Start(r.Context())
 	if err != nil {
 		h.sessions.deleteCampaignSession(sessionID)
-		h.Logger.Errorf("start campaign interview: %v", err)
+		h.Logger.Error("start campaign interview", "error", err)
 		writeError(w, http.StatusInternalServerError, "failed to start campaign interview")
 		return
 	}
@@ -120,7 +120,7 @@ func (h *StartupHandlers) StepCampaignInterview(w http.ResponseWriter, r *http.R
 
 	result, err := iv.Step(r.Context(), input)
 	if err != nil {
-		h.Logger.Errorf("step campaign interview %s: %v", sessionID, err)
+		h.Logger.Error("step campaign interview", "session_id", sessionID, "error", err)
 		writeError(w, http.StatusInternalServerError, "failed to continue campaign interview")
 		return
 	}
@@ -151,7 +151,7 @@ func (h *StartupHandlers) GenerateCampaignProposals(w http.ResponseWriter, r *ht
 	generator := world.NewProposalGenerator(provider)
 	proposals, err := generator.Generate(r.Context(), req.Genre, req.SettingStyle, req.Tone)
 	if err != nil {
-		h.Logger.Errorf("generate campaign proposals: %v", err)
+		h.Logger.Error("generate campaign proposals", "error", err)
 		writeError(w, http.StatusInternalServerError, "failed to generate campaign proposals")
 		return
 	}
@@ -185,7 +185,7 @@ func (h *StartupHandlers) GenerateCampaignName(w http.ResponseWriter, r *http.Re
 
 	name, err := world.GenerateCampaignName(r.Context(), provider, req.Profile)
 	if err != nil {
-		h.Logger.Errorf("generate campaign name: %v", err)
+		h.Logger.Error("generate campaign name", "error", err)
 		writeError(w, http.StatusInternalServerError, "failed to generate campaign name")
 		return
 	}
@@ -218,7 +218,7 @@ func (h *StartupHandlers) StartCharacterInterview(w http.ResponseWriter, r *http
 	result, err := iv.Start(r.Context())
 	if err != nil {
 		h.sessions.deleteCharacterSession(sessionID)
-		h.Logger.Errorf("start character interview: %v", err)
+		h.Logger.Error("start character interview", "error", err)
 		writeError(w, http.StatusInternalServerError, "failed to start character interview")
 		return
 	}
@@ -255,7 +255,7 @@ func (h *StartupHandlers) StepCharacterInterview(w http.ResponseWriter, r *http.
 
 	result, err := iv.Step(r.Context(), input)
 	if err != nil {
-		h.Logger.Errorf("step character interview %s: %v", sessionID, err)
+		h.Logger.Error("step character interview", "session_id", sessionID, "error", err)
 		writeError(w, http.StatusInternalServerError, "failed to continue character interview")
 		return
 	}
@@ -338,12 +338,12 @@ func (h *StartupHandlers) BuildWorld(w http.ResponseWriter, r *http.Request) {
 		UserID:           userID,
 	}, nil)
 	if err != nil {
-		h.Logger.Errorf("build startup world: %v", err)
+		h.Logger.Error("build startup world", "error", err)
 		writeError(w, http.StatusInternalServerError, "failed to build world")
 		return
 	}
 	if result.Scene == nil {
-		h.Logger.Errorf("build startup world: orchestrator returned nil scene")
+		h.Logger.Error("build startup world: orchestrator returned nil scene")
 		writeError(w, http.StatusInternalServerError, "failed to build world")
 		return
 	}

@@ -33,7 +33,7 @@ func (h *CampaignHandlers) RequireOwnership(next http.Handler) http.Handler {
 			return
 		}
 		if err != nil {
-			h.Logger.Errorf("authorize campaign %s: %v", campaignID, err)
+			h.Logger.Error("authorize campaign", "campaign_id", campaignID, "error", err)
 			writeError(w, http.StatusInternalServerError, "failed to authorize campaign")
 			return
 		}

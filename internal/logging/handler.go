@@ -68,8 +68,11 @@ func (h *Handler) Handle(ctx context.Context, record slog.Record) error {
 		Time:    record.Time.UTC(),
 		Level:   record.Level,
 		Service: service,
-		Message: record.Message,
+		Message: Redact(record.Message),
 		Fields:  fields,
+	}
+	for i := range entry.Fields {
+		entry.Fields[i].Value = Redact(entry.Fields[i].Value)
 	}
 
 	h.mu.Lock()

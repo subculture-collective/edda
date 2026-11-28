@@ -66,7 +66,7 @@ func (h *CharacterHandlers) PreviewAction(w http.ResponseWriter, r *http.Request
 		return
 	}
 	if err != nil {
-		h.Logger.Errorf("read action preview: %v", err)
+		h.Logger.Error("read action preview", "error", err)
 		writeError(w, http.StatusInternalServerError, "failed to prepare action preview")
 		return
 	}
@@ -125,13 +125,13 @@ func (h *CharacterHandlers) PreviewTextAction(w http.ResponseWriter, r *http.Req
 		return
 	}
 	if err != nil {
-		h.Logger.Errorf("read text action preview: %v", err)
+		h.Logger.Error("read text action preview", "error", err)
 		writeError(w, http.StatusInternalServerError, "failed to prepare action preview")
 		return
 	}
 	prepared, err := game.PrepareStoredAction(r.Context(), h.Pool, campaign, pc, game.ActionIntent{ActorID: actorID, Kind: "ability-check", Skill: "athletics"}, false)
 	if err != nil {
-		h.Logger.Errorf("prepare text action preview: %v", err)
+		h.Logger.Error("prepare text action preview", "error", err)
 		writeError(w, http.StatusInternalServerError, "failed to prepare action preview")
 		return
 	}

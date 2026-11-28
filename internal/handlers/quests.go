@@ -38,7 +38,7 @@ func (h *WorldHandlers) ListQuests(w http.ResponseWriter, r *http.Request) {
 		quests, err = h.Queries.ListQuestsByCampaign(r.Context(), pgCampaignID)
 	}
 	if err != nil {
-		h.Logger.Errorf("list quests for campaign %s: %v", campaignID, err)
+		h.Logger.Error("list quests for campaign", "campaign_id", campaignID, "error", err)
 		writeError(w, http.StatusInternalServerError, "failed to list quests")
 		return
 	}
@@ -71,14 +71,14 @@ func (h *WorldHandlers) GetQuest(w http.ResponseWriter, r *http.Request) {
 		CampaignID: dbutil.ToPgtype(campaignID),
 	})
 	if err != nil {
-		h.Logger.Debugf("get quest %s: %v", qid, err)
+		h.Logger.Debug("get quest", "quest_id", qid, "error", err)
 		writeError(w, http.StatusNotFound, "quest not found")
 		return
 	}
 
 	objs, err := h.Queries.ListObjectivesByQuest(r.Context(), pgQID)
 	if err != nil {
-		h.Logger.Errorf("list objectives for quest %s: %v", qid, err)
+		h.Logger.Error("list objectives for quest", "quest_id", qid, "error", err)
 		objs = nil
 	}
 

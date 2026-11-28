@@ -22,7 +22,7 @@ func (h *WorldHandlers) ListLocations(w http.ResponseWriter, r *http.Request) {
 
 	locations, err := h.Queries.ListLocationsByCampaign(r.Context(), dbutil.ToPgtype(campaignID))
 	if err != nil {
-		h.Logger.Errorf("list locations for campaign %s: %v", campaignID, err)
+		h.Logger.Error("list locations for campaign", "campaign_id", campaignID, "error", err)
 		writeError(w, http.StatusInternalServerError, "failed to list locations")
 		return
 	}
@@ -53,7 +53,7 @@ func (h *WorldHandlers) GetLocation(w http.ResponseWriter, r *http.Request) {
 		CampaignID: dbutil.ToPgtype(campaignID),
 	})
 	if err != nil {
-		h.Logger.Debugf("get location %s: %v", lid, err)
+		h.Logger.Debug("get location", "location_id", lid, "error", err)
 		writeError(w, http.StatusNotFound, "location not found")
 		return
 	}
@@ -63,7 +63,7 @@ func (h *WorldHandlers) GetLocation(w http.ResponseWriter, r *http.Request) {
 		LocationID: dbutil.ToPgtype(lid),
 	})
 	if err != nil {
-		h.Logger.Errorf("get connections for location %s: %v", lid, err)
+		h.Logger.Error("get connections for location", "location_id", lid, "error", err)
 		// Non-fatal: return location without connections.
 		conns = nil
 	}

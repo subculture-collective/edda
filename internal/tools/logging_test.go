@@ -18,8 +18,8 @@ func TestDefaultLoggersAreNamedTools(t *testing.T) {
 	handler := logging.NewHandler(logging.HandlerOptions{RingBuffer: buf, Stderr: io.Discard})
 	logging.NewCharmLogger(logging.NewBridgeWriter(slog.New(handler).WithGroup("app"))).SetDefault()
 
-	NewAutoEmbedder(nil, nil, nil).logger.Errorf("embedder")
-	NewPostValidator(nil, nil).logger.Errorf("validator")
+	NewAutoEmbedder(nil, nil, nil).logger.Error("embedder")
+	NewPostValidator(nil, nil).logger.Error("validator")
 
 	entries := buf.Snapshot()
 	if len(entries) != 2 {

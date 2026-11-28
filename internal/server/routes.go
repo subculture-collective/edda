@@ -195,7 +195,7 @@ func writeJSON(logger logging.Logger, w http.ResponseWriter, status int, payload
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(status)
 	if err := json.NewEncoder(w).Encode(payload); err != nil {
-		logger.Errorf("encode json response: %v", err)
+		logger.Error("encode json response", "error", err)
 	}
 }
 

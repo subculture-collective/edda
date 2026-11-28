@@ -47,7 +47,7 @@ func run(args []string) int {
 
 	cfg, err := config.Load(configPath)
 	if err != nil {
-		logger.Errorf("load config: %v", err)
+		logger.Error("load config", "error", err)
 		return 1
 	}
 
@@ -56,7 +56,7 @@ func run(args []string) int {
 
 	pool, err := pgxpool.New(ctx, cfg.DB.URL)
 	if err != nil {
-		logger.Errorf("open database: %v", err)
+		logger.Error("open database", "error", err)
 		return 1
 	}
 	defer pool.Close()
@@ -65,14 +65,14 @@ func run(args []string) int {
 
 	bootResult, err := bootstrap.Run(ctx, queries)
 	if err != nil {
-		logger.Errorf("bootstrap: %v", err)
+		logger.Error("bootstrap", "error", err)
 		return 1
 	}
 	defaultUserID := bootResult.User.ID.Bytes
 
 	roster, err := llm.NewRoster(cfg)
 	if err != nil {
-		logger.Errorf("create llm roster: %v", err)
+		logger.Error("create llm roster", "error", err)
 		return 1
 	}
 	provider := roster.Provider(llm.FlowDefault)
@@ -81,7 +81,7 @@ func run(args []string) int {
 
 	gameEngine, err := newAPIEngine(ctx, pool, cfg, roster, saveStore)
 	if err != nil {
-		logger.Errorf("create engine: %v", err)
+		logger.Error("create engine", "error", err)
 		return 1
 	}
 	router := serverroutes.NewRouterWithProviders(logger, gameEngine, queries, provider, roster.Provider(llm.FlowWorldgen), roster.Provider(llm.FlowSummary), pool, defaultUserID, cfg, saveStore)
@@ -98,12 +98,12 @@ func run(args []string) int {
 		serverErr <- server.ListenAndServe()
 	}()
 
-	logger.Infof("starting HTTP server on %s (provider=%s)", addr, cfg.LLM.Provider)
+	logStartup(logger, addr, cfg)
 
 	select {
 	case err := <-serverErr:
 		if err != nil && !errors.Is(err, http.ErrServerClosed) {
-			logger.Errorf("server failed: %v", err)
+			logger.Error("server failed", "error", err)
 			return 1
 		}
 	case <-ctx.Done():
@@ -113,18 +113,22 @@ func run(args []string) int {
 		defer cancel()
 
 		if err := server.Shutdown(shutdownCtx); err != nil {
-			logger.Errorf("graceful shutdown failed: %v", err)
+			logger.Error("graceful shutdown failed", "error", err)
 			return 1
 		}
 
 		if err := <-serverErr; err != nil && !errors.Is(err, http.ErrServerClosed) {
-			logger.Errorf("server failed during shutdown: %v", err)
+			logger.Error("server failed during shutdown", "error", err)
 			return 1
 		}
 	}
 
 	logger.Info("server shutdown complete")
 	return 0
+}
+
+func logStartup(logger logging.Logger, addr string, cfg config.Config) {
+	logger.Info("starting HTTP server", "addr", addr, "provider", cfg.LLM.Provider)
 }
 
 func parseConfigPath(args []string, defaultPath string) (string, error) {

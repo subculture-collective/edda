@@ -109,7 +109,7 @@ func (h *ActionHandlers) writeRulingError(w http.ResponseWriter, err error, miss
 	case errors.Is(err, engine.ErrTurnInProgress), errors.Is(err, engine.ErrTurnRecoveryRequired):
 		writeError(w, http.StatusConflict, err.Error())
 	default:
-		h.Logger.Errorf("GM ruling: %v", err)
+		h.Logger.Error("GM ruling", "error", err)
 		writeError(w, http.StatusInternalServerError, "failed to record the ruling")
 	}
 }

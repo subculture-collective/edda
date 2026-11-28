@@ -53,7 +53,7 @@ func (h *ActionHandlers) ConfirmAction(w http.ResponseWriter, r *http.Request) {
 			writeError(w, http.StatusConflict, err.Error())
 			return
 		}
-		h.Logger.Errorf("confirm action: %v", err)
+		h.Logger.Error("confirm action", "error", err)
 		writeError(w, 500, "failed to confirm action; inspect its receipt before retrying")
 		return
 	}

@@ -45,11 +45,11 @@ func run(args []string) int {
 
 	cfg, err := config.Load(configPath)
 	if err != nil {
-		logger.Errorf("load config: %v", err)
+		logger.Error("load config", "error", err)
 		return 1
 	}
 	if _, err := llm.NewLLMProvider(cfg); err != nil {
-		logger.Errorf("initialize llm provider: %v", err)
+		logger.Error("initialize llm provider", "error", err)
 		return 1
 	}
 
@@ -59,7 +59,7 @@ func run(args []string) int {
 
 	pool, err := pgxpool.New(ctx, cfg.DB.URL)
 	if err != nil {
-		logger.Errorf("open database: %v", err)
+		logger.Error("open database", "error", err)
 		return 1
 	}
 	defer pool.Close()
@@ -67,12 +67,12 @@ func run(args []string) int {
 	queries := statedb.New(pool)
 	provider, err := newLLMProvider(cfg)
 	if err != nil {
-		logger.Errorf("create llm provider: %v", err)
+		logger.Error("create llm provider", "error", err)
 		return 1
 	}
 	gameEngine, err := engine.New(pool, provider, cfg.LLM, engine.WithLogger(slog.Default().WithGroup("engine")))
 	if err != nil {
-		logger.Errorf("create engine: %v", err)
+		logger.Error("create engine", "error", err)
 		return 1
 	}
 
@@ -111,7 +111,7 @@ func run(args []string) int {
 			logger.Info("TUI shutdown complete")
 			return 0
 		}
-		logger.Errorf("tui error: %v", err)
+		logger.Error("tui error", "error", err)
 		return 1
 	}
 
@@ -119,15 +119,28 @@ func run(args []string) int {
 	return 0
 }
 
+// logStartup logs the active provider's settings, with any credentials removed
+// from its endpoint.
 func logStartup(logger logging.Logger, cfg config.Config) {
-	logger.Info("starting TUI",
-		"provider", cfg.LLM.Provider,
-		"model", cfg.LLM.Ollama.Model,
-		"endpoint", cfg.LLM.Ollama.Endpoint,
-		"timeout", cfg.LLM.Ollama.RequestTimeout(),
-		"altscreen", tuiAltScreenEnabled(),
-		"mouse", tuiMouseEnabled(),
-	)
+	keyvals := []any{"provider", cfg.LLM.Provider}
+	switch cfg.LLM.Provider {
+	case "ollama":
+		keyvals = append(keyvals,
+			"model", cfg.LLM.Ollama.Model,
+			"endpoint", logging.RedactURL(cfg.LLM.Ollama.Endpoint),
+			"timeout", cfg.LLM.Ollama.RequestTimeout(),
+		)
+	case "claude":
+		keyvals = append(keyvals, "model", cfg.LLM.Claude.Model)
+	case "openrouter":
+		keyvals = append(keyvals, "model", cfg.LLM.OpenRouter.Model)
+	case "chatgpt":
+		keyvals = append(keyvals, "model", cfg.LLM.ChatGPT.Model)
+	case "claudecode":
+		keyvals = append(keyvals, "endpoint", logging.RedactURL(cfg.LLM.ClaudeCode.Endpoint))
+	}
+	keyvals = append(keyvals, "altscreen", tuiAltScreenEnabled(), "mouse", tuiMouseEnabled())
+	logger.Info("starting TUI", keyvals...)
 }
 
 // runQuietly runs the terminal UI with the stderr copy of log records off. The
