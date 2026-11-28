@@ -159,8 +159,9 @@ FROM npcs
 WHERE campaign_id = $1
   AND location_id = $2
   AND alive = TRUE
-  -- Door rows are scene objects, not characters (see IsSceneObject).
+  -- Door and magic object rows are not characters (see IsSceneObject).
   AND NOT (properties ? 'srd521_door')
+  AND properties->'srd521_magic'->>'bearer' IS DISTINCT FROM 'object'
 ORDER BY created_at, id
 `
 
@@ -208,8 +209,9 @@ const listNPCsByCampaign = `-- name: ListNPCsByCampaign :many
 SELECT id, campaign_id, name, description, personality, disposition, location_id, faction_id, alive, hp, stats, properties, created_at, updated_at
 FROM npcs
 WHERE campaign_id = $1
-  -- Door rows are scene objects, not characters (see IsSceneObject).
+  -- Door and magic object rows are not characters (see IsSceneObject).
   AND NOT (properties ? 'srd521_door')
+  AND properties->'srd521_magic'->>'bearer' IS DISTINCT FROM 'object'
 ORDER BY created_at, id
 `
 
@@ -253,8 +255,9 @@ SELECT id, campaign_id, name, description, personality, disposition, location_id
 FROM npcs
 WHERE campaign_id = $1
   AND faction_id = $2
-  -- Door rows are scene objects, not characters (see IsSceneObject).
+  -- Door and magic object rows are not characters (see IsSceneObject).
   AND NOT (properties ? 'srd521_door')
+  AND properties->'srd521_magic'->>'bearer' IS DISTINCT FROM 'object'
 ORDER BY created_at, id
 `
 
@@ -303,8 +306,9 @@ SELECT id, campaign_id, name, description, personality, disposition, location_id
 FROM npcs
 WHERE campaign_id = $1
   AND location_id = $2
-  -- Door rows are scene objects, not characters (see IsSceneObject).
+  -- Door and magic object rows are not characters (see IsSceneObject).
   AND NOT (properties ? 'srd521_door')
+  AND properties->'srd521_magic'->>'bearer' IS DISTINCT FROM 'object'
 ORDER BY created_at, id
 `
 

@@ -7,11 +7,13 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"os"
+	"slices"
 	"strings"
 	"testing"
 
 	clog "github.com/charmbracelet/log"
 	"github.com/go-chi/chi/v5"
+	"github.com/google/uuid"
 
 	"git.subcult.tv/subculture-collective/edda/internal/auth"
 	"git.subcult.tv/subculture-collective/edda/internal/game"
@@ -20,18 +22,37 @@ import (
 	"git.subcult.tv/subculture-collective/edda/pkg/api"
 )
 
-// A door is an object row in npcs. It must not appear where NPCs are treated
-// as characters: the model's "NPCs Present" context and the NPC listings.
-func TestIntegrationDoorRowsAreNotNPCs(t *testing.T) {
+// Doors and magic objects are object rows in npcs. They must not appear where
+// NPCs are treated as characters: the model's "NPCs Present" context and the
+// NPC listings. A creature that bears magic is still a character.
+func TestIntegrationSceneObjectRowsAreNotNPCs(t *testing.T) {
 	f := newSpatialFixture(t)
 	ctx := context.Background()
 	door := f.addDoor("Oak door", true)
 	f.doorFacts(door, f.actor, `"hidden":false,"state":"closed","locked":false,"distance_feet":5`)
 
+	magicRow := func(name, bearer string) uuid.UUID {
+		t.Helper()
+		id := f.addDoor(name, true)
+		_, err := testPool.Exec(ctx, `UPDATE npcs SET properties=jsonb_build_object('srd521_magic',jsonb_build_object('profile','detect-magic-v1','bearer',$1::text)) WHERE id=$2`, bearer, id)
+		f.must(err)
+		return id
+	}
+	chest := magicRow("Warded chest", "object")
+	envoy := magicRow("Charmed envoy", "creature")
+	characters := []string{f.target.String(), envoy.String()}
+	slices.Sort(characters)
+	objects := []string{"Oak door", door.String(), "Warded chest", chest.String()}
+
 	state, err := game.NewStateLoader(statedb.New(testPool), testPool).Load(ctx, f.campaign)
 	f.must(err)
-	if len(state.NearbyNPCs) != 1 || state.NearbyNPCs[0].ID != f.target {
-		t.Fatalf("prompt NPCs present: want only the practice foe, got %+v", state.NearbyNPCs)
+	present := []string{}
+	for _, npc := range state.NearbyNPCs {
+		present = append(present, npc.ID.String())
+	}
+	slices.Sort(present)
+	if !slices.Equal(present, characters) {
+		t.Fatalf("prompt NPCs present: want the practice foe and the envoy, got %+v", state.NearbyNPCs)
 	}
 
 	logger := clog.New(os.Stderr)
@@ -49,12 +70,18 @@ func TestIntegrationDoorRowsAreNotNPCs(t *testing.T) {
 			t.Fatalf("GET %s: %d %s", path, rec.Code, rec.Body.String())
 		}
 		body := rec.Body.String()
-		if strings.Contains(body, "Oak door") || strings.Contains(body, door.String()) {
-			t.Fatalf("GET %s lists the door as an NPC: %s", path, body)
+		for _, object := range objects {
+			if strings.Contains(body, object) {
+				t.Fatalf("GET %s lists object %q as an NPC: %s", path, object, body)
+			}
 		}
-		npcs := decodeJSON[[]api.NPCResponse](t, rec)
-		if len(npcs) != 1 || npcs[0].ID != f.target.String() {
-			t.Fatalf("GET %s: want only the practice foe, got %+v", path, npcs)
+		listed := []string{}
+		for _, npc := range decodeJSON[[]api.NPCResponse](t, rec) {
+			listed = append(listed, npc.ID)
+		}
+		slices.Sort(listed)
+		if !slices.Equal(listed, characters) {
+			t.Fatalf("GET %s: want the practice foe and the envoy, got %v", path, listed)
 		}
 	}
 

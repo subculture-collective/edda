@@ -5,7 +5,15 @@ import "testing"
 func TestIsSceneObject(t *testing.T) {
 	for props, want := range map[string]bool{
 		`{"srd521_door":{"profile":"ordinary-door-v1"}}`:           true,
+		`{"srd521_magic":{"bearer":"object"}}`:                     true,
+		`{"srd521_magic":{"bearer":"creature"}}`:                   false,
+		`{"srd521_magic":{"bearer":"Object"}}`:                     false,
+		`{"srd521_magic":{"Bearer":"object"}}`:                     false,
+		`{"srd521_magic":{"bearer":null}}`:                         false,
+		`{"srd521_magic":{"bearer":["object"]}}`:                   false,
+		`{"srd521_magic":"object"}`:                                false,
 		`{"srd521_magic":{"profile":"detect-magic-v1"}}`:           false,
+		`{"bearer":"object"}`:                                      false,
 		`{"srd521_target":{"profile":"bandit-v1"},"door":"front"}`: false,
 		`{}`: false,
 		``:   false,

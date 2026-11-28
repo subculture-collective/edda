@@ -42,8 +42,8 @@ func TestIntegrationDetectMagicMagicInitiate(t *testing.T) {
 	campaign, actor := dbutil.FromPgtype(c.ID), dbutil.FromPgtype(pc.ID)
 	_, err = testPool.Exec(ctx, `UPDATE player_characters SET current_location_id=$1 WHERE id=$2`, location, pc.ID)
 	must(err)
-	facts := func(distance int, barrier string, visible bool, origin, school string, hidden bool) string {
-		return fmt.Sprintf(`{"srd521_magic":{"profile":"detect-magic-v1","actor_ids":["%s"],"location_id":"%s","hidden":%t,"distance_feet":%d,"barrier":"%s","visible":%t,"origin":"%s","school":"%s"}}`, actor, location, hidden, distance, barrier, visible, origin, school)
+	facts := func(bearer string, distance int, barrier string, visible bool, origin, school string, hidden bool) string {
+		return fmt.Sprintf(`{"srd521_magic":{"profile":"detect-magic-v1","bearer":"%s","actor_ids":["%s"],"location_id":"%s","hidden":%t,"distance_feet":%d,"barrier":"%s","visible":%t,"origin":"%s","school":"%s"}}`, bearer, actor, location, hidden, distance, barrier, visible, origin, school)
 	}
 	npc := func(name, properties string) uuid.UUID {
 		t.Helper()
@@ -51,16 +51,20 @@ func TestIntegrationDetectMagicMagicInitiate(t *testing.T) {
 		must(testPool.QueryRow(ctx, `INSERT INTO npcs(campaign_id,name,hp,location_id,properties)VALUES($1,$2,5,$3,$4)RETURNING id`, c.ID, name, location, properties).Scan(&id))
 		return id
 	}
-	ward := npc("Warded door", facts(20, "none", true, "spell", "abjuration", false))
+	ward := npc("Warded door", facts("object", 20, "none", true, "spell", "abjuration", false))
+	envoy := npc("Charmed envoy", facts("creature", 15, "none", true, "spell", "enchantment", false))
 	known := []uuid.UUID{
 		ward,
-		npc("Lead casket", facts(10, "lead-thin-sheet", true, "spell", "necromancy", false)),
-		npc("Distant idol", facts(40, "none", true, "spell", "evocation", false)),
-		npc("Veiled watcher", facts(10, "none", false, "spell", "illusion", false)),
-		npc("Secret sigil", facts(5, "none", true, "spell", "conjuration", true)),
+		envoy,
+		npc("Lead casket", facts("object", 10, "lead-thin-sheet", true, "spell", "necromancy", false)),
+		npc("Distant idol", facts("object", 40, "none", true, "spell", "evocation", false)),
+		npc("Veiled watcher", facts("creature", 10, "none", false, "spell", "illusion", false)),
+		npc("Secret sigil", facts("object", 5, "none", true, "spell", "conjuration", true)),
+		// A bearer outside the vocabulary makes the whole fact invalid.
+		npc("Odd engine", facts("construct", 5, "none", true, "spell", "divination", false)),
 	}
 	// Never involved in play: not player-known, so never sensed or disclosed.
-	npc("Unmet lich", facts(5, "none", true, "spell", "transmutation", false))
+	npc("Unmet lich", facts("creature", 5, "none", true, "spell", "transmutation", false))
 	dice := &lifecycleIntegrationDice{}
 	newEngine := func() *engine.Engine {
 		e, err := engine.New(testPool, nil, config.LLMConfig{}, engine.WithActionDice(dice))
@@ -162,16 +166,21 @@ func TestIntegrationDetectMagicMagicInitiate(t *testing.T) {
 	if _, err := newEngine().PreviewDetectMagic(ctx, campaign, game.ActionIntent{Kind: srd521.SpellCast, EntryID: "shield-of-faith"}); !errors.Is(err, engine.ErrActionRefresh) {
 		t.Fatalf("other spell previewed: %v", err)
 	}
-	// Study discloses only the visible, unblocked, in-range, player-known bearer.
+	// Study discloses only the visible, unblocked, in-range, player-known
+	// bearers, whether they are objects or creatures.
 	studyReq, study := confirm(prepare(srd521.DetectMagicStudy, "", 0))
 	var studyPayload struct {
 		Receipt srd521.DetectMagicReceipt `json:"receipt"`
 	}
 	must(json.Unmarshal(study.AppliedToolCalls[0].Result, &studyPayload))
-	if len(studyPayload.Receipt.Auras) != 1 || studyPayload.Receipt.Auras[0].SubjectID != ward.String() || studyPayload.Receipt.Auras[0].School != "abjuration" {
+	schools := map[string]string{}
+	for _, aura := range studyPayload.Receipt.Auras {
+		schools[aura.SubjectID] = aura.School
+	}
+	if len(studyPayload.Receipt.Auras) != 2 || schools[ward.String()] != "abjuration" || schools[envoy.String()] != "enchantment" {
 		t.Fatalf("study=%+v", studyPayload.Receipt)
 	}
-	for _, secret := range []string{"Lead casket", "Distant idol", "Veiled watcher", "Secret sigil", "Unmet lich", "necromancy", "evocation", "illusion", "conjuration", "transmutation"} {
+	for _, secret := range []string{"Lead casket", "Distant idol", "Veiled watcher", "Secret sigil", "Odd engine", "Unmet lich", "necromancy", "evocation", "illusion", "conjuration", "divination", "transmutation"} {
 		if strings.Contains(study.Narrative, secret) || strings.Contains(string(study.AppliedToolCalls[0].Result), secret) {
 			t.Fatalf("study disclosed %q", secret)
 		}
@@ -183,14 +192,16 @@ func TestIntegrationDetectMagicMagicInitiate(t *testing.T) {
 	}
 	// A changed scene ruling invalidates an older preview.
 	stale := requestFor(prepare(srd521.DetectMagicStudy, "", 0))
-	_, err = testPool.Exec(ctx, `UPDATE npcs SET properties=$1 WHERE id=$2`, facts(20, "metal-1-inch", true, "spell", "abjuration", false), ward)
+	_, err = testPool.Exec(ctx, `UPDATE npcs SET properties=$1 WHERE id=$2`, facts("object", 20, "metal-1-inch", true, "spell", "abjuration", false), ward)
 	must(err)
 	if _, err := newEngine().ConfirmAction(ctx, campaign, stale); !errors.Is(err, engine.ErrActionRefresh) {
 		t.Fatalf("stale facts admitted: %v", err)
 	}
 	// The unseen bearer is still sensed, but no visible aura remains to study.
+	_, err = testPool.Exec(ctx, `UPDATE npcs SET properties=$1 WHERE id=$2`, facts("creature", 15, "metal-1-inch", true, "spell", "enchantment", false), envoy)
+	must(err)
 	_, blocked := confirm(prepare(srd521.DetectMagicStudy, "", 0))
-	if !strings.Contains(blocked.Narrative, "No sensed magic is on a visible") || strings.Contains(blocked.Narrative, "Warded door") {
+	if !strings.Contains(blocked.Narrative, "No sensed magic is on a visible") || strings.Contains(blocked.Narrative, "Warded door") || strings.Contains(blocked.Narrative, "Charmed envoy") {
 		t.Fatalf("blocked study=%s", blocked.Narrative)
 	}
 	// Reload keeps the clock-bound effect; ten quiet minutes end it.
