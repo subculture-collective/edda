@@ -96,7 +96,9 @@ func (s *stubEstablishRelationshipStore) UpdateRelationship(_ context.Context, a
 	}, nil
 }
 
-func (s *stubEstablishRelationshipStore) SetRelationshipPlayerAware(_ context.Context, _ pgtype.UUID) error { return nil }
+func (s *stubEstablishRelationshipStore) SetRelationshipPlayerAware(_ context.Context, _ pgtype.UUID) error {
+	return nil
+}
 
 func TestRegisterEstablishRelationship(t *testing.T) {
 	reg := NewRegistry()

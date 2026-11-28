@@ -11,7 +11,6 @@ import (
 	"git.subcult.tv/subculture-collective/edda/tui/styles"
 )
 
-
 // ObjectiveStatus tracks whether an objective is pending, completed, or failed.
 type ObjectiveStatus int
 

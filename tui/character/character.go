@@ -10,7 +10,6 @@ import (
 	"git.subcult.tv/subculture-collective/edda/tui/styles"
 )
 
-
 // Model is the Bubble Tea model for the character sheet view.
 type Model struct {
 	width, height int

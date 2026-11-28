@@ -43,8 +43,8 @@ func TestRegisterCombatRound(t *testing.T) {
 
 func baseCombatStateArgs(playerID, enemyID uuid.UUID) map[string]any {
 	return map[string]any{
-		"id":          uuid.New().String(),
-		"campaign_id": uuid.New().String(),
+		"id":           uuid.New().String(),
+		"campaign_id":  uuid.New().String(),
 		"round_number": 0,
 		"combatants": []any{
 			map[string]any{
@@ -72,12 +72,12 @@ func baseCombatStateArgs(playerID, enemyID uuid.UUID) map[string]any {
 				"surprised":   false,
 			},
 		},
-		"initiative_order":            []any{playerID.String(), enemyID.String()},
-		"environment":                 map[string]any{"description": "Dense forest trail"},
-		"status":                      "active",
+		"initiative_order":             []any{playerID.String(), enemyID.String()},
+		"environment":                  map[string]any{"description": "Dense forest trail"},
+		"status":                       "active",
 		"initiative_reroll_each_round": false,
-		"track_death_saving_throws":   false,
-		"surprise_round_active":       false,
+		"track_death_saving_throws":    false,
+		"surprise_round_active":        false,
 	}
 }
 
@@ -92,14 +92,14 @@ func defaultRoundArgs(playerID, enemyID uuid.UUID) map[string]any {
 		"damage_type":   "slashing",
 		"enemy_actions": []any{
 			map[string]any{
-				"enemy_id":     enemyID.String(),
-				"action_type":  "attack",
-				"target_id":    playerID.String(),
-				"description":  "The goblin thrusts with its spear",
-				"skill":        "dexterity",
-				"difficulty":   14,
+				"enemy_id":      enemyID.String(),
+				"action_type":   "attack",
+				"target_id":     playerID.String(),
+				"description":   "The goblin thrusts with its spear",
+				"skill":         "dexterity",
+				"difficulty":    14,
 				"damage_on_hit": 5,
-				"damage_type":  "piercing",
+				"damage_type":   "piercing",
 			},
 		},
 		"combat_state": baseCombatStateArgs(playerID, enemyID),
@@ -615,11 +615,11 @@ func TestCombatRoundDamageRequiresTargetID(t *testing.T) {
 	args2["damage_on_hit"] = 0
 	args2["enemy_actions"] = []any{
 		map[string]any{
-			"enemy_id":     enemyID.String(),
-			"action_type":  "attack",
-			"description":  "swings sword",
-			"skill":        "strength",
-			"difficulty":   12,
+			"enemy_id":      enemyID.String(),
+			"action_type":   "attack",
+			"description":   "swings sword",
+			"skill":         "strength",
+			"difficulty":    12,
 			"damage_on_hit": 5,
 			// no target_id
 		},

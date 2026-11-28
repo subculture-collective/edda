@@ -11,10 +11,10 @@ import (
 // --- spy stubs ---
 
 type spyEmbedder struct {
-	called    bool
-	text      string
-	vec       []float32
-	err       error
+	called bool
+	text   string
+	vec    []float32
+	err    error
 }
 
 func (s *spyEmbedder) Embed(_ context.Context, text string) ([]float32, error) {

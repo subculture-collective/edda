@@ -16,12 +16,13 @@ import (
 type MemoryRetriever interface {
 	SearchSimilar(ctx context.Context, campaignID uuid.UUID, query string, limit int) ([]memory.MemoryResult, error)
 }
+
 // Tier3Retriever fetches semantically relevant memories for a player turn and
 // formats them for inclusion in the LLM context window.
 type Tier3Retriever struct {
 	retriever MemoryRetriever
 	limit     int
-	logger   *slog.Logger
+	logger    *slog.Logger
 }
 
 // NewTier3Retriever creates a Tier3Retriever. A non-positive limit defaults to 5.

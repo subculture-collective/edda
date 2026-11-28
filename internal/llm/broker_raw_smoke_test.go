@@ -16,8 +16,9 @@ import (
 )
 
 // Lower-level probe: see exactly what Go's HTTP stack reads off the broker.
-// BROKER_SMOKE=1 BROKER_ENDPOINT=... BROKER_APIKEY=... \
-//   go test -tags=smoke -run TestBrokerRawStream ./internal/llm -v -timeout 5m
+//
+//	BROKER_SMOKE=1 BROKER_ENDPOINT=... BROKER_APIKEY=... \
+//	  go test -tags=smoke -run TestBrokerRawStream ./internal/llm -v -timeout 5m
 func TestBrokerRawStream(t *testing.T) {
 	if os.Getenv("BROKER_SMOKE") != "1" {
 		t.Skip("set BROKER_SMOKE=1")

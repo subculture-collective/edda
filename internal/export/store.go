@@ -133,11 +133,11 @@ func (s *Store) ListAllLocations(ctx context.Context, campaignID uuid.UUID) ([]E
 
 // ExportQuest holds quest data for export.
 type ExportQuest struct {
-	ID          string                `json:"id"`
-	Title       string                `json:"title"`
-	Description string                `json:"description"`
-	QuestType   string                `json:"quest_type"`
-	Status      string                `json:"status"`
+	ID          string                 `json:"id"`
+	Title       string                 `json:"title"`
+	Description string                 `json:"description"`
+	QuestType   string                 `json:"quest_type"`
+	Status      string                 `json:"status"`
 	Objectives  []ExportQuestObjective `json:"objectives"`
 }
 

@@ -8,8 +8,8 @@ import (
 	"testing"
 	"time"
 
-	"log/slog"
 	"github.com/google/uuid"
+	"log/slog"
 
 	"git.subcult.tv/subculture-collective/edda/internal/memory"
 	statedb "git.subcult.tv/subculture-collective/edda/internal/state/sqlc"
@@ -19,10 +19,10 @@ import (
 
 // spyEmbedder records calls and can be configured to fail for specific texts.
 type spyEmbedder struct {
-	mu       sync.Mutex
-	calls    []string
-	failFor  map[string]error
-	vecDim   int
+	mu      sync.Mutex
+	calls   []string
+	failFor map[string]error
+	vecDim  int
 }
 
 func newSpyEmbedder(dim int) *spyEmbedder {

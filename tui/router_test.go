@@ -20,7 +20,7 @@ func (s *stubView) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	s.updateCount++
 	return s, s.cmdToReturn
 }
-func (s *stubView) View() string    { return s.viewText }
+func (s *stubView) View() string     { return s.viewText }
 func (s *stubView) SetSize(w, h int) { s.width = w; s.height = h }
 
 func TestRouterRegisterAndCount(t *testing.T) {

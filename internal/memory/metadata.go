@@ -27,20 +27,20 @@ type GameStateSnapshot struct {
 // toolCategory maps tool names to their memory-type category.
 var toolCategory = map[string]string{
 	// Combat
-	"initiate_combat":  "combat",
-	"combat_round":     "combat",
-	"resolve_combat":   "combat",
-	"apply_damage":     "combat",
-	"apply_condition":  "combat",
+	"initiate_combat": "combat",
+	"combat_round":    "combat",
+	"resolve_combat":  "combat",
+	"apply_damage":    "combat",
+	"apply_condition": "combat",
 	// Quest
 	"create_quest":       "quest_update",
 	"update_quest":       "quest_update",
 	"complete_objective": "quest_update",
 	"create_subquest":    "quest_update",
 	// NPC / dialogue
-	"create_npc":    "dialogue",
-	"update_npc":    "dialogue",
-	"npc_dialogue":  "dialogue",
+	"create_npc":   "dialogue",
+	"update_npc":   "dialogue",
+	"npc_dialogue": "dialogue",
 	// Location / exploration
 	"create_location": "exploration",
 	"move_player":     "exploration",
