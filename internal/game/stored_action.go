@@ -43,6 +43,7 @@ type StoredAction struct {
 	LightObjects   []LightObject
 	Light          *srd521.LightEffect
 	LightItem      string
+	Door           *KnownDoor
 }
 
 // PrepareStoredAction is shared by API preparation and transactional confirmation.
@@ -232,6 +233,8 @@ func readMartialTargets(ctx context.Context, database statedb.DBTX, campaign dom
 	if err := targets.Err(); err != nil {
 		return nil, err
 	}
-
+	if err := applyDoors(ctx, database, campaign, pc, result, lock); err != nil {
+		return nil, err
+	}
 	return result, nil
 }

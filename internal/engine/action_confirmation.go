@@ -392,6 +392,13 @@ func (e *Engine) ConfirmAction(ctx context.Context, campaignID uuid.UUID, reques
 		if request.Intent.Kind == srd521.SpellCast {
 			narrative += fmt.Sprintf(" Magic Initiate uses %d to %d; slots unchanged at %d.", effect.FeatUsesBefore, effect.FeatUsesAfter, effect.SlotsAfter)
 		}
+	} else if request.Intent.Kind == srd521.OpenDoor {
+		door, err := confirmOpenDoor(ctx, tx, campaignID, prepared)
+		if err != nil {
+			return nil, err
+		}
+		receipt, tool, label = door, "srd_door", "Open door"
+		narrative = door.Reason
 	} else if game.IsLightIntent(request.Intent) {
 		light, err := confirmLight(ctx, tx, campaignID, pc, sheet, prepared, request)
 		if err != nil {

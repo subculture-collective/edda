@@ -50,3 +50,27 @@ func TestMovementCopiesAndExactDistance(t *testing.T) {
 		t.Fatal("moved through unresolved path")
 	}
 }
+
+func TestThroughDoor(t *testing.T) {
+	feet, sight := 5, true
+	open := Space{DistanceFeet: &feet, LineOfSight: &sight, Cover: "half", Light: "bright", Obscurement: "none", Door: "d"}
+	if got := open.ThroughDoor("open"); *got.LineOfSight != true || got.Cover != "half" || got.Melee() != nil {
+		t.Fatalf("open door changed the declared path: %+v", got)
+	}
+	closed := open.ThroughDoor("closed")
+	if *closed.LineOfSight || closed.Cover != "total" || closed.Melee() == nil || *open.LineOfSight != true {
+		t.Fatalf("closed door: %+v (original %+v)", closed, open)
+	}
+	if seen, err := closed.Sight(&Senses{}); err != nil || seen.Seen {
+		t.Fatalf("closed door seen: %+v %v", seen, err)
+	}
+	for _, state := range []string{"", "ajar"} {
+		unknown := open.ThroughDoor(state)
+		if unknown.Validate() == nil || unknown.Melee() == nil {
+			t.Fatalf("%q door resolved: %+v", state, unknown)
+		}
+		if _, err := unknown.Sight(&Senses{}); err == nil {
+			t.Fatalf("%q door sight resolved", state)
+		}
+	}
+}

@@ -122,6 +122,40 @@ nothing. It never lowers a declared level, does not reduce fog or foliage, and
 leaves legacy facts without `light` unresolved. Other light sources, other senses, NPC sight of the player, hiding
 contests and invisibility remain unsupported.
 
+## An ordinary unlocked door (#146)
+
+A door is an object row in `npcs` at the actor's location, like the objects
+Detect Magic reads. Its server-owned facts are `properties.srd521_door`:
+
+```json
+{"profile": "ordinary-door-v1", "actor_id": "<pc id>", "hidden": false,
+ "state": "closed", "locked": false, "distance_feet": 5}
+```
+
+Every field is required. The actor knows the door when campaign history lists
+it in `npcs_involved`, its facts name the actor and `hidden` is `false`. Any
+other door, including a random ID, gets the same reason and no label. Unknown
+fields such as a trap or a stuck door, an unknown state, an unknown lock ruling
+and `locked: true` make opening unavailable; Edda never adds a lock or a
+secret room. The player-facing tools cannot write `srd521_*` NPC properties.
+
+The intent is `door-open` with `entry_id` set to the door's ID. It is available
+only outside encounters, for a closed door within the actor's 5-foot reach
+(SRD 5.2.1 Interacting with Objects, p. 11, and Reach). Outside combat it
+takes no action and no campaign time. During an encounter it is unavailable,
+because the one free object interaction per turn is not tracked; a pending
+reaction is named first. Confirmation sets `state` to `open` only if it is
+still `closed` and records a `srd_door` receipt and history in the same
+transaction. A repeated action ID returns the saved receipt.
+
+A spatial target can name the door between it and the actor with
+`"door": "<door id>"`; its other facts then describe the path with the door
+open. A closed door is total cover with no line of sight, so sight checks and
+attacks treat the target as unseen. An unknown door leaves line of sight
+unresolved. The door's facts are part of the target's spatial revision, so
+opening the door invalidates open attack and sight previews. Closing doors,
+locks, traps, breaking doors and object hit points remain unsupported.
+
 
 ## Explicit opportunity attacks (#81)
 
