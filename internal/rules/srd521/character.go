@@ -76,6 +76,11 @@ type CharacterSheet struct {
 	Capabilities  []Capability       `json:"capabilities"`
 	Progression   Progression        `json:"progression"`
 	Spellcasting  *Spellcasting      `json:"spellcasting,omitempty"`
+
+	// Light is the caster's saved Light; game.ApplyLight drops an ended one and
+	// names the object, which is empty once it is no longer carried.
+	Light     *LightEffect `json:"light,omitempty"`
+	LightItem string       `json:"light_item,omitempty"`
 }
 
 var abilityNames = []string{"strength", "dexterity", "constitution", "intelligence", "wisdom", "charisma"}
@@ -209,6 +214,10 @@ func Project(stats []byte, level, hp, maxHP, xp int) (*CharacterSheet, error) {
 				if name == "Cure Wounds" {
 					continue
 				}
+				if name == "Light" {
+					sheet.Spellcasting.Spells = append(sheet.Spellcasting.Spells, lightSpell(b.Casting))
+					continue
+				}
 				spell := Spell{ID: strings.ReplaceAll(strings.ToLower(name), " ", "-"), Label: name, Known: true, Prepared: true, SourceID: prefix + "spells/" + strings.ReplaceAll(strings.ToLower(name), " ", "-")}
 				if name == choices.FeatSpell && spell.ID == DetectMagicID {
 					// Only the Magic Initiate free use is playable; slot and ritual casting stay unavailable.
@@ -220,6 +229,10 @@ func Project(stats []byte, level, hp, maxHP, xp int) (*CharacterSheet, error) {
 	}
 
 	if b.Class == "cleric" {
+		if l := b.Casting.Light; l != nil && (b.Casting.Choices == nil || l.Validate() != nil) {
+			return nil, fmt.Errorf("invalid saved Light effect")
+		}
+		sheet.Light = b.Casting.Light
 		if c := b.Casting.Concentration; c != nil {
 			if c.ID == "" || (c.Spell != "shield-of-faith" && (c.Spell != DetectMagicID || c.RecipientID != "" || b.Casting.Choices == nil)) || c.StartedAt < 0 || c.ExpiresAt-c.StartedAt != 600 {
 				return nil, fmt.Errorf("invalid saved concentration")

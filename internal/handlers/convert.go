@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"git.subcult.tv/subculture-collective/edda/internal/rules/srd521"
 	"github.com/google/uuid"
+	"slices"
 	"time"
 
 	"git.subcult.tv/subculture-collective/edda/internal/dbutil"
@@ -190,7 +191,7 @@ func engineResolutionEventsToAPI(applied []engine.AppliedToolCall) []api.Resolut
 			}
 			if json.Unmarshal(call.Result, &result) == nil {
 				for _, receipt := range result.NPCReceipts {
-					if receipt != nil && receipt.RulesVersion == "srd-5.2.1" && (receipt.Weapon == "Unarmed Strike" || receipt.Weapon == "Scimitar" || receipt.Weapon == "Light Crossbow") {
+					if receipt != nil && receipt.RulesVersion == "srd-5.2.1" && (receipt.Weapon == "Unarmed Strike" || receipt.Weapon == "Scimitar" || receipt.Weapon == "Light Crossbow" || receipt.Weapon == "Bite" || receipt.Weapon == "Claw") {
 						out = append(out, api.ResolutionEvent{Type: "srd_attack", Label: "NPC " + receipt.Weapon, Outcome: receipt.Outcome, Details: map[string]any{"receipt": receipt}})
 					}
 				}
@@ -235,6 +236,13 @@ func engineResolutionEventsToAPI(applied []engine.AppliedToolCall) []api.Resolut
 			}
 			if json.Unmarshal(call.Result, &result) == nil && result.Receipt != nil && result.Receipt.RulesVersion == "srd-5.2.1" && result.Receipt.Spell == srd521.DetectMagicID && (result.Receipt.Kind == srd521.SpellCast || result.Receipt.Kind == srd521.DetectMagicStudy) {
 				out = append(out, api.ResolutionEvent{Type: "srd_detect_magic", Label: "Detect Magic", Outcome: result.Receipt.Reason, Details: map[string]any{"receipt": result.Receipt}})
+			}
+		case "srd_light":
+			var result struct {
+				Receipt *srd521.LightReceipt `json:"receipt"`
+			}
+			if json.Unmarshal(call.Result, &result) == nil && result.Receipt != nil && result.Receipt.RulesVersion == "srd-5.2.1" && slices.Contains([]string{srd521.SpellCast, srd521.DismissLight, srd521.CoverLight, srd521.UncoverLight}, result.Receipt.Kind) {
+				out = append(out, api.ResolutionEvent{Type: "srd_light", Label: "Light", Outcome: result.Receipt.Kind, Details: map[string]any{"receipt": result.Receipt}})
 			}
 		case "srd_equipment":
 			var result struct {

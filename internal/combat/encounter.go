@@ -13,6 +13,7 @@ const (
 	EncounterDash     = "combat-dash"
 	EncounterApproach = "combat-approach"
 	EncounterRetreat  = "combat-retreat"
+	EncounterStand    = "combat-stand"
 )
 
 // EncounterActor is public state for the explicitly known two-actor fixture.
@@ -25,6 +26,8 @@ type EncounterActor struct {
 	Initiative    int       `json:"initiative"`
 	InitiativeDie int       `json:"initiative_die"`
 	Speed         int       `json:"speed,omitempty"`
+	// Prone is the actor's saved Prone condition. Standing costs half its speed.
+	Prone bool `json:"prone,omitempty"`
 }
 
 // Public returns a detached preview without NPC HP or its unplayed tactic.
@@ -55,6 +58,7 @@ type TurnBudget struct {
 // Initiative is rolled once. Equal totals put the player first (declared tie choice).
 type Encounter struct {
 	Bandit    *srd521.BanditProfile `json:"bandit,omitempty"`
+	Beast     *srd521.BeastProfile  `json:"beast,omitempty"`
 	Reaction  *ReactionState        `json:"reaction,omitempty"`
 	NPCTactic string                `json:"npc_tactic,omitempty"`
 	Space     *Space                `json:"space,omitempty"`
@@ -97,6 +101,9 @@ func (e *Encounter) Spend(actor uuid.UUID, kind string) error {
 		}
 		e.Budget.SurgeUsed, e.Budget.SurgeAction = true, true
 	case srd521.SpellCast, srd521.MartialAttack, EncounterDash:
+		if kind == srd521.MartialAttack && e.Active().Prone {
+			return fmt.Errorf("Prone: attacks with Disadvantage are not supported; stand up first.")
+		}
 		if e.Budget.Action {
 			e.Budget.Action = false
 		} else if kind != srd521.SpellCast && e.Budget.SurgeAction {
@@ -112,7 +119,20 @@ func (e *Encounter) Spend(actor uuid.UUID, kind string) error {
 			return fmt.Errorf("bonus action already spent")
 		}
 		e.Budget.BonusAction = false
+	case EncounterStand:
+		half := e.StandCost()
+		if !e.Active().Prone {
+			return fmt.Errorf("You are not Prone.")
+		}
+		if e.Budget.Movement < half {
+			return fmt.Errorf("Standing up requires %d feet of movement.", half)
+		}
+		e.Budget.Movement -= half
+		e.Active().Prone = false
 	case EncounterMove, EncounterApproach, EncounterRetreat:
+		if e.Active().Prone {
+			return fmt.Errorf("Prone: crawling is not supported; stand up first.")
+		}
 		if e.Budget.Movement < 5 {
 			return fmt.Errorf("insufficient movement")
 		}
@@ -180,6 +200,9 @@ func (e *Encounter) SpendSpell(actor uuid.UUID, bonus bool) error {
 	e.Budget.SpellSlotSpent = true
 	return nil
 }
+
+// StandCost is the movement the active actor spends to end its Prone condition.
+func (e *Encounter) StandCost() int { return actorSpeed(*e.Active()) / 2 }
 
 // actorSpeed keeps historical fixtures at 30 feet while honoring pinned actors.
 func actorSpeed(actor EncounterActor) int {

@@ -166,7 +166,7 @@ func (r SpellRecords) Validate() error {
 }
 
 func (s SpellRecord) validate() error {
-	if !slices.Contains([]string{"complete-source-record", "bounded-self-level-1"}, s.Scope) || s.Level < 0 || s.Level > 9 || !slices.Contains(strings.Fields("abjuration conjuration divination enchantment evocation illusion necromancy transmutation"), s.School) || len(s.Lists) == 0 || !uniqueNames(s.Lists) {
+	if !slices.Contains([]string{"complete-source-record", "bounded-self-level-1", lightFixtureScope}, s.Scope) || s.Level < 0 || s.Level > 9 || !slices.Contains(strings.Fields("abjuration conjuration divination enchantment evocation illusion necromancy transmutation"), s.School) || len(s.Lists) == 0 || !uniqueNames(s.Lists) {
 		return fmt.Errorf("invalid scope, level, school or lists")
 	}
 	for _, class := range s.Lists {
@@ -174,7 +174,7 @@ func (s SpellRecord) validate() error {
 			return fmt.Errorf("invalid spell list")
 		}
 	}
-	if !slices.Contains([]string{"action", "bonus-action", "reaction", "1-minute", "10-minutes", "1-hour", "8-hours", "12-hours", "24-hours"}, s.CastingTime) || !slices.Contains([]string{"feet", "touch", "self", "unlimited", "special", "sight"}, s.Range.Kind) || s.Range.Feet < 0 || (s.Range.Kind == "feet" && s.Range.Feet == 0) || (s.Range.Kind != "feet" && s.Range.Feet != 0) || !validSpellTarget(s.Target) {
+	if !slices.Contains([]string{"action", "bonus-action", "reaction", "1-minute", "10-minutes", "1-hour", "8-hours", "12-hours", "24-hours"}, s.CastingTime) || !slices.Contains([]string{"feet", "touch", "self", "unlimited", "special", "sight"}, s.Range.Kind) || s.Range.Feet < 0 || (s.Range.Kind == "feet" && s.Range.Feet == 0) || (s.Range.Kind != "feet" && s.Range.Feet != 0) || (!validSpellTarget(s.Target) && !(s.Scope == lightFixtureScope && s.Target == lightFixtureTarget)) {
 		return fmt.Errorf("invalid casting, range or target shape")
 	}
 	if s.Components.Verbal == nil || s.Components.Somatic == nil || s.Ritual == nil || s.Concentration == nil {
@@ -367,6 +367,9 @@ func (s SpellRecord) validate() error {
 	default:
 		return fmt.Errorf("unsupported scaling shape")
 	}
+	if s.Scope == lightFixtureScope && (s.Level != 0 || s.Target != lightFixtureTarget || len(s.SlotLevels) != 0 || sc.Kind != "none") {
+		return fmt.Errorf("bounded Light fixture cannot widen targets or slots")
+	}
 	if s.Scope == "bounded-self-level-1" && (s.Level != 1 || s.Target.Shape != "single" || s.Target.Count != 1 || s.Target.Eligibility != "conscious-self" || !slices.Equal(s.SlotLevels, []int{1}) || sc.Kind != "none") {
 		return fmt.Errorf("bounded fixture cannot widen targets or slots")
 	}
@@ -384,10 +387,14 @@ func uniqueNames(names []string) bool {
 	return true
 }
 
-// MechanicsAvailable reports only the two existing bounded fixture dependencies.
+// MechanicsAvailable reports only the bounded fixture dependencies: Cure
+// Wounds, Shield of Faith and Light on one object the caster carries.
 // It is not permission to cast. Complete source records and unknown/unsupported
 // keys always return false, independently of their presence in a catalogue.
 func (s SpellRecord) MechanicsAvailable() bool {
+	if s.Scope == lightFixtureScope {
+		return s.lightFixtureAvailable()
+	}
 	if s.validate() != nil || s.Scope != "bounded-self-level-1" || s.SourceDetails != nil {
 		return false
 	}

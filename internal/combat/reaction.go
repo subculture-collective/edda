@@ -31,6 +31,11 @@ func (e *Encounter) SpendReaction() error {
 	if e.Status != "active" || e.Active().Player || e.Reaction == nil || !e.Reaction.Available || e.Reaction.Pending == nil || e.Space == nil {
 		return fmt.Errorf("No eligible reaction is pending.")
 	}
+	for _, a := range e.Actors {
+		if a.Player && a.Prone {
+			return fmt.Errorf("Prone: attacks with Disadvantage are not supported; decline the reaction.")
+		}
+	}
 	if e.Space.Revision != e.Reaction.Pending.SpaceRevision {
 		return fmt.Errorf("The trigger's spatial ruling changed; refresh or decline.")
 	}

@@ -84,13 +84,26 @@ func prepareSightPerception(ctx context.Context, database statedb.DBTX, campaign
 		return result, nil
 	}
 	senses := ReadSenses(pc.Stats)
-	encoded, err := json.Marshal([]any{p.ExpectedRevision, target.ID, target.Name, target.Space, senses})
+	clock, err := ReadSpellClock(ctx, database, campaign.ID)
+	if err != nil {
+		return nil, err
+	}
+	emitter, err := ReadLightEmitter(ctx, database, campaign.ID, pc, clock, lock)
+	if err != nil {
+		return nil, err
+	}
+	identity := []any{p.ExpectedRevision, target.ID, target.Name, target.Space, senses}
+	if emitter != nil {
+		identity = append(identity, emitter)
+	}
+	encoded, err := json.Marshal(identity)
 	if err != nil {
 		return nil, err
 	}
 	p.ExpectedRevision = fmt.Sprintf("sight-v1:%x", sha256.Sum256(encoded))
 	p.Targets = []ActionTarget{{ID: target.ID, Label: target.Name, DistanceFeet: target.Space.DistanceFeet}}
-	sight, err := target.Space.Sight(senses)
+	space, lit := illuminate(target.Space, emitter)
+	sight, err := space.Sight(senses)
 	if err != nil {
 		p.Reason = err.Error()
 		return result, nil
@@ -107,6 +120,10 @@ func prepareSightPerception(ctx context.Context, database statedb.DBTX, campaign
 	darkvision := ""
 	if sight.Darkvision {
 		darkvision = ", seen with Darkvision"
+	}
+	if lit {
+		darkvision += fmt.Sprintf(", lit by your Light on %s", emitter.Item)
+		sight.SourceIDs = append(sight.SourceIDs, "srd-5.2.1:content/spells/light")
 	}
 	result.Sight = &sight
 	p.Available = true

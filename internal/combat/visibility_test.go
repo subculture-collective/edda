@@ -74,3 +74,46 @@ func TestSightUnresolvedFactsFailClosed(t *testing.T) {
 		})
 	}
 }
+
+func TestIlluminatedCarriedLightRadii(t *testing.T) {
+	feet := func(n int) *int { return &n }
+	yes := true
+	for _, tc := range []struct {
+		distance      int
+		declared, out string
+		raised        bool
+	}{
+		{0, LightDark, LightBright, true},
+		{20, LightDark, LightBright, true},
+		{20, LightDim, LightBright, true},
+		{21, LightDark, LightDim, true},
+		{40, LightDark, LightDim, true},
+		{40, LightDim, LightDim, false},
+		{41, LightDark, LightDark, false},
+		{5, LightBright, LightBright, false},
+	} {
+		s := Space{DistanceFeet: feet(tc.distance), LineOfSight: &yes, Cover: "none", Light: tc.declared, Obscurement: ObscurementNone}
+		got, raised := s.Illuminated(20, 20)
+		if got.Light != tc.out || raised != tc.raised || s.Light != tc.declared {
+			t.Fatalf("%d ft %s: got %s raised=%t", tc.distance, tc.declared, got.Light, raised)
+		}
+	}
+	// Unresolved light or distance stays unresolved; Sight still fails closed.
+	legacy := Space{DistanceFeet: feet(5), LineOfSight: &yes, Cover: "none"}
+	if got, raised := legacy.Illuminated(20, 20); raised || got.Light != "" {
+		t.Fatal("legacy light inferred")
+	}
+	if _, err := legacy.Sight(&Senses{}); err == nil {
+		t.Fatal("legacy sight resolved")
+	}
+	unknown := Space{LineOfSight: &yes, Cover: "none", Light: LightDark, Obscurement: ObscurementNone}
+	if _, raised := unknown.Illuminated(20, 20); raised {
+		t.Fatal("unknown distance illuminated")
+	}
+	// Fog is not reduced by light.
+	fog := Space{DistanceFeet: feet(10), LineOfSight: &yes, Cover: "none", Light: LightDark, Obscurement: ObscurementHeavy}
+	lit, _ := fog.Illuminated(20, 20)
+	if sight, err := lit.Sight(&Senses{}); err != nil || sight.Seen {
+		t.Fatal("light cleared heavy fog")
+	}
+}

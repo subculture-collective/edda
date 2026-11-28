@@ -10,6 +10,7 @@ const SpellCast = "spell-cast"
 type CastingBuild struct {
 	IsolatedRecipientEffects bool           `json:"isolated_recipient_effects,omitempty"`
 	Concentration            *Concentration `json:"concentration,omitempty"`
+	Light                    *LightEffect   `json:"light,omitempty"`
 	LastLongRest             *int           `json:"last_long_rest,omitempty"`
 	ShieldPrepared           bool           `json:"shield_prepared"`
 	Focus                    bool           `json:"focus"`

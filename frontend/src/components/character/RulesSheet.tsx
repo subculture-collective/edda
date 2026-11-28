@@ -27,9 +27,14 @@ export function RulesSheet({ sheet, receipts = [], campaignId, actorId, initialP
     {sheet.spellcasting && <section aria-label="Spellcasting" className="space-y-2">
       <h3 className="font-heading text-gold">Spellcasting</h3>
       <p>Casting ability: {sheet.spellcasting.ability} ({sheet.spellcasting.modifier.value >= 0 ? '+' : ''}{sheet.spellcasting.modifier.value})</p>
-      {sheet.spellcasting.spells.map(spell => <p key={spell.id}>{spell.label} · {spell.known ? 'Known' : 'Unknown'} · {spell.prepared ? 'Prepared' : 'Not prepared'} · Components: {spell.components.join(', ')} ({spell.components_available ? 'available' : 'unavailable'}) · {spell.playable === false ? 'Effect unavailable' : `Supported slots: ${spell.slot_levels.join(', ')}`}</p>)}
+      {sheet.spellcasting.spells.map(spell => <p key={spell.id}>{spell.label} · {spell.known ? 'Known' : 'Unknown'} · {spell.prepared ? 'Prepared' : 'Not prepared'} · Components: {spell.components.join(', ')} ({spell.components_available ? 'available' : 'unavailable'}) · {spell.playable === false ? 'Effect unavailable' : spell.slot_levels.length ? `Supported slots: ${spell.slot_levels.join(', ')}` : 'Cantrip: no slot'}</p>)}
       {sheet.spellcasting.choices && <p>Divine Order: {sheet.spellcasting.choices.divine_order} · Magic Initiate ({sheet.spellcasting.choices.magic_initiate_ability}): {sheet.spellcasting.choices.magic_initiate_spell}</p>}
-      <p className="text-sm text-pewter">Human Acolyte Cleric creation is supported. Recorded spell choices are listed here; Cure Wounds on self or a prepared willing, conscious adjacent ally outside encounters and Shield of Faith on self are playable with level 1 slots; Detect Magic is playable once per Long Rest through the recorded Magic Initiate free use. Other effects, conditions and targets remain unavailable.</p>
+      <p className="text-sm text-pewter">Human Acolyte Cleric creation is supported. Recorded spell choices are listed here; Cure Wounds on self or a prepared willing, conscious adjacent ally outside encounters and Shield of Faith on self are playable with level 1 slots; Detect Magic is playable once per Long Rest through the recorded Magic Initiate free use. A recorded Light cantrip is playable on one object you carry outside encounters. Other effects, conditions and targets remain unavailable.</p>
+    </section>}
+    {sheet.spellcasting?.spells.some(spell => spell.id === 'light' && spell.playable) && <section aria-label="Active Light">
+      <h3 className="font-heading text-gold">Light</h3>
+      <p>{sheet.light ? `Light on ${sheet.light_item || 'an object you no longer carry'} (${sheet.light.color}): bright light ${sheet.light.bright_feet} feet and dim light ${sheet.light.dim_feet} feet further. Expires ${formatCampaignSeconds(sheet.light.expires_at)}.` : 'No Light active.'}{sheet.light?.covered && ' Covered: it sheds no light until uncovered.'}</p>
+      <p className="text-sm text-pewter">Cast, cover, uncover or dismiss it from the action menu. Edda's sight checks use it only while you carry the uncovered object.</p>
     </section>}
     {sheet.spellcasting && <section aria-label="Concentration and recovery">
       <h3 className="font-heading text-gold">Concentration and recovery</h3>
