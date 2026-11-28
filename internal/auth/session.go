@@ -32,27 +32,64 @@ func UserFromContext(ctx context.Context) (uuid.UUID, bool) {
 	}
 }
 
-// TokenFromRequest extracts the bearer token from the Authorization header.
+// TokenFromRequest extracts the bearer token for REST requests, or cookie token
+// for websocket upgrade requests when no Authorization header is present.
 func TokenFromRequest(r *http.Request) (string, error) {
 	authHeader := strings.TrimSpace(r.Header.Get("Authorization"))
-	if authHeader == "" {
-		return "", errMissingAuthorizationHeader
+	if authHeader != "" {
+		token, found := strings.CutPrefix(authHeader, "Bearer ")
+		if !found || token == "" {
+			return "", errInvalidAuthorizationHeader
+		}
+		return token, nil
 	}
-	token, found := strings.CutPrefix(authHeader, "Bearer ")
-	if !found || token == "" {
-		return "", errInvalidAuthorizationHeader
+
+	if !isWebSocketUpgradeRequest(r) {
+		return "", http.ErrNoCookie
 	}
-	return token, nil
+
+	cookie, err := r.Cookie(AuthCookieName)
+	if err != nil {
+		return "", err
+	}
+	if token := strings.TrimSpace(cookie.Value); token != "" {
+		return token, nil
+	}
+	return "", http.ErrNoCookie
 }
 
-// webSocketTicketFromRequest returns the ticket of a WebSocket upgrade that
-// has no Authorization header. Browsers cannot set headers on a WebSocket, so
-// the ticket travels in the URL; it works once and only for a few seconds.
-func webSocketTicketFromRequest(r *http.Request) string {
-	if !isWebSocketUpgradeRequest(r) || r.Header.Get("Authorization") != "" {
-		return ""
+// SecureCookieFromRequest reports whether session cookies should be marked Secure.
+func SecureCookieFromRequest(r *http.Request) bool {
+	if r != nil && r.TLS != nil {
+		return true
 	}
-	return r.URL.Query().Get("ticket")
+	return strings.EqualFold(strings.TrimSpace(r.Header.Get("X-Forwarded-Proto")), "https")
+}
+
+// IssueSessionCookie sets the browser-sendable auth cookie.
+func IssueSessionCookie(w http.ResponseWriter, r *http.Request, token string) {
+	http.SetCookie(w, &http.Cookie{
+		Name:     AuthCookieName,
+		Value:    token,
+		Path:     "/",
+		HttpOnly: true,
+		Secure:   SecureCookieFromRequest(r),
+		SameSite: http.SameSiteLaxMode,
+		MaxAge:   int(DefaultTokenTTL.Seconds()),
+	})
+}
+
+// ClearSessionCookie clears the browser-sendable auth cookie used for same-origin websocket auth.
+func ClearSessionCookie(w http.ResponseWriter, r *http.Request) {
+	http.SetCookie(w, &http.Cookie{
+		Name:     AuthCookieName,
+		Value:    "",
+		Path:     "/",
+		HttpOnly: true,
+		Secure:   SecureCookieFromRequest(r),
+		SameSite: http.SameSiteLaxMode,
+		MaxAge:   -1,
+	})
 }
 
 func isWebSocketUpgradeRequest(r *http.Request) bool {

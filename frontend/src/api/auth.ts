@@ -28,14 +28,16 @@ export async function getMe(token: string): Promise<{ user: AuthUser }> {
 
 export function logout(): Promise<void> {
   const headers = buildAuthHeaders(getStoredToken());
-  // Clear before the request so that a reload cannot restore the session.
+  // Clear before the request: a reload would otherwise restore the session, and a
+  // late reply would erase the one from a newer sign-in.
   clearStoredSession();
-  // keepalive lets the request finish, and revoke the token, if the page closes.
-  return apiFetchVoid('/auth/logout', { method: 'POST', headers, keepalive: true });
+  // keepalive lets the request finish, and clear the cookie, if the page closes.
+  return apiFetchVoid('/auth/logout', { method: 'POST', headers, keepalive: true }).finally(restoreSessionCookie);
 }
 
-// A one-use ticket that opens a WebSocket for the stored session within 30 seconds.
-export async function requestWebSocketTicket(): Promise<string> {
-  const { ticket } = await apiFetch<{ ticket: string }>('/auth/ws-ticket', { method: 'POST' });
-  return ticket;
+// A logout reply that arrives after a newer sign-in clears that sign-in's
+// WebSocket cookie. /auth/me sets it again.
+async function restoreSessionCookie(): Promise<void> {
+  const token = getStoredToken();
+  if (token) await getMe(token).catch(() => {});
 }

@@ -5,14 +5,13 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"git.subcult.tv/subculture-collective/edda/internal/engine"
 	"net/http"
 	"time"
 
 	"github.com/coder/websocket"
 	"github.com/coder/websocket/wsjson"
 
-	"git.subcult.tv/subculture-collective/edda/internal/auth"
-	"git.subcult.tv/subculture-collective/edda/internal/engine"
 	"git.subcult.tv/subculture-collective/edda/pkg/api"
 )
 
@@ -24,10 +23,6 @@ type wsActionMessage struct {
 
 // wsActionPayload carries the player input within an action message.
 type wsActionPayload = api.ActionRequest
-
-// StatusSignedOut closes a WebSocket whose token signed out. Clients should
-// not reconnect with the same token.
-const StatusSignedOut websocket.StatusCode = 4401
 
 var websocketAcceptOptions = &websocket.AcceptOptions{
 	OriginPatterns: []string{
@@ -54,16 +49,6 @@ func (h *ActionHandlers) HandleWebSocket(w http.ResponseWriter, r *http.Request)
 
 	ctx, cancelConnection := context.WithCancel(r.Context())
 	defer cancelConnection()
-	go func() {
-		select {
-		case <-auth.SignedOut(r.Context()):
-			// Close sends the close frame before the reader's canceled context
-			// drops the connection.
-			_ = conn.Close(StatusSignedOut, "signed out")
-			cancelConnection()
-		case <-ctx.Done():
-		}
-	}()
 	// Exactly one reader stays active while the provider is silent. A peer close
 	// cancels turn work without waiting for a narrative write to discover it.
 	messages := make(chan wsActionMessage)
