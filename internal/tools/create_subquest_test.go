@@ -15,6 +15,8 @@ import (
 	statedb "git.subcult.tv/subculture-collective/edda/internal/state/sqlc"
 )
 
+var subquestTestCampaignID = uuid.New()
+
 func TestRegisterCreateSubquest(t *testing.T) {
 	reg := NewRegistry()
 	store := &stubQuestStore{}
@@ -74,7 +76,7 @@ func TestCreateSubquestHandleSuccess(t *testing.T) {
 	}
 
 	h := NewCreateSubquestHandler(store)
-	got, err := h.Handle(context.Background(), map[string]any{
+	got, err := h.Handle(WithCurrentCampaignID(context.Background(), campaignID), map[string]any{
 		"parent_quest_id": parentQuestID.String(),
 		"title":           "Scout the area",
 		"description":     "Find enemy movement.",
@@ -119,7 +121,7 @@ func TestCreateSubquestHandleSuccess(t *testing.T) {
 
 func TestCreateSubquestInvalidParent(t *testing.T) {
 	h := NewCreateSubquestHandler(&stubQuestStore{})
-	_, err := h.Handle(context.Background(), map[string]any{
+	_, err := h.Handle(WithCurrentCampaignID(context.Background(), subquestTestCampaignID), map[string]any{
 		"parent_quest_id": uuid.New().String(),
 		"title":           "Scout the area",
 		"description":     "Find enemy movement.",
@@ -139,7 +141,7 @@ func TestCreateSubquestCompletedParent(t *testing.T) {
 		questsByID: map[[16]byte]statedb.Quest{
 			dbutil.ToPgtype(parentQuestID).Bytes: {
 				ID:          dbutil.ToPgtype(parentQuestID),
-				CampaignID:  dbutil.ToPgtype(uuid.New()),
+				CampaignID:  dbutil.ToPgtype(subquestTestCampaignID),
 				Title:       "Main Quest",
 				Description: pgtype.Text{String: "Main", Valid: true},
 				QuestType:   string(domain.QuestTypeLongTerm),
@@ -149,7 +151,7 @@ func TestCreateSubquestCompletedParent(t *testing.T) {
 	}
 
 	h := NewCreateSubquestHandler(store)
-	_, err := h.Handle(context.Background(), map[string]any{
+	_, err := h.Handle(WithCurrentCampaignID(context.Background(), subquestTestCampaignID), map[string]any{
 		"parent_quest_id": parentQuestID.String(),
 		"title":           "Scout the area",
 		"description":     "Find enemy movement.",
@@ -165,7 +167,7 @@ func TestCreateSubquestCompletedParent(t *testing.T) {
 
 func TestCreateSubquestParentLookupError(t *testing.T) {
 	h := NewCreateSubquestHandler(&stubQuestStore{getQuestErr: errors.New("db down")})
-	_, err := h.Handle(context.Background(), map[string]any{
+	_, err := h.Handle(WithCurrentCampaignID(context.Background(), subquestTestCampaignID), map[string]any{
 		"parent_quest_id": uuid.New().String(),
 		"title":           "Scout the area",
 		"description":     "Find enemy movement.",
@@ -185,7 +187,7 @@ func TestCreateSubquestValidationAndParentErrors(t *testing.T) {
 		questsByID: map[[16]byte]statedb.Quest{
 			dbutil.ToPgtype(parentQuestID).Bytes: {
 				ID:          dbutil.ToPgtype(parentQuestID),
-				CampaignID:  dbutil.ToPgtype(uuid.New()),
+				CampaignID:  dbutil.ToPgtype(subquestTestCampaignID),
 				Title:       "Main Quest",
 				Description: pgtype.Text{String: "Main", Valid: true},
 				QuestType:   string(domain.QuestTypeLongTerm),
@@ -207,7 +209,7 @@ func TestCreateSubquestValidationAndParentErrors(t *testing.T) {
 
 	t.Run("parent not found from no rows", func(t *testing.T) {
 		h := NewCreateSubquestHandler(&stubQuestStore{getQuestErr: pgx.ErrNoRows})
-		_, err := h.Handle(context.Background(), copyQuestArgs(baseArgs))
+		_, err := h.Handle(WithCurrentCampaignID(context.Background(), subquestTestCampaignID), copyQuestArgs(baseArgs))
 		if err == nil || !strings.Contains(err.Error(), "parent quest not found") {
 			t.Fatalf("error = %v, want parent quest not found", err)
 		}
@@ -216,7 +218,7 @@ func TestCreateSubquestValidationAndParentErrors(t *testing.T) {
 	t.Run("reject whitespace title", func(t *testing.T) {
 		args := copyQuestArgs(baseArgs)
 		args["title"] = "   "
-		_, err := h.Handle(context.Background(), args)
+		_, err := h.Handle(WithCurrentCampaignID(context.Background(), subquestTestCampaignID), args)
 		if err == nil || !strings.Contains(err.Error(), "title must not be empty or whitespace") {
 			t.Fatalf("error = %v, want whitespace title validation", err)
 		}
@@ -225,17 +227,16 @@ func TestCreateSubquestValidationAndParentErrors(t *testing.T) {
 	t.Run("reject whitespace description", func(t *testing.T) {
 		args := copyQuestArgs(baseArgs)
 		args["description"] = "   "
-		_, err := h.Handle(context.Background(), args)
+		_, err := h.Handle(WithCurrentCampaignID(context.Background(), subquestTestCampaignID), args)
 		if err == nil || !strings.Contains(err.Error(), "description must not be empty or whitespace") {
 			t.Fatalf("error = %v, want whitespace description validation", err)
 		}
 	})
 }
 
-
 func TestCreateSubquestMissingParentQuestID(t *testing.T) {
 	h := NewCreateSubquestHandler(&stubQuestStore{})
-	_, err := h.Handle(context.Background(), map[string]any{
+	_, err := h.Handle(WithCurrentCampaignID(context.Background(), subquestTestCampaignID), map[string]any{
 		"title":       "Scout",
 		"description": "Find enemy.",
 		"quest_type":  "short_term",
@@ -254,7 +255,7 @@ func TestCreateSubquestFailedParent(t *testing.T) {
 		questsByID: map[[16]byte]statedb.Quest{
 			dbutil.ToPgtype(parentQuestID).Bytes: {
 				ID:          dbutil.ToPgtype(parentQuestID),
-				CampaignID:  dbutil.ToPgtype(uuid.New()),
+				CampaignID:  dbutil.ToPgtype(subquestTestCampaignID),
 				Title:       "Main Quest",
 				Description: pgtype.Text{String: "Main", Valid: true},
 				QuestType:   string(domain.QuestTypeLongTerm),
@@ -264,7 +265,7 @@ func TestCreateSubquestFailedParent(t *testing.T) {
 	}
 
 	h := NewCreateSubquestHandler(store)
-	_, err := h.Handle(context.Background(), map[string]any{
+	_, err := h.Handle(WithCurrentCampaignID(context.Background(), subquestTestCampaignID), map[string]any{
 		"parent_quest_id": parentQuestID.String(),
 		"title":           "Scout the area",
 		"description":     "Find enemy movement.",
@@ -306,7 +307,7 @@ func TestCreateSubquestInheritsQuestType(t *testing.T) {
 	}
 
 	h := NewCreateSubquestHandler(store)
-	_, err := h.Handle(context.Background(), map[string]any{
+	_, err := h.Handle(WithCurrentCampaignID(context.Background(), campaignID), map[string]any{
 		"parent_quest_id": parentQuestID.String(),
 		"title":           "Scout the area",
 		"description":     "Find enemy movement.",
@@ -324,5 +325,38 @@ func TestCreateSubquestInheritsQuestType(t *testing.T) {
 	}
 	if store.createQuestCalls[0].QuestType != string(domain.QuestTypeShortTerm) {
 		t.Fatalf("quest_type = %q, want %q", store.createQuestCalls[0].QuestType, string(domain.QuestTypeShortTerm))
+	}
+}
+func TestCreateSubquestRejectsParentInAnotherCampaign(t *testing.T) {
+	parentQuestID := uuid.New()
+	store := &stubQuestStore{
+		questsByID: map[[16]byte]statedb.Quest{
+			dbutil.ToPgtype(parentQuestID).Bytes: {
+				ID:         dbutil.ToPgtype(parentQuestID),
+				CampaignID: dbutil.ToPgtype(uuid.New()),
+				Title:      "Foreign Quest",
+				QuestType:  string(domain.QuestTypeLongTerm),
+				Status:     string(domain.QuestStatusActive),
+			},
+		},
+	}
+	args := map[string]any{
+		"parent_quest_id": parentQuestID.String(),
+		"title":           "Scout the area",
+		"description":     "Find enemy movement.",
+		"quest_type":      "short_term",
+		"objectives":      []any{map[string]any{"description": "Search", "order_index": 1}},
+	}
+	ctx := WithCurrentCampaignID(context.Background(), subquestTestCampaignID)
+
+	_, err := NewCreateSubquestHandler(store).Handle(ctx, args)
+	if err == nil || !strings.Contains(err.Error(), "parent quest not found") || !errors.Is(err, pgx.ErrNoRows) || strings.Contains(err.Error(), "Foreign") {
+		t.Fatalf("error = %v, want same error as a missing parent", err)
+	}
+	if len(store.createQuestCalls) != 0 || len(store.createObjectiveCalls) != 0 {
+		t.Fatalf("subquest written for foreign parent")
+	}
+	if _, err := NewCreateSubquestHandler(store).Handle(context.Background(), args); err == nil || !strings.Contains(err.Error(), "requires current campaign id in context") {
+		t.Fatalf("error = %v, want missing-context error", err)
 	}
 }

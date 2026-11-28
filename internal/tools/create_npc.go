@@ -21,6 +21,7 @@ type CreateNPCParams = domain.CreateNPCParams
 type CreateNPCStore interface {
 	GetPlayerCharacterByID(ctx context.Context, playerCharacterID uuid.UUID) (*domain.PlayerCharacter, error)
 	LocationExistsInCampaign(ctx context.Context, locationID, campaignID uuid.UUID) (bool, error)
+	FactionExistsInCampaign(ctx context.Context, factionID, campaignID uuid.UUID) (bool, error)
 	CreateNPC(ctx context.Context, params CreateNPCParams) (*domain.NPC, error)
 	ListNPCsByCampaign(ctx context.Context, campaignID uuid.UUID) ([]domain.NPC, error)
 }
@@ -165,6 +166,13 @@ func (h *CreateNPCHandler) Handle(ctx context.Context, args map[string]any) (*To
 	}
 	var factionIDPtr *uuid.UUID
 	if factionSet {
+		factionExists, err := h.store.FactionExistsInCampaign(ctx, factionID, playerCharacter.CampaignID)
+		if err != nil {
+			return nil, fmt.Errorf("check faction exists in campaign: %w", err)
+		}
+		if !factionExists {
+			return nil, errors.New("faction_id does not reference an existing faction in player campaign")
+		}
 		factionIDPtr = &factionID
 	}
 

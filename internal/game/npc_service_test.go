@@ -32,7 +32,10 @@ func TestNPCDialogueStoreGetNPCByID(t *testing.T) {
 	}
 	store := NewNPCService(q)
 
-	got, err := store.GetNPCByID(context.Background(), npcID)
+	if other, err := store.GetNPCByID(context.Background(), uuid.New(), npcID); err != nil || other != nil {
+		t.Fatalf("GetNPCByID() from another campaign = %+v, %v; want nil", other, err)
+	}
+	got, err := store.GetNPCByID(context.Background(), campaignID, npcID)
 	if err != nil {
 		t.Fatalf("GetNPCByID() error = %v", err)
 	}
@@ -54,7 +57,7 @@ func TestNPCDialogueStoreGetNPCByIDNotFound(t *testing.T) {
 	q := newMockQuerier()
 	store := NewNPCService(q)
 
-	got, err := store.GetNPCByID(context.Background(), uuid.New())
+	got, err := store.GetNPCByID(context.Background(), uuid.New(), uuid.New())
 	if err != nil {
 		t.Fatalf("GetNPCByID() error = %v", err)
 	}
@@ -148,7 +151,7 @@ func TestNPCDialogueStoreLogNPCDialogueErrors(t *testing.T) {
 }
 
 var _ interface {
-	GetNPCByID(context.Context, uuid.UUID) (*domain.NPC, error)
+	GetNPCByID(context.Context, uuid.UUID, uuid.UUID) (*domain.NPC, error)
 	LogNPCDialogue(context.Context, domain.NPCDialogueLogEntry) error
 } = (*npcService)(nil)
 var _ interface {

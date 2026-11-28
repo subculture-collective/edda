@@ -17,6 +17,7 @@ var _ ResolveCombatStore = (*stubResolveCombatStore)(nil)
 type stubResolveCombatStore struct {
 	player              *domain.PlayerCharacter
 	npcs                map[uuid.UUID]*domain.NPC
+	locations           map[uuid.UUID]uuid.UUID
 	getPlayerErr        error
 	updateHPErr         error
 	updateStatusErr     error
@@ -85,14 +86,36 @@ func (s *stubResolveCombatStore) MarkNPCDead(_ context.Context, npcID uuid.UUID)
 	return nil
 }
 
-func (s *stubResolveCombatStore) GetNPCByID(_ context.Context, npcID uuid.UUID) (*domain.NPC, error) {
+func (s *stubResolveCombatStore) GetNPCByID(_ context.Context, campaignID, npcID uuid.UUID) (*domain.NPC, error) {
 	if s.getNPCErr != nil {
 		return nil, s.getNPCErr
 	}
-	if npc, ok := s.npcs[npcID]; ok {
+	if npc, ok := s.npcs[npcID]; ok && npc.CampaignID == campaignID {
 		return npc, nil
 	}
 	return nil, nil
+}
+
+func (s *stubResolveCombatStore) LocationExistsInCampaign(_ context.Context, locationID, campaignID uuid.UUID) (bool, error) {
+	owner, ok := s.locations[locationID]
+	return ok && owner == campaignID, nil
+}
+
+// wrote reports whether the handler reached any write.
+func (s *stubResolveCombatStore) wrote() bool {
+	return s.updatedHP != 0 || s.updatedMaxHP != 0 || s.updatedStatus != "" || s.updatedLocationID != uuid.Nil ||
+		s.addedXP != 0 || len(s.createdItems) != 0 || len(s.killedNPCIDs) != 0 || len(s.updatedDispositions) != 0
+}
+
+// testCombatCampaignID is the current campaign in the resolve_combat tests.
+var testCombatCampaignID = uuid.New()
+
+func resolveCombatContext(playerID uuid.UUID) context.Context {
+	return WithCurrentCampaignID(WithCurrentPlayerCharacterID(context.Background(), playerID), testCombatCampaignID)
+}
+
+func aliveNPC(id uuid.UUID) *domain.NPC {
+	return &domain.NPC{ID: id, CampaignID: testCombatCampaignID, Name: "Goblin", Alive: true}
 }
 
 func (s *stubResolveCombatStore) UpdateNPCDisposition(_ context.Context, npcID uuid.UUID, newDisposition int) error {
@@ -111,7 +134,7 @@ func (s *stubResolveCombatStore) UpdateNPCDisposition(_ context.Context, npcID u
 func baseCombatStateArgsForResolve(playerID, enemyID uuid.UUID) map[string]any {
 	return map[string]any{
 		"id":               uuid.New().String(),
-		"campaign_id":      uuid.New().String(),
+		"campaign_id":      testCombatCampaignID.String(),
 		"round_number":     1,
 		"status":           "active",
 		"narrative":        "",
@@ -151,7 +174,7 @@ func baseCombatStateArgsForResolve(playerID, enemyID uuid.UUID) map[string]any {
 func defaultPlayer(playerID uuid.UUID) *domain.PlayerCharacter {
 	return &domain.PlayerCharacter{
 		ID:         playerID,
-		CampaignID: uuid.New(),
+		CampaignID: testCombatCampaignID,
 		Name:       "Aria",
 		HP:         18,
 		MaxHP:      30,
@@ -198,9 +221,9 @@ func TestRegisterResolveCombatNilStoreReturnsError(t *testing.T) {
 func TestResolveCombatVictoryDistributesXPCreatesLootAndMarksNPCsDead(t *testing.T) {
 	playerID := uuid.New()
 	enemyID := uuid.New()
-	store := &stubResolveCombatStore{player: defaultPlayer(playerID)}
+	store := &stubResolveCombatStore{player: defaultPlayer(playerID), npcs: map[uuid.UUID]*domain.NPC{enemyID: aliveNPC(enemyID)}}
 	h := NewResolveCombatHandler(store)
-	ctx := WithCurrentPlayerCharacterID(context.Background(), playerID)
+	ctx := resolveCombatContext(playerID)
 
 	result, err := h.Handle(ctx, map[string]any{
 		"combat_state": baseCombatStateArgsForResolve(playerID, enemyID),
@@ -259,10 +282,10 @@ func TestResolveCombatVictoryDistributesXPCreatesLootAndMarksNPCsDead(t *testing
 func TestResolveCombatUsesCurrentCampaignIDWhenCombatStateOmittedIt(t *testing.T) {
 	playerID := uuid.New()
 	enemyID := uuid.New()
-	campaignID := uuid.New()
+	campaignID := testCombatCampaignID
 	store := &stubResolveCombatStore{player: defaultPlayer(playerID)}
 	h := NewResolveCombatHandler(store)
-	ctx := WithCurrentCampaignID(WithCurrentPlayerCharacterID(context.Background(), playerID), campaignID)
+	ctx := resolveCombatContext(playerID)
 	combatState := baseCombatStateArgsForResolve(playerID, enemyID)
 	delete(combatState, "campaign_id")
 
@@ -285,7 +308,7 @@ func TestResolveCombatVictoryWithNoXPOrLoot(t *testing.T) {
 	enemyID := uuid.New()
 	store := &stubResolveCombatStore{player: defaultPlayer(playerID)}
 	h := NewResolveCombatHandler(store)
-	ctx := WithCurrentPlayerCharacterID(context.Background(), playerID)
+	ctx := resolveCombatContext(playerID)
 
 	result, err := h.Handle(ctx, map[string]any{
 		"combat_state": baseCombatStateArgsForResolve(playerID, enemyID),
@@ -312,7 +335,7 @@ func TestResolveCombatDefeatSetsDefeatedStatus(t *testing.T) {
 	enemyID := uuid.New()
 	store := &stubResolveCombatStore{player: defaultPlayer(playerID)}
 	h := NewResolveCombatHandler(store)
-	ctx := WithCurrentPlayerCharacterID(context.Background(), playerID)
+	ctx := resolveCombatContext(playerID)
 
 	result, err := h.Handle(ctx, map[string]any{
 		"combat_state": baseCombatStateArgsForResolve(playerID, enemyID),
@@ -350,9 +373,9 @@ func TestResolveCombatFleeMovesPlayerAndExitsCombat(t *testing.T) {
 	playerID := uuid.New()
 	enemyID := uuid.New()
 	fleeLocationID := uuid.New()
-	store := &stubResolveCombatStore{player: defaultPlayer(playerID)}
+	store := &stubResolveCombatStore{player: defaultPlayer(playerID), locations: map[uuid.UUID]uuid.UUID{fleeLocationID: testCombatCampaignID}}
 	h := NewResolveCombatHandler(store)
-	ctx := WithCurrentPlayerCharacterID(context.Background(), playerID)
+	ctx := resolveCombatContext(playerID)
 
 	result, err := h.Handle(ctx, map[string]any{
 		"combat_state":     baseCombatStateArgsForResolve(playerID, enemyID),
@@ -389,7 +412,7 @@ func TestResolveCombatFleeWithoutLocationExitsCombat(t *testing.T) {
 	enemyID := uuid.New()
 	store := &stubResolveCombatStore{player: defaultPlayer(playerID)}
 	h := NewResolveCombatHandler(store)
-	ctx := WithCurrentPlayerCharacterID(context.Background(), playerID)
+	ctx := resolveCombatContext(playerID)
 
 	result, err := h.Handle(ctx, map[string]any{
 		"combat_state": baseCombatStateArgsForResolve(playerID, enemyID),
@@ -415,13 +438,13 @@ func TestResolveCombatSurrenderUpdatesNPCDispositions(t *testing.T) {
 	playerID := uuid.New()
 	enemyID := uuid.New()
 	// Use enemyID as the surrender NPC – it must be an NPC combatant in the combat state.
-	npc := &domain.NPC{ID: enemyID, CampaignID: uuid.New(), Name: "Bandit Chief", Disposition: -20, Alive: true}
+	npc := &domain.NPC{ID: enemyID, CampaignID: testCombatCampaignID, Name: "Bandit Chief", Disposition: -20, Alive: true}
 	store := &stubResolveCombatStore{
 		player: defaultPlayer(playerID),
 		npcs:   map[uuid.UUID]*domain.NPC{enemyID: npc},
 	}
 	h := NewResolveCombatHandler(store)
-	ctx := WithCurrentPlayerCharacterID(context.Background(), playerID)
+	ctx := resolveCombatContext(playerID)
 
 	result, err := h.Handle(ctx, map[string]any{
 		"combat_state":       baseCombatStateArgsForResolve(playerID, enemyID),
@@ -458,13 +481,13 @@ func TestResolveCombatSurrenderClampsDispositionAt100(t *testing.T) {
 	playerID := uuid.New()
 	enemyID := uuid.New()
 	// Use enemyID as the surrender NPC – it must be an NPC combatant in the combat state.
-	npc := &domain.NPC{ID: enemyID, CampaignID: uuid.New(), Name: "Villager", Disposition: 80, Alive: true}
+	npc := &domain.NPC{ID: enemyID, CampaignID: testCombatCampaignID, Name: "Villager", Disposition: 80, Alive: true}
 	store := &stubResolveCombatStore{
 		player: defaultPlayer(playerID),
 		npcs:   map[uuid.UUID]*domain.NPC{enemyID: npc},
 	}
 	h := NewResolveCombatHandler(store)
-	ctx := WithCurrentPlayerCharacterID(context.Background(), playerID)
+	ctx := resolveCombatContext(playerID)
 
 	_, err := h.Handle(ctx, map[string]any{
 		"combat_state":       baseCombatStateArgsForResolve(playerID, enemyID),
@@ -488,7 +511,7 @@ func TestResolveCombatInvalidOutcomeTypeReturnsError(t *testing.T) {
 	enemyID := uuid.New()
 	store := &stubResolveCombatStore{player: defaultPlayer(playerID)}
 	h := NewResolveCombatHandler(store)
-	ctx := WithCurrentPlayerCharacterID(context.Background(), playerID)
+	ctx := resolveCombatContext(playerID)
 
 	_, err := h.Handle(ctx, map[string]any{
 		"combat_state": baseCombatStateArgsForResolve(playerID, enemyID),
@@ -505,7 +528,7 @@ func TestResolveCombatMissingPlayerCharacterIDInContextReturnsError(t *testing.T
 	store := &stubResolveCombatStore{player: defaultPlayer(playerID)}
 	h := NewResolveCombatHandler(store)
 
-	_, err := h.Handle(context.Background(), map[string]any{
+	_, err := h.Handle(WithCurrentCampaignID(context.Background(), testCombatCampaignID), map[string]any{
 		"combat_state": baseCombatStateArgsForResolve(playerID, enemyID),
 		"outcome_type": "victory",
 	})
@@ -527,7 +550,7 @@ func TestResolveCombatPlayerNotFoundReturnsError(t *testing.T) {
 	enemyID := uuid.New()
 	store := &stubResolveCombatStore{player: nil}
 	h := NewResolveCombatHandler(store)
-	ctx := WithCurrentPlayerCharacterID(context.Background(), playerID)
+	ctx := resolveCombatContext(playerID)
 
 	_, err := h.Handle(ctx, map[string]any{
 		"combat_state": baseCombatStateArgsForResolve(playerID, enemyID),
@@ -546,7 +569,7 @@ func TestResolveCombatStoreErrorPropagates(t *testing.T) {
 		updateHPErr: errors.New("db write failed"),
 	}
 	h := NewResolveCombatHandler(store)
-	ctx := WithCurrentPlayerCharacterID(context.Background(), playerID)
+	ctx := resolveCombatContext(playerID)
 
 	_, err := h.Handle(ctx, map[string]any{
 		"combat_state": baseCombatStateArgsForResolve(playerID, enemyID),
@@ -562,7 +585,7 @@ func TestResolveCombatVictoryNegativeXPReturnsError(t *testing.T) {
 	enemyID := uuid.New()
 	store := &stubResolveCombatStore{player: defaultPlayer(playerID)}
 	h := NewResolveCombatHandler(store)
-	ctx := WithCurrentPlayerCharacterID(context.Background(), playerID)
+	ctx := resolveCombatContext(playerID)
 
 	_, err := h.Handle(ctx, map[string]any{
 		"combat_state": baseCombatStateArgsForResolve(playerID, enemyID),
@@ -580,7 +603,7 @@ func TestResolveCombatVictoryNonCombatantNPCIDReturnsError(t *testing.T) {
 	unknownNPCID := uuid.New()
 	store := &stubResolveCombatStore{player: defaultPlayer(playerID)}
 	h := NewResolveCombatHandler(store)
-	ctx := WithCurrentPlayerCharacterID(context.Background(), playerID)
+	ctx := resolveCombatContext(playerID)
 
 	_, err := h.Handle(ctx, map[string]any{
 		"combat_state": baseCombatStateArgsForResolve(playerID, enemyID),
@@ -598,7 +621,7 @@ func TestResolveCombatSurrenderNonCombatantNPCIDReturnsError(t *testing.T) {
 	unknownNPCID := uuid.New()
 	store := &stubResolveCombatStore{player: defaultPlayer(playerID)}
 	h := NewResolveCombatHandler(store)
-	ctx := WithCurrentPlayerCharacterID(context.Background(), playerID)
+	ctx := resolveCombatContext(playerID)
 
 	_, err := h.Handle(ctx, map[string]any{
 		"combat_state":      baseCombatStateArgsForResolve(playerID, enemyID),
@@ -615,7 +638,7 @@ func TestResolveCombatVictoryInvalidLootItemTypeReturnsError(t *testing.T) {
 	enemyID := uuid.New()
 	store := &stubResolveCombatStore{player: defaultPlayer(playerID)}
 	h := NewResolveCombatHandler(store)
-	ctx := WithCurrentPlayerCharacterID(context.Background(), playerID)
+	ctx := resolveCombatContext(playerID)
 
 	_, err := h.Handle(ctx, map[string]any{
 		"combat_state": baseCombatStateArgsForResolve(playerID, enemyID),
@@ -626,5 +649,120 @@ func TestResolveCombatVictoryInvalidLootItemTypeReturnsError(t *testing.T) {
 	})
 	if err == nil || !strings.Contains(err.Error(), "item_type must be one of") {
 		t.Fatalf("expected invalid item_type error, got %v", err)
+	}
+}
+
+func TestResolveCombatRequiresCurrentCampaign(t *testing.T) {
+	playerID, enemyID := uuid.New(), uuid.New()
+	store := &stubResolveCombatStore{player: defaultPlayer(playerID)}
+	_, err := NewResolveCombatHandler(store).Handle(WithCurrentPlayerCharacterID(context.Background(), playerID), map[string]any{
+		"combat_state": baseCombatStateArgsForResolve(playerID, enemyID),
+		"outcome_type": "victory",
+	})
+	if err == nil || !strings.Contains(err.Error(), "requires current campaign id") {
+		t.Fatalf("error = %v, want missing campaign error", err)
+	}
+	if store.wrote() {
+		t.Fatalf("rejected call wrote: %+v", store)
+	}
+}
+
+// Every argument is checked before the first write, so a rejected call saves
+// nothing: no HP, XP, loot, kills, dispositions, location or status.
+func TestResolveCombatRejectedArgumentsSaveNothing(t *testing.T) {
+	playerID, enemyID, secondID := uuid.New(), uuid.New(), uuid.New()
+	otherCampaign := uuid.New()
+	twoFoes := func() map[string]any {
+		state := baseCombatStateArgsForResolve(playerID, enemyID)
+		second := map[string]any{"entity_id": secondID.String(), "entity_type": "npc", "name": "Envoy", "hp": 0, "max_hp": 5, "status": "dead"}
+		state["combatants"] = append(state["combatants"].([]any), second)
+		return state
+	}
+	cases := map[string]struct {
+		second *domain.NPC
+		args   map[string]any
+		want   string
+	}{
+		"npc in another campaign": {
+			second: &domain.NPC{ID: secondID, CampaignID: otherCampaign, Alive: true},
+			args:   map[string]any{"outcome_type": "victory", "dead_npc_ids": []any{enemyID.String(), secondID.String()}},
+			want:   "does not reference an existing npc",
+		},
+		"unknown npc": {
+			args: map[string]any{"outcome_type": "victory", "dead_npc_ids": []any{enemyID.String(), secondID.String()}},
+			want: "does not reference an existing npc",
+		},
+		"dead npc": {
+			second: &domain.NPC{ID: secondID, CampaignID: testCombatCampaignID, Alive: false},
+			args:   map[string]any{"outcome_type": "victory", "dead_npc_ids": []any{enemyID.String(), secondID.String()}},
+			want:   "is already dead",
+		},
+		"invalid loot after valid kills": {
+			args: map[string]any{"outcome_type": "victory", "dead_npc_ids": []any{enemyID.String()},
+				"loot": []any{map[string]any{"name": "Blob", "description": "?", "item_type": "nope"}}},
+			want: "item_type must be one of",
+		},
+		"surrender npc in another campaign": {
+			second: &domain.NPC{ID: secondID, CampaignID: otherCampaign, Alive: true},
+			args:   map[string]any{"outcome_type": "surrender", "surrender_npc_ids": []any{enemyID.String(), secondID.String()}, "disposition_change": 10},
+			want:   "does not reference an existing npc",
+		},
+		"flee to another campaign's location": {
+			args: map[string]any{"outcome_type": "flee", "flee_location_id": secondID.String()},
+			want: "flee_location_id does not reference an existing location",
+		},
+		"combat state from another campaign": {
+			args: map[string]any{"outcome_type": "victory", "combat_state": func() map[string]any {
+				state := twoFoes()
+				state["campaign_id"] = otherCampaign.String()
+				return state
+			}()},
+			want: "combat_state.campaign_id must be the current campaign",
+		},
+		"combat state for another player": {
+			args: map[string]any{"outcome_type": "victory", "combat_state": baseCombatStateArgsForResolve(uuid.New(), enemyID)},
+			want: "player combatant must be the current player character",
+		},
+	}
+	for name, tc := range cases {
+		t.Run(name, func(t *testing.T) {
+			store := &stubResolveCombatStore{
+				player:    defaultPlayer(playerID),
+				npcs:      map[uuid.UUID]*domain.NPC{enemyID: aliveNPC(enemyID)},
+				locations: map[uuid.UUID]uuid.UUID{secondID: otherCampaign},
+			}
+			if tc.second != nil {
+				store.npcs[secondID] = tc.second
+			}
+			args := map[string]any{"combat_state": twoFoes(), "xp_earned": 100,
+				"loot": []any{map[string]any{"name": "Coin", "description": "A coin.", "item_type": "misc"}}}
+			for k, v := range tc.args {
+				args[k] = v
+			}
+			_, err := NewResolveCombatHandler(store).Handle(resolveCombatContext(playerID), args)
+			if err == nil || !strings.Contains(err.Error(), tc.want) {
+				t.Fatalf("error = %v, want %q", err, tc.want)
+			}
+			if store.wrote() {
+				t.Fatalf("rejected call wrote: %+v", store)
+			}
+		})
+	}
+}
+
+// The model's combat state cannot raise the player's HP or maximum HP.
+func TestResolveCombatKeepsStoredMaxHP(t *testing.T) {
+	playerID, enemyID := uuid.New(), uuid.New()
+	store := &stubResolveCombatStore{player: defaultPlayer(playerID)}
+	state := baseCombatStateArgsForResolve(playerID, enemyID)
+	player := state["combatants"].([]any)[0].(map[string]any)
+	player["hp"], player["max_hp"] = 500, 500
+	if _, err := NewResolveCombatHandler(store).Handle(resolveCombatContext(playerID), map[string]any{
+		"combat_state": state, "outcome_type": "defeat",
+	}); err != nil {
+		t.Fatalf("Handle: %v", err)
+	}
+	if store.updatedHP != 30 || store.updatedMaxHP != 30 {
+		t.Fatalf("persisted HP = %d/%d, want 30/30", store.updatedHP, store.updatedMaxHP)
 	}
 }

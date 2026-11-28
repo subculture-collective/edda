@@ -28,13 +28,26 @@ func NewNPCService(q statedb.Querier) *npcService {
 
 // --- shared method ---
 
-func (s *npcService) GetNPCByID(ctx context.Context, npcID uuid.UUID) (*domain.NPC, error) {
-	npc, err := statedb.GetCharacterNPC(ctx, s.queries, statedb.GetNPCByIDParams{ID: dbutil.ToPgtype(npcID)})
+func (s *npcService) GetNPCByID(ctx context.Context, campaignID, npcID uuid.UUID) (*domain.NPC, error) {
+	return getCampaignNPC(ctx, s.queries, campaignID, npcID)
+}
+
+// getCampaignNPC loads a character NPC in the campaign. An NPC in another
+// campaign, or a scene object, returns nil as a missing NPC does.
+func getCampaignNPC(ctx context.Context, q statedb.Querier, campaignID, npcID uuid.UUID) (*domain.NPC, error) {
+	if campaignID == uuid.Nil {
+		// A nil campaign would drop the query's campaign filter.
+		return nil, nil
+	}
+	npc, err := statedb.GetCharacterNPC(ctx, q, statedb.GetNPCByIDParams{ID: dbutil.ToPgtype(npcID), CampaignID: dbutil.ToPgtype(campaignID)})
 	if err != nil {
 		if errors.Is(err, pgx.ErrNoRows) {
 			return nil, nil
 		}
 		return nil, err
+	}
+	if dbutil.FromPgtype(npc.CampaignID) != campaignID {
+		return nil, nil
 	}
 	domainNPC := npcToDomain(npc)
 	return &domainNPC, nil
@@ -148,4 +161,17 @@ func stringToPgText(value string) pgtype.Text {
 		return pgtype.Text{}
 	}
 	return pgtype.Text{String: value, Valid: true}
+}
+
+// FactionExistsInCampaign reports whether the faction exists in the campaign.
+// A faction in another campaign gives the same answer as a missing one.
+func (s *npcService) FactionExistsInCampaign(ctx context.Context, factionID, campaignID uuid.UUID) (bool, error) {
+	faction, err := s.queries.GetFactionByID(ctx, dbutil.ToPgtype(factionID))
+	if err != nil {
+		if errors.Is(err, pgx.ErrNoRows) {
+			return false, nil
+		}
+		return false, err
+	}
+	return dbutil.FromPgtype(faction.CampaignID) == campaignID, nil
 }

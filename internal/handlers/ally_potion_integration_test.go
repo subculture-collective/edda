@@ -134,14 +134,14 @@ func TestIntegrationAllyPotionAction(t *testing.T) {
 		t.Cleanup(func() {
 			_, err := testPool.Exec(ctx, `UPDATE player_characters SET current_location_id=$1 WHERE id=$2`, location, pc.ID)
 			must(err)
-			_, err = moveNPC.Handle(ctx, map[string]any{"npc_id": ally.String(), "location_id": location.String()})
+			_, err = moveNPC.Handle(tools.WithCurrentCampaignID(ctx, campaign), map[string]any{"npc_id": ally.String(), "location_id": location.String()})
 			must(err)
 			_, err = testPool.Exec(ctx, `UPDATE npcs SET properties=jsonb_build_object('srd521_ally',$1::jsonb) WHERE id=$2`, facts, ally)
 			must(err)
 		})
 		_, err = testPool.Exec(ctx, `UPDATE player_characters SET current_location_id=$1 WHERE id=$2`, other, pc.ID)
 		must(err)
-		_, err = moveNPC.Handle(ctx, map[string]any{"npc_id": ally.String(), "location_id": other.String()})
+		_, err = moveNPC.Handle(tools.WithCurrentCampaignID(ctx, campaign), map[string]any{"npc_id": ally.String(), "location_id": other.String()})
 		must(err)
 		fresh := prepare()
 		if len(fresh.Targets) != 1 {

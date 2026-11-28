@@ -3,11 +3,9 @@ package game
 import (
 	"context"
 	"encoding/json"
-	"errors"
 	"fmt"
 
 	"github.com/google/uuid"
-	"github.com/jackc/pgx/v5"
 
 	"git.subcult.tv/subculture-collective/edda/internal/dbutil"
 	"git.subcult.tv/subculture-collective/edda/internal/domain"
@@ -35,7 +33,8 @@ type ResolveCombatStore interface {
 	AddPlayerExperience(ctx context.Context, playerCharacterID uuid.UUID, xpAmount int) error
 	CreatePlayerItem(ctx context.Context, playerCharacterID uuid.UUID, name, description, itemType, rarity string, quantity int) (uuid.UUID, error)
 	MarkNPCDead(ctx context.Context, npcID uuid.UUID) error
-	GetNPCByID(ctx context.Context, npcID uuid.UUID) (*domain.NPC, error)
+	GetNPCByID(ctx context.Context, campaignID, npcID uuid.UUID) (*domain.NPC, error)
+	LocationExistsInCampaign(ctx context.Context, locationID, campaignID uuid.UUID) (bool, error)
 	UpdateNPCDisposition(ctx context.Context, npcID uuid.UUID, newDisposition int) error
 }
 
@@ -240,16 +239,12 @@ func (s *combatService) MarkNPCDead(ctx context.Context, npcID uuid.UUID) error 
 	return err
 }
 
-func (s *combatService) GetNPCByID(ctx context.Context, npcID uuid.UUID) (*domain.NPC, error) {
-	npc, err := statedb.GetCharacterNPC(ctx, s.queries, statedb.GetNPCByIDParams{ID: dbutil.ToPgtype(npcID)})
-	if err != nil {
-		if errors.Is(err, pgx.ErrNoRows) {
-			return nil, nil
-		}
-		return nil, err
-	}
-	domainNPC := npcToDomain(npc)
-	return &domainNPC, nil
+func (s *combatService) GetNPCByID(ctx context.Context, campaignID, npcID uuid.UUID) (*domain.NPC, error) {
+	return getCampaignNPC(ctx, s.queries, campaignID, npcID)
+}
+
+func (s *combatService) LocationExistsInCampaign(ctx context.Context, locationID, campaignID uuid.UUID) (bool, error) {
+	return NewNPCService(s.queries).LocationExistsInCampaign(ctx, locationID, campaignID)
 }
 
 func (s *combatService) UpdateNPCDisposition(ctx context.Context, npcID uuid.UUID, newDisposition int) error {

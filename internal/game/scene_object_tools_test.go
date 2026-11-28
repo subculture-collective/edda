@@ -119,7 +119,7 @@ func TestNPCToolsTreatSceneObjectsAsUnknown(t *testing.T) {
 				Properties: []byte(properties),
 			}}
 		}
-		ctx := tools.WithCurrentLocationID(context.Background(), locationID)
+		ctx := tools.WithCurrentLocationID(tools.WithCurrentCampaignID(context.Background(), campaignID), locationID)
 		ctx = tools.WithCurrentPlayerCharacterID(ctx, playerID)
 
 		result, err := calls[name](ctx, q, id)

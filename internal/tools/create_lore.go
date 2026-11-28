@@ -8,7 +8,6 @@ import (
 	"strings"
 
 	"github.com/google/uuid"
-	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgtype"
 
 	"git.subcult.tv/subculture-collective/edda/internal/dbutil"
@@ -258,79 +257,10 @@ func (h *CreateLoreHandler) validateRelatedEntitiesInCampaign(
 	relatedEntities []loreRelatedEntityInput,
 ) error {
 	for i, related := range relatedEntities {
-		if err := h.validateRelatedEntityInCampaign(ctx, campaignID, related.EntityType, related.EntityID); err != nil {
+		if err := validateEntityInCampaign(ctx, h.loreStore, campaignID, related.EntityType, related.EntityID); err != nil {
 			return fmt.Errorf("validate related_entities[%d]: %w", i, err)
 		}
 	}
-	return nil
-}
-
-func (h *CreateLoreHandler) validateRelatedEntityInCampaign(
-	ctx context.Context,
-	campaignID uuid.UUID,
-	entityType string,
-	entityID uuid.UUID,
-) error {
-	switch domain.EntityType(entityType) {
-	case domain.EntityTypeNPC:
-		entity, err := h.loreStore.GetNPCByID(ctx, dbutil.ToPgtype(entityID))
-		if err != nil {
-			if errors.Is(err, pgx.ErrNoRows) {
-				return fmt.Errorf("entity not found: npc %s", entityID)
-			}
-			return fmt.Errorf("lookup npc: %w", err)
-		}
-		if dbutil.FromPgtype(entity.CampaignID) != campaignID {
-			return fmt.Errorf("entity does not belong to current campaign: npc %s", entityID)
-		}
-	case domain.EntityTypeLocation:
-		entity, err := h.loreStore.GetLocationByID(ctx, dbutil.ToPgtype(entityID))
-		if err != nil {
-			if errors.Is(err, pgx.ErrNoRows) {
-				return fmt.Errorf("entity not found: location %s", entityID)
-			}
-			return fmt.Errorf("lookup location: %w", err)
-		}
-		if dbutil.FromPgtype(entity.CampaignID) != campaignID {
-			return fmt.Errorf("entity does not belong to current campaign: location %s", entityID)
-		}
-	case domain.EntityTypeFaction:
-		entity, err := h.loreStore.GetFactionByID(ctx, dbutil.ToPgtype(entityID))
-		if err != nil {
-			if errors.Is(err, pgx.ErrNoRows) {
-				return fmt.Errorf("entity not found: faction %s", entityID)
-			}
-			return fmt.Errorf("lookup faction: %w", err)
-		}
-		if dbutil.FromPgtype(entity.CampaignID) != campaignID {
-			return fmt.Errorf("entity does not belong to current campaign: faction %s", entityID)
-		}
-	case domain.EntityTypePlayerCharacter:
-		entity, err := h.loreStore.GetPlayerCharacterByID(ctx, dbutil.ToPgtype(entityID))
-		if err != nil {
-			if errors.Is(err, pgx.ErrNoRows) {
-				return fmt.Errorf("entity not found: player_character %s", entityID)
-			}
-			return fmt.Errorf("lookup player character: %w", err)
-		}
-		if dbutil.FromPgtype(entity.CampaignID) != campaignID {
-			return fmt.Errorf("entity does not belong to current campaign: player_character %s", entityID)
-		}
-	case domain.EntityTypeItem:
-		entity, err := h.loreStore.GetItemByID(ctx, dbutil.ToPgtype(entityID))
-		if err != nil {
-			if errors.Is(err, pgx.ErrNoRows) {
-				return fmt.Errorf("entity not found: item %s", entityID)
-			}
-			return fmt.Errorf("lookup item: %w", err)
-		}
-		if dbutil.FromPgtype(entity.CampaignID) != campaignID {
-			return fmt.Errorf("entity does not belong to current campaign: item %s", entityID)
-		}
-	default:
-		return fmt.Errorf("entity_type must be one of: npc, location, faction, player_character, player, item")
-	}
-
 	return nil
 }
 

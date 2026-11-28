@@ -8,6 +8,7 @@ import (
 	"testing"
 
 	"github.com/google/uuid"
+	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgtype"
 
 	"git.subcult.tv/subculture-collective/edda/internal/dbutil"
@@ -149,7 +150,7 @@ func TestCreateCityHandleCreateAndDistrictsSuccess(t *testing.T) {
 	embedder := &stubEmbedder{vector: []float32{0.2, 0.3}}
 	h := NewCreateCityHandler(store, memStore, embedder)
 
-	got, err := h.Handle(context.Background(), map[string]any{
+	got, err := h.Handle(WithCurrentCampaignID(context.Background(), campaignID), map[string]any{
 		"name":            "Ironhold",
 		"description":     "A fortified industrial city.",
 		"population":      120000,
@@ -247,7 +248,7 @@ func TestCreateCityHandleUpdateExistingCity(t *testing.T) {
 	}
 
 	h := NewCreateCityHandler(store, nil, nil)
-	got, err := h.Handle(context.Background(), map[string]any{
+	got, err := h.Handle(WithCurrentCampaignID(context.Background(), campaignID), map[string]any{
 		"name":            "Ironhold",
 		"description":     "Updated description",
 		"population":      130000,
@@ -276,6 +277,7 @@ func TestCreateCityHandleUpdateExistingCity(t *testing.T) {
 }
 
 func TestCreateCityValidationAndErrors(t *testing.T) {
+	campaignID := uuid.New()
 	parentLocationID := uuid.New()
 	baseArgs := map[string]any{
 		"name":            "City",
@@ -295,7 +297,7 @@ func TestCreateCityValidationAndErrors(t *testing.T) {
 		h := NewCreateCityHandler(&stubCityStore{}, &stubMemoryStore{}, &stubEmbedder{vector: []float32{0.1}})
 		args := copyArgs(baseArgs)
 		delete(args, "districts")
-		_, err := h.Handle(context.Background(), args)
+		_, err := h.Handle(WithCurrentCampaignID(context.Background(), campaignID), args)
 		if err == nil || !strings.Contains(err.Error(), "districts is required") {
 			t.Fatalf("error = %v, want districts-required message", err)
 		}
@@ -305,7 +307,7 @@ func TestCreateCityValidationAndErrors(t *testing.T) {
 		h := NewCreateCityHandler(&stubCityStore{}, &stubMemoryStore{}, &stubEmbedder{vector: []float32{0.1}})
 		args := copyArgs(baseArgs)
 		args["population"] = "many"
-		_, err := h.Handle(context.Background(), args)
+		_, err := h.Handle(WithCurrentCampaignID(context.Background(), campaignID), args)
 		if err == nil || !strings.Contains(err.Error(), "population must be an integer") {
 			t.Fatalf("error = %v, want population integer message", err)
 		}
@@ -319,9 +321,33 @@ func TestCreateCityValidationAndErrors(t *testing.T) {
 			&stubMemoryStore{},
 			&stubEmbedder{vector: []float32{0.1}},
 		)
-		_, err := h.Handle(context.Background(), copyArgs(baseArgs))
+		_, err := h.Handle(WithCurrentCampaignID(context.Background(), campaignID), copyArgs(baseArgs))
 		if err == nil || !strings.Contains(err.Error(), "validate location_id") {
 			t.Fatalf("error = %v, want validate location_id context", err)
+		}
+	})
+
+	t.Run("parent location in another campaign matches unknown location", func(t *testing.T) {
+		store := &stubCityStore{
+			locationsByID: map[[16]byte]statedb.Location{
+				dbutil.ToPgtype(parentLocationID).Bytes: {ID: dbutil.ToPgtype(parentLocationID), CampaignID: dbutil.ToPgtype(uuid.New()), Name: "Foreign"},
+			},
+		}
+		ctx := WithCurrentCampaignID(context.Background(), campaignID)
+		_, err := NewCreateCityHandler(store, nil, nil).Handle(ctx, copyArgs(baseArgs))
+		_, unknownErr := NewCreateCityHandler(&stubCityStore{locationsByID: map[[16]byte]statedb.Location{}}, nil, nil).Handle(ctx, copyArgs(baseArgs))
+		if err == nil || unknownErr == nil || !errors.Is(err, pgx.ErrNoRows) || strings.Contains(err.Error(), "Foreign") {
+			t.Fatalf("error = %v, want no-rows error like unknown (%v)", err, unknownErr)
+		}
+		if len(store.createLocationCalls) != 0 || len(store.updateLocationCalls) != 0 {
+			t.Fatalf("city written for foreign parent")
+		}
+	})
+
+	t.Run("requires current campaign", func(t *testing.T) {
+		_, err := NewCreateCityHandler(&stubCityStore{}, nil, nil).Handle(context.Background(), copyArgs(baseArgs))
+		if err == nil || !strings.Contains(err.Error(), "requires current campaign id in context") {
+			t.Fatalf("error = %v, want missing-context error", err)
 		}
 	})
 }

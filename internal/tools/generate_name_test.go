@@ -8,6 +8,7 @@ import (
 	"testing"
 
 	"github.com/google/uuid"
+	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgtype"
 
 	"git.subcult.tv/subculture-collective/edda/internal/dbutil"
@@ -151,7 +152,7 @@ func TestGenerateNameHandle_WithLanguage_NestedConventions(t *testing.T) {
 	}
 
 	h := NewGenerateNameHandler(store)
-	result, err := h.Handle(context.Background(), map[string]any{
+	result, err := h.Handle(WithCurrentCampaignID(context.Background(), campaignID), map[string]any{
 		"language_id": langID.String(),
 		"name_type":   "person_first",
 	})
@@ -197,7 +198,7 @@ func TestGenerateNameHandle_WithLanguage_FlatConventions(t *testing.T) {
 	}
 
 	h := NewGenerateNameHandler(store)
-	result, err := h.Handle(context.Background(), map[string]any{
+	result, err := h.Handle(WithCurrentCampaignID(context.Background(), campaignID), map[string]any{
 		"language_id": langID.String(),
 		"name_type":   "place",
 	})
@@ -235,7 +236,7 @@ func TestGenerateNameHandle_WithLanguage_TopLevelPatterns(t *testing.T) {
 	}
 
 	h := NewGenerateNameHandler(store)
-	result, err := h.Handle(context.Background(), map[string]any{
+	result, err := h.Handle(WithCurrentCampaignID(context.Background(), campaignID), map[string]any{
 		"language_id": langID.String(),
 		"name_type":   "object",
 	})
@@ -320,7 +321,7 @@ func TestGenerateNameHandle_StoreError(t *testing.T) {
 	}
 
 	h := NewGenerateNameHandler(store)
-	_, err := h.Handle(context.Background(), map[string]any{
+	_, err := h.Handle(WithCurrentCampaignID(context.Background(), uuid.New()), map[string]any{
 		"language_id": langID.String(),
 		"name_type":   "person_first",
 	})
@@ -387,5 +388,30 @@ func TestGenerateName_InvalidNameType(t *testing.T) {
 	_, err := h.GenerateName(context.Background(), nil, NameType("monster"))
 	if err == nil {
 		t.Fatal("expected error for invalid name type")
+	}
+}
+
+func TestGenerateNameHandle_ForeignLanguageMatchesMissing(t *testing.T) {
+	langID := uuid.New()
+	campaignID := uuid.New()
+	store := &stubNameGeneratorStore{
+		languages: map[pgtype.UUID]statedb.Language{
+			dbutil.ToPgtype(langID): makeLanguage(langID, uuid.New(), map[string]any{"vowels": []any{"z"}, "consonants": []any{"q"}}, map[string]any{}),
+		},
+	}
+	h := NewGenerateNameHandler(store)
+	args := map[string]any{"language_id": langID.String(), "name_type": "person_first"}
+	ctx := WithCurrentCampaignID(context.Background(), campaignID)
+
+	result, err := h.Handle(ctx, args)
+	if err == nil || result != nil {
+		t.Fatalf("Handle() = %v, %v; want error for foreign language", result, err)
+	}
+	_, missingErr := h.Handle(ctx, map[string]any{"language_id": uuid.New().String(), "name_type": "person_first"})
+	if missingErr == nil || !errors.Is(err, pgx.ErrNoRows) || strings.Contains(missingErr.Error(), langID.String()) {
+		t.Fatalf("foreign error = %v, want no-rows error like missing (%v)", err, missingErr)
+	}
+	if _, err := h.Handle(context.Background(), args); err == nil || !strings.Contains(err.Error(), "requires current campaign id in context") {
+		t.Fatalf("error = %v, want missing-context error", err)
 	}
 }

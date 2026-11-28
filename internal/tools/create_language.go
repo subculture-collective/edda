@@ -130,7 +130,7 @@ func (h *CreateLanguageHandler) Handle(ctx context.Context, args map[string]any)
 		return nil, errors.New("create_language language store is required")
 	}
 
-	campaignID, err := parseUUIDArg(args, "campaign_id")
+	campaignID, err := currentCampaignFromArg(ctx, args, createLanguageToolName)
 	if err != nil {
 		return nil, err
 	}
@@ -278,6 +278,23 @@ func (h *CreateLanguageHandler) validateSpeakerIDs(ctx context.Context, campaign
 	}
 
 	return nil
+}
+
+// currentCampaignFromArg returns the context campaign after checking that the
+// model-supplied campaign_id names it. The model's value is never trusted.
+func currentCampaignFromArg(ctx context.Context, args map[string]any, toolName string) (uuid.UUID, error) {
+	argCampaignID, err := parseUUIDArg(args, "campaign_id")
+	if err != nil {
+		return uuid.Nil, err
+	}
+	campaignID, err := requireCurrentCampaignID(ctx, toolName)
+	if err != nil {
+		return uuid.Nil, err
+	}
+	if argCampaignID != campaignID {
+		return uuid.Nil, errors.New("campaign_id must be the current campaign")
+	}
+	return campaignID, nil
 }
 
 func uuidsToStrings(ids []uuid.UUID) []string {

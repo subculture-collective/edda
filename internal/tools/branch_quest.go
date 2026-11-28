@@ -155,6 +155,9 @@ func (h *BranchQuestHandler) Handle(ctx context.Context, args map[string]any) (*
 	if err != nil {
 		return nil, fmt.Errorf("resolve campaign from current location: %w", err)
 	}
+	if originalQuest.CampaignID != currentLocation.CampaignID {
+		return nil, errors.New("original_quest_id does not reference an existing quest")
+	}
 
 	// Create branch quest inheriting quest_type from original.
 	branchQuest, err := h.store.CreateQuest(ctx, statedb.CreateQuestParams{
@@ -263,16 +266,16 @@ func (h *BranchQuestHandler) Handle(ctx context.Context, args map[string]any) (*
 		branchQuest.Title, originalQuest.Title, len(createdObjectives), copiedCount)
 
 	data := map[string]any{
-		"id":                    branchQuestID.String(),
-		"campaign_id":           dbutil.FromPgtype(branchQuest.CampaignID).String(),
-		"title":                 branchQuest.Title,
-		"description":           branchQuest.Description.String,
-		"quest_type":            branchQuest.QuestType,
-		"status":                branchQuest.Status,
-		"original_quest_id":     originalQuestID.String(),
-		"objectives":            createdObjectives,
-		"copied_relationships":  copiedCount,
-		"summary":               summary,
+		"id":                   branchQuestID.String(),
+		"campaign_id":          dbutil.FromPgtype(branchQuest.CampaignID).String(),
+		"title":                branchQuest.Title,
+		"description":          branchQuest.Description.String,
+		"quest_type":           branchQuest.QuestType,
+		"status":               branchQuest.Status,
+		"original_quest_id":    originalQuestID.String(),
+		"objectives":           createdObjectives,
+		"copied_relationships": copiedCount,
+		"summary":              summary,
 	}
 	if originalStatusChange != nil {
 		data["original_status_change"] = originalStatusChange

@@ -8,6 +8,7 @@ import (
 	"strings"
 
 	"github.com/google/uuid"
+	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgtype"
 
 	"git.subcult.tv/subculture-collective/edda/internal/dbutil"
@@ -171,7 +172,15 @@ func (h *CreateCityHandler) Handle(ctx context.Context, args map[string]any) (*T
 		return nil, err
 	}
 
+	currentCampaignID, err := requireCurrentCampaignID(ctx, createCityToolName)
+	if err != nil {
+		return nil, err
+	}
+
 	parentLocation, err := h.cityStore.GetLocationByID(ctx, dbutil.ToPgtype(parentLocationID))
+	if err == nil && parentLocation.CampaignID != dbutil.ToPgtype(currentCampaignID) {
+		err = pgx.ErrNoRows
+	}
 	if err != nil {
 		return nil, fmt.Errorf("validate location_id: %w", err)
 	}

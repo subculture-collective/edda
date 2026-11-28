@@ -26,12 +26,42 @@ type stubUpdateNPCStore struct {
 
 var _ UpdateNPCStore = (*stubUpdateNPCStore)(nil)
 
-func (s *stubUpdateNPCStore) GetNPCByID(_ context.Context, npcID uuid.UUID) (*domain.NPC, error) {
+// An NPC in another campaign gets the unknown-NPC error and is not changed.
+func TestUpdateNPCRejectsOtherCampaignNPC(t *testing.T) {
+	npcID := uuid.New()
+	store := &stubUpdateNPCStore{npcs: map[uuid.UUID]*domain.NPC{
+		npcID: {ID: npcID, CampaignID: uuid.New(), Name: "Envoy", Description: "secret", Alive: true},
+	}}
+	h := NewUpdateNPCHandler(store)
+	args := func(id uuid.UUID) map[string]any {
+		return map[string]any{"npc_id": id.String(), "description": "Rewritten."}
+	}
+	_, unknown := h.Handle(npcTestContext(), args(uuid.New()))
+	_, err := h.Handle(npcTestContext(), args(npcID))
+	if err == nil || unknown == nil || err.Error() != unknown.Error() {
+		t.Fatalf("error = %v, want the unknown-NPC error %v", err, unknown)
+	}
+	if store.lastUpdated != nil {
+		t.Fatalf("other campaign's NPC updated: %+v", store.lastUpdated)
+	}
+	if _, err := h.Handle(context.Background(), args(npcID)); err == nil || !strings.Contains(err.Error(), "requires current campaign id") {
+		t.Fatalf("missing campaign error = %v", err)
+	}
+}
+
+// testNPCCampaignID is the current campaign in the NPC tool tests.
+var testNPCCampaignID = uuid.New()
+
+func npcTestContext() context.Context {
+	return WithCurrentCampaignID(context.Background(), testNPCCampaignID)
+}
+
+func (s *stubUpdateNPCStore) GetNPCByID(_ context.Context, campaignID, npcID uuid.UUID) (*domain.NPC, error) {
 	if s.getErr != nil {
 		return nil, s.getErr
 	}
 	npc, ok := s.npcs[npcID]
-	if !ok {
+	if !ok || npc.CampaignID != campaignID {
 		return nil, nil
 	}
 	copy := *npc
@@ -89,7 +119,7 @@ func TestUpdateNPCHandleDescriptionOnlyUpdatesProvidedField(t *testing.T) {
 		npcs: map[uuid.UUID]*domain.NPC{
 			npcID: {
 				ID:          npcID,
-				CampaignID:  uuid.New(),
+				CampaignID:  testNPCCampaignID,
 				Name:        "Scout Nyra",
 				Description: "Original description",
 				Disposition: 12,
@@ -100,7 +130,7 @@ func TestUpdateNPCHandleDescriptionOnlyUpdatesProvidedField(t *testing.T) {
 	}
 	h := NewUpdateNPCHandler(store)
 
-	got, err := h.Handle(context.Background(), map[string]any{
+	got, err := h.Handle(npcTestContext(), map[string]any{
 		"npc_id":      npcID.String(),
 		"description": "Updated description",
 	})
@@ -132,12 +162,12 @@ func TestUpdateNPCHandleDispositionClamped(t *testing.T) {
 		npcID := uuid.New()
 		store := &stubUpdateNPCStore{
 			npcs: map[uuid.UUID]*domain.NPC{
-				npcID: {ID: npcID, CampaignID: uuid.New(), Name: "Guard", Disposition: 0, Alive: true},
+				npcID: {ID: npcID, CampaignID: testNPCCampaignID, Name: "Guard", Disposition: 0, Alive: true},
 			},
 		}
 		h := NewUpdateNPCHandler(store)
 
-		got, err := h.Handle(context.Background(), map[string]any{
+		got, err := h.Handle(npcTestContext(), map[string]any{
 			"npc_id":      npcID.String(),
 			"disposition": 500,
 		})
@@ -159,12 +189,12 @@ func TestUpdateNPCHandleDispositionClamped(t *testing.T) {
 		npcID := uuid.New()
 		store := &stubUpdateNPCStore{
 			npcs: map[uuid.UUID]*domain.NPC{
-				npcID: {ID: npcID, CampaignID: uuid.New(), Name: "Guard", Disposition: 0, Alive: true},
+				npcID: {ID: npcID, CampaignID: testNPCCampaignID, Name: "Guard", Disposition: 0, Alive: true},
 			},
 		}
 		h := NewUpdateNPCHandler(store)
 
-		got, err := h.Handle(context.Background(), map[string]any{
+		got, err := h.Handle(npcTestContext(), map[string]any{
 			"npc_id":      npcID.String(),
 			"disposition": -500,
 		})
@@ -187,7 +217,7 @@ func TestUpdateNPCHandleLocationUpdate(t *testing.T) {
 	npcID := uuid.New()
 	oldLocationID := uuid.New()
 	newLocationID := uuid.New()
-	campaignID := uuid.New()
+	campaignID := testNPCCampaignID
 	store := &stubUpdateNPCStore{
 		npcs: map[uuid.UUID]*domain.NPC{
 			npcID: {ID: npcID, CampaignID: campaignID, Name: "Guide", LocationID: &oldLocationID, Alive: true},
@@ -196,7 +226,7 @@ func TestUpdateNPCHandleLocationUpdate(t *testing.T) {
 	}
 	h := NewUpdateNPCHandler(store)
 
-	got, err := h.Handle(context.Background(), map[string]any{
+	got, err := h.Handle(npcTestContext(), map[string]any{
 		"npc_id":      npcID.String(),
 		"location_id": newLocationID.String(),
 	})
@@ -220,7 +250,7 @@ func TestUpdateNPCHandleOmitsLocationWhenUnset(t *testing.T) {
 		npcs: map[uuid.UUID]*domain.NPC{
 			npcID: {
 				ID:          npcID,
-				CampaignID:  uuid.New(),
+				CampaignID:  testNPCCampaignID,
 				Name:        "Hermit",
 				Description: "A lone figure.",
 				Disposition: 5,
@@ -231,7 +261,7 @@ func TestUpdateNPCHandleOmitsLocationWhenUnset(t *testing.T) {
 	}
 	h := NewUpdateNPCHandler(store)
 
-	got, err := h.Handle(context.Background(), map[string]any{
+	got, err := h.Handle(npcTestContext(), map[string]any{
 		"npc_id":      npcID.String(),
 		"description": "A quiet lone figure.",
 	})
@@ -247,12 +277,12 @@ func TestUpdateNPCHandleAliveFalseKillsNPC(t *testing.T) {
 	npcID := uuid.New()
 	store := &stubUpdateNPCStore{
 		npcs: map[uuid.UUID]*domain.NPC{
-			npcID: {ID: npcID, CampaignID: uuid.New(), Name: "Bandit", Alive: true},
+			npcID: {ID: npcID, CampaignID: testNPCCampaignID, Name: "Bandit", Alive: true},
 		},
 	}
 	h := NewUpdateNPCHandler(store)
 
-	got, err := h.Handle(context.Background(), map[string]any{
+	got, err := h.Handle(npcTestContext(), map[string]any{
 		"npc_id": npcID.String(),
 		"alive":  false,
 	})
@@ -275,7 +305,7 @@ func TestUpdateNPCHandleUnknownNPC(t *testing.T) {
 		npcs: map[uuid.UUID]*domain.NPC{},
 	})
 
-	_, err := h.Handle(context.Background(), map[string]any{
+	_, err := h.Handle(npcTestContext(), map[string]any{
 		"npc_id": uuid.New().String(),
 	})
 	if err == nil {
@@ -290,11 +320,11 @@ func TestUpdateNPCHandleRequiresAtLeastOneUpdateField(t *testing.T) {
 	npcID := uuid.New()
 	h := NewUpdateNPCHandler(&stubUpdateNPCStore{
 		npcs: map[uuid.UUID]*domain.NPC{
-			npcID: {ID: npcID, CampaignID: uuid.New(), Name: "Watcher", Alive: true},
+			npcID: {ID: npcID, CampaignID: testNPCCampaignID, Name: "Watcher", Alive: true},
 		},
 	})
 
-	_, err := h.Handle(context.Background(), map[string]any{
+	_, err := h.Handle(npcTestContext(), map[string]any{
 		"npc_id": npcID.String(),
 	})
 	if err == nil {
@@ -309,13 +339,13 @@ func TestUpdateNPCHandleUnknownLocationRejected(t *testing.T) {
 	npcID := uuid.New()
 	store := &stubUpdateNPCStore{
 		npcs: map[uuid.UUID]*domain.NPC{
-			npcID: {ID: npcID, CampaignID: uuid.New(), Name: "Merchant", Alive: true},
+			npcID: {ID: npcID, CampaignID: testNPCCampaignID, Name: "Merchant", Alive: true},
 		},
 		locations: map[uuid.UUID]uuid.UUID{},
 	}
 	h := NewUpdateNPCHandler(store)
 
-	_, err := h.Handle(context.Background(), map[string]any{
+	_, err := h.Handle(npcTestContext(), map[string]any{
 		"npc_id":      npcID.String(),
 		"location_id": uuid.New().String(),
 	})
@@ -335,7 +365,7 @@ func TestUpdateNPCHandleLocationInDifferentCampaignRejected(t *testing.T) {
 	locationID := uuid.New()
 	store := &stubUpdateNPCStore{
 		npcs: map[uuid.UUID]*domain.NPC{
-			npcID: {ID: npcID, CampaignID: uuid.New(), Name: "Merchant", Alive: true},
+			npcID: {ID: npcID, CampaignID: testNPCCampaignID, Name: "Merchant", Alive: true},
 		},
 		locations: map[uuid.UUID]uuid.UUID{
 			locationID: uuid.New(),
@@ -343,7 +373,7 @@ func TestUpdateNPCHandleLocationInDifferentCampaignRejected(t *testing.T) {
 	}
 	h := NewUpdateNPCHandler(store)
 
-	_, err := h.Handle(context.Background(), map[string]any{
+	_, err := h.Handle(npcTestContext(), map[string]any{
 		"npc_id":      npcID.String(),
 		"location_id": locationID.String(),
 	})
@@ -357,7 +387,7 @@ func TestUpdateNPCHandleLocationInDifferentCampaignRejected(t *testing.T) {
 
 func TestUpdateNPCHandleNilReceiver(t *testing.T) {
 	var h *UpdateNPCHandler
-	_, err := h.Handle(context.Background(), map[string]any{})
+	_, err := h.Handle(npcTestContext(), map[string]any{})
 	if err == nil {
 		t.Fatal("expected nil receiver error")
 	}
@@ -370,12 +400,12 @@ func TestUpdateNPCHandleStoreErrorWrapped(t *testing.T) {
 	npcID := uuid.New()
 	h := NewUpdateNPCHandler(&stubUpdateNPCStore{
 		npcs: map[uuid.UUID]*domain.NPC{
-			npcID: {ID: npcID, CampaignID: uuid.New(), Name: "Sentinel", Alive: true},
+			npcID: {ID: npcID, CampaignID: testNPCCampaignID, Name: "Sentinel", Alive: true},
 		},
 		updateErr: errors.New("db down"),
 	})
 
-	_, err := h.Handle(context.Background(), map[string]any{
+	_, err := h.Handle(npcTestContext(), map[string]any{
 		"npc_id": npcID.String(),
 		"alive":  false,
 	})

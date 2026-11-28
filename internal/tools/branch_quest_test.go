@@ -16,19 +16,19 @@ import (
 )
 
 type stubBranchQuestStore struct {
-	locationsByID    map[[16]byte]statedb.Location
-	questsByID       map[[16]byte]statedb.Quest
-	createdQuest     statedb.Quest
+	locationsByID         map[[16]byte]statedb.Location
+	questsByID            map[[16]byte]statedb.Quest
+	createdQuest          statedb.Quest
 	relationshipsByEntity []statedb.EntityRelationship
 
-	getLocationErr         error
-	getQuestErr            error
-	createQuestErr         error
-	createObjectiveErr     error
-	createRelationshipErr  error
-	updateQuestStatusErr   error
-	listObjectivesErr      error
-	getRelsByEntityErr     error
+	getLocationErr        error
+	getQuestErr           error
+	createQuestErr        error
+	createObjectiveErr    error
+	createRelationshipErr error
+	updateQuestStatusErr  error
+	listObjectivesErr     error
+	getRelsByEntityErr    error
 
 	createQuestCalls        []statedb.CreateQuestParams
 	createObjectiveCalls    []statedb.CreateObjectiveParams
@@ -417,7 +417,6 @@ func TestBranchQuest_InvalidOriginalStatus(t *testing.T) {
 	}
 }
 
-
 func TestBranchQuest_EmptyObjectives(t *testing.T) {
 	locationID := uuid.New()
 	campaignID := uuid.New()
@@ -549,5 +548,31 @@ func TestBranchQuest_MultipleBranchesFromSameQuest(t *testing.T) {
 		if rel.RelationshipType != "quest_branch" {
 			t.Fatalf("relationship[%d] type = %q, want quest_branch", i, rel.RelationshipType)
 		}
+	}
+}
+func TestBranchQuest_OriginalInAnotherCampaignMatchesMissing(t *testing.T) {
+	locationID := uuid.New()
+	campaignID := uuid.New()
+	foreignQuestID := uuid.New()
+
+	store := baseBranchStore(locationID, campaignID, uuid.New(), uuid.New())
+	store.questsByID[dbutil.ToPgtype(foreignQuestID).Bytes] = statedb.Quest{
+		ID:         dbutil.ToPgtype(foreignQuestID),
+		CampaignID: dbutil.ToPgtype(uuid.New()),
+		Title:      "Foreign Secret Title",
+		QuestType:  string(domain.QuestTypeMediumTerm),
+		Status:     string(domain.QuestStatusActive),
+	}
+	handler := NewBranchQuestHandler(store)
+
+	args := baseBranchArgs(foreignQuestID)
+	args["original_quest_status"] = "failed"
+	_, err := handler.Handle(branchQuestCtx(locationID), args)
+	_, missingErr := handler.Handle(branchQuestCtx(locationID), baseBranchArgs(uuid.New()))
+	if err == nil || missingErr == nil || err.Error() != missingErr.Error() {
+		t.Fatalf("error = %v, want same as missing quest error %v", err, missingErr)
+	}
+	if len(store.createQuestCalls) != 0 || len(store.createObjectiveCalls) != 0 || len(store.createRelationshipCalls) != 0 || len(store.updateQuestStatusCalls) != 0 {
+		t.Fatalf("branch wrote data for foreign quest: %+v", store)
 	}
 }

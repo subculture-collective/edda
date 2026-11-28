@@ -15,6 +15,7 @@ import (
 type stubCreateNPCStore struct {
 	playerCharacters map[uuid.UUID]*domain.PlayerCharacter
 	validLocations   map[uuid.UUID]uuid.UUID
+	validFactions    map[uuid.UUID]uuid.UUID
 	npcsByCampaign   map[uuid.UUID][]domain.NPC
 
 	lastCreateParams CreateNPCParams
@@ -47,6 +48,11 @@ func (s *stubCreateNPCStore) LocationExistsInCampaign(_ context.Context, locatio
 		return false, nil
 	}
 	return locationCampaignID == campaignID, nil
+}
+
+func (s *stubCreateNPCStore) FactionExistsInCampaign(_ context.Context, factionID, campaignID uuid.UUID) (bool, error) {
+	factionCampaignID, ok := s.validFactions[factionID]
+	return ok && factionCampaignID == campaignID, nil
 }
 
 func (s *stubCreateNPCStore) CreateNPC(_ context.Context, params CreateNPCParams) (*domain.NPC, error) {
@@ -156,6 +162,9 @@ func TestCreateNPCHandleSuccessDefaultsAndEmbedding(t *testing.T) {
 		},
 		validLocations: map[uuid.UUID]uuid.UUID{
 			locationID: campaignID,
+		},
+		validFactions: map[uuid.UUID]uuid.UUID{
+			factionID: campaignID,
 		},
 		createdNPC: &domain.NPC{
 			ID:          npcID,
@@ -360,6 +369,25 @@ func TestCreateNPCValidationAndContextErrors(t *testing.T) {
 		})
 		if err == nil || !strings.Contains(err.Error(), "requires current player character id in context") {
 			t.Fatalf("error = %v, want context error", err)
+		}
+	})
+
+	t.Run("faction in another campaign matches unknown faction", func(t *testing.T) {
+		foreignFactionID := uuid.New()
+		store := *baseStore
+		store.validFactions = map[uuid.UUID]uuid.UUID{foreignFactionID: uuid.New()}
+		h := NewCreateNPCHandler(&store, nil, nil)
+		ctx := WithCurrentPlayerCharacterID(context.Background(), playerID)
+		args := func(id uuid.UUID) map[string]any {
+			return map[string]any{"name": "Ari", "description": "desc", "personality": "kind", "faction_id": id.String()}
+		}
+		_, foreignErr := h.Handle(ctx, args(foreignFactionID))
+		_, unknownErr := h.Handle(ctx, args(uuid.New()))
+		if foreignErr == nil || unknownErr == nil || foreignErr.Error() != unknownErr.Error() {
+			t.Fatalf("foreign error = %v, unknown error = %v; want identical errors", foreignErr, unknownErr)
+		}
+		if store.lastCreateParams.Name != "" {
+			t.Fatalf("NPC created with foreign faction: %#v", store.lastCreateParams)
 		}
 	})
 

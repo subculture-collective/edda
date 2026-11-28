@@ -27,6 +27,37 @@ type stubQuestStore struct {
 	createQuestCalls        []statedb.CreateQuestParams
 	createObjectiveCalls    []statedb.CreateObjectiveParams
 	createRelationshipCalls []statedb.CreateRelationshipParams
+	// entityCampaigns maps NPC, faction, player character and item IDs to
+	// their campaign.
+	entityCampaigns map[[16]byte]pgtype.UUID
+}
+
+func (s *stubQuestStore) entityCampaign(id pgtype.UUID) (pgtype.UUID, error) {
+	campaignID, ok := s.entityCampaigns[id.Bytes]
+	if !ok {
+		return pgtype.UUID{}, pgx.ErrNoRows
+	}
+	return campaignID, nil
+}
+
+func (s *stubQuestStore) GetNPCByID(_ context.Context, id pgtype.UUID) (statedb.Npc, error) {
+	campaignID, err := s.entityCampaign(id)
+	return statedb.Npc{ID: id, CampaignID: campaignID}, err
+}
+
+func (s *stubQuestStore) GetFactionByID(_ context.Context, id pgtype.UUID) (statedb.Faction, error) {
+	campaignID, err := s.entityCampaign(id)
+	return statedb.Faction{ID: id, CampaignID: campaignID}, err
+}
+
+func (s *stubQuestStore) GetPlayerCharacterByID(_ context.Context, id pgtype.UUID) (statedb.PlayerCharacter, error) {
+	campaignID, err := s.entityCampaign(id)
+	return statedb.PlayerCharacter{ID: id, CampaignID: campaignID}, err
+}
+
+func (s *stubQuestStore) GetItemByID(_ context.Context, id pgtype.UUID) (statedb.Item, error) {
+	campaignID, err := s.entityCampaign(id)
+	return statedb.Item{ID: id, CampaignID: campaignID}, err
 }
 
 func (s *stubQuestStore) GetLocationByID(_ context.Context, id pgtype.UUID) (statedb.Location, error) {
@@ -137,6 +168,7 @@ func TestCreateQuestHandleSuccess(t *testing.T) {
 	relatedEntityID := uuid.New()
 
 	store := &stubQuestStore{
+		entityCampaigns: map[[16]byte]pgtype.UUID{relatedEntityID: dbutil.ToPgtype(campaignID)},
 		locationsByID: map[[16]byte]statedb.Location{
 			dbutil.ToPgtype(currentLocationID).Bytes: {
 				ID:         dbutil.ToPgtype(currentLocationID),
@@ -464,6 +496,47 @@ func TestCreateQuestLocationNotFound(t *testing.T) {
 	})
 	if err == nil || !strings.Contains(err.Error(), "resolve campaign from current location") {
 		t.Fatalf("error = %v, want resolve campaign location error", err)
+	}
+}
+
+// A related entity in another campaign gets the unknown-entity error, and the
+// quest is not created.
+func TestCreateQuestRejectsOtherCampaignRelatedEntities(t *testing.T) {
+	campaignID := uuid.New()
+	currentLocationID := uuid.New()
+	otherNPC, otherFaction := uuid.New(), uuid.New()
+	newStore := func() *stubQuestStore {
+		return &stubQuestStore{
+			locationsByID: map[[16]byte]statedb.Location{
+				currentLocationID: {ID: dbutil.ToPgtype(currentLocationID), CampaignID: dbutil.ToPgtype(campaignID)},
+			},
+			entityCampaigns: map[[16]byte]pgtype.UUID{
+				otherNPC:     dbutil.ToPgtype(uuid.New()),
+				otherFaction: dbutil.ToPgtype(uuid.New()),
+			},
+		}
+	}
+	handle := func(store *stubQuestStore, entityType string, id uuid.UUID) error {
+		_, err := NewCreateQuestHandler(store).Handle(WithCurrentLocationID(context.Background(), currentLocationID), map[string]any{
+			"title": "Find them", "description": "Track them down.", "quest_type": "short_term",
+			"objectives":       []any{map[string]any{"description": "Ask around", "order_index": 0}},
+			"related_entities": []any{map[string]any{"entity_type": entityType, "entity_id": id.String()}},
+		})
+		if err == nil {
+			return nil
+		}
+		return errors.New(strings.ReplaceAll(err.Error(), id.String(), "<id>"))
+	}
+	for entityType, id := range map[string]uuid.UUID{"npc": otherNPC, "faction": otherFaction} {
+		unknown := handle(newStore(), entityType, uuid.New())
+		store := newStore()
+		got := handle(store, entityType, id)
+		if got == nil || unknown == nil || got.Error() != unknown.Error() {
+			t.Fatalf("%s in another campaign: error %v, want the unknown-entity error %v", entityType, got, unknown)
+		}
+		if len(store.createQuestCalls)+len(store.createObjectiveCalls)+len(store.createRelationshipCalls) != 0 {
+			t.Fatalf("%s in another campaign: rejected call wrote %+v", entityType, store)
+		}
 	}
 }
 

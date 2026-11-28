@@ -42,7 +42,9 @@ type ResolveCombatStore interface {
 	AddPlayerExperience(ctx context.Context, playerCharacterID uuid.UUID, xpAmount int) error
 	CreatePlayerItem(ctx context.Context, playerCharacterID uuid.UUID, name, description, itemType, rarity string, quantity int) (uuid.UUID, error)
 	MarkNPCDead(ctx context.Context, npcID uuid.UUID) error
-	GetNPCByID(ctx context.Context, npcID uuid.UUID) (*domain.NPC, error)
+	// GetNPCByID returns nil for an NPC outside the campaign.
+	GetNPCByID(ctx context.Context, campaignID, npcID uuid.UUID) (*domain.NPC, error)
+	LocationExistsInCampaign(ctx context.Context, locationID, campaignID uuid.UUID) (bool, error)
 	UpdateNPCDisposition(ctx context.Context, npcID uuid.UUID, newDisposition int) error
 }
 
@@ -130,6 +132,25 @@ func NewResolveCombatHandler(store ResolveCombatStore) *ResolveCombatHandler {
 	return &ResolveCombatHandler{store: store}
 }
 
+// combatResolution is a validated resolve_combat call. Handle builds it with
+// reads only, then applies it, so a rejected argument saves nothing. The
+// engine runs each tool call in one transaction, so a failed write rolls back
+// the writes before it.
+type combatResolution struct {
+	xpEarned       int
+	deadNPCIDs     []uuid.UUID
+	loot           []lootInput
+	fleeLocationID *uuid.UUID
+	surrender      []surrenderUpdate
+	playerStatus   string
+}
+
+type surrenderUpdate struct {
+	npcID          uuid.UUID
+	oldDisposition int
+	newDisposition int
+}
+
 // Handle executes the resolve_combat tool.
 func (h *ResolveCombatHandler) Handle(ctx context.Context, args map[string]any) (*ToolResult, error) {
 	if h == nil {
@@ -143,11 +164,17 @@ func (h *ResolveCombatHandler) Handle(ctx context.Context, args map[string]any) 
 	if !ok {
 		return nil, errors.New("resolve_combat requires current player character id in context")
 	}
-
-	fallbackCampaignID, _ := CurrentCampaignIDFromContext(ctx)
-	state, err := parseCombatStateArgWithCampaignFallback(args, "combat_state", fallbackCampaignID)
+	campaignID, err := requireCurrentCampaignID(ctx, resolveCombatToolName)
 	if err != nil {
 		return nil, err
+	}
+
+	state, err := parseCombatStateArgWithCampaignFallback(args, "combat_state", campaignID)
+	if err != nil {
+		return nil, err
+	}
+	if state.CampaignID != campaignID {
+		return nil, errors.New("combat_state.campaign_id must be the current campaign")
 	}
 
 	outcomeType, err := parseStringArg(args, "outcome_type")
@@ -165,19 +192,30 @@ func (h *ResolveCombatHandler) Handle(ctx context.Context, args map[string]any) 
 	if err != nil {
 		return nil, fmt.Errorf("get player character: %w", err)
 	}
-	if player == nil {
+	if player == nil || player.CampaignID != campaignID {
 		return nil, errors.New("player character not found")
 	}
 
-	// Persist the player's current HP and max HP from the combat state.
+	// The model's combat state is not trusted: its player must be the current
+	// player, and only the current HP is kept, within the stored maximum.
 	playerCombatant := firstCombatantByType(state, combat.CombatantTypePlayer)
+	if playerCombatant != nil && playerCombatant.EntityID != playerCharacterID {
+		return nil, errors.New("combat_state player combatant must be the current player character")
+	}
+
+	resolution, err := h.validateOutcome(ctx, outcomeType, args, state, campaignID)
+	if err != nil {
+		return nil, err
+	}
+
+	// Every argument is valid; write.
 	if playerCombatant != nil {
-		if err := h.store.UpdatePlayerHP(ctx, playerCharacterID, playerCombatant.HP, playerCombatant.MaxHP); err != nil {
+		hp := min(max(playerCombatant.HP, 0), player.MaxHP)
+		if err := h.store.UpdatePlayerHP(ctx, playerCharacterID, hp, player.MaxHP); err != nil {
 			return nil, fmt.Errorf("persist player hp: %w", err)
 		}
 	}
-
-	summary, err := h.resolveOutcome(ctx, outcomeType, args, state, playerCharacterID)
+	summary, err := h.applyOutcome(ctx, outcomeType, resolution, playerCharacterID)
 	if err != nil {
 		return nil, err
 	}
@@ -199,186 +237,183 @@ func (h *ResolveCombatHandler) Handle(ctx context.Context, args map[string]any) 
 	}, nil
 }
 
-// resolveOutcome handles the outcome-specific logic and returns a summary map.
-func (h *ResolveCombatHandler) resolveOutcome(
+// validateOutcome parses and checks the outcome arguments without writing.
+func (h *ResolveCombatHandler) validateOutcome(
 	ctx context.Context,
 	outcomeType string,
 	args map[string]any,
 	state *combat.CombatState,
-	playerCharacterID uuid.UUID,
-) (map[string]any, error) {
+	campaignID uuid.UUID,
+) (*combatResolution, error) {
+	resolution := &combatResolution{playerStatus: playerStatusActive}
 	switch outcomeType {
 	case outcomeVictory:
-		return h.handleVictory(ctx, args, state, playerCharacterID)
-	case outcomeDefeat:
-		return h.handleDefeat(ctx, playerCharacterID)
-	case outcomeFlee:
-		return h.handleFlee(ctx, args, playerCharacterID)
-	case outcomeSurrender:
-		return h.handleSurrender(ctx, args, state, playerCharacterID)
-	}
-	return nil, fmt.Errorf("unknown outcome_type: %s", outcomeType)
-}
-
-func (h *ResolveCombatHandler) handleVictory(
-	ctx context.Context,
-	args map[string]any,
-	state *combat.CombatState,
-	playerCharacterID uuid.UUID,
-) (map[string]any, error) {
-	summary := map[string]any{}
-
-	// Award XP.
-	xpEarned, xpSet, err := parseOptionalIntArg(args, "xp_earned")
-	if err != nil {
-		return nil, err
-	}
-	if xpSet {
+		xpEarned, _, err := parseOptionalIntArg(args, "xp_earned")
+		if err != nil {
+			return nil, err
+		}
 		if xpEarned < 0 {
 			return nil, errors.New("xp_earned must be greater than or equal to 0")
 		}
-		if xpEarned > 0 {
-			if err := h.store.AddPlayerExperience(ctx, playerCharacterID, xpEarned); err != nil {
-				return nil, fmt.Errorf("add player experience: %w", err)
+		resolution.xpEarned = xpEarned
+		deadNPCs, err := h.combatNPCsArg(ctx, args, "dead_npc_ids", state, campaignID)
+		if err != nil {
+			return nil, err
+		}
+		for _, npc := range deadNPCs {
+			resolution.deadNPCIDs = append(resolution.deadNPCIDs, npc.ID)
+		}
+		if resolution.loot, err = parseLootArg(args, "loot"); err != nil {
+			return nil, err
+		}
+	case outcomeDefeat:
+		resolution.playerStatus = playerStatusDefeated
+	case outcomeFlee:
+		fleeLocationID, fleeLocationSet, err := parseOptionalUUIDArg(args, "flee_location_id")
+		if err != nil {
+			return nil, err
+		}
+		if fleeLocationSet {
+			exists, err := h.store.LocationExistsInCampaign(ctx, fleeLocationID, campaignID)
+			if err != nil {
+				return nil, fmt.Errorf("check flee location: %w", err)
 			}
+			if !exists {
+				return nil, errors.New("flee_location_id does not reference an existing location")
+			}
+			resolution.fleeLocationID = &fleeLocationID
 		}
-	}
-	summary["xp_earned"] = xpEarned
-
-	// Mark dead NPCs — validate each ID belongs to the combat state.
-	deadNPCIDs, err := parseUUIDArrayArg(args, "dead_npc_ids")
-	if err != nil {
-		return nil, err
-	}
-	npcIDs := npcCombatantIDSet(state)
-	killedNPCIDs := make([]string, 0, len(deadNPCIDs))
-	for _, npcID := range deadNPCIDs {
-		if !npcIDs[npcID] {
-			return nil, fmt.Errorf("dead_npc_ids: %s is not an NPC combatant in this combat", npcID)
+	case outcomeSurrender:
+		dispositionChange, _, err := parseOptionalIntArg(args, "disposition_change")
+		if err != nil {
+			return nil, err
 		}
-		if err := h.store.MarkNPCDead(ctx, npcID); err != nil {
-			return nil, fmt.Errorf("mark npc %s dead: %w", npcID, err)
+		surrendering, err := h.combatNPCsArg(ctx, args, "surrender_npc_ids", state, campaignID)
+		if err != nil {
+			return nil, err
 		}
-		killedNPCIDs = append(killedNPCIDs, npcID.String())
-	}
-	summary["dead_npc_ids"] = killedNPCIDs
-
-	// Create loot items.
-	lootItems, err := parseLootArg(args, "loot")
-	if err != nil {
-		return nil, err
-	}
-	createdLoot := make([]map[string]any, 0, len(lootItems))
-	for _, item := range lootItems {
-		itemID, createErr := h.store.CreatePlayerItem(ctx, playerCharacterID, item.Name, item.Description, item.ItemType, defaultItemRarity, item.Quantity)
-		if createErr != nil {
-			return nil, fmt.Errorf("create loot item %q: %w", item.Name, createErr)
+		for _, npc := range surrendering {
+			resolution.surrender = append(resolution.surrender, surrenderUpdate{
+				npcID:          npc.ID,
+				oldDisposition: npc.Disposition,
+				newDisposition: clampDispositionValue(npc.Disposition + dispositionChange),
+			})
 		}
-		createdLoot = append(createdLoot, map[string]any{
-			"item_id":     itemID.String(),
-			"name":        item.Name,
-			"description": item.Description,
-			"item_type":   item.ItemType,
-			"quantity":    item.Quantity,
-		})
+	default:
+		return nil, fmt.Errorf("unknown outcome_type: %s", outcomeType)
 	}
-	summary["loot"] = createdLoot
-
-	// Exit combat mode.
-	if err := h.store.UpdatePlayerStatus(ctx, playerCharacterID, playerStatusActive); err != nil {
-		return nil, fmt.Errorf("exit combat mode: %w", err)
-	}
-	summary["player_status"] = playerStatusActive
-	return summary, nil
+	return resolution, nil
 }
 
-func (h *ResolveCombatHandler) handleDefeat(ctx context.Context, playerCharacterID uuid.UUID) (map[string]any, error) {
-	if err := h.store.UpdatePlayerStatus(ctx, playerCharacterID, playerStatusDefeated); err != nil {
-		return nil, fmt.Errorf("set defeated status: %w", err)
-	}
-	return map[string]any{
-		"player_status": playerStatusDefeated,
-	}, nil
-}
-
-func (h *ResolveCombatHandler) handleFlee(
+// combatNPCsArg loads the NPCs an ID array names. Each must be an NPC
+// combatant in the combat state and a living NPC in the campaign; an NPC in
+// another campaign gets the unknown-NPC error.
+func (h *ResolveCombatHandler) combatNPCsArg(
 	ctx context.Context,
 	args map[string]any,
+	key string,
+	state *combat.CombatState,
+	campaignID uuid.UUID,
+) ([]*domain.NPC, error) {
+	ids, err := parseUUIDArrayArg(args, key)
+	if err != nil {
+		return nil, err
+	}
+	combatants := npcCombatantIDSet(state)
+	seen := make(map[uuid.UUID]bool, len(ids))
+	npcs := make([]*domain.NPC, 0, len(ids))
+	for _, id := range ids {
+		if seen[id] {
+			continue
+		}
+		seen[id] = true
+		if !combatants[id] {
+			return nil, fmt.Errorf("%s: %s is not an NPC combatant in this combat", key, id)
+		}
+		npc, err := h.store.GetNPCByID(ctx, campaignID, id)
+		if err != nil {
+			return nil, fmt.Errorf("get npc %s: %w", id, err)
+		}
+		if npc == nil {
+			return nil, fmt.Errorf("%s: %s does not reference an existing npc", key, id)
+		}
+		if !npc.Alive {
+			return nil, fmt.Errorf("%s: %s is already dead", key, id)
+		}
+		npcs = append(npcs, npc)
+	}
+	return npcs, nil
+}
+
+// applyOutcome writes a validated resolution and returns its summary.
+func (h *ResolveCombatHandler) applyOutcome(
+	ctx context.Context,
+	outcomeType string,
+	r *combatResolution,
 	playerCharacterID uuid.UUID,
 ) (map[string]any, error) {
 	summary := map[string]any{}
-
-	fleeLocationID, fleeLocationSet, err := parseOptionalUUIDArg(args, "flee_location_id")
-	if err != nil {
-		return nil, err
-	}
-	if fleeLocationSet {
-		if err := h.store.UpdatePlayerLocation(ctx, playerCharacterID, fleeLocationID); err != nil {
-			return nil, fmt.Errorf("move player on flee: %w", err)
+	switch outcomeType {
+	case outcomeVictory:
+		if r.xpEarned > 0 {
+			if err := h.store.AddPlayerExperience(ctx, playerCharacterID, r.xpEarned); err != nil {
+				return nil, fmt.Errorf("add player experience: %w", err)
+			}
 		}
-		summary["flee_location_id"] = fleeLocationID.String()
+		summary["xp_earned"] = r.xpEarned
+		killed := make([]string, 0, len(r.deadNPCIDs))
+		for _, npcID := range r.deadNPCIDs {
+			if err := h.store.MarkNPCDead(ctx, npcID); err != nil {
+				return nil, fmt.Errorf("mark npc %s dead: %w", npcID, err)
+			}
+			killed = append(killed, npcID.String())
+		}
+		summary["dead_npc_ids"] = killed
+		createdLoot := make([]map[string]any, 0, len(r.loot))
+		for _, item := range r.loot {
+			itemID, err := h.store.CreatePlayerItem(ctx, playerCharacterID, item.Name, item.Description, item.ItemType, defaultItemRarity, item.Quantity)
+			if err != nil {
+				return nil, fmt.Errorf("create loot item %q: %w", item.Name, err)
+			}
+			createdLoot = append(createdLoot, map[string]any{
+				"item_id":     itemID.String(),
+				"name":        item.Name,
+				"description": item.Description,
+				"item_type":   item.ItemType,
+				"quantity":    item.Quantity,
+			})
+		}
+		summary["loot"] = createdLoot
+	case outcomeFlee:
+		if r.fleeLocationID != nil {
+			if err := h.store.UpdatePlayerLocation(ctx, playerCharacterID, *r.fleeLocationID); err != nil {
+				return nil, fmt.Errorf("move player on flee: %w", err)
+			}
+			summary["flee_location_id"] = r.fleeLocationID.String()
+		}
+	case outcomeSurrender:
+		updatedNPCs := make([]map[string]any, 0, len(r.surrender))
+		for _, u := range r.surrender {
+			if err := h.store.UpdateNPCDisposition(ctx, u.npcID, u.newDisposition); err != nil {
+				return nil, fmt.Errorf("update npc %s disposition: %w", u.npcID, err)
+			}
+			updatedNPCs = append(updatedNPCs, map[string]any{
+				"npc_id":          u.npcID.String(),
+				"old_disposition": u.oldDisposition,
+				"new_disposition": u.newDisposition,
+			})
+		}
+		summary["updated_npcs"] = updatedNPCs
 	}
 
-	// Exit combat mode.
-	if err := h.store.UpdatePlayerStatus(ctx, playerCharacterID, playerStatusActive); err != nil {
+	if err := h.store.UpdatePlayerStatus(ctx, playerCharacterID, r.playerStatus); err != nil {
+		if r.playerStatus == playerStatusDefeated {
+			return nil, fmt.Errorf("set defeated status: %w", err)
+		}
 		return nil, fmt.Errorf("exit combat mode: %w", err)
 	}
-	summary["player_status"] = playerStatusActive
+	summary["player_status"] = r.playerStatus
 	return summary, nil
-}
-
-func (h *ResolveCombatHandler) handleSurrender(
-	ctx context.Context,
-	args map[string]any,
-	state *combat.CombatState,
-	playerCharacterID uuid.UUID,
-) (map[string]any, error) {
-	surrenderNPCIDs, err := parseUUIDArrayArg(args, "surrender_npc_ids")
-	if err != nil {
-		return nil, err
-	}
-
-	dispositionChange, _, err := parseOptionalIntArg(args, "disposition_change")
-	if err != nil {
-		return nil, err
-	}
-
-	// Validate all surrender_npc_ids are NPC combatants in this combat state.
-	npcIDs := npcCombatantIDSet(state)
-	for _, npcID := range surrenderNPCIDs {
-		if !npcIDs[npcID] {
-			return nil, fmt.Errorf("surrender_npc_ids: %s is not an NPC combatant in this combat", npcID)
-		}
-	}
-
-	updatedNPCs := make([]map[string]any, 0, len(surrenderNPCIDs))
-	for _, npcID := range surrenderNPCIDs {
-		npc, err := h.store.GetNPCByID(ctx, npcID)
-		if err != nil {
-			return nil, fmt.Errorf("get npc %s: %w", npcID, err)
-		}
-		if npc == nil {
-			continue
-		}
-		newDisposition := clampDispositionValue(npc.Disposition + dispositionChange)
-		if err := h.store.UpdateNPCDisposition(ctx, npcID, newDisposition); err != nil {
-			return nil, fmt.Errorf("update npc %s disposition: %w", npcID, err)
-		}
-		updatedNPCs = append(updatedNPCs, map[string]any{
-			"npc_id":          npcID.String(),
-			"old_disposition": npc.Disposition,
-			"new_disposition": newDisposition,
-		})
-	}
-
-	// Exit combat mode.
-	if err := h.store.UpdatePlayerStatus(ctx, playerCharacterID, playerStatusActive); err != nil {
-		return nil, fmt.Errorf("exit combat mode: %w", err)
-	}
-	return map[string]any{
-		"updated_npcs":  updatedNPCs,
-		"player_status": playerStatusActive,
-	}, nil
 }
 
 // parseLootArg parses the "loot" argument into a slice of lootInput.

@@ -7,10 +7,12 @@ import (
 	"strings"
 
 	"github.com/google/uuid"
+	"github.com/jackc/pgx/v5"
 
 	"git.subcult.tv/subculture-collective/edda/internal/dbutil"
 	"git.subcult.tv/subculture-collective/edda/internal/domain"
 	statedb "git.subcult.tv/subculture-collective/edda/internal/state/sqlc"
+	"git.subcult.tv/subculture-collective/edda/internal/tools"
 )
 
 // statModifierResolver resolves stat modifiers by reading the player
@@ -26,7 +28,15 @@ func NewStatModifierResolver(q statedb.Querier) domain.StatModifierResolver {
 }
 
 func (r *statModifierResolver) GetStatModifier(ctx context.Context, characterID uuid.UUID, skill string) (int, error) {
+	campaignID, ok := tools.CurrentCampaignIDFromContext(ctx)
+	if !ok {
+		return 0, fmt.Errorf("stat modifier requires current campaign id in context")
+	}
 	pc, err := r.queries.GetPlayerCharacterByID(ctx, dbutil.ToPgtype(characterID))
+	if err == nil && pc.CampaignID != dbutil.ToPgtype(campaignID) {
+		// A character in another campaign looks the same as an unknown one.
+		err = pgx.ErrNoRows
+	}
 	if err != nil {
 		return 0, fmt.Errorf("get player character: %w", err)
 	}

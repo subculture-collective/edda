@@ -131,7 +131,7 @@ func TestCreateEconomicSystemHandleSuccess(t *testing.T) {
 	embedder := &stubEmbedder{vector: []float32{0.2, 0.3}}
 	h := NewCreateEconomicSystemHandler(store, memStore, embedder)
 
-	got, err := h.Handle(context.Background(), map[string]any{
+	got, err := handleInArgsCampaign(h.Handle, map[string]any{
 		"campaign_id": campaignID.String(),
 		"name":        "Guild Ledger",
 		"currency": map[string]any{
@@ -185,7 +185,7 @@ func TestCreateEconomicSystemHandleFactWarning(t *testing.T) {
 
 	store := &stubEconomicSystemStore{createdEconomic: statedb.EconomicSystem{ID: dbutil.ToPgtype(economicID), CampaignID: dbutil.ToPgtype(campaignID), Name: "Guild Ledger"}, factions: map[[16]byte]statedb.Faction{dbutil.ToPgtype(factionID).Bytes: {ID: dbutil.ToPgtype(factionID), CampaignID: dbutil.ToPgtype(campaignID)}}, locations: map[[16]byte]statedb.Location{dbutil.ToPgtype(fromLocationID).Bytes: {ID: dbutil.ToPgtype(fromLocationID), CampaignID: dbutil.ToPgtype(campaignID)}, dbutil.ToPgtype(toLocationID).Bytes: {ID: dbutil.ToPgtype(toLocationID), CampaignID: dbutil.ToPgtype(campaignID)}}, createFactErr: errors.New("fact write failed")}
 	h := NewCreateEconomicSystemHandler(store, nil, nil)
-	result, err := h.Handle(context.Background(), map[string]any{"campaign_id": campaignID.String(), "name": "Guild Ledger", "currency": map[string]any{"name": "Crown", "denominations": []any{"copper", "silver"}}, "primary_resources": []any{"iron"}, "trade_routes": []any{map[string]any{"from_location_id": fromLocationID.String(), "to_location_id": toLocationID.String(), "goods": []any{"iron"}}}, "class_structure": map[string]any{}, "economic_type": "mercantile", "scope": map[string]any{"faction_ids": []any{factionID.String()}, "region_names": []any{"North"}}})
+	result, err := handleInArgsCampaign(h.Handle, map[string]any{"campaign_id": campaignID.String(), "name": "Guild Ledger", "currency": map[string]any{"name": "Crown", "denominations": []any{"copper", "silver"}}, "primary_resources": []any{"iron"}, "trade_routes": []any{map[string]any{"from_location_id": fromLocationID.String(), "to_location_id": toLocationID.String(), "goods": []any{"iron"}}}, "class_structure": map[string]any{}, "economic_type": "mercantile", "scope": map[string]any{"faction_ids": []any{factionID.String()}, "region_names": []any{"North"}}})
 	if err != nil {
 		t.Fatalf("Handle returned error: %v", err)
 	}
@@ -222,7 +222,7 @@ func TestCreateEconomicSystemValidationAndErrors(t *testing.T) {
 		h := NewCreateEconomicSystemHandler(&stubEconomicSystemStore{}, &stubMemoryStore{}, &stubEmbedder{vector: []float32{0.1}})
 		args := copyArgs(baseArgs)
 		delete(args, "currency")
-		_, err := h.Handle(context.Background(), args)
+		_, err := handleInArgsCampaign(h.Handle, args)
 		if err == nil || !strings.Contains(err.Error(), "currency is required") {
 			t.Fatalf("error = %v, want currency-required message", err)
 		}
@@ -232,7 +232,7 @@ func TestCreateEconomicSystemValidationAndErrors(t *testing.T) {
 		h := NewCreateEconomicSystemHandler(&stubEconomicSystemStore{}, &stubMemoryStore{}, &stubEmbedder{vector: []float32{0.1}})
 		args := copyArgs(baseArgs)
 		args["trade_routes"] = "bad"
-		_, err := h.Handle(context.Background(), args)
+		_, err := handleInArgsCampaign(h.Handle, args)
 		if err == nil || !strings.Contains(err.Error(), "trade_routes must be an array") {
 			t.Fatalf("error = %v, want array-type message", err)
 		}
@@ -244,7 +244,7 @@ func TestCreateEconomicSystemValidationAndErrors(t *testing.T) {
 		args["currency"] = map[string]any{
 			"name": "Mark",
 		}
-		_, err := h.Handle(context.Background(), args)
+		_, err := handleInArgsCampaign(h.Handle, args)
 		if err == nil || !strings.Contains(err.Error(), "currency.denominations is required") {
 			t.Fatalf("error = %v, want required denominations message", err)
 		}
@@ -268,7 +268,7 @@ func TestCreateEconomicSystemValidationAndErrors(t *testing.T) {
 			"faction_ids":  []any{factionID.String()},
 			"region_names": []any{},
 		}
-		_, err := h.Handle(context.Background(), args)
+		_, err := handleInArgsCampaign(h.Handle, args)
 		if err == nil || !strings.Contains(err.Error(), "must belong to campaign_id") {
 			t.Fatalf("error = %v, want campaign validation message", err)
 		}
@@ -296,7 +296,7 @@ func TestCreateEconomicSystemValidationAndErrors(t *testing.T) {
 				"to_location_id":   toLocationID.String(),
 			},
 		}
-		_, err := h.Handle(context.Background(), args)
+		_, err := handleInArgsCampaign(h.Handle, args)
 		if err == nil || !strings.Contains(err.Error(), "must belong to campaign_id") {
 			t.Fatalf("error = %v, want campaign validation message", err)
 		}
@@ -329,7 +329,7 @@ func TestCreateEconomicSystemValidationAndErrors(t *testing.T) {
 				"to_location_id":   toLocationID.String(),
 			},
 		}
-		result, err := h.Handle(context.Background(), args)
+		result, err := handleInArgsCampaign(h.Handle, args)
 		if err != nil {
 			t.Fatalf("Handle returned error: %v", err)
 		}
@@ -363,7 +363,7 @@ func TestCreateEconomicSystemStoresMemoryMetadata(t *testing.T) {
 	memStore := &stubMemoryStore{}
 	h := NewCreateEconomicSystemHandler(store, memStore, &stubEmbedder{vector: []float32{0.1}})
 
-	_, err := h.Handle(context.Background(), map[string]any{
+	_, err := handleInArgsCampaign(h.Handle, map[string]any{
 		"campaign_id": campaignID.String(),
 		"name":        "Market",
 		"currency": map[string]any{
@@ -400,3 +400,23 @@ func TestCreateEconomicSystemStoresMemoryMetadata(t *testing.T) {
 }
 
 var _ EconomicSystemStore = (*stubEconomicSystemStore)(nil)
+
+func TestCreateEconomicSystemRejectsCampaignOtherThanCurrent(t *testing.T) {
+	args := map[string]any{
+		"campaign_id": uuid.New().String(),
+		"name":        "Ledger",
+	}
+	store := &stubEconomicSystemStore{}
+	h := NewCreateEconomicSystemHandler(store, nil, nil)
+
+	_, err := h.Handle(WithCurrentCampaignID(context.Background(), uuid.New()), args)
+	if err == nil || !strings.Contains(err.Error(), "campaign_id must be the current campaign") {
+		t.Fatalf("error = %v, want current-campaign error", err)
+	}
+	if store.lastCreateEconomicArgs.Name != "" {
+		t.Fatalf("economic system was created: %+v", store.lastCreateEconomicArgs)
+	}
+	if _, err := h.Handle(context.Background(), args); err == nil || !strings.Contains(err.Error(), "requires current campaign id in context") {
+		t.Fatalf("error = %v, want missing-context error", err)
+	}
+}

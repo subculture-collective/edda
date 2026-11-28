@@ -153,7 +153,7 @@ func (h *CreateBeliefSystemHandler) Handle(ctx context.Context, args map[string]
 	if h.beliefStore == nil {
 		return nil, errors.New("create_belief_system belief store is required")
 	}
-	campaignID, err := parseUUIDArg(args, "campaign_id")
+	campaignID, err := currentCampaignFromArg(ctx, args, createBeliefSystemToolName)
 	if err != nil {
 		return nil, err
 	}

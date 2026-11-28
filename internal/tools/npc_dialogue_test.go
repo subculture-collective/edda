@@ -17,9 +17,9 @@ type stubNPCDialogueStore struct {
 	err       error
 }
 
-func (s *stubNPCDialogueStore) GetNPCByID(_ context.Context, npcID uuid.UUID) (*domain.NPC, error) {
+func (s *stubNPCDialogueStore) GetNPCByID(_ context.Context, campaignID, npcID uuid.UUID) (*domain.NPC, error) {
 	npc, ok := s.npcs[npcID]
-	if !ok {
+	if !ok || npc.CampaignID != campaignID {
 		return nil, nil
 	}
 	return npc, nil
@@ -57,7 +57,7 @@ func TestRegisterNPCDialogue(t *testing.T) {
 }
 
 func TestNPCDialogueHandleSuccess(t *testing.T) {
-	campaignID := uuid.New()
+	campaignID := testNPCCampaignID
 	locationID := uuid.New()
 	npcID := uuid.New()
 	store := &stubNPCDialogueStore{
@@ -72,7 +72,7 @@ func TestNPCDialogueHandleSuccess(t *testing.T) {
 		},
 	}
 	h := NewNPCDialogueHandler(store)
-	ctx := WithCurrentLocationID(context.Background(), locationID)
+	ctx := WithCurrentLocationID(npcTestContext(), locationID)
 
 	got, err := h.Handle(ctx, map[string]any{
 		"npc_id":   npcID.String(),
@@ -108,7 +108,7 @@ func TestNPCDialogueHandleSuccess(t *testing.T) {
 func TestNPCDialogueHandleInvalidNPCID(t *testing.T) {
 	store := &stubNPCDialogueStore{npcs: map[uuid.UUID]*domain.NPC{}}
 	h := NewNPCDialogueHandler(store)
-	ctx := WithCurrentLocationID(context.Background(), uuid.New())
+	ctx := WithCurrentLocationID(npcTestContext(), uuid.New())
 
 	_, err := h.Handle(ctx, map[string]any{
 		"npc_id":   uuid.New().String(),
@@ -130,7 +130,7 @@ func TestNPCDialogueHandleWrongLocation(t *testing.T) {
 		npcs: map[uuid.UUID]*domain.NPC{
 			npcID: {
 				ID:         npcID,
-				CampaignID: uuid.New(),
+				CampaignID: testNPCCampaignID,
 				Name:       "Archivist Sol",
 				LocationID: &npcLocationID,
 				Alive:      true,
@@ -138,7 +138,7 @@ func TestNPCDialogueHandleWrongLocation(t *testing.T) {
 		},
 	}
 	h := NewNPCDialogueHandler(store)
-	ctx := WithCurrentLocationID(context.Background(), ctxLocationID)
+	ctx := WithCurrentLocationID(npcTestContext(), ctxLocationID)
 
 	_, err := h.Handle(ctx, map[string]any{
 		"npc_id":   npcID.String(),
@@ -159,7 +159,7 @@ func TestNPCDialogueHandleNPCMustBeAlive(t *testing.T) {
 		npcs: map[uuid.UUID]*domain.NPC{
 			npcID: {
 				ID:         npcID,
-				CampaignID: uuid.New(),
+				CampaignID: testNPCCampaignID,
 				Name:       "Fallen Knight",
 				LocationID: &locationID,
 				Alive:      false,
@@ -167,7 +167,7 @@ func TestNPCDialogueHandleNPCMustBeAlive(t *testing.T) {
 		},
 	}
 	h := NewNPCDialogueHandler(store)
-	ctx := WithCurrentLocationID(context.Background(), locationID)
+	ctx := WithCurrentLocationID(npcTestContext(), locationID)
 
 	_, err := h.Handle(ctx, map[string]any{
 		"npc_id":   npcID.String(),
@@ -182,7 +182,7 @@ func TestNPCDialogueHandleNPCMustBeAlive(t *testing.T) {
 }
 
 func TestNPCDialogueHandleStoreErrorWrapped(t *testing.T) {
-	campaignID := uuid.New()
+	campaignID := testNPCCampaignID
 	locationID := uuid.New()
 	npcID := uuid.New()
 	store := &stubNPCDialogueStore{
@@ -198,7 +198,7 @@ func TestNPCDialogueHandleStoreErrorWrapped(t *testing.T) {
 		err: errors.New("insert failed"),
 	}
 	h := NewNPCDialogueHandler(store)
-	ctx := WithCurrentLocationID(context.Background(), locationID)
+	ctx := WithCurrentLocationID(npcTestContext(), locationID)
 
 	_, err := h.Handle(ctx, map[string]any{
 		"npc_id":   npcID.String(),
@@ -213,3 +213,25 @@ func TestNPCDialogueHandleStoreErrorWrapped(t *testing.T) {
 }
 
 var _ NPCDialogueStore = (*stubNPCDialogueStore)(nil)
+
+// An NPC from another campaign at the current location gets the unknown-NPC
+// error, so the location check is not the only guard.
+func TestNPCDialogueRejectsOtherCampaignNPC(t *testing.T) {
+	npcID, locationID := uuid.New(), uuid.New()
+	store := &stubNPCDialogueStore{npcs: map[uuid.UUID]*domain.NPC{
+		npcID: {ID: npcID, CampaignID: uuid.New(), Name: "Envoy", LocationID: &locationID, Alive: true},
+	}}
+	h := NewNPCDialogueHandler(store)
+	ctx := WithCurrentLocationID(npcTestContext(), locationID)
+	args := func(id uuid.UUID) map[string]any {
+		return map[string]any{"npc_id": id.String(), "dialogue": "Hello."}
+	}
+	_, unknown := h.Handle(ctx, args(uuid.New()))
+	_, err := h.Handle(ctx, args(npcID))
+	if err == nil || unknown == nil || err.Error() != unknown.Error() {
+		t.Fatalf("error = %v, want the unknown-NPC error %v", err, unknown)
+	}
+	if store.lastEntry != nil {
+		t.Fatalf("dialogue logged for another campaign's NPC: %+v", store.lastEntry)
+	}
+}

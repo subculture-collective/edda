@@ -15,7 +15,8 @@ const updateNPCToolName = "update_npc"
 
 // UpdateNPCStore provides NPC lookup and persistence for update_npc.
 type UpdateNPCStore interface {
-	GetNPCByID(ctx context.Context, npcID uuid.UUID) (*domain.NPC, error)
+	// GetNPCByID returns nil for an NPC outside the campaign.
+	GetNPCByID(ctx context.Context, campaignID, npcID uuid.UUID) (*domain.NPC, error)
 	LocationExistsInCampaign(ctx context.Context, locationID, campaignID uuid.UUID) (bool, error)
 	UpdateNPC(ctx context.Context, npc domain.NPC) (*domain.NPC, error)
 }
@@ -82,12 +83,16 @@ func (h *UpdateNPCHandler) Handle(ctx context.Context, args map[string]any) (*To
 		return nil, errors.New("update_npc store is required")
 	}
 
+	campaignID, err := requireCurrentCampaignID(ctx, updateNPCToolName)
+	if err != nil {
+		return nil, err
+	}
 	npcID, err := parseUUIDArg(args, "npc_id")
 	if err != nil {
 		return nil, err
 	}
 
-	npc, err := h.store.GetNPCByID(ctx, npcID)
+	npc, err := h.store.GetNPCByID(ctx, campaignID, npcID)
 	if err != nil {
 		return nil, fmt.Errorf("get npc: %w", err)
 	}
