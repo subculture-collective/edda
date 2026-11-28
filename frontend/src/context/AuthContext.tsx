@@ -47,8 +47,7 @@ export function AuthProvider({ children }: PropsWithChildren) {
     try {
       await logoutRequest();
     } catch {
-      // Local auth state must still clear even if the network request fails.
-      clearStoredSession();
+      // The local session is already cleared; a failed request changes nothing here.
     }
   }, []);
 

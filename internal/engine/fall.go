@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"strings"
 
+	"git.subcult.tv/subculture-collective/edda/internal/combat"
 	"git.subcult.tv/subculture-collective/edda/internal/game"
 	"git.subcult.tv/subculture-collective/edda/internal/rules/srd521"
 	"github.com/google/uuid"
@@ -42,6 +43,26 @@ func (e *Engine) PreviewFall(ctx context.Context, campaignID uuid.UUID, skill st
 		intent.EntryID = pending.ID
 	}
 	prepared, err := game.PrepareStoredAction(ctx, e.baseDB, c, pc, intent, false)
+	if err != nil {
+		return nil, err
+	}
+	return prepared.Preview, nil
+}
+
+// PreviewStand prepares standing from a saved Prone condition for the campaign
+// owner's character for the TUI, which plays no encounter turns.
+func (e *Engine) PreviewStand(ctx context.Context, campaignID uuid.UUID) (*game.ActionPreview, error) {
+	if e.baseDB == nil {
+		return nil, ErrActionRefresh
+	}
+	encounter, err := game.ReadEncounter(ctx, e.baseDB, campaignID)
+	if err != nil {
+		return nil, err
+	}
+	if encounter != nil && encounter.Status == "active" {
+		return &game.ActionPreview{Reason: "An encounter is active; stand up from the web client on your turn."}, nil
+	}
+	prepared, err := e.previewOwnerAction(ctx, campaignID, game.ActionIntent{Kind: combat.EncounterStand})
 	if err != nil {
 		return nil, err
 	}

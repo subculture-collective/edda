@@ -78,6 +78,20 @@ export interface LightReceipt {
  before?: LightEffect; after?: LightEffect; time: number; source_ids: string[];
 }
 export interface PendingFall { id: string; height_feet?: number; landing?: 'solid' | 'water' }
+export interface SheetDoor { id: string; name: string; state?: 'open' | 'closed' }
+export interface DoorReceipt {
+ rules_version: string; kind: string; door_id: string; door: string; before: 'open' | 'closed'; after: 'open' | 'closed';
+ distance_feet: number; reach_feet: number; reason: string; source_ids: string[];
+}
+export interface TravelPlan {
+ pace: 'slow' | 'normal' | 'fast'; maximum_pace: string; distance_feet: number; terrain: string; good_road: boolean;
+ miles_per_hour: number; seconds: number; effects: string[];
+}
+export interface TravelReceipt {
+ rules_version: string; kind: string; reason: string; route_id: string; from_id: string; from: string; to_id: string; to: string;
+ plan: TravelPlan; time_before: number; time_after: number; day_travel_before: number; day_travel_after: number;
+ expired?: Concentration; source_ids: string[];
+}
 export interface DeathSaves { successes?: number; failures?: number; stable?: boolean; dead?: boolean }
 export interface ZeroHPReceipt {
  rules_version: string; event: 'dropped-to-0' | 'massive-damage' | 'damage-at-0' | 'death-save' | 'stable-recovery' | 'unconscious-repair' | 'ally-stabilize' | 'ally-healing'; reason: string;
@@ -127,6 +141,9 @@ export interface CharacterSheetProjection {
   light_item?: string;
   fall?: PendingFall;
   death_saves?: DeathSaves;
+  prone?: boolean;
+  doors?: SheetDoor[];
+  travel_paces?: TravelPlan['pace'][];
   spellcasting?: Spellcasting;
   rules_version: string;
   scope: string;

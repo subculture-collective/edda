@@ -7,6 +7,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"slices"
 	"strings"
 	"sync"
 	"testing"
@@ -91,6 +92,25 @@ func TestIntegrationOpenOrdinaryDoor(t *testing.T) {
 		}
 	}
 
+	// The sheet and the TUI offer only the known door, by name and state.
+	want := []srd521.SheetDoor{{ID: door.String(), Name: "Oak door", State: srd521.DoorClosed}}
+	if got := characterSheet(t, f.campaign).Doors; !slices.Equal(got, want) {
+		t.Fatalf("sheet doors: %+v", got)
+	}
+	listed, none, err := f.engine().PreviewDoor(ctx, f.campaign, 0)
+	f.must(err)
+	_, tuiPreview, err := f.engine().PreviewDoor(ctx, f.campaign, 1)
+	f.must(err)
+	if !slices.Equal(listed, want) || none != nil || tuiPreview == nil || !tuiPreview.Available || tuiPreview.Intent.EntryID != door.String() || tuiPreview.Intent.ActorID != f.actor {
+		t.Fatalf("TUI door: %+v %+v %+v", listed, none, tuiPreview)
+	}
+	// A refused door is still named, without a state it cannot be trusted for.
+	f.doorFacts(door, f.actor, closed+`,"trap":"poison needle"`)
+	if got := characterSheet(t, f.campaign).Doors; len(got) != 1 || got[0].State != "" {
+		t.Fatalf("refused door: %+v", got)
+	}
+	f.doorFacts(door, f.actor, closed)
+
 	// Range, locks and undeclared mechanics fail closed; nothing is invented.
 	f.doorFacts(door, f.actor, `"hidden":false,"state":"closed","locked":false,"distance_feet":10`)
 	unavailable(f.openDoor(door), "Out of reach")
@@ -121,7 +141,7 @@ func TestIntegrationOpenOrdinaryDoor(t *testing.T) {
 	competing := f.openDoor(door)
 
 	// History failure rolls back the door state and the attempt.
-	_, err := testPool.Exec(ctx, `ALTER TABLE session_logs ADD CONSTRAINT door_history_failure CHECK (player_input NOT LIKE 'Confirm Open door%') NOT VALID`)
+	_, err = testPool.Exec(ctx, `ALTER TABLE session_logs ADD CONSTRAINT door_history_failure CHECK (player_input NOT LIKE 'Confirm Open door%') NOT VALID`)
 	f.must(err)
 	t.Cleanup(func() {
 		_, _ = testPool.Exec(ctx, `ALTER TABLE session_logs DROP CONSTRAINT IF EXISTS door_history_failure`)

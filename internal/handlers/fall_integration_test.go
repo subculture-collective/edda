@@ -316,6 +316,12 @@ func TestIntegrationDeclaredFall(t *testing.T) {
 	if _, _, prone := f.state(); prone {
 		t.Fatal("Prone saved twice: on the actor and in the encounter")
 	}
+	if p, err := f.engine().PreviewStand(ctx, f.campaign); err != nil || p.Available || !strings.Contains(p.Reason, "An encounter is active") {
+		t.Fatalf("TUI stand during an encounter: %+v %v", p, err)
+	}
+	if characterSheet(t, f.campaign).Prone {
+		t.Fatal("the encounter holds Prone, not the sheet")
+	}
 	f.declare(fallDecl("f5", 20, "solid"))
 	unavailable(f.preview(srd521.FallResolve, "f5", ""), "during an encounter")
 
@@ -339,5 +345,20 @@ func TestIntegrationDeclaredFall(t *testing.T) {
 	}
 	if p := f.preview(combat.EncounterStand, "", ""); !p.Available {
 		t.Fatalf("stand after encounter: %+v", p)
+	}
+
+	// The sheet shows the saved Prone, and the TUI stands from it.
+	if !characterSheet(t, f.campaign).Prone {
+		t.Fatal("saved Prone missing from the sheet")
+	}
+	stand, err = f.engine().PreviewStand(ctx, f.campaign)
+	f.must(err)
+	if !stand.Available || stand.Intent.ActorID != f.actor {
+		t.Fatalf("TUI stand preview: %+v", stand)
+	}
+	_, result, err = f.confirmWith(stand)
+	f.must(err)
+	if _, _, prone := f.state(); prone || characterSheet(t, f.campaign).Prone || !strings.Contains(result.Narrative, "Stood up from Prone") {
+		t.Fatalf("TUI stand: %s", result.Narrative)
 	}
 }

@@ -35,6 +35,21 @@ export function RulesSheet({ sheet, receipts = [], campaignId, actorId, initialP
       <p>{sheet.fall.height_feet === undefined ? 'A declared fall is waiting. Preview it to see why it requires adjudication.' : `A fall of ${sheet.fall.height_feet} feet onto ${sheet.fall.landing === 'water' ? 'water' : 'solid ground'} is waiting.`}</p>
       <p className="text-sm text-pewter">Resolve it from the action menu. The server holds the declaration and rolls the dice.</p>
     </section>}
+    {sheet.prone && <section aria-label="Conditions">
+      <h3 className="font-heading text-gold">Conditions</h3>
+      <p>Prone.</p>
+      <p className="text-sm text-pewter">Saved outside encounters. Stand up from the action menu; travel waits until you do. An encounter that starts now begins with you Prone.</p>
+    </section>}
+    {!!sheet.doors?.length && <section aria-label="Known doors">
+      <h3 className="font-heading text-gold">Doors here</h3>
+      {sheet.doors.map(door => <p key={door.id} className="wrap-break-word">{door.name}{door.state && ` · ${door.state}`}</p>)}
+      <p className="text-sm text-pewter">Open a door from the action menu. The preview says why a door cannot be opened.</p>
+    </section>}
+    {sheet.travel_paces && <section aria-label="Travel">
+      <h3 className="font-heading text-gold">Travel</h3>
+      <p>A known route with declared facts leads from here.</p>
+      <p className="text-sm text-pewter">Choose a pace in the action menu, then a destination from the preview. Each preview covers at most one hour.</p>
+    </section>}
     {sheet.spellcasting && <section aria-label="Spellcasting" className="space-y-2">
       <h3 className="font-heading text-gold">Spellcasting</h3>
       <p>Casting ability: {sheet.spellcasting.ability} ({sheet.spellcasting.modifier.value >= 0 ? '+' : ''}{sheet.spellcasting.modifier.value})</p>
