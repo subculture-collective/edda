@@ -36,10 +36,10 @@ func (h *CharacterHandlers) GetCharacter(w http.ResponseWriter, r *http.Request)
 		writeError(w, http.StatusInternalServerError, "failed to get character rules version")
 		return
 	}
-	response := playerCharacterToResponse(pcs[0])
+	response := playerCharacterToResponse(pcs[len(pcs)-1])
 	response.RulesVersion = campaign.RulesVersion
 	if campaign.RulesVersion == string(domain.RulesVersionSRD521) {
-		pc := pcs[0]
+		pc := pcs[len(pcs)-1]
 		response.Sheet, err = srd521.Project(pc.Stats, int(pc.Level), int(pc.Hp), int(pc.MaxHp), int(pc.Experience))
 		if err == nil {
 			response.Sheet.Fall = game.PendingFall(pc.Stats)
@@ -79,7 +79,7 @@ func (h *CharacterHandlers) GetCharacterInventory(w http.ResponseWriter, r *http
 
 	items, err := h.Queries.ListItemsByPlayer(r.Context(), statedb.ListItemsByPlayerParams{
 		CampaignID:        dbutil.ToPgtype(campaignID),
-		PlayerCharacterID: pcs[0].ID,
+		PlayerCharacterID: pcs[len(pcs)-1].ID,
 	})
 	if err != nil {
 		h.Logger.Errorf("list inventory for campaign %s: %v", campaignID, err)
@@ -108,5 +108,5 @@ func (h *CharacterHandlers) GetCharacterAbilities(w http.ResponseWriter, r *http
 		return
 	}
 
-	writeJSON(w, http.StatusOK, parseAbilities(pcs[0].Abilities))
+	writeJSON(w, http.StatusOK, parseAbilities(pcs[len(pcs)-1].Abilities))
 }

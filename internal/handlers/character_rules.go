@@ -28,7 +28,7 @@ func (h *CharacterHandlers) GetCharacterFeats(w http.ResponseWriter, r *http.Req
 		writeError(w, http.StatusNotFound, "player character not found")
 		return
 	}
-	characterID := dbutil.FromPgtype(pcs[0].ID)
+	characterID := dbutil.FromPgtype(pcs[len(pcs)-1].ID)
 
 	rows, err := h.Pool.Query(r.Context(),
 		`SELECT cf.id, cf.feat_id, fd.name, fd.description, fd.bonus_type, fd.bonus_value, fd.prerequisites
@@ -78,7 +78,7 @@ func (h *CharacterHandlers) GetCharacterSkills(w http.ResponseWriter, r *http.Re
 		writeError(w, http.StatusNotFound, "player character not found")
 		return
 	}
-	characterID := dbutil.FromPgtype(pcs2[0].ID)
+	characterID := dbutil.FromPgtype(pcs2[len(pcs2)-1].ID)
 
 	rows, err := h.Pool.Query(r.Context(),
 		`SELECT cs.id, cs.skill_id, sd.name, sd.description, sd.base_ability, cs.points
