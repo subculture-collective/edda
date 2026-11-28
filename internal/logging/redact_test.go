@@ -57,8 +57,45 @@ func TestRedactURL(t *testing.T) {
 		{"at sign in a path", "https://cdn.example/npm/pkg@1.2.3/file.js", "https://cdn.example/npm/pkg@1.2.3/file.js"},
 		{"at sign in a localhost path", "http://localhost/users/a@b.example", "http://localhost/users/a@b.example"},
 		{"at sign in a query", "http://h.example/search?q=a@b.example&page=2", "http://h.example/search?q=a@b.example&page=2"},
-		// With a port the text could be user:password, so it is cut.
-		{"at sign in a path after a port", "http://h.example:8080/users/a@b.example", "http://b.example"},
+		// A dotted host with a numeric port is a complete authority, so a later
+		// @ cannot end userinfo.
+		{"at sign in a path after a port", "http://h.example:8080/users/a@b.example", "http://h.example:8080/users/a@b.example"},
+		{"at sign in a path after a localhost port", "http://localhost:8080/users/a@b.example", "http://localhost:8080/users/a@b.example"},
+		{"at sign in a path after an IPv4 port", "http://127.0.0.1:8080/users/a@b.example", "http://127.0.0.1:8080/users/a@b.example"},
+		{"at sign in a path after an IPv6 port", "http://[::1]:8080/users/a@b.example", "http://[::1]:8080/users/a@b.example"},
+		{"at sign in a path after an IPv6 host", "http://[::1]/users/a@b.example", "http://[::1]/users/a@b.example"},
+		{"colon and at sign in a path after a port", "http://h.example:8080/a:b@c", "http://h.example:8080/a:b@c"},
+		{"at sign in a query after a port", "http://h.example:8080?to=a@b.example", "http://h.example:8080?to=a@b.example"},
+		{"secret query after an at sign in a path", "http://h.example:8080/users/a@b.example?token=fake&page=2", "http://h.example:8080/users/a@b.example?page=2"},
+		{"scheme left out, at sign in a path after a port", "h.example:8080/users/a@b.example", "h.example:8080/users/a@b.example"},
+		{"port out of range is not a port", "http://fake.user:99999/fake34@h.example", "http://h.example"},
+		{"empty port is not a port", "http://fake.user:/fake34@h.example", "http://h.example"},
+		{"single label with digits is still ambiguous", "http://fake-user:8080/fake34@h.example", "http://h.example"},
+
+		// Fragments take the same parameter rule as queries.
+		{"token in a fragment", "http://h.example/cb#access_token=fake", "http://h.example/cb"},
+		{"other fragment pairs survive", "http://h.example/cb#access_token=fake1&token_type=bearer&id_token=fake2&expires_in=3600", "http://h.example/cb#token_type=bearer&expires_in=3600"},
+		{"fragment after a route", "https://h.example/#/callback?access_token=fake&state=a", "https://h.example/#/callback?state=a"},
+		{"fragment right after a route slash", "https://h.example/#/access_token=fake&state=a", "https://h.example/#state=a"},
+		{"escaped fragment name", "http://h.example/#access%5Ftoken=fake&a=b%26c", "http://h.example/#a=b%26c"},
+		{"semicolons in a fragment", "http://h.example/#a=1;client_secret=fake;b=2", "http://h.example/#a=1;b=2"},
+		{"question mark inside a fragment secret", "http://h.example/#access_token=fake1?fake2", "http://h.example/"},
+		{"fragment and query together", "http://h.example/x?key=fake1&page=2#token=fake2", "http://h.example/x?page=2"},
+		{"fragment kept when the query changes", "http://h.example/x?key=fake1#section-2", "http://h.example/x#section-2"},
+		{"anchor survives", "http://h.example/docs#section-key", "http://h.example/docs#section-key"},
+		{"ordinary fragment pairs survive", "http://h.example/docs#page=2&line=5", "http://h.example/docs#page=2&line=5"},
+		{"scheme left out with a fragment", "h.example/cb#access_token=fake", "h.example/cb"},
+		{"userinfo and a fragment", "https://fake-user:fake-pass@h.example/cb#access_token=fake", "https://h.example/cb"},
+
+		// A semicolon separates query pairs too.
+		{"semicolon before a secret", "http://h.example/x?model=a;token=fake;page=2", "http://h.example/x?model=a;page=2"},
+		{"semicolon after a secret", "http://h.example/x?api_key=fake;model=a&page=2", "http://h.example/x?model=a&page=2"},
+		{"semicolon inside a secret value", "http://h.example/x?password=fake1;fake2;fake3&page=2", "http://h.example/x?page=2"},
+		{"mixed separators", "http://h.example/x?a=1&token=fake1;sig=fake2&b=2;key=fake3", "http://h.example/x?a=1&b=2"},
+		{"semicolons without secrets survive", "http://h.example/x?a=1;b=2", "http://h.example/x?a=1;b=2"},
+
+		{"amazon credential", "https://h.example/o?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=fake%2F20260101%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20260101T000000Z", "https://h.example/o?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20260101T000000Z"},
+		{"google credential", "https://h.example/o?x-goog-credential=fake&page=2", "https://h.example/o?page=2"},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -80,6 +117,7 @@ func TestRedactText(t *testing.T) {
 		{"no url", "load config: bad yaml", "load config: bad yaml"},
 		{"quoted url in error", `ollama provider unavailable: invalid endpoint "http://u:fake-pass@h.example:11434": bad port`, `ollama provider unavailable: invalid endpoint "http://h.example:11434": bad port`},
 		{"url followed by colon", "cannot reach http://u:fake-pass@h.example/api/tags: dial tcp: refused", "cannot reach http://h.example/api/tags: dial tcp: refused"},
+		{"url with a token in its fragment", "redirected to http://h.example/cb#access_token=fake: refused", "redirected to http://h.example/cb refused"},
 		{"two urls", "a http://u:fake1@a.example b postgres://e:fake2@b.example/d", "a http://a.example b postgres://e:xxxxx@b.example/d"},
 		{"keyword dsn in error", "open database: cannot parse `host=h password=fake-pass`: bad", "open database: cannot parse `host=h password=xxxxx`: bad"},
 	}
@@ -226,5 +264,19 @@ func TestRedactURLErrorAmbiguousUserinfo(t *testing.T) {
 	got = RedactURLError(&url.Error{Op: "Get", URL: raw, Err: fmt.Errorf("dial fake-user: %w", context.DeadlineExceeded)})
 	if !errors.Is(got, context.DeadlineExceeded) || strings.Contains(got.Error(), "fake") {
 		t.Errorf("error = %q, want a bare deadline error", got)
+	}
+}
+
+// The cause of an error for a URL with a port and a later @ names no
+// credential, so it is kept.
+func TestRedactURLErrorKeepsCauseForAtSignAfterPort(t *testing.T) {
+	raw := "http://h.example:8080/users/a@b.example"
+	cause := errors.New("connection refused")
+	got := RedactURLError(&url.Error{Op: "Get", URL: raw, Err: cause})
+	if want := `Get "` + raw + `": connection refused`; got.Error() != want {
+		t.Errorf("error = %q, want %q", got, want)
+	}
+	if !errors.Is(got, cause) {
+		t.Error("the cause is no longer in the chain")
 	}
 }
