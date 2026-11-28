@@ -412,7 +412,8 @@ func classifyChatGPTError(endpoint, model string, status int, body []byte) error
 }
 
 func classifyChatGPTCode(endpoint, model string, status int, apiErr *chatGPTAPIError) error {
-	msg := apiErr.Message
+	// Redact before adding to the end, so a cut-off URL is still seen as one.
+	msg := logging.RedactReply(apiErr.Message)
 	if apiErr.Code != "" {
 		msg = apiErr.Code + ": " + msg
 	}

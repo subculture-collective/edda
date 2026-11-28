@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"context"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -11,6 +12,7 @@ import (
 	"git.subcult.tv/subculture-collective/edda/internal/dbutil"
 	"git.subcult.tv/subculture-collective/edda/internal/domain"
 	"git.subcult.tv/subculture-collective/edda/internal/game"
+	"git.subcult.tv/subculture-collective/edda/internal/logging"
 	"git.subcult.tv/subculture-collective/edda/internal/rules/srd521"
 	statedb "git.subcult.tv/subculture-collective/edda/internal/state/sqlc"
 	"git.subcult.tv/subculture-collective/edda/internal/world"
@@ -46,35 +48,19 @@ func (h *CharacterHandlers) GetCharacter(w http.ResponseWriter, r *http.Request)
 	response.NeedsName = domain.ValidateCharacterName(response.Name) != nil
 	if campaign.RulesVersion == string(domain.RulesVersionSRD521) {
 		pc := pcs[len(pcs)-1]
-		response.Sheet, err = srd521.Project(pc.Stats, int(pc.Level), int(pc.Hp), int(pc.MaxHp), int(pc.Experience))
-		if err == nil {
-			nameConcentrations(response.Sheet.Concentration)
-			response.Sheet.Fall = game.PendingFall(pc.Stats)
-			response.Sheet.DeathSaves = game.ZeroHPState(pc.Stats, int(pc.Hp))
-			response.Sheet.Prone = game.ReadConditions(pc.Stats).Prone
-		}
-		if err == nil && h.Pool != nil {
-			now, clockErr := game.ReadSpellClock(r.Context(), h.Pool, campaignID)
-			if clockErr != nil {
-				err = clockErr
-			} else {
-				err = game.ApplyFaithAC(r.Context(), h.Pool, campaignID, dbutil.FromPgtype(pc.ID), now, response.Sheet)
-				if err == nil {
-					err = game.ApplyLight(r.Context(), h.Pool, campaignID, dbutil.FromPgtype(pc.ID), now, response.Sheet)
-				}
-				if err == nil {
-					actor := domain.PlayerCharacter{ID: dbutil.FromPgtype(pc.ID)}
-					if pc.CurrentLocationID.Valid {
-						location := dbutil.FromPgtype(pc.CurrentLocationID)
-						actor.CurrentLocationID = &location
-					}
-					err = game.ApplyExploration(r.Context(), h.Pool, domain.Campaign{ID: campaignID}, actor, response.Sheet)
-				}
+		sheet, err := srd521.Project(pc.Stats, int(pc.Level), int(pc.Hp), int(pc.MaxHp), int(pc.Experience))
+		switch {
+		case err != nil && !errors.Is(err, srd521.ErrCoverageUnavailable):
+			// What is wrong with the saved build. It holds no internal detail.
+			response.SheetUnavailable = err.Error()
+		case err == nil:
+			if err = h.applyCurrentState(r.Context(), campaignID, pc, sheet); err == nil {
+				response.Sheet = sheet
 			}
 		}
-		if err != nil {
-			response.Sheet = nil
-			response.SheetUnavailable = err.Error()
+		if err != nil && response.SheetUnavailable == "" {
+			h.Logger.Error("load character sheet", "campaign_id", campaignID, "error", logging.Redact(err.Error()))
+			response.SheetUnavailable = sheetLoadFailed
 		}
 	}
 	writeJSON(w, http.StatusOK, response)
@@ -111,6 +97,42 @@ func (h *CharacterHandlers) RenameCharacter(w http.ResponseWriter, r *http.Reque
 	default:
 		w.WriteHeader(http.StatusNoContent)
 	}
+}
+
+// sheetLoadFailed is the sheet_unavailable reason for a failure inside the
+// server. The cause is logged and not sent, because database and game errors
+// can name tables, hosts and credentials.
+const sheetLoadFailed = "The character sheet could not be loaded. Try again."
+
+// applyCurrentState adds what the saved build alone does not hold: conditions,
+// and with a database, the effects and choices at the campaign's current time.
+func (h *CharacterHandlers) applyCurrentState(ctx context.Context, campaignID uuid.UUID, pc statedb.PlayerCharacter, sheet *srd521.CharacterSheet) error {
+	nameConcentrations(sheet.Concentration)
+	sheet.Fall = game.PendingFall(pc.Stats)
+	sheet.DeathSaves = game.ZeroHPState(pc.Stats, int(pc.Hp))
+	sheet.Prone = game.ReadConditions(pc.Stats).Prone
+	if h.Pool == nil {
+		return nil
+	}
+	now, err := game.ReadSpellClock(ctx, h.Pool, campaignID)
+	if err != nil {
+		return fmt.Errorf("read spell clock: %w", err)
+	}
+	actor := domain.PlayerCharacter{ID: dbutil.FromPgtype(pc.ID)}
+	if pc.CurrentLocationID.Valid {
+		location := dbutil.FromPgtype(pc.CurrentLocationID)
+		actor.CurrentLocationID = &location
+	}
+	if err := game.ApplyFaithAC(ctx, h.Pool, campaignID, actor.ID, now, sheet); err != nil {
+		return fmt.Errorf("apply Shield of Faith: %w", err)
+	}
+	if err := game.ApplyLight(ctx, h.Pool, campaignID, actor.ID, now, sheet); err != nil {
+		return fmt.Errorf("apply Light: %w", err)
+	}
+	if err := game.ApplyExploration(ctx, h.Pool, domain.Campaign{ID: campaignID}, actor, sheet); err != nil {
+		return fmt.Errorf("read exploration choices: %w", err)
+	}
+	return nil
 }
 
 // GetCharacterInventory returns the inventory items for the player character.

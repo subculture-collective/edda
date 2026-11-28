@@ -223,7 +223,7 @@ func (o *OllamaEmbedder) embed(ctx context.Context, input any) (*ollamaEmbedResp
 		respBody, _ := io.ReadAll(io.LimitReader(resp.Body, ollamaEmbedErrorBodyLimit))
 		return nil, &ollamaEmbedHTTPStatusError{
 			StatusCode: resp.StatusCode,
-			Body:       logging.Redact(strings.TrimSpace(string(respBody))),
+			Body:       logging.RedactReply(strings.TrimSpace(string(respBody))),
 		}
 	}
 
@@ -277,7 +277,7 @@ func unwrapBrokerSSE(resp *http.Response, body []byte) ([]byte, error) {
 			case "queued":
 				continue
 			case "ollama_unavailable":
-				msg := logging.Redact(probe.Message)
+				msg := logging.RedactReply(probe.Message)
 				if msg == "" {
 					msg = "ollama unavailable"
 				}

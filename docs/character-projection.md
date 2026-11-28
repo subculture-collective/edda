@@ -3,6 +3,9 @@
 GET /api/v1/campaigns/{id}/character keeps the legacy character fields and adds
 rules_version. Only SRD campaigns attempt a server-derived sheet. Missing or
 unsupported builds return sheet_unavailable; they never use the legacy XP curve.
+For an unsupported build, sheet_unavailable says what is wrong with the saved
+build. When the server fails to load the sheet (a database or game error), it is
+a fixed message and the cause goes only to the server log.
 The TUI can consume the same srd521.Project function without web dependencies.
 
 This slice projects an explicit level-one Fighter with chain mail, the Defense

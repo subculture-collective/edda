@@ -212,7 +212,7 @@ func (s *ChatGPTTokenStore) refreshLocked(ctx context.Context) error {
 	var tok chatGPTTokenResponse
 	_ = json.Unmarshal(body, &tok)
 	if resp.StatusCode != http.StatusOK || tok.AccessToken == "" {
-		code := logging.Redact(tok.Error)
+		code := logging.RedactReply(tok.Error)
 		if code == "" {
 			code = fmt.Sprintf("HTTP %d", resp.StatusCode)
 		}

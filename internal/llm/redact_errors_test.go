@@ -107,6 +107,7 @@ func TestProviderErrorsRedactRequestURL(t *testing.T) {
 		"scheme left out":               {context.Background(), "fake-user:fake-pass@h.example:11434"},
 		"slash in the password":         {context.Background(), "http://fake-user:fake/pass@h.example"},
 		"question mark in the password": {context.Background(), "http://fake-user:fake?pass@h.example"},
+		"digits then slash in password": {context.Background(), "http://fake-user:1/fake-pass@127.0.0.1:1"},
 	}
 	for name, build := range secretProviders(t) {
 		for caseName, tc := range unreachable {
@@ -211,4 +212,45 @@ func TestRedactedProviderErrorsKeepTheirCause(t *testing.T) {
 			}
 		})
 	}
+}
+
+// A reply cut off inside a URL has no @ left to mark its credentials.
+func TestProviderErrorsRedactCutOffReplies(t *testing.T) {
+	const cut = "proxy failed for http://fake-user:fake-pa"
+	replies := map[string]string{
+		"plain text":   cut,
+		"cut off json": `{"error":{"message":"model not found: ` + cut,
+		// A sender that cut its message short before encoding it. Only a client
+		// that decodes the message can tell.
+		"cut off message": `{"error":{"type":"x","message":"model not found: ` + cut + `"}}`,
+	}
+	decodesMessage := map[string]bool{"claude": true, "openrouter": true, "chatgpt": true}
+	for name, build := range secretProviders(t) {
+		for replyName, reply := range replies {
+			if replyName == "cut off message" && !decodesMessage[name] {
+				continue
+			}
+			for _, status := range []int{404, 502} {
+				t.Run(fmt.Sprintf("%s/%s/%d", name, replyName, status), func(t *testing.T) {
+					srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
+						w.WriteHeader(status)
+						_, _ = fmt.Fprint(w, reply)
+					}))
+					defer srv.Close()
+					assertProviderErrorsHoldNoSecret(t, context.Background(), build(srv.URL))
+				})
+			}
+		}
+	}
+	t.Run("broker message", func(t *testing.T) {
+		assertNoSecret(t, brokerTerminalError("http://h.example", brokerStatusEvent{Status: brokerStatusOllamaUnavail, Message: cut}))
+	})
+	t.Run("start-up check", func(t *testing.T) {
+		srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
+			w.WriteHeader(http.StatusBadGateway)
+			_, _ = fmt.Fprint(w, cut)
+		}))
+		defer srv.Close()
+		assertNoSecret(t, validateOllamaEndpoint(srv.URL, ""))
+	})
 }

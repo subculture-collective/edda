@@ -40,6 +40,16 @@ func TestOllamaEmbedderErrorsRedactEndpoint(t *testing.T) {
 	withSecrets := func(base string) string {
 		return strings.Replace(base, "://", "://fake-user:fake-pass@", 1) + "?api_key=fake-key"
 	}
+	cutOff := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
+		w.WriteHeader(http.StatusBadGateway)
+		_, _ = fmt.Fprint(w, "proxy failed for http://fake-user:fake-pa")
+	}))
+	defer cutOff.Close()
+	cutOffBroker := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
+		w.Header().Set("Content-Type", "text/event-stream")
+		_, _ = fmt.Fprint(w, "data: {\"request_id\":\"r1\",\"status\":\"ollama_unavailable\",\"message\":\"cannot reach http://fake-user:fake-pa\"}\n\n")
+	}))
+	defer cutOffBroker.Close()
 	canceled, cancel := context.WithCancel(context.Background())
 	cancel()
 
@@ -55,6 +65,9 @@ func TestOllamaEmbedderErrorsRedactEndpoint(t *testing.T) {
 		"slash in the password": {context.Background(), "http://fake-user:fake/pass@h.example"},
 		"http status":           {context.Background(), withSecrets(failing.URL)},
 		"broker":                {context.Background(), withSecrets(broker.URL)},
+		"cut off reply":         {context.Background(), cutOff.URL},
+		"cut off broker":        {context.Background(), cutOffBroker.URL},
+		"digits then slash":     {context.Background(), "http://fake-user:1/fake-pass@127.0.0.1:1"},
 	} {
 		t.Run(name, func(t *testing.T) {
 			embedder := NewOllamaEmbedder(tc.base, "m")

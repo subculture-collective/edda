@@ -2,6 +2,7 @@ package srd521
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"math"
 	"reflect"
@@ -112,6 +113,10 @@ func derived(terms ...Term) Value {
 }
 func term(label string, value int, source string) Term { return Term{label, value, prefix + source} }
 
+// ErrCoverageUnavailable marks the Project error that wraps an internal
+// failure. Every other Project error describes the character's saved build.
+var ErrCoverageUnavailable = errors.New("load SRD coverage")
+
 // Project supports the level-one Fighter and unarmored Cleric casting fixtures.
 // It rejects unsupported input rather than manufacturing unearned features.
 func Project(stats []byte, level, hp, maxHP, xp int) (*CharacterSheet, error) {
@@ -130,7 +135,7 @@ func Project(stats []byte, level, hp, maxHP, xp int) (*CharacterSheet, error) {
 	}
 	register, err := Load()
 	if err != nil {
-		return nil, fmt.Errorf("load SRD coverage: %w", err)
+		return nil, fmt.Errorf("%w: %w", ErrCoverageUnavailable, err)
 	}
 	sheet := &CharacterSheet{Coverage: register.Coverage(), RulesVersion: "srd-5.2.1", Scope: "fighter-1-chain-mail-defense-read-only", Abilities: map[string]Ability{}, Saves: map[string]Value{}, Skills: map[string]Value{}, Defenses: map[string]Value{}}
 	sheet.Proficiency = derived(term("Level 1 proficiency", 2, "character/proficiency"))

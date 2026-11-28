@@ -54,7 +54,7 @@ func TestIntegrationCharacterProjection(t *testing.T) {
 		if response.RulesVersion != rulesVersion || response.HP != 9 {
 			t.Fatalf("bad adapter %+v", response)
 		}
-		if version == "unsupported" && (response.Sheet != nil || response.SheetUnavailable == "") {
+		if version == "unsupported" && (response.Sheet != nil || response.SheetUnavailable != "supported projection: Fighter or Cleric with supported ordinary equipment and training") {
 			t.Fatalf("unsupported projection = %+v", response)
 		}
 		if version == "legacy" && response.Sheet != nil {
