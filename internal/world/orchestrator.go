@@ -3,6 +3,7 @@ package world
 import (
 	"context"
 	"fmt"
+	"strings"
 	"time"
 
 	"github.com/google/uuid"
@@ -79,6 +80,11 @@ func (o *Orchestrator) Run(ctx context.Context, input OrchestratorInput, progres
 	if err := domain.ValidateCharacterName(input.CharacterProfile.Name); err != nil {
 		return nil, err
 	}
+	// Save the name without surrounding white space, in a copy so that the
+	// caller's profile stays as it was.
+	characterProfile := *input.CharacterProfile
+	characterProfile.Name = strings.TrimSpace(characterProfile.Name)
+	input.CharacterProfile = &characterProfile
 
 	var supportedBuild *srd521.SupportedBuild
 	if input.RulesVersion == domain.RulesVersionSRD521 {

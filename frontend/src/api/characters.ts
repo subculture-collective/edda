@@ -1,6 +1,6 @@
-import { apiFetch } from './client';
+import { apiFetch, apiFetchVoid } from './client';
 import { buildCampaignPath } from './routes';
-import type { ActionIntent, ActionPreview, CharacterAbility, CharacterResponse, FeatResponse, ItemResponse, SkillResponse } from './types';
+import type { ActionIntent, ActionPreview, CharacterAbility, CharacterRenameRequest, CharacterResponse, FeatResponse, ItemResponse, SkillResponse } from './types';
 
 function buildCharacterPath(campaignId: string, suffix?: 'inventory' | 'abilities' | 'feats' | 'skills'): string {
   return suffix ? buildCampaignPath(campaignId, 'character', suffix) : buildCampaignPath(campaignId, 'character');
@@ -8,6 +8,10 @@ function buildCharacterPath(campaignId: string, suffix?: 'inventory' | 'abilitie
 
 export function getCampaignCharacter(campaignId: string): Promise<CharacterResponse> {
   return apiFetch<CharacterResponse>(buildCharacterPath(campaignId));
+}
+
+export function renameCampaignCharacter(campaignId: string, rename: CharacterRenameRequest): Promise<void> {
+  return apiFetchVoid(buildCampaignPath(campaignId, 'character', 'name'), { method: 'PUT', body: rename });
 }
 
 export function getCampaignCharacterInventory(campaignId: string): Promise<ItemResponse[]> {

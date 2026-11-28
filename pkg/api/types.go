@@ -74,6 +74,15 @@ type CharacterResponse struct {
 	Status            string                 `json:"status"`
 	Abilities         []CharacterAbility     `json:"abilities"`
 	CurrentLocationID *string                `json:"current_location_id,omitempty"`
+	// NeedsName is set when the saved name is blank. It also tells a client that
+	// this server has PUT /campaigns/{id}/character/name to save one.
+	NeedsName bool `json:"needs_name,omitempty"`
+}
+
+// CharacterRenameRequest saves a new name for one of a campaign's characters.
+type CharacterRenameRequest struct {
+	CharacterID string `json:"character_id"`
+	Name        string `json:"name"`
 }
 
 // LocationConnectionResponse describes a traversable connection from a location.

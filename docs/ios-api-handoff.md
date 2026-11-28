@@ -437,6 +437,7 @@ Recommended UX:
 | Method | Path | Response |
 |---|---|---|
 | GET | `/campaigns/{id}/character` | `CharacterResponse` |
+| PUT | `/campaigns/{id}/character/name` | Body `character_id`, `name`; 204. Offer it only when `CharacterResponse.needs_name` is true or the server is known to have it |
 | GET | `/campaigns/{id}/character/inventory` | `ItemResponse[]` |
 | GET | `/campaigns/{id}/character/abilities` | `CharacterAbility[]` |
 | GET | `/campaigns/{id}/character/feats` | `FeatResponse[]` |

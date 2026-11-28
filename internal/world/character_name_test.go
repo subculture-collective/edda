@@ -2,13 +2,16 @@ package world
 
 import (
 	"context"
+	"errors"
 	"strings"
 	"testing"
 
 	"github.com/google/uuid"
+	"github.com/jackc/pgx/v5/pgtype"
 
 	"git.subcult.tv/subculture-collective/edda/internal/domain"
 	"git.subcult.tv/subculture-collective/edda/internal/llm"
+	statedb "git.subcult.tv/subculture-collective/edda/internal/state/sqlc"
 )
 
 // blankNames are names that leave a character with nothing to be called.
@@ -76,5 +79,40 @@ func TestCharacterInterviewRejectsABlankNameFromTheModel(t *testing.T) {
 				t.Errorf("name %q: result = %+v, error = %v; want a request for a name", name, result, err)
 			}
 		})
+	}
+}
+
+// Surrounding white space is not part of a name.
+func TestOrchestratorTrimsTheCharacterName(t *testing.T) {
+	var saved []string
+	startingLocationID := uuid.New()
+	q := &stubQuerier{
+		createCampaignFn: func(context.Context, statedb.CreateCampaignParams) (statedb.Campaign, error) {
+			return statedb.Campaign{ID: pgUUID(uuid.New())}, nil
+		},
+		listLocationsByCampaignFn: func(_ context.Context, campaignID pgtype.UUID) ([]statedb.Location, error) {
+			return []statedb.Location{{ID: pgUUID(startingLocationID), CampaignID: campaignID, Name: validResponse().StartingLocation}}, nil
+		},
+		createPlayerCharacterFn: func(_ context.Context, arg statedb.CreatePlayerCharacterParams) (statedb.PlayerCharacter, error) {
+			saved = append(saved, arg.Name)
+			// Stop here: only the saved name matters.
+			return statedb.PlayerCharacter{}, errors.New("stop after the character")
+		},
+	}
+	provider := &sequentialStubLLM{t: t, scripts: []stubSkeletonLLM{
+		{content: mustJSON(t, validResponse())}, {content: mustSceneJSON(t, validSceneResponse())},
+	}}
+	character := testCharacterProfile()
+	character.Name = " \t Mara of  Vell　\n"
+
+	_, err := NewOrchestrator(provider, q).Run(t.Context(), OrchestratorInput{
+		Name: "Ashfall", Profile: testProfile(), CharacterProfile: character, UserID: uuid.New(),
+	}, nil)
+
+	if len(saved) != 1 || saved[0] != "Mara of  Vell" {
+		t.Fatalf("saved names = %q, want only %q (error: %v)", saved, "Mara of  Vell", err)
+	}
+	if character.Name != " \t Mara of  Vell　\n" {
+		t.Errorf("the caller's profile changed to %q", character.Name)
 	}
 }
