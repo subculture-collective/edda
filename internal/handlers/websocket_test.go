@@ -19,8 +19,15 @@ import (
 	"git.subcult.tv/subculture-collective/edda/internal/auth"
 	"git.subcult.tv/subculture-collective/edda/internal/domain"
 	"git.subcult.tv/subculture-collective/edda/internal/engine"
+	statedb "git.subcult.tv/subculture-collective/edda/internal/state/sqlc"
 	"git.subcult.tv/subculture-collective/edda/pkg/api"
 )
+
+// wsRevocations lists no token as signed out.
+type wsRevocations struct{}
+
+func (wsRevocations) RevokeToken(context.Context, statedb.RevokeTokenParams) error { return nil }
+func (wsRevocations) IsTokenRevoked(context.Context, string) (bool, error)         { return false, nil }
 
 const testJWTSecret = "test-secret"
 
@@ -376,7 +383,7 @@ func TestHandleWebSocket_AllowsCookieBackedJWTUpgrade(t *testing.T) {
 	}
 
 	r := chi.NewRouter()
-	r.Use(auth.NewJWTMiddleware(testJWTSecret).Authenticate)
+	r.Use(auth.NewJWTMiddleware(testJWTSecret, wsRevocations{}).Authenticate)
 	r.Route("/campaigns/{id}", func(r chi.Router) {
 		r.Get("/ws", h.HandleWebSocket)
 	})

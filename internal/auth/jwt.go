@@ -27,6 +27,12 @@ func GenerateToken(userID uuid.UUID, secret string, ttl time.Duration) (string, 
 
 // ValidateToken parses and validates the JWT, returning the user ID from the subject claim.
 func ValidateToken(tokenString, secret string) (uuid.UUID, error) {
+	userID, _, err := parseToken(tokenString, secret)
+	return userID, err
+}
+
+// parseToken validates the JWT and returns its user ID and claims.
+func parseToken(tokenString, secret string) (uuid.UUID, *jwt.RegisteredClaims, error) {
 	token, err := jwt.ParseWithClaims(tokenString, &jwt.RegisteredClaims{}, func(t *jwt.Token) (any, error) {
 		if _, ok := t.Method.(*jwt.SigningMethodHMAC); !ok {
 			return nil, fmt.Errorf("unexpected signing method: %v", t.Header["alg"])
@@ -34,18 +40,18 @@ func ValidateToken(tokenString, secret string) (uuid.UUID, error) {
 		return []byte(secret), nil
 	})
 	if err != nil {
-		return uuid.Nil, fmt.Errorf("invalid token: %w", err)
+		return uuid.Nil, nil, fmt.Errorf("invalid token: %w", err)
 	}
 
 	claims, ok := token.Claims.(*jwt.RegisteredClaims)
 	if !ok || !token.Valid {
-		return uuid.Nil, fmt.Errorf("invalid token claims")
+		return uuid.Nil, nil, fmt.Errorf("invalid token claims")
 	}
 
 	userID, err := uuid.Parse(claims.Subject)
 	if err != nil {
-		return uuid.Nil, fmt.Errorf("invalid user ID in token: %w", err)
+		return uuid.Nil, nil, fmt.Errorf("invalid user ID in token: %w", err)
 	}
 
-	return userID, nil
+	return userID, claims, nil
 }

@@ -2318,3 +2318,33 @@ func TestIntegrationMemories_MetadataRoundTrip(t *testing.T) {
 		t.Errorf("metadata mismatch:\n  want: %s\n  got:  %s", wantBuf.String(), gotBuf.String())
 	}
 }
+
+// TestIntegrationRevokedTokens covers listing, pruning and repeated revocation.
+func TestIntegrationRevokedTokens(t *testing.T) {
+	ctx := context.Background()
+	q := newTx(t)
+	ts := func(d time.Duration) pgtype.Timestamptz {
+		return pgtype.Timestamptz{Time: time.Now().Add(d), Valid: true}
+	}
+
+	if revoked, err := q.IsTokenRevoked(ctx, "live"); err != nil || revoked {
+		t.Fatalf("unlisted token: revoked=%v err=%v", revoked, err)
+	}
+	if err := q.RevokeToken(ctx, statedb.RevokeTokenParams{Jti: "expired", ExpiresAt: ts(-time.Minute)}); err != nil {
+		t.Fatal(err)
+	}
+	if err := q.RevokeToken(ctx, statedb.RevokeTokenParams{Jti: "live", ExpiresAt: ts(time.Hour)}); err != nil {
+		t.Fatal(err)
+	}
+	// Revoking the same token again is a no-op, not a conflict.
+	if err := q.RevokeToken(ctx, statedb.RevokeTokenParams{Jti: "live", ExpiresAt: ts(time.Hour)}); err != nil {
+		t.Fatalf("repeat revoke: %v", err)
+	}
+	if revoked, err := q.IsTokenRevoked(ctx, "live"); err != nil || !revoked {
+		t.Fatalf("revoked token: revoked=%v err=%v", revoked, err)
+	}
+	// The second revoke pruned the row whose token had already expired.
+	if revoked, err := q.IsTokenRevoked(ctx, "expired"); err != nil || revoked {
+		t.Fatalf("expired row kept: revoked=%v err=%v", revoked, err)
+	}
+}

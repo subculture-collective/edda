@@ -67,7 +67,7 @@ func NewRouterWithProviders(logger *log.Logger, gameEngine engine.GameEngine, qu
 func registerAPIRoutes(logger *log.Logger, r chi.Router, campaignH *handlers.CampaignHandlers, charH *handlers.CharacterHandlers, worldH *handlers.WorldHandlers, actionH *handlers.ActionHandlers, startupH *handlers.StartupHandlers, pool *pgxpool.Pool, defaultUserID uuid.UUID, cfg config.Config, saveStore *saves.Store, provider llm.Provider) {
 	var authMW auth.AuthMiddleware
 	if cfg.Server.JWTSecret != "" {
-		authMW = auth.NewJWTMiddleware(cfg.Server.JWTSecret)
+		authMW = auth.NewJWTMiddleware(cfg.Server.JWTSecret, campaignH.Queries)
 	} else {
 		authMW = auth.NewNoOpMiddleware(defaultUserID)
 	}
@@ -80,7 +80,7 @@ func registerAPIRoutes(logger *log.Logger, r chi.Router, campaignH *handlers.Cam
 		r.Route("/v1", func(r chi.Router) {
 			if cfg.Server.JWTSecret != "" {
 				r.Route("/auth", func(r chi.Router) {
-					authH := auth.NewAuthHandlers(auth.NewDBAuthQuerier(pool), cfg.Server.JWTSecret)
+					authH := auth.NewAuthHandlers(auth.NewDBAuthQuerier(pool), campaignH.Queries, cfg.Server.JWTSecret)
 					if cfg.Server.AllowRegistration {
 						r.Post("/register", authH.Register)
 					} else {
@@ -95,7 +95,7 @@ func registerAPIRoutes(logger *log.Logger, r chi.Router, campaignH *handlers.Cam
 			r.Group(func(r chi.Router) {
 				r.Use(authMW.Authenticate)
 				if cfg.Server.JWTSecret != "" {
-					authH := auth.NewAuthHandlers(auth.NewDBAuthQuerier(pool), cfg.Server.JWTSecret)
+					authH := auth.NewAuthHandlers(auth.NewDBAuthQuerier(pool), campaignH.Queries, cfg.Server.JWTSecret)
 					r.Get("/auth/me", authH.Me)
 				}
 				r.Route("/campaigns", func(r chi.Router) {

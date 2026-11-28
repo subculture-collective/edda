@@ -63,7 +63,7 @@ func TestJWTMiddleware_AuthenticateRequiresBearerForHTTP(t *testing.T) {
 		t.Fatalf("generate token: %v", err)
 	}
 
-	mw := NewJWTMiddleware(secret)
+	mw := NewJWTMiddleware(secret, newMemRevocations())
 	nextCalled := false
 	next := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		nextCalled = true
@@ -99,7 +99,7 @@ func TestJWTMiddleware_AuthenticateAllowsCookieForWebSocketUpgrade(t *testing.T)
 		t.Fatalf("generate token: %v", err)
 	}
 
-	mw := NewJWTMiddleware(secret)
+	mw := NewJWTMiddleware(secret, newMemRevocations())
 	nextCalled := false
 	next := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		nextCalled = true

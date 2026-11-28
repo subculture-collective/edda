@@ -75,6 +75,7 @@ type Querier interface {
 	GetUserByEmail(ctx context.Context, email pgtype.Text) (GetUserByEmailRow, error)
 	GetUserByID(ctx context.Context, id pgtype.UUID) (User, error)
 	GetUserByName(ctx context.Context, name string) (User, error)
+	IsTokenRevoked(ctx context.Context, jti string) (bool, error)
 	KillNPC(ctx context.Context, arg KillNPCParams) (Npc, error)
 	ListActiveFactsByCampaign(ctx context.Context, campaignID pgtype.UUID) ([]WorldFact, error)
 	ListActiveQuests(ctx context.Context, campaignID pgtype.UUID) ([]Quest, error)
@@ -121,6 +122,9 @@ type Querier interface {
 	ListSubquestsByParentQuest(ctx context.Context, parentQuestID pgtype.UUID) ([]Quest, error)
 	ListUsers(ctx context.Context) ([]User, error)
 	Ping(ctx context.Context) (int32, error)
+	// Lists a token as revoked and drops rows for tokens that have expired, so the
+	// table holds only tokens that would otherwise still be accepted.
+	RevokeToken(ctx context.Context, arg RevokeTokenParams) error
 	SearchMemoriesBySimilarity(ctx context.Context, arg SearchMemoriesBySimilarityParams) ([]SearchMemoriesBySimilarityRow, error)
 	SearchMemoriesWithFilters(ctx context.Context, arg SearchMemoriesWithFiltersParams) ([]SearchMemoriesWithFiltersRow, error)
 	SetBeliefSystemPlayerKnown(ctx context.Context, id pgtype.UUID) error

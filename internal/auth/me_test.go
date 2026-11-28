@@ -22,12 +22,12 @@ func TestMeRestoresSessionCookie(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	h := NewAuthHandlers(meQuerier{}, "secret")
+	h := NewAuthHandlers(meQuerier{}, newMemRevocations(), "secret")
 	req := httptest.NewRequest(http.MethodGet, "/api/v1/auth/me", nil)
 	req.Header.Set("Authorization", "Bearer "+token)
 	rec := httptest.NewRecorder()
 
-	NewJWTMiddleware("secret").Authenticate(http.HandlerFunc(h.Me)).ServeHTTP(rec, req)
+	NewJWTMiddleware("secret", newMemRevocations()).Authenticate(http.HandlerFunc(h.Me)).ServeHTTP(rec, req)
 
 	if rec.Code != http.StatusOK {
 		t.Fatalf("status = %d: %s", rec.Code, rec.Body.String())
