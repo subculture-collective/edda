@@ -26,8 +26,9 @@ func (e PlayerCannotActError) Is(target error) bool { return target == ErrPlayer
 
 // repairUnconscious applies the Unconscious condition that an older build
 // left off a character at 0 HP, through ApplyConditionChange so held objects
-// drop and Concentration ends. It returns nil when no repair is due.
-func repairUnconscious(ctx context.Context, tx pgx.Tx, campaignID, actorID uuid.UUID, dice srd521.Dice) (*srd521.ZeroHPReceipt, error) {
+// drop and Concentration ends. While encounter is active its player actor
+// holds the conditions. It returns nil when no repair is due.
+func repairUnconscious(ctx context.Context, tx pgx.Tx, campaignID, actorID uuid.UUID, encounter *combat.Encounter, dice srd521.Dice) (*srd521.ZeroHPReceipt, error) {
 	var hp, maxHP int
 	var stats []byte
 	if err := tx.QueryRow(ctx, `SELECT hp,max_hp,stats FROM player_characters WHERE id=$1 AND campaign_id=$2 FOR UPDATE`, actorID, campaignID).Scan(&hp, &maxHP, &stats); err != nil {
@@ -38,6 +39,13 @@ func repairUnconscious(ctx context.Context, tx pgx.Tx, campaignID, actorID uuid.
 		return nil, err
 	}
 	conditions, err := srd521.DecodeConditions(stats)
+	if encounter != nil && encounter.Status == "active" {
+		for _, a := range encounter.Actors {
+			if a.Player && a.ID == actorID {
+				conditions, err = a.Conditions, a.Validate()
+			}
+		}
+	}
 	if err != nil {
 		return nil, err
 	}
@@ -47,7 +55,7 @@ func repairUnconscious(ctx context.Context, tx pgx.Tx, campaignID, actorID uuid.
 	r := &srd521.ZeroHPReceipt{RulesVersion: "srd-5.2.1", Event: srd521.ZeroHPUnconsciousRepair, MaxHP: maxHP, Before: saves, After: saves,
 		SourceIDs: []string{"srd-5.2.1:content/damage/falling-unconscious", "srd-5.2.1:content/rules-glossary/unconscious"},
 		Reason:    "At 0 HP without the Unconscious condition, which earlier versions of Edda did not apply: now Unconscious and Prone. Death Saving Throws follow."}
-	if r.Condition, err = ApplyConditionChange(ctx, tx, campaignID, actorID, nil, srd521.ConditionChange{Condition: srd521.ConditionUnconscious, Apply: true}, dice); err != nil {
+	if r.Condition, err = ApplyConditionChange(ctx, tx, campaignID, actorID, encounter, srd521.ConditionChange{Condition: srd521.ConditionUnconscious, Apply: true}, dice); err != nil {
 		return nil, err
 	}
 	return r, nil

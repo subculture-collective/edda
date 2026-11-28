@@ -35,7 +35,8 @@ func (f *fallFixture) zero() zeroState {
 	ctx := context.Background()
 	var s zeroState
 	var stats []byte
-	f.must(testPool.QueryRow(ctx, `SELECT p.hp,p.stats,i.equipped FROM player_characters p JOIN items i ON i.player_character_id=p.id WHERE p.id=$1`, f.actor).Scan(&s.hp, &stats, &s.equipped))
+	// equipped is the fixture's Longsword, whatever other items a test adds.
+	f.must(testPool.QueryRow(ctx, `SELECT p.hp,p.stats,i.equipped FROM player_characters p JOIN items i ON i.player_character_id=p.id AND i.id=$2 WHERE p.id=$1`, f.actor, f.weapon).Scan(&s.hp, &stats, &s.equipped))
 	var err error
 	s.saves, err = srd521.DecodeDeathSaves(stats)
 	f.must(err)
