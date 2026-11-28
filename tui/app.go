@@ -12,6 +12,7 @@ import (
 	"github.com/charmbracelet/bubbles/spinner"
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/lipgloss"
+	"github.com/charmbracelet/x/ansi"
 
 	"git.subcult.tv/subculture-collective/edda/internal/config"
 	"git.subcult.tv/subculture-collective/edda/internal/dbutil"
@@ -42,7 +43,9 @@ const (
 )
 
 const (
-	statusBarHints            = "tab/shift+tab: cycle | ctrl+c: quit | q/right/left/h/l/1-5: global unless typing"
+	statusBarCycleHint        = "tab/shift+tab: cycle"
+	statusBarQuitHint         = "ctrl+c: quit"
+	statusBarHints            = statusBarCycleHint + " | " + statusBarQuitHint + " | q/right/left/h/l/1-5: global unless typing"
 	statusBarSectionSeparator = "  ·  "
 	statusBarViewSeparator    = " | "
 	narrativeChunkSize        = 24 // small chunks keep the streamed narrative feeling responsive in the viewport
@@ -694,14 +697,39 @@ func (a App) chrome() (titleBar, statusBar string) {
 			fmt.Sprintf("  ·  %s", a.cfg.LLM.Provider),
 		),
 	)
-	statusViews := a.renderStatusViews()
-	hints := styles.Muted.Render(statusBarHints)
-	statusBar = styles.StatusBar.Width(a.width).Render(styles.JoinHorizontal(
-		statusViews,
-		styles.Muted.Render(statusBarSectionSeparator),
-		hints,
-	))
+	statusBar = styles.StatusBar.Width(a.width).Render(
+		a.statusLine(a.width - styles.StatusBar.GetHorizontalPadding()))
 	return
+}
+
+// statusLine is the status bar's text on one line of at most width columns; a
+// second line would take a row from the view. As the terminal narrows it drops
+// key hints, keeping the one for quitting longest, then the "Views:" label and
+// the wide separators, then every tab but the open one. Before the first resize
+// there is no width to fit.
+func (a App) statusLine(width int) string {
+	views := a.renderStatusViews("Views: ", statusBarViewSeparator)
+	withHints := func(hints string) string {
+		return views + styles.Muted.Render(statusBarSectionSeparator+hints)
+	}
+	full := withHints(statusBarHints)
+	if a.width <= 0 {
+		return full
+	}
+	for _, line := range []string{
+		full,
+		withHints(statusBarCycleHint + " | " + statusBarQuitHint),
+		withHints(statusBarQuitHint),
+		views,
+		a.renderStatusViews("", " "),
+	} {
+		if lipgloss.Width(line) <= width {
+			return line
+		}
+	}
+	open := fmt.Sprintf("[%s] %d/%d", a.router.Tabs()[a.router.ActiveTab()].Name,
+		a.router.ActiveTab()+1, a.router.TabCount())
+	return styles.Muted.Render(ansi.Truncate(open, max(width, 1), "…"))
 }
 
 // resize records the terminal size and lays out all sub-views for it.
@@ -726,21 +754,20 @@ func (a App) propagateSizes() {
 }
 
 // renderStatusViews builds the status-bar view list and highlights the active view.
-func (a App) renderStatusViews() string {
+func (a App) renderStatusViews(label, separator string) string {
 	activeStyle := lipgloss.NewStyle().Bold(true).Foreground(styles.ColorAccent)
 	inactiveStyle := lipgloss.NewStyle().Foreground(styles.ColorMuted)
 
 	var tabs []string
 	for i, tab := range a.router.Tabs() {
-		label := tab.Name
 		if i == a.router.ActiveTab() {
-			tabs = append(tabs, activeStyle.Render("["+label+"]"))
+			tabs = append(tabs, activeStyle.Render("["+tab.Name+"]"))
 		} else {
-			tabs = append(tabs, inactiveStyle.Render(label))
+			tabs = append(tabs, inactiveStyle.Render(tab.Name))
 		}
 	}
-	sep := styles.Muted.Render(statusBarViewSeparator)
-	return styles.Muted.Render("Views: ") + strings.Join(tabs, sep)
+	sep := styles.Muted.Render(separator)
+	return styles.Muted.Render(label) + strings.Join(tabs, sep)
 }
 
 func (a App) narrativeView() *narrative.Model {

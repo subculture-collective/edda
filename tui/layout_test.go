@@ -241,6 +241,42 @@ func TestLayout_LauncherViewsFitTerminal(t *testing.T) {
 	}
 }
 
+func TestLayout_StatusBarStaysOnOneLine(t *testing.T) {
+	for _, tc := range []struct {
+		width int
+		want  []string // besides the open tab, on every tab
+	}{
+		{160, []string{"Views:", "tab/shift+tab: cycle", "ctrl+c: quit", "global unless typing"}},
+		{100, []string{"Views:", "tab/shift+tab: cycle", "ctrl+c: quit"}},
+		{80, []string{"Views:", "Narrative", "Character", "Inventory", "Quests", "Logs", "ctrl+c: quit"}},
+		{50, []string{"Narrative", "Character", "Inventory", "Quests", "Logs"}},
+		{30, nil},
+		{12, nil},
+	} {
+		t.Run(fmt.Sprintf("%d columns", tc.width), func(t *testing.T) {
+			app := resize(t, testApp(), tc.width, 24)
+			for idx, tab := range app.router.Tabs() {
+				app.router.GoToTab(idx)
+				titleBar, statusBar := app.chrome()
+				assertFits(t, statusBar, tc.width, 2) // the border and one line
+				open := "[" + tab.Name + "]"
+				if tc.width == 12 {
+					open = "[" + tab.Name[:4] // too narrow for the whole name
+				}
+				for _, want := range append([]string{open}, tc.want...) {
+					if !strings.Contains(statusBar, want) {
+						t.Errorf("%q is not in the status bar:\n%s", want, statusBar)
+					}
+				}
+				// Every other row between the bars belongs to the view.
+				if got, want := app.router.height, 24-lipgloss.Height(titleBar)-2; got != want {
+					t.Errorf("the %s view has %d rows, want %d", tab.Name, got, want)
+				}
+			}
+		})
+	}
+}
+
 // longField returns about 700 characters ending in marker, so a test can tell
 // whether the end of the text can be reached.
 func longField(marker string) string {

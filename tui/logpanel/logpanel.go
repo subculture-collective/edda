@@ -79,7 +79,7 @@ func (m Model) Init() tea.Cmd {
 	return tickCmd()
 }
 
-// Update handles tick, keyboard, and viewport messages.
+// Update handles tick, keyboard, and mouse messages.
 func (m *Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	switch msg := msg.(type) {
 	case TickMsg:
@@ -117,24 +117,32 @@ func (m *Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			}
 			m.rebuildContent()
 		default:
-			// Forward navigation keys to viewport.
-			wasAtBottom := m.viewport.AtBottom()
-			var cmd tea.Cmd
-			m.viewport, cmd = m.viewport.Update(msg)
-			// If the user scrolled away from bottom, disable auto-scroll.
-			if wasAtBottom && !m.viewport.AtBottom() {
-				m.autoScroll = false
-			}
-			// Re-enable when they reach the bottom.
-			if m.viewport.AtBottom() {
-				m.autoScroll = true
-			}
-			return m, cmd
+			return m, m.scroll(msg) // navigation keys
 		}
 		return m, nil
+
+	case tea.MouseMsg:
+		return m, m.scroll(msg) // the wheel
 	}
 
 	return m, nil
+}
+
+// scroll gives a key or mouse message to the viewport. The panel follows new
+// entries only while it is at the bottom.
+func (m *Model) scroll(msg tea.Msg) tea.Cmd {
+	wasAtBottom := m.viewport.AtBottom()
+	var cmd tea.Cmd
+	m.viewport, cmd = m.viewport.Update(msg)
+	// If the user scrolled away from bottom, disable auto-scroll.
+	if wasAtBottom && !m.viewport.AtBottom() {
+		m.autoScroll = false
+	}
+	// Re-enable when they reach the bottom.
+	if m.viewport.AtBottom() {
+		m.autoScroll = true
+	}
+	return cmd
 }
 
 // View renders the log panel with header, viewport, and footer.

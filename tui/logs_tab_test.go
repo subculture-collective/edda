@@ -1,6 +1,7 @@
 package tui
 
 import (
+	"fmt"
 	"log/slog"
 	"strings"
 	"testing"
@@ -44,6 +45,47 @@ func TestLogsTabRefreshesWhileAnotherTabIsOpen(t *testing.T) {
 		}
 		app.router.GoToTab(int(ViewNarrative))
 	}
+}
+
+func TestLogsTabScrollsWithTheMouseWheel(t *testing.T) {
+	buf := logging.NewRingBuffer(64)
+	logLine := func(text string) {
+		buf.Write(logging.LogEntry{Time: time.Now(), Level: slog.LevelInfo, Service: "app", Message: text})
+	}
+	for i := range 40 {
+		logLine(fmt.Sprintf("entry %02d.", i))
+	}
+	app := resize(t, NewAppWithEngine(testCfg, testCampaign, t.Context(), nil, buf), 80, 24)
+	app.router.GoToTab(int(ViewLogs))
+	var m tea.Model = app
+	wheel := func(button tea.MouseButton, times int) {
+		for range times {
+			m, _ = m.Update(tea.MouseMsg{Button: button, Action: tea.MouseActionPress})
+		}
+	}
+	check := func(step, shown, hidden string) {
+		t.Helper()
+		view := m.View()
+		if !strings.Contains(view, shown) || strings.Contains(view, hidden) {
+			t.Fatalf("%s: want %q and not %q:\n%s", step, shown, hidden, view)
+		}
+	}
+
+	check("at first", "entry 39.", "entry 00.")
+	wheel(tea.MouseButtonWheelUp, 40)
+	check("after wheeling up", "entry 00.", "entry 39.")
+
+	// A new entry must not pull a player who scrolled up back to the end.
+	logLine("late entry")
+	m, _ = m.Update(logpanel.TickMsg{})
+	check("after a new entry", "entry 00.", "late entry")
+
+	// Back at the end, the panel follows new entries again.
+	wheel(tea.MouseButtonWheelDown, 40)
+	check("after wheeling down", "late entry", "entry 00.")
+	logLine("later entry")
+	m, _ = m.Update(logpanel.TickMsg{})
+	check("after another entry", "later entry", "entry 00.")
 }
 
 // A wider panel has fewer lines. A player who scrolled up must still see a full
