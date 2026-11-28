@@ -230,3 +230,10 @@ func prepareProneStand(ctx context.Context, campaign domain.Campaign, pc domain.
 	p.SourceIDs = []string{"srd-5.2.1:content/rules-glossary/prone"}
 	return result, nil
 }
+
+// HasDeclaredFall reports whether stats.srd521_fall holds any declaration,
+// readable or not.
+func HasDeclaredFall(stats []byte) bool {
+	_, declared, _ := readDeclaredFall(stats)
+	return declared
+}

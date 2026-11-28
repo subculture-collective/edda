@@ -46,9 +46,14 @@ func (h *CampaignHandlers) RequireOwnership(next http.Handler) http.Handler {
 		// handler has no execution path, so it remains available to SRD campaigns.
 		textPreviewRequest := r.Method == http.MethodPost && strings.HasSuffix(r.URL.Path, "/character/action-preview")
 		socketRequest := r.Method == http.MethodGet && strings.EqualFold(r.Header.Get("Upgrade"), "websocket")
+		// GM rulings write server-owned SRD facts; the engine refuses them for
+		// legacy campaigns itself.
+		parts := strings.Split(strings.Trim(r.URL.Path, "/"), "/")
+		rulingRequest := (r.Method == http.MethodPut && len(parts) >= 4 && parts[len(parts)-4] == "locations" && parts[len(parts)-2] == "routes") ||
+			(r.Method == http.MethodPost && strings.HasSuffix(r.URL.Path, "/character/fall"))
 		// The socket permits typed confirmations. Free-form turns still enforce
 		// the legacy rule guard inside the shared engine gather stage.
-		if !chapterRequest && !confirmationRequest && !textPreviewRequest && !socketRequest && (r.Method != http.MethodGet && r.Method != http.MethodHead || strings.EqualFold(r.Header.Get("Upgrade"), "websocket")) {
+		if !chapterRequest && !confirmationRequest && !textPreviewRequest && !socketRequest && !rulingRequest && (r.Method != http.MethodGet && r.Method != http.MethodHead || strings.EqualFold(r.Header.Get("Upgrade"), "websocket")) {
 			if err := domain.RequireLegacyRules(domain.RulesVersion(campaign.RulesVersion)); err != nil {
 				writeError(w, http.StatusConflict, err.Error())
 				return
