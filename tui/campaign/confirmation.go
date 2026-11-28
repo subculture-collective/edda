@@ -4,12 +4,17 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/charmbracelet/bubbles/viewport"
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/lipgloss"
+	"github.com/charmbracelet/x/ansi"
 
 	"git.subcult.tv/subculture-collective/edda/internal/world"
 	"git.subcult.tv/subculture-collective/edda/tui/styles"
 )
+
+// confirmationFooterRows are the line above the buttons and the buttons.
+const confirmationFooterRows = 2
 
 // ConfirmationModel shows campaign + character details for final review.
 type ConfirmationModel struct {
@@ -18,6 +23,7 @@ type ConfirmationModel struct {
 	profile          world.CampaignProfile
 	characterProfile world.CharacterProfile
 	selected         int // 0 = Begin Adventure, 1 = Go Back
+	body             viewport.Model
 	width            int
 	height           int
 }
@@ -25,6 +31,7 @@ type ConfirmationModel struct {
 // NewConfirmationModel builds the confirmation review model.
 func NewConfirmationModel(name, summary string, profile world.CampaignProfile, charProfile world.CharacterProfile) ConfirmationModel {
 	return ConfirmationModel{
+		body:             viewport.New(0, 0),
 		name:             name,
 		summary:          summary,
 		profile:          profile,
@@ -36,6 +43,29 @@ func NewConfirmationModel(name, summary string, profile world.CampaignProfile, c
 func (m *ConfirmationModel) SetSize(width, height int) {
 	m.width = width
 	m.height = height
+	m.layoutBody()
+}
+
+// layoutBody wraps the details to the box and gives them the rows the buttons
+// leave. The details scroll when they need more.
+func (m *ConfirmationModel) layoutBody() {
+	if m.width <= 0 || m.height <= 0 {
+		return
+	}
+	frame := styles.Container
+	width := max(m.width-frame.GetHorizontalFrameSize(), 1)
+	content := lipgloss.NewStyle().Width(width).Render(m.details())
+	rows := max(m.height-frame.GetVerticalFrameSize()-confirmationFooterRows, 1)
+
+	m.body.Width = width
+	m.body.Height = min(lipgloss.Height(content), rows)
+	m.body.SetContent(content)
+	m.body.SetYOffset(m.body.YOffset) // a taller box may need a smaller offset
+}
+
+// scrolls reports whether the details need more rows than the box has.
+func (m ConfirmationModel) scrolls() bool {
+	return m.body.Height > 0 && m.body.TotalLineCount() > m.body.Height
 }
 
 // Init implements tea.Model.
@@ -44,12 +74,16 @@ func (m ConfirmationModel) Init() tea.Cmd { return nil }
 // Update implements tea.Model.
 func (m ConfirmationModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	switch msg := msg.(type) {
+	case tea.MouseMsg:
+		var cmd tea.Cmd
+		m.body, cmd = m.body.Update(msg)
+		return m, cmd
 	case tea.KeyMsg:
 		switch msg.Type {
-		case tea.KeyUp, tea.KeyLeft:
+		case tea.KeyLeft:
 			m.selected = 0
 			return m, nil
-		case tea.KeyDown, tea.KeyRight:
+		case tea.KeyRight:
 			m.selected = 1
 			return m, nil
 		case tea.KeyEnter:
@@ -66,21 +100,37 @@ func (m ConfirmationModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			return m, func() tea.Msg { return ChangeMsg{} }
 		case tea.KeyEsc:
 			return m, func() tea.Msg { return ChangeMsg{} }
-		case tea.KeyRunes:
-			switch string(msg.Runes) {
-			case "j":
-				m.selected = 1
-			case "k":
-				m.selected = 0
-			}
-			return m, nil
+		}
+
+		// Up and down scroll long details, and otherwise pick a button.
+		if m.scrolls() {
+			var cmd tea.Cmd
+			m.body, cmd = m.body.Update(verticalKey(msg))
+			return m, cmd
+		}
+		switch msg.String() {
+		case "up", "k":
+			m.selected = 0
+		case "down", "j":
+			m.selected = 1
 		}
 	}
 	return m, nil
 }
 
-// View implements tea.Model.
-func (m ConfirmationModel) View() string {
+// verticalKey passes on the keys that scroll up and down and drops the rest of
+// the viewport's default bindings.
+func verticalKey(msg tea.KeyMsg) tea.Msg {
+	switch msg.String() {
+	case "up", "k", "down", "j", "pgup", "pgdown":
+		return msg
+	default:
+		return nil
+	}
+}
+
+// details renders everything above the buttons.
+func (m ConfirmationModel) details() string {
 	var b strings.Builder
 
 	b.WriteString(styles.Header.Render("✦ Campaign Summary"))
@@ -108,7 +158,20 @@ func (m ConfirmationModel) View() string {
 	b.WriteString(styles.Body.Render(fmt.Sprintf("Concept: %s", m.characterProfile.Concept)))
 	b.WriteString("\n")
 	b.WriteString(styles.Body.Render(fmt.Sprintf("Background: %s", m.characterProfile.Background)))
-	b.WriteString("\n\n")
+	return b.String()
+}
+
+// View implements tea.Model.
+func (m ConfirmationModel) View() string {
+	body := m.details()
+	spacer := ""
+	if m.width > 0 && m.height > 0 {
+		body = m.body.View()
+		if m.scrolls() {
+			hint := fmt.Sprintf("↑/↓ PgUp/PgDn: scroll (%.0f%%) · ←/→: choose", m.body.ScrollPercent()*100)
+			spacer = styles.Muted.Render(ansi.Truncate(hint, m.body.Width, "…"))
+		}
+	}
 
 	// Buttons
 	activeStyle := lipgloss.NewStyle().
@@ -128,8 +191,8 @@ func (m ConfirmationModel) View() string {
 		backBtn = activeStyle.Render("[▸" + backLabel + "]")
 	}
 
-	b.WriteString(styles.JoinHorizontal(beginBtn, "    ", backBtn))
+	buttons := styles.JoinHorizontal(beginBtn, "    ", backBtn)
 
 	return styles.Frame(styles.Container, m.width, m.height).
-		Render(b.String())
+		Render(body + "\n" + spacer + "\n" + buttons)
 }

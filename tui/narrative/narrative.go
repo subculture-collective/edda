@@ -27,11 +27,13 @@ const (
 )
 
 const (
-	narrativeViewportWidthOffset  = 4 // border + horizontal padding
-	narrativeViewportHeightOffset = 4 // border + title line + spacer line
-	narrativeInputHeightOffset    = 2 // spacer line + input line
-	defaultChoiceListWidth        = 40
-	maxVisibleChoices             = 3
+	narrativeViewportWidthOffset = 4 // border + horizontal padding
+	narrativeFixedRows           = 4 // border + title line + input line
+	// minSpacedViewportRows is the shortest log the view keeps its blank lines
+	// for. Entries end in a newline, so one row would show only that.
+	minSpacedViewportRows  = 2
+	defaultChoiceListWidth = 40
+	maxVisibleChoices      = 3
 )
 
 // Entry is a single line (or paragraph) in the narrative log.
@@ -239,18 +241,26 @@ func (m Model) View() string {
 	}
 	title := styles.Header.Render("📖 Narrative")
 
-	blocks := []string{title, "", content}
+	_, spaced := m.fit()
+	blocks := []string{title}
+	section := func(lines ...string) {
+		if spaced {
+			blocks = append(blocks, "")
+		}
+		blocks = append(blocks, lines...)
+	}
+	section(content)
 	if m.loading {
-		blocks = append(blocks, "", m.spinner.View()+"  "+styles.Body.Render("Thinking…"))
+		section(m.spinner.View() + "  " + styles.Body.Render("Thinking…"))
 	}
 	if m.hasChoices() {
 		heading := styles.SubHeader.Render("Suggested choices")
 		if m.choices.Paginator.TotalPages > 1 {
 			heading += "  " + m.choices.Paginator.View()
 		}
-		blocks = append(blocks, "", heading, m.choices.View())
+		section(heading, m.choices.View())
 	}
-	blocks = append(blocks, "", m.input.View())
+	section(m.input.View())
 
 	box := styles.Frame(styles.Container, m.width, m.height).
 		Render(styles.JoinVertical(blocks...))
@@ -273,7 +283,8 @@ func (m *Model) refreshLayout() {
 	m.viewport.Width, m.viewport.Height = m.viewportSize()
 	m.input.Width = styles.InputWidth(m.viewport.Width, m.input.Prompt)
 	m.input.SetCursor(m.input.Position()) // rescroll typed text to the new width
-	m.choices.SetSize(m.viewport.Width, m.visibleChoiceCount())
+	choiceRows, _ := m.fit()
+	m.choices.SetSize(m.viewport.Width, choiceRows)
 	// Choices and the loading line shorten the viewport.
 	if m.autoScroll {
 		m.viewport.GotoBottom()
@@ -288,7 +299,8 @@ func (m Model) viewportSize() (width, height int) {
 		width = 1
 	}
 
-	height = m.height - narrativeViewportHeightOffset - narrativeInputHeightOffset - m.loadingHeightOffset() - m.choiceHeightOffset()
+	choiceRows, spaced := m.fit()
+	height = m.height - m.rowsAroundViewport(choiceRows, spaced)
 	if m.height == 0 {
 		height = 1
 	} else if height < 1 {
@@ -331,18 +343,36 @@ func (m Model) visibleChoiceCount() int {
 	return count
 }
 
-func (m Model) loadingHeightOffset() int {
-	if m.loading {
-		return 2
+// fit chooses the layout for the current height: how many choices to list at
+// once, and whether blank lines separate the sections. A short view drops the
+// blank lines first, then lists fewer choices; the list pages to the rest.
+func (m Model) fit() (choiceRows int, spaced bool) {
+	choiceRows = m.visibleChoiceCount()
+	if m.height == 0 || m.height-m.rowsAroundViewport(choiceRows, true) >= minSpacedViewportRows {
+		return choiceRows, true
 	}
-	return 0
+	for choiceRows > 1 && m.height-m.rowsAroundViewport(choiceRows, false) < minSpacedViewportRows {
+		choiceRows--
+	}
+	return choiceRows, false
 }
 
-func (m Model) choiceHeightOffset() int {
-	if !m.hasChoices() {
-		return 0
+// rowsAroundViewport counts the rows of the view that are not the log viewport.
+func (m Model) rowsAroundViewport(choiceRows int, spaced bool) int {
+	rows := narrativeFixedRows
+	sections := 2 // blank lines under the title and above the input
+	if m.loading {
+		rows++
+		sections++
 	}
-	return 2 + m.visibleChoiceCount()
+	if m.hasChoices() {
+		rows += 1 + choiceRows // heading + list
+		sections++
+	}
+	if spaced {
+		rows += sections
+	}
+	return rows
 }
 
 func newChoiceDelegate() list.DefaultDelegate {

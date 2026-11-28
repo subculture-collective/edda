@@ -18,13 +18,14 @@ import (
 	"git.subcult.tv/subculture-collective/edda/tui/styles"
 )
 
-// tickMsg drives periodic polling of the ring buffer.
-type tickMsg struct{}
+// TickMsg drives periodic polling of the ring buffer. The owner must deliver it
+// even while the panel is not on screen, or the timer stops.
+type TickMsg struct{}
 
-// tickCmd returns a command that fires a tickMsg every 250ms.
+// tickCmd returns a command that fires a TickMsg every 250ms.
 func tickCmd() tea.Cmd {
 	return tea.Tick(250*time.Millisecond, func(time.Time) tea.Msg {
-		return tickMsg{}
+		return TickMsg{}
 	})
 }
 
@@ -70,13 +71,18 @@ func (m *Model) SetSize(w, h int) {
 // SetFocused controls whether the panel renders with focused styling.
 func (m *Model) SetFocused(f bool) { m.focused = f }
 
-// Init starts the tick loop.
-func (m Model) Init() tea.Cmd { return tickCmd() }
+// Init starts the tick loop. Without a buffer there is nothing to poll.
+func (m Model) Init() tea.Cmd {
+	if m.buf == nil {
+		return nil
+	}
+	return tickCmd()
+}
 
 // Update handles tick, keyboard, and viewport messages.
 func (m *Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	switch msg := msg.(type) {
-	case tickMsg:
+	case TickMsg:
 		if m.buf != nil {
 			if seq := m.buf.Seq(); seq != m.lastSeq {
 				m.lastSeq = seq

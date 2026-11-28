@@ -156,8 +156,10 @@ func (m CharInterviewModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 
 	var cmds []tea.Cmd
 	var cmd tea.Cmd
-	m.viewport, cmd = m.viewport.Update(msg)
-	cmds = append(cmds, cmd)
+	if scrollsHistory(msg) {
+		m.viewport, cmd = m.viewport.Update(msg)
+		cmds = append(cmds, cmd)
+	}
 	m.input, cmd = m.input.Update(msg)
 	cmds = append(cmds, cmd)
 	return m, tea.Batch(cmds...)
@@ -181,8 +183,7 @@ func (m CharInterviewModel) View() string {
 
 // refreshViewport rebuilds the viewport content from the chat history.
 func (m *CharInterviewModel) refreshViewport() {
-	content := strings.Join(m.messages, "\n\n")
-	m.viewport.SetContent(content)
+	m.viewport.SetContent(wrapHistory(m.messages, m.viewport.Width))
 	m.viewport.GotoBottom()
 }
 

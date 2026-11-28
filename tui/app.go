@@ -224,8 +224,13 @@ func (a App) ActiveViewState() ViewState {
 	return ViewState(a.router.ActiveTab())
 }
 
-// Init implements tea.Model. No start-up commands are needed.
-func (a App) Init() tea.Cmd { return nil }
+// Init implements tea.Model. It starts the log panel's refresh timer.
+func (a App) Init() tea.Cmd {
+	if len(a.router.tabs) <= int(ViewLogs) {
+		return nil
+	}
+	return a.router.tabs[ViewLogs].View.Init()
+}
 
 // Update implements tea.Model. It handles global key bindings (quit and view
 // switching) and forwards all other messages to the active sub-model.
@@ -282,6 +287,10 @@ func (a App) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			cmd := a.router.Update(msg)
 			return a, cmd
 		}
+
+	case logpanel.TickMsg:
+		// The panel's timer runs whichever tab is open.
+		return a, a.router.UpdateTab(int(ViewLogs), msg)
 
 	case spinner.TickMsg:
 		if a.turnBusy {

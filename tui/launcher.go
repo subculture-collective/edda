@@ -237,14 +237,17 @@ func (l Launcher) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 
 	case proposalsGeneratedMsg:
 		if msg.err != nil {
-			l.errMsg = fmt.Sprintf("Generate proposals failed: %v", msg.err)
+			// The attributes view shows this error itself, where it can scroll.
+			// A launcher banner would print it a second time.
+			l.errMsg = ""
 			l.logger().Error("campaign proposal generation failed",
 				"genre", l.proposalAttrs.Genre,
 				"setting_style", l.proposalAttrs.SettingStyle,
 				"tone", l.proposalAttrs.Tone,
 				"error", msg.err,
 			)
-			attrs := campaign.NewAttributesModelWithState(l.proposalAttrs.Genre, l.proposalAttrs.SettingStyle, l.proposalAttrs.Tone, l.errMsg)
+			attrs := campaign.NewAttributesModelWithState(l.proposalAttrs.Genre, l.proposalAttrs.SettingStyle, l.proposalAttrs.Tone,
+				fmt.Sprintf("Generate proposals failed: %v", msg.err))
 			return l.activateView(launcherAttributes, &attrs)
 		}
 		l.errMsg = ""

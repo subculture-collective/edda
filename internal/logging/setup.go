@@ -13,6 +13,15 @@ type SetupResult struct {
 	RingBuffer   *RingBuffer
 	BridgeWriter io.Writer
 	Cleanup      func()
+
+	console *consoleWriter
+}
+
+// SetConsole turns the stderr copy of log records on or off. A full-screen
+// terminal UI turns it off while it runs, because those writes paint over it.
+// Records still reach the ring buffer and the JSONL file.
+func (r *SetupResult) SetConsole(enabled bool) {
+	r.console.muted.Store(!enabled)
 }
 
 // Setup initializes the unified logging stack: ring buffer for TUI consumption,
@@ -35,10 +44,12 @@ func Setup(logPath string, minLevel slog.Leveler) (*SetupResult, error) {
 
 	buf := NewRingBuffer(2048)
 
+	console := &consoleWriter{w: os.Stderr}
+
 	handler := NewHandler(HandlerOptions{
 		MinLevel:   minLevel,
 		RingBuffer: buf,
-		Stderr:     os.Stderr,
+		Stderr:     console,
 		File:       file,
 	})
 
@@ -51,5 +62,6 @@ func Setup(logPath string, minLevel slog.Leveler) (*SetupResult, error) {
 		RingBuffer:   buf,
 		BridgeWriter: bridgeWriter,
 		Cleanup:      func() { file.Close() },
+		console:      console,
 	}, nil
 }

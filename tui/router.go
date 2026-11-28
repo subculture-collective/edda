@@ -86,13 +86,17 @@ func (r *Router) ActiveView() View {
 
 // Update routes a message to the active view and returns any command.
 func (r *Router) Update(msg tea.Msg) tea.Cmd {
-	if len(r.tabs) == 0 {
+	return r.UpdateTab(r.activeIdx, msg)
+}
+
+// UpdateTab routes a message to the view at idx, whether or not it is active.
+func (r *Router) UpdateTab(idx int, msg tea.Msg) tea.Cmd {
+	if idx < 0 || idx >= len(r.tabs) {
 		return nil
 	}
-	active := r.tabs[r.activeIdx].View
-	updated, cmd := active.Update(msg)
+	updated, cmd := r.tabs[idx].View.Update(msg)
 	if v, ok := updated.(View); ok {
-		r.tabs[r.activeIdx].View = v
+		r.tabs[idx].View = v
 	}
 	return cmd
 }
