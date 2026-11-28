@@ -77,6 +77,12 @@ export interface LightReceipt {
  rules_version: string; kind: string; reason: string; item?: string;
  before?: LightEffect; after?: LightEffect; time: number; source_ids: string[];
 }
+export interface DetectMagicReceipt {
+ rules_version: string; kind: 'spell-cast' | 'detect-magic-study'; spell: string; use: string; reason: string;
+ magic_initiate_uses_before: number; magic_initiate_uses_after: number; slots_before: number; slots_after: number;
+ before?: Concentration; after?: Concentration; time_before: number; time_after: number;
+ presence: boolean; auras: { subject_id: string; subject: string; distance_feet: number; school?: string; origin: string }[]; source_ids: string[];
+}
 export interface PendingFall { id: string; height_feet?: number; landing?: 'solid' | 'water' }
 export interface SheetDoor { id: string; name: string; state?: 'open' | 'closed' }
 export interface DoorReceipt {

@@ -7,6 +7,7 @@ import { cn } from '../../lib/cn';
 import { EffectReceipt } from '../character/EffectReceipt';
 import { SpellReceipt } from '../character/SpellReceipt';
 import { LightReceipt } from '../character/LightReceipt';
+import { DetectMagicReceipt } from '../character/DetectMagicReceipt';
 import { FallReceipt } from '../character/FallReceipt';
 import { DoorReceipt } from '../character/DoorReceipt';
 import { TravelReceipt } from '../character/TravelReceipt';
@@ -132,6 +133,7 @@ export function ResolutionEventBadge({ event }: { readonly event: ResolutionEven
   if (event.type === 'srd_effect' && event.details.receipt) return <EffectReceipt receipt={event.details.receipt as import('../../api/types').EffectReceipt} />;
   if (event.type === 'srd_spell' && event.details.receipt) return <SpellReceipt receipt={event.details.receipt as import('../../api/types').SpellReceipt} />;
   if (event.type === 'srd_light' && event.details.receipt) return <LightReceipt receipt={event.details.receipt as import('../../api/types').LightReceipt} />;
+  if (event.type === 'srd_detect_magic' && event.details.receipt) return <DetectMagicReceipt receipt={event.details.receipt as import('../../api/types').DetectMagicReceipt} />;
   if (event.type === 'srd_fall' && event.details.receipt) return <FallReceipt receipt={event.details.receipt as import('../../api/types').FallReceipt} />;
   if (event.type === 'srd_door' && event.details.receipt) return <DoorReceipt receipt={event.details.receipt as import('../../api/types').DoorReceipt} />;
   if (event.type === 'srd_travel' && event.details.receipt) return <TravelReceipt receipt={event.details.receipt as import('../../api/types').TravelReceipt} />;

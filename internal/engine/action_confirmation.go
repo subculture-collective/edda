@@ -697,8 +697,14 @@ func (e *Engine) ConfirmAction(ctx context.Context, campaignID uuid.UUID, reques
 		payload["npc_receipts"] = npcReceipts
 		payload["concentration_receipts"] = concentrationReceipts
 		payload["concentration_after_attack"] = concentrationAfter
-		for _, r := range concentrationReceipts {
-			narrative += " " + r.Reason
+		// The narrative follows the order of the resolution events: each attack
+		// and its saves, the 0 HP receipts, then an expiry from the clock.
+		narrative += npcTurnNarrative(npcReceipts, concentrationReceipts, concentrationAfter)
+		if repair != nil {
+			narrative += " " + repair.Reason
+		}
+		if deathSave != nil {
+			narrative += " " + deathSave.Reason
 		}
 		if initialRound > 0 && encounter.Round > initialRound {
 			// One complete ordinary combat round advances six seconds.
@@ -727,32 +733,6 @@ func (e *Engine) ConfirmAction(ctx context.Context, campaignID uuid.UUID, reques
 				payload["concentration_receipts"] = concentrationReceipts
 				narrative += " " + expiry.Reason
 			}
-		}
-		for _, attack := range npcReceipts {
-			narrative += fmt.Sprintf(" %s: %s (d20 %d + %d = %d), %d %s damage.", attack.Weapon, attack.Outcome, attack.Die, attack.Modifier.Value, attack.Total, attack.Damage, attack.DamageType)
-			if note := attack.RollNote(); note != "" {
-				narrative += " " + note
-			}
-			if attack.AutoCritical != "" {
-				narrative += " Automatic Critical Hit: " + attack.AutoCritical + "."
-			}
-			switch attack.Condition {
-			case "prone-applied":
-				narrative += " " + attack.Target + " has the Prone condition."
-			case "already-prone":
-				narrative += " " + attack.Target + " is already Prone."
-			case "size-exempt":
-				narrative += " " + attack.Target + " is too large to be knocked Prone."
-			}
-			if attack.ZeroHP != nil {
-				narrative += " " + attack.ZeroHP.Reason
-			}
-		}
-		if repair != nil {
-			narrative += " " + repair.Reason
-		}
-		if deathSave != nil {
-			narrative += " " + deathSave.Reason
 		}
 		if encounter.Reaction.Pending != nil {
 			narrative += " A visible foe is about to leave your reach. Choose an opportunity attack or decline; no reaction has been spent."

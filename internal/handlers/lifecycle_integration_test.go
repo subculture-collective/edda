@@ -8,6 +8,7 @@ import (
 	"errors"
 	"fmt"
 	"slices"
+	"strings"
 	"testing"
 
 	"git.subcult.tv/subculture-collective/edda/internal/combat"
@@ -33,6 +34,19 @@ func (d *lifecycleIntegrationDice) Intn(int) int {
 	v := d.values[0]
 	d.values = d.values[1:]
 	return v
+}
+
+// inOrder fails unless every part occurs in text, each after the one before.
+func inOrder(t *testing.T, text string, parts ...string) {
+	t.Helper()
+	rest := text
+	for _, part := range parts {
+		_, after, found := strings.Cut(rest, part)
+		if !found {
+			t.Fatalf("%q missing or out of order in %q", part, text)
+		}
+		rest = after
+	}
 }
 
 func TestIntegrationCasterLifecycle(t *testing.T) {
@@ -259,6 +273,8 @@ func TestIntegrationCasterLifecycle(t *testing.T) {
 	if !slices.Equal(payload.AfterAttack, []int{1}) {
 		t.Fatalf("save order=%v", payload.AfterAttack)
 	}
+	// The narrative names them in the same order as the receipts.
+	inOrder(t, end.Narrative, "Unarmed Strike: ", payload.Effects[0].Reason, " Round ")
 	replay, err = newEngine().ConfirmAction(ctx, campaign, endReq)
 	must(err)
 	if !sameTurnResult(end, replay) || dice.calls != beforeCalls+2 {
@@ -292,5 +308,7 @@ func TestIntegrationCasterLifecycle(t *testing.T) {
 	if len(payload.Effects) != 1 || payload.Effects[0].Kind != "concentration-expired" {
 		t.Fatalf("expiry receipt=%+v", payload)
 	}
+	// A clock expiry follows the attack of the turn that advanced the round.
+	inOrder(t, expired.Narrative, "Unarmed Strike: ", payload.Effects[0].Reason, " Round ")
 
 }
