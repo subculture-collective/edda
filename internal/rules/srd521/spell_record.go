@@ -89,7 +89,7 @@ type SpellMaterial struct {
 // SpellScaling identifies per-slot dice additions or references a typed ray,
 // bolt or dart count increment, or a typed radius increment, in SourceDetails.
 // Kind slot-effect-dice references the per-effect dice rows in
-// SourceDetails.Hand.SlotDice.
+// SourceDetails.Hand.SlotDice or SourceDetails.WallOfIce.SlotDice.
 // Bounded fixtures use none; their higher-slot catalogue data belongs elsewhere.
 type SpellScaling struct {
 	Kind       string   `json:"kind"`
