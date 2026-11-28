@@ -80,10 +80,12 @@
       ],
       "status": "unsupported",
       "fixtures": [
-        "internal/combat/visibility_test.go"
+        "internal/combat/visibility_test.go",
+        "internal/rules/srd521/door_test.go",
+        "internal/rules/srd521/travel_test.go"
       ],
       "follow_up": 144,
-      "notes": "Legacy connected-location movement and clock updates are not SRD exploration evidence. #145 adds partial evidence: declared bright/dim/dark light, obscurement and one declared Darkvision range decide whether a known spatial fixture target can be seen and whether a sight-based Wisdom (Perception) check is ordinary, at Disadvantage or automatically failed. #264 adds one light source, the Light cantrip on an object the caster carries, which raises the light at the target for that check; other light sources, other senses, hiding and invisibility remain unsupported. #144 starts the bounded travel slice; #146/#147 and #150 cover objects, falling and remaining hazard decisions."
+      "notes": "Legacy connected-location movement and clock updates are not SRD exploration evidence. #145 adds partial evidence: declared bright/dim/dark light, obscurement and one declared Darkvision range decide whether a known spatial fixture target can be seen and whether a sight-based Wisdom (Perception) check is ordinary, at Disadvantage or automatically failed. #264 adds one light source, the Light cantrip on an object the caster carries, which raises the light at the target for that check; other light sources, other senses, hiding and invisibility remain unsupported. #144 adds partial evidence: one segment of at most one hour at an explicit Fast, Normal or Slow pace along a known connection with declared distance, Travel Terrain entry and good road, capped at the terrain's maximum pace and 8 travel hours a day. Forced march, mounts, vehicles, navigation, weather, food and water and random encounters remain unsupported. #146 adds partial evidence: one known ordinary unlocked door with a declared open/closed state and distance opens outside combat within 5-foot reach, and a closed door blocks sight and attacks on a target that names it. Locks, traps, stuck doors, object durability and in-combat object interactions remain unsupported. #147 and #150 cover falling and remaining hazard decisions."
     },
     {
       "id": "srd-5.2.1:family/toolbox",

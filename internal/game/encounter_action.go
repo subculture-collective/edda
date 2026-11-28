@@ -45,6 +45,9 @@ func PrepareStoredAction(ctx context.Context, database statedb.DBTX, campaign do
 	if _, ok := SightPerceptionTarget(intent.EntryID); ok && intent.Kind == srd521.AbilityCheck {
 		return prepareSightPerception(ctx, database, campaign, pc, intent, lock)
 	}
+	if intent.Kind == srd521.OpenDoor {
+		return prepareOpenDoor(ctx, database, campaign, pc, intent, lock)
+	}
 	if IsLightIntent(intent) {
 		return prepareLight(ctx, database, campaign, pc, intent, lock)
 	}
@@ -60,6 +63,9 @@ func PrepareStoredAction(ctx context.Context, database statedb.DBTX, campaign do
 		if encounter == nil || encounter.Status != "active" {
 			return prepareProneStand(ctx, campaign, pc, intent)
 		}
+	}
+	if intent.Kind == srd521.TravelHour {
+		return prepareTravel(ctx, database, campaign, pc, intent, lock)
 	}
 	if intent.Kind == srd521.TacticalMind {
 		return prepareStoredActionBase(ctx, database, campaign, pc, intent, lock)

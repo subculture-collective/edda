@@ -46,7 +46,7 @@ func (h *WorldHandlers) ListEncounteredNPCs(w http.ResponseWriter, r *http.Reque
 			ID:         dbutil.ToPgtype(npcID),
 			CampaignID: pgCampaignID,
 		})
-		if npcErr != nil {
+		if npcErr != nil || statedb.IsSceneObject(npc.Properties) {
 			continue
 		}
 		var factionID *string

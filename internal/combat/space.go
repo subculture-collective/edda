@@ -12,7 +12,10 @@ type Space struct {
 	// space (#145). Legacy facts omit them; Sight then fails closed.
 	Light       string `json:"light,omitempty"`
 	Obscurement string `json:"obscurement,omitempty"`
-	Revision    string `json:"revision"`
+	// Door optionally names one known door between the actor and the target
+	// (#146). The other facts describe the path with that door open.
+	Door     string `json:"door,omitempty"`
+	Revision string `json:"revision"`
 	// PackAlly is the declared state of the NPC's nearest ally relative to the
 	// player. It is read only by Pack Tactics; nil means unresolved.
 	PackAlly *PackAlly `json:"pack_ally,omitempty"`
@@ -39,6 +42,21 @@ func (a *PackAlly) Eligible() (bool, error) {
 		return false, fmt.Errorf("Clarify the ally's exact distance from the target and whether it is Incapacitated.")
 	}
 	return *a.DistanceFeet <= 5 && !*a.Incapacitated, nil
+}
+
+// ThroughDoor applies the declared door's state. A closed door is a solid
+// obstacle: total cover and no line of sight. An open door leaves the declared
+// facts. An unresolved door clears line of sight so every ruling fails closed.
+func (s Space) ThroughDoor(state string) Space {
+	switch state {
+	case "open":
+	case "closed":
+		sight := false
+		s.LineOfSight, s.Cover = &sight, "total"
+	default:
+		s.LineOfSight = nil
+	}
+	return s
 }
 
 // Validate requires an exact distance, sight ruling and recognized cover ruling.
