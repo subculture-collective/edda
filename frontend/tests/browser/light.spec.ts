@@ -43,6 +43,7 @@ for (const width of [1440, 390]) {
     const preview = async (value: string) => {
       await page.getByLabel('Character action').selectOption(value);
       await page.getByRole('button', { name: 'Preview action', exact: true }).click();
+      await expect(page.getByText(`Light: Prepared ${value}.`)).toBeVisible();
     };
     const confirm = () => page.getByRole('button', { name: 'Confirm action', exact: true }).click();
 
@@ -63,7 +64,6 @@ for (const width of [1440, 390]) {
     expect(confirmations).toBe(1);
 
     await preview('light-cover');
-    await expect(page.getByText('Light: Prepared light-cover.')).toBeVisible();
     await confirm();
     await expect(status).toContainText('Covered: it sheds no light until uncovered.');
     await expect(receipt).toContainText('lasts until Day 1, 09:00:00; covered.');

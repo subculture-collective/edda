@@ -181,6 +181,16 @@ jobs:
           pnpm test
           pnpm test:browser
           pnpm build
+      # A test timeout names only the step that was running at the deadline;
+      # the trace shows where the time went. Traces hold fixture data only.
+      - name: Keep Playwright traces from a failed run
+        if: failure()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: playwright-results-${{ github.run_attempt }}
+          path: frontend/test-results/
+          if-no-files-found: ignore
+          retention-days: 7
 
   mirror-gate:
     name: Mirror CI gate
