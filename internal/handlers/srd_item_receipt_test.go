@@ -47,4 +47,11 @@ func TestFallReceiptProjectionAndHistory(t *testing.T) {
 	if len(live) != 1 || live[0].Type != "srd_fall" || !bytes.Equal(data, mustJSON(t, history)) || !bytes.Contains(data, []byte(`"dice":[2,5,1]`)) || bytes.Contains(data, []byte("private notes")) {
 		t.Fatalf("unsafe or changed fall receipt: %s", data)
 	}
+
+	// A Concentration save after the fall also appears as its own effect event.
+	withSave := engine.AppliedToolCall{Tool: "srd_fall", Result: json.RawMessage(`{"receipt":{"rules_version":"srd-5.2.1","damage":8,"concentration":{"rules_version":"srd-5.2.1","kind":"concentration-save","reason":"Shield of Faith concentration held."}}}`)}
+	events := engineResolutionEventsToAPI([]engine.AppliedToolCall{withSave})
+	if len(events) != 2 || events[1].Type != "srd_effect" || events[1].Outcome != "Shield of Faith concentration held." {
+		t.Fatalf("fall concentration event missing: %+v", events)
+	}
 }

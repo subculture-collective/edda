@@ -251,6 +251,10 @@ func engineResolutionEventsToAPI(applied []engine.AppliedToolCall) []api.Resolut
 			}
 			if json.Unmarshal(call.Result, &result) == nil && result.Receipt != nil && result.Receipt.RulesVersion == "srd-5.2.1" {
 				out = append(out, api.ResolutionEvent{Type: "srd_fall", Label: "Fall", Outcome: fmt.Sprintf("%d bludgeoning damage", result.Receipt.Damage), Details: map[string]any{"receipt": result.Receipt}})
+				// The caster's Concentration save after the fall is shown like other casts' effects.
+				if r := result.Receipt.Concentration; r != nil && r.RulesVersion == "srd-5.2.1" {
+					out = append(out, api.ResolutionEvent{Type: "srd_effect", Label: "Caster effects and recovery", Outcome: r.Reason, Details: map[string]any{"receipt": r}})
+				}
 			}
 		case "srd_door":
 			var result struct {
