@@ -10,8 +10,22 @@ import (
 type Logger interface {
 	Error(msg any, keyvals ...any)
 	Debugf(format string, args ...any)
-	Infof(format string, args ...any)
+	Info(msg any, keyvals ...any)
 	Errorf(format string, args ...any)
+}
+
+// WithPrefix returns logger with prefix as the service of its records, in place
+// of any prefix it has. Only a CharmLogger or a charmbracelet/log logger takes a
+// prefix; any other Logger is returned unchanged.
+func WithPrefix(logger Logger, prefix string) Logger {
+	switch l := logger.(type) {
+	case *CharmLogger:
+		return l.WithPrefix(prefix)
+	case *log.Logger:
+		return l.WithPrefix(prefix)
+	default:
+		return logger
+	}
 }
 
 // CharmLogger is a charmbracelet/log logger that never panics on a logged value.

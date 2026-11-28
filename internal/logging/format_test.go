@@ -2,6 +2,7 @@ package logging
 
 import (
 	"log/slog"
+	"slices"
 	"strings"
 	"testing"
 	"time"
@@ -87,6 +88,33 @@ func TestParseJSONLEntry_WithFields(t *testing.T) {
 	}
 	if entry.Fields[1].Key != "hp" || entry.Fields[1].Value != "42" {
 		t.Errorf("Fields[1] = %+v, want {hp 42}", entry.Fields[1])
+	}
+}
+
+// Files written before Field had JSON tags use "Key" and "Value".
+func TestParseJSONLEntry_OldFieldNames(t *testing.T) {
+	line := []byte(`{"time":"2024-01-01T12:00:00Z","level":"INFO","service":"app","message":"test","fields":[{"Key":"room","Value":"tavern"},{"Key":"hp","Value":"42"}]}`)
+
+	entry, err := ParseJSONLEntry(line)
+	if err != nil {
+		t.Fatalf("ParseJSONLEntry returned error: %v", err)
+	}
+
+	want := []Field{{Key: "room", Value: "tavern"}, {Key: "hp", Value: "42"}}
+	if !slices.Equal(entry.Fields, want) {
+		t.Errorf("Fields = %+v, want %+v", entry.Fields, want)
+	}
+}
+
+// Decoding ignores case, so only the written bytes show the field names.
+func TestWriteJSONL_FieldNames(t *testing.T) {
+	var file strings.Builder
+	if err := writeJSONL(&file, LogEntry{Fields: []Field{{Key: "room", Value: "tavern"}}}); err != nil {
+		t.Fatalf("writeJSONL: %v", err)
+	}
+
+	if want := `"fields":[{"key":"room","value":"tavern"}]`; !strings.Contains(file.String(), want) {
+		t.Errorf("line = %s, want it to contain %s", file.String(), want)
 	}
 }
 

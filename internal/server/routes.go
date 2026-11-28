@@ -36,6 +36,8 @@ func NewRouterWithProviders(logger logging.Logger, gameEngine engine.GameEngine,
 	if summaryProvider == nil {
 		summaryProvider = provider
 	}
+	handlerLogger := logging.WithPrefix(logger, "handlers")
+	logger = logging.WithPrefix(logger, "server")
 	r := chi.NewRouter()
 	r.Use(middleware.RequestID)
 	r.Use(loggingMiddleware(logger))
@@ -54,11 +56,11 @@ func NewRouterWithProviders(logger logging.Logger, gameEngine engine.GameEngine,
 		_, _ = w.Write([]byte("ok"))
 	})
 
-	campaignH := &handlers.CampaignHandlers{Engine: gameEngine, Queries: queries, Logger: logger, Pool: pool}
-	charH := &handlers.CharacterHandlers{Queries: queries, Logger: logger, Pool: pool}
-	worldH := &handlers.WorldHandlers{Queries: queries, Logger: logger}
-	actionH := &handlers.ActionHandlers{Engine: gameEngine, Queries: queries, Provider: provider, Logger: logger, TurnTimeout: cfg.LLM.Ollama.RequestTimeout()}
-	startupH := handlers.NewStartupHandlers(provider, queries, logger, pool)
+	campaignH := &handlers.CampaignHandlers{Engine: gameEngine, Queries: queries, Logger: handlerLogger, Pool: pool}
+	charH := &handlers.CharacterHandlers{Queries: queries, Logger: handlerLogger, Pool: pool}
+	worldH := &handlers.WorldHandlers{Queries: queries, Logger: handlerLogger}
+	actionH := &handlers.ActionHandlers{Engine: gameEngine, Queries: queries, Provider: provider, Logger: handlerLogger, TurnTimeout: cfg.LLM.Ollama.RequestTimeout()}
+	startupH := handlers.NewStartupHandlers(provider, queries, handlerLogger, pool)
 	startupH.WorldgenProvider = worldgenProvider
 	registerAPIRoutes(logger, r, campaignH, charH, worldH, actionH, startupH, pool, defaultUserID, cfg, saveStore, summaryProvider)
 	return r
@@ -203,7 +205,14 @@ func loggingMiddleware(logger logging.Logger) func(http.Handler) http.Handler {
 			ww := middleware.NewWrapResponseWriter(w, r.ProtoMajor)
 			start := time.Now()
 			next.ServeHTTP(ww, r)
-			logger.Infof("%s %s status=%d bytes=%d duration=%s request_id=%s", r.Method, r.URL.Path, ww.Status(), ww.BytesWritten(), time.Since(start).Round(time.Millisecond), middleware.GetReqID(r.Context()))
+			logger.Info("http request",
+				"method", r.Method,
+				"path", r.URL.Path,
+				"status", ww.Status(),
+				"bytes", ww.BytesWritten(),
+				"duration", time.Since(start).Round(time.Millisecond),
+				"request_id", middleware.GetReqID(r.Context()),
+			)
 		})
 	}
 }

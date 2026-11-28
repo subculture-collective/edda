@@ -59,7 +59,7 @@ type StartupHandlers struct {
 // NewStartupHandlers creates a StartupHandlers with an initialized session store.
 func NewStartupHandlers(provider llm.Provider, queries statedb.Querier, logger logging.Logger, pool db.DBTX) *StartupHandlers {
 	if logger == nil {
-		logger = logging.WrapCharmLogger(log.Default())
+		logger = logging.WrapCharmLogger(log.Default().WithPrefix("handlers"))
 	}
 	return &StartupHandlers{
 		Provider: provider,
@@ -75,7 +75,7 @@ func writeJSON(w http.ResponseWriter, status int, payload any) {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(status)
 	if err := json.NewEncoder(w).Encode(payload); err != nil {
-		log.Errorf("writeJSON encode: %v", err)
+		log.Default().WithPrefix("handlers").Errorf("writeJSON encode: %v", err)
 	}
 }
 

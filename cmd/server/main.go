@@ -41,8 +41,9 @@ func run(args []string) int {
 	}
 	defer logResult.Cleanup()
 
-	logger := logging.NewCharmLogger(logResult.BridgeWriter)
-	logger.SetDefault()
+	charm := logging.NewCharmLogger(logResult.BridgeWriter)
+	charm.SetDefault() // without a prefix: each package adds its own
+	logger := charm.WithPrefix("server")
 
 	cfg, err := config.Load(configPath)
 	if err != nil {

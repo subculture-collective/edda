@@ -33,7 +33,7 @@ type PostValidator struct {
 // logger is used.
 func NewPostValidator(store PostValidationStore, logger logging.Logger) *PostValidator {
 	if logger == nil {
-		logger = logging.WrapCharmLogger(log.Default())
+		logger = logging.WrapCharmLogger(log.Default().WithPrefix("tools"))
 	}
 	return &PostValidator{store: store, logger: logger}
 }
