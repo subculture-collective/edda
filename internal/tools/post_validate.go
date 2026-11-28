@@ -6,6 +6,8 @@ import (
 
 	"github.com/charmbracelet/log"
 	"github.com/google/uuid"
+
+	"git.subcult.tv/subculture-collective/edda/internal/logging"
 )
 
 // PostValidationStore provides entity lookup operations for post-validation.
@@ -24,14 +26,14 @@ type PostValidationStore interface {
 // It detects duplicates, verifies FK references, and fills defaults.
 type PostValidator struct {
 	store  PostValidationStore
-	logger *log.Logger
+	logger logging.Logger
 }
 
 // NewPostValidator constructs a PostValidator. If logger is nil, the default
 // logger is used.
-func NewPostValidator(store PostValidationStore, logger *log.Logger) *PostValidator {
+func NewPostValidator(store PostValidationStore, logger logging.Logger) *PostValidator {
 	if logger == nil {
-		logger = log.Default()
+		logger = logging.WrapCharmLogger(log.Default())
 	}
 	return &PostValidator{store: store, logger: logger}
 }

@@ -6,7 +6,8 @@ import (
 	"testing"
 )
 
-func TestBridgeWriterMapsLevelsAndTrimsNewline(t *testing.T) {
+// A line that is not a charmbracelet/log JSON record is kept whole.
+func TestBridgeWriterKeepsOtherLinesWhole(t *testing.T) {
 	t.Parallel()
 
 	buf := NewRingBuffer(8)
@@ -19,10 +20,11 @@ func TestBridgeWriterMapsLevelsAndTrimsNewline(t *testing.T) {
 	bridge := NewBridgeWriter(logger)
 
 	lines := []string{
-		"DEBU debug line\n",
-		"INFO info line\n",
-		"WARN warn line\n",
-		"ERRO error line\n",
+		"ERRO plain text\r\n",
+		"{not json}\n",
+		`{"msg":"cut off"` + "\n",
+		`{"msg":"one"} trailing` + "\n",
+		`["msg"]` + "\n",
 		"\n",
 	}
 	for _, line := range lines {
@@ -33,26 +35,14 @@ func TestBridgeWriterMapsLevelsAndTrimsNewline(t *testing.T) {
 		}
 	}
 
+	want := []string{"ERRO plain text", "{not json}", `{"msg":"cut off"`, `{"msg":"one"} trailing`, `["msg"]`}
 	entries := buf.Snapshot()
-	if len(entries) != 4 {
-		t.Fatalf("snapshot len: got %d, want 4", len(entries))
-	}
-
-	want := []struct {
-		level slog.Level
-		msg   string
-	}{
-		{level: slog.LevelDebug, msg: "debug line"},
-		{level: slog.LevelInfo, msg: "info line"},
-		{level: slog.LevelWarn, msg: "warn line"},
-		{level: slog.LevelError, msg: "error line"},
+	if len(entries) != len(want) {
+		t.Fatalf("snapshot len: got %d, want %d", len(entries), len(want))
 	}
 	for i := range want {
-		if entries[i].Level != want[i].level {
-			t.Fatalf("entry[%d] level: got %v, want %v", i, entries[i].Level, want[i].level)
-		}
-		if entries[i].Message != want[i].msg {
-			t.Fatalf("entry[%d] message: got %q, want %q", i, entries[i].Message, want[i].msg)
+		if entries[i].Level != slog.LevelInfo || entries[i].Message != want[i] || len(entries[i].Fields) != 0 {
+			t.Errorf("entry[%d]: got %v %q %q, want INFO %q without fields", i, entries[i].Level, entries[i].Message, entries[i].Fields, want[i])
 		}
 	}
 }

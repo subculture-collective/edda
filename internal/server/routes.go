@@ -5,7 +5,6 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/charmbracelet/log"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
 	"github.com/go-chi/cors"
@@ -19,17 +18,18 @@ import (
 	"git.subcult.tv/subculture-collective/edda/internal/handlers"
 	"git.subcult.tv/subculture-collective/edda/internal/journal"
 	"git.subcult.tv/subculture-collective/edda/internal/llm"
+	"git.subcult.tv/subculture-collective/edda/internal/logging"
 	"git.subcult.tv/subculture-collective/edda/internal/saves"
 	statedb "git.subcult.tv/subculture-collective/edda/internal/state/sqlc"
 )
 
-func NewRouterWithProvider(logger *log.Logger, gameEngine engine.GameEngine, queries statedb.Querier, provider llm.Provider, pool *pgxpool.Pool, defaultUserID uuid.UUID, cfg config.Config, saveStore *saves.Store) http.Handler {
+func NewRouterWithProvider(logger logging.Logger, gameEngine engine.GameEngine, queries statedb.Querier, provider llm.Provider, pool *pgxpool.Pool, defaultUserID uuid.UUID, cfg config.Config, saveStore *saves.Store) http.Handler {
 	return NewRouterWithProviders(logger, gameEngine, queries, provider, provider, provider, pool, defaultUserID, cfg, saveStore)
 }
 
 // NewRouterWithProviders routes world creation and journal summaries independently
 // of other startup requests. A missing workflow provider uses the default.
-func NewRouterWithProviders(logger *log.Logger, gameEngine engine.GameEngine, queries statedb.Querier, provider, worldgenProvider, summaryProvider llm.Provider, pool *pgxpool.Pool, defaultUserID uuid.UUID, cfg config.Config, saveStore *saves.Store) http.Handler {
+func NewRouterWithProviders(logger logging.Logger, gameEngine engine.GameEngine, queries statedb.Querier, provider, worldgenProvider, summaryProvider llm.Provider, pool *pgxpool.Pool, defaultUserID uuid.UUID, cfg config.Config, saveStore *saves.Store) http.Handler {
 	if worldgenProvider == nil {
 		worldgenProvider = provider
 	}
@@ -64,7 +64,7 @@ func NewRouterWithProviders(logger *log.Logger, gameEngine engine.GameEngine, qu
 	return r
 }
 
-func registerAPIRoutes(logger *log.Logger, r chi.Router, campaignH *handlers.CampaignHandlers, charH *handlers.CharacterHandlers, worldH *handlers.WorldHandlers, actionH *handlers.ActionHandlers, startupH *handlers.StartupHandlers, pool *pgxpool.Pool, defaultUserID uuid.UUID, cfg config.Config, saveStore *saves.Store, provider llm.Provider) {
+func registerAPIRoutes(logger logging.Logger, r chi.Router, campaignH *handlers.CampaignHandlers, charH *handlers.CharacterHandlers, worldH *handlers.WorldHandlers, actionH *handlers.ActionHandlers, startupH *handlers.StartupHandlers, pool *pgxpool.Pool, defaultUserID uuid.UUID, cfg config.Config, saveStore *saves.Store, provider llm.Provider) {
 	var authMW auth.AuthMiddleware
 	if cfg.Server.JWTSecret != "" {
 		authMW = auth.NewJWTMiddleware(cfg.Server.JWTSecret, campaignH.Queries)
@@ -189,7 +189,7 @@ func disableCacheMiddleware(next http.Handler) http.Handler {
 	})
 }
 
-func writeJSON(logger *log.Logger, w http.ResponseWriter, status int, payload any) {
+func writeJSON(logger logging.Logger, w http.ResponseWriter, status int, payload any) {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(status)
 	if err := json.NewEncoder(w).Encode(payload); err != nil {
@@ -197,7 +197,7 @@ func writeJSON(logger *log.Logger, w http.ResponseWriter, status int, payload an
 	}
 }
 
-func loggingMiddleware(logger *log.Logger) func(http.Handler) http.Handler {
+func loggingMiddleware(logger logging.Logger) func(http.Handler) http.Handler {
 	return func(next http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			ww := middleware.NewWrapResponseWriter(w, r.ProtoMajor)

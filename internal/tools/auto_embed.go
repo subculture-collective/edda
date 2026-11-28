@@ -10,6 +10,7 @@ import (
 	pgvector_go "github.com/pgvector/pgvector-go"
 
 	"git.subcult.tv/subculture-collective/edda/internal/dbutil"
+	"git.subcult.tv/subculture-collective/edda/internal/logging"
 	"git.subcult.tv/subculture-collective/edda/internal/memory"
 	statedb "git.subcult.tv/subculture-collective/edda/internal/state/sqlc"
 )
@@ -24,14 +25,14 @@ type AutoEmbedStore interface {
 type AutoEmbedder struct {
 	embedder memory.Embedder
 	store    AutoEmbedStore
-	logger   *log.Logger
+	logger   logging.Logger
 }
 
 // NewAutoEmbedder constructs an AutoEmbedder. If embedder is nil, all Embed
 // calls become no-ops. If logger is nil, the default logger is used.
-func NewAutoEmbedder(embedder memory.Embedder, store AutoEmbedStore, logger *log.Logger) *AutoEmbedder {
+func NewAutoEmbedder(embedder memory.Embedder, store AutoEmbedStore, logger logging.Logger) *AutoEmbedder {
 	if logger == nil {
-		logger = log.Default()
+		logger = logging.WrapCharmLogger(log.Default())
 	}
 	return &AutoEmbedder{
 		embedder: embedder,

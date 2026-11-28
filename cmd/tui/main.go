@@ -11,7 +11,6 @@ import (
 	"syscall"
 
 	tea "github.com/charmbracelet/bubbletea"
-	"github.com/charmbracelet/log"
 	"github.com/jackc/pgx/v5/pgxpool"
 
 	"git.subcult.tv/subculture-collective/edda/internal/config"
@@ -41,7 +40,7 @@ func run(args []string) int {
 	defer logResult.Cleanup()
 
 	logger := logging.NewCharmLogger(logResult.BridgeWriter)
-	log.SetDefault(logger)
+	logger.SetDefault()
 
 	cfg, err := config.Load(configPath)
 	if err != nil {

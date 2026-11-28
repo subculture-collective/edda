@@ -12,7 +12,6 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/charmbracelet/log"
 	"github.com/jackc/pgx/v5/pgxpool"
 
 	"git.subcult.tv/subculture-collective/edda/internal/bootstrap"
@@ -43,7 +42,7 @@ func run(args []string) int {
 	defer logResult.Cleanup()
 
 	logger := logging.NewCharmLogger(logResult.BridgeWriter)
-	log.SetDefault(logger)
+	logger.SetDefault()
 
 	cfg, err := config.Load(configPath)
 	if err != nil {
