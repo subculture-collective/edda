@@ -108,11 +108,13 @@ Success `200`:
 }
 ```
 
+The reply also sets the session cookie to the bearer token.
+
 #### Logout
 
 `POST /api/v1/auth/logout`
 
-Success: `204 No Content`.
+Success: `204 No Content`. With a bearer token, the reply clears the session cookie only when the request's cookie holds that same token. The server does not revoke tokens: a token stays valid until it expires.
 
 Native clients should also delete the Keychain token locally.
 

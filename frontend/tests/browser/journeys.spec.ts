@@ -99,6 +99,8 @@ test('ends the local session at sign-out without waiting for the server', async 
   const reply = page.waitForResponse('**/auth/logout');
   release();
   await (await reply).finished();
+  // The app asks the server to set the newer session's cookie again.
+  await expect.poll(() => game.requests).toContain('GET /auth/me');
   // The reply has arrived; give the app a rendered frame to react to it.
   await page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => setTimeout(resolve, 100))));
   await expect(page).toHaveURL(/play\/alpha$/);
