@@ -15,8 +15,11 @@ type Concentration struct {
 	RecipientID string `json:"recipient_id,omitempty"`
 	ID          string `json:"id"`
 	Spell       string `json:"spell"`
-	StartedAt   int    `json:"started_at"`
-	ExpiresAt   int    `json:"expires_at"`
+	// SpellLabel is the spell's name, set only on receipts sent to clients.
+	// Saved state leaves it empty.
+	SpellLabel string `json:"spell_label,omitempty"`
+	StartedAt  int    `json:"started_at"`
+	ExpiresAt  int    `json:"expires_at"`
 }
 
 // EffectReceipt is a public, saved account of timing, costs and required checks.
