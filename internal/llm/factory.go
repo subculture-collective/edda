@@ -181,7 +181,7 @@ func probeOllamaCompatibleEndpoint(client *http.Client, healthURL, apiKey string
 
 	if resp.StatusCode < 200 || resp.StatusCode >= 300 {
 		body, _ := io.ReadAll(io.LimitReader(resp.Body, ollamaHealthCheckErrorBodyLimit))
-		return &ollamaHealthCheckHTTPError{URL: logging.RedactURL(healthURL), StatusCode: resp.StatusCode, Body: redactSecretText(logging.Redact(strings.TrimSpace(string(body))))}
+		return &ollamaHealthCheckHTTPError{URL: logging.RedactURL(healthURL), StatusCode: resp.StatusCode, Body: redactSecretText(logging.RedactReply(strings.TrimSpace(string(body))))}
 	}
 
 	return nil

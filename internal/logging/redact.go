@@ -1,37 +1,46 @@
 package logging
 
 import (
+	"context"
 	"errors"
 	"net/url"
 	"regexp"
+	"slices"
 	"strings"
 )
 
 // redactedPassword replaces a masked password.
 const redactedPassword = "xxxxx"
 
-// secretQueryParams are query parameters dropped from logged URLs, compared
-// without regard to case.
-var secretQueryParams = map[string]bool{
-	"password": true, "sslpassword": true, "passwd": true, "pass": true,
-	"token": true, "access_token": true, "refresh_token": true, "id_token": true,
-	"api_key": true, "apikey": true, "key": true,
-	"secret": true, "client_secret": true,
-	"auth": true, "authorization": true, "sig": true, "signature": true,
-}
+// A query parameter is secret, and dropped from logged URLs, when its name ends
+// in one of secretQuerySuffixes or is one of secretQueryParams. Both are
+// compared without regard to case. The suffixes cover names such as x-api-key,
+// subscription-key, private_token, client_secret, X-Amz-Signature and
+// sslpassword.
+var (
+	secretQuerySuffixes = []string{"key", "token", "secret", "signature", "password"}
+	secretQueryParams   = map[string]bool{
+		"passwd": true, "pass": true, "auth": true, "authorization": true, "sig": true,
+	}
+)
 
 var (
 	urlPattern = regexp.MustCompile("[a-zA-Z][a-zA-Z0-9+.-]*://[^\\s\"'`<>]+")
 	// keywordPasswordPattern matches password=value in a key/value PostgreSQL
 	// DSN, with the value bare or single-quoted.
 	keywordPasswordPattern = regexp.MustCompile(`(?i)\b((?:ssl)?password)=('(?:[^'\\]|\\.)*'|[^\s'` + "`" + `]+)`)
+	// openAuthorityPattern matches a URL that ends the text with nothing to end
+	// its host. A trailing ellipsis or space is not part of it. The group is what
+	// follows "://".
+	openAuthorityPattern = regexp.MustCompile("[a-zA-Z][a-zA-Z0-9+.-]*://([^\\s\"'`<>/?#]+?)(?:\\.\\.\\.|…)?\\s*$")
 )
 
 // RedactURL returns raw, a URL, configured endpoint or DSN, safe to log or to
 // put in an error: userinfo is removed, except that a postgres:// or
 // postgresql:// URL keeps its user name and has its password masked;
-// secret-bearing query parameters are dropped; and a key/value DSN has its
-// password masked. A URL that does not parse also loses its whole query.
+// secret query parameters are dropped; and a key/value DSN has its password
+// masked. A URL that does not parse, or whose userinfo may hold an unescaped
+// /, ? or # (see hidesUserinfo), also loses its user name and whole query.
 func RedactURL(raw string) string {
 	if !strings.Contains(raw, "://") {
 		if keywordPasswordPattern.MatchString(raw) || strings.ContainsAny(raw, " \t\r\n") || !strings.ContainsAny(raw, "@?") {
@@ -41,7 +50,7 @@ func RedactURL(raw string) string {
 		return strings.TrimPrefix(RedactURL("http://"+raw), "http://")
 	}
 	u, err := url.Parse(raw)
-	if err != nil {
+	if err != nil || hidesUserinfo(raw) {
 		return redactUnparsed(raw)
 	}
 	changed := false
@@ -63,7 +72,7 @@ func RedactURL(raw string) string {
 			if decoded, err := url.QueryUnescape(name); err == nil {
 				name = decoded
 			}
-			if secretQueryParams[strings.ToLower(name)] {
+			if isSecretQueryParam(name) {
 				changed = true
 			} else {
 				kept = append(kept, pair)
@@ -77,10 +86,35 @@ func RedactURL(raw string) string {
 	return u.String()
 }
 
-// redactUnparsed cuts raw, a URL that url.Parse rejects, down to its host and
-// path. It drops everything up to the last @, because an unescaped password may
-// hold a slash. When a ? or # comes before that @, the password cannot be told
-// apart from the query, so only the scheme is kept.
+func isSecretQueryParam(name string) bool {
+	name = strings.ToLower(name)
+	return secretQueryParams[name] || slices.ContainsFunc(secretQuerySuffixes, func(suffix string) bool {
+		return strings.HasSuffix(name, suffix)
+	})
+}
+
+// hidesUserinfo reports whether an @ after the apparent end of raw's authority
+// may be the real end of its userinfo. url.Parse accepts
+// "http://user:12/34@host" as host "user", port "12" and path "/34@host". Such
+// an @ is read as part of a path or query only when the authority is plainly a
+// host (it has a dot, or is localhost) and no colon comes before the @, so no
+// password can be there. A valid URL with a port and a later @ is cut too.
+func hidesUserinfo(raw string) bool {
+	_, rest, found := strings.Cut(raw, "://")
+	end := strings.IndexAny(rest, "/?#")
+	at := strings.LastIndex(rest, "@")
+	if !found || end < 0 || at < end {
+		return false
+	}
+	host := rest[:end]
+	plainHost := host == "localhost" || strings.Contains(host, ".")
+	return !plainHost || strings.Contains(rest[:at], ":")
+}
+
+// redactUnparsed cuts raw, a URL that url.Parse rejects or may misread, down to
+// its host and path. It drops everything up to the last @, because an unescaped
+// password may hold a slash. When a ? or # comes before that @, the password
+// cannot be told apart from the query, so only the scheme is kept.
 func redactUnparsed(raw string) string {
 	scheme, rest, _ := strings.Cut(raw, "://")
 	if i := strings.LastIndex(rest, "@"); i >= 0 {
@@ -100,9 +134,11 @@ func redactUnparsed(raw string) string {
 // result is still a *url.Error with the same cause, so errors.Is, errors.As and
 // Timeout keep working. Causes that quote the URL are replaced: the reason
 // for a URL that held something to remove and either failed to parse or had no
-// scheme (it can quote part of the credentials), and a cause that itself names
-// a URL with credentials. Call it on the error as net/url or net/http returned
-// it; a wrapped one is not changed.
+// scheme (it can quote part of the credentials), a cause for a URL that
+// hidesUserinfo (net/http takes the user name for the host and part of the
+// password for the port; only a canceled or expired context is kept), and a
+// cause that itself names a URL with credentials. Call it on the error as
+// net/url or net/http returned it; a wrapped one is not changed.
 func RedactURLError(err error) error {
 	urlErr, ok := err.(*url.Error)
 	if !ok {
@@ -113,14 +149,40 @@ func RedactURLError(err error) error {
 	// With the scheme left out, "user:password@host" parses with the user name
 	// as its scheme, and net/http quotes that scheme.
 	quotesURL := urlErr.Op == "parse" || !strings.Contains(urlErr.URL, "://")
-	if quotesURL && clean != urlErr.URL {
+	switch {
+	case quotesURL && clean != urlErr.URL:
 		cause = errors.New("invalid URL")
-	} else if cause != nil {
+	case hidesUserinfo(urlErr.URL):
+		cause = contextCauseOnly(cause)
+	case cause != nil:
 		if text := Redact(cause.Error()); text != cause.Error() {
 			cause = errors.New(text)
 		}
 	}
 	return &url.Error{Op: urlErr.Op, URL: clean, Err: cause}
+}
+
+// contextCauseOnly returns the context error that cause matches, which quotes
+// nothing, or a fixed error in its place.
+func contextCauseOnly(cause error) error {
+	for _, known := range []error{context.Canceled, context.DeadlineExceeded} {
+		if errors.Is(cause, known) {
+			return known
+		}
+	}
+	return errors.New("invalid URL")
+}
+
+// RedactReply is Redact for text that a server sent, such as a reply body or an
+// error message in it. Such text can be cut off anywhere, so a URL that ends it
+// before anything ends the host may be the start of a password: everything
+// after its "://" is masked. A complete URL that ends the text with no path is
+// masked too.
+func RedactReply(text string) string {
+	if m := openAuthorityPattern.FindStringSubmatchIndex(text); m != nil {
+		text = text[:m[2]] + redactedPassword + text[m[3]:]
+	}
+	return Redact(text)
 }
 
 // Redact returns text with RedactURL applied to every URL in it and the

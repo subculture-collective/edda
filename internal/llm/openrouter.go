@@ -5,6 +5,7 @@ import (
 	"bytes"
 	"context"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io"
 	"log/slog"
@@ -127,7 +128,9 @@ func (c *OpenRouterClient) Stream(ctx context.Context, messages []Message, tools
 	go func() {
 		defer close(ch)
 		defer func() { _ = resp.Body.Close() }()
-		c.parseSSEStream(ctx, resp.Body, ch)
+		if err := c.parseSSEStream(ctx, resp.Body, ch); err != nil {
+			logStreamFailure(ctx, slog.Default().WithGroup("openrouter"), c.model, err)
+		}
 	}()
 	return ch, nil
 }
@@ -255,39 +258,44 @@ func (c *OpenRouterClient) toResponse(resp *openRouterChatResponse) (*Response, 
 	}, nil
 }
 
-func (c *OpenRouterClient) parseSSEStream(ctx context.Context, body io.Reader, ch chan<- StreamChunk) {
+// parseSSEStream sends the reply's chunks on ch. It returns nil once it has
+// sent a Done chunk, and otherwise why the stream ended without one.
+func (c *OpenRouterClient) parseSSEStream(ctx context.Context, body io.Reader, ch chan<- StreamChunk) error {
 	// Tool argument strings arrive across frames, keyed by the provider index.
 	pending := map[int]*openRouterToolCall{}
 	var order []int
-	finish := func() {
+	finish := func() error {
 		for _, index := range order {
 			tc := pending[index]
 			var args map[string]any
 			if tc.Function.Arguments != "" {
 				if err := json.Unmarshal([]byte(tc.Function.Arguments), &args); err != nil {
-					return
+					return fmt.Errorf("decode arguments for %q: %w", tc.Function.Name, err)
 				}
 			}
 			select {
 			case ch <- StreamChunk{ToolCallDelta: &ToolCall{ID: tc.ID, Name: tc.Function.Name, Arguments: args}}:
 			case <-ctx.Done():
-				return
+				return ctx.Err()
 			}
 		}
 		select {
 		case ch <- StreamChunk{Done: true}:
+			return nil
 		case <-ctx.Done():
+			return ctx.Err()
 		}
 	}
 
 	scanner := bufio.NewScanner(body)
 	scanner.Buffer(make([]byte, 0, 64*1024), 10*1024*1024)
+	// An event that does not decode is skipped. If the stream then ends early,
+	// it is part of the cause.
+	var skipped error
 
 	for scanner.Scan() {
-		select {
-		case <-ctx.Done():
-			return
-		default:
+		if err := ctx.Err(); err != nil {
+			return err
 		}
 
 		line := scanner.Text()
@@ -297,31 +305,31 @@ func (c *OpenRouterClient) parseSSEStream(ctx context.Context, body io.Reader, c
 		data := strings.TrimPrefix(line, "data: ")
 
 		if data == "[DONE]" {
-			finish()
-			return
+			return finish()
 		}
 
 		var ev openRouterStreamChunk
 		if err := json.Unmarshal([]byte(data), &ev); err != nil {
+			skipped = err
 			continue
 		}
 
 		if len(ev.Error) > 0 && string(ev.Error) != "null" {
-			return
+			return openRouterStreamError(ev.Error)
 		}
 		if len(ev.Choices) == 0 {
 			continue
 		}
 		choice := ev.Choices[0]
 		if choice.FinishReason == "error" {
-			return
+			return errors.New(`stream ended with finish_reason "error"`)
 		}
 
 		if choice.Delta.Content != "" {
 			select {
 			case ch <- StreamChunk{ContentDelta: choice.Delta.Content}:
 			case <-ctx.Done():
-				return
+				return ctx.Err()
 			}
 		}
 
@@ -340,10 +348,39 @@ func (c *OpenRouterClient) parseSSEStream(ctx context.Context, body io.Reader, c
 		}
 
 		if choice.FinishReason != "" {
-			finish()
-			return
+			return finish()
 		}
 	}
+	err := scanner.Err()
+	if err != nil {
+		err = fmt.Errorf("read stream: %w", err)
+	} else {
+		err = errors.New("stream ended before [DONE] or a finish_reason")
+	}
+	if skipped != nil {
+		return fmt.Errorf("%w; skipped an event that did not decode: %v", err, skipped)
+	}
+	return err
+}
+
+// openRouterStreamError describes the error object of a stream event. The
+// message is decoded first, so that URLs in it are read without JSON escapes.
+func openRouterStreamError(raw json.RawMessage) error {
+	var apiErr struct {
+		Message string `json:"message"`
+		Code    any    `json:"code"`
+	}
+	if err := json.Unmarshal(raw, &apiErr); err != nil || apiErr.Message == "" {
+		var text string
+		if json.Unmarshal(raw, &text) != nil {
+			text = string(raw)
+		}
+		return fmt.Errorf("openrouter stream error: %s", sanitizeErrorBody(text))
+	}
+	if apiErr.Code == nil {
+		return fmt.Errorf("openrouter stream error: %s", sanitizeErrorBody(apiErr.Message))
+	}
+	return fmt.Errorf("openrouter stream error: %s (code %v)", sanitizeErrorBody(apiErr.Message), apiErr.Code)
 }
 
 func classifyOpenRouterHTTPError(endpoint, model string, statusCode int, body string) error {
@@ -403,7 +440,7 @@ func openRouterAPIError(body string, statusCode int) error {
 		} `json:"error"`
 	}
 	if err := json.Unmarshal([]byte(body), &apiErr); err == nil && apiErr.Error.Message != "" {
-		return fmt.Errorf("openrouter: %s (status %d)", logging.Redact(apiErr.Error.Message), statusCode)
+		return fmt.Errorf("openrouter: %s (status %d)", logging.RedactReply(apiErr.Error.Message), statusCode)
 	}
 	return fmt.Errorf("openrouter error (status %d): %s", statusCode, sanitizeErrorBody(body))
 }
@@ -411,7 +448,7 @@ func openRouterAPIError(body string, statusCode int) error {
 func sanitizeErrorBody(body string) string {
 	const maxLen = 1024
 	// Redact first: a cut inside a URL could hide the @ that marks its password.
-	body = logging.Redact(body)
+	body = logging.RedactReply(body)
 	if len(body) > maxLen {
 		return body[:maxLen] + "..."
 	}

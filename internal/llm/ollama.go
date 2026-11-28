@@ -216,84 +216,91 @@ func (o *OllamaClient) Stream(ctx context.Context, messages []Message, tools []T
 	go func() {
 		defer close(ch)
 		defer func() { _ = resp.Body.Close() }()
-
-		// Peek a small prefix to detect framing without consuming bytes
-		// destructively. We wrap the body in a buffered reader so the
-		// scanner sees the full payload regardless of detection path.
-		reader := bufio.NewReaderSize(resp.Body, 64*1024)
-		sse := isSSEStreamResponse(resp, reader)
-
-		scanner := bufio.NewScanner(reader)
-		scanner.Buffer(make([]byte, 0, 64*1024), 10*1024*1024)
-		for scanner.Scan() {
-			line := scanner.Bytes()
-			var chunkBytes []byte
-
-			if sse {
-				payload, kind, perr := parseSSELine(line)
-				if perr != nil {
-					return
-				}
-				switch kind {
-				case sseLineSkip:
-					continue
-				case sseLineBrokerStatus:
-					if terr := brokerTerminalError(o.errorURL(), payload); terr != nil {
-						// Best-effort terminal: surface via a final empty Done chunk;
-						// the engine layer is responsible for error reporting on Stream
-						// since the channel interface does not carry errors.
-						ollamaLogger().Error("broker terminal status during stream",
-							"error", terr,
-						)
-						return
-					}
-					continue
-				case sseLinePayload:
-					if bytes.Equal(bytes.TrimSpace(payload.Raw), []byte("[DONE]")) {
-						return
-					}
-					chunkBytes = payload.Raw
-				}
-			} else {
-				if len(bytes.TrimSpace(line)) == 0 {
-					continue
-				}
-				chunkBytes = line
-			}
-
-			var chunkResp ollamaChatResponse
-			if err := json.Unmarshal(chunkBytes, &chunkResp); err != nil {
-				return
-			}
-
-			calls, err := fromOllamaToolCalls(chunkResp.Message.ToolCalls)
-			if err != nil {
-				return
-			}
-			// Keep one frame for text-only replies and one per complete call.
-			count := max(1, len(calls))
-			for i := 0; i < count; i++ {
-				chunk := StreamChunk{Done: chunkResp.Done && i == count-1}
-				if i == 0 {
-					chunk.ContentDelta = chunkResp.Message.Content
-				}
-				if i < len(calls) {
-					chunk.ToolCallDelta = &calls[i]
-				}
-				select {
-				case ch <- chunk:
-				case <-ctx.Done():
-					return
-				}
-			}
-
-			if chunkResp.Done {
-				return
-			}
+		if err := o.readStream(ctx, resp, ch); err != nil {
+			logStreamFailure(ctx, ollamaLogger(), o.model, err)
 		}
 	}()
 
 	return ch, nil
+}
+
+// readStream sends the reply's chunks on ch. It returns nil once it has sent a
+// Done chunk, and otherwise why the stream ended without one.
+func (o *OllamaClient) readStream(ctx context.Context, resp *http.Response, ch chan<- StreamChunk) error {
+	// Peek a small prefix to detect framing without consuming bytes
+	// destructively. We wrap the body in a buffered reader so the
+	// scanner sees the full payload regardless of detection path.
+	reader := bufio.NewReaderSize(resp.Body, 64*1024)
+	sse := isSSEStreamResponse(resp, reader)
+
+	scanner := bufio.NewScanner(reader)
+	scanner.Buffer(make([]byte, 0, 64*1024), 10*1024*1024)
+	for scanner.Scan() {
+		line := scanner.Bytes()
+		var chunkBytes []byte
+
+		if sse {
+			payload, kind, perr := parseSSELine(line)
+			if perr != nil {
+				return perr
+			}
+			switch kind {
+			case sseLineSkip:
+				continue
+			case sseLineBrokerStatus:
+				// The channel carries no errors, so a terminal status only ends
+				// the stream without Done.
+				if terr := brokerTerminalError(o.errorURL(), payload); terr != nil {
+					return terr
+				}
+				continue
+			case sseLinePayload:
+				if bytes.Equal(bytes.TrimSpace(payload.Raw), []byte("[DONE]")) {
+					return errors.New("stream sent [DONE] before a final reply")
+				}
+				chunkBytes = payload.Raw
+			}
+		} else {
+			if len(bytes.TrimSpace(line)) == 0 {
+				continue
+			}
+			chunkBytes = line
+		}
+
+		var chunkResp ollamaChatResponse
+		if err := json.Unmarshal(chunkBytes, &chunkResp); err != nil {
+			return fmt.Errorf("decode stream chunk: %w", err)
+		}
+
+		calls, err := fromOllamaToolCalls(chunkResp.Message.ToolCalls)
+		if err != nil {
+			return err
+		}
+		// Keep one frame for text-only replies and one per complete call.
+		count := max(1, len(calls))
+		for i := 0; i < count; i++ {
+			chunk := StreamChunk{Done: chunkResp.Done && i == count-1}
+			if i == 0 {
+				chunk.ContentDelta = chunkResp.Message.Content
+			}
+			if i < len(calls) {
+				chunk.ToolCallDelta = &calls[i]
+			}
+			select {
+			case ch <- chunk:
+			case <-ctx.Done():
+				return ctx.Err()
+			}
+		}
+
+		if chunkResp.Done {
+			return nil
+		}
+	}
+	if err := scanner.Err(); err != nil {
+		return fmt.Errorf("read stream: %w", err)
+	}
+	return errors.New("stream ended before a final reply")
 }
 
 func (o *OllamaClient) callChat(ctx context.Context, messages []Message, tools []Tool, stream bool) (*http.Response, error) {
@@ -475,7 +482,7 @@ func brokerTerminalError(endpoint string, evt brokerStatusEvent) error {
 	endpoint = logging.RedactURL(endpoint)
 	switch evt.Status {
 	case brokerStatusOllamaUnavail:
-		msg := logging.Redact(evt.Message)
+		msg := logging.RedactReply(evt.Message)
 		if msg == "" {
 			msg = "ollama unavailable"
 		}
@@ -538,7 +545,7 @@ func formatConnectionError(endpoint string, err error) error {
 
 func classifyHTTPError(endpoint, model string, statusCode int, body string) error {
 	endpoint = logging.RedactURL(endpoint)
-	baseErr := fmt.Errorf("ollama chat request failed with status %d: %s", statusCode, logging.Redact(body))
+	baseErr := fmt.Errorf("ollama chat request failed with status %d: %s", statusCode, logging.RedactReply(body))
 
 	switch statusCode {
 	case http.StatusUnauthorized, http.StatusForbidden:

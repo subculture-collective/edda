@@ -2,7 +2,9 @@ package logging
 
 import (
 	"bytes"
+	"context"
 	"errors"
+	"fmt"
 	"io"
 	"log/slog"
 	"net/url"
@@ -33,6 +35,30 @@ func TestRedactURL(t *testing.T) {
 		{"scheme left out", "user:fake-pass@h.example:11434", "h.example:11434"},
 		{"scheme left out with query", "h.example:11434/api?api_key=fake&b=2", "h.example:11434/api?b=2"},
 		{"plain host without scheme", "h.example:11434", "h.example:11434"},
+
+		// Secret query parameter names: the suffix rule, in any case.
+		{"suffix rule", "http://h.example/x?x-api-key=fake1&subscription-key=fake2&private_token=fake3&X-Amz-Signature=fake4&model=a", "http://h.example/x?model=a"},
+		{"suffix rule in any case", "http://h.example/x?SessionToken=fake1&CLIENT_SECRET=fake2&DbPassword=fake3&Ocp-Apim-Subscription-KEY=fake4&X-Amz-Security-Token=fake5&page=2", "http://h.example/x?page=2"},
+		{"escaped query name", "http://h.example/x?x%2Dapi%2Dkey=fake1&page=2", "http://h.example/x?page=2"},
+		{"exact names", "http://h.example/x?passwd=fake1&pass=fake2&auth=fake3&Authorization=fake4&sig=fake5&page=2", "http://h.example/x?page=2"},
+		{"ordinary params survive", "http://h.example/x?model=a&page=2&max_tokens=5&keyword=b&tokenizer=c&author=d&signed=e", "http://h.example/x?model=a&page=2&max_tokens=5&keyword=b&tokenizer=c&author=d&signed=e"},
+
+		// Unescaped userinfo that url.Parse reads as host, port and path.
+		{"digits then slash in password", "http://fake-user:12/fake34@h.example", "http://h.example"},
+		{"digits then slash in password, with path", "http://fake-user:12/fake34@h.example:11434/api/chat", "http://h.example:11434/api/chat"},
+		{"digits then question mark in password", "http://fake-user:12?fake34@h.example", "http://xxxxx"},
+		{"digits then hash in password", "http://fake-user:12#fake34@h.example", "http://xxxxx"},
+		{"at sign then slash in password", "http://fake-user:fake@ss/fake-word@h.example/x", "http://h.example/x"},
+		{"slash in a token used as user name", "http://fake/fake-token@h.example", "http://h.example"},
+		{"slash in the user name", "http://fake.us/er:fake-pass@h.example", "http://h.example"},
+		{"postgres digits then slash in password", "postgres://edda:12/fake@db.example/edda", "postgres://db.example/edda"},
+		{"scheme left out, digits then slash", "fake-user:12/fake34@h.example:11434", "h.example:11434"},
+		{"valid userinfo with a path", "https://fake-user:fake-pass@h.example/a/b?page=2", "https://h.example/a/b?page=2"},
+		{"at sign in a path", "https://cdn.example/npm/pkg@1.2.3/file.js", "https://cdn.example/npm/pkg@1.2.3/file.js"},
+		{"at sign in a localhost path", "http://localhost/users/a@b.example", "http://localhost/users/a@b.example"},
+		{"at sign in a query", "http://h.example/search?q=a@b.example&page=2", "http://h.example/search?q=a@b.example&page=2"},
+		// With a port the text could be user:password, so it is cut.
+		{"at sign in a path after a port", "http://h.example:8080/users/a@b.example", "http://b.example"},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -151,5 +177,54 @@ func TestRedactURLError(t *testing.T) {
 	}
 	if RedactURLError(nil) != nil {
 		t.Error("nil changed")
+	}
+}
+
+// A reply from a provider can be cut off anywhere, so a URL that ends it
+// without reaching the end of its host may be the start of a password.
+func TestRedactReply(t *testing.T) {
+	tests := []struct {
+		name, in, want string
+	}{
+		{"cut in a password", "cannot reach http://fake-user:fake-pa", "cannot reach http://xxxxx"},
+		{"cut after a digit password", "cannot reach http://fake-user:12", "cannot reach http://xxxxx"},
+		{"cut in a token", "cannot reach https://fake-tok", "cannot reach https://xxxxx"},
+		{"cut in a database url", "open postgres://edda:fake-pa", "open postgres://xxxxx"},
+		{"cut inside json", `{"error":{"message":"proxy failed for http://fake-user:fake-pa`, `{"error":{"message":"proxy failed for http://xxxxx`},
+		{"cut after the scheme", "cannot reach http://", "cannot reach http://"},
+		{"trailing newline", "cannot reach http://fake-user:fake-pa\n", "cannot reach http://xxxxx\n"},
+		{"an ellipsis added by the sender", "cannot reach http://fake-user:fake-pa...", "cannot reach http://xxxxx..."},
+		{"only the last url is cut", "a http://u:fake1@a.example/x b http://fake-user:fake2", "a http://a.example/x b http://xxxxx"},
+		{"cut after a path", "cannot reach http://fake-user:fake-pass@h.example/ap", "cannot reach http://h.example/ap"},
+		{"cut in a query value", "get http://h.example/x?private_token=fake-to", "get http://h.example/x"},
+		{"host followed by a path", "cannot reach http://h.example/", "cannot reach http://h.example/"},
+		{"host followed by text", "http://h.example refused", "http://h.example refused"},
+		{"host in a complete json string", `{"url":"http://h.example"}`, `{"url":"http://h.example"}`},
+		{"no url", "model not found", "model not found"},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := RedactReply(tt.in); got != tt.want {
+				t.Errorf("RedactReply(%q) = %q, want %q", tt.in, got, tt.want)
+			}
+		})
+	}
+}
+
+// net/http accepts "user:12/34@host" as host "user" and port "12", so its cause
+// names both pieces.
+func TestRedactURLErrorAmbiguousUserinfo(t *testing.T) {
+	raw := "http://fake-user:12/fake34@h.example"
+	got := RedactURLError(&url.Error{Op: "Get", URL: raw, Err: errors.New("dial tcp: lookup fake-user: no such host")})
+	if strings.Contains(got.Error(), "fake") {
+		t.Errorf("error = %q holds a credential", got)
+	}
+	got = RedactURLError(&url.Error{Op: "Get", URL: raw, Err: context.Canceled})
+	if !errors.Is(got, context.Canceled) {
+		t.Errorf("error = %q no longer matches context.Canceled", got)
+	}
+	got = RedactURLError(&url.Error{Op: "Get", URL: raw, Err: fmt.Errorf("dial fake-user: %w", context.DeadlineExceeded)})
+	if !errors.Is(got, context.DeadlineExceeded) || strings.Contains(got.Error(), "fake") {
+		t.Errorf("error = %q, want a bare deadline error", got)
 	}
 }

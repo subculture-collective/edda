@@ -600,7 +600,7 @@ func sanitizeClaudeErrorField(s string) string {
 			return r
 		}
 	}, s)
-	return logging.Redact(strings.Join(strings.Fields(s), " "))
+	return logging.RedactReply(strings.Join(strings.Fields(s), " "))
 }
 
 type claudeMessagesRequest struct {
