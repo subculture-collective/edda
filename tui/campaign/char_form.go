@@ -125,8 +125,6 @@ func (m CharFormModel) View() string {
 	title := styles.Header.Render("✦ Character Creation")
 	body := m.form.View()
 	content := styles.JoinVertical(title, "", body)
-	return styles.Container.
-		Width(m.width).
-		Height(m.height).
+	return styles.Frame(styles.Container, m.width, m.height).
 		Render(content)
 }

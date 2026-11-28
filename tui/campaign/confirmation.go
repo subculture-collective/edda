@@ -130,8 +130,6 @@ func (m ConfirmationModel) View() string {
 
 	b.WriteString(styles.JoinHorizontal(beginBtn, "    ", backBtn))
 
-	return styles.Container.
-		Width(m.width).
-		Height(m.height).
+	return styles.Frame(styles.Container, m.width, m.height).
 		Render(b.String())
 }

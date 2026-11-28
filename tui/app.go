@@ -247,9 +247,7 @@ func (a App) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	}
 	switch msg := msg.(type) {
 	case tea.WindowSizeMsg:
-		a.width = msg.Width
-		a.height = msg.Height
-		a.propagateSizes()
+		a.resize(msg.Width, msg.Height)
 
 	case tea.KeyMsg:
 		switch msg.String() {
@@ -695,6 +693,13 @@ func (a App) chrome() (titleBar, statusBar string) {
 		hints,
 	))
 	return
+}
+
+// resize records the terminal size and lays out all sub-views for it.
+func (a *App) resize(width, height int) {
+	a.width = width
+	a.height = height
+	a.propagateSizes()
 }
 
 // propagateSizes pushes the current terminal dimensions down to all sub-views,

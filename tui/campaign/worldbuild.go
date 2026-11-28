@@ -126,10 +126,13 @@ func (m WorldBuildModel) View() string {
 		content = m.spinner.View() + "  " + styles.Body.Render(m.stage)
 	}
 
-	return styles.Container.
-		Width(m.width).
-		Height(m.height).
-		Render(styles.Place(m.width, m.height, content))
+	box := styles.Frame(styles.Container, m.width, m.height)
+	innerWidth := max(m.width-box.GetHorizontalFrameSize(), 0)
+	innerHeight := max(m.height-box.GetVerticalFrameSize(), 0)
+	if lipgloss.Width(content) > innerWidth {
+		content = lipgloss.NewStyle().Width(innerWidth).Render(content)
+	}
+	return box.Render(styles.Place(innerWidth, innerHeight, content))
 }
 
 func publishStage(ch chan string, stage string) {

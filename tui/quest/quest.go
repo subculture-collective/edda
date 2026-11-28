@@ -93,7 +93,7 @@ func (m Model) View() string {
 	}
 
 	content := strings.Join(sections, "\n\n")
-	return styles.Container.Width(m.width).Render(
+	return styles.Frame(styles.Container, m.width, 0).Render(
 		styles.JoinVertical(title, "", content),
 	)
 }

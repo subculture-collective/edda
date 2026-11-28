@@ -12,6 +12,7 @@ import (
 	"github.com/charmbracelet/bubbles/viewport"
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/lipgloss"
+	"github.com/charmbracelet/x/ansi"
 
 	"git.subcult.tv/subculture-collective/edda/internal/logging"
 	"git.subcult.tv/subculture-collective/edda/tui/styles"
@@ -59,7 +60,7 @@ func (m *Model) SetSize(w, h int) {
 	m.height = h
 
 	vpW := max(w-4, 0) // border (2) + padding (2)
-	vpH := max(h-2, 0) // top + bottom border
+	vpH := max(h-4, 0) // border (2) + header and footer lines
 	m.viewport.Width = vpW
 	m.viewport.Height = vpH
 
@@ -153,13 +154,13 @@ func (m Model) View() string {
 
 	content := m.viewport.View()
 
-	return container.
-		Width(m.width).
-		Height(m.height).
-		BorderTop(true).
-		BorderBottom(true).
-		BorderLeft(true).
-		BorderRight(true).
+	// A wrapped header or footer would add rows to the panel.
+	if w := m.viewport.Width; w > 0 {
+		header = ansi.Truncate(header, w, "…")
+		footer = ansi.Truncate(footer, w, "…")
+	}
+
+	return styles.Frame(container, m.width, m.height).
 		Render(
 			lipgloss.JoinVertical(lipgloss.Left,
 				styles.Muted.Render(header),
