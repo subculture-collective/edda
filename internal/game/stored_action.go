@@ -46,6 +46,7 @@ type StoredAction struct {
 	LightItem      string
 	Door           *KnownDoor
 	Fall           *DeclaredFall
+	Travel         []TravelOption
 }
 
 // PrepareStoredAction is shared by API preparation and transactional confirmation.

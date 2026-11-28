@@ -107,6 +107,10 @@ func (e *Engine) ConfirmAction(ctx context.Context, campaignID uuid.UUID, reques
 		} else if request.TargetID != pc.ID && !((request.Intent.Kind == srd521.ConsumableUse || (request.Intent.Kind == srd521.SpellCast && (request.Intent.EntryID == "cure-wounds" || request.Intent.EntryID == "shield-of-faith"))) && prepared.HealingTarget(request.TargetID) != nil) {
 			return nil, ErrActionRefresh
 		}
+	} else if request.Intent.Kind == srd521.TravelHour {
+		if prepared.TravelOption(request.TargetID) == nil {
+			return nil, ErrActionRefresh
+		}
 	} else if request.Intent.Kind != srd521.MartialAttack && request.Intent.Kind != combat.EncounterStart && request.Intent.Kind != combat.EncounterReact && request.TargetID != uuid.Nil {
 		return nil, ErrActionRefresh
 	}
@@ -432,6 +436,13 @@ func (e *Engine) ConfirmAction(ctx context.Context, campaignID uuid.UUID, reques
 		}
 		receipt, tool, label = door, "srd_door", "Open door"
 		narrative = door.Reason
+	} else if request.Intent.Kind == srd521.TravelHour {
+		travel, err := confirmTravel(ctx, tx, campaignID, pc, prepared, request)
+		if err != nil {
+			return nil, err
+		}
+		receipt, tool, label = travel, "srd_travel", "Travel"
+		narrative = travel.Reason
 	} else if game.IsLightIntent(request.Intent) {
 		light, err := confirmLight(ctx, tx, campaignID, pc, sheet, prepared, request)
 		if err != nil {
