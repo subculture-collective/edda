@@ -170,38 +170,9 @@ func engineStateChangesToAPI(changes []engine.StateChange) []api.StateChange {
 func engineResolutionEventsToAPI(applied []engine.AppliedToolCall) []api.ResolutionEvent {
 	out := make([]api.ResolutionEvent, 0)
 	for _, call := range applied {
-		if call.Tool == "srd_effect" || call.Tool == "srd_encounter" || call.Tool == "srd_spell" || call.Tool == "srd_attack" || call.Tool == "srd_consumable" {
-			var result struct {
-				Receipt *srd521.EffectReceipt   `json:"receipt"`
-				Effects []*srd521.EffectReceipt `json:"concentration_receipts"`
-			}
-			if json.Unmarshal(call.Result, &result) == nil {
-				if call.Tool == "srd_effect" {
-					result.Effects = append(result.Effects, result.Receipt)
-				}
-				for _, r := range result.Effects {
-					if r != nil && r.RulesVersion == "srd-5.2.1" {
-						out = append(out, api.ResolutionEvent{Type: "srd_effect", Label: "Caster effects and recovery", Outcome: r.Reason, Details: map[string]any{"receipt": r}})
-					}
-				}
-			}
-		}
 		if call.Tool == "srd_encounter" {
-			var result struct {
-				NPCReceipts []*srd521.AttackReceipt `json:"npc_receipts"`
-				// A player turn that starts at 0 HP: the repair of a missing
-				// Unconscious, if due, then the Death Saving Throw.
-				Repair    *srd521.ZeroHPReceipt `json:"unconscious_repair"`
-				DeathSave *srd521.ZeroHPReceipt `json:"death_save"`
-			}
-			if json.Unmarshal(call.Result, &result) == nil {
-				for _, receipt := range result.NPCReceipts {
-					if receipt != nil && receipt.RulesVersion == "srd-5.2.1" && (receipt.Weapon == "Unarmed Strike" || receipt.Weapon == "Scimitar" || receipt.Weapon == "Light Crossbow" || receipt.Weapon == "Bite" || receipt.Weapon == "Claw") {
-						out = append(out, api.ResolutionEvent{Type: "srd_attack", Label: "NPC " + receipt.Weapon, Outcome: receipt.Outcome, Details: map[string]any{"receipt": receipt}})
-					}
-				}
-				out = appendZeroHPEvents(out, result.Repair, result.DeathSave)
-			}
+			out = appendEncounterEvents(out, call.Result)
+			continue
 		}
 		switch call.Tool {
 		case "skill_check":
@@ -307,6 +278,63 @@ func engineResolutionEventsToAPI(applied []engine.AppliedToolCall) []api.Resolut
 			if event, ok := srdCheckResolutionEvent(call); ok {
 				out = append(out, event)
 			}
+		}
+		// These follow the action's own receipt: only a clock advance adds
+		// them, apart from the lifecycle action whose receipt comes first.
+		if call.Tool == "srd_effect" || call.Tool == "srd_spell" || call.Tool == "srd_attack" || call.Tool == "srd_consumable" {
+			var result struct {
+				Receipt *srd521.EffectReceipt   `json:"receipt"`
+				Effects []*srd521.EffectReceipt `json:"concentration_receipts"`
+			}
+			if json.Unmarshal(call.Result, &result) == nil {
+				if call.Tool == "srd_effect" {
+					out = appendEffectEvents(out, result.Receipt)
+				}
+				out = appendEffectEvents(out, result.Effects...)
+			}
+		}
+	}
+	return out
+}
+
+// appendEncounterEvents adds an encounter action's receipts in the order they
+// were resolved: each NPC attack and the Concentration saves it caused, the new
+// player turn's 0 HP receipts, then effects the clock expired. A record without
+// concentration_after_attack lists its saves after all the attacks.
+func appendEncounterEvents(out []api.ResolutionEvent, raw json.RawMessage) []api.ResolutionEvent {
+	var result struct {
+		NPCReceipts []*srd521.AttackReceipt `json:"npc_receipts"`
+		Effects     []*srd521.EffectReceipt `json:"concentration_receipts"`
+		// AfterAttack numbers, from 1, the attack that caused each save.
+		AfterAttack []int `json:"concentration_after_attack"`
+		// A player turn that starts at 0 HP: the repair of a missing
+		// Unconscious, if due, then the Death Saving Throw.
+		Repair    *srd521.ZeroHPReceipt `json:"unconscious_repair"`
+		DeathSave *srd521.ZeroHPReceipt `json:"death_save"`
+	}
+	if json.Unmarshal(raw, &result) != nil {
+		return out
+	}
+	saved := 0
+	for i, receipt := range result.NPCReceipts {
+		if receipt != nil && receipt.RulesVersion == "srd-5.2.1" && (receipt.Weapon == "Unarmed Strike" || receipt.Weapon == "Scimitar" || receipt.Weapon == "Light Crossbow" || receipt.Weapon == "Bite" || receipt.Weapon == "Claw") {
+			out = append(out, api.ResolutionEvent{Type: "srd_attack", Label: "NPC " + receipt.Weapon, Outcome: receipt.Outcome, Details: map[string]any{"receipt": receipt}})
+		}
+		for saved < min(len(result.AfterAttack), len(result.Effects)) && result.AfterAttack[saved] == i+1 {
+			out = appendEffectEvents(out, result.Effects[saved])
+			saved++
+		}
+	}
+	out = appendZeroHPEvents(out, result.Repair, result.DeathSave)
+	return appendEffectEvents(out, result.Effects[saved:]...)
+}
+
+// appendEffectEvents adds each saved caster effect receipt, skipping those that
+// are absent.
+func appendEffectEvents(out []api.ResolutionEvent, receipts ...*srd521.EffectReceipt) []api.ResolutionEvent {
+	for _, r := range receipts {
+		if r != nil && r.RulesVersion == "srd-5.2.1" {
+			out = append(out, api.ResolutionEvent{Type: "srd_effect", Label: "Caster effects and recovery", Outcome: r.Reason, Details: map[string]any{"receipt": r}})
 		}
 	}
 	return out

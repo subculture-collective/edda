@@ -1,4 +1,5 @@
 import { ActionSurgeReceipt } from '../character/ActionSurgeReceipt';
+import { TacticalReceipt, type TacticalMindReceipt } from '../character/TacticalReceipt';
 import { EquipmentReceipt } from '../character/EquipmentReceipt';
 import { AdvancementReceipt } from '../character/AdvancementReceipt';
 import type { ResolutionEvent, StateChange } from '../../api/types';
@@ -123,7 +124,9 @@ export function NarrativeEntry({ entry, className }: NarrativeEntryProps) {
   );
 }
 
-function ResolutionEventBadge({ event }: { readonly event: ResolutionEvent }) {
+// The turn history and the action panel show each saved receipt the same way.
+export function ResolutionEventBadge({ event }: { readonly event: ResolutionEvent }) {
+  if (event.type === 'srd_tactical_mind' && event.details.receipt) return <TacticalReceipt receipt={event.details.receipt as TacticalMindReceipt} />;
   if (event.type === 'srd_action_surge' && event.details.receipt) return <ActionSurgeReceipt receipt={event.details.receipt as import('../../api/types').ActionSurgeReceipt} />;
   if (event.type === 'srd_advancement' && event.details.receipt) return <AdvancementReceipt receipt={event.details.receipt as import('../../api/types').AdvancementReceipt} />;
   if (event.type === 'srd_effect' && event.details.receipt) return <EffectReceipt receipt={event.details.receipt as import('../../api/types').EffectReceipt} />;

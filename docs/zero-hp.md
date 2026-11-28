@@ -84,6 +84,12 @@ The API sends the encounter's `unconscious_repair` and `death_save`, and the
 `receipt` of an `srd_death_save` call, as `srd_death_save` resolution events,
 live and in history. The web shows each as a 0 HP receipt.
 
+Resolution events are listed in the order the engine resolved them, and the web
+shows them in that order. In an encounter turn, each NPC attack comes before the
+Concentration saves it caused (`concentration_after_attack` records which attack
+caused each one), then the 0 HP receipts, then any effect the clock expired.
+Turns saved without that field list their saves after all the attacks.
+
 Every roll is in a durable receipt (`zero_hp` on fall and NPC attack receipts,
 `death_save` on the encounter result, `srd_death_save` for the explicit
 action). Previews never roll or write. Replays return the saved result.

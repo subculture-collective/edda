@@ -7,6 +7,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"slices"
 	"testing"
 
 	"git.subcult.tv/subculture-collective/edda/internal/combat"
@@ -247,11 +248,16 @@ func TestIntegrationCasterLifecycle(t *testing.T) {
 		t.Fatalf("damage result=%+v clock=%d calls=%d", s, after, dice.calls)
 	}
 	var payload struct {
-		Effects []srd521.EffectReceipt `json:"concentration_receipts"`
+		Effects     []srd521.EffectReceipt `json:"concentration_receipts"`
+		AfterAttack []int                  `json:"concentration_after_attack"`
 	}
 	must(json.Unmarshal(end.AppliedToolCalls[0].Result, &payload))
 	if len(payload.Effects) != 1 || payload.Effects[0].Check == nil || payload.Effects[0].Check.Outcome != "failure" {
 		t.Fatalf("effects=%+v", payload)
+	}
+	// The save follows the attack that caused it.
+	if !slices.Equal(payload.AfterAttack, []int{1}) {
+		t.Fatalf("save order=%v", payload.AfterAttack)
 	}
 	replay, err = newEngine().ConfirmAction(ctx, campaign, endReq)
 	must(err)

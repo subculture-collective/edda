@@ -13,7 +13,9 @@ import (
 
 // resolveEncounterNPC runs the fixture's NPC turn under the confirmation
 // transaction. Both HP effects and dice receipts commit with the turn cursor.
-func resolveEncounterNPC(ctx context.Context, tx pgx.Tx, campaignID uuid.UUID, encounter *combat.Encounter, sheet *srd521.CharacterSheet, dice srd521.Dice) ([]*srd521.AttackReceipt, []*srd521.EffectReceipt, error) {
+// It appends to effectsAfter, for each effect it returns, the number (from 1)
+// of the attack that caused it.
+func resolveEncounterNPC(ctx context.Context, tx pgx.Tx, campaignID uuid.UUID, encounter *combat.Encounter, sheet *srd521.CharacterSheet, dice srd521.Dice, effectsAfter *[]int) ([]*srd521.AttackReceipt, []*srd521.EffectReceipt, error) {
 	receipts := []*srd521.AttackReceipt{}
 	effects := []*srd521.EffectReceipt{}
 	if encounter.Status != "active" || encounter.Active().Player || encounter.Reaction.Pending != nil {
@@ -125,6 +127,9 @@ func resolveEncounterNPC(ctx context.Context, tx pgx.Tx, campaignID uuid.UUID, e
 			return nil, nil, err
 		}
 		effects = append(effects, damage.Concentration...)
+		for range damage.Concentration {
+			*effectsAfter = append(*effectsAfter, i+1)
+		}
 		attack.ZeroHP = damage.ZeroHP
 		receipts = append(receipts, attack)
 	}
