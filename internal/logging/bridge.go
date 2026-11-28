@@ -2,16 +2,15 @@ package logging
 
 import (
 	"context"
+	"encoding/json"
 	"io"
 	"log/slog"
 	"strings"
-	"time"
 
 	"github.com/charmbracelet/log"
-	"github.com/muesli/termenv"
 )
 
-// BridgeWriter adapts charmbracelet/log text output into slog records.
+// BridgeWriter adapts charmbracelet/log JSON output into slog records.
 type BridgeWriter struct {
 	logger *slog.Logger
 }
@@ -22,69 +21,110 @@ func NewBridgeWriter(logger *slog.Logger) io.Writer {
 }
 
 // NewCharmLogger returns the charmbracelet/log logger that the commands point at
-// a bridge writer. parseBridgeLine relies on this setup: the text format, the
-// default time format and no color.
+// a bridge writer. parseBridgeLine relies on this setup: the JSON format and no
+// timestamp, since the slog record carries the time. The text format does not
+// escape the message or the prefix, so its parts cannot be told apart.
 func NewCharmLogger(w io.Writer) *log.Logger {
-	logger := log.NewWithOptions(w, log.Options{ReportTimestamp: true})
-	// CLICOLOR_FORCE would otherwise put escape codes around the level token.
-	logger.SetColorProfile(termenv.Ascii)
-	return logger
+	return log.NewWithOptions(w, log.Options{Formatter: log.JSONFormatter})
 }
 
-// Write parses a single text log line, infers its level, and forwards it to slog.
+// Write forwards one charmbracelet/log record to slog. A prefix becomes a group,
+// which names the service. Any other line is recorded whole, as info.
 func (w *BridgeWriter) Write(p []byte) (int, error) {
-	line := strings.TrimSuffix(string(p), "\n")
-	line = strings.TrimSuffix(line, "\r")
-	if strings.TrimSpace(line) == "" || w.logger == nil {
+	line := strings.TrimSpace(string(p))
+	if line == "" || w.logger == nil {
 		return len(p), nil
 	}
 
-	level, msg := parseBridgeLine(line)
-	w.logger.Log(context.Background(), level, msg)
+	record, ok := parseBridgeLine(line)
+	if !ok {
+		record = bridgeRecord{level: slog.LevelInfo, message: line}
+	}
+	logger := w.logger
+	if record.prefix != "" {
+		logger = logger.WithGroup(record.prefix)
+	}
+	logger.LogAttrs(context.Background(), record.level, record.message, record.attrs...)
 	return len(p), nil
 }
 
-// bridgeLevels maps the level tokens of charmbracelet/log's text format. slog
-// has no fatal level, so FATA is recorded as an error.
+// bridgeLevels maps charmbracelet/log's level names. slog has no fatal level, so
+// fatal is recorded as an error.
 var bridgeLevels = map[string]slog.Level{
-	"DEBU": slog.LevelDebug,
-	"INFO": slog.LevelInfo,
-	"WARN": slog.LevelWarn,
-	"ERRO": slog.LevelError,
-	"FATA": slog.LevelError,
+	log.DebugLevel.String(): slog.LevelDebug,
+	log.InfoLevel.String():  slog.LevelInfo,
+	log.WarnLevel.String():  slog.LevelWarn,
+	log.ErrorLevel.String(): slog.LevelError,
+	log.FatalLevel.String(): slog.LevelError,
 }
 
-// parseBridgeLine reads the level token, which is the first word of the line or
-// the one after the timestamp. A timestamped line is kept whole as the message;
-// otherwise the token is dropped. A line without a token is recorded as info.
-func parseBridgeLine(line string) (slog.Level, string) {
-	trimmed := strings.TrimSpace(line)
-	rest, timestamped := cutBridgeTimestamp(trimmed)
+type bridgeRecord struct {
+	level   slog.Level
+	prefix  string
+	message string
+	attrs   []slog.Attr
+}
 
-	token, msg := rest, ""
-	if end := strings.IndexAny(rest, " \n"); end >= 0 {
-		token, msg = rest[:end], rest[end:]
+// parseBridgeLine reads one JSON record. charmbracelet/log writes the level,
+// prefix and message first, in that order, leaving out any that it lacks, and
+// then the key/value pairs. A pair may reuse one of those three names, so each
+// is read only from its place. A record without a level, from Print, is info.
+func parseBridgeLine(line string) (bridgeRecord, bool) {
+	record := bridgeRecord{level: slog.LevelInfo}
+	if !strings.HasPrefix(line, "{") || !json.Valid([]byte(line)) {
+		return record, false
 	}
 
-	level, ok := bridgeLevels[token]
+	dec := json.NewDecoder(strings.NewReader(line))
+	if _, err := dec.Token(); err != nil {
+		return record, false
+	}
+	const (
+		atLevel = iota
+		atPrefix
+		atMessage
+		atFields
+	)
+	// next is the earliest part that the following key can still be.
+	next := atLevel
+	for dec.More() {
+		token, err := dec.Token()
+		if err != nil {
+			return record, false
+		}
+		key, _ := token.(string)
+		var raw json.RawMessage
+		if err := dec.Decode(&raw); err != nil {
+			return record, false
+		}
+		value := bridgeValue(raw)
+
+		level, isLevel := bridgeLevels[value]
+		switch {
+		case next == atLevel && key == log.LevelKey && isLevel:
+			record.level, next = level, atPrefix
+		case next <= atPrefix && key == log.PrefixKey:
+			record.prefix, next = value, atMessage
+		case next <= atMessage && key == log.MessageKey:
+			record.message, next = value, atFields
+		default:
+			record.attrs = append(record.attrs, slog.String(key, value))
+			next = atFields
+		}
+	}
+	return record, true
+}
+
+// bridgeValue returns a string value as it was logged and any other value as its
+// JSON text. null is written as slog writes a nil value.
+func bridgeValue(raw json.RawMessage) string {
+	var text string
 	switch {
-	case !ok:
-		return slog.LevelInfo, trimmed
-	case timestamped:
-		return level, trimmed
+	case string(raw) == "null":
+		return "<nil>"
+	case json.Unmarshal(raw, &text) == nil:
+		return text
 	default:
-		return level, strings.TrimSpace(msg)
+		return string(raw)
 	}
-}
-
-// cutBridgeTimestamp removes a leading timestamp in the default time format.
-func cutBridgeTimestamp(line string) (string, bool) {
-	const width = len(log.DefaultTimeFormat)
-	if len(line) <= width || line[width] != ' ' {
-		return line, false
-	}
-	if _, err := time.Parse(log.DefaultTimeFormat, line[:width]); err != nil {
-		return line, false
-	}
-	return line[width+1:], true
 }
