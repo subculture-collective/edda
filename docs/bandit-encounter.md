@@ -20,19 +20,41 @@ No production data is seeded or migrated.
 The existing campaign, player, location, prior encounter, hidden-NPC, ownership,
 turn and spatial checks still apply. The instance retains its stored HP; public
 previews omit NPC HP and private tactics. AC 12, initiative +1, walk speed 30,
-and both named weapons come from the pinned record. The NPC's selected action
-is explicit configuration, rather than an AI weapon-selection policy. Preview
-lists the named actions with their current geometry eligibility; End turn
-previews the configured attack. Changes to its profile require adjudication
-rather than silently changing an active encounter's rules.
+and both named weapons come from the pinned record. Changes to its profile
+require adjudication rather than silently changing an active encounter's rules.
+
+Starting the encounter needs a current profile (revision and a supported
+`action_id`) and declared facts: exact distance, line of sight and cover. A
+missing or unrecognized fact refuses the start before any roll. No weapon has to
+be legal at the starting distance, because the Bandit picks one on its turn.
+As with the ordinary fixture, declared facts such as an unseen target or total
+cover do not block the start. The start preview lists both named actions with
+their eligibility at the declared geometry, before any approach, and shows the
+Light Crossbow's 80-foot normal range as the target's reach.
 
 Scimitar requires visible melee reach within 5 feet. Light Crossbow requires a
 visible target beyond 5 feet and within its normal 80-foot range. Half and
-three-quarters cover use the existing symmetric AC bonus. Unseen targets, total
-cover, unresolved facts, close ranged attacks and long range fail closed; this
-fixture does not resolve their advantage/disadvantage mechanics. It creates no
-path or movement ruling. The existing explicitly configured withdrawal/reaction
-path remains separate from weapon selection.
+three-quarters cover use the existing symmetric AC bonus. The fixture does not
+model Disadvantage for the Bandit, so it never makes a ranged attack within
+5 feet or at long range (81 to 320 feet).
+
+On its turn the Bandit picks its weapon from the declared distance, whichever
+action was configured:
+
+- Within 5 feet it attacks with the Scimitar.
+- Beyond 5 feet and within 80 feet it shoots the Light Crossbow from where it
+  stands. Its stat block gives it a ranged weapon, so it does not need to close
+  to melee.
+- Beyond 80 feet it first walks up to its 30-foot speed toward the player in
+  5-foot steps on a clear path, the same approach the Beasts use. If it ends
+  within 80 feet it shoots; otherwise it takes its turn without attacking.
+- With no legal attack (an unseen target, total cover, a blocked path beyond
+  80 feet) it takes its turn without attacking and the encounter continues.
+
+The End turn preview names the movement and the weapon. Unresolved distance,
+sight or cover facts still refuse the turn before any roll. The existing
+explicitly configured withdrawal/reaction path remains separate from weapon
+selection.
 
 ## Persistence and presentation
 

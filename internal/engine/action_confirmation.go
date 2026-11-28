@@ -6,7 +6,6 @@ import (
 	"errors"
 	"fmt"
 	"math/rand/v2"
-	"strings"
 
 	"git.subcult.tv/subculture-collective/edda/internal/combat"
 	"git.subcult.tv/subculture-collective/edda/internal/db"
@@ -154,6 +153,7 @@ func (e *Engine) ConfirmAction(ctx context.Context, campaignID uuid.UUID, reques
 	if encounter != nil {
 		initialRound = encounter.Round
 	}
+	startedActive := encounter != nil && encounter.Status == "active"
 	if request.Intent.Kind == combat.EncounterStart {
 		var target *game.MartialTarget
 		for i := range prepared.Targets {
@@ -182,10 +182,19 @@ func (e *Engine) ConfirmAction(ctx context.Context, campaignID uuid.UUID, reques
 			foe.Initiative = m.Initiative.Modifier
 			foe.Speed = m.Speeds["walk"]
 		}
-		encounter, err = combat.NewEncounter(combat.EncounterActor{ID: pc.ID, Name: pc.Name, HP: pc.HP, MaxHP: pc.MaxHP}, foe, sheet.Defenses["initiative"].Value, dice)
+		// The encounter takes ownership of a Prone condition saved outside it
+		// (for example by a fall) until the encounter completes.
+		prone := game.ReadConditions(pc.Stats).Prone
+		encounter, err = combat.NewEncounter(combat.EncounterActor{ID: pc.ID, Name: pc.Name, HP: pc.HP, MaxHP: pc.MaxHP, Prone: prone}, foe, sheet.Defenses["initiative"].Value, dice)
 		if err != nil {
 			return nil, err
 		}
+		if prone {
+			if err := saveConditions(ctx, tx, campaignID, pc.ID, game.Conditions{}); err != nil {
+				return nil, err
+			}
+		}
+		startedActive = true
 		encounter.Bandit = target.Bandit
 		encounter.Beast = target.Beast
 		encounter.Space = &target.Space
@@ -193,6 +202,23 @@ func (e *Engine) ConfirmAction(ctx context.Context, campaignID uuid.UUID, reques
 		label = "Initiative"
 		tool = "srd_encounter"
 		narrative = "Initiative rolled for the two-actor encounter."
+	} else if request.Intent.Kind == combat.EncounterStand && !startedActive {
+		if !game.ReadConditions(pc.Stats).Prone {
+			return nil, ErrActionRefresh
+		}
+		if err := saveConditions(ctx, tx, campaignID, pc.ID, game.Conditions{}); err != nil {
+			return nil, err
+		}
+		receipt = map[string]any{"rules_version": "srd-5.2.1", "condition": "prone", "before": true, "after": false, "source_ids": preview.SourceIDs}
+		tool, label = "srd_condition", "Stand up"
+		narrative = "Stood up from Prone outside an encounter; no movement budget is tracked there."
+	} else if request.Intent.Kind == srd521.FallResolve {
+		fallReceipt, err := resolveDeclaredFall(ctx, tx, campaignID, pc.ID, pc.HP, pc.Stats, prepared.Fall, request.Intent.Skill, sheet, dice)
+		if err != nil {
+			return nil, err
+		}
+		receipt, tool, label = fallReceipt, "srd_fall", "Fall"
+		narrative = fallNarrative(pc.Name, fallReceipt)
 	} else if request.Intent.Kind == combat.EncounterEndTurn || request.Intent.Kind == combat.EncounterMove || request.Intent.Kind == combat.EncounterDash || request.Intent.Kind == combat.EncounterApproach || request.Intent.Kind == combat.EncounterRetreat || request.Intent.Kind == combat.EncounterStand {
 		if encounter == nil || encounter.Status != "active" {
 			return nil, ErrActionRefresh
@@ -270,7 +296,11 @@ func (e *Engine) ConfirmAction(ctx context.Context, campaignID uuid.UUID, reques
 		if faith != nil {
 			ac += 2
 		}
-		attack, err := srd521.ResolveLongsword(sheet, ac+target.Space.CoverBonus(), dice)
+		var disadvantage []string
+		if encounter != nil && encounter.Status == "active" {
+			disadvantage = encounter.PlayerAttackDisadvantage()
+		}
+		attack, err := srd521.ResolveLongswordRoll(sheet, ac+target.Space.CoverBonus(), nil, disadvantage, dice)
 		if err != nil {
 			return nil, err
 		}
@@ -291,6 +321,9 @@ func (e *Engine) ConfirmAction(ctx context.Context, campaignID uuid.UUID, reques
 		if request.Intent.Kind == combat.EncounterReact {
 			narrative = fmt.Sprintf("Opportunity attack against %s: %s (total %d), %d slashing damage. One reaction spent; it recovers at the start of your next turn.", target.Name, attack.Outcome, attack.Total, attack.Damage)
 			finishWithdrawal(encounter)
+		}
+		if note := attack.RollNote(); note != "" {
+			narrative += " " + note
 		}
 	} else if request.Intent.Kind == combat.EncounterDecline {
 		tool = "srd_encounter"
@@ -568,11 +601,32 @@ func (e *Engine) ConfirmAction(ctx context.Context, campaignID uuid.UUID, reques
 		payload["reaction_cost"] = 0
 	}
 	if encounter != nil {
+		before := -1
+		if (encounter.Beast != nil || encounter.Bandit != nil) && encounter.Space != nil && encounter.Space.DistanceFeet != nil {
+			before = *encounter.Space.DistanceFeet
+		}
 		npcReceipts, concentrationReceipts, err := resolveEncounterNPC(ctx, tx, campaignID, encounter, sheet, dice)
 		if err != nil {
 			return nil, err
 		}
+		if after := *encounter.Space.DistanceFeet; before > after {
+			for _, a := range encounter.Actors {
+				if !a.Player {
+					narrative += fmt.Sprintf(" %s moved %d feet closer; target distance is now %d feet.", a.Name, before-after, after)
+				}
+			}
+		}
 		payload["encounter"] = encounter
+		if startedActive && encounter.Status != "active" {
+			// The completed encounter hands the player's Prone back to the actor.
+			for _, actor := range encounter.Actors {
+				if actor.Player && actor.Prone {
+					if err := saveConditions(ctx, tx, campaignID, actor.ID, game.Conditions{Prone: actor.Prone}); err != nil {
+						return nil, err
+					}
+				}
+			}
+		}
 		payload["npc_receipts"] = npcReceipts
 		payload["concentration_receipts"] = concentrationReceipts
 		for _, r := range concentrationReceipts {
@@ -608,8 +662,8 @@ func (e *Engine) ConfirmAction(ctx context.Context, campaignID uuid.UUID, reques
 		}
 		for _, attack := range npcReceipts {
 			narrative += fmt.Sprintf(" %s: %s (d20 %d + %d = %d), %d %s damage.", attack.Weapon, attack.Outcome, attack.Die, attack.Modifier.Value, attack.Total, attack.Damage, attack.DamageType)
-			if len(attack.D20s) == 2 {
-				narrative += fmt.Sprintf(" Advantage (%s): rolled %d and %d.", strings.Join(attack.Advantage, "; "), attack.D20s[0], attack.D20s[1])
+			if note := attack.RollNote(); note != "" {
+				narrative += " " + note
 			}
 			switch attack.Condition {
 			case "prone-applied":

@@ -51,6 +51,19 @@ func PrepareStoredAction(ctx context.Context, database statedb.DBTX, campaign do
 	if IsLightIntent(intent) {
 		return prepareLight(ctx, database, campaign, pc, intent, lock)
 	}
+	if intent.Kind == srd521.FallResolve {
+		return prepareFall(ctx, database, campaign, pc, intent)
+	}
+	if intent.Kind == combat.EncounterStand {
+		// Outside an active encounter Prone lives on the actor (#147).
+		encounter, err := ReadEncounter(ctx, database, campaign.ID)
+		if err != nil {
+			return nil, err
+		}
+		if encounter == nil || encounter.Status != "active" {
+			return prepareProneStand(ctx, campaign, pc, intent)
+		}
+	}
 	if intent.Kind == srd521.TacticalMind {
 		return prepareStoredActionBase(ctx, database, campaign, pc, intent, lock)
 	}
@@ -259,20 +272,18 @@ func PrepareStoredAction(ctx context.Context, database statedb.DBTX, campaign do
 			}
 			option := ActionTarget{ID: target.ID, Label: target.Name, DistanceFeet: target.Space.DistanceFeet, ReachFeet: 5}
 			if intent.Kind == combat.EncounterStart && target.Bandit != nil {
-				_, action, err := target.Bandit.Record()
+				m, _, err := target.Bandit.Record()
 				if err != nil {
 					return unavailable(err.Error())
 				}
-				if action.Attack.Kind == "ranged" {
-					option.ReachFeet = action.Attack.Range
+				// It picks its weapon on its turn: show its longest normal range.
+				for _, action := range m.Actions {
+					option.ReachFeet = max(option.ReachFeet, action.Attack.Range)
 				}
 			}
 			var spatialErr error
 			if intent.Kind == combat.EncounterStart {
 				spatialErr = target.Space.Validate()
-				if target.Bandit != nil {
-					spatialErr = combat.BanditAttack(target.Bandit, &target.Space)
-				}
 				if target.Beast != nil {
 					spatialErr = combat.BeastAttack(target.Beast, &target.Space)
 				}
@@ -309,11 +320,11 @@ func PrepareStoredAction(ctx context.Context, database statedb.DBTX, campaign do
 		p.Options = []string{"Two-actor encounter; tied initiative: player first. Confirm to roll initiative."}
 		for _, target := range result.Targets {
 			if target.Bandit != nil {
-				m, a, err := target.Bandit.Record()
+				m, _, err := target.Bandit.Record()
 				if err != nil {
 					return unavailable(err.Error())
 				}
-				p.Options = append(p.Options, fmt.Sprintf("%s: Bandit AC %d; initiative %+d; speed %d feet; selected %s. %s", target.Name, m.AC, m.Initiative.Modifier, m.Speeds["walk"], a.Name, a.Text))
+				p.Options = append(p.Options, fmt.Sprintf("%s: Bandit AC %d; initiative %+d; speed %d feet; it picks its weapon by distance on its turn.", target.Name, m.AC, m.Initiative.Modifier, m.Speeds["walk"]))
 				for _, action := range m.Actions {
 					profile := *target.Bandit
 					profile.ActionID = action.ID
@@ -388,6 +399,7 @@ func PrepareStoredAction(ctx context.Context, database statedb.DBTX, campaign do
 			return unavailable(err.Error())
 		}
 		p.Costs = []ActionCost{{ResourceID: "reaction", Amount: 1}}
+		p.Options, p.SourceIDs = withAttackDisadvantage(encounter, p.Options, p.SourceIDs)
 		return result, nil
 	}
 	if intent.Kind == combat.EncounterReact || intent.Kind == combat.EncounterDecline {
@@ -398,7 +410,9 @@ func PrepareStoredAction(ctx context.Context, database statedb.DBTX, campaign do
 	}
 	// Do not pretend arbitrary checks are encounter actions in this slice.
 	switch intent.Kind {
-	case srd521.ActionSurge, srd521.MartialAttack:
+	case srd521.ActionSurge:
+	case srd521.MartialAttack:
+		p.Options, p.SourceIDs = withAttackDisadvantage(encounter, p.Options, p.SourceIDs)
 
 	case srd521.EndConcentration, srd521.SpellCast, srd521.ConsumableUse:
 	case combat.EncounterMove, combat.EncounterDash, combat.EncounterEndTurn, combat.EncounterApproach, combat.EncounterRetreat, combat.EncounterStand, combat.EncounterDecline:
@@ -410,10 +424,14 @@ func PrepareStoredAction(ctx context.Context, database statedb.DBTX, campaign do
 		p.Costs = []ActionCost{}
 		p.Options = []string{"End turn resolves the NPC turn through saved dice mechanics."}
 		if intent.Kind == combat.EncounterMove || intent.Kind == combat.EncounterApproach || intent.Kind == combat.EncounterRetreat {
-			p.Costs = []ActionCost{{ResourceID: "movement-feet", Amount: 5}}
+			p.Costs = []ActionCost{{ResourceID: "movement-feet", Amount: encounter.MoveCost()}}
 			p.Options = []string{"Spend 5 feet of movement without changing distance."}
 			if intent.Kind != combat.EncounterMove {
 				p.Options = []string{"Change the declared exact distance by 5 feet on a clear path."}
+			}
+			if encounter.Active().Prone {
+				p.Options = append(p.Options, fmt.Sprintf("Prone: you crawl, so these 5 feet cost %d feet of movement.", encounter.MoveCost()))
+				p.SourceIDs = append(p.SourceIDs, "srd-5.2.1:content/rules-glossary/prone", "srd-5.2.1:content/rules-glossary/crawling")
 			}
 		}
 		if intent.Kind == combat.EncounterDash {
@@ -429,29 +447,53 @@ func PrepareStoredAction(ctx context.Context, database statedb.DBTX, campaign do
 		return unavailable("Use a supported encounter action or end your turn.")
 	}
 	if intent.Kind == combat.EncounterEndTurn && encounter.Bandit != nil {
-		if err := combat.BanditAttack(encounter.Bandit, encounter.Space); err != nil {
-			return unavailable(err.Error())
-		}
-		_, a, err := encounter.Bandit.Record()
+		// Preview the Bandit's turn on a copy: it may walk, then picks its weapon.
+		turn := npcTurn(encounter)
+		closed, bandit, err := turn.BanditTurn()
 		if err != nil {
 			return unavailable(err.Error())
 		}
-		p.Options = []string{"End turn resolves one Bandit " + a.Text}
+		distance := *turn.Space.DistanceFeet
+		if bandit == nil {
+			p.Options = []string{fmt.Sprintf("End turn: the Bandit moves %d feet toward %s and, at %d feet, has no legal attack; it does not attack.", closed, pc.Name, distance)}
+		} else {
+			_, a, err := bandit.Record()
+			if err != nil {
+				return unavailable(err.Error())
+			}
+			p.Options = []string{"End turn resolves one Bandit " + a.Text}
+			if closed > 0 {
+				p.Options = append([]string{fmt.Sprintf("The Bandit first moves %d feet toward %s, ending %d feet away.", closed, pc.Name, distance)}, p.Options...)
+			}
+		}
 	}
 	if intent.Kind == combat.EncounterEndTurn && encounter.Beast != nil {
-		advantage, err := encounter.BeastAdvantage()
-		if err != nil {
-			return unavailable(err.Error())
-		}
 		m, attacks, err := encounter.Beast.Record()
 		if err != nil {
 			return unavailable(err.Error())
 		}
-		p.Options = append([]string{fmt.Sprintf("End turn resolves the %s's action against %s, in order:", m.Name, pc.Name)}, beastOptions(m, attacks)...)
-		if len(advantage) > 0 {
-			p.Options = append(p.Options, "Advantage on each attack: "+strings.Join(advantage, "; ")+".")
+		// Preview the Beast's turn on a copy: out of reach, it approaches first.
+		turn := npcTurn(encounter)
+		closed, reach, err := turn.Approach(5)
+		if err != nil {
+			return unavailable(err.Error())
 		}
 		p.SourceIDs = append(p.SourceIDs, m.ID)
+		if !reach {
+			p.Options = []string{fmt.Sprintf("End turn: the %s moves %d feet toward %s and is still %d feet away, out of reach; it does not attack.", m.Name, closed, pc.Name, *turn.Space.DistanceFeet)}
+		} else {
+			advantage, err := turn.BeastAdvantage()
+			if err != nil {
+				return unavailable(err.Error())
+			}
+			p.Options = append([]string{fmt.Sprintf("End turn resolves the %s's action against %s, in order:", m.Name, pc.Name)}, beastOptions(m, attacks)...)
+			if closed > 0 {
+				p.Options = append([]string{fmt.Sprintf("The %s first moves %d feet toward %s, ending within 5 feet.", m.Name, closed, pc.Name)}, p.Options...)
+			}
+			if len(advantage) > 0 {
+				p.Options = append(p.Options, "Advantage on each attack: "+strings.Join(advantage, "; ")+".")
+			}
+		}
 	}
 	if intent.Kind == combat.EncounterEndTurn {
 		if err := encounter.Space.Validate(); err != nil {
@@ -491,4 +533,28 @@ func beastOptions(m srd521.Monster, attacks []srd521.MonsterAction) []string {
 		options = append(options, t.Text)
 	}
 	return options
+}
+
+// withAttackDisadvantage adds the player's attack Disadvantage, if any, to a
+// preview so the confirmation rolls exactly what the preview showed.
+func withAttackDisadvantage(encounter *combat.Encounter, options, sources []string) ([]string, []string) {
+	reasons := encounter.PlayerAttackDisadvantage()
+	if len(reasons) == 0 {
+		return options, sources
+	}
+	options = append(options, "Disadvantage on this attack roll ("+strings.Join(reasons, "; ")+"): roll two d20s and keep the lower.")
+	return options, append(sources, "srd-5.2.1:content/rules-glossary/prone", "srd-5.2.1:content/d20-tests/advantage-disadvantage")
+}
+
+// npcTurn copies the encounter and advances the copy to the NPC's turn, so a
+// preview can move the NPC without changing the stored encounter.
+func npcTurn(encounter *combat.Encounter) *combat.Encounter {
+	turn := *encounter
+	turn.Actors = append([]combat.EncounterActor(nil), encounter.Actors...)
+	if encounter.Reaction != nil {
+		reaction := *encounter.Reaction
+		turn.Reaction = &reaction
+	}
+	turn.Advance()
+	return &turn
 }

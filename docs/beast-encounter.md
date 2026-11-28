@@ -43,11 +43,25 @@ every record.
   smaller) gives the player the Prone condition, with no saving throw. A
   larger target is exempt; an already Prone target is not affected twice.
 - Prone is saved on the player's encounter actor. Melee attacks against the
-  Prone player have Advantage. Several sources still give one Advantage.
-- While Prone, the player can end the turn, cast, use a potion or stand up
-  (`combat-stand`, half of 30 feet). Attacks with Disadvantage, opportunity
-  attacks and crawling are not supported and are refused until the player
-  stands.
+  Prone player have Advantage. Several sources still give one Advantage. An
+  encounter starts with any Prone saved outside it, for example by a
+  [declared fall](declared-fall.md), and hands a Prone player back to that
+  saved state when it completes.
+- While Prone, the player's attack rolls have Disadvantage: the longsword
+  attack and the opportunity attack roll two d20s and keep the lower. The
+  preview names the Disadvantage before anything is rolled. Advantage from
+  another source would cancel it to one d20, but the player's attacks have no
+  Advantage source in these fixtures.
+- While Prone, the player crawls: each 5-foot move, approach or retreat costs
+  10 feet of the turn's movement. The fixture declares no Difficult Terrain.
+  Standing up (`combat-stand`) costs half of 30 feet and ends the condition.
+- Every attack against the Prone player is a melee attack within 5 feet, so
+  none has the beyond-5-feet Disadvantage.
+- A Beast beyond 5 feet first uses its walk speed (40 feet for both blocks) to
+  close the declared distance in 5-foot steps on a clear path, then attacks if
+  it ends within 5 feet. If its speed runs out, or the path is not clear
+  (cover or no line of sight), it takes its turn without attacking and the
+  encounter continues. The End turn preview names the approach.
 - Multiattack spends one Action. Ruling: the Bite resolves before the Claw.
   Reach, sight, size and revision are checked before any roll, so an invalid
   target rolls neither attack. If the Bite reduces the player to 0 HP, the
@@ -61,11 +75,13 @@ failed die on any attack or a failed history write commits none of them;
 retrying the same identity can roll again. Replaying a completed identity
 returns its saved result without rolling or applying damage or Prone again.
 
-Receipts are the shared AttackReceipt with `advantage` (reasons), `d20s` (both
-dice) and `condition` (`prone-applied`, `already-prone` or `size-exempt`).
+Receipts are the shared AttackReceipt with `advantage` and `disadvantage`
+(reasons), `d20s` (both dice when only one of them applies; empty when they
+cancel) and `condition` (`prone-applied`, `already-prone` or `size-exempt`).
 
 ## Limits
 
-No other monster, general animal behaviour, ally actors, pet UI, Disadvantage,
-crawling, legendary actions, monster AI or catalogue promotion. The web
-receipt shows the kept die; both advantage dice appear in the narrative.
+No other monster, general animal behaviour, ally actors, pet UI, other
+conditions that impose Disadvantage, Difficult Terrain, ranged attacks against
+a Prone target, legendary actions, monster AI or catalogue promotion. The web
+receipt shows the kept die; both d20s appear in the narrative.

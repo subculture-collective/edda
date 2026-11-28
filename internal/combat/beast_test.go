@@ -78,16 +78,29 @@ func TestBeastGeometryAndAdvantage(t *testing.T) {
 	}
 }
 
-func TestProneStandAndRefusals(t *testing.T) {
+func TestProneCrawlAttackAndStand(t *testing.T) {
 	player := uuid.New()
-	e := &Encounter{Status: "active", Round: 1, Actors: []EncounterActor{{ID: player, Player: true, HP: 10, Prone: true}, {ID: uuid.New(), HP: 10}}, Budget: TurnBudget{Action: true, BonusAction: true, Movement: 30}, Space: &Space{DistanceFeet: ptr(5), LineOfSight: ptr(true), Cover: "none"}}
-	for _, kind := range []string{srd521.MartialAttack, EncounterMove, EncounterApproach, EncounterRetreat} {
-		if err := e.Spend(player, kind); err == nil {
-			t.Fatalf("%s while Prone accepted", kind)
-		}
+	e := &Encounter{Status: "active", Round: 1, Actors: []EncounterActor{{ID: player, Player: true, HP: 10, Prone: true}, {ID: uuid.New(), HP: 10}}, Budget: TurnBudget{Action: true, BonusAction: true, Movement: 30}, Space: &Space{DistanceFeet: ptr(10), LineOfSight: ptr(true), Cover: "none"}}
+	if got := e.PlayerAttackDisadvantage(); len(got) != 1 || got[0] != "attacker is Prone" {
+		t.Fatalf("disadvantage=%v", got)
 	}
-	if !e.Budget.Action || e.Budget.Movement != 30 {
-		t.Fatal("refusal spent budget")
+	// Crawling: each 5-foot step costs 10 feet.
+	if e.MoveCost() != 10 {
+		t.Fatalf("crawl cost=%d", e.MoveCost())
+	}
+	if err := e.Spend(player, EncounterApproach); err != nil || e.Budget.Movement != 20 || *e.Space.DistanceFeet != 5 || !e.Actors[0].Prone {
+		t.Fatalf("crawl approach: %v %+v", err, e.Budget)
+	}
+	if err := e.Spend(player, EncounterMove); err != nil || e.Budget.Movement != 10 {
+		t.Fatalf("crawl move: %v %+v", err, e.Budget)
+	}
+	e.Budget.Movement = 5
+	if err := e.Spend(player, EncounterMove); err == nil || e.Budget.Movement != 5 {
+		t.Fatal("crawled 5 feet for 5 feet of movement")
+	}
+	// The attack itself is legal; Disadvantage is applied when it is rolled.
+	if err := e.Spend(player, srd521.MartialAttack); err != nil || e.Budget.Action {
+		t.Fatalf("prone attack: %v", err)
 	}
 	e.Budget.Movement = 10
 	if err := e.Spend(player, EncounterStand); err == nil || !e.Actors[0].Prone {
@@ -100,17 +113,43 @@ func TestProneStandAndRefusals(t *testing.T) {
 	if err := e.Spend(player, EncounterStand); err == nil {
 		t.Fatal("stood twice")
 	}
-	if err := e.Spend(player, srd521.MartialAttack); err != nil {
-		t.Fatal(err)
+	if e.MoveCost() != 5 || e.PlayerAttackDisadvantage() != nil {
+		t.Fatal("standing kept Prone effects")
 	}
-	// A pending opportunity attack is refused while the player is Prone.
+	// A pending opportunity attack stays legal while the player is Prone.
 	e.Actors[0].Prone = true
 	e.Turn = 1
+	e.Space.DistanceFeet = ptr(5)
 	e.Reaction = &ReactionState{Available: true, Pending: &ReactionTrigger{TargetID: e.Actors[1].ID}}
-	if err := e.SpendReaction(); err == nil || !e.Reaction.Available {
-		t.Fatal("Prone opportunity attack accepted")
+	if err := e.SpendReaction(); err != nil || e.Reaction.Available {
+		t.Fatalf("Prone opportunity attack: %v", err)
 	}
-	if !e.Actors[0].Prone {
-		t.Fatal("refusal changed condition")
+	if len(e.PlayerAttackDisadvantage()) != 1 {
+		t.Fatal("reaction lost Disadvantage")
+	}
+}
+
+func TestApproach(t *testing.T) {
+	for _, tc := range []struct {
+		name                string
+		distance            *int
+		sight               bool
+		cover               string
+		closed, left, after int
+		reach, unknown      bool
+	}{
+		{"in reach", ptr(5), true, "none", 0, 40, 5, true, false},
+		{"closes to reach", ptr(15), true, "none", 10, 30, 5, true, false},
+		{"speed runs out", ptr(65), true, "none", 40, 0, 25, false, false},
+		{"blocked path", ptr(15), true, "half", 0, 40, 15, false, false},
+		{"unseen", ptr(15), false, "none", 0, 40, 15, false, false},
+		{"distance unknown", nil, true, "none", 0, 40, 0, false, true},
+	} {
+		player, wolf := uuid.New(), uuid.New()
+		e := &Encounter{Status: "active", Turn: 1, Actors: []EncounterActor{{ID: player, Player: true, HP: 12}, {ID: wolf, HP: 11, Speed: 40}}, Budget: TurnBudget{Action: true, Movement: 40}, Space: &Space{DistanceFeet: tc.distance, LineOfSight: ptr(tc.sight), Cover: tc.cover}}
+		closed, reach, err := e.Approach(5)
+		if (err != nil) != tc.unknown || closed != tc.closed || reach != tc.reach || e.Budget.Movement != tc.left || (!tc.unknown && *e.Space.DistanceFeet != tc.after) {
+			t.Fatalf("%s: closed=%d reach=%t err=%v budget=%+v", tc.name, closed, reach, err, e.Budget)
+		}
 	}
 }

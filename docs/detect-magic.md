@@ -17,6 +17,20 @@ A `slot_level` on the cast is refused. Without a recorded choice, or with the
 use spent, the preview gives the reason. A Long Rest restores the use; ending
 concentration, damage saves, expiry and rests reuse the #77 lifecycle.
 
+## TUI
+
+The commands act for the campaign owner's first active character, through the
+same preview and confirm flow as the web client.
+
+| Command | Effect |
+| --- | --- |
+| `/detect-magic` | Shows any live concentration and its expiry, or why a study is unavailable. Writes nothing. |
+| `/detect-magic cast` | Previews the free-use cast. |
+| `/study-detect-magic` | Previews the study. |
+| `/confirm-detect-magic` | Commits the preview. A retry reuses the action ID. |
+| `/cancel-detect-magic` | Drops the preview. |
+| `/end-concentration <caster UUID>` | Previews ending the caster's current concentration, whatever the spell. `/confirm-faith` commits it and `/cancel-faith` drops it. |
+
 ## Scene facts
 
 Sensing reads only `npcs.properties.srd521_magic` on NPCs at the caster's
@@ -46,8 +60,10 @@ fresh preview.
 - `internal/rules/srd521/detect_magic_test.go`: source-record agreement, fact
   validation, cast, study, expiry, Long Rest and damage.
 - `internal/handlers/detect_magic_integration_test.go`: PostgreSQL cast and
-  study receipts, replacement, replay, rollback, stale facts, reload, and
-  missing or spent feat use.
+  study receipts, replacement, replay, rollback, stale facts, reload,
+  missing or spent feat use, and the TUI preview.
+- `tui/detect_magic_test.go`: command parsing, cast retry, status, study and
+  cancel.
 
 This work includes material from the System Reference Document 5.2.1 (“SRD
 5.2.1”) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd,

@@ -101,9 +101,6 @@ func (e *Encounter) Spend(actor uuid.UUID, kind string) error {
 		}
 		e.Budget.SurgeUsed, e.Budget.SurgeAction = true, true
 	case srd521.SpellCast, srd521.MartialAttack, EncounterDash:
-		if kind == srd521.MartialAttack && e.Active().Prone {
-			return fmt.Errorf("Prone: attacks with Disadvantage are not supported; stand up first.")
-		}
 		if e.Budget.Action {
 			e.Budget.Action = false
 		} else if kind != srd521.SpellCast && e.Budget.SurgeAction {
@@ -130,10 +127,11 @@ func (e *Encounter) Spend(actor uuid.UUID, kind string) error {
 		e.Budget.Movement -= half
 		e.Active().Prone = false
 	case EncounterMove, EncounterApproach, EncounterRetreat:
-		if e.Active().Prone {
-			return fmt.Errorf("Prone: crawling is not supported; stand up first.")
-		}
-		if e.Budget.Movement < 5 {
+		cost := e.MoveCost()
+		if e.Budget.Movement < cost {
+			if e.Active().Prone {
+				return fmt.Errorf("Crawling 5 feet while Prone costs %d feet of movement; stand up or end your turn.", cost)
+			}
 			return fmt.Errorf("insufficient movement")
 		}
 		if kind != EncounterMove {
@@ -146,12 +144,33 @@ func (e *Encounter) Spend(actor uuid.UUID, kind string) error {
 			}
 			e.Space = &space
 		}
-		e.Budget.Movement -= 5
+		e.Budget.Movement -= cost
 	case EncounterEndTurn:
 	default:
 		return fmt.Errorf("unsupported encounter action")
 	}
 	return nil
+}
+
+// Approach moves the active NPC toward the player in 5-foot steps along the
+// declared distance while it is beyond within feet and its movement and a
+// clear path allow. It returns the feet closed and whether it ended within
+// that distance. Unresolved spatial facts return an error before moving.
+func (e *Encounter) Approach(within int) (int, bool, error) {
+	if e.Space == nil {
+		return 0, false, fmt.Errorf("Clarify spatial facts before moving.")
+	}
+	if err := e.Space.Validate(); err != nil {
+		return 0, false, err
+	}
+	start := *e.Space.DistanceFeet
+	for *e.Space.DistanceFeet > within {
+		// A blocked path, an unseen target or spent movement ends the approach.
+		if e.Spend(e.Active().ID, EncounterApproach) != nil {
+			break
+		}
+	}
+	return start - *e.Space.DistanceFeet, *e.Space.DistanceFeet <= within, nil
 }
 
 // Advance ends a turn, resets its budget, and increments the round on wrap.
@@ -198,6 +217,27 @@ func (e *Encounter) SpendSpell(actor uuid.UUID, bonus bool) error {
 		return err
 	}
 	e.Budget.SpellSlotSpent = true
+	return nil
+}
+
+// MoveCost is the movement one 5-foot step costs the active actor. A Prone
+// actor crawls: each foot costs 1 extra foot. The fixture declares no
+// Difficult Terrain, so the 2-extra-feet case never arises.
+func (e *Encounter) MoveCost() int {
+	if e.Active().Prone {
+		return 10
+	}
+	return 5
+}
+
+// PlayerAttackDisadvantage names the durable facts that give the player's
+// attack rolls Disadvantage, on its own turn or as a reaction.
+func (e *Encounter) PlayerAttackDisadvantage() []string {
+	for _, a := range e.Actors {
+		if a.Player && a.Prone {
+			return []string{"attacker is Prone"}
+		}
+	}
 	return nil
 }
 

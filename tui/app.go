@@ -115,6 +115,8 @@ type App struct {
 	faithRequest *engine.PreparedAction
 	lightRequest *engine.PreparedAction
 
+	detectMagicRequest *engine.PreparedAction
+
 	tacticalRequest *engine.PreparedAction
 	surgeRequest    *engine.PreparedAction
 
@@ -159,7 +161,7 @@ func NewAppWithEngine(cfg config.Config, campaign statedb.Campaign, ctx context.
 	// Seed the narrative log with a welcome message for the selected campaign.
 	nv.AddEntry(narrative.Entry{
 		Kind: narrative.KindSystem,
-		Text: fmt.Sprintf("Welcome to Edda  ·  Provider: %s · /action-surge: preview level-two Fighter encounter feature · /easy-athletics: Edda Easy Athletics DC 10 fixture · /light: Light cantrip", cfg.LLM.Provider),
+		Text: fmt.Sprintf("Welcome to Edda  ·  Provider: %s · /action-surge: preview level-two Fighter encounter feature · /easy-athletics: Edda Easy Athletics DC 10 fixture · /light: Light cantrip · /detect-magic: Magic Initiate Detect Magic", cfg.LLM.Provider),
 	})
 	if campaign.Name != "" {
 		nv.AddEntry(narrative.Entry{
@@ -221,6 +223,9 @@ func (a App) Init() tea.Cmd { return nil }
 // switching) and forwards all other messages to the active sub-model.
 func (a App) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	if cmd, handled := a.updateLight(msg); handled {
+		return a, cmd
+	}
+	if cmd, handled := a.updateDetectMagic(msg); handled {
 		return a, cmd
 	}
 	switch msg := msg.(type) {
@@ -355,7 +360,11 @@ func (a App) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		a.turnBusy = false
 		if nv := a.narrativeView(); nv != nil {
 			if msg.err != nil || msg.preview == nil {
-				nv.AddEntry(narrative.Entry{Kind: narrative.KindSystem, Text: "Shield of Faith unavailable for selected caster."})
+				text := "Shield of Faith unavailable for selected caster."
+				if msg.target == uuid.Nil {
+					text = "Ending concentration is unavailable for the selected caster."
+				}
+				nv.AddEntry(narrative.Entry{Kind: narrative.KindSystem, Text: text})
 				return a, nil
 			}
 			if !msg.preview.Available {
@@ -392,7 +401,7 @@ func (a App) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		}
 		return a, nil
 	case narrative.SubmitMsg:
-		if fields := strings.Fields(msg.Input); len(fields) > 0 && (fields[0] == "/faith" || fields[0] == "/end-faith" || fields[0] == "/confirm-faith" || fields[0] == "/cancel-faith") {
+		if fields := strings.Fields(msg.Input); len(fields) > 0 && (fields[0] == "/faith" || fields[0] == "/end-faith" || fields[0] == "/end-concentration" || fields[0] == "/confirm-faith" || fields[0] == "/cancel-faith") {
 			if a.turnBusy {
 				return a, nil
 			}
@@ -418,10 +427,10 @@ func (a App) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			if a.faithRequest != nil {
 				return a, nil
 			}
-			end := fields[0] == "/end-faith"
+			end := fields[0] == "/end-faith" || fields[0] == "/end-concentration"
 			if (end && len(fields) != 2) || (!end && len(fields) != 3) {
 				if nv := a.narrativeView(); nv != nil {
-					nv.AddEntry(narrative.Entry{Kind: narrative.KindSystem, Text: "Use /faith <caster UUID> <recipient UUID> or /end-faith <caster UUID>; then /confirm-faith."})
+					nv.AddEntry(narrative.Entry{Kind: narrative.KindSystem, Text: "Use /faith <caster UUID> <recipient UUID>, or /end-concentration <caster UUID> to end any concentration spell; then /confirm-faith."})
 				}
 				return a, nil
 			}
