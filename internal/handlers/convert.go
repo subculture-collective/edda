@@ -249,6 +249,7 @@ func engineResolutionEventsToAPI(applied []engine.AppliedToolCall) []api.Resolut
 				Receipt *srd521.TravelReceipt `json:"receipt"`
 			}
 			if json.Unmarshal(call.Result, &result) == nil && result.Receipt != nil && result.Receipt.RulesVersion == "srd-5.2.1" && result.Receipt.Kind == srd521.TravelHour {
+				nameConcentrations(result.Receipt.Expired)
 				out = append(out, api.ResolutionEvent{Type: "srd_travel", Label: "Travel", Outcome: "arrived at " + result.Receipt.To, Details: map[string]any{"receipt": result.Receipt}})
 			}
 		case "srd_equipment":
@@ -256,6 +257,7 @@ func engineResolutionEventsToAPI(applied []engine.AppliedToolCall) []api.Resolut
 				Receipt *srd521.EquipmentReceipt `json:"receipt"`
 			}
 			if json.Unmarshal(call.Result, &result) == nil && result.Receipt != nil && result.Receipt.RulesVersion == "srd-5.2.1" && srd521.IsEquipment(result.Receipt.Kind) {
+				nameConcentrations(result.Receipt.Expired)
 				out = append(out, api.ResolutionEvent{Type: "srd_equipment", Label: "Equipment change", Outcome: result.Receipt.Kind, Details: map[string]any{"receipt": result.Receipt}})
 			}
 		case "srd_consumable":
@@ -327,17 +329,22 @@ func appendEncounterEvents(out []api.ResolutionEvent, raw json.RawMessage) []api
 	return appendEffectEvents(out, result.Effects[saved:]...)
 }
 
+// nameConcentrations names the spells on decoded copies sent to clients, so
+// data saved without names shows them too. It skips absent effects.
+func nameConcentrations(effects ...*srd521.Concentration) {
+	for _, c := range effects {
+		if c != nil {
+			c.SpellLabel = srd521.ConcentrationLabel(c.Spell)
+		}
+	}
+}
+
 // appendEffectEvents adds each saved caster effect receipt, skipping those that
-// are absent. It names the concentration spells on these decoded copies, so
-// receipts saved without names show them too.
+// are absent, with its concentration spells named.
 func appendEffectEvents(out []api.ResolutionEvent, receipts ...*srd521.EffectReceipt) []api.ResolutionEvent {
 	for _, r := range receipts {
 		if r != nil && r.RulesVersion == "srd-5.2.1" {
-			for _, c := range []*srd521.Concentration{r.Before, r.After} {
-				if c != nil {
-					c.SpellLabel = srd521.ConcentrationLabel(c.Spell)
-				}
-			}
+			nameConcentrations(r.Before, r.After)
 			out = append(out, api.ResolutionEvent{Type: "srd_effect", Label: "Caster effects and recovery", Outcome: r.Reason, Details: map[string]any{"receipt": r}})
 		}
 	}

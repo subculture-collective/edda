@@ -15,7 +15,7 @@ type Concentration struct {
 	RecipientID string `json:"recipient_id,omitempty"`
 	ID          string `json:"id"`
 	Spell       string `json:"spell"`
-	// SpellLabel is the spell's name, set only on receipts sent to clients.
+	// SpellLabel is the spell's name, set only on data sent to clients.
 	// Saved state leaves it empty.
 	SpellLabel string `json:"spell_label,omitempty"`
 	StartedAt  int    `json:"started_at"`

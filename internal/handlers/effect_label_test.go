@@ -45,3 +45,29 @@ func TestResolutionEventsNameConcentrationSpells(t *testing.T) {
 		})
 	}
 }
+
+// Travel and equipment receipts name the spell that expired.
+func TestResolutionEventsNameExpiredSpells(t *testing.T) {
+	expired := &srd521.Concentration{ID: "bless-id", Spell: "bless"}
+	for tool, receipt := range map[string]any{
+		"srd_travel":    &srd521.TravelReceipt{RulesVersion: "srd-5.2.1", Kind: srd521.TravelHour, Expired: expired},
+		"srd_equipment": &srd521.EquipmentReceipt{RulesVersion: "srd-5.2.1", Kind: srd521.EquipmentEquip, Expired: expired},
+	} {
+		t.Run(tool, func(t *testing.T) {
+			events := engineResolutionEventsToAPI([]engine.AppliedToolCall{{Tool: tool, Result: mustJSON(t, map[string]any{"receipt": receipt})}})
+			if len(events) != 1 {
+				t.Fatalf("events=%+v", events)
+			}
+			var shown *srd521.Concentration
+			switch r := events[0].Details["receipt"].(type) {
+			case *srd521.TravelReceipt:
+				shown = r.Expired
+			case *srd521.EquipmentReceipt:
+				shown = r.Expired
+			}
+			if shown == nil || shown.SpellLabel != "Bless" {
+				t.Fatalf("expired=%+v", shown)
+			}
+		})
+	}
+}

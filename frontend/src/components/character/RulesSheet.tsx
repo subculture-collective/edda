@@ -1,8 +1,12 @@
 import type { ActionPreview, CharacterSheetProjection, CheckReceipt as Receipt, DerivedValue } from '../../api/types';
 import { formatCampaignSeconds } from '../../lib/campaignTime';
+import { concentrationName } from '../../lib/concentrationName';
 import { ActionPreviewPanel } from './ActionPreviewPanel';
 import { CheckReceipt } from './CheckReceipt';
 import { deathSaveText } from './deathSaveText';
+
+// What each supported concentration spell does; other spells show only their name.
+const concentrationEffects: Record<string, string> = { 'detect-magic': ': sensing magic within 30 feet', 'shield-of-faith': ': +2 AC' };
 
 export function RulesSheet({ sheet, receipts = [], campaignId, actorId, initialPreview }: { readonly campaignId?: string; readonly actorId?: string; readonly sheet: CharacterSheetProjection; readonly receipts?: readonly Receipt[]; readonly initialPreview?: ActionPreview }) {
   return <section aria-label="SRD character sheet" className="space-y-5 text-champagne">
@@ -64,7 +68,7 @@ export function RulesSheet({ sheet, receipts = [], campaignId, actorId, initialP
     </section>}
     {sheet.spellcasting && <section aria-label="Concentration and recovery">
       <h3 className="font-heading text-gold">Concentration and recovery</h3>
-      <p>{sheet.concentration ? `${sheet.concentration.spell === 'detect-magic' ? 'Detect Magic: sensing magic within 30 feet' : 'Shield of Faith: +2 AC'}. Started ${formatCampaignSeconds(sheet.concentration.started_at)}; expires ${formatCampaignSeconds(sheet.concentration.expires_at)}.` : 'No concentration effect active.'}</p>
+      <p>{sheet.concentration ? `${concentrationName(sheet.concentration)}${concentrationEffects[sheet.concentration.spell] ?? ''}. Started ${formatCampaignSeconds(sheet.concentration.started_at)}; expires ${formatCampaignSeconds(sheet.concentration.expires_at)}.` : 'No concentration effect active.'}</p>
       <p className="text-sm text-pewter">Confirm quiet downtime or an uninterrupted rest from the action menu. One hour permits spending a d8 Hit Die; only an eight-hour Long Rest restores Cleric slots. Rest interruptions and wider effects remain unavailable.</p>
     </section>}
     <h3 className="font-heading text-gold">Skills</h3>

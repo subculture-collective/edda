@@ -399,7 +399,7 @@ func (e *Engine) ConfirmAction(ctx context.Context, campaignID uuid.UUID, reques
 		receipt, tool, label = equipment, "srd_equipment", equipment.Equipment
 		narrative = fmt.Sprintf("%s %s saved; AC %d to %d; campaign time advanced %d seconds.", request.Intent.Kind, equipment.Equipment, equipment.ACBefore, equipment.ACAfter, equipment.TimeAfter-equipment.TimeBefore)
 		if equipment.Expired != nil {
-			narrative += " Shield of Faith expired."
+			narrative += " " + srd521.ConcentrationLabel(equipment.Expired.Spell) + " expired."
 		}
 	} else if request.Intent.Kind == srd521.TacticalMind {
 		w := prepared.Tactical

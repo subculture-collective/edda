@@ -1,5 +1,6 @@
 import type { TravelReceipt as Receipt } from '../../api/types';
 import { formatCampaignSeconds } from '../../lib/campaignTime';
+import { concentrationName } from '../../lib/concentrationName';
 
 const duration = (seconds: number) => `${Math.floor(seconds / 60)} min ${String(seconds % 60).padStart(2, '0')} s`;
 
@@ -11,7 +12,7 @@ export function TravelReceipt({ receipt }: { readonly receipt: Receipt }) {
     <p>{(plan.distance_feet / 5280).toFixed(2)} miles ({plan.distance_feet} feet), {plan.terrain} terrain, {plan.good_road ? 'good road' : 'no road'}: {duration(plan.seconds)}.</p>
     <p>Campaign time {formatCampaignSeconds(receipt.time_before)} → {formatCampaignSeconds(receipt.time_after)}. Travel today {duration(receipt.day_travel_before)} → {duration(receipt.day_travel_after)}.</p>
     <p>Pace effect while travelling: {plan.effects.join('; ')}. No checks were made during the segment.</p>
-    {receipt.expired && <p>{receipt.expired.spell === 'detect-magic' ? 'Detect Magic' : 'Shield of Faith'} expired on the way.</p>}
+    {receipt.expired && <p>{concentrationName(receipt.expired)} expired on the way.</p>}
     <details><summary className="min-h-11 cursor-pointer py-2">Inspect travel sources</summary>{receipt.source_ids.map((id, index) => <p key={index} className="break-all text-pewter">{id}</p>)}</details>
   </section>;
 }
