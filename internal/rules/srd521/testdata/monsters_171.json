@@ -1,0 +1,2300 @@
+{
+  "schema_version": 1,
+  "source": {
+    "version": "5.2.1",
+    "language": "en",
+    "landing_url": "https://www.dndbeyond.com/srd",
+    "artifact_url": "https://media.dndbeyond.com/compendium-images/srd/5.2/SRD_CC_v5.2.1.pdf",
+    "sha256": "8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87",
+    "bytes": 6031375,
+    "pages": 364,
+    "retrieved_at": "2026-11-15",
+    "license": "CC-BY-4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/legalcode",
+    "attribution": "This work includes material from the System Reference Document 5.2.1 (“SRD 5.2.1”) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd. The SRD 5.2.1 is licensed under the Creative Commons Attribution 4.0 International License, available at https://creativecommons.org/licenses/by/4.0/legalcode.",
+    "changes": "Adapted the twelve stat blocks of issue #171 (Reef Shark, Remorhaz, Rhinoceros, Riding Horse, Roc, Roper, Rust Monster, Saber-Toothed Tiger, Sahuagin Warrior, Salamander, Satyr and Scorpion; PDF pages 319–322 and 360) into typed mechanical fields and implementation keys. Trait, action, bonus action and reaction entries keep their source rules text, rejoined across line, column and page breaks; descriptive prose outside the stat blocks is omitted. A hit printed without dice keeps explicit zero dice. The Roper's Tentacle, whose hit prints no damage, keeps an untyped attack. No playable NPC behavior is granted."
+  },
+  "monsters": [
+    {
+      "id": "srd-5.2.1:content/animals/reef-shark",
+      "name": "Reef Shark",
+      "source_pages": [
+        360,
+        360
+      ],
+      "sizes": [
+        "medium"
+      ],
+      "type": "beast",
+      "alignment": "Unaligned",
+      "ac": 12,
+      "initiative": {
+        "modifier": 2,
+        "score": 12
+      },
+      "hp": {
+        "average": 22,
+        "dice": 4,
+        "sides": 8,
+        "modifier": 4
+      },
+      "speeds": {
+        "walk": 5,
+        "swim": 30
+      },
+      "abilities": {
+        "str": {
+          "score": 14,
+          "modifier": 2,
+          "save": 2
+        },
+        "dex": {
+          "score": 15,
+          "modifier": 2,
+          "save": 2
+        },
+        "con": {
+          "score": 13,
+          "modifier": 1,
+          "save": 1
+        },
+        "int": {
+          "score": 1,
+          "modifier": -5,
+          "save": -5
+        },
+        "wis": {
+          "score": 10,
+          "modifier": 0,
+          "save": 0
+        },
+        "cha": {
+          "score": 4,
+          "modifier": -3,
+          "save": -3
+        }
+      },
+      "senses": {
+        "passive_perception": 12,
+        "special": {
+          "blindsight": 30
+        }
+      },
+      "languages": [],
+      "gear": [],
+      "cr": "1/2",
+      "xp": 100,
+      "proficiency_bonus": 2,
+      "skills": {
+        "perception": 2
+      },
+      "traits": [
+        {
+          "key": "trait/pack-tactics",
+          "name": "Pack Tactics",
+          "text": "Pack Tactics. The shark has Advantage on an attack roll against a creature if at least one of the shark’s allies is within 5 feet of the creature and the ally doesn’t have the Incapacitated condition.",
+          "requires": [
+            "attack/advantage-with-nearby-ally",
+            "requirement/ally-not-incapacitated"
+          ]
+        },
+        {
+          "key": "trait/water-breathing",
+          "name": "Water Breathing",
+          "text": "Water Breathing. The shark can breathe only underwater.",
+          "requires": [
+            "effect/breathe-only-underwater"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "bite",
+          "name": "Bite",
+          "text": "Bite. Melee Attack Roll: +4, reach 5 ft. Hit: 7 (2d4 + 2) Piercing damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 4,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 7,
+              "dice": 2,
+              "sides": 4,
+              "modifier": 2
+            },
+            "damage_type": "piercing"
+          },
+          "effects": [
+            {
+              "key": "effect/piercing-damage",
+              "name": "Piercing damage",
+              "text": "7 (2d4 + 2) Piercing damage.",
+              "dice": {
+                "average": 7,
+                "dice": 2,
+                "sides": 4,
+                "modifier": 2
+              }
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/skills",
+        "movement/swim",
+        "sense/blindsight",
+        "trait/pack-tactics",
+        "attack/advantage-with-nearby-ally",
+        "requirement/ally-not-incapacitated",
+        "trait/water-breathing",
+        "effect/breathe-only-underwater",
+        "action/melee-attack",
+        "effect/piercing-damage"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/remorhaz",
+      "name": "Remorhaz",
+      "source_pages": [
+        319,
+        320
+      ],
+      "sizes": [
+        "huge"
+      ],
+      "type": "monstrosity",
+      "alignment": "Unaligned",
+      "ac": 17,
+      "initiative": {
+        "modifier": 5,
+        "score": 15
+      },
+      "hp": {
+        "average": 195,
+        "dice": 17,
+        "sides": 12,
+        "modifier": 85
+      },
+      "speeds": {
+        "walk": 40,
+        "burrow": 30
+      },
+      "abilities": {
+        "str": {
+          "score": 24,
+          "modifier": 7,
+          "save": 7
+        },
+        "dex": {
+          "score": 13,
+          "modifier": 1,
+          "save": 1
+        },
+        "con": {
+          "score": 21,
+          "modifier": 5,
+          "save": 5
+        },
+        "int": {
+          "score": 4,
+          "modifier": -3,
+          "save": -3
+        },
+        "wis": {
+          "score": 10,
+          "modifier": 0,
+          "save": 0
+        },
+        "cha": {
+          "score": 5,
+          "modifier": -3,
+          "save": -3
+        }
+      },
+      "senses": {
+        "passive_perception": 10,
+        "special": {
+          "darkvision": 60,
+          "tremorsense": 60
+        }
+      },
+      "languages": [],
+      "gear": [],
+      "cr": "11",
+      "xp": 7200,
+      "proficiency_bonus": 4,
+      "immunities": [
+        "cold",
+        "fire"
+      ],
+      "traits": [
+        {
+          "key": "trait/heat-aura",
+          "name": "Heat Aura",
+          "text": "Heat Aura. At the end of each of the remorhaz’s turns, each creature in a 5-foot Emanation originating from the remorhaz takes 16 (3d10) Fire damage.",
+          "dice": {
+            "average": 16,
+            "dice": 3,
+            "sides": 10,
+            "modifier": 0
+          },
+          "requires": [
+            "area/emanation",
+            "target/creatures-in-area",
+            "effect/fire-damage",
+            "effect/end-of-turn-damage"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "bite",
+          "name": "Bite",
+          "text": "Bite. Melee Attack Roll: +11, reach 10 ft. Hit: 18 (2d10 + 7) Piercing damage plus 14 (4d6) Fire damage. If the target is a Large or smaller creature, it has the Grappled condition (escape DC 17), and it has the Restrained condition until the grapple ends.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 11,
+            "reach": 10,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 18,
+              "dice": 2,
+              "sides": 10,
+              "modifier": 7
+            },
+            "damage_type": "piercing"
+          },
+          "effects": [
+            {
+              "key": "effect/piercing-damage",
+              "name": "Piercing damage",
+              "text": "18 (2d10 + 7) Piercing damage.",
+              "dice": {
+                "average": 18,
+                "dice": 2,
+                "sides": 10,
+                "modifier": 7
+              }
+            },
+            {
+              "key": "effect/fire-damage",
+              "name": "Fire damage",
+              "text": "14 (4d6) Fire damage",
+              "dice": {
+                "average": 14,
+                "dice": 4,
+                "sides": 6,
+                "modifier": 0
+              }
+            },
+            {
+              "key": "requirement/target-size",
+              "name": "Target size",
+              "text": "If the target is a Large or smaller creature"
+            },
+            {
+              "key": "condition/grappled",
+              "name": "Grappled",
+              "text": "it has the Grappled condition (escape DC 17)"
+            },
+            {
+              "key": "condition/restrained",
+              "name": "Restrained",
+              "text": "it has the Restrained condition until the grapple ends"
+            }
+          ]
+        }
+      ],
+      "bonus_actions": [
+        {
+          "id": "swallow",
+          "name": "Swallow",
+          "text": "Swallow. Strength Saving Throw: DC 19, one Large or smaller creature Grappled by the remorhaz (it can have up to two creatures swallowed at a time). Failure: The target is swallowed by the remorhaz, and the Grappled condition ends. A swallowed creature has the Blinded and Restrained conditions, it has Total Cover against attacks and other effects outside the remorhaz, and it takes 10 (3d6) Acid damage plus 10 (3d6) Fire damage at the start of each of the remorhaz’s turns. If the remorhaz takes 30 damage or more on a single turn from a creature inside it, the remorhaz must succeed on a DC 15 Constitution saving throw at the end of that turn or regurgitate all swallowed creatures, each of which falls in a space within 5 feet of the remorhaz and has the Prone condition. If the remorhaz dies, any swallowed creature no longer has the Restrained condition and can escape from the corpse by using 15 feet of movement, exiting Prone.",
+          "key": "action/saving-throw",
+          "save": {
+            "ability": "str",
+            "dc": 19
+          },
+          "target": {
+            "shape": "creature",
+            "size": 0,
+            "width": 0,
+            "range": 0
+          },
+          "effects": [
+            {
+              "key": "save/str",
+              "name": "Strength Saving Throw",
+              "text": "Strength Saving Throw: DC 19"
+            },
+            {
+              "key": "target/creature",
+              "name": "Target",
+              "text": "one Large or smaller creature Grappled by the remorhaz (it can have up to two creatures swallowed at a time)."
+            },
+            {
+              "key": "requirement/target-size",
+              "name": "Target size",
+              "text": "one Large or smaller creature"
+            },
+            {
+              "key": "requirement/grappled-creature",
+              "name": "Grappled creature",
+              "text": "Grappled by the remorhaz"
+            },
+            {
+              "key": "limit/two-swallowed-creatures",
+              "name": "Two swallowed creatures",
+              "text": "it can have up to two creatures swallowed at a time"
+            },
+            {
+              "key": "effect/swallow",
+              "name": "Swallow",
+              "text": "The target is swallowed by the remorhaz, and the Grappled condition ends"
+            },
+            {
+              "key": "condition/blinded",
+              "name": "Blinded",
+              "text": "A swallowed creature has the Blinded and Restrained conditions"
+            },
+            {
+              "key": "condition/restrained",
+              "name": "Restrained",
+              "text": "A swallowed creature has the Blinded and Restrained conditions"
+            },
+            {
+              "key": "effect/total-cover",
+              "name": "Total cover",
+              "text": "it has Total Cover against attacks and other effects outside the remorhaz"
+            },
+            {
+              "key": "effect/acid-damage",
+              "name": "Acid damage",
+              "text": "it takes 10 (3d6) Acid damage",
+              "dice": {
+                "average": 10,
+                "dice": 3,
+                "sides": 6,
+                "modifier": 0
+              }
+            },
+            {
+              "key": "effect/fire-damage",
+              "name": "Fire damage",
+              "text": "10 (3d6) Fire damage at the start of each of the remorhaz’s turns",
+              "dice": {
+                "average": 10,
+                "dice": 3,
+                "sides": 6,
+                "modifier": 0
+              }
+            },
+            {
+              "key": "effect/regurgitation-save",
+              "name": "Regurgitation save",
+              "text": "the remorhaz must succeed on a DC 15 Constitution saving throw at the end of that turn or regurgitate all swallowed creatures"
+            },
+            {
+              "key": "condition/prone",
+              "name": "Prone",
+              "text": "falls in a space within 5 feet of the remorhaz and has the Prone condition"
+            },
+            {
+              "key": "effect/escape-corpse",
+              "name": "Escape corpse",
+              "text": "If the remorhaz dies, any swallowed creature no longer has the Restrained condition and can escape from the corpse by using 15 feet of movement, exiting Prone"
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "defense/damage-immunity",
+        "movement/burrow",
+        "sense/darkvision",
+        "sense/tremorsense",
+        "action/bonus-action",
+        "trait/heat-aura",
+        "area/emanation",
+        "target/creatures-in-area",
+        "effect/fire-damage",
+        "effect/end-of-turn-damage",
+        "action/melee-attack",
+        "effect/piercing-damage",
+        "requirement/target-size",
+        "condition/grappled",
+        "condition/restrained",
+        "action/saving-throw",
+        "save/str",
+        "target/creature",
+        "requirement/grappled-creature",
+        "limit/two-swallowed-creatures",
+        "effect/swallow",
+        "condition/blinded",
+        "effect/total-cover",
+        "effect/acid-damage",
+        "effect/regurgitation-save",
+        "condition/prone",
+        "effect/escape-corpse"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/animals/rhinoceros",
+      "name": "Rhinoceros",
+      "source_pages": [
+        360,
+        360
+      ],
+      "sizes": [
+        "large"
+      ],
+      "type": "beast",
+      "alignment": "Unaligned",
+      "ac": 13,
+      "initiative": {
+        "modifier": -1,
+        "score": 9
+      },
+      "hp": {
+        "average": 45,
+        "dice": 6,
+        "sides": 10,
+        "modifier": 12
+      },
+      "speeds": {
+        "walk": 40
+      },
+      "abilities": {
+        "str": {
+          "score": 21,
+          "modifier": 5,
+          "save": 5
+        },
+        "dex": {
+          "score": 8,
+          "modifier": -1,
+          "save": -1
+        },
+        "con": {
+          "score": 15,
+          "modifier": 2,
+          "save": 2
+        },
+        "int": {
+          "score": 2,
+          "modifier": -4,
+          "save": -4
+        },
+        "wis": {
+          "score": 12,
+          "modifier": 1,
+          "save": 1
+        },
+        "cha": {
+          "score": 6,
+          "modifier": -2,
+          "save": -2
+        }
+      },
+      "senses": {
+        "passive_perception": 11,
+        "special": {}
+      },
+      "languages": [],
+      "gear": [],
+      "cr": "2",
+      "xp": 450,
+      "proficiency_bonus": 2,
+      "traits": [],
+      "actions": [
+        {
+          "id": "gore",
+          "name": "Gore",
+          "text": "Gore. Melee Attack Roll: +7, reach 5 ft. Hit: 14 (2d8 + 5) Piercing damage. If target is a Large or smaller creature and the rhinoceros moved 20+ feet straight toward it immediately before the hit, the target takes an extra 9 (2d8) Piercing damage and has the Prone condition.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 7,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 14,
+              "dice": 2,
+              "sides": 8,
+              "modifier": 5
+            },
+            "damage_type": "piercing"
+          },
+          "effects": [
+            {
+              "key": "effect/piercing-damage",
+              "name": "Piercing damage",
+              "text": "14 (2d8 + 5) Piercing damage.",
+              "dice": {
+                "average": 14,
+                "dice": 2,
+                "sides": 8,
+                "modifier": 5
+              }
+            },
+            {
+              "key": "requirement/target-size",
+              "name": "Target size",
+              "text": "If target is a Large or smaller creature"
+            },
+            {
+              "key": "requirement/straight-line-movement",
+              "name": "Straight line movement",
+              "text": "the rhinoceros moved 20+ feet straight toward it immediately before the hit"
+            },
+            {
+              "key": "effect/piercing-damage",
+              "name": "Piercing damage",
+              "text": "the target takes an extra 9 (2d8) Piercing damage",
+              "dice": {
+                "average": 9,
+                "dice": 2,
+                "sides": 8,
+                "modifier": 0
+              }
+            },
+            {
+              "key": "condition/prone",
+              "name": "Prone",
+              "text": "has the Prone condition"
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "action/melee-attack",
+        "effect/piercing-damage",
+        "requirement/target-size",
+        "requirement/straight-line-movement",
+        "condition/prone"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/animals/riding-horse",
+      "name": "Riding Horse",
+      "source_pages": [
+        360,
+        360
+      ],
+      "sizes": [
+        "large"
+      ],
+      "type": "beast",
+      "alignment": "Unaligned",
+      "ac": 11,
+      "initiative": {
+        "modifier": 1,
+        "score": 11
+      },
+      "hp": {
+        "average": 13,
+        "dice": 2,
+        "sides": 10,
+        "modifier": 2
+      },
+      "speeds": {
+        "walk": 60
+      },
+      "abilities": {
+        "str": {
+          "score": 16,
+          "modifier": 3,
+          "save": 3
+        },
+        "dex": {
+          "score": 13,
+          "modifier": 1,
+          "save": 1
+        },
+        "con": {
+          "score": 12,
+          "modifier": 1,
+          "save": 1
+        },
+        "int": {
+          "score": 2,
+          "modifier": -4,
+          "save": -4
+        },
+        "wis": {
+          "score": 11,
+          "modifier": 0,
+          "save": 0
+        },
+        "cha": {
+          "score": 7,
+          "modifier": -2,
+          "save": -2
+        }
+      },
+      "senses": {
+        "passive_perception": 10,
+        "special": {}
+      },
+      "languages": [],
+      "gear": [],
+      "cr": "1/4",
+      "xp": 50,
+      "proficiency_bonus": 2,
+      "traits": [],
+      "actions": [
+        {
+          "id": "hooves",
+          "name": "Hooves",
+          "text": "Hooves. Melee Attack Roll: +5, reach 5 ft. Hit: 7 (1d8 + 3) Bludgeoning damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 5,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 7,
+              "dice": 1,
+              "sides": 8,
+              "modifier": 3
+            },
+            "damage_type": "bludgeoning"
+          },
+          "effects": [
+            {
+              "key": "effect/bludgeoning-damage",
+              "name": "Bludgeoning damage",
+              "text": "7 (1d8 + 3) Bludgeoning damage.",
+              "dice": {
+                "average": 7,
+                "dice": 1,
+                "sides": 8,
+                "modifier": 3
+              }
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "action/melee-attack",
+        "effect/bludgeoning-damage"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/roc",
+      "name": "Roc",
+      "source_pages": [
+        320,
+        320
+      ],
+      "sizes": [
+        "gargantuan"
+      ],
+      "type": "monstrosity",
+      "alignment": "Unaligned",
+      "ac": 15,
+      "initiative": {
+        "modifier": 8,
+        "score": 18
+      },
+      "hp": {
+        "average": 248,
+        "dice": 16,
+        "sides": 20,
+        "modifier": 80
+      },
+      "speeds": {
+        "walk": 20,
+        "fly": 120
+      },
+      "abilities": {
+        "str": {
+          "score": 28,
+          "modifier": 9,
+          "save": 9
+        },
+        "dex": {
+          "score": 10,
+          "modifier": 0,
+          "save": 4
+        },
+        "con": {
+          "score": 20,
+          "modifier": 5,
+          "save": 5
+        },
+        "int": {
+          "score": 3,
+          "modifier": -4,
+          "save": -4
+        },
+        "wis": {
+          "score": 10,
+          "modifier": 0,
+          "save": 4
+        },
+        "cha": {
+          "score": 9,
+          "modifier": -1,
+          "save": -1
+        }
+      },
+      "senses": {
+        "passive_perception": 18,
+        "special": {}
+      },
+      "languages": [],
+      "gear": [],
+      "cr": "11",
+      "xp": 7200,
+      "proficiency_bonus": 4,
+      "skills": {
+        "perception": 8
+      },
+      "traits": [],
+      "actions": [
+        {
+          "id": "multiattack",
+          "name": "Multiattack",
+          "text": "Multiattack. The roc makes two Beak attacks. It can replace one attack with a Talons attack.",
+          "key": "action/multiattack",
+          "effects": [
+            {
+              "key": "action/melee-attack",
+              "name": "Melee attack",
+              "text": "The roc makes two Beak attacks"
+            },
+            {
+              "key": "multiattack/replace-attack",
+              "name": "Replace attack",
+              "text": "It can replace one attack with a Talons attack"
+            }
+          ]
+        },
+        {
+          "id": "beak",
+          "name": "Beak",
+          "text": "Beak. Melee Attack Roll: +13, reach 10 ft. Hit: 28 (3d12 + 9) Piercing damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 13,
+            "reach": 10,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 28,
+              "dice": 3,
+              "sides": 12,
+              "modifier": 9
+            },
+            "damage_type": "piercing"
+          },
+          "effects": [
+            {
+              "key": "effect/piercing-damage",
+              "name": "Piercing damage",
+              "text": "28 (3d12 + 9) Piercing damage.",
+              "dice": {
+                "average": 28,
+                "dice": 3,
+                "sides": 12,
+                "modifier": 9
+              }
+            }
+          ]
+        },
+        {
+          "id": "talons",
+          "name": "Talons",
+          "text": "Talons. Melee Attack Roll: +13, reach 5 ft. Hit: 23 (4d6 + 9) Slashing damage. If the target is a Huge or smaller creature, it has the Grappled condition (escape DC 19) from both talons, and it has the Restrained condition until the grapple ends.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 13,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 23,
+              "dice": 4,
+              "sides": 6,
+              "modifier": 9
+            },
+            "damage_type": "slashing"
+          },
+          "effects": [
+            {
+              "key": "effect/slashing-damage",
+              "name": "Slashing damage",
+              "text": "23 (4d6 + 9) Slashing damage.",
+              "dice": {
+                "average": 23,
+                "dice": 4,
+                "sides": 6,
+                "modifier": 9
+              }
+            },
+            {
+              "key": "requirement/target-size",
+              "name": "Target size",
+              "text": "If the target is a Huge or smaller creature"
+            },
+            {
+              "key": "condition/grappled",
+              "name": "Grappled",
+              "text": "it has the Grappled condition (escape DC 19) from both talons"
+            },
+            {
+              "key": "condition/restrained",
+              "name": "Restrained",
+              "text": "it has the Restrained condition until the grapple ends"
+            }
+          ]
+        }
+      ],
+      "bonus_actions": [
+        {
+          "id": "swoop",
+          "name": "Swoop",
+          "text": "Swoop (Recharge 5–6). If the roc has a creature Grappled, the roc flies up to half its Fly Speed without provoking Opportunity Attacks and drops that creature.",
+          "key": "action/special",
+          "uses": {
+            "per_day": 0,
+            "lair_per_day": 0,
+            "recharge": 5
+          },
+          "effects": [
+            {
+              "key": "limit/recharge",
+              "name": "Recharge",
+              "text": "(Recharge 5–6)"
+            },
+            {
+              "key": "requirement/grappled-creature",
+              "name": "Grappled creature",
+              "text": "If the roc has a creature Grappled"
+            },
+            {
+              "key": "movement/half-fly-speed",
+              "name": "Half fly speed",
+              "text": "the roc flies up to half its Fly Speed"
+            },
+            {
+              "key": "effect/no-opportunity-attacks",
+              "name": "No opportunity attacks",
+              "text": "without provoking Opportunity Attacks"
+            },
+            {
+              "key": "effect/drop-creature",
+              "name": "Drop creature",
+              "text": "drops that creature"
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/skills",
+        "movement/fly",
+        "action/bonus-action",
+        "action/multiattack",
+        "action/melee-attack",
+        "multiattack/replace-attack",
+        "effect/piercing-damage",
+        "effect/slashing-damage",
+        "requirement/target-size",
+        "condition/grappled",
+        "condition/restrained",
+        "action/special",
+        "limit/recharge",
+        "requirement/grappled-creature",
+        "movement/half-fly-speed",
+        "effect/no-opportunity-attacks",
+        "effect/drop-creature"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/roper",
+      "name": "Roper",
+      "source_pages": [
+        320,
+        320
+      ],
+      "sizes": [
+        "large"
+      ],
+      "type": "aberration",
+      "alignment": "Neutral Evil",
+      "ac": 20,
+      "initiative": {
+        "modifier": 5,
+        "score": 15
+      },
+      "hp": {
+        "average": 93,
+        "dice": 11,
+        "sides": 10,
+        "modifier": 33
+      },
+      "speeds": {
+        "walk": 10,
+        "climb": 20
+      },
+      "abilities": {
+        "str": {
+          "score": 18,
+          "modifier": 4,
+          "save": 4
+        },
+        "dex": {
+          "score": 8,
+          "modifier": -1,
+          "save": -1
+        },
+        "con": {
+          "score": 17,
+          "modifier": 3,
+          "save": 3
+        },
+        "int": {
+          "score": 7,
+          "modifier": -2,
+          "save": -2
+        },
+        "wis": {
+          "score": 16,
+          "modifier": 3,
+          "save": 3
+        },
+        "cha": {
+          "score": 6,
+          "modifier": -2,
+          "save": -2
+        }
+      },
+      "senses": {
+        "passive_perception": 16,
+        "special": {
+          "darkvision": 60
+        }
+      },
+      "languages": [],
+      "gear": [],
+      "cr": "5",
+      "xp": 1800,
+      "proficiency_bonus": 3,
+      "skills": {
+        "perception": 6,
+        "stealth": 5
+      },
+      "traits": [
+        {
+          "key": "trait/spider-climb",
+          "name": "Spider Climb",
+          "text": "Spider Climb. The roper can climb difficult surfaces, including along ceilings, without needing to make an ability check.",
+          "requires": [
+            "effect/climb-without-check"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "multiattack",
+          "name": "Multiattack",
+          "text": "Multiattack. The roper makes two Tentacle attacks, uses Reel, and makes two Bite attacks.",
+          "key": "action/multiattack",
+          "effects": [
+            {
+              "key": "action/melee-attack",
+              "name": "Melee attack",
+              "text": "The roper makes two Tentacle attacks, uses Reel, and makes two Bite attacks"
+            },
+            {
+              "key": "action/special",
+              "name": "Special",
+              "text": "uses Reel"
+            }
+          ]
+        },
+        {
+          "id": "bite",
+          "name": "Bite",
+          "text": "Bite. Melee Attack Roll: +7, reach 5 ft. Hit: 17 (3d8 + 4) Piercing damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 7,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 17,
+              "dice": 3,
+              "sides": 8,
+              "modifier": 4
+            },
+            "damage_type": "piercing"
+          },
+          "effects": [
+            {
+              "key": "effect/piercing-damage",
+              "name": "Piercing damage",
+              "text": "17 (3d8 + 4) Piercing damage.",
+              "dice": {
+                "average": 17,
+                "dice": 3,
+                "sides": 8,
+                "modifier": 4
+              }
+            }
+          ]
+        },
+        {
+          "id": "tentacle",
+          "name": "Tentacle",
+          "text": "Tentacle. Melee Attack Roll: +7, reach 60 ft. Hit: The target has the Grappled condition (escape DC 14) from one of six tentacles, and the target has the Poisoned condition until the grapple ends. The tentacle can be damaged, freeing a creature it has Grappled when destroyed (AC 20, HP 10, Immunity to Poison and Psychic damage). Damaging the tentacle deals no damage to the roper, and a destroyed tentacle regrows at the start of the roper’s next turn.",
+          "key": "action/melee-attack-without-damage",
+          "effects": [
+            {
+              "key": "attack/roll-without-damage",
+              "name": "Roll without damage",
+              "text": "Melee Attack Roll: +7, reach 60 ft."
+            },
+            {
+              "key": "condition/grappled",
+              "name": "Grappled",
+              "text": "The target has the Grappled condition (escape DC 14)"
+            },
+            {
+              "key": "limit/grapple-from-one-of-six-tentacles",
+              "name": "Grapple from one of six tentacles",
+              "text": "from one of six tentacles"
+            },
+            {
+              "key": "condition/poisoned",
+              "name": "Poisoned",
+              "text": "the target has the Poisoned condition until the grapple ends"
+            },
+            {
+              "key": "effect/destructible-tentacle",
+              "name": "Destructible tentacle",
+              "text": "The tentacle can be damaged, freeing a creature it has Grappled when destroyed (AC 20, HP 10, Immunity to Poison and Psychic damage)"
+            },
+            {
+              "key": "effect/tentacle-damage-not-transferred",
+              "name": "Tentacle damage not transferred",
+              "text": "Damaging the tentacle deals no damage to the roper"
+            },
+            {
+              "key": "effect/tentacle-regrows",
+              "name": "Tentacle regrows",
+              "text": "a destroyed tentacle regrows at the start of the roper’s next turn"
+            }
+          ]
+        },
+        {
+          "id": "reel",
+          "name": "Reel",
+          "text": "Reel. The roper pulls each creature Grappled by it up to 30 feet straight toward it.",
+          "key": "action/special",
+          "effects": [
+            {
+              "key": "target/grappled-creatures",
+              "name": "Grappled creatures",
+              "text": "each creature Grappled by it"
+            },
+            {
+              "key": "effect/pull",
+              "name": "Pull",
+              "text": "The roper pulls each creature Grappled by it up to 30 feet straight toward it"
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/skills",
+        "movement/climb",
+        "sense/darkvision",
+        "trait/spider-climb",
+        "effect/climb-without-check",
+        "action/multiattack",
+        "action/melee-attack",
+        "action/special",
+        "effect/piercing-damage",
+        "action/melee-attack-without-damage",
+        "attack/roll-without-damage",
+        "condition/grappled",
+        "limit/grapple-from-one-of-six-tentacles",
+        "condition/poisoned",
+        "effect/destructible-tentacle",
+        "effect/tentacle-damage-not-transferred",
+        "effect/tentacle-regrows",
+        "target/grappled-creatures",
+        "effect/pull"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/rust-monster",
+      "name": "Rust Monster",
+      "source_pages": [
+        320,
+        321
+      ],
+      "sizes": [
+        "medium"
+      ],
+      "type": "monstrosity",
+      "alignment": "Unaligned",
+      "ac": 14,
+      "initiative": {
+        "modifier": 1,
+        "score": 11
+      },
+      "hp": {
+        "average": 33,
+        "dice": 6,
+        "sides": 8,
+        "modifier": 6
+      },
+      "speeds": {
+        "walk": 40
+      },
+      "abilities": {
+        "str": {
+          "score": 13,
+          "modifier": 1,
+          "save": 1
+        },
+        "dex": {
+          "score": 12,
+          "modifier": 1,
+          "save": 1
+        },
+        "con": {
+          "score": 13,
+          "modifier": 1,
+          "save": 1
+        },
+        "int": {
+          "score": 2,
+          "modifier": -4,
+          "save": -4
+        },
+        "wis": {
+          "score": 13,
+          "modifier": 1,
+          "save": 1
+        },
+        "cha": {
+          "score": 6,
+          "modifier": -2,
+          "save": -2
+        }
+      },
+      "senses": {
+        "passive_perception": 11,
+        "special": {
+          "darkvision": 60
+        }
+      },
+      "languages": [],
+      "gear": [],
+      "cr": "1/2",
+      "xp": 100,
+      "proficiency_bonus": 2,
+      "traits": [
+        {
+          "key": "trait/iron-scent",
+          "name": "Iron Scent",
+          "text": "Iron Scent. The rust monster can pinpoint the location of ferrous metal within 30 feet of itself.",
+          "requires": [
+            "sense/locate-ferrous-metal"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "multiattack",
+          "name": "Multiattack",
+          "text": "Multiattack. The rust monster makes one Bite attack and uses Antennae twice.",
+          "key": "action/multiattack",
+          "effects": [
+            {
+              "key": "action/melee-attack",
+              "name": "Melee attack",
+              "text": "The rust monster makes one Bite attack"
+            },
+            {
+              "key": "action/saving-throw",
+              "name": "Saving throw",
+              "text": "uses Antennae twice"
+            }
+          ]
+        },
+        {
+          "id": "bite",
+          "name": "Bite",
+          "text": "Bite. Melee Attack Roll: +3, reach 5 ft. Hit: 5 (1d8 + 1) Piercing damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 3,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 5,
+              "dice": 1,
+              "sides": 8,
+              "modifier": 1
+            },
+            "damage_type": "piercing"
+          },
+          "effects": [
+            {
+              "key": "effect/piercing-damage",
+              "name": "Piercing damage",
+              "text": "5 (1d8 + 1) Piercing damage.",
+              "dice": {
+                "average": 5,
+                "dice": 1,
+                "sides": 8,
+                "modifier": 1
+              }
+            }
+          ]
+        },
+        {
+          "id": "antennae",
+          "name": "Antennae",
+          "text": "Antennae. The rust monster targets one nonmagical metal object—armor or a weapon—worn or carried by a creature within 5 feet of itself. Dexterity Saving Throw: DC 11, the creature with the object. Failure: The object takes a −1 penalty to the AC it offers (armor) or to its attack rolls (weapon). Armor is destroyed if the penalty reduces its AC to 10, and a weapon is destroyed if its penalty reaches −5. The penalty can be removed by casting the Mending spell on the armor or weapon.",
+          "key": "action/saving-throw",
+          "save": {
+            "ability": "dex",
+            "dc": 11
+          },
+          "effects": [
+            {
+              "key": "save/dex",
+              "name": "Dexterity Saving Throw",
+              "text": "Dexterity Saving Throw: DC 11"
+            },
+            {
+              "key": "target/worn-or-carried-metal-object",
+              "name": "Worn or carried metal object",
+              "text": "one nonmagical metal object—armor or a weapon—worn or carried by a creature within 5 feet of itself"
+            },
+            {
+              "key": "target/object-bearer",
+              "name": "Object bearer",
+              "text": "the creature with the object"
+            },
+            {
+              "key": "effect/object-penalty",
+              "name": "Object penalty",
+              "text": "The object takes a −1 penalty to the AC it offers (armor) or to its attack rolls (weapon)"
+            },
+            {
+              "key": "effect/armor-destruction",
+              "name": "Armor destruction",
+              "text": "Armor is destroyed if the penalty reduces its AC to 10"
+            },
+            {
+              "key": "effect/weapon-destruction",
+              "name": "Weapon destruction",
+              "text": "a weapon is destroyed if its penalty reaches −5"
+            },
+            {
+              "key": "effect/penalty-removed-by-mending",
+              "name": "Penalty removed by mending",
+              "text": "The penalty can be removed by casting the Mending spell on the armor or weapon"
+            }
+          ]
+        },
+        {
+          "id": "destroy-metal",
+          "name": "Destroy Metal",
+          "text": "Destroy Metal. The rust monster touches a nonmagical metal object within 5 feet of itself that isn’t being worn or carried. The touch destroys a 1-foot Cube of the object.",
+          "key": "action/special",
+          "effects": [
+            {
+              "key": "target/unattended-metal-object",
+              "name": "Unattended metal object",
+              "text": "a nonmagical metal object within 5 feet of itself that isn’t being worn or carried"
+            },
+            {
+              "key": "effect/destroy-metal",
+              "name": "Destroy metal",
+              "text": "The touch destroys a 1-foot Cube of the object"
+            }
+          ]
+        }
+      ],
+      "reactions": [
+        {
+          "id": "reflexive-antennae",
+          "name": "Reflexive Antennae",
+          "text": "Reflexive Antennae. Trigger: An attack roll hits the rust monster. Response: The rust monster uses Antennae.",
+          "key": "action/special",
+          "effects": [
+            {
+              "key": "reaction/trigger",
+              "name": "Trigger",
+              "text": "Trigger: An attack roll hits the rust monster"
+            },
+            {
+              "key": "action/saving-throw",
+              "name": "Saving throw",
+              "text": "Response: The rust monster uses Antennae"
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "sense/darkvision",
+        "action/reaction",
+        "trait/iron-scent",
+        "sense/locate-ferrous-metal",
+        "action/multiattack",
+        "action/melee-attack",
+        "action/saving-throw",
+        "effect/piercing-damage",
+        "save/dex",
+        "target/worn-or-carried-metal-object",
+        "target/object-bearer",
+        "effect/object-penalty",
+        "effect/armor-destruction",
+        "effect/weapon-destruction",
+        "effect/penalty-removed-by-mending",
+        "action/special",
+        "target/unattended-metal-object",
+        "effect/destroy-metal",
+        "reaction/trigger"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/animals/saber-toothed-tiger",
+      "name": "Saber-Toothed Tiger",
+      "source_pages": [
+        360,
+        360
+      ],
+      "sizes": [
+        "large"
+      ],
+      "type": "beast",
+      "alignment": "Unaligned",
+      "ac": 13,
+      "initiative": {
+        "modifier": 3,
+        "score": 13
+      },
+      "hp": {
+        "average": 52,
+        "dice": 7,
+        "sides": 10,
+        "modifier": 14
+      },
+      "speeds": {
+        "walk": 40
+      },
+      "abilities": {
+        "str": {
+          "score": 18,
+          "modifier": 4,
+          "save": 6
+        },
+        "dex": {
+          "score": 17,
+          "modifier": 3,
+          "save": 5
+        },
+        "con": {
+          "score": 15,
+          "modifier": 2,
+          "save": 2
+        },
+        "int": {
+          "score": 3,
+          "modifier": -4,
+          "save": -4
+        },
+        "wis": {
+          "score": 12,
+          "modifier": 1,
+          "save": 1
+        },
+        "cha": {
+          "score": 8,
+          "modifier": -1,
+          "save": -1
+        }
+      },
+      "senses": {
+        "passive_perception": 15,
+        "special": {
+          "darkvision": 60
+        }
+      },
+      "languages": [],
+      "gear": [],
+      "cr": "2",
+      "xp": 450,
+      "proficiency_bonus": 2,
+      "skills": {
+        "perception": 5,
+        "stealth": 7
+      },
+      "traits": [
+        {
+          "key": "trait/running-leap",
+          "name": "Running Leap",
+          "text": "Running Leap. With a 10-foot running start, the tiger can Long Jump up to 25 feet.",
+          "requires": [
+            "movement/running-long-jump"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "multiattack",
+          "name": "Multiattack",
+          "text": "Multiattack. The tiger makes two Rend attacks.",
+          "key": "action/multiattack",
+          "effects": [
+            {
+              "key": "action/melee-attack",
+              "name": "Melee attack",
+              "text": "The tiger makes two Rend attacks"
+            }
+          ]
+        },
+        {
+          "id": "rend",
+          "name": "Rend",
+          "text": "Rend. Melee Attack Roll: +6, reach 5 ft. Hit: 11 (2d6 + 4) Slashing damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 6,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 11,
+              "dice": 2,
+              "sides": 6,
+              "modifier": 4
+            },
+            "damage_type": "slashing"
+          },
+          "effects": [
+            {
+              "key": "effect/slashing-damage",
+              "name": "Slashing damage",
+              "text": "11 (2d6 + 4) Slashing damage.",
+              "dice": {
+                "average": 11,
+                "dice": 2,
+                "sides": 6,
+                "modifier": 4
+              }
+            }
+          ]
+        }
+      ],
+      "bonus_actions": [
+        {
+          "id": "nimble-escape",
+          "name": "Nimble Escape",
+          "text": "Nimble Escape. The tiger takes the Disengage or Hide action.",
+          "key": "action/special",
+          "effects": [
+            {
+              "key": "action/disengage",
+              "name": "Disengage",
+              "text": "The tiger takes the Disengage or Hide action"
+            },
+            {
+              "key": "action/hide",
+              "name": "Hide",
+              "text": "Hide action"
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/skills",
+        "sense/darkvision",
+        "action/bonus-action",
+        "trait/running-leap",
+        "movement/running-long-jump",
+        "action/multiattack",
+        "action/melee-attack",
+        "effect/slashing-damage",
+        "action/special",
+        "action/disengage",
+        "action/hide"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/sahuagin-warrior",
+      "name": "Sahuagin Warrior",
+      "source_pages": [
+        321,
+        321
+      ],
+      "sizes": [
+        "medium"
+      ],
+      "type": "fiend",
+      "alignment": "Lawful Evil",
+      "ac": 12,
+      "initiative": {
+        "modifier": 0,
+        "score": 10
+      },
+      "hp": {
+        "average": 22,
+        "dice": 4,
+        "sides": 8,
+        "modifier": 4
+      },
+      "speeds": {
+        "walk": 30,
+        "swim": 40
+      },
+      "abilities": {
+        "str": {
+          "score": 13,
+          "modifier": 1,
+          "save": 1
+        },
+        "dex": {
+          "score": 11,
+          "modifier": 0,
+          "save": 0
+        },
+        "con": {
+          "score": 12,
+          "modifier": 1,
+          "save": 1
+        },
+        "int": {
+          "score": 12,
+          "modifier": 1,
+          "save": 1
+        },
+        "wis": {
+          "score": 13,
+          "modifier": 1,
+          "save": 1
+        },
+        "cha": {
+          "score": 9,
+          "modifier": -1,
+          "save": -1
+        }
+      },
+      "senses": {
+        "passive_perception": 15,
+        "special": {
+          "darkvision": 120
+        }
+      },
+      "languages": [
+        "Sahuagin"
+      ],
+      "gear": [],
+      "cr": "1/2",
+      "xp": 100,
+      "proficiency_bonus": 2,
+      "skills": {
+        "perception": 5
+      },
+      "resistances": [
+        "acid",
+        "cold"
+      ],
+      "traits": [
+        {
+          "key": "trait/blood-frenzy",
+          "name": "Blood Frenzy",
+          "text": "Blood Frenzy. The sahuagin has Advantage on attack rolls against any creature that doesn’t have all its Hit Points.",
+          "requires": [
+            "attack/advantage-against-target-missing-hit-points"
+          ]
+        },
+        {
+          "key": "trait/limited-amphibiousness",
+          "name": "Limited Amphibiousness",
+          "text": "Limited Amphibiousness. The sahuagin can breathe air and water, but it must be submerged at least once every 4 hours to avoid suffocating outside water.",
+          "requires": [
+            "effect/breathe-air-and-water",
+            "requirement/submerge-every-four-hours"
+          ]
+        },
+        {
+          "key": "trait/shark-telepathy",
+          "name": "Shark Telepathy",
+          "text": "Shark Telepathy. The sahuagin can magically control sharks within 120 feet of itself, using a special telepathy.",
+          "requires": [
+            "effect/control-sharks"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "multiattack",
+          "name": "Multiattack",
+          "text": "Multiattack. The sahuagin makes two Claw attacks.",
+          "key": "action/multiattack",
+          "effects": [
+            {
+              "key": "action/melee-attack",
+              "name": "Melee attack",
+              "text": "The sahuagin makes two Claw attacks"
+            }
+          ]
+        },
+        {
+          "id": "claw",
+          "name": "Claw",
+          "text": "Claw. Melee Attack Roll: +3, reach 5 ft. Hit: 4 (1d6 + 1) Slashing damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 3,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 4,
+              "dice": 1,
+              "sides": 6,
+              "modifier": 1
+            },
+            "damage_type": "slashing"
+          },
+          "effects": [
+            {
+              "key": "effect/slashing-damage",
+              "name": "Slashing damage",
+              "text": "4 (1d6 + 1) Slashing damage.",
+              "dice": {
+                "average": 4,
+                "dice": 1,
+                "sides": 6,
+                "modifier": 1
+              }
+            }
+          ]
+        }
+      ],
+      "bonus_actions": [
+        {
+          "id": "aquatic-charge",
+          "name": "Aquatic Charge",
+          "text": "Aquatic Charge. The sahuagin swims up to its Swim Speed straight toward an enemy it can see.",
+          "key": "action/special",
+          "effects": [
+            {
+              "key": "movement/swim-toward-enemy",
+              "name": "Swim toward enemy",
+              "text": "The sahuagin swims up to its Swim Speed straight toward an enemy it can see"
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/skills",
+        "defense/damage-resistance",
+        "movement/swim",
+        "sense/darkvision",
+        "action/bonus-action",
+        "trait/blood-frenzy",
+        "attack/advantage-against-target-missing-hit-points",
+        "trait/limited-amphibiousness",
+        "effect/breathe-air-and-water",
+        "requirement/submerge-every-four-hours",
+        "trait/shark-telepathy",
+        "effect/control-sharks",
+        "action/multiattack",
+        "action/melee-attack",
+        "effect/slashing-damage",
+        "action/special",
+        "movement/swim-toward-enemy"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/salamander",
+      "name": "Salamander",
+      "source_pages": [
+        321,
+        321
+      ],
+      "sizes": [
+        "large"
+      ],
+      "type": "elemental",
+      "alignment": "Neutral Evil",
+      "ac": 15,
+      "initiative": {
+        "modifier": 2,
+        "score": 12
+      },
+      "hp": {
+        "average": 90,
+        "dice": 12,
+        "sides": 10,
+        "modifier": 24
+      },
+      "speeds": {
+        "walk": 30,
+        "climb": 30
+      },
+      "abilities": {
+        "str": {
+          "score": 18,
+          "modifier": 4,
+          "save": 4
+        },
+        "dex": {
+          "score": 14,
+          "modifier": 2,
+          "save": 2
+        },
+        "con": {
+          "score": 15,
+          "modifier": 2,
+          "save": 2
+        },
+        "int": {
+          "score": 11,
+          "modifier": 0,
+          "save": 0
+        },
+        "wis": {
+          "score": 10,
+          "modifier": 0,
+          "save": 0
+        },
+        "cha": {
+          "score": 12,
+          "modifier": 1,
+          "save": 1
+        }
+      },
+      "senses": {
+        "passive_perception": 10,
+        "special": {
+          "darkvision": 60
+        }
+      },
+      "languages": [
+        "Primordial (Ignan)"
+      ],
+      "gear": [],
+      "cr": "5",
+      "xp": 1800,
+      "proficiency_bonus": 3,
+      "vulnerabilities": [
+        "cold"
+      ],
+      "immunities": [
+        "fire"
+      ],
+      "traits": [
+        {
+          "key": "trait/fire-aura",
+          "name": "Fire Aura",
+          "text": "Fire Aura. At the end of each of the salamander’s turns, each creature of the salamander’s choice in a 5-foot Emanation originating from the salamander takes 7 (2d6) Fire damage.",
+          "dice": {
+            "average": 7,
+            "dice": 2,
+            "sides": 6,
+            "modifier": 0
+          },
+          "requires": [
+            "area/emanation",
+            "target/chosen-creatures-in-area",
+            "effect/fire-damage",
+            "effect/end-of-turn-damage"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "multiattack",
+          "name": "Multiattack",
+          "text": "Multiattack. The salamander makes two Flame Spear attacks. It can replace one attack with a use of Constrict.",
+          "key": "action/multiattack",
+          "effects": [
+            {
+              "key": "action/melee-or-ranged-attack",
+              "name": "Melee or ranged attack",
+              "text": "The salamander makes two Flame Spear attacks"
+            },
+            {
+              "key": "multiattack/replace-attack",
+              "name": "Replace attack",
+              "text": "It can replace one attack with a use of Constrict"
+            },
+            {
+              "key": "action/saving-throw",
+              "name": "Saving throw",
+              "text": "a use of Constrict"
+            }
+          ]
+        },
+        {
+          "id": "flame-spear",
+          "name": "Flame Spear",
+          "text": "Flame Spear. Melee or Ranged Attack Roll: +7, reach 5 ft. or range 20/60 ft. Hit: 13 (2d8 + 4) Piercing damage plus 7 (2d6) Fire damage. Hit or Miss: The spear magically returns to the salamander’s hand immediately after a ranged attack.",
+          "key": "action/melee-or-ranged-attack",
+          "effects": [
+            {
+              "key": "effect/piercing-damage",
+              "name": "Piercing damage",
+              "text": "13 (2d8 + 4) Piercing damage",
+              "dice": {
+                "average": 13,
+                "dice": 2,
+                "sides": 8,
+                "modifier": 4
+              }
+            },
+            {
+              "key": "effect/fire-damage",
+              "name": "Fire damage",
+              "text": "7 (2d6) Fire damage",
+              "dice": {
+                "average": 7,
+                "dice": 2,
+                "sides": 6,
+                "modifier": 0
+              }
+            },
+            {
+              "key": "effect/return-after-ranged-attack",
+              "name": "Return after ranged attack",
+              "text": "Hit or Miss: The spear magically returns to the salamander’s hand immediately after a ranged attack"
+            }
+          ]
+        },
+        {
+          "id": "constrict",
+          "name": "Constrict",
+          "text": "Constrict. Strength Saving Throw: DC 15, one Large or smaller creature the salamander can see within 10 feet. Failure: 11 (2d6 + 4) Bludgeoning damage plus 7 (2d6) Fire damage. The target has the Grappled condition (escape DC 14), and it has the Restrained condition until the grapple ends.",
+          "key": "action/saving-throw",
+          "save": {
+            "ability": "str",
+            "dc": 15
+          },
+          "target": {
+            "shape": "creature",
+            "size": 0,
+            "width": 0,
+            "range": 10
+          },
+          "effects": [
+            {
+              "key": "save/str",
+              "name": "Strength Saving Throw",
+              "text": "Strength Saving Throw: DC 15"
+            },
+            {
+              "key": "target/creature",
+              "name": "Target",
+              "text": "one Large or smaller creature the salamander can see within 10 feet."
+            },
+            {
+              "key": "requirement/target-size",
+              "name": "Target size",
+              "text": "one Large or smaller creature"
+            },
+            {
+              "key": "effect/bludgeoning-damage",
+              "name": "Bludgeoning damage",
+              "text": "Failure: 11 (2d6 + 4) Bludgeoning damage",
+              "dice": {
+                "average": 11,
+                "dice": 2,
+                "sides": 6,
+                "modifier": 4
+              }
+            },
+            {
+              "key": "effect/fire-damage",
+              "name": "Fire damage",
+              "text": "7 (2d6) Fire damage",
+              "dice": {
+                "average": 7,
+                "dice": 2,
+                "sides": 6,
+                "modifier": 0
+              }
+            },
+            {
+              "key": "condition/grappled",
+              "name": "Grappled",
+              "text": "The target has the Grappled condition (escape DC 14)"
+            },
+            {
+              "key": "condition/restrained",
+              "name": "Restrained",
+              "text": "it has the Restrained condition until the grapple ends"
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "defense/damage-vulnerability",
+        "defense/damage-immunity",
+        "movement/climb",
+        "sense/darkvision",
+        "trait/fire-aura",
+        "area/emanation",
+        "target/chosen-creatures-in-area",
+        "effect/fire-damage",
+        "effect/end-of-turn-damage",
+        "action/multiattack",
+        "action/melee-or-ranged-attack",
+        "multiattack/replace-attack",
+        "action/saving-throw",
+        "effect/piercing-damage",
+        "effect/return-after-ranged-attack",
+        "save/str",
+        "target/creature",
+        "requirement/target-size",
+        "effect/bludgeoning-damage",
+        "condition/grappled",
+        "condition/restrained"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/satyr",
+      "name": "Satyr",
+      "source_pages": [
+        321,
+        322
+      ],
+      "sizes": [
+        "medium"
+      ],
+      "type": "fey",
+      "alignment": "Chaotic Neutral",
+      "ac": 13,
+      "initiative": {
+        "modifier": 3,
+        "score": 13
+      },
+      "hp": {
+        "average": 31,
+        "dice": 7,
+        "sides": 8,
+        "modifier": 0
+      },
+      "speeds": {
+        "walk": 40
+      },
+      "abilities": {
+        "str": {
+          "score": 12,
+          "modifier": 1,
+          "save": 1
+        },
+        "dex": {
+          "score": 16,
+          "modifier": 3,
+          "save": 3
+        },
+        "con": {
+          "score": 11,
+          "modifier": 0,
+          "save": 0
+        },
+        "int": {
+          "score": 12,
+          "modifier": 1,
+          "save": 1
+        },
+        "wis": {
+          "score": 10,
+          "modifier": 0,
+          "save": 0
+        },
+        "cha": {
+          "score": 14,
+          "modifier": 2,
+          "save": 2
+        }
+      },
+      "senses": {
+        "passive_perception": 12,
+        "special": {}
+      },
+      "languages": [
+        "Common",
+        "Elvish",
+        "Sylvan"
+      ],
+      "gear": [],
+      "cr": "1/2",
+      "xp": 100,
+      "proficiency_bonus": 2,
+      "skills": {
+        "perception": 2,
+        "performance": 6,
+        "stealth": 5
+      },
+      "traits": [
+        {
+          "key": "trait/magic-resistance",
+          "name": "Magic Resistance",
+          "text": "Magic Resistance. The satyr has Advantage on saving throws against spells and other magical effects.",
+          "requires": [
+            "save/advantage-against-magic"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "hooves",
+          "name": "Hooves",
+          "text": "Hooves. Melee Attack Roll: +5, reach 5 ft. Hit: 5 (1d4 + 3) Bludgeoning damage. If the target is a Medium or smaller creature, the satyr pushes the target up to 10 feet straight away from itself.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 5,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 5,
+              "dice": 1,
+              "sides": 4,
+              "modifier": 3
+            },
+            "damage_type": "bludgeoning"
+          },
+          "effects": [
+            {
+              "key": "effect/bludgeoning-damage",
+              "name": "Bludgeoning damage",
+              "text": "5 (1d4 + 3) Bludgeoning damage.",
+              "dice": {
+                "average": 5,
+                "dice": 1,
+                "sides": 4,
+                "modifier": 3
+              }
+            },
+            {
+              "key": "requirement/target-size",
+              "name": "Target size",
+              "text": "If the target is a Medium or smaller creature"
+            },
+            {
+              "key": "effect/push",
+              "name": "Push",
+              "text": "the satyr pushes the target up to 10 feet straight away from itself"
+            }
+          ]
+        },
+        {
+          "id": "mockery",
+          "name": "Mockery",
+          "text": "Mockery. Wisdom Saving Throw: DC 12, one creature the satyr can see within 90 feet. Failure: 5 (1d6 + 2) Psychic damage.",
+          "key": "action/saving-throw",
+          "save": {
+            "ability": "wis",
+            "dc": 12
+          },
+          "target": {
+            "shape": "creature",
+            "size": 0,
+            "width": 0,
+            "range": 90
+          },
+          "effects": [
+            {
+              "key": "save/wis",
+              "name": "Wisdom Saving Throw",
+              "text": "Wisdom Saving Throw: DC 12"
+            },
+            {
+              "key": "target/creature",
+              "name": "Target",
+              "text": "one creature the satyr can see within 90 feet."
+            },
+            {
+              "key": "effect/psychic-damage",
+              "name": "Psychic damage",
+              "text": "Failure: 5 (1d6 + 2) Psychic damage",
+              "dice": {
+                "average": 5,
+                "dice": 1,
+                "sides": 6,
+                "modifier": 2
+              }
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/skills",
+        "trait/magic-resistance",
+        "save/advantage-against-magic",
+        "action/melee-attack",
+        "effect/bludgeoning-damage",
+        "requirement/target-size",
+        "effect/push",
+        "action/saving-throw",
+        "save/wis",
+        "target/creature",
+        "effect/psychic-damage"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/animals/scorpion",
+      "name": "Scorpion",
+      "source_pages": [
+        360,
+        360
+      ],
+      "sizes": [
+        "tiny"
+      ],
+      "type": "beast",
+      "alignment": "Unaligned",
+      "ac": 11,
+      "initiative": {
+        "modifier": 0,
+        "score": 10
+      },
+      "hp": {
+        "average": 1,
+        "dice": 1,
+        "sides": 4,
+        "modifier": -1
+      },
+      "speeds": {
+        "walk": 10
+      },
+      "abilities": {
+        "str": {
+          "score": 2,
+          "modifier": -4,
+          "save": -4
+        },
+        "dex": {
+          "score": 11,
+          "modifier": 0,
+          "save": 0
+        },
+        "con": {
+          "score": 8,
+          "modifier": -1,
+          "save": -1
+        },
+        "int": {
+          "score": 1,
+          "modifier": -5,
+          "save": -5
+        },
+        "wis": {
+          "score": 8,
+          "modifier": -1,
+          "save": -1
+        },
+        "cha": {
+          "score": 2,
+          "modifier": -4,
+          "save": -4
+        }
+      },
+      "senses": {
+        "passive_perception": 9,
+        "special": {
+          "blindsight": 10
+        }
+      },
+      "languages": [],
+      "gear": [],
+      "cr": "0",
+      "xp": 10,
+      "proficiency_bonus": 2,
+      "traits": [],
+      "actions": [
+        {
+          "id": "sting",
+          "name": "Sting",
+          "text": "Sting. Melee Attack Roll: +2, reach 5 ft. Hit: 1 Piercing damage plus 3 (1d6) Poison damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 2,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 1,
+              "dice": 0,
+              "sides": 0,
+              "modifier": 0
+            },
+            "damage_type": "piercing"
+          },
+          "effects": [
+            {
+              "key": "effect/piercing-damage",
+              "name": "Piercing damage",
+              "text": "Hit: 1 Piercing damage.",
+              "requires": [
+                "damage/fixed"
+              ]
+            },
+            {
+              "key": "effect/poison-damage",
+              "name": "Poison damage",
+              "text": "3 (1d6) Poison damage",
+              "dice": {
+                "average": 3,
+                "dice": 1,
+                "sides": 6,
+                "modifier": 0
+              }
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "sense/blindsight",
+        "action/melee-attack",
+        "effect/piercing-damage",
+        "damage/fixed",
+        "effect/poison-damage"
+      ]
+    }
+  ]
+}

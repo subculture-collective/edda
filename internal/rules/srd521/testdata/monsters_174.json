@@ -1,0 +1,2588 @@
+{
+  "schema_version": 1,
+  "source": {
+    "version": "5.2.1",
+    "language": "en",
+    "landing_url": "https://www.dndbeyond.com/srd",
+    "artifact_url": "https://media.dndbeyond.com/compendium-images/srd/5.2/SRD_CC_v5.2.1.pdf",
+    "sha256": "8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87",
+    "bytes": 6031375,
+    "pages": 364,
+    "retrieved_at": "2026-11-15",
+    "license": "CC-BY-4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/legalcode",
+    "attribution": "This work includes material from the System Reference Document 5.2.1 (“SRD 5.2.1”) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd. The SRD 5.2.1 is licensed under the Creative Commons Attribution 4.0 International License, available at https://creativecommons.org/licenses/by/4.0/legalcode.",
+    "changes": "Adapted the twelve stat blocks of issue #174 (Swarm of Bats, Swarm of Crawling Claws, Swarm of Insects, Swarm of Piranhas, Swarm of Rats, Swarm of Ravens, Swarm of Venomous Snakes, Tarrasque, Tiger, Tough, Tough Boss and Treant; PDF pages 278, 331–333 and 361–363) into typed mechanical fields and implementation keys. Trait, action, bonus action and legendary action entries keep their source rules text, rejoined across line, column and page breaks; descriptive prose outside the stat blocks is omitted. A swarm's type line and the Swarm of Insects' chosen speed are retained in their own fields. No playable NPC behavior is granted."
+  },
+  "monsters": [
+    {
+      "id": "srd-5.2.1:content/animals/swarm-of-bats",
+      "name": "Swarm of Bats",
+      "source_pages": [
+        361,
+        361
+      ],
+      "sizes": [
+        "large"
+      ],
+      "type": "beast",
+      "alignment": "Unaligned",
+      "ac": 12,
+      "initiative": {
+        "modifier": 2,
+        "score": 12
+      },
+      "hp": {
+        "average": 11,
+        "dice": 2,
+        "sides": 10,
+        "modifier": 0
+      },
+      "speeds": {
+        "walk": 5,
+        "fly": 30
+      },
+      "abilities": {
+        "str": {
+          "score": 5,
+          "modifier": -3,
+          "save": -3
+        },
+        "dex": {
+          "score": 15,
+          "modifier": 2,
+          "save": 2
+        },
+        "con": {
+          "score": 10,
+          "modifier": 0,
+          "save": 0
+        },
+        "int": {
+          "score": 2,
+          "modifier": -4,
+          "save": -4
+        },
+        "wis": {
+          "score": 12,
+          "modifier": 1,
+          "save": 1
+        },
+        "cha": {
+          "score": 4,
+          "modifier": -3,
+          "save": -3
+        }
+      },
+      "senses": {
+        "passive_perception": 11,
+        "special": {
+          "blindsight": 60
+        }
+      },
+      "languages": [],
+      "gear": [],
+      "cr": "1/4",
+      "xp": 50,
+      "proficiency_bonus": 2,
+      "swarm_of": "tiny",
+      "resistances": [
+        "bludgeoning",
+        "piercing",
+        "slashing"
+      ],
+      "condition_immunities": [
+        "charmed",
+        "frightened",
+        "grappled",
+        "paralyzed",
+        "petrified",
+        "prone",
+        "restrained",
+        "stunned"
+      ],
+      "traits": [
+        {
+          "key": "trait/swarm",
+          "name": "Swarm",
+          "text": "Swarm. The swarm can occupy another creature’s space and vice versa, and the swarm can move through any opening large enough for a Tiny bat. The swarm can’t regain Hit Points or gain Temporary Hit Points.",
+          "requires": [
+            "effect/occupy-creature-space",
+            "movement/squeeze",
+            "effect/no-hit-point-recovery"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "bites",
+          "name": "Bites",
+          "text": "Bites. Melee Attack Roll: +4, reach 5 ft. Hit: 5 (2d4) Piercing damage, or 2 (1d4) Piercing damage if the swarm is Bloodied.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 4,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 5,
+              "dice": 2,
+              "sides": 4,
+              "modifier": 0
+            },
+            "damage_type": "piercing"
+          },
+          "effects": [
+            {
+              "key": "effect/piercing-damage",
+              "name": "Piercing damage",
+              "text": "5 (2d4) Piercing damage.",
+              "dice": {
+                "average": 5,
+                "dice": 2,
+                "sides": 4,
+                "modifier": 0
+              }
+            },
+            {
+              "key": "effect/piercing-damage",
+              "name": "Piercing damage",
+              "text": "or 2 (1d4) Piercing damage",
+              "requires": [
+                "requirement/swarm-bloodied"
+              ],
+              "dice": {
+                "average": 2,
+                "dice": 1,
+                "sides": 4,
+                "modifier": 0
+              }
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/swarm",
+        "defense/damage-resistance",
+        "defense/condition-immunity",
+        "movement/fly",
+        "sense/blindsight",
+        "trait/swarm",
+        "effect/occupy-creature-space",
+        "movement/squeeze",
+        "effect/no-hit-point-recovery",
+        "action/melee-attack",
+        "effect/piercing-damage",
+        "requirement/swarm-bloodied"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/swarm-of-crawling-claws",
+      "name": "Swarm of Crawling Claws",
+      "source_pages": [
+        278,
+        278
+      ],
+      "sizes": [
+        "medium"
+      ],
+      "type": "undead",
+      "alignment": "Neutral Evil",
+      "ac": 12,
+      "initiative": {
+        "modifier": 2,
+        "score": 12
+      },
+      "hp": {
+        "average": 49,
+        "dice": 11,
+        "sides": 8,
+        "modifier": 0
+      },
+      "speeds": {
+        "walk": 30,
+        "climb": 30
+      },
+      "abilities": {
+        "str": {
+          "score": 14,
+          "modifier": 2,
+          "save": 2
+        },
+        "dex": {
+          "score": 14,
+          "modifier": 2,
+          "save": 2
+        },
+        "con": {
+          "score": 11,
+          "modifier": 0,
+          "save": 0
+        },
+        "int": {
+          "score": 5,
+          "modifier": -3,
+          "save": -3
+        },
+        "wis": {
+          "score": 10,
+          "modifier": 0,
+          "save": 0
+        },
+        "cha": {
+          "score": 4,
+          "modifier": -3,
+          "save": -3
+        }
+      },
+      "senses": {
+        "passive_perception": 10,
+        "special": {
+          "blindsight": 30
+        }
+      },
+      "languages": [
+        "Understands Common but can’t speak"
+      ],
+      "gear": [],
+      "cr": "3",
+      "xp": 700,
+      "proficiency_bonus": 2,
+      "swarm_of": "tiny",
+      "resistances": [
+        "bludgeoning",
+        "piercing",
+        "slashing"
+      ],
+      "immunities": [
+        "necrotic",
+        "poison"
+      ],
+      "condition_immunities": [
+        "charmed",
+        "exhaustion",
+        "frightened",
+        "grappled",
+        "incapacitated",
+        "paralyzed",
+        "petrified",
+        "poisoned",
+        "prone",
+        "restrained",
+        "stunned"
+      ],
+      "traits": [
+        {
+          "key": "trait/swarm",
+          "name": "Swarm",
+          "text": "Swarm. The swarm can occupy another creature’s space and vice versa, and the swarm can move through any opening large enough for a Tiny creature. The swarm can’t regain Hit Points or gain Temporary Hit Points.",
+          "requires": [
+            "effect/occupy-creature-space",
+            "movement/squeeze",
+            "effect/no-hit-point-recovery"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "swarm-of-grasping-hands",
+          "name": "Swarm of Grasping Hands",
+          "text": "Swarm of Grasping Hands. Melee Attack Roll: +4, reach 5 ft. Hit: 20 (4d8 + 2) Necrotic damage, or 11 (2d8 + 2) Necrotic damage if the swarm is Bloodied. If the target is a Medium or smaller creature, it has the Prone condition.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 4,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 20,
+              "dice": 4,
+              "sides": 8,
+              "modifier": 2
+            },
+            "damage_type": "necrotic"
+          },
+          "effects": [
+            {
+              "key": "effect/necrotic-damage",
+              "name": "Necrotic damage",
+              "text": "20 (4d8 + 2) Necrotic damage.",
+              "dice": {
+                "average": 20,
+                "dice": 4,
+                "sides": 8,
+                "modifier": 2
+              }
+            },
+            {
+              "key": "effect/necrotic-damage",
+              "name": "Necrotic damage",
+              "text": "or 11 (2d8 + 2) Necrotic damage",
+              "requires": [
+                "requirement/swarm-bloodied"
+              ],
+              "dice": {
+                "average": 11,
+                "dice": 2,
+                "sides": 8,
+                "modifier": 2
+              }
+            },
+            {
+              "key": "requirement/target-size",
+              "name": "Target size",
+              "text": "If the target is a Medium or smaller creature"
+            },
+            {
+              "key": "condition/prone",
+              "name": "Prone",
+              "text": "it has the Prone condition"
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/swarm",
+        "defense/damage-resistance",
+        "defense/damage-immunity",
+        "defense/condition-immunity",
+        "movement/climb",
+        "sense/blindsight",
+        "trait/swarm",
+        "effect/occupy-creature-space",
+        "movement/squeeze",
+        "effect/no-hit-point-recovery",
+        "action/melee-attack",
+        "effect/necrotic-damage",
+        "requirement/swarm-bloodied",
+        "requirement/target-size",
+        "condition/prone"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/animals/swarm-of-insects",
+      "name": "Swarm of Insects",
+      "source_pages": [
+        361,
+        361
+      ],
+      "sizes": [
+        "medium"
+      ],
+      "type": "beast",
+      "alignment": "Unaligned",
+      "ac": 11,
+      "initiative": {
+        "modifier": 1,
+        "score": 11
+      },
+      "hp": {
+        "average": 19,
+        "dice": 3,
+        "sides": 8,
+        "modifier": 6
+      },
+      "speeds": {
+        "walk": 20
+      },
+      "abilities": {
+        "str": {
+          "score": 3,
+          "modifier": -4,
+          "save": -4
+        },
+        "dex": {
+          "score": 13,
+          "modifier": 1,
+          "save": 1
+        },
+        "con": {
+          "score": 14,
+          "modifier": 2,
+          "save": 2
+        },
+        "int": {
+          "score": 1,
+          "modifier": -5,
+          "save": -5
+        },
+        "wis": {
+          "score": 7,
+          "modifier": -2,
+          "save": -2
+        },
+        "cha": {
+          "score": 1,
+          "modifier": -5,
+          "save": -5
+        }
+      },
+      "senses": {
+        "passive_perception": 8,
+        "special": {
+          "blindsight": 30
+        }
+      },
+      "languages": [],
+      "gear": [],
+      "cr": "1/2",
+      "xp": 100,
+      "proficiency_bonus": 2,
+      "swarm_of": "tiny",
+      "resistances": [
+        "bludgeoning",
+        "piercing",
+        "slashing"
+      ],
+      "condition_immunities": [
+        "charmed",
+        "frightened",
+        "grappled",
+        "paralyzed",
+        "petrified",
+        "prone",
+        "restrained",
+        "stunned"
+      ],
+      "speed_note": "Climb or Fly 20 ft. (GM’s choice)",
+      "traits": [
+        {
+          "key": "trait/spider-climb",
+          "name": "Spider Climb",
+          "text": "Spider Climb. If the swarm has a Climb Speed, the swarm can climb difficult surfaces, including along ceilings, without needing to make an ability check.",
+          "requires": [
+            "requirement/climb-speed",
+            "effect/climb-without-check"
+          ]
+        },
+        {
+          "key": "trait/swarm",
+          "name": "Swarm",
+          "text": "Swarm. The swarm can occupy another creature’s space and vice versa, and the swarm can move through any opening large enough for a Tiny insect. The swarm can’t regain Hit Points or gain Temporary Hit Points.",
+          "requires": [
+            "effect/occupy-creature-space",
+            "movement/squeeze",
+            "effect/no-hit-point-recovery"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "bites",
+          "name": "Bites",
+          "text": "Bites. Melee Attack Roll: +3, reach 5 ft. Hit: 6 (2d4 + 1) Poison damage, or 3 (1d4 + 1) Poison damage if the swarm is Bloodied.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 3,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 6,
+              "dice": 2,
+              "sides": 4,
+              "modifier": 1
+            },
+            "damage_type": "poison"
+          },
+          "effects": [
+            {
+              "key": "effect/poison-damage",
+              "name": "Poison damage",
+              "text": "6 (2d4 + 1) Poison damage.",
+              "dice": {
+                "average": 6,
+                "dice": 2,
+                "sides": 4,
+                "modifier": 1
+              }
+            },
+            {
+              "key": "effect/poison-damage",
+              "name": "Poison damage",
+              "text": "or 3 (1d4 + 1) Poison damage",
+              "requires": [
+                "requirement/swarm-bloodied"
+              ],
+              "dice": {
+                "average": 3,
+                "dice": 1,
+                "sides": 4,
+                "modifier": 1
+              }
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/swarm",
+        "defense/damage-resistance",
+        "defense/condition-immunity",
+        "movement/chosen-mode",
+        "sense/blindsight",
+        "trait/spider-climb",
+        "requirement/climb-speed",
+        "effect/climb-without-check",
+        "trait/swarm",
+        "effect/occupy-creature-space",
+        "movement/squeeze",
+        "effect/no-hit-point-recovery",
+        "action/melee-attack",
+        "effect/poison-damage",
+        "requirement/swarm-bloodied"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/animals/swarm-of-piranhas",
+      "name": "Swarm of Piranhas",
+      "source_pages": [
+        362,
+        362
+      ],
+      "sizes": [
+        "medium"
+      ],
+      "type": "beast",
+      "alignment": "Unaligned",
+      "ac": 13,
+      "initiative": {
+        "modifier": 3,
+        "score": 13
+      },
+      "hp": {
+        "average": 28,
+        "dice": 8,
+        "sides": 8,
+        "modifier": -8
+      },
+      "speeds": {
+        "walk": 5,
+        "swim": 40
+      },
+      "abilities": {
+        "str": {
+          "score": 13,
+          "modifier": 1,
+          "save": 1
+        },
+        "dex": {
+          "score": 16,
+          "modifier": 3,
+          "save": 3
+        },
+        "con": {
+          "score": 9,
+          "modifier": -1,
+          "save": -1
+        },
+        "int": {
+          "score": 1,
+          "modifier": -5,
+          "save": -5
+        },
+        "wis": {
+          "score": 7,
+          "modifier": -2,
+          "save": -2
+        },
+        "cha": {
+          "score": 2,
+          "modifier": -4,
+          "save": -4
+        }
+      },
+      "senses": {
+        "passive_perception": 8,
+        "special": {
+          "darkvision": 60
+        }
+      },
+      "languages": [],
+      "gear": [],
+      "cr": "1",
+      "xp": 200,
+      "proficiency_bonus": 2,
+      "swarm_of": "tiny",
+      "resistances": [
+        "bludgeoning",
+        "piercing",
+        "slashing"
+      ],
+      "condition_immunities": [
+        "charmed",
+        "frightened",
+        "grappled",
+        "paralyzed",
+        "petrified",
+        "prone",
+        "restrained",
+        "stunned"
+      ],
+      "traits": [
+        {
+          "key": "trait/swarm",
+          "name": "Swarm",
+          "text": "Swarm. The swarm can occupy another creature’s space and vice versa, and the swarm can move through any opening large enough for a Tiny piranha. The swarm can’t regain Hit Points or gain Temporary Hit Points.",
+          "requires": [
+            "effect/occupy-creature-space",
+            "movement/squeeze",
+            "effect/no-hit-point-recovery"
+          ]
+        },
+        {
+          "key": "trait/water-breathing",
+          "name": "Water Breathing",
+          "text": "Water Breathing. The swarm can breathe only underwater.",
+          "requires": [
+            "effect/breathe-only-underwater"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "bites",
+          "name": "Bites",
+          "text": "Bites. Melee Attack Roll: +5 (with Advantage if the target doesn’t have all its Hit Points), reach 5 ft. Hit: 8 (2d4 + 3) Piercing damage, or 5 (1d4 + 3) Piercing damage if the swarm is Bloodied.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 5,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 8,
+              "dice": 2,
+              "sides": 4,
+              "modifier": 3
+            },
+            "damage_type": "piercing"
+          },
+          "effects": [
+            {
+              "key": "effect/piercing-damage",
+              "name": "Piercing damage",
+              "text": "8 (2d4 + 3) Piercing damage.",
+              "dice": {
+                "average": 8,
+                "dice": 2,
+                "sides": 4,
+                "modifier": 3
+              }
+            },
+            {
+              "key": "attack/advantage-against-target-missing-hit-points",
+              "name": "Advantage against target missing hit points",
+              "text": "(with Advantage if the target doesn’t have all its Hit Points)"
+            },
+            {
+              "key": "effect/piercing-damage",
+              "name": "Piercing damage",
+              "text": "or 5 (1d4 + 3) Piercing damage",
+              "requires": [
+                "requirement/swarm-bloodied"
+              ],
+              "dice": {
+                "average": 5,
+                "dice": 1,
+                "sides": 4,
+                "modifier": 3
+              }
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/swarm",
+        "defense/damage-resistance",
+        "defense/condition-immunity",
+        "movement/swim",
+        "sense/darkvision",
+        "trait/swarm",
+        "effect/occupy-creature-space",
+        "movement/squeeze",
+        "effect/no-hit-point-recovery",
+        "trait/water-breathing",
+        "effect/breathe-only-underwater",
+        "action/melee-attack",
+        "effect/piercing-damage",
+        "attack/advantage-against-target-missing-hit-points",
+        "requirement/swarm-bloodied"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/animals/swarm-of-rats",
+      "name": "Swarm of Rats",
+      "source_pages": [
+        362,
+        362
+      ],
+      "sizes": [
+        "medium"
+      ],
+      "type": "beast",
+      "alignment": "Unaligned",
+      "ac": 10,
+      "initiative": {
+        "modifier": 0,
+        "score": 10
+      },
+      "hp": {
+        "average": 14,
+        "dice": 4,
+        "sides": 8,
+        "modifier": -4
+      },
+      "speeds": {
+        "walk": 30,
+        "climb": 30
+      },
+      "abilities": {
+        "str": {
+          "score": 9,
+          "modifier": -1,
+          "save": -1
+        },
+        "dex": {
+          "score": 11,
+          "modifier": 0,
+          "save": 2
+        },
+        "con": {
+          "score": 9,
+          "modifier": -1,
+          "save": -1
+        },
+        "int": {
+          "score": 2,
+          "modifier": -4,
+          "save": -4
+        },
+        "wis": {
+          "score": 10,
+          "modifier": 0,
+          "save": 0
+        },
+        "cha": {
+          "score": 3,
+          "modifier": -4,
+          "save": -4
+        }
+      },
+      "senses": {
+        "passive_perception": 10,
+        "special": {
+          "darkvision": 30
+        }
+      },
+      "languages": [],
+      "gear": [],
+      "cr": "1/4",
+      "xp": 50,
+      "proficiency_bonus": 2,
+      "swarm_of": "tiny",
+      "resistances": [
+        "bludgeoning",
+        "piercing",
+        "slashing"
+      ],
+      "condition_immunities": [
+        "charmed",
+        "frightened",
+        "grappled",
+        "paralyzed",
+        "petrified",
+        "prone",
+        "restrained",
+        "stunned"
+      ],
+      "traits": [
+        {
+          "key": "trait/swarm",
+          "name": "Swarm",
+          "text": "Swarm. The swarm can occupy another creature’s space and vice versa, and the swarm can move through any opening large enough for a Tiny rat. The swarm can’t regain Hit Points or gain Temporary Hit Points.",
+          "requires": [
+            "effect/occupy-creature-space",
+            "movement/squeeze",
+            "effect/no-hit-point-recovery"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "bites",
+          "name": "Bites",
+          "text": "Bites. Melee Attack Roll: +2, reach 5 ft. Hit: 5 (2d4) Piercing damage, or 2 (1d4) Piercing damage if the swarm is Bloodied.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 2,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 5,
+              "dice": 2,
+              "sides": 4,
+              "modifier": 0
+            },
+            "damage_type": "piercing"
+          },
+          "effects": [
+            {
+              "key": "effect/piercing-damage",
+              "name": "Piercing damage",
+              "text": "5 (2d4) Piercing damage.",
+              "dice": {
+                "average": 5,
+                "dice": 2,
+                "sides": 4,
+                "modifier": 0
+              }
+            },
+            {
+              "key": "effect/piercing-damage",
+              "name": "Piercing damage",
+              "text": "or 2 (1d4) Piercing damage",
+              "requires": [
+                "requirement/swarm-bloodied"
+              ],
+              "dice": {
+                "average": 2,
+                "dice": 1,
+                "sides": 4,
+                "modifier": 0
+              }
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/swarm",
+        "defense/damage-resistance",
+        "defense/condition-immunity",
+        "movement/climb",
+        "sense/darkvision",
+        "trait/swarm",
+        "effect/occupy-creature-space",
+        "movement/squeeze",
+        "effect/no-hit-point-recovery",
+        "action/melee-attack",
+        "effect/piercing-damage",
+        "requirement/swarm-bloodied"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/animals/swarm-of-ravens",
+      "name": "Swarm of Ravens",
+      "source_pages": [
+        362,
+        362
+      ],
+      "sizes": [
+        "medium"
+      ],
+      "type": "beast",
+      "alignment": "Unaligned",
+      "ac": 12,
+      "initiative": {
+        "modifier": 2,
+        "score": 12
+      },
+      "hp": {
+        "average": 11,
+        "dice": 2,
+        "sides": 8,
+        "modifier": 2
+      },
+      "speeds": {
+        "walk": 10,
+        "fly": 50
+      },
+      "abilities": {
+        "str": {
+          "score": 6,
+          "modifier": -2,
+          "save": -2
+        },
+        "dex": {
+          "score": 14,
+          "modifier": 2,
+          "save": 2
+        },
+        "con": {
+          "score": 12,
+          "modifier": 1,
+          "save": 1
+        },
+        "int": {
+          "score": 5,
+          "modifier": -3,
+          "save": -3
+        },
+        "wis": {
+          "score": 12,
+          "modifier": 1,
+          "save": 1
+        },
+        "cha": {
+          "score": 6,
+          "modifier": -2,
+          "save": -2
+        }
+      },
+      "senses": {
+        "passive_perception": 15,
+        "special": {}
+      },
+      "languages": [],
+      "gear": [],
+      "cr": "1/4",
+      "xp": 50,
+      "proficiency_bonus": 2,
+      "swarm_of": "tiny",
+      "skills": {
+        "perception": 5
+      },
+      "resistances": [
+        "bludgeoning",
+        "piercing",
+        "slashing"
+      ],
+      "condition_immunities": [
+        "charmed",
+        "frightened",
+        "grappled",
+        "paralyzed",
+        "petrified",
+        "prone",
+        "restrained",
+        "stunned"
+      ],
+      "traits": [
+        {
+          "key": "trait/swarm",
+          "name": "Swarm",
+          "text": "Swarm. The swarm can occupy another creature’s space and vice versa, and the swarm can move through any opening large enough for a Tiny raven. The swarm can’t regain Hit Points or gain Temporary Hit Points.",
+          "requires": [
+            "effect/occupy-creature-space",
+            "movement/squeeze",
+            "effect/no-hit-point-recovery"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "beaks",
+          "name": "Beaks",
+          "text": "Beaks. Melee Attack Roll: +4, reach 5 ft. Hit: 5 (1d6 + 2) Piercing damage, or 2 (1d4) Piercing damage if the swarm is Bloodied.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 4,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 5,
+              "dice": 1,
+              "sides": 6,
+              "modifier": 2
+            },
+            "damage_type": "piercing"
+          },
+          "effects": [
+            {
+              "key": "effect/piercing-damage",
+              "name": "Piercing damage",
+              "text": "5 (1d6 + 2) Piercing damage.",
+              "dice": {
+                "average": 5,
+                "dice": 1,
+                "sides": 6,
+                "modifier": 2
+              }
+            },
+            {
+              "key": "effect/piercing-damage",
+              "name": "Piercing damage",
+              "text": "or 2 (1d4) Piercing damage",
+              "requires": [
+                "requirement/swarm-bloodied"
+              ],
+              "dice": {
+                "average": 2,
+                "dice": 1,
+                "sides": 4,
+                "modifier": 0
+              }
+            }
+          ]
+        },
+        {
+          "id": "cacophony",
+          "name": "Cacophony",
+          "text": "Cacophony (Recharge 6). Wisdom Saving Throw: DC 10, one creature in the swarm’s space. Failure: The target has the Deafened condition until the start of the swarm’s next turn. While Deafened, the target also has Disadvantage on ability checks and attack rolls.",
+          "key": "action/saving-throw",
+          "uses": {
+            "per_day": 0,
+            "lair_per_day": 0,
+            "recharge": 6
+          },
+          "save": {
+            "ability": "wis",
+            "dc": 10
+          },
+          "target": {
+            "shape": "creature",
+            "size": 0,
+            "width": 0,
+            "range": 0
+          },
+          "effects": [
+            {
+              "key": "limit/recharge",
+              "name": "Recharge",
+              "text": "(Recharge 6)"
+            },
+            {
+              "key": "save/wis",
+              "name": "Wisdom Saving Throw",
+              "text": "Wisdom Saving Throw: DC 10"
+            },
+            {
+              "key": "target/creature",
+              "name": "Target",
+              "text": "one creature in the swarm’s space."
+            },
+            {
+              "key": "condition/deafened",
+              "name": "Deafened",
+              "text": "The target has the Deafened condition until the start of the swarm’s next turn"
+            },
+            {
+              "key": "effect/deafened-disadvantage",
+              "name": "Deafened disadvantage",
+              "text": "While Deafened, the target also has Disadvantage on ability checks and attack rolls"
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/skills",
+        "monster/swarm",
+        "defense/damage-resistance",
+        "defense/condition-immunity",
+        "movement/fly",
+        "trait/swarm",
+        "effect/occupy-creature-space",
+        "movement/squeeze",
+        "effect/no-hit-point-recovery",
+        "action/melee-attack",
+        "effect/piercing-damage",
+        "requirement/swarm-bloodied",
+        "action/saving-throw",
+        "limit/recharge",
+        "save/wis",
+        "target/creature",
+        "condition/deafened",
+        "effect/deafened-disadvantage"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/animals/swarm-of-venomous-snakes",
+      "name": "Swarm of Venomous Snakes",
+      "source_pages": [
+        362,
+        363
+      ],
+      "sizes": [
+        "medium"
+      ],
+      "type": "beast",
+      "alignment": "Unaligned",
+      "ac": 14,
+      "initiative": {
+        "modifier": 4,
+        "score": 14
+      },
+      "hp": {
+        "average": 36,
+        "dice": 8,
+        "sides": 8,
+        "modifier": 0
+      },
+      "speeds": {
+        "walk": 30,
+        "swim": 30
+      },
+      "abilities": {
+        "str": {
+          "score": 8,
+          "modifier": -1,
+          "save": -1
+        },
+        "dex": {
+          "score": 18,
+          "modifier": 4,
+          "save": 4
+        },
+        "con": {
+          "score": 11,
+          "modifier": 0,
+          "save": 0
+        },
+        "int": {
+          "score": 1,
+          "modifier": -5,
+          "save": -5
+        },
+        "wis": {
+          "score": 10,
+          "modifier": 0,
+          "save": 0
+        },
+        "cha": {
+          "score": 3,
+          "modifier": -4,
+          "save": -4
+        }
+      },
+      "senses": {
+        "passive_perception": 10,
+        "special": {
+          "blindsight": 10
+        }
+      },
+      "languages": [],
+      "gear": [],
+      "cr": "2",
+      "xp": 450,
+      "proficiency_bonus": 2,
+      "swarm_of": "tiny",
+      "resistances": [
+        "bludgeoning",
+        "piercing",
+        "slashing"
+      ],
+      "condition_immunities": [
+        "charmed",
+        "frightened",
+        "grappled",
+        "paralyzed",
+        "petrified",
+        "prone",
+        "restrained",
+        "stunned"
+      ],
+      "traits": [
+        {
+          "key": "trait/swarm",
+          "name": "Swarm",
+          "text": "Swarm. The swarm can occupy another creature’s space and vice versa, and the swarm can move through any opening large enough for a Tiny snake. The swarm can’t regain Hit Points or gain Temporary Hit Points.",
+          "requires": [
+            "effect/occupy-creature-space",
+            "movement/squeeze",
+            "effect/no-hit-point-recovery"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "bites",
+          "name": "Bites",
+          "text": "Bites. Melee Attack Roll: +6, reach 5 ft. Hit: 8 (1d8 + 4) Piercing damage—or 6 (1d4 + 4) Piercing damage if the swarm is Bloodied—plus 10 (3d6) Poison damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 6,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 8,
+              "dice": 1,
+              "sides": 8,
+              "modifier": 4
+            },
+            "damage_type": "piercing"
+          },
+          "effects": [
+            {
+              "key": "effect/piercing-damage",
+              "name": "Piercing damage",
+              "text": "8 (1d8 + 4) Piercing damage.",
+              "dice": {
+                "average": 8,
+                "dice": 1,
+                "sides": 8,
+                "modifier": 4
+              }
+            },
+            {
+              "key": "effect/piercing-damage",
+              "name": "Piercing damage",
+              "text": "or 6 (1d4 + 4) Piercing damage",
+              "requires": [
+                "requirement/swarm-bloodied"
+              ],
+              "dice": {
+                "average": 6,
+                "dice": 1,
+                "sides": 4,
+                "modifier": 4
+              }
+            },
+            {
+              "key": "effect/poison-damage",
+              "name": "Poison damage",
+              "text": "10 (3d6) Poison damage",
+              "dice": {
+                "average": 10,
+                "dice": 3,
+                "sides": 6,
+                "modifier": 0
+              }
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/swarm",
+        "defense/damage-resistance",
+        "defense/condition-immunity",
+        "movement/swim",
+        "sense/blindsight",
+        "trait/swarm",
+        "effect/occupy-creature-space",
+        "movement/squeeze",
+        "effect/no-hit-point-recovery",
+        "action/melee-attack",
+        "effect/piercing-damage",
+        "requirement/swarm-bloodied",
+        "effect/poison-damage"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/tarrasque",
+      "name": "Tarrasque",
+      "source_pages": [
+        331,
+        332
+      ],
+      "sizes": [
+        "gargantuan"
+      ],
+      "type": "monstrosity",
+      "alignment": "Unaligned",
+      "ac": 25,
+      "initiative": {
+        "modifier": 18,
+        "score": 28
+      },
+      "hp": {
+        "average": 697,
+        "dice": 34,
+        "sides": 20,
+        "modifier": 340
+      },
+      "speeds": {
+        "walk": 60,
+        "burrow": 40,
+        "climb": 60
+      },
+      "abilities": {
+        "str": {
+          "score": 30,
+          "modifier": 10,
+          "save": 10
+        },
+        "dex": {
+          "score": 11,
+          "modifier": 0,
+          "save": 9
+        },
+        "con": {
+          "score": 30,
+          "modifier": 10,
+          "save": 10
+        },
+        "int": {
+          "score": 3,
+          "modifier": -4,
+          "save": 5
+        },
+        "wis": {
+          "score": 11,
+          "modifier": 0,
+          "save": 9
+        },
+        "cha": {
+          "score": 11,
+          "modifier": 0,
+          "save": 9
+        }
+      },
+      "senses": {
+        "passive_perception": 19,
+        "special": {
+          "blindsight": 120
+        }
+      },
+      "languages": [],
+      "gear": [],
+      "cr": "30",
+      "xp": 155000,
+      "proficiency_bonus": 9,
+      "tags": [
+        "Titan"
+      ],
+      "skills": {
+        "perception": 9
+      },
+      "resistances": [
+        "bludgeoning",
+        "piercing",
+        "slashing"
+      ],
+      "immunities": [
+        "fire",
+        "poison"
+      ],
+      "condition_immunities": [
+        "charmed",
+        "deafened",
+        "frightened",
+        "paralyzed",
+        "poisoned"
+      ],
+      "traits": [
+        {
+          "key": "trait/legendary-resistance",
+          "name": "Legendary Resistance",
+          "text": "Legendary Resistance (6/Day). If the tarrasque fails a saving throw, it can choose to succeed instead.",
+          "uses": {
+            "per_day": 6,
+            "lair_per_day": 0,
+            "recharge": 0
+          },
+          "requires": [
+            "limit/per-day",
+            "save/choose-success"
+          ]
+        },
+        {
+          "key": "trait/magic-resistance",
+          "name": "Magic Resistance",
+          "text": "Magic Resistance. The tarrasque has Advantage on saving throws against spells and other magical effects.",
+          "requires": [
+            "save/advantage-against-magic"
+          ]
+        },
+        {
+          "key": "trait/reflective-carapace",
+          "name": "Reflective Carapace",
+          "text": "Reflective Carapace. If the tarrasque is targeted by a Magic Missile spell or a spell that requires a ranged attack roll, roll 1d6. On a 1–5, the tarrasque is unaffected. On a 6, the tarrasque is unaffected and reflects the spell, turning the caster into the target.",
+          "requires": [
+            "effect/spell-reflection",
+            "requirement/targeted-by-magic-missile-or-ranged-spell-attack"
+          ]
+        },
+        {
+          "key": "trait/siege-monster",
+          "name": "Siege Monster",
+          "text": "Siege Monster. The tarrasque deals double damage to objects and structures.",
+          "requires": [
+            "effect/double-damage-to-objects-and-structures"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "multiattack",
+          "name": "Multiattack",
+          "text": "Multiattack. The tarrasque makes one Bite attack and three other attacks, using Claw or Tail in any combination.",
+          "key": "action/multiattack",
+          "effects": [
+            {
+              "key": "action/melee-attack",
+              "name": "Melee attack",
+              "text": "The tarrasque makes one Bite attack and three other attacks, using Claw or Tail in any combination"
+            },
+            {
+              "key": "multiattack/any-combination",
+              "name": "Any combination",
+              "text": "in any combination"
+            }
+          ]
+        },
+        {
+          "id": "bite",
+          "name": "Bite",
+          "text": "Bite. Melee Attack Roll: +19, reach 15 ft. Hit: 36 (4d12 + 10) Piercing damage, and the target has the Grappled condition (escape DC 20). Until the grapple ends, the target has the Restrained condition and can’t teleport.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 19,
+            "reach": 15,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 36,
+              "dice": 4,
+              "sides": 12,
+              "modifier": 10
+            },
+            "damage_type": "piercing"
+          },
+          "effects": [
+            {
+              "key": "effect/piercing-damage",
+              "name": "Piercing damage",
+              "text": "36 (4d12 + 10) Piercing damage.",
+              "dice": {
+                "average": 36,
+                "dice": 4,
+                "sides": 12,
+                "modifier": 10
+              }
+            },
+            {
+              "key": "condition/grappled",
+              "name": "Grappled",
+              "text": "the target has the Grappled condition (escape DC 20)"
+            },
+            {
+              "key": "condition/restrained",
+              "name": "Restrained",
+              "text": "Until the grapple ends, the target has the Restrained condition"
+            },
+            {
+              "key": "effect/no-teleport",
+              "name": "No teleport",
+              "text": "can’t teleport"
+            }
+          ]
+        },
+        {
+          "id": "claw",
+          "name": "Claw",
+          "text": "Claw. Melee Attack Roll: +19, reach 15 ft. Hit: 28 (4d8 + 10) Slashing damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 19,
+            "reach": 15,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 28,
+              "dice": 4,
+              "sides": 8,
+              "modifier": 10
+            },
+            "damage_type": "slashing"
+          },
+          "effects": [
+            {
+              "key": "effect/slashing-damage",
+              "name": "Slashing damage",
+              "text": "28 (4d8 + 10) Slashing damage.",
+              "dice": {
+                "average": 28,
+                "dice": 4,
+                "sides": 8,
+                "modifier": 10
+              }
+            }
+          ]
+        },
+        {
+          "id": "tail",
+          "name": "Tail",
+          "text": "Tail. Melee Attack Roll: +19, reach 30 ft. Hit: 23 (3d8 + 10) Bludgeoning damage. If the target is a Huge or smaller creature, it has the Prone condition.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 19,
+            "reach": 30,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 23,
+              "dice": 3,
+              "sides": 8,
+              "modifier": 10
+            },
+            "damage_type": "bludgeoning"
+          },
+          "effects": [
+            {
+              "key": "effect/bludgeoning-damage",
+              "name": "Bludgeoning damage",
+              "text": "23 (3d8 + 10) Bludgeoning damage.",
+              "dice": {
+                "average": 23,
+                "dice": 3,
+                "sides": 8,
+                "modifier": 10
+              }
+            },
+            {
+              "key": "requirement/target-size",
+              "name": "Target size",
+              "text": "If the target is a Huge or smaller creature"
+            },
+            {
+              "key": "condition/prone",
+              "name": "Prone",
+              "text": "it has the Prone condition"
+            }
+          ]
+        },
+        {
+          "id": "thunderous-bellow",
+          "name": "Thunderous Bellow",
+          "text": "Thunderous Bellow (Recharge 5–6). Constitution Saving Throw: DC 27, each creature and each object that isn’t being worn or carried in a 150-foot Cone. Failure: 78 (12d12) Thunder damage, and the target has the Deafened and Frightened conditions until the end of its next turn. Success: Half damage only.",
+          "key": "action/saving-throw",
+          "uses": {
+            "per_day": 0,
+            "lair_per_day": 0,
+            "recharge": 5
+          },
+          "save": {
+            "ability": "con",
+            "dc": 27
+          },
+          "target": {
+            "shape": "cone",
+            "size": 150,
+            "width": 0,
+            "range": 0
+          },
+          "effects": [
+            {
+              "key": "limit/recharge",
+              "name": "Recharge",
+              "text": "(Recharge 5–6)"
+            },
+            {
+              "key": "save/con",
+              "name": "Constitution Saving Throw",
+              "text": "Constitution Saving Throw: DC 27"
+            },
+            {
+              "key": "area/cone",
+              "name": "Cone",
+              "text": "each creature and each object that isn’t being worn or carried in a 150-foot Cone"
+            },
+            {
+              "key": "target/unattended-objects",
+              "name": "Unattended objects",
+              "text": "each object that isn’t being worn or carried"
+            },
+            {
+              "key": "effect/thunder-damage",
+              "name": "Thunder damage",
+              "text": "Failure: 78 (12d12) Thunder damage",
+              "dice": {
+                "average": 78,
+                "dice": 12,
+                "sides": 12,
+                "modifier": 0
+              }
+            },
+            {
+              "key": "condition/deafened",
+              "name": "Deafened",
+              "text": "the target has the Deafened and Frightened conditions until the end of its next turn"
+            },
+            {
+              "key": "condition/frightened",
+              "name": "Frightened",
+              "text": "the target has the Deafened and Frightened conditions until the end of its next turn"
+            },
+            {
+              "key": "save/half-damage-only",
+              "name": "Half damage only",
+              "text": "Success: Half damage only"
+            }
+          ]
+        }
+      ],
+      "bonus_actions": [
+        {
+          "id": "swallow",
+          "name": "Swallow",
+          "text": "Swallow. Strength Saving Throw: DC 27, one Large or smaller creature Grappled by the tarrasque (it can have up to six creatures swallowed at a time). Failure: The target is swallowed, and the Grappled condition ends. A swallowed creature has the Blinded and Restrained conditions and can’t teleport, it has Total Cover against attacks and other effects outside the tarrasque, and it takes 56 (16d6) Acid damage at the start of each of the tarrasque’s turns. If the tarrasque takes 60 damage or more on a single turn from a creature inside it, the tarrasque must succeed on a DC 20 Constitution saving throw at the end of that turn or regurgitate all swallowed creatures, each of which falls in a space within 10 feet of the tarrasque and has the Prone condition. If the tarrasque dies, any swallowed creature no longer has the Restrained condition and can escape from the corpse using 20 feet of movement, exiting Prone.",
+          "key": "action/saving-throw",
+          "save": {
+            "ability": "str",
+            "dc": 27
+          },
+          "target": {
+            "shape": "creature",
+            "size": 0,
+            "width": 0,
+            "range": 0
+          },
+          "effects": [
+            {
+              "key": "save/str",
+              "name": "Strength Saving Throw",
+              "text": "Strength Saving Throw: DC 27"
+            },
+            {
+              "key": "target/creature",
+              "name": "Target",
+              "text": "one Large or smaller creature Grappled by the tarrasque (it can have up to six creatures swallowed at a time)."
+            },
+            {
+              "key": "requirement/target-size",
+              "name": "Target size",
+              "text": "one Large or smaller creature"
+            },
+            {
+              "key": "requirement/grappled-creature",
+              "name": "Grappled creature",
+              "text": "Grappled by the tarrasque"
+            },
+            {
+              "key": "limit/six-swallowed-creatures",
+              "name": "Six swallowed creatures",
+              "text": "it can have up to six creatures swallowed at a time"
+            },
+            {
+              "key": "effect/swallow",
+              "name": "Swallow",
+              "text": "The target is swallowed, and the Grappled condition ends"
+            },
+            {
+              "key": "condition/blinded",
+              "name": "Blinded",
+              "text": "A swallowed creature has the Blinded and Restrained conditions"
+            },
+            {
+              "key": "condition/restrained",
+              "name": "Restrained",
+              "text": "A swallowed creature has the Blinded and Restrained conditions"
+            },
+            {
+              "key": "effect/no-teleport",
+              "name": "No teleport",
+              "text": "can’t teleport"
+            },
+            {
+              "key": "effect/total-cover",
+              "name": "Total cover",
+              "text": "it has Total Cover against attacks and other effects outside the tarrasque"
+            },
+            {
+              "key": "effect/acid-damage",
+              "name": "Acid damage",
+              "text": "it takes 56 (16d6) Acid damage at the start of each of the tarrasque’s turns",
+              "dice": {
+                "average": 56,
+                "dice": 16,
+                "sides": 6,
+                "modifier": 0
+              }
+            },
+            {
+              "key": "effect/regurgitation-save",
+              "name": "Regurgitation save",
+              "text": "the tarrasque must succeed on a DC 20 Constitution saving throw at the end of that turn or regurgitate all swallowed creatures"
+            },
+            {
+              "key": "condition/prone",
+              "name": "Prone",
+              "text": "falls in a space within 10 feet of the tarrasque and has the Prone condition"
+            },
+            {
+              "key": "effect/escape-corpse",
+              "name": "Escape corpse",
+              "text": "If the tarrasque dies, any swallowed creature no longer has the Restrained condition and can escape from the corpse using 20 feet of movement, exiting Prone"
+            }
+          ]
+        }
+      ],
+      "legendary_actions": [
+        {
+          "id": "onslaught",
+          "name": "Onslaught",
+          "text": "Onslaught. The tarrasque moves up to half its Speed, and it makes one Claw or Tail attack.",
+          "key": "action/special",
+          "effects": [
+            {
+              "key": "movement/half-speed",
+              "name": "Half speed",
+              "text": "The tarrasque moves up to half its Speed"
+            },
+            {
+              "key": "action/melee-attack",
+              "name": "Melee attack",
+              "text": "it makes one Claw or Tail attack"
+            }
+          ]
+        },
+        {
+          "id": "world-shaking-movement",
+          "name": "World-Shaking Movement",
+          "text": "World-Shaking Movement. The tarrasque moves up to its Speed. At the end of this movement, the tarrasque creates an instantaneous shock wave in a 60-foot Emanation originating from itself. Creatures in that area lose Concentration and, if Medium or smaller, have the Prone condition. The tarrasque can’t take this action again until the start of its next turn.",
+          "key": "action/special",
+          "effects": [
+            {
+              "key": "movement/full-speed",
+              "name": "Full speed",
+              "text": "The tarrasque moves up to its Speed"
+            },
+            {
+              "key": "area/emanation",
+              "name": "Emanation",
+              "text": "an instantaneous shock wave in a 60-foot Emanation originating from itself"
+            },
+            {
+              "key": "effect/lose-concentration",
+              "name": "Lose concentration",
+              "text": "Creatures in that area lose Concentration"
+            },
+            {
+              "key": "condition/prone",
+              "name": "Prone",
+              "text": "if Medium or smaller, have the Prone condition"
+            },
+            {
+              "key": "limit/not-again-until-next-turn",
+              "name": "Not again until next turn",
+              "text": "The tarrasque can’t take this action again until the start of its next turn"
+            }
+          ]
+        }
+      ],
+      "legendary": {
+        "uses": 3,
+        "lair_uses": 0,
+        "text": "Legendary Action Uses: 3. Immediately after another creature’s turn, the tarrasque can expend a use to take one of the following actions. The tarrasque regains all expended uses at the start of each of its turns."
+      },
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/skills",
+        "defense/damage-resistance",
+        "defense/damage-immunity",
+        "defense/condition-immunity",
+        "movement/burrow",
+        "movement/climb",
+        "sense/blindsight",
+        "action/bonus-action",
+        "legendary/actions",
+        "trait/legendary-resistance",
+        "limit/per-day",
+        "save/choose-success",
+        "trait/magic-resistance",
+        "save/advantage-against-magic",
+        "trait/reflective-carapace",
+        "effect/spell-reflection",
+        "requirement/targeted-by-magic-missile-or-ranged-spell-attack",
+        "trait/siege-monster",
+        "effect/double-damage-to-objects-and-structures",
+        "action/multiattack",
+        "action/melee-attack",
+        "multiattack/any-combination",
+        "effect/piercing-damage",
+        "condition/grappled",
+        "condition/restrained",
+        "effect/no-teleport",
+        "effect/slashing-damage",
+        "effect/bludgeoning-damage",
+        "requirement/target-size",
+        "condition/prone",
+        "action/saving-throw",
+        "limit/recharge",
+        "save/con",
+        "area/cone",
+        "target/unattended-objects",
+        "effect/thunder-damage",
+        "condition/deafened",
+        "condition/frightened",
+        "save/half-damage-only",
+        "save/str",
+        "target/creature",
+        "requirement/grappled-creature",
+        "limit/six-swallowed-creatures",
+        "effect/swallow",
+        "condition/blinded",
+        "effect/total-cover",
+        "effect/acid-damage",
+        "effect/regurgitation-save",
+        "effect/escape-corpse",
+        "action/special",
+        "movement/half-speed",
+        "movement/full-speed",
+        "area/emanation",
+        "effect/lose-concentration",
+        "limit/not-again-until-next-turn"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/animals/tiger",
+      "name": "Tiger",
+      "source_pages": [
+        363,
+        363
+      ],
+      "sizes": [
+        "large"
+      ],
+      "type": "beast",
+      "alignment": "Unaligned",
+      "ac": 13,
+      "initiative": {
+        "modifier": 3,
+        "score": 13
+      },
+      "hp": {
+        "average": 30,
+        "dice": 4,
+        "sides": 10,
+        "modifier": 8
+      },
+      "speeds": {
+        "walk": 40
+      },
+      "abilities": {
+        "str": {
+          "score": 17,
+          "modifier": 3,
+          "save": 3
+        },
+        "dex": {
+          "score": 16,
+          "modifier": 3,
+          "save": 3
+        },
+        "con": {
+          "score": 14,
+          "modifier": 2,
+          "save": 2
+        },
+        "int": {
+          "score": 3,
+          "modifier": -4,
+          "save": -4
+        },
+        "wis": {
+          "score": 12,
+          "modifier": 1,
+          "save": 1
+        },
+        "cha": {
+          "score": 8,
+          "modifier": -1,
+          "save": -1
+        }
+      },
+      "senses": {
+        "passive_perception": 13,
+        "special": {
+          "darkvision": 60
+        }
+      },
+      "languages": [],
+      "gear": [],
+      "cr": "1",
+      "xp": 200,
+      "proficiency_bonus": 2,
+      "skills": {
+        "perception": 3,
+        "stealth": 7
+      },
+      "traits": [],
+      "actions": [
+        {
+          "id": "rend",
+          "name": "Rend",
+          "text": "Rend. Melee Attack Roll: +5, reach 5 ft. Hit: 10 (2d6 + 3) Slashing damage. If the target is a Large or smaller creature, it has the Prone condition.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 5,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 10,
+              "dice": 2,
+              "sides": 6,
+              "modifier": 3
+            },
+            "damage_type": "slashing"
+          },
+          "effects": [
+            {
+              "key": "effect/slashing-damage",
+              "name": "Slashing damage",
+              "text": "10 (2d6 + 3) Slashing damage.",
+              "dice": {
+                "average": 10,
+                "dice": 2,
+                "sides": 6,
+                "modifier": 3
+              }
+            },
+            {
+              "key": "requirement/target-size",
+              "name": "Target size",
+              "text": "If the target is a Large or smaller creature"
+            },
+            {
+              "key": "condition/prone",
+              "name": "Prone",
+              "text": "it has the Prone condition"
+            }
+          ]
+        }
+      ],
+      "bonus_actions": [
+        {
+          "id": "nimble-escape",
+          "name": "Nimble Escape",
+          "text": "Nimble Escape. The tiger takes the Disengage or Hide action.",
+          "key": "action/special",
+          "effects": [
+            {
+              "key": "action/disengage",
+              "name": "Disengage",
+              "text": "The tiger takes the Disengage or Hide action"
+            },
+            {
+              "key": "action/hide",
+              "name": "Hide",
+              "text": "Hide action"
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/skills",
+        "sense/darkvision",
+        "action/bonus-action",
+        "action/melee-attack",
+        "effect/slashing-damage",
+        "requirement/target-size",
+        "condition/prone",
+        "action/special",
+        "action/disengage",
+        "action/hide"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/tough",
+      "name": "Tough",
+      "source_pages": [
+        332,
+        332
+      ],
+      "sizes": [
+        "medium",
+        "small"
+      ],
+      "type": "humanoid",
+      "alignment": "Neutral",
+      "ac": 12,
+      "initiative": {
+        "modifier": 1,
+        "score": 11
+      },
+      "hp": {
+        "average": 32,
+        "dice": 5,
+        "sides": 8,
+        "modifier": 10
+      },
+      "speeds": {
+        "walk": 30
+      },
+      "abilities": {
+        "str": {
+          "score": 15,
+          "modifier": 2,
+          "save": 2
+        },
+        "dex": {
+          "score": 12,
+          "modifier": 1,
+          "save": 1
+        },
+        "con": {
+          "score": 14,
+          "modifier": 2,
+          "save": 2
+        },
+        "int": {
+          "score": 10,
+          "modifier": 0,
+          "save": 0
+        },
+        "wis": {
+          "score": 10,
+          "modifier": 0,
+          "save": 0
+        },
+        "cha": {
+          "score": 11,
+          "modifier": 0,
+          "save": 0
+        }
+      },
+      "senses": {
+        "passive_perception": 10,
+        "special": {}
+      },
+      "languages": [
+        "Common"
+      ],
+      "gear": [
+        "Heavy Crossbow",
+        "Leather Armor",
+        "Mace"
+      ],
+      "cr": "1/2",
+      "xp": 100,
+      "proficiency_bonus": 2,
+      "traits": [
+        {
+          "key": "trait/pack-tactics",
+          "name": "Pack Tactics",
+          "text": "Pack Tactics. The tough has Advantage on an attack roll against a creature if at least one of the tough’s allies is within 5 feet of the creature and the ally doesn’t have the Incapacitated condition.",
+          "requires": [
+            "attack/advantage-with-nearby-ally",
+            "requirement/ally-not-incapacitated"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "mace",
+          "name": "Mace",
+          "text": "Mace. Melee Attack Roll: +4, reach 5 ft. Hit: 5 (1d6 + 2) Bludgeoning damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 4,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 5,
+              "dice": 1,
+              "sides": 6,
+              "modifier": 2
+            },
+            "damage_type": "bludgeoning"
+          },
+          "effects": [
+            {
+              "key": "effect/bludgeoning-damage",
+              "name": "Bludgeoning damage",
+              "text": "5 (1d6 + 2) Bludgeoning damage.",
+              "dice": {
+                "average": 5,
+                "dice": 1,
+                "sides": 6,
+                "modifier": 2
+              }
+            }
+          ]
+        },
+        {
+          "id": "heavy-crossbow",
+          "name": "Heavy Crossbow",
+          "text": "Heavy Crossbow. Ranged Attack Roll: +3, range 100/400 ft. Hit: 6 (1d10 + 1) Piercing damage.",
+          "key": "action/ranged-attack",
+          "attack": {
+            "kind": "ranged",
+            "bonus": 3,
+            "reach": 0,
+            "range": 100,
+            "long_range": 400,
+            "damage": {
+              "average": 6,
+              "dice": 1,
+              "sides": 10,
+              "modifier": 1
+            },
+            "damage_type": "piercing"
+          },
+          "effects": [
+            {
+              "key": "effect/piercing-damage",
+              "name": "Piercing damage",
+              "text": "6 (1d10 + 1) Piercing damage.",
+              "dice": {
+                "average": 6,
+                "dice": 1,
+                "sides": 10,
+                "modifier": 1
+              }
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "trait/pack-tactics",
+        "attack/advantage-with-nearby-ally",
+        "requirement/ally-not-incapacitated",
+        "action/melee-attack",
+        "effect/bludgeoning-damage",
+        "action/ranged-attack",
+        "effect/piercing-damage"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/tough-boss",
+      "name": "Tough Boss",
+      "source_pages": [
+        332,
+        332
+      ],
+      "sizes": [
+        "medium",
+        "small"
+      ],
+      "type": "humanoid",
+      "alignment": "Neutral",
+      "ac": 16,
+      "initiative": {
+        "modifier": 2,
+        "score": 12
+      },
+      "hp": {
+        "average": 82,
+        "dice": 11,
+        "sides": 8,
+        "modifier": 33
+      },
+      "speeds": {
+        "walk": 30
+      },
+      "abilities": {
+        "str": {
+          "score": 17,
+          "modifier": 3,
+          "save": 5
+        },
+        "dex": {
+          "score": 14,
+          "modifier": 2,
+          "save": 2
+        },
+        "con": {
+          "score": 16,
+          "modifier": 3,
+          "save": 5
+        },
+        "int": {
+          "score": 11,
+          "modifier": 0,
+          "save": 0
+        },
+        "wis": {
+          "score": 10,
+          "modifier": 0,
+          "save": 0
+        },
+        "cha": {
+          "score": 11,
+          "modifier": 0,
+          "save": 2
+        }
+      },
+      "senses": {
+        "passive_perception": 10,
+        "special": {}
+      },
+      "languages": [
+        "Common plus one other language"
+      ],
+      "gear": [
+        "Chain Mail",
+        "Heavy Crossbow",
+        "Warhammer"
+      ],
+      "cr": "4",
+      "xp": 1100,
+      "proficiency_bonus": 2,
+      "traits": [
+        {
+          "key": "trait/pack-tactics",
+          "name": "Pack Tactics",
+          "text": "Pack Tactics. The tough has Advantage on an attack roll against a creature if at least one of the tough’s allies is within 5 feet of the creature and the ally doesn’t have the Incapacitated condition.",
+          "requires": [
+            "attack/advantage-with-nearby-ally",
+            "requirement/ally-not-incapacitated"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "multiattack",
+          "name": "Multiattack",
+          "text": "Multiattack. The tough makes two attacks, using Warhammer or Heavy Crossbow in any combination.",
+          "key": "action/multiattack",
+          "effects": [
+            {
+              "key": "action/melee-attack",
+              "name": "Melee attack",
+              "text": "The tough makes two attacks, using Warhammer or Heavy Crossbow in any combination"
+            },
+            {
+              "key": "action/ranged-attack",
+              "name": "Ranged attack",
+              "text": "Heavy Crossbow"
+            },
+            {
+              "key": "multiattack/any-combination",
+              "name": "Any combination",
+              "text": "in any combination"
+            }
+          ]
+        },
+        {
+          "id": "warhammer",
+          "name": "Warhammer",
+          "text": "Warhammer. Melee Attack Roll: +5, reach 5 ft. Hit: 12 (2d8 + 3) Bludgeoning damage. If the target is a Large or smaller creature, the tough pushes the target up to 10 feet straight away from itself.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 5,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 12,
+              "dice": 2,
+              "sides": 8,
+              "modifier": 3
+            },
+            "damage_type": "bludgeoning"
+          },
+          "effects": [
+            {
+              "key": "effect/bludgeoning-damage",
+              "name": "Bludgeoning damage",
+              "text": "12 (2d8 + 3) Bludgeoning damage.",
+              "dice": {
+                "average": 12,
+                "dice": 2,
+                "sides": 8,
+                "modifier": 3
+              }
+            },
+            {
+              "key": "requirement/target-size",
+              "name": "Target size",
+              "text": "If the target is a Large or smaller creature"
+            },
+            {
+              "key": "effect/push",
+              "name": "Push",
+              "text": "the tough pushes the target up to 10 feet straight away from itself"
+            }
+          ]
+        },
+        {
+          "id": "heavy-crossbow",
+          "name": "Heavy Crossbow",
+          "text": "Heavy Crossbow. Ranged Attack Roll: +4, range 100/400 ft. Hit: 13 (2d10 + 2) Piercing damage.",
+          "key": "action/ranged-attack",
+          "attack": {
+            "kind": "ranged",
+            "bonus": 4,
+            "reach": 0,
+            "range": 100,
+            "long_range": 400,
+            "damage": {
+              "average": 13,
+              "dice": 2,
+              "sides": 10,
+              "modifier": 2
+            },
+            "damage_type": "piercing"
+          },
+          "effects": [
+            {
+              "key": "effect/piercing-damage",
+              "name": "Piercing damage",
+              "text": "13 (2d10 + 2) Piercing damage.",
+              "dice": {
+                "average": 13,
+                "dice": 2,
+                "sides": 10,
+                "modifier": 2
+              }
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "trait/pack-tactics",
+        "attack/advantage-with-nearby-ally",
+        "requirement/ally-not-incapacitated",
+        "action/multiattack",
+        "action/melee-attack",
+        "action/ranged-attack",
+        "multiattack/any-combination",
+        "effect/bludgeoning-damage",
+        "requirement/target-size",
+        "effect/push",
+        "effect/piercing-damage"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/treant",
+      "name": "Treant",
+      "source_pages": [
+        333,
+        333
+      ],
+      "sizes": [
+        "huge"
+      ],
+      "type": "plant",
+      "alignment": "Chaotic Good",
+      "ac": 16,
+      "initiative": {
+        "modifier": 3,
+        "score": 13
+      },
+      "hp": {
+        "average": 138,
+        "dice": 12,
+        "sides": 12,
+        "modifier": 60
+      },
+      "speeds": {
+        "walk": 30
+      },
+      "abilities": {
+        "str": {
+          "score": 23,
+          "modifier": 6,
+          "save": 6
+        },
+        "dex": {
+          "score": 8,
+          "modifier": -1,
+          "save": -1
+        },
+        "con": {
+          "score": 21,
+          "modifier": 5,
+          "save": 5
+        },
+        "int": {
+          "score": 12,
+          "modifier": 1,
+          "save": 1
+        },
+        "wis": {
+          "score": 16,
+          "modifier": 3,
+          "save": 3
+        },
+        "cha": {
+          "score": 12,
+          "modifier": 1,
+          "save": 1
+        }
+      },
+      "senses": {
+        "passive_perception": 13,
+        "special": {}
+      },
+      "languages": [
+        "Common",
+        "Druidic",
+        "Elvish",
+        "Sylvan"
+      ],
+      "gear": [],
+      "cr": "9",
+      "xp": 5000,
+      "proficiency_bonus": 4,
+      "vulnerabilities": [
+        "fire"
+      ],
+      "resistances": [
+        "bludgeoning",
+        "piercing"
+      ],
+      "traits": [
+        {
+          "key": "trait/siege-monster",
+          "name": "Siege Monster",
+          "text": "Siege Monster. The treant deals double damage to objects and structures.",
+          "requires": [
+            "effect/double-damage-to-objects-and-structures"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "multiattack",
+          "name": "Multiattack",
+          "text": "Multiattack. The treant makes two Slam attacks.",
+          "key": "action/multiattack",
+          "effects": [
+            {
+              "key": "action/melee-attack",
+              "name": "Melee attack",
+              "text": "The treant makes two Slam attacks"
+            }
+          ]
+        },
+        {
+          "id": "slam",
+          "name": "Slam",
+          "text": "Slam. Melee Attack Roll: +10, reach 5 ft. Hit: 16 (3d6 + 6) Bludgeoning damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 10,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 16,
+              "dice": 3,
+              "sides": 6,
+              "modifier": 6
+            },
+            "damage_type": "bludgeoning"
+          },
+          "effects": [
+            {
+              "key": "effect/bludgeoning-damage",
+              "name": "Bludgeoning damage",
+              "text": "16 (3d6 + 6) Bludgeoning damage.",
+              "dice": {
+                "average": 16,
+                "dice": 3,
+                "sides": 6,
+                "modifier": 6
+              }
+            }
+          ]
+        },
+        {
+          "id": "hail-of-bark",
+          "name": "Hail of Bark",
+          "text": "Hail of Bark. Ranged Attack Roll: +10, range 180 ft. Hit: 28 (4d10 + 6) Piercing damage.",
+          "key": "action/ranged-attack",
+          "attack": {
+            "kind": "ranged",
+            "bonus": 10,
+            "reach": 0,
+            "range": 180,
+            "long_range": 180,
+            "damage": {
+              "average": 28,
+              "dice": 4,
+              "sides": 10,
+              "modifier": 6
+            },
+            "damage_type": "piercing"
+          },
+          "effects": [
+            {
+              "key": "effect/piercing-damage",
+              "name": "Piercing damage",
+              "text": "28 (4d10 + 6) Piercing damage.",
+              "dice": {
+                "average": 28,
+                "dice": 4,
+                "sides": 10,
+                "modifier": 6
+              }
+            }
+          ]
+        },
+        {
+          "id": "animate-trees",
+          "name": "Animate Trees",
+          "text": "Animate Trees (1/Day). The treant magically animates up to two trees it can see within 60 feet of itself. Each tree uses the Treant stat block, except it has Intelligence and Charisma scores of 1, it can’t speak, and it lacks this action. The tree takes its turn immediately after the treant on the same Initiative count, and it obeys the treant. A tree remains animate for 1 day or until it dies, the treant dies, or it is more than 120 feet from the treant. The tree then takes root if possible.",
+          "key": "action/special",
+          "uses": {
+            "per_day": 1,
+            "lair_per_day": 0,
+            "recharge": 0
+          },
+          "effects": [
+            {
+              "key": "limit/per-day",
+              "name": "Daily uses",
+              "text": "(1/Day)"
+            },
+            {
+              "key": "effect/animate-trees",
+              "name": "Animate trees",
+              "text": "The treant magically animates up to two trees it can see within 60 feet of itself"
+            },
+            {
+              "key": "effect/animated-tree-statistics",
+              "name": "Animated tree statistics",
+              "text": "Each tree uses the Treant stat block, except it has Intelligence and Charisma scores of 1, it can’t speak, and it lacks this action"
+            },
+            {
+              "key": "effect/animated-tree-turn-order",
+              "name": "Animated tree turn order",
+              "text": "The tree takes its turn immediately after the treant on the same Initiative count, and it obeys the treant"
+            },
+            {
+              "key": "effect/animation-duration",
+              "name": "Animation duration",
+              "text": "A tree remains animate for 1 day or until it dies, the treant dies, or it is more than 120 feet from the treant"
+            },
+            {
+              "key": "effect/tree-takes-root",
+              "name": "Tree takes root",
+              "text": "The tree then takes root if possible"
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "defense/damage-vulnerability",
+        "defense/damage-resistance",
+        "trait/siege-monster",
+        "effect/double-damage-to-objects-and-structures",
+        "action/multiattack",
+        "action/melee-attack",
+        "effect/bludgeoning-damage",
+        "action/ranged-attack",
+        "effect/piercing-damage",
+        "action/special",
+        "limit/per-day",
+        "effect/animate-trees",
+        "effect/animated-tree-statistics",
+        "effect/animated-tree-turn-order",
+        "effect/animation-duration",
+        "effect/tree-takes-root"
+      ]
+    }
+  ]
+}

@@ -93,5 +93,6 @@ func (m Monster) validateStatBlockNotes() error {
 			}
 		}
 	}
-	return cmp.Or(m.validateTelepathyNote(), m.validateResistanceNote())
+	return cmp.Or(m.validateTelepathyNote(), m.validateResistanceNote(), m.validateVulnerabilityNote(),
+		m.validateSwarm(), m.validateSpeedNote(), m.validateConditionImmunityNote())
 }

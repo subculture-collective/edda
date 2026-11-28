@@ -1,0 +1,2853 @@
+{
+  "schema_version": 1,
+  "source": {
+    "version": "5.2.1",
+    "language": "en",
+    "landing_url": "https://www.dndbeyond.com/srd",
+    "artifact_url": "https://media.dndbeyond.com/compendium-images/srd/5.2/SRD_CC_v5.2.1.pdf",
+    "sha256": "8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87",
+    "bytes": 6031375,
+    "pages": 364,
+    "retrieved_at": "2026-11-15",
+    "license": "CC-BY-4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/legalcode",
+    "attribution": "This work includes material from the System Reference Document 5.2.1 (“SRD 5.2.1”) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd. The SRD 5.2.1 is licensed under the Creative Commons Attribution 4.0 International License, available at https://creativecommons.org/licenses/by/4.0/legalcode.",
+    "changes": "Adapted the twelve stat blocks of issue #175 (Triceratops, Troll, Troll Limb, Tyrannosaurus Rex, Unicorn, Vampire, Vampire Familiar, Vampire Spawn, Venomous Snake, Violet Fungus, Vrock and Vulture; PDF pages 286, 333–336 and 363–364) into typed mechanical fields and implementation keys. Trait, action, bonus action and legendary action entries keep their source rules text, rejoined across line, column and page breaks; descriptive prose outside the stat blocks is omitted. The Vampire Familiar's conditional condition immunity is retained as its own note, and form qualifiers on Vampire headings are retained as requirements. No playable NPC behavior is granted."
+  },
+  "monsters": [
+    {
+      "id": "srd-5.2.1:content/animals/triceratops",
+      "name": "Triceratops",
+      "source_pages": [
+        363,
+        363
+      ],
+      "sizes": [
+        "huge"
+      ],
+      "type": "beast",
+      "alignment": "Unaligned",
+      "ac": 14,
+      "initiative": {
+        "modifier": -1,
+        "score": 9
+      },
+      "hp": {
+        "average": 114,
+        "dice": 12,
+        "sides": 12,
+        "modifier": 36
+      },
+      "speeds": {
+        "walk": 50
+      },
+      "abilities": {
+        "str": {
+          "score": 22,
+          "modifier": 6,
+          "save": 6
+        },
+        "dex": {
+          "score": 9,
+          "modifier": -1,
+          "save": -1
+        },
+        "con": {
+          "score": 17,
+          "modifier": 3,
+          "save": 3
+        },
+        "int": {
+          "score": 2,
+          "modifier": -4,
+          "save": -4
+        },
+        "wis": {
+          "score": 11,
+          "modifier": 0,
+          "save": 0
+        },
+        "cha": {
+          "score": 5,
+          "modifier": -3,
+          "save": -3
+        }
+      },
+      "senses": {
+        "passive_perception": 10,
+        "special": {}
+      },
+      "languages": [],
+      "gear": [],
+      "cr": "5",
+      "xp": 1800,
+      "proficiency_bonus": 3,
+      "tags": [
+        "Dinosaur"
+      ],
+      "traits": [],
+      "actions": [
+        {
+          "id": "multiattack",
+          "name": "Multiattack",
+          "text": "Multiattack. The triceratops makes two Gore attacks.",
+          "key": "action/multiattack",
+          "effects": [
+            {
+              "key": "action/melee-attack",
+              "name": "Melee attack",
+              "text": "The triceratops makes two Gore attacks"
+            }
+          ]
+        },
+        {
+          "id": "gore",
+          "name": "Gore",
+          "text": "Gore. Melee Attack Roll: +9, reach 5 ft. Hit: 19 (2d12 + 6) Piercing damage. If the target is Huge or smaller and the triceratops moved 20+ feet straight toward it immediately before the hit, the target takes an extra 9 (2d8) Piercing damage and has the Prone condition.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 9,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 19,
+              "dice": 2,
+              "sides": 12,
+              "modifier": 6
+            },
+            "damage_type": "piercing"
+          },
+          "effects": [
+            {
+              "key": "effect/piercing-damage",
+              "name": "Piercing damage",
+              "text": "19 (2d12 + 6) Piercing damage.",
+              "dice": {
+                "average": 19,
+                "dice": 2,
+                "sides": 12,
+                "modifier": 6
+              }
+            },
+            {
+              "key": "requirement/target-size",
+              "name": "Target size",
+              "text": "If the target is Huge or smaller"
+            },
+            {
+              "key": "requirement/straight-line-movement",
+              "name": "Straight line movement",
+              "text": "the triceratops moved 20+ feet straight toward it immediately before the hit"
+            },
+            {
+              "key": "effect/piercing-damage",
+              "name": "Piercing damage",
+              "text": "the target takes an extra 9 (2d8) Piercing damage",
+              "dice": {
+                "average": 9,
+                "dice": 2,
+                "sides": 8,
+                "modifier": 0
+              }
+            },
+            {
+              "key": "condition/prone",
+              "name": "Prone",
+              "text": "has the Prone condition"
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "action/multiattack",
+        "action/melee-attack",
+        "effect/piercing-damage",
+        "requirement/target-size",
+        "requirement/straight-line-movement",
+        "condition/prone"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/troll",
+      "name": "Troll",
+      "source_pages": [
+        333,
+        333
+      ],
+      "sizes": [
+        "large"
+      ],
+      "type": "giant",
+      "alignment": "Chaotic Evil",
+      "ac": 15,
+      "initiative": {
+        "modifier": 1,
+        "score": 11
+      },
+      "hp": {
+        "average": 94,
+        "dice": 9,
+        "sides": 10,
+        "modifier": 45
+      },
+      "speeds": {
+        "walk": 30
+      },
+      "abilities": {
+        "str": {
+          "score": 18,
+          "modifier": 4,
+          "save": 4
+        },
+        "dex": {
+          "score": 13,
+          "modifier": 1,
+          "save": 1
+        },
+        "con": {
+          "score": 20,
+          "modifier": 5,
+          "save": 5
+        },
+        "int": {
+          "score": 7,
+          "modifier": -2,
+          "save": -2
+        },
+        "wis": {
+          "score": 9,
+          "modifier": -1,
+          "save": -1
+        },
+        "cha": {
+          "score": 7,
+          "modifier": -2,
+          "save": -2
+        }
+      },
+      "senses": {
+        "passive_perception": 15,
+        "special": {
+          "darkvision": 60
+        }
+      },
+      "languages": [
+        "Giant"
+      ],
+      "gear": [],
+      "cr": "5",
+      "xp": 1800,
+      "proficiency_bonus": 3,
+      "skills": {
+        "perception": 5
+      },
+      "traits": [
+        {
+          "key": "trait/loathsome-limbs",
+          "name": "Loathsome Limbs",
+          "text": "Loathsome Limbs (4/Day). If the troll ends any turn Bloodied and took 15+ Slashing damage during that turn, one of the troll’s limbs is severed, falls into the troll’s space, and becomes a Troll Limb. The limb acts immediately after the troll’s turn. The troll has 1 Exhaustion level for each missing limb, and it grows replacement limbs the next time it regains Hit Points.",
+          "uses": {
+            "per_day": 4,
+            "lair_per_day": 0,
+            "recharge": 0
+          },
+          "requires": [
+            "limit/per-day",
+            "effect/sever-limb",
+            "requirement/bloodied-after-slashing-damage",
+            "effect/limb-acts",
+            "effect/exhaustion-per-missing-limb",
+            "effect/regrow-limbs"
+          ]
+        },
+        {
+          "key": "trait/regeneration",
+          "name": "Regeneration",
+          "text": "Regeneration. The troll regains 15 Hit Points at the start of each of its turns. If the troll takes Acid or Fire damage, this trait doesn’t function on the troll’s next turn. The troll dies only if it starts its turn with 0 Hit Points and doesn’t regenerate.",
+          "requires": [
+            "effect/regeneration",
+            "effect/regeneration-suppressed",
+            "effect/death-requires-no-regeneration"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "multiattack",
+          "name": "Multiattack",
+          "text": "Multiattack. The troll makes three Rend attacks.",
+          "key": "action/multiattack",
+          "effects": [
+            {
+              "key": "action/melee-attack",
+              "name": "Melee attack",
+              "text": "The troll makes three Rend attacks"
+            }
+          ]
+        },
+        {
+          "id": "rend",
+          "name": "Rend",
+          "text": "Rend. Melee Attack Roll: +7, reach 10 ft. Hit: 11 (2d6 + 4) Slashing damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 7,
+            "reach": 10,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 11,
+              "dice": 2,
+              "sides": 6,
+              "modifier": 4
+            },
+            "damage_type": "slashing"
+          },
+          "effects": [
+            {
+              "key": "effect/slashing-damage",
+              "name": "Slashing damage",
+              "text": "11 (2d6 + 4) Slashing damage.",
+              "dice": {
+                "average": 11,
+                "dice": 2,
+                "sides": 6,
+                "modifier": 4
+              }
+            }
+          ]
+        }
+      ],
+      "bonus_actions": [
+        {
+          "id": "charge",
+          "name": "Charge",
+          "text": "Charge. The troll moves up to half its Speed straight toward an enemy it can see.",
+          "key": "action/special",
+          "effects": [
+            {
+              "key": "movement/half-speed-toward-enemy",
+              "name": "Half speed toward enemy",
+              "text": "The troll moves up to half its Speed straight toward an enemy it can see"
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/skills",
+        "sense/darkvision",
+        "action/bonus-action",
+        "trait/loathsome-limbs",
+        "limit/per-day",
+        "effect/sever-limb",
+        "requirement/bloodied-after-slashing-damage",
+        "effect/limb-acts",
+        "effect/exhaustion-per-missing-limb",
+        "effect/regrow-limbs",
+        "trait/regeneration",
+        "effect/regeneration",
+        "effect/regeneration-suppressed",
+        "effect/death-requires-no-regeneration",
+        "action/multiattack",
+        "action/melee-attack",
+        "effect/slashing-damage",
+        "action/special",
+        "movement/half-speed-toward-enemy"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/troll-limb",
+      "name": "Troll Limb",
+      "source_pages": [
+        333,
+        333
+      ],
+      "sizes": [
+        "small"
+      ],
+      "type": "giant",
+      "alignment": "Chaotic Evil",
+      "ac": 13,
+      "initiative": {
+        "modifier": 1,
+        "score": 11
+      },
+      "hp": {
+        "average": 14,
+        "dice": 4,
+        "sides": 6,
+        "modifier": 0
+      },
+      "speeds": {
+        "walk": 20
+      },
+      "abilities": {
+        "str": {
+          "score": 18,
+          "modifier": 4,
+          "save": 4
+        },
+        "dex": {
+          "score": 12,
+          "modifier": 1,
+          "save": 1
+        },
+        "con": {
+          "score": 10,
+          "modifier": 0,
+          "save": 0
+        },
+        "int": {
+          "score": 1,
+          "modifier": -5,
+          "save": -5
+        },
+        "wis": {
+          "score": 9,
+          "modifier": -1,
+          "save": -1
+        },
+        "cha": {
+          "score": 1,
+          "modifier": -5,
+          "save": -5
+        }
+      },
+      "senses": {
+        "passive_perception": 9,
+        "special": {
+          "darkvision": 60
+        }
+      },
+      "languages": [],
+      "gear": [],
+      "cr": "1/2",
+      "xp": 100,
+      "proficiency_bonus": 2,
+      "traits": [
+        {
+          "key": "trait/regeneration",
+          "name": "Regeneration",
+          "text": "Regeneration. The limb regains 5 Hit Points at the start of each of its turns. If the limb takes Acid or Fire damage, this trait doesn’t function on the limb’s next turn. The limb dies only if it starts its turn with 0 Hit Points and doesn’t regenerate.",
+          "requires": [
+            "effect/regeneration",
+            "effect/regeneration-suppressed",
+            "effect/death-requires-no-regeneration"
+          ]
+        },
+        {
+          "key": "trait/troll-spawn",
+          "name": "Troll Spawn",
+          "text": "Troll Spawn. The limb uncannily has the same senses as a whole troll. If the limb isn’t destroyed within 24 hours, roll 1d12. On a 12, the limb turns into a Troll. Otherwise, the limb withers away.",
+          "requires": [
+            "effect/troll-senses",
+            "effect/grow-into-troll"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "rend",
+          "name": "Rend",
+          "text": "Rend. Melee Attack Roll: +6, reach 5 ft. Hit: 9 (2d4 + 4) Slashing damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 6,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 9,
+              "dice": 2,
+              "sides": 4,
+              "modifier": 4
+            },
+            "damage_type": "slashing"
+          },
+          "effects": [
+            {
+              "key": "effect/slashing-damage",
+              "name": "Slashing damage",
+              "text": "9 (2d4 + 4) Slashing damage.",
+              "dice": {
+                "average": 9,
+                "dice": 2,
+                "sides": 4,
+                "modifier": 4
+              }
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "sense/darkvision",
+        "trait/regeneration",
+        "effect/regeneration",
+        "effect/regeneration-suppressed",
+        "effect/death-requires-no-regeneration",
+        "trait/troll-spawn",
+        "effect/troll-senses",
+        "effect/grow-into-troll",
+        "action/melee-attack",
+        "effect/slashing-damage"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/animals/tyrannosaurus-rex",
+      "name": "Tyrannosaurus Rex",
+      "source_pages": [
+        363,
+        363
+      ],
+      "sizes": [
+        "huge"
+      ],
+      "type": "beast",
+      "alignment": "Unaligned",
+      "ac": 13,
+      "initiative": {
+        "modifier": 3,
+        "score": 13
+      },
+      "hp": {
+        "average": 136,
+        "dice": 13,
+        "sides": 12,
+        "modifier": 52
+      },
+      "speeds": {
+        "walk": 50
+      },
+      "abilities": {
+        "str": {
+          "score": 25,
+          "modifier": 7,
+          "save": 10
+        },
+        "dex": {
+          "score": 10,
+          "modifier": 0,
+          "save": 0
+        },
+        "con": {
+          "score": 19,
+          "modifier": 4,
+          "save": 4
+        },
+        "int": {
+          "score": 2,
+          "modifier": -4,
+          "save": -4
+        },
+        "wis": {
+          "score": 12,
+          "modifier": 1,
+          "save": 4
+        },
+        "cha": {
+          "score": 9,
+          "modifier": -1,
+          "save": -1
+        }
+      },
+      "senses": {
+        "passive_perception": 14,
+        "special": {}
+      },
+      "languages": [],
+      "gear": [],
+      "cr": "8",
+      "xp": 3900,
+      "proficiency_bonus": 3,
+      "tags": [
+        "Dinosaur"
+      ],
+      "skills": {
+        "perception": 4
+      },
+      "traits": [],
+      "actions": [
+        {
+          "id": "multiattack",
+          "name": "Multiattack",
+          "text": "Multiattack. The tyrannosaurus makes one Bite attack and one Tail attack.",
+          "key": "action/multiattack",
+          "effects": [
+            {
+              "key": "action/melee-attack",
+              "name": "Melee attack",
+              "text": "The tyrannosaurus makes one Bite attack and one Tail attack"
+            }
+          ]
+        },
+        {
+          "id": "bite",
+          "name": "Bite",
+          "text": "Bite. Melee Attack Roll: +10, reach 10 ft. Hit: 33 (4d12 + 7) Piercing damage. If the target is a Large or smaller creature, it has the Grappled condition (escape DC 17). While Grappled, the target has the Restrained condition and can’t be targeted by the tyrannosaurus’s Tail.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 10,
+            "reach": 10,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 33,
+              "dice": 4,
+              "sides": 12,
+              "modifier": 7
+            },
+            "damage_type": "piercing"
+          },
+          "effects": [
+            {
+              "key": "effect/piercing-damage",
+              "name": "Piercing damage",
+              "text": "33 (4d12 + 7) Piercing damage.",
+              "dice": {
+                "average": 33,
+                "dice": 4,
+                "sides": 12,
+                "modifier": 7
+              }
+            },
+            {
+              "key": "requirement/target-size",
+              "name": "Target size",
+              "text": "If the target is a Large or smaller creature"
+            },
+            {
+              "key": "condition/grappled",
+              "name": "Grappled",
+              "text": "it has the Grappled condition (escape DC 17)"
+            },
+            {
+              "key": "condition/restrained",
+              "name": "Restrained",
+              "text": "While Grappled, the target has the Restrained condition"
+            },
+            {
+              "key": "limit/no-tail-on-grappled-target",
+              "name": "No tail on grappled target",
+              "text": "can’t be targeted by the tyrannosaurus’s Tail"
+            }
+          ]
+        },
+        {
+          "id": "tail",
+          "name": "Tail",
+          "text": "Tail. Melee Attack Roll: +10, reach 15 ft. Hit: 25 (4d8 + 7) Bludgeoning damage. If the target is a Huge or smaller creature, it has the Prone condition.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 10,
+            "reach": 15,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 25,
+              "dice": 4,
+              "sides": 8,
+              "modifier": 7
+            },
+            "damage_type": "bludgeoning"
+          },
+          "effects": [
+            {
+              "key": "effect/bludgeoning-damage",
+              "name": "Bludgeoning damage",
+              "text": "25 (4d8 + 7) Bludgeoning damage.",
+              "dice": {
+                "average": 25,
+                "dice": 4,
+                "sides": 8,
+                "modifier": 7
+              }
+            },
+            {
+              "key": "requirement/target-size",
+              "name": "Target size",
+              "text": "If the target is a Huge or smaller creature"
+            },
+            {
+              "key": "condition/prone",
+              "name": "Prone",
+              "text": "it has the Prone condition"
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/skills",
+        "action/multiattack",
+        "action/melee-attack",
+        "effect/piercing-damage",
+        "requirement/target-size",
+        "condition/grappled",
+        "condition/restrained",
+        "limit/no-tail-on-grappled-target",
+        "effect/bludgeoning-damage",
+        "condition/prone"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/unicorn",
+      "name": "Unicorn",
+      "source_pages": [
+        334,
+        334
+      ],
+      "sizes": [
+        "large"
+      ],
+      "type": "celestial",
+      "alignment": "Lawful Good",
+      "ac": 12,
+      "initiative": {
+        "modifier": 8,
+        "score": 18
+      },
+      "hp": {
+        "average": 97,
+        "dice": 13,
+        "sides": 10,
+        "modifier": 26
+      },
+      "speeds": {
+        "walk": 50
+      },
+      "abilities": {
+        "str": {
+          "score": 18,
+          "modifier": 4,
+          "save": 4
+        },
+        "dex": {
+          "score": 14,
+          "modifier": 2,
+          "save": 2
+        },
+        "con": {
+          "score": 15,
+          "modifier": 2,
+          "save": 2
+        },
+        "int": {
+          "score": 11,
+          "modifier": 0,
+          "save": 0
+        },
+        "wis": {
+          "score": 17,
+          "modifier": 3,
+          "save": 3
+        },
+        "cha": {
+          "score": 16,
+          "modifier": 3,
+          "save": 3
+        }
+      },
+      "senses": {
+        "passive_perception": 13,
+        "special": {
+          "darkvision": 60
+        }
+      },
+      "languages": [
+        "Celestial",
+        "Elvish",
+        "Sylvan"
+      ],
+      "gear": [],
+      "cr": "5",
+      "xp": 1800,
+      "proficiency_bonus": 3,
+      "immunities": [
+        "poison"
+      ],
+      "condition_immunities": [
+        "charmed",
+        "paralyzed",
+        "poisoned"
+      ],
+      "telepathy": 120,
+      "traits": [
+        {
+          "key": "trait/legendary-resistance",
+          "name": "Legendary Resistance",
+          "text": "Legendary Resistance (3/Day). If the unicorn fails a saving throw, it can choose to succeed instead.",
+          "uses": {
+            "per_day": 3,
+            "lair_per_day": 0,
+            "recharge": 0
+          },
+          "requires": [
+            "limit/per-day",
+            "save/choose-success"
+          ]
+        },
+        {
+          "key": "trait/magic-resistance",
+          "name": "Magic Resistance",
+          "text": "Magic Resistance. The unicorn has Advantage on saving throws against spells and other magical effects.",
+          "requires": [
+            "save/advantage-against-magic"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "multiattack",
+          "name": "Multiattack",
+          "text": "Multiattack. The unicorn makes one Hooves attack and one Radiant Horn attack.",
+          "key": "action/multiattack",
+          "effects": [
+            {
+              "key": "action/melee-attack",
+              "name": "Melee attack",
+              "text": "The unicorn makes one Hooves attack and one Radiant Horn attack"
+            }
+          ]
+        },
+        {
+          "id": "hooves",
+          "name": "Hooves",
+          "text": "Hooves. Melee Attack Roll: +7, reach 5 ft. Hit: 11 (2d6 + 4) Bludgeoning damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 7,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 11,
+              "dice": 2,
+              "sides": 6,
+              "modifier": 4
+            },
+            "damage_type": "bludgeoning"
+          },
+          "effects": [
+            {
+              "key": "effect/bludgeoning-damage",
+              "name": "Bludgeoning damage",
+              "text": "11 (2d6 + 4) Bludgeoning damage.",
+              "dice": {
+                "average": 11,
+                "dice": 2,
+                "sides": 6,
+                "modifier": 4
+              }
+            }
+          ]
+        },
+        {
+          "id": "radiant-horn",
+          "name": "Radiant Horn",
+          "text": "Radiant Horn. Melee Attack Roll: +7, reach 5 ft. Hit: 9 (1d10 + 4) Radiant damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 7,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 9,
+              "dice": 1,
+              "sides": 10,
+              "modifier": 4
+            },
+            "damage_type": "radiant"
+          },
+          "effects": [
+            {
+              "key": "effect/radiant-damage",
+              "name": "Radiant damage",
+              "text": "9 (1d10 + 4) Radiant damage.",
+              "dice": {
+                "average": 9,
+                "dice": 1,
+                "sides": 10,
+                "modifier": 4
+              }
+            }
+          ]
+        },
+        {
+          "id": "spellcasting",
+          "name": "Spellcasting",
+          "text": "Spellcasting. The unicorn casts one of the following spells, requiring no spell components and using Charisma as the spellcasting ability (spell save DC 14): At Will: Detect Evil and Good, Druidcraft 1/Day Each: Calm Emotions, Dispel Evil and Good, Entangle, Pass without Trace, Word of Recall",
+          "key": "action/spellcasting",
+          "spellcasting": {
+            "ability": "cha",
+            "save_dc": 14,
+            "attack_bonus": 0,
+            "at_will": [
+              "Detect Evil and Good",
+              "Druidcraft"
+            ],
+            "per_day": [
+              {
+                "uses": 1,
+                "spells": [
+                  "Calm Emotions",
+                  "Dispel Evil and Good",
+                  "Entangle",
+                  "Pass without Trace",
+                  "Word of Recall"
+                ]
+              }
+            ]
+          },
+          "effects": [
+            {
+              "key": "spellcasting/no-components",
+              "name": "No components",
+              "text": "requiring no spell components"
+            },
+            {
+              "key": "spell/detect-evil-and-good",
+              "name": "Detect Evil and Good",
+              "text": "Detect Evil and Good",
+              "requires": [
+                "spellcasting/at-will"
+              ]
+            },
+            {
+              "key": "spell/druidcraft",
+              "name": "Druidcraft",
+              "text": "Druidcraft",
+              "requires": [
+                "spellcasting/at-will"
+              ]
+            },
+            {
+              "key": "spell/calm-emotions",
+              "name": "Calm Emotions",
+              "text": "Calm Emotions",
+              "requires": [
+                "limit/per-day"
+              ]
+            },
+            {
+              "key": "spell/dispel-evil-and-good",
+              "name": "Dispel Evil and Good",
+              "text": "Dispel Evil and Good",
+              "requires": [
+                "limit/per-day"
+              ]
+            },
+            {
+              "key": "spell/entangle",
+              "name": "Entangle",
+              "text": "Entangle",
+              "requires": [
+                "limit/per-day"
+              ]
+            },
+            {
+              "key": "spell/pass-without-trace",
+              "name": "Pass without Trace",
+              "text": "Pass without Trace",
+              "requires": [
+                "limit/per-day"
+              ]
+            },
+            {
+              "key": "spell/word-of-recall",
+              "name": "Word of Recall",
+              "text": "Word of Recall",
+              "requires": [
+                "limit/per-day"
+              ]
+            }
+          ]
+        }
+      ],
+      "bonus_actions": [
+        {
+          "id": "unicorns-blessing",
+          "name": "Unicorn’s Blessing",
+          "text": "Unicorn’s Blessing (3/Day). The unicorn touches another creature with its horn and casts Cure Wounds or Lesser Restoration on that creature, using the same spellcasting ability as Spellcasting.",
+          "key": "action/special",
+          "uses": {
+            "per_day": 3,
+            "lair_per_day": 0,
+            "recharge": 0
+          },
+          "effects": [
+            {
+              "key": "limit/per-day",
+              "name": "Daily uses",
+              "text": "(3/Day)"
+            },
+            {
+              "key": "effect/touch-creature",
+              "name": "Touch creature",
+              "text": "The unicorn touches another creature with its horn"
+            },
+            {
+              "key": "action/spellcasting",
+              "name": "Spellcasting",
+              "text": "casts Cure Wounds or Lesser Restoration on that creature, using the same spellcasting ability as Spellcasting"
+            },
+            {
+              "key": "spell/cure-wounds",
+              "name": "Cure Wounds",
+              "text": "Cure Wounds"
+            },
+            {
+              "key": "spell/lesser-restoration",
+              "name": "Lesser Restoration",
+              "text": "Lesser Restoration"
+            }
+          ]
+        }
+      ],
+      "legendary_actions": [
+        {
+          "id": "charging-horn",
+          "name": "Charging Horn",
+          "text": "Charging Horn. The unicorn moves up to half its Speed without provoking Opportunity Attacks, and it makes one Radiant Horn attack.",
+          "key": "action/special",
+          "effects": [
+            {
+              "key": "movement/half-speed",
+              "name": "Half speed",
+              "text": "The unicorn moves up to half its Speed"
+            },
+            {
+              "key": "effect/no-opportunity-attacks",
+              "name": "No opportunity attacks",
+              "text": "without provoking Opportunity Attacks"
+            },
+            {
+              "key": "action/melee-attack",
+              "name": "Melee attack",
+              "text": "it makes one Radiant Horn attack"
+            }
+          ]
+        },
+        {
+          "id": "shimmering-shield",
+          "name": "Shimmering Shield",
+          "text": "Shimmering Shield. The unicorn targets itself or one creature it can see within 60 feet of itself. The target gains 10 (3d6) Temporary Hit Points, and its AC increases by 2 until the end of the unicorn’s next turn. The unicorn can’t take this action again until the start of its next turn.",
+          "key": "action/special",
+          "effects": [
+            {
+              "key": "target/self-or-creature",
+              "name": "Self or creature",
+              "text": "The unicorn targets itself or one creature it can see within 60 feet of itself"
+            },
+            {
+              "key": "effect/temporary-hit-points",
+              "name": "Temporary hit points",
+              "text": "The target gains 10 (3d6) Temporary Hit Points",
+              "dice": {
+                "average": 10,
+                "dice": 3,
+                "sides": 6,
+                "modifier": 0
+              }
+            },
+            {
+              "key": "effect/ac-bonus",
+              "name": "Ac bonus",
+              "text": "its AC increases by 2 until the end of the unicorn’s next turn"
+            },
+            {
+              "key": "limit/not-again-until-next-turn",
+              "name": "Not again until next turn",
+              "text": "The unicorn can’t take this action again until the start of its next turn"
+            }
+          ]
+        }
+      ],
+      "legendary": {
+        "uses": 3,
+        "lair_uses": 0,
+        "text": "Legendary Action Uses: 3. Immediately after another creature’s turn, the unicorn can expend a use to take one of the following actions. The unicorn regains all expended uses at the start of each of its turns."
+      },
+      "required_mechanics": [
+        "monster/stat-block",
+        "defense/damage-immunity",
+        "defense/condition-immunity",
+        "sense/darkvision",
+        "language/telepathy",
+        "action/bonus-action",
+        "legendary/actions",
+        "trait/legendary-resistance",
+        "limit/per-day",
+        "save/choose-success",
+        "trait/magic-resistance",
+        "save/advantage-against-magic",
+        "action/multiattack",
+        "action/melee-attack",
+        "effect/bludgeoning-damage",
+        "effect/radiant-damage",
+        "action/spellcasting",
+        "spellcasting/no-components",
+        "spell/detect-evil-and-good",
+        "spellcasting/at-will",
+        "spell/druidcraft",
+        "spell/calm-emotions",
+        "spell/dispel-evil-and-good",
+        "spell/entangle",
+        "spell/pass-without-trace",
+        "spell/word-of-recall",
+        "action/special",
+        "effect/touch-creature",
+        "spell/cure-wounds",
+        "spell/lesser-restoration",
+        "movement/half-speed",
+        "effect/no-opportunity-attacks",
+        "target/self-or-creature",
+        "effect/temporary-hit-points",
+        "effect/ac-bonus",
+        "limit/not-again-until-next-turn"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/vampire",
+      "name": "Vampire",
+      "source_pages": [
+        335,
+        336
+      ],
+      "sizes": [
+        "medium",
+        "small"
+      ],
+      "type": "undead",
+      "alignment": "Lawful Evil",
+      "ac": 16,
+      "initiative": {
+        "modifier": 14,
+        "score": 24
+      },
+      "hp": {
+        "average": 195,
+        "dice": 23,
+        "sides": 8,
+        "modifier": 92
+      },
+      "speeds": {
+        "walk": 40,
+        "climb": 40
+      },
+      "abilities": {
+        "str": {
+          "score": 18,
+          "modifier": 4,
+          "save": 4
+        },
+        "dex": {
+          "score": 18,
+          "modifier": 4,
+          "save": 9
+        },
+        "con": {
+          "score": 18,
+          "modifier": 4,
+          "save": 9
+        },
+        "int": {
+          "score": 17,
+          "modifier": 3,
+          "save": 3
+        },
+        "wis": {
+          "score": 15,
+          "modifier": 2,
+          "save": 7
+        },
+        "cha": {
+          "score": 18,
+          "modifier": 4,
+          "save": 9
+        }
+      },
+      "senses": {
+        "passive_perception": 17,
+        "special": {
+          "darkvision": 120
+        }
+      },
+      "languages": [
+        "Common plus two other languages"
+      ],
+      "gear": [],
+      "cr": "13",
+      "xp": 10000,
+      "proficiency_bonus": 5,
+      "skills": {
+        "perception": 7,
+        "stealth": 9
+      },
+      "resistances": [
+        "necrotic"
+      ],
+      "lair_xp": 11500,
+      "traits": [
+        {
+          "key": "trait/legendary-resistance",
+          "name": "Legendary Resistance",
+          "text": "Legendary Resistance (3/Day, or 4/Day in Lair). If the vampire fails a saving throw, it can choose to succeed instead.",
+          "uses": {
+            "per_day": 3,
+            "lair_per_day": 4,
+            "recharge": 0
+          },
+          "requires": [
+            "limit/per-day",
+            "lair/uses",
+            "save/choose-success"
+          ]
+        },
+        {
+          "key": "trait/misty-escape",
+          "name": "Misty Escape",
+          "text": "Misty Escape. If the vampire drops to 0 Hit Points outside its resting place, the vampire uses Shape-Shift to become mist (no action required). If it can’t use Shape-Shift, it is destroyed. While it has 0 Hit Points in mist form, it can’t return to its vampire form, and it must reach its resting place within 2 hours or be destroyed. Once in its resting place, it returns to its vampire form and has the Paralyzed condition until it regains any Hit Points, and it regains 1 Hit Point after spending 1 hour there.",
+          "requires": [
+            "effect/misty-escape",
+            "effect/destroyed-without-shape-shift",
+            "effect/mist-form-limits",
+            "effect/resting-place-deadline",
+            "condition/paralyzed",
+            "effect/resting-place-recovery"
+          ]
+        },
+        {
+          "key": "trait/spider-climb",
+          "name": "Spider Climb",
+          "text": "Spider Climb. The vampire can climb difficult surfaces, including along ceilings, without needing to make an ability check.",
+          "requires": [
+            "effect/climb-without-check"
+          ]
+        },
+        {
+          "key": "trait/vampire-weakness",
+          "name": "Vampire Weakness",
+          "text": "Vampire Weakness. The vampire has these weaknesses: Forbiddance. The vampire can’t enter a residence without an invitation from an occupant. Running Water. The vampire takes 20 Acid damage if it ends its turn in running water. Stake to the Heart. If a weapon that deals Piercing damage is driven into the vampire’s heart while the vampire has the Incapacitated condition in its resting place, the vampire has the Paralyzed condition until the weapon is removed. Sunlight. The vampire takes 20 Radiant damage if it starts its turn in sunlight. While in sunlight, it has Disadvantage on attack rolls and ability checks.",
+          "requires": [
+            "effect/no-uninvited-entry",
+            "effect/running-water-damage",
+            "effect/acid-damage",
+            "effect/stake-to-the-heart",
+            "effect/sunlight-damage",
+            "effect/radiant-damage",
+            "effect/sunlight-disadvantage"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "multiattack",
+          "name": "Multiattack",
+          "text": "Multiattack (Vampire Form Only). The vampire makes two Grave Strike attacks and uses Bite.",
+          "key": "action/multiattack",
+          "effects": [
+            {
+              "key": "requirement/vampire-form",
+              "name": "Vampire form",
+              "text": "Vampire Form Only"
+            },
+            {
+              "key": "action/melee-attack",
+              "name": "Melee attack",
+              "text": "The vampire makes two Grave Strike attacks"
+            },
+            {
+              "key": "action/saving-throw",
+              "name": "Saving throw",
+              "text": "uses Bite"
+            }
+          ]
+        },
+        {
+          "id": "grave-strike",
+          "name": "Grave Strike",
+          "text": "Grave Strike (Vampire Form Only). Melee Attack Roll: +9, reach 5 ft. Hit: 8 (1d8 + 4) Bludgeoning damage plus 7 (2d6) Necrotic damage. If the target is a Large or smaller creature, it has the Grappled condition (escape DC 14) from one of two hands.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 9,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 8,
+              "dice": 1,
+              "sides": 8,
+              "modifier": 4
+            },
+            "damage_type": "bludgeoning"
+          },
+          "effects": [
+            {
+              "key": "effect/bludgeoning-damage",
+              "name": "Bludgeoning damage",
+              "text": "8 (1d8 + 4) Bludgeoning damage.",
+              "dice": {
+                "average": 8,
+                "dice": 1,
+                "sides": 8,
+                "modifier": 4
+              }
+            },
+            {
+              "key": "requirement/vampire-form",
+              "name": "Vampire form",
+              "text": "Vampire Form Only"
+            },
+            {
+              "key": "effect/necrotic-damage",
+              "name": "Necrotic damage",
+              "text": "7 (2d6) Necrotic damage",
+              "dice": {
+                "average": 7,
+                "dice": 2,
+                "sides": 6,
+                "modifier": 0
+              }
+            },
+            {
+              "key": "requirement/target-size",
+              "name": "Target size",
+              "text": "If the target is a Large or smaller creature"
+            },
+            {
+              "key": "condition/grappled",
+              "name": "Grappled",
+              "text": "it has the Grappled condition (escape DC 14)"
+            },
+            {
+              "key": "limit/grapple-from-one-of-two-hands",
+              "name": "Grapple from one of two hands",
+              "text": "from one of two hands"
+            }
+          ]
+        },
+        {
+          "id": "bite",
+          "name": "Bite",
+          "text": "Bite (Bat or Vampire Form Only). Constitution Saving Throw: DC 17, one creature within 5 feet that is willing or that has the Grappled, Incapacitated, or Restrained condition. Failure: 6 (1d4 + 4) Piercing damage plus 13 (3d8) Necrotic damage. The target’s Hit Point maximum decreases by an amount equal to the Necrotic damage taken, and the vampire regains Hit Points equal to that amount. A Humanoid reduced to 0 Hit Points by this damage and then buried rises the following sunset as a Vampire Spawn under the vampire’s control.",
+          "key": "action/saving-throw",
+          "save": {
+            "ability": "con",
+            "dc": 17
+          },
+          "target": {
+            "shape": "creature",
+            "size": 0,
+            "width": 0,
+            "range": 5
+          },
+          "effects": [
+            {
+              "key": "save/con",
+              "name": "Constitution Saving Throw",
+              "text": "Constitution Saving Throw: DC 17"
+            },
+            {
+              "key": "target/creature",
+              "name": "Target",
+              "text": "one creature within 5 feet"
+            },
+            {
+              "key": "requirement/bat-or-vampire-form",
+              "name": "Bat or vampire form",
+              "text": "Bat or Vampire Form Only"
+            },
+            {
+              "key": "requirement/willing-or-held-target",
+              "name": "Willing or held target",
+              "text": "that is willing or that has the Grappled, Incapacitated, or Restrained condition"
+            },
+            {
+              "key": "effect/piercing-damage",
+              "name": "Piercing damage",
+              "text": "Failure: 6 (1d4 + 4) Piercing damage",
+              "dice": {
+                "average": 6,
+                "dice": 1,
+                "sides": 4,
+                "modifier": 4
+              }
+            },
+            {
+              "key": "effect/necrotic-damage",
+              "name": "Necrotic damage",
+              "text": "13 (3d8) Necrotic damage",
+              "dice": {
+                "average": 13,
+                "dice": 3,
+                "sides": 8,
+                "modifier": 0
+              }
+            },
+            {
+              "key": "effect/hit-point-maximum-reduction",
+              "name": "Hit point maximum reduction",
+              "text": "The target’s Hit Point maximum decreases by an amount equal to the Necrotic damage taken"
+            },
+            {
+              "key": "effect/vampire-healing",
+              "name": "Vampire healing",
+              "text": "the vampire regains Hit Points equal to that amount"
+            },
+            {
+              "key": "effect/rise-as-vampire-spawn",
+              "name": "Rise as vampire spawn",
+              "text": "A Humanoid reduced to 0 Hit Points by this damage and then buried rises the following sunset as a Vampire Spawn under the vampire’s control"
+            }
+          ]
+        }
+      ],
+      "bonus_actions": [
+        {
+          "id": "charm",
+          "name": "Charm",
+          "text": "Charm (Recharge 5–6). The vampire casts Charm Person, requiring no spell components and using Charisma as the spellcasting ability (spell save DC 17), and the duration is 24 hours. The Charmed target is a willing recipient of the vampire’s Bite, the damage of which doesn’t end the spell. When the spell ends, the target is unaware it was Charmed by the vampire.",
+          "key": "action/special",
+          "uses": {
+            "per_day": 0,
+            "lair_per_day": 0,
+            "recharge": 5
+          },
+          "effects": [
+            {
+              "key": "limit/recharge",
+              "name": "Recharge",
+              "text": "(Recharge 5–6)"
+            },
+            {
+              "key": "action/spellcasting",
+              "name": "Spellcasting",
+              "text": "The vampire casts Charm Person, requiring no spell components and using Charisma as the spellcasting ability (spell save DC 17)"
+            },
+            {
+              "key": "spell/charm-person",
+              "name": "Charm person",
+              "text": "casts Charm Person"
+            },
+            {
+              "key": "spellcasting/no-components",
+              "name": "No components",
+              "text": "requiring no spell components"
+            },
+            {
+              "key": "spellcasting/charisma-ability",
+              "name": "Charisma ability",
+              "text": "using Charisma as the spellcasting ability"
+            },
+            {
+              "key": "spellcasting/fixed-save-dc",
+              "name": "Fixed save dc",
+              "text": "(spell save DC 17)"
+            },
+            {
+              "key": "effect/spell-duration-24-hours",
+              "name": "Spell duration 24 hours",
+              "text": "the duration is 24 hours"
+            },
+            {
+              "key": "effect/charmed-target-willing-for-bite",
+              "name": "Charmed target willing for bite",
+              "text": "The Charmed target is a willing recipient of the vampire’s Bite, the damage of which doesn’t end the spell"
+            },
+            {
+              "key": "effect/target-unaware-of-charm",
+              "name": "Target unaware of charm",
+              "text": "When the spell ends, the target is unaware it was Charmed by the vampire"
+            }
+          ]
+        },
+        {
+          "id": "shape-shift",
+          "name": "Shape-Shift",
+          "text": "Shape-Shift. If the vampire isn’t in sunlight or running water, it shape-shifts into a Tiny bat (Speed 5 ft., Fly Speed 30 ft.) or a Medium cloud of mist (Speed 5 ft., Fly Speed 20 ft. [hover]), or it returns to its vampire form. Anything it is wearing transforms with it. While in bat form, the vampire can’t speak. Its game statistics, other than its size and Speed, are unchanged. While in mist form, the vampire can’t take any actions, speak, or manipulate objects. It is weightless and can enter an enemy’s space and stop there. If air can pass through a space, the mist can do so, but it can’t pass through liquid. It has Resistance to all damage, except the damage it takes from sunlight.",
+          "key": "action/special",
+          "effects": [
+            {
+              "key": "requirement/not-in-sunlight-or-running-water",
+              "name": "Not in sunlight or running water",
+              "text": "If the vampire isn’t in sunlight or running water"
+            },
+            {
+              "key": "effect/shape-shift",
+              "name": "Shape shift",
+              "text": "it shape-shifts into a Tiny bat (Speed 5 ft., Fly Speed 30 ft.) or a Medium cloud of mist (Speed 5 ft., Fly Speed 20 ft. [hover]), or it returns to its vampire form"
+            },
+            {
+              "key": "effect/equipment-transforms",
+              "name": "Equipment transforms",
+              "text": "Anything it is wearing transforms with it"
+            },
+            {
+              "key": "effect/bat-form-limits",
+              "name": "Bat form limits",
+              "text": "While in bat form, the vampire can’t speak"
+            },
+            {
+              "key": "effect/shapechange-form-limits",
+              "name": "Shapechange form limits",
+              "text": "Its game statistics, other than its size and Speed, are unchanged"
+            },
+            {
+              "key": "effect/mist-form-limits",
+              "name": "Mist form limits",
+              "text": "While in mist form, the vampire can’t take any actions, speak, or manipulate objects"
+            },
+            {
+              "key": "effect/mist-movement",
+              "name": "Mist movement",
+              "text": "It is weightless and can enter an enemy’s space and stop there. If air can pass through a space, the mist can do so, but it can’t pass through liquid"
+            },
+            {
+              "key": "effect/mist-damage-resistance",
+              "name": "Mist damage resistance",
+              "text": "It has Resistance to all damage, except the damage it takes from sunlight"
+            }
+          ]
+        }
+      ],
+      "legendary_actions": [
+        {
+          "id": "beguile",
+          "name": "Beguile",
+          "text": "Beguile. The vampire casts Command, requiring no spell components and using Charisma as the spellcasting ability (spell save DC 17). The vampire can’t take this action again until the start of its next turn.",
+          "key": "action/special",
+          "effects": [
+            {
+              "key": "action/spellcasting",
+              "name": "Spellcasting",
+              "text": "The vampire casts Command, requiring no spell components and using Charisma as the spellcasting ability (spell save DC 17)"
+            },
+            {
+              "key": "spell/command",
+              "name": "Command",
+              "text": "casts Command"
+            },
+            {
+              "key": "spellcasting/no-components",
+              "name": "No components",
+              "text": "requiring no spell components"
+            },
+            {
+              "key": "spellcasting/charisma-ability",
+              "name": "Charisma ability",
+              "text": "using Charisma as the spellcasting ability"
+            },
+            {
+              "key": "spellcasting/fixed-save-dc",
+              "name": "Fixed save dc",
+              "text": "(spell save DC 17)"
+            },
+            {
+              "key": "limit/not-again-until-next-turn",
+              "name": "Not again until next turn",
+              "text": "The vampire can’t take this action again until the start of its next turn"
+            }
+          ]
+        },
+        {
+          "id": "deathless-strike",
+          "name": "Deathless Strike",
+          "text": "Deathless Strike. The vampire moves up to half its Speed, and it makes one Grave Strike attack.",
+          "key": "action/special",
+          "effects": [
+            {
+              "key": "movement/half-speed",
+              "name": "Half speed",
+              "text": "The vampire moves up to half its Speed"
+            },
+            {
+              "key": "action/melee-attack",
+              "name": "Melee attack",
+              "text": "it makes one Grave Strike attack"
+            }
+          ]
+        }
+      ],
+      "legendary": {
+        "uses": 3,
+        "lair_uses": 4,
+        "text": "Legendary Action Uses: 3 (4 in Lair). Immediately after another creature’s turn, the vampire can expend a use to take one of the following actions. The vampire regains all expended uses at the start of each of its turns."
+      },
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/skills",
+        "defense/damage-resistance",
+        "movement/climb",
+        "sense/darkvision",
+        "lair/xp",
+        "action/bonus-action",
+        "legendary/actions",
+        "lair/uses",
+        "trait/legendary-resistance",
+        "limit/per-day",
+        "save/choose-success",
+        "trait/misty-escape",
+        "effect/misty-escape",
+        "effect/destroyed-without-shape-shift",
+        "effect/mist-form-limits",
+        "effect/resting-place-deadline",
+        "condition/paralyzed",
+        "effect/resting-place-recovery",
+        "trait/spider-climb",
+        "effect/climb-without-check",
+        "trait/vampire-weakness",
+        "effect/no-uninvited-entry",
+        "effect/running-water-damage",
+        "effect/acid-damage",
+        "effect/stake-to-the-heart",
+        "effect/sunlight-damage",
+        "effect/radiant-damage",
+        "effect/sunlight-disadvantage",
+        "action/multiattack",
+        "requirement/vampire-form",
+        "action/melee-attack",
+        "action/saving-throw",
+        "effect/bludgeoning-damage",
+        "effect/necrotic-damage",
+        "requirement/target-size",
+        "condition/grappled",
+        "limit/grapple-from-one-of-two-hands",
+        "save/con",
+        "target/creature",
+        "requirement/bat-or-vampire-form",
+        "requirement/willing-or-held-target",
+        "effect/piercing-damage",
+        "effect/hit-point-maximum-reduction",
+        "effect/vampire-healing",
+        "effect/rise-as-vampire-spawn",
+        "action/special",
+        "limit/recharge",
+        "action/spellcasting",
+        "spell/charm-person",
+        "spellcasting/no-components",
+        "spellcasting/charisma-ability",
+        "spellcasting/fixed-save-dc",
+        "effect/spell-duration-24-hours",
+        "effect/charmed-target-willing-for-bite",
+        "effect/target-unaware-of-charm",
+        "requirement/not-in-sunlight-or-running-water",
+        "effect/shape-shift",
+        "effect/equipment-transforms",
+        "effect/bat-form-limits",
+        "effect/shapechange-form-limits",
+        "effect/mist-movement",
+        "effect/mist-damage-resistance",
+        "spell/command",
+        "limit/not-again-until-next-turn",
+        "movement/half-speed"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/vampire-familiar",
+      "name": "Vampire Familiar",
+      "source_pages": [
+        334,
+        334
+      ],
+      "sizes": [
+        "medium",
+        "small"
+      ],
+      "type": "humanoid",
+      "alignment": "Neutral Evil",
+      "ac": 15,
+      "initiative": {
+        "modifier": 5,
+        "score": 15
+      },
+      "hp": {
+        "average": 65,
+        "dice": 10,
+        "sides": 8,
+        "modifier": 20
+      },
+      "speeds": {
+        "walk": 30,
+        "climb": 30
+      },
+      "abilities": {
+        "str": {
+          "score": 17,
+          "modifier": 3,
+          "save": 3
+        },
+        "dex": {
+          "score": 16,
+          "modifier": 3,
+          "save": 5
+        },
+        "con": {
+          "score": 15,
+          "modifier": 2,
+          "save": 2
+        },
+        "int": {
+          "score": 10,
+          "modifier": 0,
+          "save": 0
+        },
+        "wis": {
+          "score": 10,
+          "modifier": 0,
+          "save": 2
+        },
+        "cha": {
+          "score": 14,
+          "modifier": 2,
+          "save": 2
+        }
+      },
+      "senses": {
+        "passive_perception": 14,
+        "special": {
+          "darkvision": 60
+        }
+      },
+      "languages": [
+        "Common plus one other language"
+      ],
+      "gear": [
+        "Daggers (10)"
+      ],
+      "cr": "3",
+      "xp": 700,
+      "proficiency_bonus": 2,
+      "skills": {
+        "perception": 4,
+        "persuasion": 4,
+        "stealth": 7
+      },
+      "resistances": [
+        "necrotic"
+      ],
+      "condition_immunity_note": "Charmed (except from its vampire master)",
+      "traits": [
+        {
+          "key": "trait/vampiric-connection",
+          "name": "Vampiric Connection",
+          "text": "Vampiric Connection. While the familiar and its vampire master are on the same plane of existence, the vampire can communicate with the familiar telepathically, and the vampire can perceive through the familiar’s senses.",
+          "requires": [
+            "effect/master-telepathy",
+            "effect/master-shared-senses",
+            "requirement/same-plane-as-master"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "multiattack",
+          "name": "Multiattack",
+          "text": "Multiattack. The familiar makes two Umbral Dagger attacks.",
+          "key": "action/multiattack",
+          "effects": [
+            {
+              "key": "action/melee-or-ranged-attack",
+              "name": "Melee or ranged attack",
+              "text": "The familiar makes two Umbral Dagger attacks"
+            }
+          ]
+        },
+        {
+          "id": "umbral-dagger",
+          "name": "Umbral Dagger",
+          "text": "Umbral Dagger. Melee or Ranged Attack Roll: +5, reach 5 ft. or range 20/60 ft. Hit: 5 (1d4 + 3) Piercing damage plus 7 (3d4) Necrotic damage. If the target is reduced to 0 Hit Points by this attack, the target becomes Stable but has the Poisoned condition for 1 hour. While it has the Poisoned condition, the target has the Paralyzed condition.",
+          "key": "action/melee-or-ranged-attack",
+          "effects": [
+            {
+              "key": "effect/piercing-damage",
+              "name": "Piercing damage",
+              "text": "5 (1d4 + 3) Piercing damage",
+              "dice": {
+                "average": 5,
+                "dice": 1,
+                "sides": 4,
+                "modifier": 3
+              }
+            },
+            {
+              "key": "effect/necrotic-damage",
+              "name": "Necrotic damage",
+              "text": "7 (3d4) Necrotic damage",
+              "dice": {
+                "average": 7,
+                "dice": 3,
+                "sides": 4,
+                "modifier": 0
+              }
+            },
+            {
+              "key": "effect/stable-at-zero-hit-points",
+              "name": "Stable at zero hit points",
+              "text": "If the target is reduced to 0 Hit Points by this attack, the target becomes Stable"
+            },
+            {
+              "key": "condition/poisoned",
+              "name": "Poisoned",
+              "text": "has the Poisoned condition for 1 hour"
+            },
+            {
+              "key": "condition/paralyzed",
+              "name": "Paralyzed",
+              "text": "While it has the Poisoned condition, the target has the Paralyzed condition"
+            }
+          ]
+        }
+      ],
+      "bonus_actions": [
+        {
+          "id": "deathless-agility",
+          "name": "Deathless Agility",
+          "text": "Deathless Agility. The familiar takes the Dash or Disengage action.",
+          "key": "action/special",
+          "effects": [
+            {
+              "key": "action/dash",
+              "name": "Dash",
+              "text": "The familiar takes the Dash or Disengage action"
+            },
+            {
+              "key": "action/disengage",
+              "name": "Disengage",
+              "text": "Disengage action"
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/skills",
+        "defense/damage-resistance",
+        "defense/conditional-condition-immunity",
+        "movement/climb",
+        "sense/darkvision",
+        "action/bonus-action",
+        "trait/vampiric-connection",
+        "effect/master-telepathy",
+        "effect/master-shared-senses",
+        "requirement/same-plane-as-master",
+        "action/multiattack",
+        "action/melee-or-ranged-attack",
+        "effect/piercing-damage",
+        "effect/necrotic-damage",
+        "effect/stable-at-zero-hit-points",
+        "condition/poisoned",
+        "condition/paralyzed",
+        "action/special",
+        "action/dash",
+        "action/disengage"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/vampire-spawn",
+      "name": "Vampire Spawn",
+      "source_pages": [
+        334,
+        335
+      ],
+      "sizes": [
+        "medium",
+        "small"
+      ],
+      "type": "undead",
+      "alignment": "Neutral Evil",
+      "ac": 16,
+      "initiative": {
+        "modifier": 3,
+        "score": 13
+      },
+      "hp": {
+        "average": 90,
+        "dice": 12,
+        "sides": 8,
+        "modifier": 36
+      },
+      "speeds": {
+        "walk": 30
+      },
+      "abilities": {
+        "str": {
+          "score": 16,
+          "modifier": 3,
+          "save": 3
+        },
+        "dex": {
+          "score": 16,
+          "modifier": 3,
+          "save": 6
+        },
+        "con": {
+          "score": 16,
+          "modifier": 3,
+          "save": 3
+        },
+        "int": {
+          "score": 11,
+          "modifier": 0,
+          "save": 0
+        },
+        "wis": {
+          "score": 10,
+          "modifier": 0,
+          "save": 3
+        },
+        "cha": {
+          "score": 12,
+          "modifier": 1,
+          "save": 1
+        }
+      },
+      "senses": {
+        "passive_perception": 13,
+        "special": {
+          "darkvision": 60
+        }
+      },
+      "languages": [
+        "Common plus one other language"
+      ],
+      "gear": [],
+      "cr": "5",
+      "xp": 1800,
+      "proficiency_bonus": 3,
+      "skills": {
+        "perception": 3,
+        "stealth": 6
+      },
+      "resistances": [
+        "necrotic"
+      ],
+      "traits": [
+        {
+          "key": "trait/spider-climb",
+          "name": "Spider Climb",
+          "text": "Spider Climb. The vampire can climb difficult surfaces, including along ceilings, without needing to make an ability check.",
+          "requires": [
+            "effect/climb-without-check"
+          ]
+        },
+        {
+          "key": "trait/vampire-weakness",
+          "name": "Vampire Weakness",
+          "text": "Vampire Weakness. The vampire has these weaknesses: Forbiddance. The vampire can’t enter a residence without an invitation from an occupant. Running Water. The vampire takes 20 Acid damage if it ends its turn in running water. Stake to the Heart. The vampire is destroyed if a weapon that deals Piercing damage is driven into the vampire’s heart while the vampire has the Incapacitated condition. Sunlight. The vampire takes 20 Radiant damage if it starts its turn in sunlight. While in sunlight, it has Disadvantage on attack rolls and ability checks.",
+          "requires": [
+            "effect/no-uninvited-entry",
+            "effect/running-water-damage",
+            "effect/acid-damage",
+            "effect/stake-to-the-heart",
+            "effect/sunlight-damage",
+            "effect/radiant-damage",
+            "effect/sunlight-disadvantage"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "multiattack",
+          "name": "Multiattack",
+          "text": "Multiattack. The vampire makes two Claw attacks and uses Bite.",
+          "key": "action/multiattack",
+          "effects": [
+            {
+              "key": "action/melee-attack",
+              "name": "Melee attack",
+              "text": "The vampire makes two Claw attacks"
+            },
+            {
+              "key": "action/saving-throw",
+              "name": "Saving throw",
+              "text": "uses Bite"
+            }
+          ]
+        },
+        {
+          "id": "claw",
+          "name": "Claw",
+          "text": "Claw. Melee Attack Roll: +6, reach 5 ft. Hit: 8 (2d4 + 3) Slashing damage. If the target is a Medium or smaller creature, it has the Grappled condition (escape DC 13) from one of two claws.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 6,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 8,
+              "dice": 2,
+              "sides": 4,
+              "modifier": 3
+            },
+            "damage_type": "slashing"
+          },
+          "effects": [
+            {
+              "key": "effect/slashing-damage",
+              "name": "Slashing damage",
+              "text": "8 (2d4 + 3) Slashing damage.",
+              "dice": {
+                "average": 8,
+                "dice": 2,
+                "sides": 4,
+                "modifier": 3
+              }
+            },
+            {
+              "key": "requirement/target-size",
+              "name": "Target size",
+              "text": "If the target is a Medium or smaller creature"
+            },
+            {
+              "key": "condition/grappled",
+              "name": "Grappled",
+              "text": "it has the Grappled condition (escape DC 13)"
+            },
+            {
+              "key": "limit/grapple-from-one-of-two-claws",
+              "name": "Grapple from one of two claws",
+              "text": "from one of two claws"
+            }
+          ]
+        },
+        {
+          "id": "bite",
+          "name": "Bite",
+          "text": "Bite. Constitution Saving Throw: DC 14, one creature within 5 feet that is willing or that has the Grappled, Incapacitated, or Restrained condition. Failure: 5 (1d4 + 3) Piercing damage plus 10 (3d6) Necrotic damage. The target’s Hit Point maximum decreases by an amount equal to the Necrotic damage taken, and the vampire regains Hit Points equal to that amount.",
+          "key": "action/saving-throw",
+          "save": {
+            "ability": "con",
+            "dc": 14
+          },
+          "target": {
+            "shape": "creature",
+            "size": 0,
+            "width": 0,
+            "range": 5
+          },
+          "effects": [
+            {
+              "key": "save/con",
+              "name": "Constitution Saving Throw",
+              "text": "Constitution Saving Throw: DC 14"
+            },
+            {
+              "key": "target/creature",
+              "name": "Target",
+              "text": "one creature within 5 feet"
+            },
+            {
+              "key": "requirement/willing-or-held-target",
+              "name": "Willing or held target",
+              "text": "that is willing or that has the Grappled, Incapacitated, or Restrained condition"
+            },
+            {
+              "key": "effect/piercing-damage",
+              "name": "Piercing damage",
+              "text": "Failure: 5 (1d4 + 3) Piercing damage",
+              "dice": {
+                "average": 5,
+                "dice": 1,
+                "sides": 4,
+                "modifier": 3
+              }
+            },
+            {
+              "key": "effect/necrotic-damage",
+              "name": "Necrotic damage",
+              "text": "10 (3d6) Necrotic damage",
+              "dice": {
+                "average": 10,
+                "dice": 3,
+                "sides": 6,
+                "modifier": 0
+              }
+            },
+            {
+              "key": "effect/hit-point-maximum-reduction",
+              "name": "Hit point maximum reduction",
+              "text": "The target’s Hit Point maximum decreases by an amount equal to the Necrotic damage taken"
+            },
+            {
+              "key": "effect/vampire-healing",
+              "name": "Vampire healing",
+              "text": "the vampire regains Hit Points equal to that amount"
+            }
+          ]
+        }
+      ],
+      "bonus_actions": [
+        {
+          "id": "deathless-agility",
+          "name": "Deathless Agility",
+          "text": "Deathless Agility. The vampire takes the Dash or Disengage action.",
+          "key": "action/special",
+          "effects": [
+            {
+              "key": "action/dash",
+              "name": "Dash",
+              "text": "The vampire takes the Dash or Disengage action"
+            },
+            {
+              "key": "action/disengage",
+              "name": "Disengage",
+              "text": "Disengage action"
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/skills",
+        "defense/damage-resistance",
+        "sense/darkvision",
+        "action/bonus-action",
+        "trait/spider-climb",
+        "effect/climb-without-check",
+        "trait/vampire-weakness",
+        "effect/no-uninvited-entry",
+        "effect/running-water-damage",
+        "effect/acid-damage",
+        "effect/stake-to-the-heart",
+        "effect/sunlight-damage",
+        "effect/radiant-damage",
+        "effect/sunlight-disadvantage",
+        "action/multiattack",
+        "action/melee-attack",
+        "action/saving-throw",
+        "effect/slashing-damage",
+        "requirement/target-size",
+        "condition/grappled",
+        "limit/grapple-from-one-of-two-claws",
+        "save/con",
+        "target/creature",
+        "requirement/willing-or-held-target",
+        "effect/piercing-damage",
+        "effect/necrotic-damage",
+        "effect/hit-point-maximum-reduction",
+        "effect/vampire-healing",
+        "action/special",
+        "action/dash",
+        "action/disengage"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/animals/venomous-snake",
+      "name": "Venomous Snake",
+      "source_pages": [
+        363,
+        363
+      ],
+      "sizes": [
+        "tiny"
+      ],
+      "type": "beast",
+      "alignment": "Unaligned",
+      "ac": 12,
+      "initiative": {
+        "modifier": 2,
+        "score": 12
+      },
+      "hp": {
+        "average": 5,
+        "dice": 2,
+        "sides": 4,
+        "modifier": 0
+      },
+      "speeds": {
+        "walk": 30,
+        "swim": 30
+      },
+      "abilities": {
+        "str": {
+          "score": 2,
+          "modifier": -4,
+          "save": -4
+        },
+        "dex": {
+          "score": 15,
+          "modifier": 2,
+          "save": 2
+        },
+        "con": {
+          "score": 11,
+          "modifier": 0,
+          "save": 0
+        },
+        "int": {
+          "score": 1,
+          "modifier": -5,
+          "save": -5
+        },
+        "wis": {
+          "score": 10,
+          "modifier": 0,
+          "save": 0
+        },
+        "cha": {
+          "score": 3,
+          "modifier": -4,
+          "save": -4
+        }
+      },
+      "senses": {
+        "passive_perception": 10,
+        "special": {
+          "blindsight": 10
+        }
+      },
+      "languages": [],
+      "gear": [],
+      "cr": "1/8",
+      "xp": 25,
+      "proficiency_bonus": 2,
+      "traits": [],
+      "actions": [
+        {
+          "id": "bite",
+          "name": "Bite",
+          "text": "Bite. Melee Attack Roll: +4, reach 5 ft. Hit: 4 (1d4 + 2) Piercing damage plus 3 (1d6) Poison damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 4,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 4,
+              "dice": 1,
+              "sides": 4,
+              "modifier": 2
+            },
+            "damage_type": "piercing"
+          },
+          "effects": [
+            {
+              "key": "effect/piercing-damage",
+              "name": "Piercing damage",
+              "text": "4 (1d4 + 2) Piercing damage.",
+              "dice": {
+                "average": 4,
+                "dice": 1,
+                "sides": 4,
+                "modifier": 2
+              }
+            },
+            {
+              "key": "effect/poison-damage",
+              "name": "Poison damage",
+              "text": "3 (1d6) Poison damage",
+              "dice": {
+                "average": 3,
+                "dice": 1,
+                "sides": 6,
+                "modifier": 0
+              }
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "movement/swim",
+        "sense/blindsight",
+        "action/melee-attack",
+        "effect/piercing-damage",
+        "effect/poison-damage"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/violet-fungus",
+      "name": "Violet Fungus",
+      "source_pages": [
+        286,
+        286
+      ],
+      "sizes": [
+        "medium"
+      ],
+      "type": "plant",
+      "alignment": "Unaligned",
+      "ac": 5,
+      "initiative": {
+        "modifier": -5,
+        "score": 5
+      },
+      "hp": {
+        "average": 18,
+        "dice": 4,
+        "sides": 8,
+        "modifier": 0
+      },
+      "speeds": {
+        "walk": 5
+      },
+      "abilities": {
+        "str": {
+          "score": 3,
+          "modifier": -4,
+          "save": -4
+        },
+        "dex": {
+          "score": 1,
+          "modifier": -5,
+          "save": -5
+        },
+        "con": {
+          "score": 10,
+          "modifier": 0,
+          "save": 0
+        },
+        "int": {
+          "score": 1,
+          "modifier": -5,
+          "save": -5
+        },
+        "wis": {
+          "score": 3,
+          "modifier": -4,
+          "save": -4
+        },
+        "cha": {
+          "score": 1,
+          "modifier": -5,
+          "save": -5
+        }
+      },
+      "senses": {
+        "passive_perception": 6,
+        "special": {
+          "blindsight": 30
+        }
+      },
+      "languages": [],
+      "gear": [],
+      "cr": "1/4",
+      "xp": 50,
+      "proficiency_bonus": 2,
+      "condition_immunities": [
+        "blinded",
+        "charmed",
+        "deafened",
+        "frightened"
+      ],
+      "traits": [],
+      "actions": [
+        {
+          "id": "multiattack",
+          "name": "Multiattack",
+          "text": "Multiattack. The fungus makes two Rotting Touch attacks.",
+          "key": "action/multiattack",
+          "effects": [
+            {
+              "key": "action/melee-attack",
+              "name": "Melee attack",
+              "text": "The fungus makes two Rotting Touch attacks"
+            }
+          ]
+        },
+        {
+          "id": "rotting-touch",
+          "name": "Rotting Touch",
+          "text": "Rotting Touch. Melee Attack Roll: +2, reach 10 ft. Hit: 4 (1d8) Necrotic damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 2,
+            "reach": 10,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 4,
+              "dice": 1,
+              "sides": 8,
+              "modifier": 0
+            },
+            "damage_type": "necrotic"
+          },
+          "effects": [
+            {
+              "key": "effect/necrotic-damage",
+              "name": "Necrotic damage",
+              "text": "4 (1d8) Necrotic damage.",
+              "dice": {
+                "average": 4,
+                "dice": 1,
+                "sides": 8,
+                "modifier": 0
+              }
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "defense/condition-immunity",
+        "sense/blindsight",
+        "action/multiattack",
+        "action/melee-attack",
+        "effect/necrotic-damage"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/vrock",
+      "name": "Vrock",
+      "source_pages": [
+        336,
+        336
+      ],
+      "sizes": [
+        "large"
+      ],
+      "type": "fiend",
+      "alignment": "Chaotic Evil",
+      "ac": 15,
+      "initiative": {
+        "modifier": 2,
+        "score": 12
+      },
+      "hp": {
+        "average": 152,
+        "dice": 16,
+        "sides": 10,
+        "modifier": 64
+      },
+      "speeds": {
+        "walk": 40,
+        "fly": 60
+      },
+      "abilities": {
+        "str": {
+          "score": 17,
+          "modifier": 3,
+          "save": 3
+        },
+        "dex": {
+          "score": 15,
+          "modifier": 2,
+          "save": 5
+        },
+        "con": {
+          "score": 18,
+          "modifier": 4,
+          "save": 4
+        },
+        "int": {
+          "score": 8,
+          "modifier": -1,
+          "save": -1
+        },
+        "wis": {
+          "score": 13,
+          "modifier": 1,
+          "save": 4
+        },
+        "cha": {
+          "score": 8,
+          "modifier": -1,
+          "save": 2
+        }
+      },
+      "senses": {
+        "passive_perception": 11,
+        "special": {
+          "darkvision": 120
+        }
+      },
+      "languages": [
+        "Abyssal"
+      ],
+      "gear": [],
+      "cr": "6",
+      "xp": 2300,
+      "proficiency_bonus": 3,
+      "tags": [
+        "Demon"
+      ],
+      "resistances": [
+        "cold",
+        "fire",
+        "lightning"
+      ],
+      "immunities": [
+        "poison"
+      ],
+      "condition_immunities": [
+        "poisoned"
+      ],
+      "telepathy": 120,
+      "traits": [
+        {
+          "key": "trait/demonic-restoration",
+          "name": "Demonic Restoration",
+          "text": "Demonic Restoration. If the vrock dies outside the Abyss, its body dissolves into ichor, and it gains a new body instantly, reviving with all its Hit Points somewhere in the Abyss.",
+          "requires": [
+            "effect/revive"
+          ]
+        },
+        {
+          "key": "trait/magic-resistance",
+          "name": "Magic Resistance",
+          "text": "Magic Resistance. The vrock has Advantage on saving throws against spells and other magical effects.",
+          "requires": [
+            "save/advantage-against-magic"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "multiattack",
+          "name": "Multiattack",
+          "text": "Multiattack. The vrock makes two Shred attacks.",
+          "key": "action/multiattack",
+          "effects": [
+            {
+              "key": "action/melee-attack",
+              "name": "Melee attack",
+              "text": "The vrock makes two Shred attacks"
+            }
+          ]
+        },
+        {
+          "id": "shred",
+          "name": "Shred",
+          "text": "Shred. Melee Attack Roll: +6, reach 5 ft. Hit: 10 (2d6 + 3) Piercing damage plus 10 (3d6) Poison damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 6,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 10,
+              "dice": 2,
+              "sides": 6,
+              "modifier": 3
+            },
+            "damage_type": "piercing"
+          },
+          "effects": [
+            {
+              "key": "effect/piercing-damage",
+              "name": "Piercing damage",
+              "text": "10 (2d6 + 3) Piercing damage.",
+              "dice": {
+                "average": 10,
+                "dice": 2,
+                "sides": 6,
+                "modifier": 3
+              }
+            },
+            {
+              "key": "effect/poison-damage",
+              "name": "Poison damage",
+              "text": "10 (3d6) Poison damage",
+              "dice": {
+                "average": 10,
+                "dice": 3,
+                "sides": 6,
+                "modifier": 0
+              }
+            }
+          ]
+        },
+        {
+          "id": "spores",
+          "name": "Spores",
+          "text": "Spores (Recharge 6). Constitution Saving Throw: DC 15, each creature in a 20-foot Emanation originating from the vrock. Failure: The target has the Poisoned condition and repeats the save at the end of each of its turns, ending the effect on itself on a success. While Poisoned, the target takes 5 (1d10) Poison damage at the start of each of its turns. Emptying a flask of Holy Water on the target ends the effect early.",
+          "key": "action/saving-throw",
+          "uses": {
+            "per_day": 0,
+            "lair_per_day": 0,
+            "recharge": 6
+          },
+          "save": {
+            "ability": "con",
+            "dc": 15
+          },
+          "target": {
+            "shape": "emanation",
+            "size": 20,
+            "width": 0,
+            "range": 0
+          },
+          "effects": [
+            {
+              "key": "limit/recharge",
+              "name": "Recharge",
+              "text": "(Recharge 6)"
+            },
+            {
+              "key": "save/con",
+              "name": "Constitution Saving Throw",
+              "text": "Constitution Saving Throw: DC 15"
+            },
+            {
+              "key": "area/emanation",
+              "name": "Emanation",
+              "text": "20-foot Emanation originating from the vrock"
+            },
+            {
+              "key": "condition/poisoned",
+              "name": "Poisoned",
+              "text": "The target has the Poisoned condition"
+            },
+            {
+              "key": "save/repeat",
+              "name": "Repeat",
+              "text": "repeats the save at the end of each of its turns, ending the effect on itself on a success"
+            },
+            {
+              "key": "effect/poison-damage",
+              "name": "Poison damage",
+              "text": "While Poisoned, the target takes 5 (1d10) Poison damage at the start of each of its turns",
+              "dice": {
+                "average": 5,
+                "dice": 1,
+                "sides": 10,
+                "modifier": 0
+              }
+            },
+            {
+              "key": "effect/holy-water-ends-effect",
+              "name": "Holy water ends effect",
+              "text": "Emptying a flask of Holy Water on the target ends the effect early"
+            }
+          ]
+        },
+        {
+          "id": "stunning-screech",
+          "name": "Stunning Screech",
+          "text": "Stunning Screech (1/Day). Constitution Saving Throw: DC 15, each creature in a 20-foot Emanation originating from the vrock (demons succeed automatically). Failure: 10 (3d6) Thunder damage, and the target has the Stunned condition until the end of the vrock’s next turn.",
+          "key": "action/saving-throw",
+          "uses": {
+            "per_day": 1,
+            "lair_per_day": 0,
+            "recharge": 0
+          },
+          "save": {
+            "ability": "con",
+            "dc": 15
+          },
+          "target": {
+            "shape": "emanation",
+            "size": 20,
+            "width": 0,
+            "range": 0
+          },
+          "effects": [
+            {
+              "key": "limit/per-day",
+              "name": "Daily uses",
+              "text": "(1/Day)"
+            },
+            {
+              "key": "save/con",
+              "name": "Constitution Saving Throw",
+              "text": "Constitution Saving Throw: DC 15"
+            },
+            {
+              "key": "area/emanation",
+              "name": "Emanation",
+              "text": "20-foot Emanation originating from the vrock"
+            },
+            {
+              "key": "save/automatic-success-for-demons",
+              "name": "Automatic success for demons",
+              "text": "demons succeed automatically"
+            },
+            {
+              "key": "effect/thunder-damage",
+              "name": "Thunder damage",
+              "text": "Failure: 10 (3d6) Thunder damage",
+              "dice": {
+                "average": 10,
+                "dice": 3,
+                "sides": 6,
+                "modifier": 0
+              }
+            },
+            {
+              "key": "condition/stunned",
+              "name": "Stunned",
+              "text": "the target has the Stunned condition until the end of the vrock’s next turn"
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "defense/damage-resistance",
+        "defense/damage-immunity",
+        "defense/condition-immunity",
+        "movement/fly",
+        "sense/darkvision",
+        "language/telepathy",
+        "trait/demonic-restoration",
+        "effect/revive",
+        "trait/magic-resistance",
+        "save/advantage-against-magic",
+        "action/multiattack",
+        "action/melee-attack",
+        "effect/piercing-damage",
+        "effect/poison-damage",
+        "action/saving-throw",
+        "limit/recharge",
+        "save/con",
+        "area/emanation",
+        "condition/poisoned",
+        "save/repeat",
+        "effect/holy-water-ends-effect",
+        "limit/per-day",
+        "save/automatic-success-for-demons",
+        "effect/thunder-damage",
+        "condition/stunned"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/animals/vulture",
+      "name": "Vulture",
+      "source_pages": [
+        363,
+        364
+      ],
+      "sizes": [
+        "medium"
+      ],
+      "type": "beast",
+      "alignment": "Unaligned",
+      "ac": 10,
+      "initiative": {
+        "modifier": 0,
+        "score": 10
+      },
+      "hp": {
+        "average": 5,
+        "dice": 1,
+        "sides": 8,
+        "modifier": 1
+      },
+      "speeds": {
+        "walk": 10,
+        "fly": 50
+      },
+      "abilities": {
+        "str": {
+          "score": 7,
+          "modifier": -2,
+          "save": -2
+        },
+        "dex": {
+          "score": 10,
+          "modifier": 0,
+          "save": 0
+        },
+        "con": {
+          "score": 13,
+          "modifier": 1,
+          "save": 1
+        },
+        "int": {
+          "score": 2,
+          "modifier": -4,
+          "save": -4
+        },
+        "wis": {
+          "score": 12,
+          "modifier": 1,
+          "save": 1
+        },
+        "cha": {
+          "score": 4,
+          "modifier": -3,
+          "save": -3
+        }
+      },
+      "senses": {
+        "passive_perception": 13,
+        "special": {}
+      },
+      "languages": [],
+      "gear": [],
+      "cr": "0",
+      "xp": 10,
+      "proficiency_bonus": 2,
+      "skills": {
+        "perception": 3
+      },
+      "traits": [
+        {
+          "key": "trait/pack-tactics",
+          "name": "Pack Tactics",
+          "text": "Pack Tactics. The vulture has Advantage on an attack roll against a creature if at least one of the vulture’s allies is within 5 feet of the creature and the ally doesn’t have the Incapacitated condition.",
+          "requires": [
+            "attack/advantage-with-nearby-ally",
+            "requirement/ally-not-incapacitated"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "beak",
+          "name": "Beak",
+          "text": "Beak. Melee Attack Roll: +2, reach 5 ft. Hit: 2 (1d4) Piercing damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 2,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 2,
+              "dice": 1,
+              "sides": 4,
+              "modifier": 0
+            },
+            "damage_type": "piercing"
+          },
+          "effects": [
+            {
+              "key": "effect/piercing-damage",
+              "name": "Piercing damage",
+              "text": "2 (1d4) Piercing damage.",
+              "dice": {
+                "average": 2,
+                "dice": 1,
+                "sides": 4,
+                "modifier": 0
+              }
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/skills",
+        "movement/fly",
+        "trait/pack-tactics",
+        "attack/advantage-with-nearby-ally",
+        "requirement/ally-not-incapacitated",
+        "action/melee-attack",
+        "effect/piercing-damage"
+      ]
+    }
+  ]
+}
