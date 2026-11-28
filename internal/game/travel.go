@@ -7,6 +7,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"io"
 	"strings"
 
 	"git.subcult.tv/subculture-collective/edda/internal/dbutil"
@@ -228,4 +229,22 @@ func containsTravel(options []TravelOption, id uuid.UUID) bool {
 		}
 	}
 	return false
+}
+
+// ParseTravelRoute validates trusted route facts with the same strict decoder
+// and rules the travel preview uses. A route that is merely too long for one
+// hour is still a valid fact; facts the preview would call undeclared,
+// unknown or malformed are refused.
+func ParseTravelRoute(data []byte) (srd521.TravelRoute, error) {
+	var route srd521.TravelRoute
+	decoder := json.NewDecoder(bytes.NewReader(data))
+	decoder.DisallowUnknownFields()
+	if err := decoder.Decode(&route); err != nil || decoder.Decode(new(any)) != io.EOF {
+		return route, errors.New("Route facts include unknown or malformed fields, such as mounts or vehicles, which are not supported.")
+	}
+	var unresolved srd521.TravelUnresolved
+	if _, err := srd521.PlanTravel(route, srd521.PaceSlow); errors.As(err, &unresolved) {
+		return route, unresolved
+	}
+	return route, nil
 }

@@ -24,12 +24,19 @@ control yet.
 ## Route facts
 
 Route facts live in `location_connections.srd521_route` (migration 00045). No
-tool writes this column. The legacy `travel_time` text is never read as a
+model tool writes this column. The legacy `travel_time` text is never read as a
 distance. Every key is required:
 
 ```json
 {"profile":"travel-route-v1","distance_feet":15840,"terrain":"forest","good_road":false}
 ```
+
+The campaign owner declares them as a GM ruling with
+`PUT /campaigns/{id}/locations/{from}/routes/{to}` and that object as the body
+(see [GM rulings](gm-rulings.md)). The server checks the facts with the same
+parser the travel preview uses and refuses what the preview would call
+undeclared, unknown or malformed. A route longer than one hour of travel is
+still accepted; the preview lists it as unavailable.
 
 - `terrain` is one Travel Terrain entry: `arctic`, `coastal`, `desert`,
   `forest`, `grassland`, `hill`, `mountain`, `swamp`, `underdark` or `urban`.

@@ -18,6 +18,13 @@ The fall is a server-owned ruling on the actor,
 Every field is required. `landing` is `solid` or `water`. The player-stat tool
 only changes existing integer stats, so the model cannot write this object.
 
+The campaign owner declares a fall as a GM ruling with
+`POST /campaigns/{id}/character/fall` (see [GM rulings](gm-rulings.md)). The
+body names `actor_id` and every field above except `id`, which the server
+assigns. The server refuses a declaration that fails the checks below, an
+unknown field, a second declaration while one is unresolved, and a fall during
+an active encounter.
+
 These fail closed with a reason and no roll:
 
 - a missing or negative height, or a missing landing;
@@ -69,7 +76,7 @@ Prone player is saved back to `stats.srd521_conditions`.
 
 ## Player controls
 
-Clients cannot declare a fall or change one. While a declaration has an `id`,
+Player controls cannot declare a fall or change one; only the GM ruling above can. While a declaration has an `id`,
 the character sheet carries it as `sheet.fall`. `height_feet` and `landing` are
 included only when the declaration passes the checks above.
 
