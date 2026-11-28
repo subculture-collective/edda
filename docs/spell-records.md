@@ -6,7 +6,7 @@ runtime consumers, action registration, database writes or coverage promotion.
 `testdata/spell_records.json` contains one complete new source record, Acid Arrow,
 and adaptations of the two existing bounded fixtures. Subsequent catalogue
 imports are separately owned; the #218, #198, #196, #199, #200, #201, #202, #203, #204, #205, #206, #207, #208,
-#209, #210, #211, #212, #213, #214, #215, #216, #217, #219, #220 and #221 batches are described below.
+#209, #210, #211, #212, #213, #214, #215, #216, #217, #219, #220, #221, #222, #223 and #224 batches are described below.
 
 The envelope retains the exact `Source` pin, license, attribution and adaptation
 notice checked by the conformance register. Each record has its own stable
@@ -1546,3 +1546,176 @@ rtk proxy python3 scripts/verify_srd_spells_221.py /path/to/SRD_CC_v5.2.1.pdf
 
 The same limits as #198 apply: the source check supplements the offline literal
 fixtures and is not an automatic conformance proof.
+
+## Issue #222: Tongues through Vitriolic Sphere
+
+`testdata/spells_222.json` imports the twelve families the issue-80 inventory
+assigns to #222, on PDF pp.169-172: Tongues, Transport via Plants, Tree
+Stride, True Polymorph, True Resurrection, True Seeing, True Strike, Tsunami,
+Unseen Servant, Vampiric Touch, Vicious Mockery and Vitriolic Sphere. Tongues
+keeps its p.169 to p.170 continuation, True Resurrection keeps its p.170 to
+p.171 continuation and Vicious Mockery keeps its p.171 to p.172 continuation
+in explicit `source_pages` lists. `spells_222_test.go` supplies literal
+source-value fixtures for every header, option, effect and scaling value, and
+checks the family list and pages against the decision inventory. Agents
+transcribed the values from the pinned PDF's text; the fixtures, literals and
+pins come from that one transcription, so their agreement is not independent
+proof of it.
+
+The typed payloads retain True Polymorph's three transformation forms, its
+retained statistics and its full-Concentration result; True Resurrection's
+limits, restoration and replacement body; True Strike's weapon attack and
+extra Radiant dice; Tsunami's wall, movement, damage reduction and swimming;
+Unseen Servant's statistics, commands, example tasks and endings; Vampiric
+Touch's healing and repeat attack; and Vitriolic Sphere's initial and delayed
+damage.
+
+Tsunami's 1-mile range is stored as 5280 feet and its 6 rounds as 36 seconds.
+Maintaining Concentration on True Polymorph for the full hour makes it last
+until dispelled: the record is a timed Concentration record and the payload
+and `end_timing` keep that result. True Strike's weapon cost of 1+ CP is
+stored as 1 copper piece.
+
+Schema version 1 gains only shapes present in this batch:
+
+- Existing scaling kind `cantrip-upgrade` also accepts the three typed rows of
+  True Strike and Vicious Mockery. True Strike's rows are its extra Radiant
+  dice and its scaled effect is `extra`, which has no dice below level 5.
+- Target eligibilities `large-or-larger-inanimate-plant-in-range`,
+  `creature-dead-no-longer-than-200-years-touch` and
+  `visible-or-heard-creature-in-range` on `single`,
+  `visible-creature-or-nonmagical-object-in-range` on `choice`,
+  `creatures-in-water-wall-on-point-in-range` on `wall`,
+  `unoccupied-ground-space-in-range` on `created-effect` and
+  `creatures-in-acid-sphere-on-point-in-range` on `sphere`.
+
+Validation pins each record's whole printed value, including header, scaling
+row, effects, required mechanics and typed payload, so a positive but wrong
+value is rejected. The #222 verifier script checks identities, pages, printed
+headers, material costs and anchor phrases only; typed payload values are
+covered by the literal fixtures and pins, not by the script. A batch payload
+on a record of another batch is rejected too. Composition of the bounded
+fixtures with #196, #197 and every batch from #198 through #222 yields 324
+unique records. Every imported record remains unavailable: no resolver,
+action, entitlement, tool, inventory, coverage or Full Rules behavior is
+added.
+
+To recheck the PDF pin, identities, pages, printed headers and source anchors,
+run:
+
+```sh
+rtk proxy python3 scripts/verify_srd_spells_222.py /path/to/SRD_CC_v5.2.1.pdf
+```
+
+The same limits as #198 apply: the source check supplements the offline
+literal fixtures and is not an automatic conformance proof.
+
+## Issue #223: Wall of Fire through Wind Wall
+
+`testdata/spells_223.json` imports the twelve families the issue-80 inventory
+assigns to #223, on PDF pp.172-174: Wall of Fire, Wall of Force, Wall of Ice,
+Wall of Stone, Wall of Thorns, Warding Bond, Water Breathing, Water Walk, Web,
+Weird, Wind Walk and Wind Wall. Wall of Ice keeps its p.172 to p.173
+continuation and Water Walk keeps its p.173 to p.174 continuation in explicit
+`source_pages` lists. `spells_223_test.go` supplies literal source-value
+fixtures for every header, option, effect and scaling value, and checks the
+family list and pages against the decision inventory. Agents transcribed the
+values from the pinned PDF's text; the fixtures, literals and pins come from
+that one transcription, so their agreement is not independent proof of it.
+
+The typed payloads retain each wall's forms, dimensions, object statistics,
+saves and damage; Warding Bond's rings, benefits, shared damage and endings;
+Water Walk's example surfaces and transitions; Web's anchoring, escape check
+and burning; Weird's repeated save; Wind Walk's cloud form, reversion and
+descent; and Wind Wall's blocked and unaffected projectiles.
+
+Wall of Force's 1/4-inch thickness is stored as one quarter-inch. Wall of
+Stone becomes permanent after full Concentration: the record is a timed
+Concentration record and the payload and `end_timing` keep that result.
+Warding Bond's rings cost 50+ GP each, so the material cost is 10000 copper
+pieces for the pair.
+
+Schema version 1 gains only shapes present in this batch:
+
+- Existing scaling kind `slot-effect-dice` also accepts Wall of Ice's two
+  typed rows in `source_details.wall_of_ice.slot_dice`, for the appearance
+  damage and the frigid air. Wall of Fire and Wall of Thorns use `slot` on
+  both of their damage effects.
+- Target eligibilities `creatures-in-wall-of-fire`,
+  `force-wall-on-point-in-range`, `creatures-in-ice-wall`,
+  `stone-wall-on-point-in-range`, `creatures-in-wall-of-thorns` and
+  `creatures-in-wind-wall` on `wall`, `other-willing-creature-touch` on
+  `single`, `chosen-willing-creatures-in-range` for ten creatures on
+  `up-to-count` and `self-and-up-to-count`, `webs-in-cube-on-point-in-range`
+  on `cube` and `chosen-creatures-in-sphere-on-point-in-range` on
+  `selected-creatures`.
+
+Validation pins each record's whole printed value, including header, scaling
+row, effects, required mechanics and typed payload, so a positive but wrong
+value is rejected. The #223 verifier script checks identities, pages, printed
+headers, material costs and anchor phrases only; typed payload values are
+covered by the literal fixtures and pins, not by the script. A batch payload
+on a record of another batch is rejected too. Composition of the bounded
+fixtures with #196, #197 and every batch from #198 through #223 yields 336
+unique records. Every imported record remains unavailable: no resolver,
+action, entitlement, tool, inventory, coverage or Full Rules behavior is
+added.
+
+To recheck the PDF pin, identities, pages, printed headers and source anchors,
+run:
+
+```sh
+rtk proxy python3 scripts/verify_srd_spells_223.py /path/to/SRD_CC_v5.2.1.pdf
+```
+
+The same limits as #198 apply: the source check supplements the offline
+literal fixtures and is not an automatic conformance proof.
+
+## Issue #224: Wish through Zone of Truth
+
+`testdata/spells_224.json` imports the three families the issue-80 inventory
+assigns to #224, on PDF p.175: Wish, Word of Recall and Zone of Truth.
+`spells_224_test.go` supplies literal source-value fixtures for every header,
+option, effect and scaling value, and checks the family list and pages against
+the decision inventory. Agents transcribed the values from the pinned PDF's
+text; the fixtures, literals and pins come from that one transcription, so
+their agreement is not independent proof of it.
+
+The typed payloads retain Wish's spell duplication, all seven listed
+alternative effects (Object Creation, Instant Health, Resistance, Spell
+Immunity, Sudden Learning, Roll Redo and Reshape Reality) and its casting
+stress; Word of Recall's sanctuary rules; and Zone of Truth's save and limits.
+Wish's 25,000 GP object limit is stored as 2500000 copper pieces. Its stress
+effect records 1d10 Necrotic damage; the payload says that this is per level
+of each spell cast.
+
+Schema version 1 gains only target eligibilities: `one-chosen-wish-use` on
+`choice`, `willing-creatures-within-range` for five creatures on
+`self-and-up-to-count` and `creatures-in-truth-zone-on-point-in-range` on
+`sphere`.
+
+This is the last spell batch. `spells_224_test.go` also checks that the
+composed source catalogue holds exactly the 339 spell families, names and
+pages in the issue-80 inventory. It is a check of identities and pages, not of
+conformance.
+
+Validation pins each record's whole printed value, including header, scaling
+row, effects, required mechanics and typed payload, so a positive but wrong
+value is rejected. The #224 verifier script checks identities, pages, printed
+headers, material costs and anchor phrases only; typed payload values are
+covered by the literal fixtures and pins, not by the script. A batch payload
+on a record of another batch is rejected too. Composition of the bounded
+fixtures with #196, #197 and every batch from #198 through #224 yields 339
+unique records. Every imported record remains unavailable: no resolver,
+action, entitlement, tool, inventory, coverage or Full Rules behavior is
+added.
+
+To recheck the PDF pin, identities, pages, printed headers and source anchors,
+run:
+
+```sh
+rtk proxy python3 scripts/verify_srd_spells_224.py /path/to/SRD_CC_v5.2.1.pdf
+```
+
+The same limits as #198 apply: the source check supplements the offline
+literal fixtures and is not an automatic conformance proof.

@@ -289,10 +289,15 @@ func spell197TargetScaling(d *SpellSourceDetails) (base, additional int, ok bool
 // effect has its own per-slot dice in the typed Arcane Hand payload, in order.
 func (s SpellRecord) validateSpell197EffectDice(effects map[string]bool) error {
 	sc := s.Scaling
-	if sc.AboveLevel != s.Level || sc.DiceCount != 0 || sc.DieSides != 0 || len(sc.EffectIDs) == 0 || !uniqueNames(sc.EffectIDs) || s.SourceDetails == nil || s.SourceDetails.Hand == nil || !slices.Contains(s.RequiredMechanics, "scaling.per-slot-by-effect") {
+	var rows []SpellHandSlotDiceEntry
+	if d := s.SourceDetails; d != nil && d.Hand != nil {
+		rows = d.Hand.SlotDice
+	} else if d != nil && d.WallOfIce != nil {
+		rows = d.WallOfIce.SlotDice
+	}
+	if sc.AboveLevel != s.Level || sc.DiceCount != 0 || sc.DieSides != 0 || len(sc.EffectIDs) == 0 || !uniqueNames(sc.EffectIDs) || len(rows) == 0 || !slices.Contains(s.RequiredMechanics, "scaling.per-slot-by-effect") {
 		return fmt.Errorf("invalid per-effect slot scaling")
 	}
-	rows := s.SourceDetails.Hand.SlotDice
 	if len(rows) != len(sc.EffectIDs) {
 		return fmt.Errorf("per-effect slot scaling requires one typed row per effect")
 	}

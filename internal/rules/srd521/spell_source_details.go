@@ -358,6 +358,39 @@ type SpellSourceDetails struct {
 	Thunderwave         *SpellThunderwave         `json:"thunderwave,omitempty"`
 	TimeStop            *SpellTimeStop            `json:"time_stop,omitempty"`
 	TinyHut             *SpellTinyHut             `json:"tiny_hut,omitempty"`
+
+	// Issue #222 payloads.
+	Tongues            *SpellTongues            `json:"tongues,omitempty"`
+	TransportViaPlants *SpellTransportViaPlants `json:"transport_via_plants,omitempty"`
+	TreeStride         *SpellTreeStride         `json:"tree_stride,omitempty"`
+	TruePolymorph      *SpellTruePolymorph      `json:"true_polymorph,omitempty"`
+	TrueResurrection   *SpellTrueResurrection   `json:"true_resurrection,omitempty"`
+	TrueSeeing         *SpellTrueSeeing         `json:"true_seeing,omitempty"`
+	TrueStrike         *SpellTrueStrike         `json:"true_strike,omitempty"`
+	Tsunami            *SpellTsunami            `json:"tsunami,omitempty"`
+	UnseenServant      *SpellUnseenServant      `json:"unseen_servant,omitempty"`
+	VampiricTouch      *SpellVampiricTouch      `json:"vampiric_touch,omitempty"`
+	ViciousMockery     *SpellViciousMockery     `json:"vicious_mockery,omitempty"`
+	VitriolicSphere    *SpellVitriolicSphere    `json:"vitriolic_sphere,omitempty"`
+
+	// Issue #223 payloads.
+	WallOfFire     *SpellWallOfFire     `json:"wall_of_fire,omitempty"`
+	WallOfForce    *SpellWallOfForce    `json:"wall_of_force,omitempty"`
+	WallOfIce      *SpellWallOfIce      `json:"wall_of_ice,omitempty"`
+	WallOfStone    *SpellWallOfStone    `json:"wall_of_stone,omitempty"`
+	WallOfThorns   *SpellWallOfThorns   `json:"wall_of_thorns,omitempty"`
+	WardingBond    *SpellWardingBond    `json:"warding_bond,omitempty"`
+	WaterBreathing *SpellWaterBreathing `json:"water_breathing,omitempty"`
+	WaterWalk      *SpellWaterWalk      `json:"water_walk,omitempty"`
+	Web            *SpellWeb            `json:"web,omitempty"`
+	Weird          *SpellWeird          `json:"weird,omitempty"`
+	WindWalk       *SpellWindWalk       `json:"wind_walk,omitempty"`
+	WindWall       *SpellWindWall       `json:"wind_wall,omitempty"`
+
+	// Issue #224 payloads.
+	Wish         *SpellWish         `json:"wish,omitempty"`
+	WordOfRecall *SpellWordOfRecall `json:"word_of_recall,omitempty"`
+	ZoneOfTruth  *SpellZoneOfTruth  `json:"zone_of_truth,omitempty"`
 }
 
 // SpellRays describes independently aimed ranged spell attacks.
@@ -543,7 +576,7 @@ func (s *SpellSourceDetails) UnmarshalJSON(data []byte) error {
 		}
 	}
 	templates := map[string]any{"rays": SpellRays{}, "scrying": SpellScrying{}, "smite": SpellSmite{}, "chest": SpellChest{}, "vision": SpellVision{}, "seeming": SpellSeeming{}, "sending": SpellSending{}, "sequester": SpellSequester{}, "shapechange": SpellShapechange{}, "shatter": SpellShatter{}, "shield": SpellShield{}, "faith": SpellFaith{}}
-	for _, batch := range []map[string]any{spell196Templates(), spell197Templates(), spell198Templates(), spell199Templates(), spell200Templates(), spell201Templates(), spell202Templates(), spell208Templates(), spell207Templates(), spell206Templates(), spell205Templates(), spell204Templates(), spell203Templates(), spell209Templates(), spell210Templates(), spell211Templates(), spell212Templates(), spell213Templates(), spell214Templates(), spell215Templates(), spell216Templates(), spell217Templates(), spell219Templates(), spell220Templates(), spell221Templates()} {
+	for _, batch := range []map[string]any{spell196Templates(), spell197Templates(), spell198Templates(), spell199Templates(), spell200Templates(), spell201Templates(), spell202Templates(), spell208Templates(), spell207Templates(), spell206Templates(), spell205Templates(), spell204Templates(), spell203Templates(), spell209Templates(), spell210Templates(), spell211Templates(), spell212Templates(), spell213Templates(), spell214Templates(), spell215Templates(), spell216Templates(), spell217Templates(), spell219Templates(), spell220Templates(), spell221Templates(), spell222Templates(), spell223Templates(), spell224Templates()} {
 		for key, template := range batch {
 			if raw, ok := fields[key]; ok {
 				if err := requireSpell198Fields(raw, reflect.TypeOf(template)); err != nil {
@@ -622,7 +655,7 @@ func (s *SpellSourceDetails) UnmarshalJSON(data []byte) error {
 }
 
 func validSpellTarget(t SpellTarget) bool {
-	if validSpell197Target(t) || validSpell200Target(t) || validSpell202Target(t) || validSpell203Target(t) || validSpell204Target(t) || validSpell205Target(t) || validSpell206Target(t) || validSpell207Target(t) || validSpell208Target(t) || validSpell209Target(t) || validSpell210Target(t) || validSpell211Target(t) || validSpell212Target(t) || validSpell213Target(t) || validSpell214Target(t) || validSpell215Target(t) || validSpell216Target(t) || validSpell217Target(t) || validSpell219Target(t) || validSpell220Target(t) || validSpell221Target(t) {
+	if validSpell197Target(t) || validSpell200Target(t) || validSpell202Target(t) || validSpell203Target(t) || validSpell204Target(t) || validSpell205Target(t) || validSpell206Target(t) || validSpell207Target(t) || validSpell208Target(t) || validSpell209Target(t) || validSpell210Target(t) || validSpell211Target(t) || validSpell212Target(t) || validSpell213Target(t) || validSpell214Target(t) || validSpell215Target(t) || validSpell216Target(t) || validSpell217Target(t) || validSpell219Target(t) || validSpell220Target(t) || validSpell221Target(t) || validSpell222Target(t) || validSpell223Target(t) || validSpell224Target(t) {
 		return true
 	}
 	switch t.Shape {
@@ -735,6 +768,15 @@ func (s SpellRecord) validateSourceDetails() error {
 		return err
 	}
 	if handled, err := s.validateSpell221(); handled || err != nil {
+		return err
+	}
+	if handled, err := s.validateSpell222(); handled || err != nil {
+		return err
+	}
+	if handled, err := s.validateSpell223(); handled || err != nil {
+		return err
+	}
+	if handled, err := s.validateSpell224(); handled || err != nil {
 		return err
 	}
 	d := s.SourceDetails

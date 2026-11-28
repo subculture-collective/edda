@@ -1,0 +1,1232 @@
+{
+  "schema_version": 1,
+  "source": {
+    "version": "5.2.1",
+    "language": "en",
+    "landing_url": "https://www.dndbeyond.com/srd",
+    "artifact_url": "https://media.dndbeyond.com/compendium-images/srd/5.2/SRD_CC_v5.2.1.pdf",
+    "sha256": "8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87",
+    "bytes": 6031375,
+    "pages": 364,
+    "retrieved_at": "2026-11-15",
+    "license": "CC-BY-4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/legalcode",
+    "attribution": "This work includes material from the System Reference Document 5.2.1 (“SRD 5.2.1”) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd. The SRD 5.2.1 is licensed under the Creative Commons Attribution 4.0 International License, available at https://creativecommons.org/licenses/by/4.0/legalcode.",
+    "changes": "SRD 5.2.1 PDF pp.169-172 adapted into twelve complete offline spell families for issue #222, including page-break continuation text for Tongues (pp.169-170), True Resurrection (pp.170-171) and Vicious Mockery (pp.171-172). No executable effects or availability grants."
+  },
+  "records": [
+    {
+      "id": "srd-5.2.1:content/spells/tongues",
+      "name": "Tongues",
+      "source_id": "srd-5.2.1:content/spells/tongues",
+      "source_page": 169,
+      "scope": "complete-source-record",
+      "level": 3,
+      "school": "divination",
+      "lists": [
+        "bard",
+        "cleric",
+        "sorcerer",
+        "warlock",
+        "wizard"
+      ],
+      "casting_time": "action",
+      "range": {
+        "kind": "touch",
+        "feet": 0
+      },
+      "target": {
+        "shape": "single",
+        "count": 1,
+        "eligibility": "creature-touch"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": false,
+        "material": {
+          "description": "a miniature ziggurat",
+          "cost_cp": 0,
+          "consumed": false
+        }
+      },
+      "ritual": false,
+      "concentration": false,
+      "duration_seconds": 3600,
+      "duration": "timed",
+      "scaling": {
+        "kind": "none",
+        "above_level": 0,
+        "dice_count": 0,
+        "die_sides": 0,
+        "effect_ids": []
+      },
+      "effects": [
+        {
+          "id": "understanding",
+          "mechanic": "utility.tongues",
+          "timing": "for-duration",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "utility.tongues",
+        "components.material"
+      ],
+      "slot_levels": [
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 0,
+        "casting_triggers": [],
+        "end_timing": "duration-ended",
+        "tongues": {
+          "source_pages": [
+            169,
+            170
+          ],
+          "understands": "any-spoken-or-signed-language-the-target-hears-or-sees",
+          "understood_when": "target-communicates-by-speaking-or-signing",
+          "understood_by": "any-creature-that-knows-at-least-one-language",
+          "understood_requirement": "creature-can-hear-the-speech-or-see-the-signing"
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/transport-via-plants",
+      "name": "Transport via Plants",
+      "source_id": "srd-5.2.1:content/spells/transport-via-plants",
+      "source_page": 170,
+      "scope": "complete-source-record",
+      "level": 6,
+      "school": "conjuration",
+      "lists": [
+        "druid"
+      ],
+      "casting_time": "action",
+      "range": {
+        "kind": "feet",
+        "feet": 10
+      },
+      "target": {
+        "shape": "single",
+        "count": 1,
+        "eligibility": "large-or-larger-inanimate-plant-in-range"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": null
+      },
+      "ritual": false,
+      "concentration": false,
+      "duration_seconds": 60,
+      "duration": "timed",
+      "scaling": {
+        "kind": "none",
+        "above_level": 0,
+        "dice_count": 0,
+        "die_sides": 0,
+        "effect_ids": []
+      },
+      "effects": [
+        {
+          "id": "link",
+          "mechanic": "teleport.transport-via-plants",
+          "timing": "for-duration",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "teleport.transport-via-plants"
+      ],
+      "slot_levels": [
+        6,
+        7,
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 0,
+        "casting_triggers": [],
+        "end_timing": "duration-ended",
+        "transport_via_plants": {
+          "minimum_plant_size": "large",
+          "plant_kind": "inanimate-plant",
+          "destination": "another-plant-at-any-distance-on-same-plane-of-existence",
+          "destination_requirement": "seen-or-touched-at-least-once",
+          "travelers": "any-creature",
+          "movement_cost_feet": 5
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/tree-stride",
+      "name": "Tree Stride",
+      "source_id": "srd-5.2.1:content/spells/tree-stride",
+      "source_page": 170,
+      "scope": "complete-source-record",
+      "level": 5,
+      "school": "conjuration",
+      "lists": [
+        "druid",
+        "ranger"
+      ],
+      "casting_time": "action",
+      "range": {
+        "kind": "self",
+        "feet": 0
+      },
+      "target": {
+        "shape": "single",
+        "count": 1,
+        "eligibility": "self"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": null
+      },
+      "ritual": false,
+      "concentration": true,
+      "duration_seconds": 60,
+      "duration": "timed",
+      "scaling": {
+        "kind": "none",
+        "above_level": 0,
+        "dice_count": 0,
+        "die_sides": 0,
+        "effect_ids": []
+      },
+      "effects": [
+        {
+          "id": "stride",
+          "mechanic": "movement.tree-stride",
+          "timing": "for-duration",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "movement.tree-stride",
+        "concentration.source-duration"
+      ],
+      "slot_levels": [
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 0,
+        "casting_triggers": [],
+        "end_timing": "duration-or-concentration-ended",
+        "tree_stride": {
+          "destination_tree": "same-kind",
+          "range_feet": 500,
+          "tree_requirement": "both-living-and-at-least-casters-size",
+          "enter_movement_feet": 5,
+          "awareness": "instantly-knows-all-other-same-kind-trees-in-range",
+          "awareness_feet": 500,
+          "entry_choices": [
+            "pass-into-one-of-those-trees",
+            "step-out-of-entered-tree"
+          ],
+          "exit_distance_feet": 5,
+          "exit_movement_feet": 5,
+          "no_movement": "appear-near-entered-tree",
+          "no_movement_distance_feet": 5,
+          "uses_per_turn": 1,
+          "turn_end": "must-end-each-turn-outside-a-tree"
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/true-polymorph",
+      "name": "True Polymorph",
+      "source_id": "srd-5.2.1:content/spells/true-polymorph",
+      "source_page": 170,
+      "scope": "complete-source-record",
+      "level": 9,
+      "school": "transmutation",
+      "lists": [
+        "bard",
+        "warlock",
+        "wizard"
+      ],
+      "casting_time": "action",
+      "range": {
+        "kind": "feet",
+        "feet": 30
+      },
+      "target": {
+        "shape": "choice",
+        "count": 1,
+        "eligibility": "visible-creature-or-nonmagical-object-in-range"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": {
+          "description": "a drop of mercury, a dollop of gum arabic, and a wisp of smoke",
+          "cost_cp": 0,
+          "consumed": false
+        }
+      },
+      "ritual": false,
+      "concentration": true,
+      "duration_seconds": 3600,
+      "duration": "timed",
+      "scaling": {
+        "kind": "none",
+        "above_level": 0,
+        "dice_count": 0,
+        "die_sides": 0,
+        "effect_ids": []
+      },
+      "effects": [
+        {
+          "id": "transform",
+          "mechanic": "transformation.true-polymorph",
+          "timing": "for-duration-or-until-dispelled",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "temporary-hit-points",
+          "mechanic": "healing.true-polymorph-temporary-hit-points",
+          "timing": "on-creature-into-creature",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "transformation.true-polymorph",
+        "healing.true-polymorph-temporary-hit-points",
+        "save.wisdom-negates",
+        "duration.true-polymorph-becomes-until-dispelled",
+        "concentration.source-duration",
+        "components.material"
+      ],
+      "slot_levels": [
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 0,
+        "casting_triggers": [],
+        "end_timing": "duration-concentration-or-target-dies-or-destroyed-until-dispelled-after-full-concentration",
+        "true_polymorph": {
+          "target_choices": [
+            "creature",
+            "nonmagical-object"
+          ],
+          "creature_results": [
+            "different-creature",
+            "nonmagical-object"
+          ],
+          "object_result": "creature",
+          "object_requirement": "neither-worn-nor-carried",
+          "ends_early": [
+            "target-dies",
+            "target-destroyed"
+          ],
+          "full_concentration_seconds": 3600,
+          "full_concentration_result": "lasts-until-dispelled",
+          "unwilling_save": "wisdom",
+          "unwilling_save_success": "unaffected",
+          "creature_into_creature": {
+            "form_choice": "any-kind-caster-chooses",
+            "form_limit": "challenge-rating-no-higher-than-targets-challenge-rating-or-level",
+            "statistics": "replaced-by-new-form-stat-block",
+            "retained": [
+              "hit-points",
+              "hit-point-dice",
+              "alignment",
+              "personality"
+            ],
+            "temporary_hit_points": "equal-to-hit-points-of-new-form",
+            "temporary_hit_points_end": "vanish-if-any-remain-when-spell-ends",
+            "limits": [
+              "actions-limited-by-new-form-anatomy",
+              "cannot-speak",
+              "cannot-cast-spells"
+            ],
+            "gear": "melds-into-new-form",
+            "gear_use": "cannot-use-or-benefit-from-equipment"
+          },
+          "object_into_creature": {
+            "creature_kind": "any",
+            "size_limit": "no-larger-than-objects-size",
+            "max_challenge_rating": 9,
+            "attitude": "friendly-to-caster-and-allies",
+            "turn_order": "immediately-after-casters-turn",
+            "commands": "obeys-casters-commands",
+            "control_seconds": 3600,
+            "after_control": "caster-no-longer-controls-it",
+            "after_control_attitude": "might-remain-friendly-depending-on-treatment"
+          },
+          "creature_into_object": {
+            "gear": "transforms-with-everything-worn-and-carried",
+            "size_limit": "object-no-larger-than-creatures-size",
+            "statistics": "become-those-of-object",
+            "memory": "none-of-time-in-form-after-spell-ends-and-creature-returns-to-normal"
+          }
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/true-resurrection",
+      "name": "True Resurrection",
+      "source_id": "srd-5.2.1:content/spells/true-resurrection",
+      "source_page": 170,
+      "scope": "complete-source-record",
+      "level": 9,
+      "school": "necromancy",
+      "lists": [
+        "cleric",
+        "druid"
+      ],
+      "casting_time": "1-hour",
+      "range": {
+        "kind": "touch",
+        "feet": 0
+      },
+      "target": {
+        "shape": "single",
+        "count": 1,
+        "eligibility": "creature-dead-no-longer-than-200-years-touch"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": {
+          "description": "diamonds worth 25,000+ GP, which the spell consumes",
+          "cost_cp": 2500000,
+          "consumed": true
+        }
+      },
+      "ritual": false,
+      "concentration": false,
+      "duration_seconds": 0,
+      "duration": "instantaneous",
+      "scaling": {
+        "kind": "none",
+        "above_level": 0,
+        "dice_count": 0,
+        "die_sides": 0,
+        "effect_ids": []
+      },
+      "effects": [
+        {
+          "id": "revive",
+          "mechanic": "revive.true-resurrection",
+          "timing": "immediate",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "revive.true-resurrection",
+        "cast.one-hour",
+        "components.material"
+      ],
+      "slot_levels": [
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 3600,
+        "casting_triggers": [],
+        "end_timing": "instantaneous",
+        "true_resurrection": {
+          "source_pages": [
+            170,
+            171
+          ],
+          "max_dead_years": 200,
+          "excluded_death": "old-age",
+          "revived_hit_points": "all-hit-points",
+          "restores": [
+            "closes-all-wounds",
+            "neutralizes-any-poison",
+            "cures-all-magical-contagions",
+            "lifts-curses-affecting-creature-when-it-died",
+            "replaces-damaged-or-missing-organs-and-limbs"
+          ],
+          "undead": "restored-to-non-undead-form",
+          "new_body": "can-be-provided-if-original-no-longer-exists",
+          "new_body_requirement": "caster-speaks-creatures-name",
+          "new_body_space": "unoccupied-space-caster-chooses",
+          "new_body_distance_feet": 10
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/true-seeing",
+      "name": "True Seeing",
+      "source_id": "srd-5.2.1:content/spells/true-seeing",
+      "source_page": 171,
+      "scope": "complete-source-record",
+      "level": 6,
+      "school": "divination",
+      "lists": [
+        "bard",
+        "cleric",
+        "sorcerer",
+        "warlock",
+        "wizard"
+      ],
+      "casting_time": "action",
+      "range": {
+        "kind": "touch",
+        "feet": 0
+      },
+      "target": {
+        "shape": "single",
+        "count": 1,
+        "eligibility": "willing-creature-touch"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": {
+          "description": "mushroom powder worth 25+ GP, which the spell consumes",
+          "cost_cp": 2500,
+          "consumed": true
+        }
+      },
+      "ritual": false,
+      "concentration": false,
+      "duration_seconds": 3600,
+      "duration": "timed",
+      "scaling": {
+        "kind": "none",
+        "above_level": 0,
+        "dice_count": 0,
+        "die_sides": 0,
+        "effect_ids": []
+      },
+      "effects": [
+        {
+          "id": "truesight",
+          "mechanic": "sense.true-seeing-truesight",
+          "timing": "for-duration",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "sense.true-seeing-truesight",
+        "components.material"
+      ],
+      "slot_levels": [
+        6,
+        7,
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 0,
+        "casting_triggers": [],
+        "end_timing": "duration-ended",
+        "true_seeing": {
+          "recipient": "willing-creature-touched",
+          "sense": "truesight",
+          "truesight_feet": 120
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/true-strike",
+      "name": "True Strike",
+      "source_id": "srd-5.2.1:content/spells/true-strike",
+      "source_page": 171,
+      "scope": "complete-source-record",
+      "level": 0,
+      "school": "divination",
+      "lists": [
+        "bard",
+        "sorcerer",
+        "warlock",
+        "wizard"
+      ],
+      "casting_time": "action",
+      "range": {
+        "kind": "self",
+        "feet": 0
+      },
+      "target": {
+        "shape": "single",
+        "count": 1,
+        "eligibility": "self"
+      },
+      "components": {
+        "verbal": false,
+        "somatic": true,
+        "material": {
+          "description": "a weapon with which you have proficiency and that is worth 1+ CP",
+          "cost_cp": 1,
+          "consumed": false
+        }
+      },
+      "ritual": false,
+      "concentration": false,
+      "duration_seconds": 0,
+      "duration": "instantaneous",
+      "scaling": {
+        "kind": "cantrip-upgrade",
+        "above_level": 0,
+        "dice_count": 1,
+        "die_sides": 6,
+        "effect_ids": [
+          "extra"
+        ]
+      },
+      "effects": [
+        {
+          "id": "attack",
+          "mechanic": "attack.true-strike",
+          "timing": "immediate",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "extra",
+          "mechanic": "damage.true-strike-upgrade",
+          "timing": "on-hit-from-level-5",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "attack.true-strike",
+        "damage.true-strike-upgrade",
+        "ability.true-strike-spellcasting",
+        "scaling.cantrip-upgrade",
+        "components.material"
+      ],
+      "slot_levels": [],
+      "source_details": {
+        "casting_seconds": 0,
+        "casting_triggers": [],
+        "end_timing": "instantaneous",
+        "true_strike": {
+          "weapon": "weapon-used-in-casting",
+          "attack_count": 1,
+          "ability": "spellcasting-ability-instead-of-strength-or-dexterity",
+          "ability_applies_to": [
+            "attack-rolls",
+            "damage-rolls"
+          ],
+          "damage_type_choices": [
+            "radiant",
+            "weapons-normal-damage-type"
+          ],
+          "damage_type_choice_when": "attack-deals-damage",
+          "upgrade_damage_type": "radiant",
+          "upgrade_applies": "with-either-damage-type-choice",
+          "upgrades": [
+            {
+              "level": 5,
+              "dice_count": 1,
+              "die_sides": 6
+            },
+            {
+              "level": 11,
+              "dice_count": 2,
+              "die_sides": 6
+            },
+            {
+              "level": 17,
+              "dice_count": 3,
+              "die_sides": 6
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/tsunami",
+      "name": "Tsunami",
+      "source_id": "srd-5.2.1:content/spells/tsunami",
+      "source_page": 171,
+      "scope": "complete-source-record",
+      "level": 8,
+      "school": "conjuration",
+      "lists": [
+        "druid"
+      ],
+      "casting_time": "1-minute",
+      "range": {
+        "kind": "feet",
+        "feet": 5280
+      },
+      "target": {
+        "shape": "wall",
+        "count": 0,
+        "eligibility": "creatures-in-water-wall-on-point-in-range"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": null
+      },
+      "ritual": false,
+      "concentration": true,
+      "duration_seconds": 36,
+      "duration": "timed",
+      "scaling": {
+        "kind": "none",
+        "above_level": 0,
+        "dice_count": 0,
+        "die_sides": 0,
+        "effect_ids": []
+      },
+      "effects": [
+        {
+          "id": "appear",
+          "mechanic": "damage.tsunami-appear",
+          "timing": "when-wall-appears",
+          "dice_count": 6,
+          "die_sides": 10,
+          "damage_type": "bludgeoning",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "moving",
+          "mechanic": "damage.tsunami-moving-wall",
+          "timing": "when-moving-wall-contains-or-enters-space",
+          "dice_count": 5,
+          "die_sides": 10,
+          "damage_type": "bludgeoning",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "damage.tsunami-appear",
+        "damage.tsunami-moving-wall",
+        "movement.tsunami-wall",
+        "check.tsunami-swim",
+        "save.strength-half",
+        "save.strength-tsunami",
+        "cast.one-minute",
+        "concentration.source-duration"
+      ],
+      "slot_levels": [
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 60,
+        "casting_triggers": [],
+        "end_timing": "duration-concentration-or-wall-height-0",
+        "tsunami": {
+          "max_length_feet": 300,
+          "max_height_feet": 300,
+          "max_thickness_feet": 50,
+          "appear_save": "strength",
+          "appear_dice_count": 6,
+          "appear_die_sides": 10,
+          "appear_damage_type": "bludgeoning",
+          "appear_success": "half-damage",
+          "move_timing": "start-of-each-casters-turn-after-wall-appears",
+          "move_feet": 50,
+          "move_direction": "away-from-caster",
+          "carried": "creatures-in-wall-move-with-it",
+          "moving_max_creature_size": "huge",
+          "moving_triggers": [
+            "inside-wall",
+            "space-wall-enters-when-it-moves"
+          ],
+          "moving_save": "strength",
+          "moving_dice_count": 5,
+          "moving_die_sides": 10,
+          "moving_damage_type": "bludgeoning",
+          "moving_damage_limit": "once-per-round",
+          "reduction_timing": "end-of-the-turn",
+          "height_reduction_feet": 50,
+          "later_damage_reduction_dice_count": 1,
+          "later_damage_reduction_die_sides": 10,
+          "ends_at_height_feet": 0,
+          "swimming": "caught-creature-can-move-by-swimming",
+          "swim_check": "strength-athletics",
+          "swim_check_dc": "caster-spell-save-dc",
+          "swim_check_failure": "cannot-move",
+          "leaving_wall": "creature-falls-to-ground"
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/unseen-servant",
+      "name": "Unseen Servant",
+      "source_id": "srd-5.2.1:content/spells/unseen-servant",
+      "source_page": 171,
+      "scope": "complete-source-record",
+      "level": 1,
+      "school": "conjuration",
+      "lists": [
+        "bard",
+        "warlock",
+        "wizard"
+      ],
+      "casting_time": "action",
+      "range": {
+        "kind": "feet",
+        "feet": 60
+      },
+      "target": {
+        "shape": "created-effect",
+        "count": 1,
+        "eligibility": "unoccupied-ground-space-in-range"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": {
+          "description": "a bit of string and of wood",
+          "cost_cp": 0,
+          "consumed": false
+        }
+      },
+      "ritual": true,
+      "concentration": false,
+      "duration_seconds": 3600,
+      "duration": "timed",
+      "scaling": {
+        "kind": "none",
+        "above_level": 0,
+        "dice_count": 0,
+        "die_sides": 0,
+        "effect_ids": []
+      },
+      "effects": [
+        {
+          "id": "servant",
+          "mechanic": "summon.unseen-servant",
+          "timing": "for-duration",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "summon.unseen-servant",
+        "command.unseen-servant",
+        "cast.ritual",
+        "components.material"
+      ],
+      "slot_levels": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 0,
+        "casting_triggers": [],
+        "end_timing": "duration-servant-at-0-hit-points-or-commanded-too-far",
+        "unseen_servant": {
+          "traits": [
+            "invisible",
+            "mindless",
+            "shapeless"
+          ],
+          "size": "medium",
+          "kind": "force",
+          "purpose": "performs-simple-tasks-at-casters-command",
+          "armor_class": 10,
+          "hit_points": 1,
+          "strength": 2,
+          "can_attack": false,
+          "command_action": "bonus-action",
+          "command_frequency": "once-on-each-of-casters-turns",
+          "command_kind": "mental",
+          "move_feet": 15,
+          "command_includes": "interact-with-an-object",
+          "task_limit": "simple-tasks-a-human-could-do",
+          "task_examples": [
+            "fetching-things",
+            "cleaning",
+            "mending",
+            "folding-clothes",
+            "lighting-fires",
+            "serving-food",
+            "pouring-drinks"
+          ],
+          "after_command": "performs-task-until-complete-then-waits-for-next-command",
+          "max_distance_feet": 60,
+          "early_end": [
+            "servant-drops-to-0-hit-points",
+            "commanded-task-would-move-it-beyond-max-distance"
+          ]
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/vampiric-touch",
+      "name": "Vampiric Touch",
+      "source_id": "srd-5.2.1:content/spells/vampiric-touch",
+      "source_page": 171,
+      "scope": "complete-source-record",
+      "level": 3,
+      "school": "necromancy",
+      "lists": [
+        "sorcerer",
+        "warlock",
+        "wizard"
+      ],
+      "casting_time": "action",
+      "range": {
+        "kind": "self",
+        "feet": 0
+      },
+      "target": {
+        "shape": "single",
+        "count": 1,
+        "eligibility": "target-within-reach"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": null
+      },
+      "ritual": false,
+      "concentration": true,
+      "duration_seconds": 60,
+      "duration": "timed",
+      "scaling": {
+        "kind": "slot",
+        "above_level": 3,
+        "dice_count": 1,
+        "die_sides": 6,
+        "effect_ids": [
+          "damage"
+        ]
+      },
+      "effects": [
+        {
+          "id": "damage",
+          "mechanic": "damage.vampiric-touch",
+          "timing": "on-hit-at-casting-and-on-later-magic-actions",
+          "dice_count": 3,
+          "die_sides": 6,
+          "damage_type": "necrotic",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "healing",
+          "mechanic": "healing.vampiric-touch",
+          "timing": "on-hit-after-damage",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "damage.vampiric-touch",
+        "healing.vampiric-touch",
+        "attack.melee-spell",
+        "action.vampiric-touch-repeat",
+        "concentration.source-duration",
+        "scaling.per-slot"
+      ],
+      "slot_levels": [
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 0,
+        "casting_triggers": [],
+        "end_timing": "duration-or-concentration-ended",
+        "vampiric_touch": {
+          "attack": "melee-spell-attack",
+          "attack_target": "one-creature-within-reach",
+          "damage_dice_count": 3,
+          "damage_die_sides": 6,
+          "damage_type": "necrotic",
+          "healing": "half-of-necrotic-damage-dealt",
+          "healing_divisor": 2,
+          "repeat_action": "magic-action",
+          "repeat_timing": "on-each-of-casters-turns-until-spell-ends",
+          "repeat_target": "same-creature-or-a-different-one",
+          "slot_dice_count": 1,
+          "slot_die_sides": 6
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/vicious-mockery",
+      "name": "Vicious Mockery",
+      "source_id": "srd-5.2.1:content/spells/vicious-mockery",
+      "source_page": 171,
+      "scope": "complete-source-record",
+      "level": 0,
+      "school": "enchantment",
+      "lists": [
+        "bard"
+      ],
+      "casting_time": "action",
+      "range": {
+        "kind": "feet",
+        "feet": 60
+      },
+      "target": {
+        "shape": "single",
+        "count": 1,
+        "eligibility": "visible-or-heard-creature-in-range"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": false,
+        "material": null
+      },
+      "ritual": false,
+      "concentration": false,
+      "duration_seconds": 0,
+      "duration": "instantaneous",
+      "scaling": {
+        "kind": "cantrip-upgrade",
+        "above_level": 0,
+        "dice_count": 1,
+        "die_sides": 6,
+        "effect_ids": [
+          "damage"
+        ]
+      },
+      "effects": [
+        {
+          "id": "damage",
+          "mechanic": "damage.vicious-mockery",
+          "timing": "on-failed-save",
+          "dice_count": 1,
+          "die_sides": 6,
+          "damage_type": "psychic",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        },
+        {
+          "id": "disadvantage",
+          "mechanic": "condition.vicious-mockery-attack-disadvantage",
+          "timing": "on-failed-save-next-attack-before-end-of-targets-next-turn",
+          "dice_count": 0,
+          "die_sides": 0,
+          "damage_type": "",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "damage.vicious-mockery",
+        "condition.vicious-mockery-attack-disadvantage",
+        "save.wisdom-negates",
+        "scaling.cantrip-upgrade"
+      ],
+      "slot_levels": [],
+      "source_details": {
+        "casting_seconds": 0,
+        "casting_triggers": [],
+        "end_timing": "instantaneous",
+        "vicious_mockery": {
+          "source_pages": [
+            171,
+            172
+          ],
+          "save": "wisdom",
+          "damage_dice_count": 1,
+          "damage_die_sides": 6,
+          "damage_type": "psychic",
+          "disadvantage_on": "next-attack-roll-target-makes",
+          "disadvantage_window": "before-end-of-targets-next-turn",
+          "upgrades": [
+            {
+              "level": 5,
+              "dice_count": 2,
+              "die_sides": 6
+            },
+            {
+              "level": 11,
+              "dice_count": 3,
+              "die_sides": 6
+            },
+            {
+              "level": 17,
+              "dice_count": 4,
+              "die_sides": 6
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "srd-5.2.1:content/spells/vitriolic-sphere",
+      "name": "Vitriolic Sphere",
+      "source_id": "srd-5.2.1:content/spells/vitriolic-sphere",
+      "source_page": 172,
+      "scope": "complete-source-record",
+      "level": 4,
+      "school": "evocation",
+      "lists": [
+        "sorcerer",
+        "wizard"
+      ],
+      "casting_time": "action",
+      "range": {
+        "kind": "feet",
+        "feet": 150
+      },
+      "target": {
+        "shape": "sphere",
+        "count": 0,
+        "eligibility": "creatures-in-acid-sphere-on-point-in-range"
+      },
+      "components": {
+        "verbal": true,
+        "somatic": true,
+        "material": {
+          "description": "a drop of bile",
+          "cost_cp": 0,
+          "consumed": false
+        }
+      },
+      "ritual": false,
+      "concentration": false,
+      "duration_seconds": 0,
+      "duration": "instantaneous",
+      "scaling": {
+        "kind": "slot",
+        "above_level": 4,
+        "dice_count": 2,
+        "die_sides": 4,
+        "effect_ids": [
+          "damage"
+        ]
+      },
+      "effects": [
+        {
+          "id": "damage",
+          "mechanic": "damage.vitriolic-sphere",
+          "timing": "immediate",
+          "dice_count": 10,
+          "die_sides": 4,
+          "damage_type": "acid",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": true
+        },
+        {
+          "id": "delayed",
+          "mechanic": "damage.vitriolic-sphere-delayed",
+          "timing": "end-of-targets-next-turn-on-failed-save",
+          "dice_count": 5,
+          "die_sides": 4,
+          "damage_type": "acid",
+          "bonus": 0,
+          "add_casting_modifier": false,
+          "half_initial_only": false
+        }
+      ],
+      "required_mechanics": [
+        "damage.vitriolic-sphere",
+        "damage.vitriolic-sphere-delayed",
+        "save.dexterity-half",
+        "scaling.per-slot",
+        "components.material"
+      ],
+      "slot_levels": [
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "source_details": {
+        "casting_seconds": 0,
+        "casting_triggers": [],
+        "end_timing": "instantaneous",
+        "vitriolic_sphere": {
+          "ball_diameter_feet": 1,
+          "radius_feet": 20,
+          "save": "dexterity",
+          "initial_dice_count": 10,
+          "initial_die_sides": 4,
+          "delayed_dice_count": 5,
+          "delayed_die_sides": 4,
+          "damage_type": "acid",
+          "delayed_timing": "end-of-targets-next-turn",
+          "save_success": "half-initial-damage-only",
+          "slot_applies_to": "initial-damage",
+          "slot_dice_count": 2,
+          "slot_die_sides": 4
+        }
+      }
+    }
+  ]
+}
