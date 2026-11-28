@@ -78,11 +78,18 @@ export interface LightReceipt {
  before?: LightEffect; after?: LightEffect; time: number; source_ids: string[];
 }
 export interface PendingFall { id: string; height_feet?: number; landing?: 'solid' | 'water' }
+export interface DeathSaves { successes?: number; failures?: number; stable?: boolean; dead?: boolean }
+export interface ZeroHPReceipt {
+ rules_version: string; event: 'dropped-to-0' | 'massive-damage' | 'damage-at-0' | 'death-save' | 'stable-recovery'; reason: string;
+ damage?: number; critical?: boolean; remaining?: number; die?: number; outcome?: string; recovery_hours?: number;
+ hp_before: number; hp_after: number; max_hp: number; before: DeathSaves; after: DeathSaves;
+ time_before?: number; time_after?: number; source_ids: string[];
+}
 export interface FallReceipt {
  rules_version: string; height_feet: number; landing: 'solid' | 'water';
  dice_count: number; dice: number[]; rolled: number; halved: boolean; damage: number; damage_type: string;
  hp_before: number; hp_after: number; prone_before: boolean; prone_after: boolean;
- water_check?: CheckReceipt; concentration?: EffectReceipt; source_ids: string[];
+ water_check?: CheckReceipt; concentration?: EffectReceipt; zero_hp?: ZeroHPReceipt; source_ids: string[];
 }
 export interface EffectReceipt {
  action_surge_before?: number; action_surge_after?: number;
@@ -116,6 +123,7 @@ export interface CharacterSheetProjection {
   light?: LightEffect;
   light_item?: string;
   fall?: PendingFall;
+  death_saves?: DeathSaves;
   spellcasting?: Spellcasting;
   rules_version: string;
   scope: string;

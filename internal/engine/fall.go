@@ -85,21 +85,23 @@ func resolveDeclaredFall(ctx context.Context, tx pgx.Tx, campaignID, actorID uui
 		return nil, err
 	}
 	// The declaration is consumed exactly once: a second confirmation finds no row.
-	tag, err := tx.Exec(ctx, `UPDATE player_characters SET hp=$1,stats=CASE WHEN $2::jsonb='{}'::jsonb THEN stats-'srd521_fall'-'srd521_conditions' ELSE jsonb_set(stats-'srd521_fall','{srd521_conditions}',$2::jsonb) END,updated_at=clock_timestamp() WHERE id=$3 AND campaign_id=$4 AND stats->'srd521_fall'->>'id'=$5`, r.HPAfter, encoded, actorID, campaignID, fall.ID)
+	tag, err := tx.Exec(ctx, `UPDATE player_characters SET stats=CASE WHEN $1::jsonb='{}'::jsonb THEN stats-'srd521_fall'-'srd521_conditions' ELSE jsonb_set(stats-'srd521_fall','{srd521_conditions}',$1::jsonb) END,updated_at=clock_timestamp() WHERE id=$2 AND campaign_id=$3 AND stats->'srd521_fall'->>'id'=$4`, encoded, actorID, campaignID, fall.ID)
 	if err != nil {
 		return nil, err
 	}
 	if tag.RowsAffected() != 1 {
 		return nil, ErrActionRefresh
 	}
-	// The fall is one damage source: one save, or an ending at zero HP.
-	concentration, err := ApplyConcentrationEvents(ctx, tx, campaignID, actorID, hp, []srd521.ConcentrationEvent{{Kind: srd521.ConcentrationDamageSource, SourceID: "fall-" + fall.ID, Damage: r.Damage, HPAfter: r.HPAfter}}, dice)
+	// The fall is one damage source: one Concentration save, or an ending at
+	// zero HP, where the character falls Unconscious or dies.
+	damage, err := damagePlayer(ctx, tx, campaignID, actorID, r.Damage, false, "fall-"+fall.ID, nil, dice)
 	if err != nil {
 		return nil, err
 	}
-	if len(concentration) > 0 {
-		r.Concentration = concentration[0]
+	if len(damage.Concentration) > 0 {
+		r.Concentration = damage.Concentration[0]
 	}
+	r.ZeroHP = damage.ZeroHP
 	return r, nil
 }
 
@@ -130,11 +132,11 @@ func fallNarrative(name string, r *srd521.FallReceipt) string {
 	case r.DiceCount > 0:
 		fmt.Fprintf(&b, " %s takes no damage and is not Prone.", name)
 	}
-	if r.HPAfter == 0 {
-		b.WriteString(" At 0 HP, falling Unconscious and death saving throws require adjudication.")
-	}
 	if r.Concentration != nil {
 		b.WriteString(" " + r.Concentration.Reason)
+	}
+	if r.ZeroHP != nil {
+		b.WriteString(" " + r.ZeroHP.Reason)
 	}
 	return b.String()
 }

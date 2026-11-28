@@ -43,6 +43,7 @@ func (h *CharacterHandlers) GetCharacter(w http.ResponseWriter, r *http.Request)
 		response.Sheet, err = srd521.Project(pc.Stats, int(pc.Level), int(pc.Hp), int(pc.MaxHp), int(pc.Experience))
 		if err == nil {
 			response.Sheet.Fall = game.PendingFall(pc.Stats)
+			response.Sheet.DeathSaves = game.ZeroHPState(pc.Stats, int(pc.Hp))
 		}
 		if err == nil && h.Pool != nil {
 			now, clockErr := game.ReadSpellClock(r.Context(), h.Pool, campaignID)

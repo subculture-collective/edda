@@ -51,8 +51,9 @@ the damage, rounding down. In one transaction it:
   damage, HP before and after, Prone before and after, the water check) and the
   session log.
 
-A replay returns the saved result without rolling. At 0 HP the narrative says
-that falling Unconscious and death saving throws require adjudication.
+A replay returns the saved result without rolling. A fall that drops the
+character to 0 HP makes it Unconscious, or kills it by massive damage, in the
+same transaction (see [zero-hp.md](zero-hp.md)).
 
 ## Where Prone lives
 

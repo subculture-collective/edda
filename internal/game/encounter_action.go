@@ -65,9 +65,17 @@ func PrepareStoredAction(ctx context.Context, database statedb.DBTX, campaign do
 // conditionReason names why the actor's conditions forbid intent; that reason
 // replaces any other. An active encounter owns the player's conditions;
 // otherwise they come from stats, strictly decoded so unknown state fails
-// closed. Only ending a turn, declining a Reaction, movement and a fall with
-// no Reaction stay open, and movement closes at Speed 0.
+// closed. Only ending a turn, declining a Reaction, movement, a fall with no
+// Reaction and a Death Saving Throw stay open, and movement closes at Speed 0.
+// A dead character has no choices.
 func conditionReason(stats []byte, encounter *combat.Encounter, intent ActionIntent) (string, error) {
+	saves, err := srd521.DecodeDeathSaves(stats)
+	if err != nil {
+		return "", err
+	}
+	if saves.Dead {
+		return "Your character is dead. No supported rule revives them.", nil
+	}
 	conditions, err := srd521.DecodeConditions(stats)
 	if encounter != nil && encounter.Status == "active" {
 		for _, a := range encounter.Actors {
@@ -80,7 +88,7 @@ func conditionReason(stats []byte, encounter *combat.Encounter, intent ActionInt
 		return "", err
 	}
 	switch intent.Kind {
-	case combat.EncounterEndTurn, combat.EncounterDecline:
+	case combat.EncounterEndTurn, combat.EncounterDecline, srd521.DeathSave:
 		return "", nil
 	case srd521.FallResolve:
 		if intent.Skill == "" {
@@ -108,6 +116,9 @@ func prepareStoredAction(ctx context.Context, database statedb.DBTX, campaign do
 	if intent.Kind == srd521.FallResolve {
 		return prepareFall(ctx, database, campaign, pc, intent)
 	}
+	if intent.Kind == srd521.DeathSave {
+		return prepareDeathSave(ctx, database, campaign, pc, intent)
+	}
 	if intent.Kind == combat.EncounterStand {
 		// Outside an active encounter Prone lives on the actor (#147).
 		encounter, err := ReadEncounter(ctx, database, campaign.ID)
@@ -122,7 +133,7 @@ func prepareStoredAction(ctx context.Context, database statedb.DBTX, campaign do
 		return prepareTravel(ctx, database, campaign, pc, intent, lock)
 	}
 	if intent.Kind == srd521.TacticalMind {
-		return prepareStoredActionBase(ctx, database, campaign, pc, intent, lock)
+		return prepareStoredActionBase(ctx, database, campaign, pc, intent, lock, false)
 	}
 	base := intent
 	switch intent.Kind {
@@ -136,7 +147,8 @@ func prepareStoredAction(ctx context.Context, database statedb.DBTX, campaign do
 	case srd521.ActionSurge, combat.EncounterEndTurn, combat.EncounterMove, combat.EncounterDash, combat.EncounterApproach, combat.EncounterRetreat, combat.EncounterStand, combat.EncounterDecline:
 		base = ActionIntent{ActorID: intent.ActorID, Kind: srd521.AbilityCheck, Ability: "strength"}
 	}
-	result, err := prepareStoredActionBase(ctx, database, campaign, pc, base, lock)
+	// A player at 0 HP can still end its encounter turn.
+	result, err := prepareStoredActionBase(ctx, database, campaign, pc, base, lock, intent.Kind == combat.EncounterEndTurn)
 	if err != nil {
 		return nil, err
 	}

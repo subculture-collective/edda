@@ -58,3 +58,40 @@ func TestEncounterConditionsGateTurnBudget(t *testing.T) {
 		t.Fatal("standing must not end Prone while Unconscious")
 	}
 }
+
+func TestEncounterPlayerAtZeroHP(t *testing.T) {
+	player, foe := uuid.New(), uuid.New()
+	distance, sight := 5, true
+	e := &Encounter{Status: "active", Round: 1, Space: &Space{DistanceFeet: &distance, LineOfSight: &sight, Cover: "none"}, Actors: []EncounterActor{{ID: player, Player: true, HP: 10, Conditions: srd521.Conditions{Prone: true, Unconscious: true}}, {ID: foe, HP: 10}}}
+	e.ResetBudget()
+	// A player at 0 HP stays in the encounter and can only end its turn.
+	e.SetHP(player, 0)
+	if e.Status != "active" || e.Budget.Movement != 0 {
+		t.Fatalf("player at 0 HP: %+v", e)
+	}
+	if err := e.Spend(player, srd521.MartialAttack); err == nil {
+		t.Fatal("attack at 0 HP accepted")
+	}
+	if err := e.Spend(player, EncounterEndTurn); err != nil {
+		t.Fatalf("end turn at 0 HP: %v", err)
+	}
+	// Within 5 feet: Advantage from both conditions and an automatic Critical Hit.
+	target, err := e.IncomingAttack()
+	if err != nil || len(target.Advantage) != 2 || len(target.Disadvantage) != 0 || target.CriticalOnHit == "" {
+		t.Fatalf("within 5 feet: %+v %v", target, err)
+	}
+	// Beyond 5 feet: Unconscious Advantage, Prone Disadvantage, no Critical Hit.
+	distance = 30
+	if target, _ := e.IncomingAttack(); len(target.Advantage) != 1 || len(target.Disadvantage) != 1 || target.CriticalOnHit != "" {
+		t.Fatalf("beyond 5 feet: %+v", target)
+	}
+	// Prone alone at range: Disadvantage only.
+	e.Actors[0].Unconscious = false
+	if target, _ := e.IncomingAttack(); len(target.Advantage) != 0 || len(target.Disadvantage) != 1 {
+		t.Fatalf("prone at range: %+v", target)
+	}
+	e.SetHP(foe, 0)
+	if e.Status != "completed" {
+		t.Fatal("NPC defeat did not complete")
+	}
+}

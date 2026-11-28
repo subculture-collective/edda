@@ -115,6 +115,8 @@ type App struct {
 	faithRequest *engine.PreparedAction
 	lightRequest *engine.PreparedAction
 	fallRequest  *engine.PreparedAction
+	// deathSaveRequest is the previewed Death Saving Throw awaiting confirmation.
+	deathSaveRequest *engine.PreparedAction
 
 	detectMagicRequest *engine.PreparedAction
 
@@ -162,7 +164,7 @@ func NewAppWithEngine(cfg config.Config, campaign statedb.Campaign, ctx context.
 	// Seed the narrative log with a welcome message for the selected campaign.
 	nv.AddEntry(narrative.Entry{
 		Kind: narrative.KindSystem,
-		Text: fmt.Sprintf("Welcome to Edda  ·  Provider: %s · /action-surge: preview level-two Fighter encounter feature · /easy-athletics: Edda Easy Athletics DC 10 fixture · /light: Light cantrip · /detect-magic: Magic Initiate Detect Magic · /fall: resolve a declared fall", cfg.LLM.Provider),
+		Text: fmt.Sprintf("Welcome to Edda  ·  Provider: %s · /action-surge: preview level-two Fighter encounter feature · /easy-athletics: Edda Easy Athletics DC 10 fixture · /light: Light cantrip · /detect-magic: Magic Initiate Detect Magic · /fall: resolve a declared fall · /death-save: Death Saving Throw at 0 HP", cfg.LLM.Provider),
 	})
 	if campaign.Name != "" {
 		nv.AddEntry(narrative.Entry{
@@ -227,6 +229,9 @@ func (a App) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		return a, cmd
 	}
 	if cmd, handled := a.updateFall(msg); handled {
+		return a, cmd
+	}
+	if cmd, handled := a.updateDeathSave(msg); handled {
 		return a, cmd
 	}
 	if cmd, handled := a.updateDetectMagic(msg); handled {

@@ -7,6 +7,7 @@ import { EffectReceipt } from '../character/EffectReceipt';
 import { SpellReceipt } from '../character/SpellReceipt';
 import { LightReceipt } from '../character/LightReceipt';
 import { FallReceipt } from '../character/FallReceipt';
+import { ZeroHPReceipt } from '../character/ZeroHPReceipt';
 import { HealingReceipt } from '../character/HealingReceipt';
 import { AttackReceipt } from '../character/AttackReceipt';
 import { CheckReceipt } from '../character/CheckReceipt';
@@ -127,6 +128,7 @@ function ResolutionEventBadge({ event }: { readonly event: ResolutionEvent }) {
   if (event.type === 'srd_spell' && event.details.receipt) return <SpellReceipt receipt={event.details.receipt as import('../../api/types').SpellReceipt} />;
   if (event.type === 'srd_light' && event.details.receipt) return <LightReceipt receipt={event.details.receipt as import('../../api/types').LightReceipt} />;
   if (event.type === 'srd_fall' && event.details.receipt) return <FallReceipt receipt={event.details.receipt as import('../../api/types').FallReceipt} />;
+  if (event.type === 'srd_death_save' && event.details.receipt) return <ZeroHPReceipt receipt={event.details.receipt as import('../../api/types').ZeroHPReceipt} />;
   if (event.type === 'srd_equipment' && event.details.receipt) return <EquipmentReceipt receipt={event.details.receipt as import('../../api/types').EquipmentReceipt} />;
   if (event.type === 'srd_consumable' && event.details.receipt) return <HealingReceipt receipt={event.details.receipt as import('../../api/types').HealingReceipt} />;
   if (event.type === 'srd_attack' && event.details.receipt) return <AttackReceipt receipt={event.details.receipt as import('../../api/types').AttackReceipt} />;

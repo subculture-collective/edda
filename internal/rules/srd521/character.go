@@ -84,6 +84,8 @@ type CharacterSheet struct {
 
 	// Fall is the server-declared fall waiting to be resolved (game.PendingFall).
 	Fall *PendingFall `json:"fall,omitempty"`
+	// DeathSaves is the 0-HP state, set while the character has 0 HP or is dead.
+	DeathSaves *DeathSaves `json:"death_saves,omitempty"`
 }
 
 var abilityNames = []string{"strength", "dexterity", "constitution", "intelligence", "wisdom", "charisma"}

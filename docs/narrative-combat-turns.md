@@ -25,8 +25,10 @@ remaining action, bonus action and movement. Longsword Attack consumes one actio
 Potion of Healing self-use consumes one bonus action and one owned potion. Dash
 consumes an action and adds 30 feet. Spend 5 feet consumes movement only; it does
 not claim to change a scene position or target range. Ending a turn resets the
-next actor's budget; wrapping initiative increments the round. At zero HP the
-fixture completes, without claiming death-save or encounter reward support.
+next actor's budget; wrapping initiative increments the round. The fixture
+completes when the NPC reaches 0 HP or the player dies. A player at 0 HP stays
+in it, Unconscious, and makes Death Saving Throws (see [zero-hp.md](zero-hp.md));
+encounter rewards are not supported.
 
 Every confirmation reloads the actor, inventory, legal targets and latest saved
 encounter under the campaign turn exclusion. Its fingerprint invalidates stale

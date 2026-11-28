@@ -349,12 +349,20 @@ func TestIntegrationBrownBearMultiattack(t *testing.T) {
 	}
 	f.replay(request, result)
 	// Against the Prone target each attack has Advantage. The Bite's 11 damage
-	// defeats the player, so the Claw is never rolled.
+	// drops the player to 0 HP and Unconscious; the Claw then attacks the
+	// Unconscious player within 5 feet, so its hit is a Critical Hit and two
+	// Death Saving Throw failures. The player's turn starts with a save: 10.
 	calls := f.dice.calls
-	result = f.confirm(f.request(f.prepare(combat.EncounterEndTurn, ""), uuid.Nil), 15, 15, 7, 15, 1)
+	result = f.confirm(f.request(f.prepare(combat.EncounterEndTurn, ""), uuid.Nil), 15, 15, 7, 15, 15, 1, 1, 9)
 	r = npcReceipts(t, result)
-	if len(r) != 1 || r[0].Weapon != "Bite" || r[0].Damage != 11 || len(r[0].D20s) != 2 || f.dice.calls != calls+3 || f.hp() != 0 || f.encounter().Status != "completed" {
+	if len(r) != 2 || r[0].Weapon != "Bite" || r[0].Damage != 11 || len(r[0].D20s) != 2 || r[0].ZeroHP == nil || r[0].ZeroHP.Event != srd521.ZeroHPDropped || f.dice.calls != calls+8 || f.hp() != 0 {
 		t.Fatalf("receipts=%+v hp=%d calls=%d", r, f.hp(), f.dice.calls-calls)
+	}
+	if r[1].Weapon != "Claw" || r[1].Outcome != "critical-hit" || r[1].AutoCritical == "" || len(r[1].Advantage) != 2 || r[1].ZeroHP == nil || r[1].ZeroHP.Outcome != "two-failures" {
+		t.Fatalf("claw=%+v zero=%+v", r[1], r[1].ZeroHP)
+	}
+	if e := f.encounter(); e.Status != "active" || !e.Active().Player || !strings.Contains(result.Narrative, "Death Saving Throw: d20 10, success (1 successes, 2 failures).") {
+		t.Fatalf("encounter=%+v narrative=%s", e, result.Narrative)
 	}
 }
 

@@ -288,15 +288,22 @@ func TestIntegrationDeclaredFall(t *testing.T) {
 	}
 	_, result, err = f.confirmWith(p, ones...)
 	f.must(err)
-	if r := fallReceipt(t, result); r.DiceCount != 20 || len(r.Dice) != 20 || r.Damage != 20 || r.HPAfter != 0 || !strings.Contains(result.Narrative, "require adjudication") {
+	// 20 damage at 12 HP leaves 8, under the maximum: Unconscious, not dead.
+	if r := fallReceipt(t, result); r.DiceCount != 20 || len(r.Dice) != 20 || r.Damage != 20 || r.HPAfter != 0 || r.ZeroHP == nil || r.ZeroHP.Event != srd521.ZeroHPDropped || !strings.Contains(result.Narrative, "Unconscious") {
 		t.Fatalf("max receipt: %+v %s", r, result.Narrative)
 	}
 
-	// A later encounter takes the saved Prone onto the player actor.
+	// A later encounter takes the saved Prone onto the player actor. The
+	// character is restored outside the supported rules: HP, consciousness
+	// and the Longsword it dropped.
 	f.setHP(12)
 	if _, _, prone := f.state(); !prone {
 		t.Fatal("max fall did not leave Prone")
 	}
+	_, err = testPool.Exec(ctx, `UPDATE player_characters SET stats=jsonb_set(stats,'{srd521_conditions}','{"prone":true}') WHERE id=$1`, f.actor)
+	f.must(err)
+	_, err = testPool.Exec(ctx, `UPDATE items SET equipped=true WHERE id=$1`, f.weapon)
+	f.must(err)
 	_, _, err = f.confirmWith(f.prepare(combat.EncounterStart), 15, 5)
 	f.must(err)
 	encounter, err := game.ReadEncounter(ctx, testPool, f.campaign)

@@ -2,6 +2,7 @@ import type { ActionPreview, CharacterSheetProjection, CheckReceipt as Receipt, 
 import { formatCampaignSeconds } from '../../lib/campaignTime';
 import { ActionPreviewPanel } from './ActionPreviewPanel';
 import { CheckReceipt } from './CheckReceipt';
+import { deathSaveText } from './ZeroHPReceipt';
 
 export function RulesSheet({ sheet, receipts = [], campaignId, actorId, initialPreview }: { readonly campaignId?: string; readonly actorId?: string; readonly sheet: CharacterSheetProjection; readonly receipts?: readonly Receipt[]; readonly initialPreview?: ActionPreview }) {
   return <section aria-label="SRD character sheet" className="space-y-5 text-champagne">
@@ -24,6 +25,11 @@ export function RulesSheet({ sheet, receipts = [], campaignId, actorId, initialP
       <RuleValue label={`${name} modifier`} value={ability.modifier} />
       <RuleValue label={`${name} save`} value={sheet.saves[name]} />
     </div>)}</dl>
+    {sheet.death_saves && <section aria-label="0 HP state">
+      <h3 className="font-heading text-ruby">{sheet.death_saves.dead ? 'Dead' : 'At 0 HP: Unconscious'}</h3>
+      <p>{deathSaveText(sheet.death_saves)}</p>
+      {!sheet.death_saves.dead && <p className="text-sm text-pewter">In an encounter the server rolls the Death Saving Throw at the start of your turn. Outside one, roll it from the action menu; each save is one 6-second round.</p>}
+    </section>}
     {sheet.fall && <section aria-label="Declared fall">
       <h3 className="font-heading text-gold">Declared fall</h3>
       <p>{sheet.fall.height_feet === undefined ? 'A declared fall is waiting. Preview it to see why it requires adjudication.' : `A fall of ${sheet.fall.height_feet} feet onto ${sheet.fall.landing === 'water' ? 'water' : 'solid ground'} is waiting.`}</p>

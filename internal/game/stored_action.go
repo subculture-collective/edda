@@ -52,7 +52,7 @@ type StoredAction struct {
 // PrepareStoredAction is shared by API preparation and transactional confirmation.
 // The narrow fixture is a one-handed longsword against a colocated, previously
 // encountered unarmored target explicitly assigned to this actor at five feet.
-func prepareStoredActionBase(ctx context.Context, database statedb.DBTX, campaign domain.Campaign, pc domain.PlayerCharacter, intent ActionIntent, lock bool) (*StoredAction, error) {
+func prepareStoredActionBase(ctx context.Context, database statedb.DBTX, campaign domain.Campaign, pc domain.PlayerCharacter, intent ActionIntent, lock, zeroHP bool) (*StoredAction, error) {
 	if intent.Kind == srd521.TacticalMind {
 		return prepareTacticalMind(ctx, database, campaign, pc, intent, lock)
 	}
@@ -78,7 +78,7 @@ func prepareStoredActionBase(ctx context.Context, database statedb.DBTX, campaig
 	if intent.Kind == srd521.MartialAttack {
 		baseIntent = ActionIntent{ActorID: intent.ActorID, Kind: srd521.AbilityCheck, Ability: "strength"}
 	}
-	preview, err := PrepareCharacterAction(ctx, campaign, pc, baseIntent)
+	preview, err := prepareCharacterAction(ctx, campaign, pc, baseIntent, zeroHP)
 	if err != nil {
 		return nil, err
 	}
