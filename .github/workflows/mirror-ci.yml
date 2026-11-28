@@ -70,6 +70,13 @@ jobs:
           cache: true
           cache-dependency-path: go.sum
 
+      - name: Check Go formatting
+        run: |
+          unformatted=$(gofmt -l $(git ls-files '*.go'))
+          if [ -n "$unformatted" ]; then
+            echo "::error::gofmt needed on:"; echo "$unformatted"; exit 1
+          fi
+
       # Same pinned sqlc as `task generate`. Intent-to-add makes the diff also
       # catch a generated file that was never committed.
       - name: Check that sqlc output is current

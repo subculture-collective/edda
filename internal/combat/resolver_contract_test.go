@@ -476,10 +476,10 @@ func contractNPC(t *testing.T, name string, hp, maxHP int) Combatant {
 func contractAttackAction(t *testing.T, combatantID uuid.UUID, targetID *uuid.UUID) PlayerAction {
 	t.Helper()
 	details, err := json.Marshal(map[string]any{
-		"skill":       "strength",
-		"difficulty":  10,
+		"skill":         "strength",
+		"difficulty":    10,
 		"damage_on_hit": 5,
-		"damage_type": "slashing",
+		"damage_type":   "slashing",
 	})
 	if err != nil {
 		t.Fatalf("marshal action details: %v", err)

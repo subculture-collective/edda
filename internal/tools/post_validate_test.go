@@ -11,12 +11,12 @@ import (
 // --- stub store ---
 
 type stubPostValidationStore struct {
-	npcID      *uuid.UUID
-	npcErr     error
-	locID      *uuid.UUID
-	locErr     error
-	entityOK   bool
-	entityErr  error
+	npcID     *uuid.UUID
+	npcErr    error
+	locID     *uuid.UUID
+	locErr    error
+	entityOK  bool
+	entityErr error
 }
 
 func (s *stubPostValidationStore) FindNPCByNameAndLocation(_ context.Context, _ uuid.UUID, _ string, _ *uuid.UUID) (*uuid.UUID, error) {

@@ -9,8 +9,8 @@ import (
 	"time"
 )
 
-// Run with: BROKER_SMOKE=1 BROKER_ENDPOINT=http://10.0.0.50:11434 BROKER_APIKEY=... \
-//   go test -tags=smoke -run TestBrokerSmoke ./internal/llm -v
+//	Run with: BROKER_SMOKE=1 BROKER_ENDPOINT=http://10.0.0.50:11434 BROKER_APIKEY=... \
+//	  go test -tags=smoke -run TestBrokerSmoke ./internal/llm -v
 func TestBrokerSmoke(t *testing.T) {
 	if os.Getenv("BROKER_SMOKE") != "1" {
 		t.Skip("set BROKER_SMOKE=1 to run live broker smoke")

@@ -215,7 +215,6 @@ func TestSearchSimilar_EmptyResults(t *testing.T) {
 	}
 }
 
-
 func TestSearchWithFilters_AllFilters(t *testing.T) {
 	campID := uuid.New()
 	id1 := uuid.New()

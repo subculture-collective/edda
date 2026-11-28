@@ -408,7 +408,7 @@ func TestCreateLocationMovePlayerHereFailsWhenMovementFails(t *testing.T) {
 		locationsByID: map[[16]byte]statedb.Location{
 			dbutil.ToPgtype(currentLocationID).Bytes: {ID: dbutil.ToPgtype(currentLocationID), CampaignID: dbutil.ToPgtype(campaignID), Name: "Current"},
 		},
-		createLocationRes: statedb.Location{ID: dbutil.ToPgtype(newLocationID), CampaignID: dbutil.ToPgtype(campaignID), Name: "Daylight Maintenance Ledge", Description: pgtype.Text{String: "A ledge", Valid: true}, Region: pgtype.Text{String: "Upper Drainage", Valid: true}, LocationType: pgtype.Text{String: "ledge", Valid: true}},
+		createLocationRes:  statedb.Location{ID: dbutil.ToPgtype(newLocationID), CampaignID: dbutil.ToPgtype(campaignID), Name: "Daylight Maintenance Ledge", Description: pgtype.Text{String: "A ledge", Valid: true}, Region: pgtype.Text{String: "Upper Drainage", Valid: true}, LocationType: pgtype.Text{String: "ledge", Valid: true}},
 		updatePlayerLocErr: errors.New("write failed"),
 	}
 

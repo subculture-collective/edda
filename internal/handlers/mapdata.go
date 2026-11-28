@@ -6,8 +6,8 @@ import (
 	"github.com/google/uuid"
 
 	"git.subcult.tv/subculture-collective/edda/internal/dbutil"
-	"git.subcult.tv/subculture-collective/edda/pkg/api"
 	statedb "git.subcult.tv/subculture-collective/edda/internal/state/sqlc"
+	"git.subcult.tv/subculture-collective/edda/pkg/api"
 )
 
 // GetMapData returns player-known/visited locations with connections.

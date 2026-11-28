@@ -51,7 +51,9 @@ func (s *stubLanguageStore) CultureBelongsToCampaign(_ context.Context, cultureI
 	return camp == campaignID, nil
 }
 
-func (s *stubLanguageStore) SetLanguagePlayerKnown(_ context.Context, _ pgtype.UUID) error { return nil }
+func (s *stubLanguageStore) SetLanguagePlayerKnown(_ context.Context, _ pgtype.UUID) error {
+	return nil
+}
 
 type stubMemoryStore struct {
 	lastParams CreateMemoryParams

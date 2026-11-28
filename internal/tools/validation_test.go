@@ -82,9 +82,9 @@ func (m *mockLookup) NPCByName(name string) (uuid.UUID, bool) {
 	return id, ok
 }
 func (m *mockLookup) NPCExists(id uuid.UUID) bool      { return m.npcIDs[id] }
-func (m *mockLookup) LocationExists(id uuid.UUID) bool  { return m.locationIDs[id] }
-func (m *mockLookup) QuestExists(id uuid.UUID) bool     { return m.questIDs[id] }
-func (m *mockLookup) FactionExists(id uuid.UUID) bool   { return m.factionIDs[id] }
+func (m *mockLookup) LocationExists(id uuid.UUID) bool { return m.locationIDs[id] }
+func (m *mockLookup) QuestExists(id uuid.UUID) bool    { return m.questIDs[id] }
+func (m *mockLookup) FactionExists(id uuid.UUID) bool  { return m.factionIDs[id] }
 
 func emptyLookup() *mockLookup {
 	return &mockLookup{
@@ -735,8 +735,8 @@ func TestPosthoc_CombinedFixes(t *testing.T) {
 		Arguments: map[string]any{
 			"name":        "Dragon",
 			"campaign_id": uuid.New().String(),
-			"disposition": float64(999),  // will be clamped to 100
-			"hp":          float64(-10),  // will be clamped to 0
+			"disposition": float64(999),   // will be clamped to 100
+			"hp":          float64(-10),   // will be clamped to 0
 			"location_id": locID.String(), // valid
 		},
 	}
@@ -779,7 +779,7 @@ func TestPosthoc_PatchedCallReturnedOnRefIntegrityError(t *testing.T) {
 		Arguments: map[string]any{
 			"name":        "Guard",
 			"campaign_id": uuid.New().String(),
-			"disposition": float64(200),  // will be clamped to 100
+			"disposition": float64(200),   // will be clamped to 100
 			"location_id": locID.String(), // unknown → integrity error
 		},
 	}

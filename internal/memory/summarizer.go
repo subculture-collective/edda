@@ -11,7 +11,6 @@ import (
 	"git.subcult.tv/subculture-collective/edda/internal/prompt"
 )
 
-
 // SummaryResult holds the structured output of a turn summarization.
 type SummaryResult struct {
 	// Summary is a 1-3 sentence prose summary of what happened in the turn.
@@ -84,4 +83,3 @@ func (s *Summarizer) SummarizeTurn(ctx context.Context, playerInput string, llmR
 
 	return &result, nil
 }
-

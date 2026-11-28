@@ -54,7 +54,7 @@ func TestCharacterProfile_Complete(t *testing.T) {
 			name: "all fields populated",
 			profile: CharacterProfile{
 				Name: "Kael", Concept: "elven ranger",
-				Background: "raised in the ancient forest of Thal'rin",
+				Background:  "raised in the ancient forest of Thal'rin",
 				Personality: "stoic and observant",
 				Motivations: []string{"protect the forest", "avenge fallen kin"},
 				Strengths:   []string{"archery", "tracking"},

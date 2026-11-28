@@ -12,13 +12,13 @@ import (
 )
 
 type stubAddExperienceStore struct {
-	player             *domain.PlayerCharacter
-	getErr             error
-	updateErr          error
-	lastPlayerID       uuid.UUID
-	lastExperience     int
-	lastLevel          int
-	updateCallCount    int
+	player          *domain.PlayerCharacter
+	getErr          error
+	updateErr       error
+	lastPlayerID    uuid.UUID
+	lastExperience  int
+	lastLevel       int
+	updateCallCount int
 }
 
 func (s *stubAddExperienceStore) GetPlayerCharacterByID(_ context.Context, _ uuid.UUID) (*domain.PlayerCharacter, error) {
@@ -179,7 +179,7 @@ func TestAddExperienceHandleValidationAndStoreErrors(t *testing.T) {
 
 	t.Run("update experience wrapped error", func(t *testing.T) {
 		h := NewAddExperienceHandler(&stubAddExperienceStore{
-			player: &domain.PlayerCharacter{ID: playerID, Experience: 10, Level: 1},
+			player:    &domain.PlayerCharacter{ID: playerID, Experience: 10, Level: 1},
 			updateErr: errors.New("db write failed"),
 		})
 		_, err := h.Handle(ctx, map[string]any{

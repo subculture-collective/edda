@@ -70,8 +70,8 @@ func (m *InterviewModel) SetSize(width, height int) {
 	m.width = width
 	m.height = height
 
-	const borderPad = 4  // container border + padding
-	const inputArea = 2  // spacer + input line
+	const borderPad = 4 // container border + padding
+	const inputArea = 2 // spacer + input line
 	vpWidth := width - borderPad
 	vpHeight := height - borderPad - inputArea
 	if vpWidth < 0 {

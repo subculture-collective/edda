@@ -12,6 +12,6 @@ func GameStateFromFull(gs *game.GameState) *GameState {
 		CurrentLocation: gs.CurrentLocation,
 		PlayerCharacter: gs.Player,
 		NPCsPresent:     gs.NearbyNPCs,
-		ActiveQuests:     gs.ActiveQuests,
+		ActiveQuests:    gs.ActiveQuests,
 	}
 }

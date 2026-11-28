@@ -34,8 +34,8 @@ type submittedJob struct {
 }
 
 type stubSubmitter struct {
-	jobs     []submittedJob
-	fullAt   int // return false after this many submits; -1 = never full
+	jobs   []submittedJob
+	fullAt int // return false after this many submits; -1 = never full
 }
 
 func (s *stubSubmitter) Submit(job EmbedJob) bool {
@@ -47,11 +47,11 @@ func (s *stubSubmitter) Submit(job EmbedJob) bool {
 }
 
 type stubAgingStore struct {
-	turns       []AgingTurn
-	listErr     error
-	markErrs    map[uuid.UUID]error
-	markedIDs   []uuid.UUID
-	listCalls   int
+	turns     []AgingTurn
+	listErr   error
+	markErrs  map[uuid.UUID]error
+	markedIDs []uuid.UUID
+	listCalls int
 }
 
 func (s *stubAgingStore) ListUnsummarizedTurns(_ context.Context, _ uuid.UUID, _ int) ([]AgingTurn, error) {

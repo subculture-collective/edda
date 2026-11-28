@@ -27,7 +27,7 @@ type MemoryResult struct {
 	CampaignID uuid.UUID
 	Content    string
 	MemoryType string
-	Distance   float64   // cosine distance (lower = more similar)
+	Distance   float64 // cosine distance (lower = more similar)
 	CreatedAt  time.Time
 }
 
@@ -108,7 +108,6 @@ func (s *Searcher) SearchSimilar(ctx context.Context, campaignID uuid.UUID, quer
 	}
 	return results, nil
 }
-
 
 // SearchWithFilters returns memories matching the given filters, ordered by
 // ascending cosine distance. Requires a non-nil filteredStore.
