@@ -34,6 +34,10 @@ func TestConditionReason(t *testing.T) {
 		"completed encounter uses stats":  {saved, encounter(srd521.Conditions{}, "completed"), ActionIntent{Kind: srd521.AbilityCheck}, "Unconscious"},
 		"invalid encounter state":         {[]byte(`{}`), encounter(srd521.Conditions{Unconscious: true}, "active"), ActionIntent{Kind: combat.EncounterEndTurn}, "adjudication"},
 		"unknown saved state":             {[]byte(`{"srd521_conditions":{"stunned":true}}`), nil, ActionIntent{Kind: combat.EncounterEndTurn}, "adjudication"},
+		"unconscious death save":          {saved, nil, ActionIntent{Kind: srd521.DeathSave}, ""},
+		"dead end turn":                   {[]byte(`{"srd521_death_saves":{"failures":3,"dead":true}}`), nil, ActionIntent{Kind: combat.EncounterEndTurn}, "dead"},
+		"dead death save":                 {[]byte(`{"srd521_death_saves":{"dead":true}}`), nil, ActionIntent{Kind: srd521.DeathSave}, "dead"},
+		"unknown death save state":        {[]byte(`{"srd521_death_saves":{"failures":4}}`), nil, ActionIntent{Kind: combat.EncounterEndTurn}, "adjudication"},
 	} {
 		reason, err := conditionReason(tc.stats, tc.encounter, tc.intent)
 		if err != nil {

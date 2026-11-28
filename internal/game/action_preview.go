@@ -61,6 +61,13 @@ type ActionPreview struct {
 // ExpectedRevision fingerprints only these inputs; confirmation must reload them
 // and additionally adjudicate scene, costs and targets before committing (#64).
 func PrepareCharacterAction(ctx context.Context, campaign domain.Campaign, pc domain.PlayerCharacter, intent ActionIntent) (*ActionPreview, error) {
+	return prepareCharacterAction(ctx, campaign, pc, intent, false)
+}
+
+// prepareCharacterAction is PrepareCharacterAction; zeroHP admits a character
+// at 0 HP, for the few choices it still has (ending its turn, a Death Saving
+// Throw). The caller's condition gate decides those choices.
+func prepareCharacterAction(ctx context.Context, campaign domain.Campaign, pc domain.PlayerCharacter, intent ActionIntent, zeroHP bool) (*ActionPreview, error) {
 	if err := ctx.Err(); err != nil {
 		return nil, err
 	}
@@ -81,7 +88,7 @@ func PrepareCharacterAction(ctx context.Context, campaign domain.Campaign, pc do
 	if campaign.RulesVersion != domain.RulesVersionSRD521 {
 		return unavailable("Action previews require an SRD 5.2.1 character.")
 	}
-	if campaign.Status != domain.CampaignStatusActive || pc.Status != "active" || pc.HP <= 0 {
+	if campaign.Status != domain.CampaignStatusActive || pc.Status != "active" || pc.HP < 0 || (pc.HP == 0 && !zeroHP) {
 		return unavailable("This character cannot prepare actions in its current state.")
 	}
 	sheet, err := srd521.Project(pc.Stats, pc.Level, pc.HP, pc.MaxHP, pc.Experience)

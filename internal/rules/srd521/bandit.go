@@ -55,6 +55,12 @@ func (p BanditProfile) Record() (Monster, MonsterAction, error) {
 
 // ResolveBanditAttack rolls one supported weapon attack after geometry validation.
 func ResolveBanditAttack(p BanditProfile, armorClass int, dice Dice) (*AttackReceipt, error) {
+	return ResolveBanditAttackAgainst(p, armorClass, IncomingAttack{}, dice)
+}
+
+// ResolveBanditAttackAgainst is ResolveBanditAttack against a target whose
+// durable facts, such as Prone or Unconscious, change the attack.
+func ResolveBanditAttackAgainst(p BanditProfile, armorClass int, target IncomingAttack, dice Dice) (*AttackReceipt, error) {
 	m, a, err := p.Record()
 	if err != nil {
 		return nil, err
@@ -63,9 +69,10 @@ func ResolveBanditAttack(p BanditProfile, armorClass int, dice Dice) (*AttackRec
 		return nil, fmt.Errorf("unsupported attack")
 	}
 	attack := a.Attack
-	r, err := resolveWeaponAttack("srd-5.2.1", a.Name, derived(term("Bandit weapon attack", attack.Bonus, "monsters/bandit")), attack.Damage.Modifier, attack.Damage.Sides, attack.DamageType, armorClass, dice)
-	if err == nil {
-		r.SourceIDs = []string{m.ID, prefix + "d20-tests/attack-rolls", prefix + "damage/critical-hits"}
+	r, err := resolveAttackRoll("srd-5.2.1", a.Name, derived(term("Bandit weapon attack", attack.Bonus, "monsters/bandit")), attack.Damage.Modifier, attack.Damage.Sides, attack.DamageType, armorClass, target, dice)
+	if err != nil {
+		return nil, err
 	}
-	return r, err
+	r.SourceIDs = targetSources(r, m.ID)
+	return r, nil
 }

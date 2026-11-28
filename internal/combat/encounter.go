@@ -98,7 +98,8 @@ func (e *Encounter) Active() *EncounterActor { return &e.Actors[e.Turn] }
 // Spend validates and consumes one supported resource. A move spends five feet;
 // scene/range adjudication remains a separate boundary.
 func (e *Encounter) Spend(actor uuid.UUID, kind string) error {
-	if e.Status != "active" || e.Active().ID != actor || e.Active().HP <= 0 {
+	// A player at 0 HP stays in the encounter but can only end its turn.
+	if e.Status != "active" || e.Active().ID != actor || (e.Active().HP <= 0 && kind != EncounterEndTurn) {
 		return fmt.Errorf("not this actor's turn")
 	}
 	move := kind == EncounterMove || kind == EncounterApproach || kind == EncounterRetreat || kind == EncounterStand
@@ -194,13 +195,21 @@ func (e *Encounter) Advance() {
 		e.Turn = 0
 		e.Round++
 	}
-	e.Budget = TurnBudget{Action: true, BonusAction: true, Movement: actorSpeed(*e.Active())}
+	e.ResetBudget()
 	if e.Active().Player && e.Reaction != nil {
 		e.Reaction.Available = true
 	}
 }
 
-// SetHP synchronizes a committed actor change and finishes a defeated fixture.
+// ResetBudget gives the active actor a fresh turn budget. A player who
+// regains Hit Points at the start of its turn gets its Speed back this way.
+func (e *Encounter) ResetBudget() {
+	e.Budget = TurnBudget{Action: true, BonusAction: true, Movement: actorSpeed(*e.Active())}
+}
+
+// SetHP synchronizes a committed actor change and finishes the fixture when
+// the NPC is defeated. A player at 0 HP stays in it, Unconscious; the engine
+// completes the encounter when the player dies.
 func (e *Encounter) SetHP(id uuid.UUID, hp int) {
 	for i := range e.Actors {
 		if e.Actors[i].ID == id {
@@ -208,10 +217,40 @@ func (e *Encounter) SetHP(id uuid.UUID, hp int) {
 		}
 	}
 	for _, a := range e.Actors {
-		if a.HP <= 0 {
+		if a.HP <= 0 && !a.Player {
 			e.Status = "completed"
 		}
 	}
+}
+
+// IncomingAttack names the player's durable facts that change an NPC attack
+// made from the declared distance: Advantage against an Unconscious target,
+// Advantage against a Prone target within 5 feet and Disadvantage beyond it,
+// and a Critical Hit on any hit against an Unconscious target within 5 feet.
+func (e *Encounter) IncomingAttack() (srd521.IncomingAttack, error) {
+	var target srd521.IncomingAttack
+	if e.Space == nil || e.Space.DistanceFeet == nil {
+		return target, fmt.Errorf("Clarify spatial facts before attacking.")
+	}
+	within := *e.Space.DistanceFeet <= 5
+	for _, a := range e.Actors {
+		if !a.Player {
+			continue
+		}
+		if a.Unconscious {
+			target.Advantage = append(target.Advantage, "target is Unconscious")
+			if within {
+				target.CriticalOnHit = "target is Unconscious within 5 feet"
+			}
+		}
+		switch {
+		case a.Prone && within:
+			target.Advantage = append(target.Advantage, "target is Prone within 5 feet")
+		case a.Prone:
+			target.Disadvantage = append(target.Disadvantage, "target is Prone beyond 5 feet")
+		}
+	}
+	return target, nil
 }
 
 // SpendSpell enforces the SRD one-spell-slot-per-turn limit independently of

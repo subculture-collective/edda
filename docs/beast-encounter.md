@@ -64,8 +64,8 @@ every record.
   encounter continues. The End turn preview names the approach.
 - Multiattack spends one Action. Ruling: the Bite resolves before the Claw.
   Reach, sight, size and revision are checked before any roll, so an invalid
-  target rolls neither attack. If the Bite reduces the player to 0 HP, the
-  Claw is not rolled.
+  target rolls neither attack. If the Bite drops the player to 0 HP, the Claw
+  still attacks the now Unconscious player (see [zero-hp.md](zero-hp.md)).
 
 ## Persistence
 

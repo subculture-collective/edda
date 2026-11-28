@@ -1,6 +1,7 @@
 import type { FallReceipt as Receipt } from '../../api/types';
 import { CheckReceipt } from './CheckReceipt';
 import { EffectReceipt } from './EffectReceipt';
+import { ZeroHPReceipt } from './ZeroHPReceipt';
 
 const proneText = (prone: boolean) => prone ? 'Prone' : 'not Prone';
 
@@ -11,8 +12,8 @@ export function FallReceipt({ receipt }: { readonly receipt: Receipt }) {
     {receipt.water_check && <CheckReceipt receipt={receipt.water_check} />}
     <p>{receipt.dice_count ? `${receipt.dice_count}d6: ${receipt.dice.join(', ')} = ${receipt.rolled}${receipt.halved ? `, halved to ${receipt.damage}` : ''}.` : 'Under 10 feet: no dice.'}</p>
     <p>{receipt.damage} {receipt.damage_type} damage. HP {receipt.hp_before} → {receipt.hp_after}. Condition: {proneText(receipt.prone_before)} → {proneText(receipt.prone_after)}.</p>
-    {receipt.hp_after === 0 && <p>At 0 HP, falling Unconscious and death saving throws require adjudication.</p>}
     {receipt.concentration && <EffectReceipt receipt={receipt.concentration} />}
+    {receipt.zero_hp && <ZeroHPReceipt receipt={receipt.zero_hp} />}
     <details><summary className="min-h-11 cursor-pointer py-2">Inspect fall sources</summary>{receipt.source_ids.map((id, index) => <p key={index} className="break-all text-pewter">{id}</p>)}</details>
   </section>;
 }

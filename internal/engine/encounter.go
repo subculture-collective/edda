@@ -68,9 +68,7 @@ func resolveEncounterNPC(ctx context.Context, tx pgx.Tx, campaignID uuid.UUID, e
 			player = &encounter.Actors[i]
 		}
 	}
-	// Attacks against an Unconscious player have Advantage and crit within 5
-	// feet; the NPC attack resolvers do not apply that yet, so the turn pauses.
-	if player == nil || player.Unconscious {
+	if player == nil {
 		return nil, nil, ErrActionRefresh
 	}
 	ac := sheet.Defenses["armor-class"].Value + encounter.Space.CoverBonus()
@@ -90,40 +88,42 @@ func resolveEncounterNPC(ctx context.Context, tx pgx.Tx, campaignID uuid.UUID, e
 		if encounter.Status != "active" {
 			break
 		}
+		// The player's conditions are read again for each attack: an earlier
+		// Multiattack hit may have dropped it to 0 HP and Unconscious.
+		target, err := encounter.IncomingAttack()
+		if err != nil {
+			return nil, nil, ErrActionRefresh
+		}
 		var attack *srd521.AttackReceipt
-		var err error
 		switch {
 		case encounter.Bandit != nil:
-			attack, err = srd521.ResolveBanditAttack(*bandit, ac, dice)
+			attack, err = srd521.ResolveBanditAttackAgainst(*bandit, ac, target, dice)
 		case encounter.Beast != nil:
 			var advantage []string
 			advantage, err = encounter.BeastAdvantage()
 			if err != nil {
 				return nil, nil, ErrActionRefresh
 			}
-			attack, err = srd521.ResolveBeastAttack(*encounter.Beast, srd521.BeastAttack{ActionID: id, ArmorClass: ac, Advantage: advantage, TargetProne: player.Prone}, dice)
+			attack, err = srd521.ResolveBeastAttack(*encounter.Beast, srd521.BeastAttack{ActionID: id, ArmorClass: ac, Advantage: advantage, TargetProne: player.Prone, CriticalOnHit: target.CriticalOnHit}, dice)
 		default:
-			attack, err = srd521.ResolveFixtureUnarmed(ac, dice)
+			attack, err = srd521.ResolveFixtureUnarmedAgainst(ac, target, dice)
 		}
 		if err != nil {
 			return nil, nil, err
 		}
 		attack.TargetID = player.ID.String()
 		attack.Target = player.Name
-		hp := max(0, player.HP-attack.Damage)
-		if _, err := tx.Exec(ctx, `UPDATE player_characters SET hp=$1,updated_at=clock_timestamp() WHERE id=$2 AND campaign_id=$3`, hp, dbutil.ToPgtype(player.ID), dbutil.ToPgtype(campaignID)); err != nil {
-			return nil, nil, err
-		}
-		// Each NPC attack is one damage source, so Multiattack saves per attack.
-		concentration, err := ApplyConcentrationEvents(ctx, tx, campaignID, player.ID, player.HP, []srd521.ConcentrationEvent{{Kind: srd521.ConcentrationDamageSource, SourceID: fmt.Sprintf("npc-attack-%d", i), Damage: attack.Damage, HPAfter: hp}}, dice)
-		if err != nil {
-			return nil, nil, err
-		}
-		effects = append(effects, concentration...)
 		if attack.Condition == "prone-applied" {
 			player.Prone = true
 		}
-		encounter.SetHP(player.ID, hp)
+		// Each NPC attack is one damage source, so Multiattack saves per attack
+		// and each hit at 0 HP is its own Death Saving Throw failure.
+		damage, err := damagePlayer(ctx, tx, campaignID, player.ID, attack.Damage, attack.Outcome == "critical-hit", fmt.Sprintf("npc-attack-%d", i), encounter, dice)
+		if err != nil {
+			return nil, nil, err
+		}
+		effects = append(effects, damage.Concentration...)
+		attack.ZeroHP = damage.ZeroHP
 		receipts = append(receipts, attack)
 	}
 	if encounter.Status == "active" && encounter.NPCTactic == "withdraw" && encounter.Space.Cover == "none" && *encounter.Space.DistanceFeet == 5 {

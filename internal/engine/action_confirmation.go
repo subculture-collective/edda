@@ -153,9 +153,9 @@ func (e *Engine) ConfirmAction(ctx context.Context, campaignID uuid.UUID, reques
 		}
 
 	}
-	initialRound := 0
+	initialRound, initialTurn := 0, 0
 	if encounter != nil {
-		initialRound = encounter.Round
+		initialRound, initialTurn = encounter.Round, encounter.Turn
 	}
 	startedActive := encounter != nil && encounter.Status == "active"
 	if request.Intent.Kind == combat.EncounterStart {
@@ -216,6 +216,25 @@ func (e *Engine) ConfirmAction(ctx context.Context, campaignID uuid.UUID, reques
 		receipt = map[string]any{"rules_version": "srd-5.2.1", "condition": "prone", "before": true, "after": false, "source_ids": preview.SourceIDs}
 		tool, label = "srd_condition", "Stand up"
 		narrative = "Stood up from Prone outside an encounter; no movement budget is tracked there."
+	} else if request.Intent.Kind == srd521.DeathSave {
+		// Outside encounters there is no turn order: each confirmed save stands
+		// for the start of one 6-second turn, and Stable recovery for its hours.
+		save, err := rollDeathSave(ctx, tx, campaignID, pc.ID, nil, dice)
+		if err != nil {
+			return nil, err
+		}
+		if save == nil {
+			return nil, ErrActionRefresh
+		}
+		save.TimeBefore, save.TimeAfter = prepared.Clock, prepared.Clock+6
+		if save.Event == srd521.ZeroHPStableRecovery {
+			save.TimeAfter = prepared.Clock + 3600*save.RecoveryHours
+		}
+		if err := saveSpellClock(ctx, tx, campaignID, save.TimeAfter); err != nil {
+			return nil, err
+		}
+		receipt, tool, label = save, "srd_death_save", "Death saving throw"
+		narrative = save.Reason
 	} else if request.Intent.Kind == srd521.FallResolve {
 		fallReceipt, err := resolveDeclaredFall(ctx, tx, campaignID, pc.ID, pc.HP, pc.Stats, prepared.Fall, request.Intent.Skill, sheet, dice)
 		if err != nil {
@@ -620,6 +639,13 @@ func (e *Engine) ConfirmAction(ctx context.Context, campaignID uuid.UUID, reques
 		if err != nil {
 			return nil, err
 		}
+		// A player turn that starts at 0 HP starts with a Death Saving Throw.
+		var deathSave *srd521.ZeroHPReceipt
+		if encounter.Status == "active" && encounter.Active().Player && (encounter.Round != initialRound || encounter.Turn != initialTurn) {
+			if deathSave, err = rollDeathSave(ctx, tx, campaignID, encounter.Active().ID, encounter, dice); err != nil {
+				return nil, err
+			}
+		}
 		if after := *encounter.Space.DistanceFeet; before > after {
 			for _, a := range encounter.Actors {
 				if !a.Player {
@@ -628,6 +654,9 @@ func (e *Engine) ConfirmAction(ctx context.Context, campaignID uuid.UUID, reques
 			}
 		}
 		payload["encounter"] = encounter
+		if deathSave != nil {
+			payload["death_save"] = deathSave
+		}
 		if startedActive && encounter.Status != "active" {
 			// The completed encounter hands the player's conditions back to the actor.
 			for _, actor := range encounter.Actors {
@@ -676,6 +705,9 @@ func (e *Engine) ConfirmAction(ctx context.Context, campaignID uuid.UUID, reques
 			if note := attack.RollNote(); note != "" {
 				narrative += " " + note
 			}
+			if attack.AutoCritical != "" {
+				narrative += " Automatic Critical Hit: " + attack.AutoCritical + "."
+			}
 			switch attack.Condition {
 			case "prone-applied":
 				narrative += " " + attack.Target + " has the Prone condition."
@@ -684,6 +716,12 @@ func (e *Engine) ConfirmAction(ctx context.Context, campaignID uuid.UUID, reques
 			case "size-exempt":
 				narrative += " " + attack.Target + " is too large to be knocked Prone."
 			}
+			if attack.ZeroHP != nil {
+				narrative += " " + attack.ZeroHP.Reason
+			}
+		}
+		if deathSave != nil {
+			narrative += " " + deathSave.Reason
 		}
 		if encounter.Reaction.Pending != nil {
 			narrative += " A visible foe is about to leave your reach. Choose an opportunity attack or decline; no reaction has been spent."

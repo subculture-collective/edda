@@ -39,11 +39,11 @@ func (e *Encounter) BeastAdvantage() ([]string, error) {
 			reasons = append(reasons, "Pack Tactics: a non-Incapacitated ally is within 5 feet of the target")
 		}
 	}
-	for _, a := range e.Actors {
-		if a.Player && a.Prone {
-			// Every beast attack is a melee attack within 5 feet.
-			reasons = append(reasons, "target is Prone within 5 feet")
-		}
+	// Every beast attack is a melee attack within 5 feet, so a Prone or
+	// Unconscious target only ever gives Advantage here.
+	target, err := e.IncomingAttack()
+	if err != nil {
+		return nil, err
 	}
-	return reasons, nil
+	return append(reasons, target.Advantage...), nil
 }

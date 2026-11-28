@@ -57,7 +57,9 @@ type FallReceipt struct {
 	WaterCheck   *CheckReceipt `json:"water_check,omitempty"`
 	// Concentration is the caster's Constitution save after the damage.
 	Concentration *EffectReceipt `json:"concentration,omitempty"`
-	SourceIDs     []string       `json:"source_ids"`
+	// ZeroHP records dropping to 0 HP: Unconscious, or death by massive damage.
+	ZeroHP    *ZeroHPReceipt `json:"zero_hp,omitempty"`
+	SourceIDs []string       `json:"source_ids"`
 }
 
 // ResolveFall rolls the capped falling dice and derives damage and Prone.
