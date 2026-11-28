@@ -139,6 +139,13 @@ type App struct {
 	width    int
 	height   int
 	turnBusy bool
+
+	// records are the Character, Inventory and Quests tabs. recordsRead numbers
+	// the latest read for them.
+	records       recordViews
+	recordsRead   int
+	recordsShown  bool
+	recordsFailed bool
 }
 
 // NewApp creates and initialises the root App model with all four sub-views
@@ -169,6 +176,13 @@ func NewAppWithEngine(cfg config.Config, campaign statedb.Campaign, ctx context.
 	router.Register("Quests", &qv)
 	router.Register("Logs", &lv)
 
+	records := recordViews{character: &cv, inventory: &iv, quests: &qv}
+	if _, ok := gameEngine.(recordsEngine); ok {
+		records.notify(recordsLoadingNotice)
+	} else {
+		records.notify(recordsUnavailableNotice)
+	}
+
 	// Seed the narrative log with a welcome message for the selected campaign.
 	nv.AddEntry(narrative.Entry{
 		Kind: narrative.KindSystem,
@@ -187,6 +201,7 @@ func NewAppWithEngine(cfg config.Config, campaign statedb.Campaign, ctx context.
 		engine:   gameEngine,
 		campaign: campaign,
 		router:   router,
+		records:  records,
 	}
 }
 
@@ -227,17 +242,36 @@ func (a App) ActiveViewState() ViewState {
 	return ViewState(a.router.ActiveTab())
 }
 
-// Init implements tea.Model. It starts the log panel's refresh timer.
+// Init implements tea.Model. It starts the log panel's refresh timer and reads
+// the campaign's records.
 func (a App) Init() tea.Cmd {
 	if len(a.router.tabs) <= int(ViewLogs) {
 		return nil
 	}
-	return a.router.tabs[ViewLogs].View.Init()
+	return tea.Batch(a.router.tabs[ViewLogs].View.Init(), a.readRecords())
 }
 
-// Update implements tea.Model. It handles global key bindings (quit and view
-// switching) and forwards all other messages to the active sub-model.
+// Update implements tea.Model. It keeps the data tabs current: they are read
+// again after a turn or confirmed action, and after a failed read when one of
+// them is opened. All other work is update's.
 func (a App) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
+	if loaded, ok := msg.(recordsLoadedMsg); ok {
+		a.showRecords(loaded)
+		return a, nil
+	}
+	open := a.router.ActiveTab()
+	model, cmd := a.update(msg)
+	next, ok := model.(App)
+	if !ok || !(changesRecords(msg) || (next.recordsFailed && next.opensRecordsTab(open))) {
+		return model, cmd
+	}
+	read := next.rereadRecords()
+	return next, tea.Batch(cmd, read)
+}
+
+// update handles global key bindings (quit and view switching) and forwards all
+// other messages to the active sub-model.
+func (a App) update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	if cmd, handled := a.updateLight(msg); handled {
 		return a, cmd
 	}
