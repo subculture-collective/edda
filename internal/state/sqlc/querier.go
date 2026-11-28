@@ -122,6 +122,7 @@ type Querier interface {
 	ListSubquestsByParentQuest(ctx context.Context, parentQuestID pgtype.UUID) ([]Quest, error)
 	ListUsers(ctx context.Context) ([]User, error)
 	Ping(ctx context.Context) (int32, error)
+	RenamePlayerCharacter(ctx context.Context, arg RenamePlayerCharacterParams) (int64, error)
 	// Lists a token as revoked and drops rows for tokens that have expired, so the
 	// table holds only tokens that would otherwise still be accepted.
 	RevokeToken(ctx context.Context, arg RevokeTokenParams) error

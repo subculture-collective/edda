@@ -657,6 +657,10 @@ func (m *mockQuerier) CreatePlayerCharacter(_ context.Context, _ statedb.CreateP
 	return statedb.PlayerCharacter{}, pgx.ErrNoRows
 }
 
+func (m *mockQuerier) RenamePlayerCharacter(context.Context, statedb.RenamePlayerCharacterParams) (int64, error) {
+	return 0, nil
+}
+
 func (m *mockQuerier) GetPlayerCharacterByID(_ context.Context, _ pgtype.UUID) (statedb.PlayerCharacter, error) {
 	if m.getPlayerCharacterByIDErr != nil {
 		return statedb.PlayerCharacter{}, m.getPlayerCharacterByIDErr

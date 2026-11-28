@@ -692,11 +692,13 @@ func (a App) chrome() (titleBar, statusBar string) {
 	if a.campaign.Name != "" {
 		title += "  ·  " + a.campaign.Name
 	}
-	titleBar = styles.TitleBar.Width(a.width).Render(
-		title + styles.Muted.Render(
-			fmt.Sprintf("  ·  %s", a.cfg.LLM.Provider),
-		),
-	)
+	title += styles.Muted.Render(fmt.Sprintf("  ·  %s", a.cfg.LLM.Provider))
+	// A second line would take a row from the view, so a long title is cut.
+	// Before the first resize there is no width to fit.
+	if a.width > 0 {
+		title = ansi.Truncate(title, max(a.width-styles.TitleBar.GetHorizontalPadding(), 1), "…")
+	}
+	titleBar = styles.TitleBar.Width(a.width).Render(title)
 	statusBar = styles.StatusBar.Width(a.width).Render(
 		a.statusLine(a.width - styles.StatusBar.GetHorizontalPadding()))
 	return

@@ -3,6 +3,7 @@ package domain
 import (
 	"encoding/json"
 	"errors"
+	"strings"
 	"time"
 
 	"github.com/google/uuid"
@@ -26,9 +27,21 @@ type PlayerCharacter struct {
 	UpdatedAt         time.Time
 }
 
+// ErrCharacterNameRequired refuses a player character with a blank name.
+var ErrCharacterNameRequired = errors.New("character name is required")
+
+// ValidateCharacterName is the rule for a player character's name: it must hold
+// something other than white space.
+func ValidateCharacterName(name string) error {
+	if strings.TrimSpace(name) == "" {
+		return ErrCharacterNameRequired
+	}
+	return nil
+}
+
 func (pc *PlayerCharacter) Validate() error {
-	if pc.Name == "" {
-		return errors.New("player character name is required")
+	if err := ValidateCharacterName(pc.Name); err != nil {
+		return err
 	}
 	if pc.CampaignID == uuid.Nil {
 		return errors.New("player character campaign_id is required")

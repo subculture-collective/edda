@@ -26,6 +26,7 @@ import (
 	"git.subcult.tv/subculture-collective/edda/internal/world"
 	"git.subcult.tv/subculture-collective/edda/tui/campaign"
 	"git.subcult.tv/subculture-collective/edda/tui/narrative"
+	"git.subcult.tv/subculture-collective/edda/tui/quest"
 )
 
 var layoutSizes = []struct{ width, height int }{
@@ -192,6 +193,10 @@ func TestLayout_LauncherViewsFitTerminal(t *testing.T) {
 		{"character form", func() View { v := campaign.NewCharFormModel(); return &v }},
 		{"confirmation", func() View {
 			v := campaign.NewConfirmationModel("The Drowned Crown", long, profile, character)
+			return &v
+		}},
+		{"rename character", func() View {
+			v := campaign.NewRenameModel("human barbarian. " + long)
 			return &v
 		}},
 		{"world build", func() View {
@@ -652,4 +657,149 @@ func TestLayout_LongInterviewReplyStartsAtItsTop(t *testing.T) {
 			})
 		}
 	}
+}
+
+func TestLayout_LongCampaignNameKeepsTheTitleOnOneLine(t *testing.T) {
+	for _, width := range []int{30, 50, 80} {
+		for _, name := range []string{
+			"The Chronicles of the Drowned Crown and Its Many Debts, Part Two, Being the Ledger",
+			strings.Repeat("Unbroken", 20),
+			strings.Repeat("沈んだ王国の借り", 12), // two columns a character
+		} {
+			t.Run(fmt.Sprintf("%d columns/%.12s", width, name), func(t *testing.T) {
+				c := testCampaign
+				c.Name = name
+				app := resize(t, NewApp(testCfg, c), width, 24)
+				titleBar, _ := app.chrome()
+				assertFits(t, titleBar, width, 2) // one line and the border
+				for _, want := range []string{"⚔  Edda", string([]rune(name)[:6]), "…"} {
+					if !strings.Contains(titleBar, want) {
+						t.Errorf("%q is not in the title bar:\n%s", want, titleBar)
+					}
+				}
+				for idx, tab := range app.router.Tabs() {
+					app.router.GoToTab(idx)
+					t.Run(tab.Name, func(t *testing.T) { assertFits(t, app.View(), width, 24) })
+				}
+			})
+		}
+	}
+
+	t.Run("a title that fits is not cut", func(t *testing.T) {
+		c := testCampaign
+		c.Name = "Ashfall"
+		titleBar, _ := resize(t, NewApp(testCfg, c), 50, 24).chrome()
+		if !strings.Contains(titleBar, "Ashfall  ·  "+testCfg.LLM.Provider) || strings.Contains(titleBar, "…") {
+			t.Errorf("title bar:\n%s", titleBar)
+		}
+	})
+}
+
+// tabScreens pages through the open tab with key and returns every screen, each
+// of which must fit the terminal.
+func tabScreens(t *testing.T, app App, k tea.Msg, width, height int) []string {
+	t.Helper()
+	var screens []string
+	var m tea.Model = app
+	for range 200 {
+		view := m.View()
+		if len(screens) > 0 && view == screens[len(screens)-1] {
+			return screens
+		}
+		assertFits(t, view, width, height)
+		screens = append(screens, view)
+		m, _ = m.Update(k)
+	}
+	t.Fatal("scrolling did not reach an end")
+	return nil
+}
+
+func TestLayout_TabContentScrolls(t *testing.T) {
+	var quests []quest.Quest
+	for i := range 6 {
+		quests = append(quests, quest.Quest{
+			Name: fmt.Sprintf("QUEST%d The Debts of the Drowned Kingdom and Everyone Still Owed", i),
+			Objectives: []quest.Objective{
+				{Description: longField(fmt.Sprintf("OBJECTIVE%dEND", i))[500:], Status: quest.ObjectiveStatus(i % 3)},
+				{Description: "Find the ledger", Status: quest.StatusPending},
+			},
+		})
+	}
+	tabs := []struct {
+		state ViewState
+		want  []string // text that scrolling must reach, with spaces removed
+	}{
+		{ViewCharacterSheet, []string{"CharacterSheet", "futureupdate.", "narrativeview."}},
+		{ViewInventory, []string{"Inventory", "futureupdate.", "narrativeview."}},
+		{ViewQuestLog, []string{"QuestLog", "QUEST0", "OBJECTIVE0END", "QUEST5", "OBJECTIVE5END"}},
+	}
+	// words joins the words on every screen, so that wrapped text is found.
+	words := func(screens []string) string {
+		var b strings.Builder
+		for _, screen := range screens {
+			b.WriteString(unwrapped(screen))
+		}
+		return b.String()
+	}
+
+	for _, size := range []struct{ width, height int }{{80, 24}, {80, 16}, {50, 24}, {30, 24}, {80, 10}, {30, 10}} {
+		for _, tab := range tabs {
+			newApp := func(t *testing.T) App {
+				app := resize(t, testApp(), size.width, size.height)
+				qv := app.router.tabs[ViewQuestLog].View.(*quest.Model)
+				qv.Quests = quests
+				app.router.GoToTab(int(tab.state))
+				return app
+			}
+			name := fmt.Sprintf("%dx%d/%s", size.width, size.height, testApp().router.Tabs()[tab.state].Name)
+			for scroll, msg := range map[string]tea.Msg{
+				"keys":  key(tea.KeyPgDown),
+				"down":  key(tea.KeyDown),
+				"wheel": tea.MouseMsg{Button: tea.MouseButtonWheelDown, Action: tea.MouseActionPress},
+			} {
+				t.Run(name+"/"+scroll, func(t *testing.T) {
+					seen := words(tabScreens(t, newApp(t), msg, size.width, size.height))
+					for _, want := range tab.want {
+						if !strings.Contains(seen, want) {
+							t.Errorf("scrolling never showed %q", want)
+						}
+					}
+				})
+			}
+		}
+	}
+
+	t.Run("scrolling back, resizing and leaving", func(t *testing.T) {
+		app := resize(t, testApp(), 80, 16)
+		app.router.tabs[ViewQuestLog].View.(*quest.Model).Quests = quests
+		app.router.GoToTab(int(ViewQuestLog))
+		top := app.View()
+		if !strings.Contains(top, "scroll") {
+			t.Fatalf("a cut tab does not say it scrolls:\n%s", top)
+		}
+		bottom := tabScreens(t, app, key(tea.KeyPgDown), 80, 16)
+		// A taller terminal shows more and leaves no blank space at the end.
+		tall := resize(t, app, 80, 40)
+		assertFits(t, tall.View(), 80, 40)
+		if !strings.Contains(unwrapped(tall.View()), "OBJECTIVE5END") {
+			t.Errorf("growing the terminal lost the end:\n%s", tall.View())
+		}
+		app = resize(t, tall, 80, 16)
+		if got := tabScreens(t, app, key(tea.KeyPgUp), 80, 16); got[len(got)-1] != top {
+			t.Errorf("paging up after %d screens did not return to the top:\n%s", len(bottom), got[len(got)-1])
+		}
+		if _, cmd := app.Update(key(tea.KeyEsc)); cmd == nil {
+			t.Error("escape no longer returns to the narrative view")
+		}
+	})
+
+	t.Run("short content has no scroll hint", func(t *testing.T) {
+		app := resize(t, testApp(), 80, 24)
+		for _, state := range []ViewState{ViewCharacterSheet, ViewInventory, ViewQuestLog} {
+			app.router.GoToTab(int(state))
+			if view := app.View(); strings.Contains(view, "scroll") {
+				t.Errorf("tab %d offers scrolling:\n%s", state, view)
+			}
+		}
+	})
 }

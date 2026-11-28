@@ -6,6 +6,7 @@ import (
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/huh"
 
+	"git.subcult.tv/subculture-collective/edda/internal/domain"
 	"git.subcult.tv/subculture-collective/edda/internal/world"
 	"git.subcult.tv/subculture-collective/edda/tui/styles"
 )
@@ -44,12 +45,7 @@ func NewCharFormModel() CharFormModel {
 			huh.NewInput().
 				Title("Character Name").
 				Value(&result.Name).
-				Validate(func(s string) error {
-					if strings.TrimSpace(s) == "" {
-						return huh.ErrTimeout // non-nil to block progression
-					}
-					return nil
-				}),
+				Validate(domain.ValidateCharacterName),
 		),
 		huh.NewGroup(
 			huh.NewSelect[string]().

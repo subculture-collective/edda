@@ -195,6 +195,10 @@ func (n *noopQuerier) GetPlayerCharacterByCampaign(ctx context.Context, campaign
 	return nil, nil
 }
 
+func (n *noopQuerier) RenamePlayerCharacter(context.Context, statedb.RenamePlayerCharacterParams) (int64, error) {
+	return 0, nil
+}
+
 func (n *noopQuerier) GetPlayerCharacterByID(ctx context.Context, id pgtype.UUID) (statedb.PlayerCharacter, error) {
 	return statedb.PlayerCharacter{}, nil
 }
