@@ -84,6 +84,11 @@ type Monster struct {
 	// exception, such as the Vampire Familiar's. It replaces typed condition
 	// immunities and requires a dependency key.
 	ConditionImmunityNote string `json:"condition_immunity_note,omitempty"`
+	// ConditionalSpeedNote retains the speeds the source limits to one form, such
+	// as the Werebear's "40 ft. (bear form only), Climb 30 ft. (bear form
+	// only)". A movement mode the note names is not typed in Speeds, and the
+	// note requires a dependency key.
+	ConditionalSpeedNote string `json:"conditional_speed_note,omitempty"`
 }
 
 // MonsterHP retains both the fixed HP and its source dice expression.
