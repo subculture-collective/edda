@@ -207,7 +207,7 @@ func Project(stats []byte, level, hp, maxHP, xp int) (*CharacterSheet, error) {
 		if choices.FeatUses < 0 || choices.FeatUses > 1 || !reflect.DeepEqual(choices, expected) {
 			return nil, fmt.Errorf("unsupported caster choices")
 		}
-		sheet.Resources = append(sheet.Resources, Resource{"magic-initiate", "Magic Initiate (Detect Magic; effect unavailable)", choices.FeatUses, 1, prefix + "feats/magic-initiate"})
+		sheet.Resources = append(sheet.Resources, Resource{"magic-initiate", "Magic Initiate (Detect Magic free use)", choices.FeatUses, 1, prefix + "feats/magic-initiate"})
 		sheet.Spellcasting.Choices = choices
 		for _, group := range [][]string{choices.PreparedSpells, choices.Cantrips, choices.FeatCantrips, {choices.FeatSpell}} {
 			for _, name := range group {
@@ -218,7 +218,12 @@ func Project(stats []byte, level, hp, maxHP, xp int) (*CharacterSheet, error) {
 					sheet.Spellcasting.Spells = append(sheet.Spellcasting.Spells, lightSpell(b.Casting))
 					continue
 				}
-				sheet.Spellcasting.Spells = append(sheet.Spellcasting.Spells, Spell{ID: strings.ReplaceAll(strings.ToLower(name), " ", "-"), Label: name, Known: true, Prepared: true, SourceID: prefix + "spells/" + strings.ReplaceAll(strings.ToLower(name), " ", "-")})
+				spell := Spell{ID: strings.ReplaceAll(strings.ToLower(name), " ", "-"), Label: name, Known: true, Prepared: true, SourceID: prefix + "spells/" + strings.ReplaceAll(strings.ToLower(name), " ", "-")}
+				if name == choices.FeatSpell && spell.ID == DetectMagicID {
+					// Only the Magic Initiate free use is playable; slot and ritual casting stay unavailable.
+					spell.Label, spell.Playable, spell.Components, spell.ComponentsAvailable, spell.SlotLevels = "Detect Magic (Magic Initiate free use)", true, []string{"verbal", "somatic"}, b.Casting.Verbal && b.Casting.Somatic, []int{}
+				}
+				sheet.Spellcasting.Spells = append(sheet.Spellcasting.Spells, spell)
 			}
 		}
 	}
@@ -229,11 +234,11 @@ func Project(stats []byte, level, hp, maxHP, xp int) (*CharacterSheet, error) {
 		}
 		sheet.Light = b.Casting.Light
 		if c := b.Casting.Concentration; c != nil {
-			if c.ID == "" || c.Spell != "shield-of-faith" || c.StartedAt < 0 || c.ExpiresAt-c.StartedAt != 600 {
+			if c.ID == "" || (c.Spell != "shield-of-faith" && (c.Spell != DetectMagicID || c.RecipientID != "" || b.Casting.Choices == nil)) || c.StartedAt < 0 || c.ExpiresAt-c.StartedAt != 600 {
 				return nil, fmt.Errorf("invalid saved concentration")
 			}
 			sheet.Concentration = c
-			if c.RecipientID == "" {
+			if c.Spell == "shield-of-faith" && c.RecipientID == "" {
 				ac := sheet.Defenses["armor-class"]
 				sheet.Defenses["armor-class"] = derived(append(ac.Derivation, term("Shield of Faith", 2, "spells/shield-of-faith"))...)
 			}

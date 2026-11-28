@@ -29,7 +29,7 @@ export function RulesSheet({ sheet, receipts = [], campaignId, actorId, initialP
       <p>Casting ability: {sheet.spellcasting.ability} ({sheet.spellcasting.modifier.value >= 0 ? '+' : ''}{sheet.spellcasting.modifier.value})</p>
       {sheet.spellcasting.spells.map(spell => <p key={spell.id}>{spell.label} · {spell.known ? 'Known' : 'Unknown'} · {spell.prepared ? 'Prepared' : 'Not prepared'} · Components: {spell.components.join(', ')} ({spell.components_available ? 'available' : 'unavailable'}) · {spell.playable === false ? 'Effect unavailable' : spell.slot_levels.length ? `Supported slots: ${spell.slot_levels.join(', ')}` : 'Cantrip: no slot'}</p>)}
       {sheet.spellcasting.choices && <p>Divine Order: {sheet.spellcasting.choices.divine_order} · Magic Initiate ({sheet.spellcasting.choices.magic_initiate_ability}): {sheet.spellcasting.choices.magic_initiate_spell}</p>}
-      <p className="text-sm text-pewter">Human Acolyte Cleric creation is supported. Recorded spell choices are listed here; Cure Wounds on self or a prepared willing, conscious adjacent ally outside encounters and Shield of Faith on self are playable with level 1 slots. A recorded Light cantrip is playable on one object you carry outside encounters. Other effects, conditions and targets remain unavailable.</p>
+      <p className="text-sm text-pewter">Human Acolyte Cleric creation is supported. Recorded spell choices are listed here; Cure Wounds on self or a prepared willing, conscious adjacent ally outside encounters and Shield of Faith on self are playable with level 1 slots; Detect Magic is playable once per Long Rest through the recorded Magic Initiate free use. A recorded Light cantrip is playable on one object you carry outside encounters. Other effects, conditions and targets remain unavailable.</p>
     </section>}
     {sheet.spellcasting?.spells.some(spell => spell.id === 'light' && spell.playable) && <section aria-label="Active Light">
       <h3 className="font-heading text-gold">Light</h3>
@@ -38,7 +38,7 @@ export function RulesSheet({ sheet, receipts = [], campaignId, actorId, initialP
     </section>}
     {sheet.spellcasting && <section aria-label="Concentration and recovery">
       <h3 className="font-heading text-gold">Concentration and recovery</h3>
-      <p>{sheet.concentration ? `Shield of Faith: +2 AC. Started ${formatCampaignSeconds(sheet.concentration.started_at)}; expires ${formatCampaignSeconds(sheet.concentration.expires_at)}.` : 'No concentration effect active.'}</p>
+      <p>{sheet.concentration ? `${sheet.concentration.spell === 'detect-magic' ? 'Detect Magic: sensing magic within 30 feet' : 'Shield of Faith: +2 AC'}. Started ${formatCampaignSeconds(sheet.concentration.started_at)}; expires ${formatCampaignSeconds(sheet.concentration.expires_at)}.` : 'No concentration effect active.'}</p>
       <p className="text-sm text-pewter">Confirm quiet downtime or an uninterrupted rest from the action menu. One hour permits spending a d8 Hit Die; only an eight-hour Long Rest restores Cleric slots. Rest interruptions and wider effects remain unavailable.</p>
     </section>}
     <h3 className="font-heading text-gold">Skills</h3>

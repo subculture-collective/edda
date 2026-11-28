@@ -364,6 +364,34 @@ func (e *Engine) ConfirmAction(ctx context.Context, campaignID uuid.UUID, reques
 		}
 		receipt, tool, label = advancement, "srd_advancement", "Fighter level 2"
 		narrative = fmt.Sprintf("Fighter level 2 saved: %s HP choice, d10 value %d, maximum HP %d to %d. Current HP unchanged. Defense and weapon mastery choices retained. Action Surge available on your encounter turn; Tactical Mind supports a saved failed check from the selected Edda Easy Strength (Athletics) DC 10 fixture.", advancement.Choice, advancement.Die, advancement.MaxHPBefore, advancement.MaxHPAfter)
+	} else if request.Intent.Kind == srd521.DetectMagicStudy || (request.Intent.Kind == srd521.SpellCast && request.Intent.EntryID == srd521.DetectMagicID) {
+		var envelope struct {
+			Build srd521.Build `json:"srd521"`
+		}
+		if err := json.Unmarshal(pc.Stats, &envelope); err != nil {
+			return nil, err
+		}
+		var effect *srd521.DetectMagicReceipt
+		if request.Intent.Kind == srd521.DetectMagicStudy {
+			effect, err = srd521.StudyDetectMagic(&envelope.Build, sheet, prepared.Magic, prepared.Clock)
+		} else {
+			effect, err = srd521.CastDetectMagic(&envelope.Build, sheet, prepared.Magic, request.ActionID.String(), prepared.Clock)
+		}
+		if err != nil {
+			return nil, ErrActionRefresh
+		}
+		if request.Intent.Kind == srd521.SpellCast {
+			// Saves the spent feat use and replaced concentration, and unlinks any
+			// Shield of Faith recipient of the replaced cast, in this transaction.
+			if err := saveCaster(ctx, tx, campaignID, pc.ID, &envelope.Build, pc.HP); err != nil {
+				return nil, err
+			}
+		}
+		receipt, tool, label = effect, "srd_detect_magic", "Detect Magic"
+		narrative = effect.Reason
+		if request.Intent.Kind == srd521.SpellCast {
+			narrative += fmt.Sprintf(" Magic Initiate uses %d to %d; slots unchanged at %d.", effect.FeatUsesBefore, effect.FeatUsesAfter, effect.SlotsAfter)
+		}
 	} else if game.IsLightIntent(request.Intent) {
 		light, err := confirmLight(ctx, tx, campaignID, pc, sheet, prepared, request)
 		if err != nil {
@@ -561,7 +589,7 @@ func (e *Engine) ConfirmAction(ctx context.Context, campaignID uuid.UUID, reques
 				return nil, err
 			}
 			if c := envelope.Build.Casting; c != nil && c.Concentration != nil && c.Concentration.ExpiresAt <= now {
-				expiry := &srd521.EffectReceipt{RulesVersion: "srd-5.2.1", Kind: "concentration-expired", Reason: "Shield of Faith expired.", Before: c.Concentration, TimeBefore: prepared.Clock, TimeAfter: now, HPBefore: hp, HPAfter: hp, SlotsBefore: c.Slots, SlotsAfter: c.Slots, HitDiceBefore: envelope.Build.HitDice, HitDiceAfter: envelope.Build.HitDice, SourceIDs: []string{"srd-5.2.1:content/spells/shield-of-faith"}}
+				expiry := &srd521.EffectReceipt{RulesVersion: "srd-5.2.1", Kind: "concentration-expired", Reason: srd521.ConcentrationLabel(c.Concentration.Spell) + " expired.", Before: c.Concentration, TimeBefore: prepared.Clock, TimeAfter: now, HPBefore: hp, HPAfter: hp, SlotsBefore: c.Slots, SlotsAfter: c.Slots, HitDiceBefore: envelope.Build.HitDice, HitDiceAfter: envelope.Build.HitDice, SourceIDs: []string{"srd-5.2.1:content/spells/" + c.Concentration.Spell}}
 				c.Concentration = nil
 				if err := saveCaster(ctx, tx, campaignID, pc.ID, &envelope.Build, hp); err != nil {
 					return nil, err

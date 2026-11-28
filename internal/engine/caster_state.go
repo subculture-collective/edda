@@ -27,7 +27,8 @@ func saveCaster(ctx context.Context, tx pgx.Tx, campaign, actor uuid.UUID, b *sr
 	if _, err := tx.Exec(ctx, `DELETE FROM concentration_recipients r USING concentration_casts c WHERE r.cast_id=c.id AND c.campaign_id=$1 AND c.caster_id=$2 AND c.id::text<>$3`, campaign, actor, current); err != nil {
 		return err
 	}
-	if c := b.Casting.Concentration; c != nil && (c.RecipientID != "" || validCastID(c.ID)) {
+	// Only Shield of Faith links a recipient; other concentration stays on the caster's stats.
+	if c := b.Casting.Concentration; c != nil && c.Spell == "shield-of-faith" && (c.RecipientID != "" || validCastID(c.ID)) {
 		if _, err := tx.Exec(ctx, `INSERT INTO concentration_casts(id,campaign_id,caster_id,started_at,expires_at) VALUES($1,$2,$3,$4,$5) ON CONFLICT(id) DO NOTHING`, c.ID, campaign, actor, c.StartedAt, c.ExpiresAt); err != nil {
 			return err
 		}
