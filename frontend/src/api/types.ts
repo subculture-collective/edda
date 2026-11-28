@@ -80,7 +80,7 @@ export interface LightReceipt {
 export interface PendingFall { id: string; height_feet?: number; landing?: 'solid' | 'water' }
 export interface DeathSaves { successes?: number; failures?: number; stable?: boolean; dead?: boolean }
 export interface ZeroHPReceipt {
- rules_version: string; event: 'dropped-to-0' | 'massive-damage' | 'damage-at-0' | 'death-save' | 'stable-recovery'; reason: string;
+ rules_version: string; event: 'dropped-to-0' | 'massive-damage' | 'damage-at-0' | 'death-save' | 'stable-recovery' | 'unconscious-repair'; reason: string;
  damage?: number; critical?: boolean; remaining?: number; die?: number; outcome?: string; recovery_hours?: number;
  hp_before: number; hp_after: number; max_hp: number; before: DeathSaves; after: DeathSaves;
  time_before?: number; time_after?: number; source_ids: string[];

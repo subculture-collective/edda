@@ -8,6 +8,7 @@ import (
 	"github.com/google/uuid"
 
 	"git.subcult.tv/subculture-collective/edda/internal/domain"
+	"git.subcult.tv/subculture-collective/edda/internal/game"
 	"git.subcult.tv/subculture-collective/edda/internal/tools"
 )
 
@@ -24,6 +25,18 @@ func (e *Engine) gatherStage() Stage {
 				"error", err,
 			)
 			return fmt.Errorf("gather state: %w", err)
+		}
+		// An SRD 5.2.1 character that is dead, at 0 HP or Unconscious cannot
+		// act, so no free-text turn reaches the model. The reason replaces the
+		// generic guard below, which refuses SRD campaigns' free-text turns.
+		if state.Campaign.RulesVersion == domain.RulesVersionSRD521 && state.Player.ID != (uuid.UUID{}) && e.baseDB != nil {
+			encounter, err := game.ReadEncounter(ctx, e.baseDB, tc.CampaignID)
+			if err != nil {
+				return fmt.Errorf("read encounter: %w", err)
+			}
+			if reason := game.ZeroHPTurnReason(state.Player.Stats, state.Player.HP, encounter); reason != "" {
+				return PlayerCannotActError{Reason: reason}
+			}
 		}
 		if err := domain.RequireLegacyRules(state.Campaign.RulesVersion); err != nil {
 			return err

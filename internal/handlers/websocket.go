@@ -177,7 +177,7 @@ func (h *ActionHandlers) HandleWebSocket(w http.ResponseWriter, r *http.Request)
 				if event.Err != nil {
 					h.Logger.Errorf("stream event error for campaign %s: %v", campaignID, event.Err)
 				}
-				if errors.Is(event.Err, engine.ErrActionIDConflict) || errors.Is(event.Err, engine.ErrTurnInProgress) {
+				if errors.Is(event.Err, engine.ErrActionIDConflict) || errors.Is(event.Err, engine.ErrTurnInProgress) || errors.Is(event.Err, engine.ErrPlayerCannotAct) {
 					errMsg = event.Err.Error()
 				}
 				if errors.Is(event.Err, engine.ErrTurnRecoveryRequired) {

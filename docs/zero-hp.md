@@ -48,6 +48,28 @@ Regaining HP clears the counts.
 A dead character has no available actions; no rule revives it. An encounter
 completes when the player dies and hands its conditions back to the character.
 
+## Free-text turns
+
+A character that is dead, at 0 HP or Unconscious cannot act, so a free-text
+turn never reaches the model. The web story and the TUI show the reason and
+point to the `death-save` action (or, in an encounter, to ending the turn).
+The check reads the same `srd521_death_saves` and condition state as the
+rules actions. SRD 5.2.1 campaigns already refuse every free-text turn with a
+generic guard; this reason replaces it while the character cannot act. Edda
+has no mode in which the model narrates the world while the player waits.
+
+## Characters left at 0 HP by older builds
+
+Before #2211, a fall or NPC attack could leave a character at 0 HP without
+the Unconscious condition. Every action except `death-save` (and, in an
+encounter, ending the turn) is unavailable for that character. Confirming
+`death-save` once applies Unconscious through `ApplyConditionChange`, which
+makes it Prone, drops held weapons and a Shield, and ends Concentration. It
+rolls nothing and takes no time; its `srd_death_save` receipt has the event
+`unconscious-repair`. The next `death-save` rolls the first save. A repair on
+load would write state from a read, and a data migration could not end
+Concentration or drop held items, so the repair is an explicit action.
+
 Every roll is in a durable receipt (`zero_hp` on fall and NPC attack receipts,
 `death_save` on the encounter result, `srd_death_save` for the explicit
 action). Previews never roll or write. Replays return the saved result.
@@ -61,4 +83,6 @@ action). Previews never roll or write. Replays return the saved result.
   other creature can heal the player yet.
 - Falls while at 0 HP, monster death saves, Temporary Hit Points and HP
   maximum reduction.
-- Narrative (LLM) turns are not blocked while the player is Unconscious or dead.
+- A character left at 0 HP without Unconscious inside an active encounter
+  keeps rolling saves at the start of each turn without the condition; the
+  repair is available after the encounter completes.

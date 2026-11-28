@@ -219,19 +219,26 @@ func (e *Engine) ConfirmAction(ctx context.Context, campaignID uuid.UUID, reques
 	} else if request.Intent.Kind == srd521.DeathSave {
 		// Outside encounters there is no turn order: each confirmed save stands
 		// for the start of one 6-second turn, and Stable recovery for its hours.
-		save, err := rollDeathSave(ctx, tx, campaignID, pc.ID, nil, dice)
+		// A character an older build left at 0 HP without Unconscious first
+		// gains it, which rolls nothing and takes no time.
+		save, err := repairUnconscious(ctx, tx, campaignID, pc.ID, dice)
 		if err != nil {
 			return nil, err
 		}
 		if save == nil {
-			return nil, ErrActionRefresh
-		}
-		save.TimeBefore, save.TimeAfter = prepared.Clock, prepared.Clock+6
-		if save.Event == srd521.ZeroHPStableRecovery {
-			save.TimeAfter = prepared.Clock + 3600*save.RecoveryHours
-		}
-		if err := saveSpellClock(ctx, tx, campaignID, save.TimeAfter); err != nil {
-			return nil, err
+			if save, err = rollDeathSave(ctx, tx, campaignID, pc.ID, nil, dice); err != nil {
+				return nil, err
+			}
+			if save == nil {
+				return nil, ErrActionRefresh
+			}
+			save.TimeBefore, save.TimeAfter = prepared.Clock, prepared.Clock+6
+			if save.Event == srd521.ZeroHPStableRecovery {
+				save.TimeAfter = prepared.Clock + 3600*save.RecoveryHours
+			}
+			if err := saveSpellClock(ctx, tx, campaignID, save.TimeAfter); err != nil {
+				return nil, err
+			}
 		}
 		receipt, tool, label = save, "srd_death_save", "Death saving throw"
 		narrative = save.Reason

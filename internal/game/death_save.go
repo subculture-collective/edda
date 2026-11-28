@@ -6,6 +6,7 @@ import (
 	"encoding/json"
 	"fmt"
 
+	"git.subcult.tv/subculture-collective/edda/internal/combat"
 	"git.subcult.tv/subculture-collective/edda/internal/domain"
 	"git.subcult.tv/subculture-collective/edda/internal/rules/srd521"
 	statedb "git.subcult.tv/subculture-collective/edda/internal/state/sqlc"
@@ -20,6 +21,52 @@ func ZeroHPState(stats []byte, hp int) *srd521.DeathSaves {
 		return nil
 	}
 	return &saves
+}
+
+// deadReason is shown for every choice once the character is dead.
+const deadReason = "Your character is dead. No supported rule revives them."
+
+// missingUnconsciousReason names a character an older build left at 0 HP
+// without the Unconscious condition. The death-save action repairs it.
+const missingUnconsciousReason = "Your character is at 0 HP without the Unconscious condition, which earlier versions of Edda did not apply. Use the death-save action (web action menu, TUI /death-save) to apply it, then make Death Saving Throws."
+
+// ZeroHPTurnReason says why the player character cannot take a free-text
+// turn: it is dead, at 0 HP, or Unconscious. It reads the same death saves
+// and conditions that gate rules actions; an active encounter owns the
+// player's conditions. It returns "" when the character can act.
+func ZeroHPTurnReason(stats []byte, hp int, encounter *combat.Encounter) string {
+	saves, err := srd521.DecodeDeathSaves(stats)
+	if err != nil {
+		return err.Error()
+	}
+	if saves.Dead {
+		return deadReason
+	}
+	conditions, err := srd521.DecodeConditions(stats)
+	active := encounter != nil && encounter.Status == "active"
+	if active {
+		for _, a := range encounter.Actors {
+			if a.Player {
+				conditions, err = a.Conditions, a.Validate()
+			}
+		}
+	}
+	if err != nil {
+		return err.Error()
+	}
+	switch {
+	case hp > 0 && !conditions.Unconscious:
+		return ""
+	case hp > 0:
+		return "Your character is Unconscious and cannot act."
+	case active:
+		return "Your character is Unconscious at 0 HP and cannot act. End your turn in the encounter; the Death Saving Throw is rolled at the start of your next turn."
+	case !conditions.Unconscious:
+		return missingUnconsciousReason
+	case saves.Stable:
+		return "Your character is Stable at 0 HP but still Unconscious, and cannot act. Use the death-save action (web action menu, TUI /death-save) to wait 1d4 hours and regain 1 HP."
+	}
+	return "Your character is Unconscious at 0 HP and cannot act. Use the death-save action (web action menu, TUI /death-save) to make a Death Saving Throw."
 }
 
 // prepareDeathSave previews the explicit Death Saving Throw outside
@@ -63,8 +110,8 @@ func prepareDeathSave(ctx context.Context, database statedb.DBTX, campaign domai
 		return result, nil
 	}
 	conditions, err := srd521.DecodeConditions(pc.Stats)
-	if err != nil || !conditions.Unconscious {
-		p.Reason = "This character has 0 HP without the Unconscious condition; that state requires adjudication."
+	if err != nil {
+		p.Reason = err.Error()
 		return result, nil
 	}
 	if result.Clock, err = ReadSpellClock(ctx, database, campaign.ID); err != nil {
@@ -75,7 +122,13 @@ func prepareDeathSave(ctx context.Context, database statedb.DBTX, campaign domai
 		return nil, err
 	}
 	p.ExpectedRevision = fmt.Sprintf("death-save-v1:%x", sha256.Sum256(encoded))
-	if saves.Stable {
+	if !conditions.Unconscious {
+		// An older build left the character at 0 HP without Unconscious.
+		// Confirming applies it once; the next confirmation rolls the save.
+		p.ExpectedRevision = fmt.Sprintf("unconscious-repair-v1:%x", sha256.Sum256(encoded))
+		p.Options = []string{"Your character is at 0 HP without the Unconscious condition, which earlier versions of Edda did not apply. Confirming applies Unconscious now: you fall Prone, drop held weapons and a Shield, and Concentration ends. Nothing is rolled and no time passes; Death Saving Throws follow with this action."}
+		p.SourceIDs = []string{"srd-5.2.1:content/damage/falling-unconscious", "srd-5.2.1:content/rules-glossary/unconscious"}
+	} else if saves.Stable {
 		p.Options = []string{"Stable at 0 HP and Unconscious. Wait to recover: after 1d4 hours you regain 1 HP; campaign time advances that long. Unconscious ends and Prone remains."}
 		p.SourceIDs = []string{"srd-5.2.1:content/damage/stabilizing-a-character"}
 	} else {
