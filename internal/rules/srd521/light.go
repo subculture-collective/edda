@@ -10,6 +10,8 @@ import (
 const (
 	LightSpell           = "light"
 	DismissLight         = "light-dismiss"
+	CoverLight           = "light-cover"
+	UncoverLight         = "light-uncover"
 	LightDurationSeconds = 3600
 	LightBrightFeet      = 20
 	LightDimFeet         = 20
@@ -30,6 +32,8 @@ type LightEffect struct {
 	ExpiresAt  int    `json:"expires_at"`
 	BrightFeet int    `json:"bright_feet"`
 	DimFeet    int    `json:"dim_feet"`
+	// Covered is the holder's declaration that something opaque blocks the light.
+	Covered bool `json:"covered,omitempty"`
 }
 
 // Validate rejects any saved effect whose identity, duration or radii differ
@@ -69,7 +73,7 @@ func LightComponentsAvailable(c *CastingBuild) bool {
 }
 
 func lightSpell(c *CastingBuild) Spell {
-	return Spell{ID: LightSpell, Label: "Light", Known: true, Prepared: true, Components: []string{"verbal", "material (Holy Symbol focus)"}, ComponentsAvailable: LightComponentsAvailable(c), SlotLevels: []int{}, SourceID: prefix + "spells/light"}
+	return Spell{ID: LightSpell, Label: "Light", Playable: true, Known: true, Prepared: true, Components: []string{"verbal", "material (Holy Symbol focus)"}, ComponentsAvailable: LightComponentsAvailable(c), SlotLevels: []int{}, SourceID: prefix + "spells/light"}
 }
 
 // CastLight replaces the caster's previous Light, if any, with a new cast on
@@ -102,6 +106,26 @@ func EndLight(b *Build, item string, now int) (*LightReceipt, error) {
 	r := &LightReceipt{RulesVersion: "srd-5.2.1", Kind: DismissLight, Item: item, Before: b.Casting.Light, Time: now, SourceIDs: []string{prefix + "spells/light"}}
 	b.Casting.Light = nil
 	r.Reason = fmt.Sprintf("Light on %s dismissed; no action or slot cost.", item)
+	return r, nil
+}
+
+// SetLightCovered records the holder's declaration that something opaque now
+// covers the lit object, or no longer does. Covering blocks the light; the
+// spell, its object and its expiry are unchanged. What counts as opaque is the
+// holder's ruling.
+func SetLightCovered(b *Build, item, kind string, now int) (*LightReceipt, error) {
+	covered := kind == CoverLight
+	if (!covered && kind != UncoverLight) || b == nil || b.Casting == nil || !b.Casting.Light.Active(now) || b.Casting.Light.Covered == covered {
+		return nil, fmt.Errorf("no active Light to cover or uncover that way")
+	}
+	after := *b.Casting.Light
+	after.Covered = covered
+	r := &LightReceipt{RulesVersion: "srd-5.2.1", Kind: kind, Item: item, Before: b.Casting.Light, After: &after, Time: now, SourceIDs: []string{prefix + "spells/light"}}
+	b.Casting.Light = &after
+	r.Reason = fmt.Sprintf("Light on %s uncovered; it sheds light again. Expiry unchanged.", item)
+	if covered {
+		r.Reason = fmt.Sprintf("Light on %s covered with something opaque; it sheds no light until uncovered. Expiry unchanged.", item)
+	}
 	return r, nil
 }
 

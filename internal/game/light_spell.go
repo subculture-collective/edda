@@ -44,7 +44,26 @@ func (s *StoredAction) LightObject(id uuid.UUID) *LightObject {
 
 // IsLightIntent reports whether the intent casts or dismisses Light.
 func IsLightIntent(intent ActionIntent) bool {
-	return intent.Kind == srd521.DismissLight || (intent.Kind == srd521.SpellCast && (intent.EntryID == srd521.LightSpell || strings.HasPrefix(intent.EntryID, LightEntryPrefix)))
+	return intent.Kind == srd521.DismissLight || isLightCover(intent.Kind) || (intent.Kind == srd521.SpellCast && (intent.EntryID == srd521.LightSpell || strings.HasPrefix(intent.EntryID, LightEntryPrefix)))
+}
+
+func isLightCover(kind string) bool {
+	return kind == srd521.CoverLight || kind == srd521.UncoverLight
+}
+
+// ApplyLight drops an ended Light from the sheet and names the object the
+// caster still carries.
+func ApplyLight(ctx context.Context, database statedb.DBTX, campaign, actor uuid.UUID, now int, sheet *srd521.CharacterSheet) error {
+	if !sheet.Light.Active(now) {
+		sheet.Light = nil
+		return nil
+	}
+	item, err := uuid.Parse(sheet.Light.ItemID)
+	if err != nil {
+		return nil
+	}
+	sheet.LightItem, _, err = lightItemName(ctx, database, campaign, actor, item, false)
+	return err
 }
 
 // LightColor returns the explicit color named by a Light cast entry.
@@ -92,12 +111,12 @@ func lightItemName(ctx context.Context, database statedb.DBTX, campaign, actor, 
 	return name, true, rows.Err()
 }
 
-// ReadLightEmitter returns the actor's Light if it lasts at now and its object
-// is still carried by the actor. A dropped, given-away or used-up object sheds
-// no light here; covering it is not modelled and needs a declared light ruling.
+// ReadLightEmitter returns the actor's Light if it lasts at now, is not declared
+// covered and its object is still carried by the actor. A covered, dropped,
+// given-away or used-up object sheds no light here.
 func ReadLightEmitter(ctx context.Context, database statedb.DBTX, campaignID uuid.UUID, pc domain.PlayerCharacter, now int, lock bool) (*LightEmitter, error) {
 	light := readLightEffect(pc.Stats)
-	if !light.Active(now) {
+	if !light.Active(now) || light.Covered {
 		return nil, nil
 	}
 	item, err := uuid.Parse(light.ItemID)
@@ -160,7 +179,7 @@ func prepareLight(ctx context.Context, database statedb.DBTX, campaign domain.Ca
 	if !current.Active(result.Clock) {
 		current = nil
 	}
-	currentItem := ""
+	currentItem, carried := "", false
 	if current != nil {
 		if id, err := uuid.Parse(current.ItemID); err == nil {
 			name, ok, err := lightItemName(ctx, database, campaign.ID, pc.ID, id, lock)
@@ -168,14 +187,14 @@ func prepareLight(ctx context.Context, database statedb.DBTX, campaign domain.Ca
 				return nil, err
 			}
 			if ok {
-				currentItem = name
+				currentItem, carried = name, true
 			}
 		}
 		if currentItem == "" {
 			currentItem = "an object you no longer carry"
 		}
 	}
-	result.LightItem = currentItem
+	result.Light, result.LightItem = current, currentItem
 	if intent.Kind == srd521.SpellCast {
 		result.LightObjects, err = readLightObjects(ctx, database, campaign.ID, pc.ID, lock)
 		if err != nil {
@@ -193,6 +212,30 @@ func prepareLight(ctx context.Context, database statedb.DBTX, campaign domain.Ca
 	}
 	p.CostStatus = "fixture-only"
 	p.SourceIDs = []string{"srd-5.2.1:content/spells/light", "srd-5.2.1:content/feats/magic-initiate"}
+	if isLightCover(intent.Kind) {
+		if intent.EntryID != "" {
+			return result, nil
+		}
+		covered := intent.Kind == srd521.CoverLight
+		switch {
+		case current == nil:
+			p.Reason = "No active Light to cover or uncover."
+		case !carried:
+			p.Reason = "Only the holder can cover or uncover the lit object; you no longer carry it."
+		case current.Covered && covered:
+			p.Reason = "Your Light is already covered."
+		case !current.Covered && !covered:
+			p.Reason = "Your Light is not covered."
+		default:
+			option := "Declare that nothing opaque covers your Light on %s any more; it sheds light again."
+			if covered {
+				option = "Declare that something opaque now covers your Light on %s; it sheds no light until uncovered."
+			}
+			p.Available, p.Reason = true, ""
+			p.Options = []string{fmt.Sprintf(option, currentItem) + " Expiry unchanged; no action cost is tracked for this declaration."}
+		}
+		return result, nil
+	}
 	if intent.Kind == srd521.DismissLight {
 		if intent.EntryID != "" {
 			return result, nil

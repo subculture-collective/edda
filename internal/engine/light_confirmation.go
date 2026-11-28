@@ -11,7 +11,7 @@ import (
 	"github.com/jackc/pgx/v5"
 )
 
-// confirmLight saves one Light cast or dismissal under the caller's locks and
+// confirmLight saves one Light cast, cover ruling or dismissal under the caller's locks and
 // transaction. It writes only stats.srd521.casting.light, so concentration,
 // slots and unknown stored fields are unchanged; the receipt and history are
 // written by the caller in the same transaction.
@@ -32,6 +32,13 @@ func confirmLight(ctx context.Context, tx pgx.Tx, campaign uuid.UUID, pc domain.
 		}
 		return receipt, nil
 	}
+	if kind := request.Intent.Kind; kind == srd521.CoverLight || kind == srd521.UncoverLight {
+		receipt, err := srd521.SetLightCovered(&envelope.Build, prepared.LightItem, kind, prepared.Clock)
+		if err != nil {
+			return nil, ErrActionRefresh
+		}
+		return receipt, saveLight(ctx, tx, campaign, pc.ID, receipt.After)
+	}
 	object := prepared.LightObject(request.TargetID)
 	color, ok := game.LightColor(request.Intent.EntryID)
 	if object == nil || !ok {
@@ -44,10 +51,32 @@ func confirmLight(ctx context.Context, tx pgx.Tx, campaign uuid.UUID, pc domain.
 	if receipt.Before != nil {
 		receipt.Reason = "Light on " + object.Name + " (" + color + "); your previous Light on " + prepared.LightItem + " ended. Bright light 20 feet and dim light 20 feet further for one hour; Magic action, no slot."
 	}
-	effect, err := json.Marshal(receipt.After)
+	return receipt, saveLight(ctx, tx, campaign, pc.ID, receipt.After)
+}
+
+func saveLight(ctx context.Context, tx pgx.Tx, campaign, actor uuid.UUID, light *srd521.LightEffect) error {
+	effect, err := json.Marshal(light)
+	if err != nil {
+		return err
+	}
+	_, err = tx.Exec(ctx, `UPDATE player_characters SET stats=jsonb_set(stats,'{srd521,casting,light}',$1::jsonb),updated_at=clock_timestamp() WHERE id=$2 AND campaign_id=$3`, effect, actor, campaign)
+	return err
+}
+
+// PreviewLight prepares one Light intent for the campaign owner's character for
+// the TUI. The stored action also carries the active Light and its object name.
+func (e *Engine) PreviewLight(ctx context.Context, campaignID uuid.UUID, intent game.ActionIntent) (*game.StoredAction, error) {
+	if e.baseDB == nil || !game.IsLightIntent(intent) {
+		return nil, ErrActionRefresh
+	}
+	var actorID uuid.UUID
+	if err := e.baseDB.QueryRow(ctx, `SELECT p.id FROM player_characters p JOIN campaigns c ON c.id=p.campaign_id WHERE c.id=$1 AND p.user_id=c.created_by AND p.status='active' ORDER BY p.id LIMIT 1`, campaignID).Scan(&actorID); err != nil {
+		return nil, err
+	}
+	c, pc, err := game.ReadActionSnapshot(ctx, e.baseDB, campaignID, actorID, uuid.Nil, false)
 	if err != nil {
 		return nil, err
 	}
-	_, err = tx.Exec(ctx, `UPDATE player_characters SET stats=jsonb_set(stats,'{srd521,casting,light}',$1::jsonb),updated_at=clock_timestamp() WHERE id=$2 AND campaign_id=$3`, effect, pc.ID, campaign)
-	return receipt, err
+	intent.ActorID = actorID
+	return game.PrepareStoredAction(ctx, e.baseDB, c, pc, intent, false)
 }

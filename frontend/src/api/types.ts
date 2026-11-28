@@ -72,6 +72,11 @@ export interface Spellcasting {
  spells: { playable?: boolean; id: string; label: string; known: boolean; prepared: boolean; components: string[]; components_available: boolean; slot_levels: number[]; source_id: string }[];
 }
 export interface Concentration { id: string; spell: string; started_at: number; expires_at: number }
+export interface LightEffect { id: string; item_id: string; color: string; started_at: number; expires_at: number; bright_feet: number; dim_feet: number; covered?: boolean }
+export interface LightReceipt {
+ rules_version: string; kind: string; reason: string; item?: string;
+ before?: LightEffect; after?: LightEffect; time: number; source_ids: string[];
+}
 export interface EffectReceipt {
  action_surge_before?: number; action_surge_after?: number;
  rules_version: string; kind: string; reason: string;
@@ -101,6 +106,8 @@ export interface SpellReceipt {
 export interface CharacterSheetProjection {
   coverage: RulesCoverage;
  concentration?: Concentration;
+  light?: LightEffect;
+  light_item?: string;
   spellcasting?: Spellcasting;
   rules_version: string;
   scope: string;

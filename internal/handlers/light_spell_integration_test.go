@@ -240,6 +240,77 @@ func TestIntegrationLightOnCarriedObject(t *testing.T) {
 	_, err = testPool.Exec(ctx, `UPDATE items SET player_character_id=$1 WHERE id=$2`, actor, torch)
 	must(err)
 
+	// The sheet names the carried object and drops the effect at its expiry.
+	sheetAt := func(second int) *srd521.CharacterSheet {
+		t.Helper()
+		_, pc, err := game.ReadActionSnapshot(ctx, testPool, campaign, actor, testUserID, false)
+		must(err)
+		sheet, err := srd521.Project(pc.Stats, pc.Level, pc.HP, pc.MaxHP, pc.Experience)
+		must(err)
+		must(game.ApplyLight(ctx, testPool, campaign, actor, second, sheet))
+		return sheet
+	}
+	if sheet := sheetAt(want.ExpiresAt - 1); sheet.Light == nil || *sheet.Light != want || sheet.LightItem != "Torch" {
+		t.Fatalf("sheet Light: %+v %q", sheet.Light, sheet.LightItem)
+	}
+	if sheet := sheetAt(want.ExpiresAt); sheet.Light != nil || sheet.LightItem != "" {
+		t.Fatal("sheet kept an expired Light")
+	}
+
+	// A declared opaque cover blocks the light without ending or extending it.
+	unavailable(prepare(game.ActionIntent{Kind: srd521.UncoverLight}), "not covered")
+	cover := prepare(game.ActionIntent{Kind: srd521.CoverLight})
+	if !cover.Available || len(cover.Costs) != 0 || len(cover.Targets) != 0 || !strings.Contains(cover.Options[0], "covers your Light on Torch") {
+		t.Fatalf("cover preview: %+v", cover)
+	}
+	if _, _, err := confirm(cover, torch); !errors.Is(err, engine.ErrActionRefresh) {
+		t.Fatalf("cover accepted a target: %v", err)
+	}
+	stale = sight()
+	_, result, err = confirm(cover, uuid.Nil)
+	must(err)
+	covered := want
+	covered.Covered = true
+	hidden := receipt(result)
+	light, kept, slotsAfter, custom = saved()
+	if hidden.Kind != srd521.CoverLight || *hidden.Before != want || *hidden.After != covered || *light != covered || *kept != *concentration || slotsAfter != slots || custom != 7 {
+		t.Fatalf("cover: %+v saved=%+v", hidden, light)
+	}
+	if _, _, err := confirm(stale, uuid.Nil); !errors.Is(err, engine.ErrActionRefresh) {
+		t.Fatalf("preview lit before covering confirmed: %v", err)
+	}
+	unavailable(sight(), "can't see")
+	unavailable(prepare(game.ActionIntent{Kind: srd521.CoverLight}), "already covered")
+	// Only the holder toggles the cover.
+	_, err = testPool.Exec(ctx, `UPDATE items SET player_character_id=$1 WHERE id=$2`, dbutil.FromPgtype(other.ID), torch)
+	must(err)
+	unavailable(prepare(game.ActionIntent{Kind: srd521.UncoverLight}), "no longer carry")
+	_, err = testPool.Exec(ctx, `UPDATE items SET player_character_id=$1 WHERE id=$2`, actor, torch)
+	must(err)
+	_, result, err = confirm(prepare(game.ActionIntent{Kind: srd521.UncoverLight}), uuid.Nil)
+	must(err)
+	if light, _, _, _ = saved(); receipt(result).Kind != srd521.UncoverLight || *light != want {
+		t.Fatalf("uncover: %+v", light)
+	}
+	if p := sight(); !p.Available {
+		t.Fatalf("uncovered Light stayed dark: %+v", p)
+	}
+
+	// The TUI preview selects the owner's active character and is inert.
+	_, err = testPool.Exec(ctx, `UPDATE player_characters SET status='inactive' WHERE id=$1`, dbutil.FromPgtype(other.ID))
+	must(err)
+	count = attempts()
+	tui, err := newEngine().PreviewLight(ctx, campaign, game.ActionIntent{Kind: srd521.DismissLight})
+	must(err)
+	if !tui.Preview.Available || tui.Preview.Intent.ActorID != actor || tui.Light == nil || *tui.Light != want || tui.LightItem != "Torch" || attempts() != count {
+		t.Fatalf("TUI preview: %+v", tui)
+	}
+	if _, err := newEngine().PreviewLight(ctx, campaign, game.ActionIntent{Kind: srd521.WaitMinute}); !errors.Is(err, engine.ErrActionRefresh) {
+		t.Fatalf("non-Light intent previewed: %v", err)
+	}
+	_, err = testPool.Exec(ctx, `UPDATE player_characters SET status='active' WHERE id=$1`, dbutil.FromPgtype(other.ID))
+	must(err)
+
 	// Recast removes only the previous Light; concentration is unchanged.
 	recast := cast("red")
 	if !recast.Available || !strings.Contains(recast.Options[0], "Ends your current Light on Torch") {
