@@ -2,6 +2,8 @@ package campaign
 
 import (
 	"fmt"
+	"slices"
+	"strings"
 
 	"github.com/charmbracelet/bubbles/viewport"
 	tea "github.com/charmbracelet/bubbletea"
@@ -25,6 +27,9 @@ type AttributesModel struct {
 	result    attributeFormResult
 	errorText string
 	errorView viewport.Model
+	gap       bool // blank line under the title
+	spacer    bool // line under the error
+	formRows  int  // rows the form has; 0 means all it needs
 	width     int
 	height    int
 }
@@ -98,6 +103,8 @@ func NewAttributesModelWithState(genre, settingStyle, tone, errorText string) At
 		result:    result,
 		errorText: errorText,
 		errorView: viewport.New(0, 0),
+		gap:       true,
+		spacer:    errorText != "",
 	}
 }
 
@@ -105,25 +112,73 @@ func NewAttributesModelWithState(genre, settingStyle, tone, errorText string) At
 func (m *AttributesModel) SetSize(width, height int) {
 	m.width = width
 	m.height = height
-	m.layoutError()
+	m.layout()
 }
 
-// layoutError wraps the error to the box and gives it the rows the form leaves.
-// A longer error scrolls, so the form stays on screen.
-func (m *AttributesModel) layoutError() {
-	if m.errorText == "" || m.width <= 0 || m.height <= 0 {
+// layout shares the box's rows between the title, the error and the form. When
+// they do not all fit, it drops the blank lines, then scrolls the error and the
+// form's options.
+func (m *AttributesModel) layout() {
+	if m.width <= 0 || m.height <= 0 {
 		return
 	}
 	frame := styles.Container
 	width := max(m.width-frame.GetHorizontalFrameSize(), 1)
-	content := lipgloss.NewStyle().Width(width).Render(m.errorMessage())
-	// The title, the line under it and the line under the error take three rows.
-	rows := max(m.height-frame.GetVerticalFrameSize()-3-lipgloss.Height(m.form.View()), 1)
+	rows := m.height - frame.GetVerticalFrameSize()
+	formHeight := lipgloss.Height(m.form.View()) // each form step has its own height
+
+	var content string
+	needed := 2 + formHeight // the title and the line under it
+	if m.errorText != "" {
+		content = lipgloss.NewStyle().Width(width).Render(m.errorMessage())
+		needed += 2 // at least one line of error and the line under it
+	}
+	m.gap = needed <= rows
+	used := 1 // the title
+	if m.gap {
+		used++
+	}
 
 	m.errorView.Width = width
-	m.errorView.Height = min(lipgloss.Height(content), rows)
-	m.errorView.SetContent(content)
-	m.errorView.SetYOffset(m.errorView.YOffset) // a taller box may need a smaller offset
+	m.errorView.Height = 0
+	m.spacer = false
+	if m.errorText != "" {
+		errorHeight := lipgloss.Height(content)
+		m.errorView.Height = min(max(rows-used-1-formHeight, 1), errorHeight)
+		// A short box keeps the line under the error only for the scroll hint.
+		m.spacer = m.gap || m.errorView.Height < errorHeight
+		m.errorView.SetContent(content)
+		m.errorView.SetYOffset(m.errorView.YOffset) // a taller box may need a smaller offset
+		used += m.errorView.Height
+		if m.spacer {
+			used++
+		}
+	}
+	m.formRows = max(rows-used, 1)
+}
+
+// formView renders the form in at most formRows rows. When it needs more, the
+// field title stays and the options scroll with the cursor. This cuts the
+// rendered form because huh's Height moves the chosen option to the top and
+// hides the ones above it.
+func (m AttributesModel) formView() string {
+	view := m.form.View()
+	lines := strings.Split(view, "\n")
+	if m.formRows <= 0 || len(lines) <= m.formRows {
+		return view
+	}
+	// huh marks the option under the cursor with "> ".
+	cursor := max(slices.IndexFunc(lines, func(line string) bool {
+		return strings.Contains(ansi.Strip(line), "> ")
+	}), 0)
+	if m.formRows == 1 {
+		return lines[cursor]
+	}
+	options, shown := lines[1:], m.formRows-1
+	first := min(max(cursor-1-shown/2, 0), len(options)-shown)
+	title := strings.TrimRight(lines[0], " ") + styles.Muted.Render("  ↑/↓: more")
+	title = ansi.Truncate(title, m.errorView.Width, "…")
+	return strings.Join(append([]string{title}, options[first:first+shown]...), "\n")
 }
 
 func (m AttributesModel) errorMessage() string {
@@ -162,7 +217,7 @@ func (m AttributesModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	if f, ok := form.(*huh.Form); ok {
 		m.form = f
 	}
-	m.layoutError() // each form step has its own height
+	m.layout()
 
 	switch m.form.State {
 	case huh.StateCompleted:
@@ -182,9 +237,10 @@ func (m AttributesModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 
 // View implements tea.Model.
 func (m AttributesModel) View() string {
-	title := styles.Header.Render("✦ Campaign Attributes")
-	body := m.form.View()
-	content := styles.JoinVertical(title, "")
+	blocks := []string{styles.Header.Render("✦ Campaign Attributes")}
+	if m.gap {
+		blocks = append(blocks, "")
+	}
 	if m.errorText != "" {
 		message, spacer := m.errorMessage(), ""
 		if m.width > 0 && m.height > 0 {
@@ -194,9 +250,12 @@ func (m AttributesModel) View() string {
 				spacer = styles.Muted.Render(ansi.Truncate(hint, m.errorView.Width, "…"))
 			}
 		}
-		content = styles.JoinVertical(content, message, spacer)
+		blocks = append(blocks, message)
+		if m.spacer {
+			blocks = append(blocks, spacer)
+		}
 	}
-	content = styles.JoinVertical(content, body)
+	blocks = append(blocks, m.formView())
 	return styles.Frame(styles.Container, m.width, m.height).
-		Render(content)
+		Render(styles.JoinVertical(blocks...))
 }

@@ -9,6 +9,7 @@ import (
 	tea "github.com/charmbracelet/bubbletea"
 
 	"git.subcult.tv/subculture-collective/edda/internal/logging"
+	"git.subcult.tv/subculture-collective/edda/tui/logpanel"
 )
 
 func TestLogsTabRefreshesWhileAnotherTabIsOpen(t *testing.T) {
@@ -42,5 +43,32 @@ func TestLogsTabRefreshesWhileAnotherTabIsOpen(t *testing.T) {
 			t.Fatalf("%q is not on the Logs tab:\n%s", text, view)
 		}
 		app.router.GoToTab(int(ViewNarrative))
+	}
+}
+
+// A wider panel has fewer lines. A player who scrolled up must still see a full
+// panel, not blank rows under the last line.
+func TestLogsTabStaysFullWhenWidenedWhileScrolledUp(t *testing.T) {
+	buf := logging.NewRingBuffer(64)
+	for range 13 {
+		buf.Write(logging.LogEntry{Time: time.Now(), Level: slog.LevelInfo, Service: "app", Message: strings.Repeat("wrapped words ", 20)})
+	}
+	panel := logpanel.New(buf)
+	panel.SetSize(40, 16)
+	// Scroll to the top, then down to a line the wider panel also has.
+	for range 20 {
+		panel.Update(tea.KeyMsg{Type: tea.KeyPgUp})
+	}
+	for range 8 {
+		panel.Update(tea.KeyMsg{Type: tea.KeyDown})
+	}
+
+	panel.SetSize(400, 16)
+	// The header, then 12 rows of entries, then the footer, inside the border.
+	lines := strings.Split(panel.View(), "\n")
+	for _, line := range lines[2 : len(lines)-2] {
+		if !strings.Contains(line, "wrapped words") {
+			t.Fatalf("the panel has a row with no entry:\n%s", panel.View())
+		}
 	}
 }

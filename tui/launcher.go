@@ -8,8 +8,10 @@ import (
 	"strings"
 
 	"github.com/charmbracelet/bubbles/spinner"
+	"github.com/charmbracelet/bubbles/viewport"
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/lipgloss"
+	"github.com/charmbracelet/x/ansi"
 
 	"git.subcult.tv/subculture-collective/edda/internal/bootstrap"
 	"git.subcult.tv/subculture-collective/edda/internal/config"
@@ -89,8 +91,11 @@ type Launcher struct {
 
 	spinner spinner.Model
 	errMsg  string
-	width   int
-	height  int
+	// errorOpen shows the whole of an error the banner cut short.
+	errorOpen bool
+	errorView viewport.Model
+	width     int
+	height    int
 }
 
 // LauncherOption configures the Launcher.
@@ -142,12 +147,27 @@ func (l Launcher) Init() tea.Cmd {
 
 // Update implements tea.Model.
 func (l Launcher) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
+	if next, handled := l.updateErrorDetails(msg); handled {
+		return next, nil
+	}
+	model, cmd := l.update(msg)
+	if next, ok := model.(Launcher); ok && next.errMsg != l.errMsg {
+		next.errorOpen = false // it was open for another error
+		return next, cmd
+	}
+	return model, cmd
+}
+
+func (l Launcher) update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	switch msg := msg.(type) {
 	case tea.WindowSizeMsg:
 		l.width = msg.Width
 		l.height = msg.Height
 		if l.view != nil {
 			l.sizeView(l.view)
+		}
+		if l.errorOpen {
+			l.layoutErrorDetails()
 		}
 		return l, nil
 
@@ -356,10 +376,15 @@ func (l Launcher) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 
 // View implements tea.Model.
 func (l Launcher) View() string {
+	if l.errorOpen {
+		return l.errorDetails()
+	}
 	switch l.state {
 	case launcherLoading:
 		if l.errMsg != "" {
-			return l.errorBanner()
+			// There is no view under the banner, so it has the whole screen.
+			banner, _ := l.errorBanner(l.height)
+			return banner
 		}
 		return l.loadingView("Connecting to database…")
 	case launcherGeneratingProposals:
@@ -376,23 +401,121 @@ func (l Launcher) View() string {
 	if l.errMsg == "" {
 		return l.view.View()
 	}
-	return styles.JoinVertical(l.errorBanner(), l.view.View())
+	banner, _ := l.errorBanner(l.bannerRows())
+	return styles.JoinVertical(banner, l.view.View())
 }
 
-// errorBanner renders the launcher error, wrapped to the terminal width.
-func (l Launcher) errorBanner() string {
+// bannerRows is the most rows the error banner takes above a view: a quarter of
+// the terminal, from two to six. It is 0, for no limit, before the first resize.
+func (l Launcher) bannerRows() int {
+	if l.height <= 0 {
+		return 0
+	}
+	return min(max(l.height/4, 2), 6)
+}
+
+// errorText is the launcher error wrapped to width columns. A width of 0 leaves
+// it unwrapped.
+func (l Launcher) errorText(width int) string {
 	style := styles.StatusError
-	if l.width > 0 {
-		style = style.Width(l.width)
+	if width > 0 {
+		style = style.Width(width)
 	}
 	return style.Render("⚠  " + l.errMsg)
+}
+
+// errorBanner renders the launcher error in at most maxRows rows. A longer error
+// is cut short, and the last row says how to read the rest.
+func (l Launcher) errorBanner(maxRows int) (banner string, cut bool) {
+	banner = l.errorText(l.width)
+	if maxRows <= 0 || lipgloss.Height(banner) <= maxRows {
+		return banner, false
+	}
+	hint := "… press ? for the full error"
+	if l.width > 0 {
+		hint = ansi.Truncate(hint, l.width, "…")
+	}
+	lines := strings.Split(banner, "\n")[:maxRows-1]
+	return strings.Join(append(lines, styles.Muted.Render(hint)), "\n"), true
+}
+
+// errorIsCut reports whether the banner on screen leaves out part of the error.
+func (l Launcher) errorIsCut() bool {
+	if l.errMsg == "" {
+		return false
+	}
+	rows := l.height
+	if l.state != launcherLoading {
+		if l.view == nil {
+			return false // a loading screen, which has no banner
+		}
+		rows = l.bannerRows()
+	}
+	_, cut := l.errorBanner(rows)
+	return cut
+}
+
+// updateErrorDetails opens, scrolls and closes the full error. It reports
+// whether it used msg. While the full error is open it takes every key but
+// Ctrl+C, so none reaches the hidden view.
+func (l Launcher) updateErrorDetails(msg tea.Msg) (Launcher, bool) {
+	switch msg := msg.(type) {
+	case tea.MouseMsg:
+		if !l.errorOpen {
+			return l, false
+		}
+		l.errorView, _ = l.errorView.Update(msg)
+		return l, true
+
+	case tea.KeyMsg:
+		if msg.Type == tea.KeyCtrlC {
+			return l, false
+		}
+		if !l.errorOpen {
+			// Only a cut banner offers "?", so otherwise the view gets it.
+			if msg.String() != "?" || !l.errorIsCut() {
+				return l, false
+			}
+			l.errorOpen = true
+			l.errorView = viewport.New(0, 0)
+			l.layoutErrorDetails()
+			return l, true
+		}
+		switch msg.String() {
+		case "?", "esc", "q":
+			l.errorOpen = false
+		case "up", "k", "down", "j", "pgup", "pgdown":
+			l.errorView, _ = l.errorView.Update(msg)
+		}
+		return l, true
+	}
+	return l, false
+}
+
+// layoutErrorDetails wraps the full error to the box, above one row of help.
+func (l *Launcher) layoutErrorDetails() {
+	frame := styles.Container
+	width := max(l.width-frame.GetHorizontalFrameSize(), 1)
+	l.errorView.Width = width
+	l.errorView.Height = max(l.height-frame.GetVerticalFrameSize()-1, 1)
+	l.errorView.SetContent(l.errorText(width))
+	l.errorView.SetYOffset(l.errorView.YOffset) // a taller box may need a smaller offset
+}
+
+// errorDetails renders the full error in place of the view.
+func (l Launcher) errorDetails() string {
+	hint := fmt.Sprintf("Esc: close · ↑/↓ PgUp/PgDn: scroll (%.0f%%)", l.errorView.ScrollPercent()*100)
+	hint = styles.Muted.Render(ansi.Truncate(hint, l.errorView.Width, "…"))
+	return styles.Frame(styles.Container, l.width, l.height).
+		Render(l.errorView.View() + "\n" + hint)
 }
 
 // sizeView gives view the terminal size less the rows the error banner takes.
 func (l Launcher) sizeView(view View) {
 	height := l.height
 	if l.errMsg != "" && height > 0 {
-		height = max(height-lipgloss.Height(l.errorBanner()), 1)
+		banner, _ := l.errorBanner(l.bannerRows())
+		height = max(height-lipgloss.Height(banner), 1)
 	}
 	view.SetSize(l.width, height)
 }

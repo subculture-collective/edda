@@ -193,13 +193,26 @@ func (m *Model) rebuildContent() {
 		if idx > 0 {
 			b.WriteByte('\n')
 		}
-		b.WriteString(renderEntry(entry))
+		b.WriteString(wrapEntry(renderEntry(entry), m.viewport.Width))
 	}
 
 	m.viewport.SetContent(b.String())
 	if m.autoScroll {
 		m.viewport.GotoBottom()
+	} else {
+		m.viewport.SetYOffset(m.viewport.YOffset) // a wider panel has fewer lines
 	}
+}
+
+// wrapEntry wraps a rendered entry to width columns. The viewport cuts off
+// anything wider, and Left and Right switch tabs, so it cannot scroll sideways.
+func wrapEntry(line string, width int) string {
+	// A tab measures as nothing but takes columns on screen.
+	line = strings.ReplaceAll(line, "\t", "    ")
+	if width <= 0 || lipgloss.Width(line) <= width {
+		return line
+	}
+	return lipgloss.NewStyle().Width(width).Render(line)
 }
 
 // filterEntries returns entries matching the current level and service filters.
