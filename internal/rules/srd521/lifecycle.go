@@ -25,6 +25,7 @@ type EffectReceipt struct {
 	ActionSurgeAfter  int            `json:"action_surge_after,omitempty"`
 	RulesVersion      string         `json:"rules_version"`
 	Kind              string         `json:"kind"`
+	Mechanic          string         `json:"mechanic,omitempty"`
 	Reason            string         `json:"reason"`
 	Before            *Concentration `json:"before,omitempty"`
 	After             *Concentration `json:"after,omitempty"`
@@ -124,33 +125,15 @@ func Lifecycle(b *Build, sheet *CharacterSheet, kind, entry, actionID string, no
 	return r, nil
 }
 
-// ConcentrationDamage receives actual resolved damage, never client input.
-// Zero HP ends concentration without rolling; each other damage source rolls
-// exactly one Constitution save at min(30,max(10,floor(damage/2))).
+// ConcentrationDamage resolves one damage instance through
+// ResolveConcentrationEvents and returns its receipt, or nil when no save or
+// ending applies.
 func ConcentrationDamage(b *Build, sheet *CharacterSheet, damage, hp, now int, dice Dice) (*EffectReceipt, error) {
-	if b.Casting == nil || b.Casting.Concentration == nil || damage <= 0 {
-		return nil, nil
+	receipts, err := ResolveConcentrationEvents(b, sheet, []ConcentrationEvent{{Kind: ConcentrationDamageSource, SourceID: "damage", Damage: damage, HPAfter: hp}}, now, dice)
+	if err != nil || len(receipts) == 0 {
+		return nil, err
 	}
-	c := b.Casting
-	r := &EffectReceipt{RulesVersion: "srd-5.2.1", Kind: "concentration-damage", Before: c.Concentration, TimeBefore: now, TimeAfter: now, HPBefore: sheet.HP.Value, HPAfter: hp, SlotsBefore: c.Slots, SlotsAfter: c.Slots, HitDiceBefore: b.HitDice, HitDiceAfter: b.HitDice, SourceIDs: []string{prefix + "rules-glossary/concentration"}}
-	r.Reason = "Concentration ended at zero HP."
-	if hp <= 0 {
-		c.Concentration = nil
-	} else {
-		check, err := ResolveCheck(sheet, Check{Kind: SavingThrow, Ability: "constitution"}, Difficulty{Value: min(30, max(10, damage/2)), PlayerKnown: true, OutcomeKnown: true}, dice)
-		if err != nil {
-			return nil, err
-		}
-		receipt := check.PlayerReceipt()
-		r.Check = &receipt
-		r.Reason = "Concentration maintained after damage."
-		if !check.Success() {
-			c.Concentration = nil
-			r.Reason = "Concentration lost after damage."
-		}
-	}
-	r.After = c.Concentration
-	return r, nil
+	return receipts[0], nil
 }
 
 // FaithACTerm is the fixed source-attributed Shield of Faith AC bonus.

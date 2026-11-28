@@ -2,10 +2,10 @@ package engine
 
 import (
 	"context"
-	"encoding/json"
+	"fmt"
+
 	"git.subcult.tv/subculture-collective/edda/internal/combat"
 	"git.subcult.tv/subculture-collective/edda/internal/dbutil"
-	"git.subcult.tv/subculture-collective/edda/internal/game"
 	"git.subcult.tv/subculture-collective/edda/internal/rules/srd521"
 	"github.com/google/uuid"
 	"github.com/jackc/pgx/v5"
@@ -80,7 +80,7 @@ func resolveEncounterNPC(ctx context.Context, tx pgx.Tx, campaignID uuid.UUID, e
 			attacks = append(attacks, a.ID)
 		}
 	}
-	for _, id := range attacks {
+	for i, id := range attacks {
 		// A defeated target ends the sequence; later attacks are not rolled.
 		if encounter.Status != "active" {
 			break
@@ -109,15 +109,12 @@ func resolveEncounterNPC(ctx context.Context, tx pgx.Tx, campaignID uuid.UUID, e
 		if _, err := tx.Exec(ctx, `UPDATE player_characters SET hp=$1,updated_at=clock_timestamp() WHERE id=$2 AND campaign_id=$3`, hp, dbutil.ToPgtype(player.ID), dbutil.ToPgtype(campaignID)); err != nil {
 			return nil, nil, err
 		}
-		if attack.Damage > 0 && sheet.Spellcasting != nil {
-			effect, err := concentrationAfterDamage(ctx, tx, campaignID, player, sheet, attack.Damage, hp, dice)
-			if err != nil {
-				return nil, nil, err
-			}
-			if effect != nil {
-				effects = append(effects, effect)
-			}
+		// Each NPC attack is one damage source, so Multiattack saves per attack.
+		concentration, err := ApplyConcentrationEvents(ctx, tx, campaignID, player.ID, player.HP, []srd521.ConcentrationEvent{{Kind: srd521.ConcentrationDamageSource, SourceID: fmt.Sprintf("npc-attack-%d", i), Damage: attack.Damage, HPAfter: hp}}, dice)
+		if err != nil {
+			return nil, nil, err
 		}
+		effects = append(effects, concentration...)
 		if attack.Condition == "prone-applied" {
 			player.Prone = true
 		}
@@ -141,34 +138,6 @@ func resolveEncounterNPC(ctx context.Context, tx pgx.Tx, campaignID uuid.UUID, e
 	}
 	encounter.Advance()
 	return receipts, effects, nil
-}
-
-// concentrationAfterDamage applies one damage instance's Concentration save.
-func concentrationAfterDamage(ctx context.Context, tx pgx.Tx, campaignID uuid.UUID, player *combat.EncounterActor, sheet *srd521.CharacterSheet, damage, hp int, dice srd521.Dice) (*srd521.EffectReceipt, error) {
-	var stats []byte
-	if err := tx.QueryRow(ctx, `SELECT stats FROM player_characters WHERE id=$1`, player.ID).Scan(&stats); err != nil {
-		return nil, err
-	}
-	var envelope struct {
-		Build srd521.Build `json:"srd521"`
-	}
-	if err := json.Unmarshal(stats, &envelope); err != nil {
-		return nil, err
-	}
-	now, err := game.ReadSpellClock(ctx, tx, campaignID)
-	if err != nil {
-		return nil, err
-	}
-	damageSheet := *sheet
-	damageSheet.HP.Value = player.HP
-	effect, err := srd521.ConcentrationDamage(&envelope.Build, &damageSheet, damage, hp, now, dice)
-	if err != nil || effect == nil {
-		return nil, err
-	}
-	if err := saveCaster(ctx, tx, campaignID, player.ID, &envelope.Build, hp); err != nil {
-		return nil, err
-	}
-	return effect, nil
 }
 
 // finishWithdrawal consumes the pending NPC movement once, then returns control
