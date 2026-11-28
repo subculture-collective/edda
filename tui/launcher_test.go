@@ -129,6 +129,12 @@ func (n *noopQuerier) DeleteRelationship(ctx context.Context, arg statedb.Delete
 	return nil
 }
 func (n *noopQuerier) DeleteUser(ctx context.Context, id pgtype.UUID) error { return nil }
+func (n *noopQuerier) RevokeToken(ctx context.Context, arg statedb.RevokeTokenParams) error {
+	return nil
+}
+func (n *noopQuerier) IsTokenRevoked(ctx context.Context, jti string) (bool, error) {
+	return false, nil
+}
 func (n *noopQuerier) GetBeliefSystemByCulture(ctx context.Context, cultureID pgtype.UUID) (statedb.BeliefSystem, error) {
 	return statedb.BeliefSystem{}, nil
 }

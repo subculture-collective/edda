@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"strings"
+	"sync"
 	"sync/atomic"
 	"testing"
 	"time"
@@ -32,6 +33,23 @@ type ownershipQueries struct {
 	campaigns       map[pgtype.UUID]statedb.Campaign
 	lookupErr       error
 	mutations       int
+	revokedMu       sync.Mutex
+	revoked         map[string]bool
+}
+
+func (q *ownershipQueries) RevokeToken(_ context.Context, arg statedb.RevokeTokenParams) error {
+	q.revokedMu.Lock()
+	defer q.revokedMu.Unlock()
+	if q.revoked == nil {
+		q.revoked = map[string]bool{}
+	}
+	q.revoked[arg.Jti] = true
+	return nil
+}
+func (q *ownershipQueries) IsTokenRevoked(_ context.Context, jti string) (bool, error) {
+	q.revokedMu.Lock()
+	defer q.revokedMu.Unlock()
+	return q.revoked[jti], nil
 }
 
 func (q *ownershipQueries) GetCampaignByID(_ context.Context, id pgtype.UUID) (statedb.Campaign, error) {

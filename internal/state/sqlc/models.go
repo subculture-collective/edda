@@ -319,6 +319,11 @@ type QuestObjective struct {
 	OrderIndex  int32
 }
 
+type RevokedToken struct {
+	Jti       string
+	ExpiresAt pgtype.Timestamptz
+}
+
 type SavePoint struct {
 	ID         pgtype.UUID
 	CampaignID pgtype.UUID

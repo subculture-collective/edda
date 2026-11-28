@@ -114,7 +114,9 @@ The reply also sets the session cookie to the bearer token.
 
 `POST /api/v1/auth/logout`
 
-Success: `204 No Content`. With a bearer token, the reply clears the session cookie only when the request's cookie holds that same token. The server does not revoke tokens: a token stays valid until it expires.
+Success: `204 No Content`. The server revokes the bearer token, or the cookie's token when no bearer token is sent: every later request or WebSocket upgrade with it gets `401`. Other sessions of the same user keep working. With a bearer token, the reply clears the session cookie only when the request's cookie holds that same token. If the server cannot record the revocation, it replies `500` and the token stays valid.
+
+Tokens issued before tokens carried an ID (`jti`) get `401`; sign in again. If the server cannot check a token against the revoked list, an authenticated route replies `503`.
 
 Native clients should also delete the Keychain token locally.
 

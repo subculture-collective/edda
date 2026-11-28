@@ -39,13 +39,15 @@ type UserWithAuth struct {
 
 // AuthHandlers provides HTTP handlers for authentication.
 type AuthHandlers struct {
-	queries   AuthQuerier
-	jwtSecret string
+	queries     AuthQuerier
+	revocations RevocationQuerier
+	jwtSecret   string
 }
 
-// NewAuthHandlers creates a new AuthHandlers.
-func NewAuthHandlers(queries AuthQuerier, jwtSecret string) *AuthHandlers {
-	return &AuthHandlers{queries: queries, jwtSecret: jwtSecret}
+// NewAuthHandlers creates a new AuthHandlers. Logout lists signed-out tokens
+// in revocations.
+func NewAuthHandlers(queries AuthQuerier, revocations RevocationQuerier, jwtSecret string) *AuthHandlers {
+	return &AuthHandlers{queries: queries, revocations: revocations, jwtSecret: jwtSecret}
 }
 
 type registerRequest struct {
@@ -174,22 +176,34 @@ func (h *AuthHandlers) Login(w http.ResponseWriter, r *http.Request) {
 	})
 }
 
-// Logout handles POST /api/v1/auth/logout. It clears the session cookie unless
-// the request shows that the cookie belongs to a session other than the bearer
-// token's, so logging out one session leaves another one's cookie alone. The
-// token stays valid until it expires: the server keeps no session state.
+// Logout handles POST /api/v1/auth/logout. It revokes the bearer token, or the
+// session cookie's token when no bearer token is sent, so the token is refused
+// from then on. It clears the session cookie unless the request shows that the
+// cookie belongs to a session other than the bearer token's, so logging out one
+// session leaves another one's cookie alone.
 //
 // Only the cookie sent with this request is visible here. If a client signs in
 // while this reply is in flight, the reply can still clear the new cookie; the
 // client then calls Me to set it again.
 func (h *AuthHandlers) Logout(w http.ResponseWriter, r *http.Request) {
-	if token, err := TokenFromRequest(r); err == nil {
-		if cookie, err := r.Cookie(AuthCookieName); err != nil || strings.TrimSpace(cookie.Value) != token {
-			w.WriteHeader(http.StatusNoContent)
+	cookieToken := ""
+	if cookie, err := r.Cookie(AuthCookieName); err == nil {
+		cookieToken = strings.TrimSpace(cookie.Value)
+	}
+	token, err := TokenFromRequest(r)
+	clearCookie := err != nil || cookieToken == token
+	if err != nil {
+		token = cookieToken
+	}
+	if token != "" {
+		if err := revokeToken(r.Context(), h.revocations, token, h.jwtSecret); err != nil {
+			writeError(w, http.StatusInternalServerError, "failed to revoke session")
 			return
 		}
 	}
-	ClearSessionCookie(w, r)
+	if clearCookie {
+		ClearSessionCookie(w, r)
+	}
 	w.WriteHeader(http.StatusNoContent)
 }
 

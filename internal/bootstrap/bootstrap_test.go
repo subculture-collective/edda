@@ -184,6 +184,12 @@ func (s *stubQuerier) DeleteRelationship(ctx context.Context, arg statedb.Delete
 	return nil
 }
 func (s *stubQuerier) DeleteUser(ctx context.Context, id pgtype.UUID) error { return nil }
+func (s *stubQuerier) RevokeToken(ctx context.Context, arg statedb.RevokeTokenParams) error {
+	return nil
+}
+func (s *stubQuerier) IsTokenRevoked(ctx context.Context, jti string) (bool, error) {
+	return false, nil
+}
 func (s *stubQuerier) GetBeliefSystemByCulture(ctx context.Context, cultureID pgtype.UUID) (statedb.BeliefSystem, error) {
 	return statedb.BeliefSystem{}, nil
 }

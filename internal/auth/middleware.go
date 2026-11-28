@@ -44,16 +44,20 @@ func (m *NoOpMiddleware) Authenticate(next http.Handler) http.Handler {
 
 // JWTMiddleware validates JWT tokens and injects the user ID into context.
 type JWTMiddleware struct {
-	secret string
+	secret      string
+	revocations RevocationQuerier
 }
 
-// NewJWTMiddleware creates an auth middleware that validates JWT Bearer tokens.
-func NewJWTMiddleware(secret string) AuthMiddleware {
-	return &JWTMiddleware{secret: secret}
+// NewJWTMiddleware creates an auth middleware that validates JWT Bearer tokens
+// and refuses tokens listed in revocations.
+func NewJWTMiddleware(secret string, revocations RevocationQuerier) AuthMiddleware {
+	return &JWTMiddleware{secret: secret, revocations: revocations}
 }
 
 // Authenticate reads the Authorization header, validates the JWT, and sets
-// the user ID in request context. Returns 401 if the token is missing or invalid.
+// the user ID in request context. Returns 401 if the token is missing, invalid
+// or signed out. A token without an ID (jti) cannot be revoked, so it is
+// refused too: tokens issued before IDs were added must sign in again.
 func (m *JWTMiddleware) Authenticate(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		token, err := tokenFromRequest(r)
@@ -67,8 +71,17 @@ func (m *JWTMiddleware) Authenticate(next http.Handler) http.Handler {
 			return
 		}
 
-		userID, err := ValidateToken(token, m.secret)
+		userID, claims, err := parseToken(token, m.secret)
+		if err != nil || claims.ID == "" {
+			http.Error(w, `{"error":"invalid or expired token"}`, http.StatusUnauthorized)
+			return
+		}
+		revoked, err := m.revocations.IsTokenRevoked(r.Context(), claims.ID)
 		if err != nil {
+			http.Error(w, `{"error":"could not check the session"}`, http.StatusServiceUnavailable)
+			return
+		}
+		if revoked {
 			http.Error(w, `{"error":"invalid or expired token"}`, http.StatusUnauthorized)
 			return
 		}

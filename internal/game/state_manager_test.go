@@ -154,6 +154,14 @@ func (m *mockQuerier) DeleteUser(_ context.Context, _ pgtype.UUID) error {
 	return nil
 }
 
+func (m *mockQuerier) RevokeToken(_ context.Context, _ statedb.RevokeTokenParams) error {
+	return nil
+}
+
+func (m *mockQuerier) IsTokenRevoked(_ context.Context, _ string) (bool, error) {
+	return false, nil
+}
+
 func (m *mockQuerier) DeleteQuestNote(_ context.Context, _ statedb.DeleteQuestNoteParams) error {
 	return nil
 }
