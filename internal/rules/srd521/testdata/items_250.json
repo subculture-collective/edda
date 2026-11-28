@@ -1,0 +1,218 @@
+{
+  "schema_version": 1,
+  "rules_version": "srd-5.2.1",
+  "batch": "data-weapons-04",
+  "catalogue_issue": 250,
+  "source": {
+    "version": "5.2.1",
+    "language": "en",
+    "landing_url": "https://www.dndbeyond.com/srd",
+    "artifact_url": "https://media.dndbeyond.com/compendium-images/srd/5.2/SRD_CC_v5.2.1.pdf",
+    "sha256": "8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87",
+    "bytes": 6031375,
+    "pages": 364,
+    "retrieved_at": "2026-11-15",
+    "license": "CC-BY-4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/legalcode",
+    "attribution": "This work includes material from the System Reference Document 5.2.1 (\u201cSRD 5.2.1\u201d) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd. The SRD 5.2.1 is licensed under the Creative Commons Attribution 4.0 International License, available at https://creativecommons.org/licenses/by/4.0/legalcode.",
+    "changes": "SRD 5.2.1 p. 91 Weapons table rows (Whip, and Heavy Crossbow, which the planning inventory omits) adapted into two versioned mundane weapon records with structured damage, properties, range, ammunition, mastery, weight and listed price. Names, numeric values and table keys are adapted; no rules prose is reproduced. Catalogue data grants no inventory, action or gameplay permissions; every record is unavailable."
+  },
+  "families": [
+    {
+      "id": "srd-5.2.1:content/items/whip",
+      "name": "Whip",
+      "kind": "mundane",
+      "category": "weapon",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/weapons/whip",
+          "pages": [
+            91,
+            91
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/whip/variant/standard",
+          "name": "Whip",
+          "rarity": "none",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wield",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "weapon-attack",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "listed",
+            "amount": 2,
+            "currency": "gp",
+            "source_pages": [
+              91,
+              91
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.wield",
+            "weapon.attack",
+            "weapon.martial",
+            "weapon.melee",
+            "damage.1d4-slashing",
+            "property.finesse",
+            "property.reach",
+            "mastery.slow"
+          ],
+          "details": {
+            "weapon": {
+              "proficiency_category": "martial",
+              "attack_kind": "melee",
+              "damage": {
+                "dice": 1,
+                "sides": 4,
+                "flat": 0,
+                "type": "slashing"
+              },
+              "properties": [
+                "finesse",
+                "reach"
+              ],
+              "range": {
+                "normal_feet": 0,
+                "long_feet": 0
+              },
+              "ammunition": "none",
+              "versatile_damage": {
+                "dice": 0,
+                "sides": 0
+              },
+              "two_handed_exception": "none",
+              "mastery": "slow",
+              "weight": {
+                "listed": true,
+                "pounds_numerator": 3,
+                "pounds_denominator": 1
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/heavy-crossbow",
+      "name": "Heavy Crossbow",
+      "kind": "mundane",
+      "category": "weapon",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/weapons/heavy-crossbow",
+          "pages": [
+            91,
+            91
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/heavy-crossbow/variant/standard",
+          "name": "Heavy Crossbow",
+          "rarity": "none",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wield",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "weapon-attack",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "listed",
+            "amount": 50,
+            "currency": "gp",
+            "source_pages": [
+              91,
+              91
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.wield",
+            "weapon.attack",
+            "weapon.martial",
+            "weapon.ranged",
+            "damage.1d10-piercing",
+            "property.ammunition",
+            "property.heavy",
+            "property.loading",
+            "property.two-handed",
+            "range.100-400",
+            "ammunition.bolt",
+            "mastery.push"
+          ],
+          "details": {
+            "weapon": {
+              "proficiency_category": "martial",
+              "attack_kind": "ranged",
+              "damage": {
+                "dice": 1,
+                "sides": 10,
+                "flat": 0,
+                "type": "piercing"
+              },
+              "properties": [
+                "ammunition",
+                "heavy",
+                "loading",
+                "two-handed"
+              ],
+              "range": {
+                "normal_feet": 100,
+                "long_feet": 400
+              },
+              "ammunition": "bolt",
+              "versatile_damage": {
+                "dice": 0,
+                "sides": 0
+              },
+              "two_handed_exception": "none",
+              "mastery": "push",
+              "weight": {
+                "listed": true,
+                "pounds_numerator": 18,
+                "pounds_denominator": 1
+              }
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

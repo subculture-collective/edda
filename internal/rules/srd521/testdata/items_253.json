@@ -1,0 +1,1374 @@
+{
+  "schema_version": 1,
+  "rules_version": "srd-5.2.1",
+  "batch": "data-tools-01",
+  "catalogue_issue": 253,
+  "source": {
+    "version": "5.2.1",
+    "language": "en",
+    "landing_url": "https://www.dndbeyond.com/srd",
+    "artifact_url": "https://media.dndbeyond.com/compendium-images/srd/5.2/SRD_CC_v5.2.1.pdf",
+    "sha256": "8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87",
+    "bytes": 6031375,
+    "pages": 364,
+    "retrieved_at": "2026-11-15",
+    "license": "CC-BY-4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/legalcode",
+    "attribution": "This work includes material from the System Reference Document 5.2.1 (\u201cSRD 5.2.1\u201d) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd. The SRD 5.2.1 is licensed under the Creative Commons Attribution 4.0 International License, available at https://creativecommons.org/licenses/by/4.0/legalcode.",
+    "changes": "SRD 5.2.1 pp. 93\u201394 tool entries (Alchemist\u2019s Supplies through Herbalism Kit) adapted into twelve versioned mundane tool families with structured ability, Utilize tasks and DCs, craft entries, variants, weight and listed price. Names, numeric values and keys that follow the printed Utilize and Craft wording are adapted. Catalogue data grants no inventory, proficiency, action or gameplay permissions; every record is unavailable."
+  },
+  "families": [
+    {
+      "id": "srd-5.2.1:content/items/alchemists-supplies",
+      "name": "Alchemist\u2019s Supplies",
+      "kind": "mundane",
+      "category": "tool",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/tools/alchemists-supplies",
+          "pages": [
+            93,
+            93
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/alchemists-supplies/variant/standard",
+          "name": "Alchemist\u2019s Supplies",
+          "rarity": "none",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "utilize",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "listed",
+            "amount": 50,
+            "currency": "gp",
+            "source_pages": [
+              93,
+              93
+            ]
+          },
+          "required_mechanic_keys": [
+            "tool.utilize",
+            "tool.proficiency",
+            "tool.artisans-tools",
+            "ability.intelligence",
+            "utilize.identify-substance-dc-15",
+            "utilize.start-fire-dc-15",
+            "craft.acid",
+            "craft.alchemists-fire",
+            "craft.component-pouch",
+            "craft.oil",
+            "craft.paper",
+            "craft.perfume"
+          ],
+          "details": {
+            "tool": {
+              "tool_group": "artisans-tools",
+              "ability": "intelligence",
+              "utilize": [
+                {
+                  "task": "identify-substance",
+                  "dc": 15
+                },
+                {
+                  "task": "start-fire",
+                  "dc": 15
+                }
+              ],
+              "craft": [
+                {
+                  "item": "acid",
+                  "except": []
+                },
+                {
+                  "item": "alchemists-fire",
+                  "except": []
+                },
+                {
+                  "item": "component-pouch",
+                  "except": []
+                },
+                {
+                  "item": "oil",
+                  "except": []
+                },
+                {
+                  "item": "paper",
+                  "except": []
+                },
+                {
+                  "item": "perfume",
+                  "except": []
+                }
+              ],
+              "weight": {
+                "listed": true,
+                "pounds": 8
+              },
+              "source_pages": [
+                93,
+                93
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/brewers-supplies",
+      "name": "Brewer\u2019s Supplies",
+      "kind": "mundane",
+      "category": "tool",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/tools/brewers-supplies",
+          "pages": [
+            93,
+            93
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/brewers-supplies/variant/standard",
+          "name": "Brewer\u2019s Supplies",
+          "rarity": "none",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "utilize",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "listed",
+            "amount": 20,
+            "currency": "gp",
+            "source_pages": [
+              93,
+              93
+            ]
+          },
+          "required_mechanic_keys": [
+            "tool.utilize",
+            "tool.proficiency",
+            "tool.artisans-tools",
+            "ability.intelligence",
+            "utilize.detect-poisoned-drink-dc-15",
+            "utilize.identify-alcohol-dc-10",
+            "craft.antitoxin"
+          ],
+          "details": {
+            "tool": {
+              "tool_group": "artisans-tools",
+              "ability": "intelligence",
+              "utilize": [
+                {
+                  "task": "detect-poisoned-drink",
+                  "dc": 15
+                },
+                {
+                  "task": "identify-alcohol",
+                  "dc": 10
+                }
+              ],
+              "craft": [
+                {
+                  "item": "antitoxin",
+                  "except": []
+                }
+              ],
+              "weight": {
+                "listed": true,
+                "pounds": 9
+              },
+              "source_pages": [
+                93,
+                93
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/calligraphers-supplies",
+      "name": "Calligrapher\u2019s Supplies",
+      "kind": "mundane",
+      "category": "tool",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/tools/calligraphers-supplies",
+          "pages": [
+            93,
+            93
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/calligraphers-supplies/variant/standard",
+          "name": "Calligrapher\u2019s Supplies",
+          "rarity": "none",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "utilize",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "listed",
+            "amount": 10,
+            "currency": "gp",
+            "source_pages": [
+              93,
+              93
+            ]
+          },
+          "required_mechanic_keys": [
+            "tool.utilize",
+            "tool.proficiency",
+            "tool.artisans-tools",
+            "ability.dexterity",
+            "utilize.write-text-with-impressive-flourishes-that-guard-against-forgery-dc-15",
+            "craft.ink",
+            "craft.spell-scroll"
+          ],
+          "details": {
+            "tool": {
+              "tool_group": "artisans-tools",
+              "ability": "dexterity",
+              "utilize": [
+                {
+                  "task": "write-text-with-impressive-flourishes-that-guard-against-forgery",
+                  "dc": 15
+                }
+              ],
+              "craft": [
+                {
+                  "item": "ink",
+                  "except": []
+                },
+                {
+                  "item": "spell-scroll",
+                  "except": []
+                }
+              ],
+              "weight": {
+                "listed": true,
+                "pounds": 5
+              },
+              "source_pages": [
+                93,
+                93
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/carpenters-tools",
+      "name": "Carpenter\u2019s Tools",
+      "kind": "mundane",
+      "category": "tool",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/tools/carpenters-tools",
+          "pages": [
+            93,
+            93
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/carpenters-tools/variant/standard",
+          "name": "Carpenter\u2019s Tools",
+          "rarity": "none",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "utilize",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "listed",
+            "amount": 8,
+            "currency": "gp",
+            "source_pages": [
+              93,
+              93
+            ]
+          },
+          "required_mechanic_keys": [
+            "tool.utilize",
+            "tool.proficiency",
+            "tool.artisans-tools",
+            "ability.strength",
+            "utilize.seal-or-pry-open-door-or-container-dc-20",
+            "craft.club",
+            "craft.greatclub",
+            "craft.quarterstaff",
+            "craft.barrel",
+            "craft.chest",
+            "craft.ladder",
+            "craft.pole",
+            "craft.portable-ram",
+            "craft.torch"
+          ],
+          "details": {
+            "tool": {
+              "tool_group": "artisans-tools",
+              "ability": "strength",
+              "utilize": [
+                {
+                  "task": "seal-or-pry-open-door-or-container",
+                  "dc": 20
+                }
+              ],
+              "craft": [
+                {
+                  "item": "club",
+                  "except": []
+                },
+                {
+                  "item": "greatclub",
+                  "except": []
+                },
+                {
+                  "item": "quarterstaff",
+                  "except": []
+                },
+                {
+                  "item": "barrel",
+                  "except": []
+                },
+                {
+                  "item": "chest",
+                  "except": []
+                },
+                {
+                  "item": "ladder",
+                  "except": []
+                },
+                {
+                  "item": "pole",
+                  "except": []
+                },
+                {
+                  "item": "portable-ram",
+                  "except": []
+                },
+                {
+                  "item": "torch",
+                  "except": []
+                }
+              ],
+              "weight": {
+                "listed": true,
+                "pounds": 6
+              },
+              "source_pages": [
+                93,
+                93
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/cartographers-tools",
+      "name": "Cartographer\u2019s Tools",
+      "kind": "mundane",
+      "category": "tool",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/tools/cartographers-tools",
+          "pages": [
+            93,
+            93
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/cartographers-tools/variant/standard",
+          "name": "Cartographer\u2019s Tools",
+          "rarity": "none",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "utilize",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "listed",
+            "amount": 15,
+            "currency": "gp",
+            "source_pages": [
+              93,
+              93
+            ]
+          },
+          "required_mechanic_keys": [
+            "tool.utilize",
+            "tool.proficiency",
+            "tool.artisans-tools",
+            "ability.wisdom",
+            "utilize.draft-map-of-small-area-dc-15",
+            "craft.map"
+          ],
+          "details": {
+            "tool": {
+              "tool_group": "artisans-tools",
+              "ability": "wisdom",
+              "utilize": [
+                {
+                  "task": "draft-map-of-small-area",
+                  "dc": 15
+                }
+              ],
+              "craft": [
+                {
+                  "item": "map",
+                  "except": []
+                }
+              ],
+              "weight": {
+                "listed": true,
+                "pounds": 6
+              },
+              "source_pages": [
+                93,
+                93
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/cobblers-tools",
+      "name": "Cobbler\u2019s Tools",
+      "kind": "mundane",
+      "category": "tool",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/tools/cobblers-tools",
+          "pages": [
+            93,
+            93
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/cobblers-tools/variant/standard",
+          "name": "Cobbler\u2019s Tools",
+          "rarity": "none",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "utilize",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "listed",
+            "amount": 5,
+            "currency": "gp",
+            "source_pages": [
+              93,
+              93
+            ]
+          },
+          "required_mechanic_keys": [
+            "tool.utilize",
+            "tool.proficiency",
+            "tool.artisans-tools",
+            "ability.dexterity",
+            "utilize.modify-footwear-to-give-advantage-on-wearers-next-dexterity-acrobatics-check-dc-10",
+            "craft.climbers-kit"
+          ],
+          "details": {
+            "tool": {
+              "tool_group": "artisans-tools",
+              "ability": "dexterity",
+              "utilize": [
+                {
+                  "task": "modify-footwear-to-give-advantage-on-wearers-next-dexterity-acrobatics-check",
+                  "dc": 10
+                }
+              ],
+              "craft": [
+                {
+                  "item": "climbers-kit",
+                  "except": []
+                }
+              ],
+              "weight": {
+                "listed": true,
+                "pounds": 5
+              },
+              "source_pages": [
+                93,
+                93
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/cooks-utensils",
+      "name": "Cook\u2019s Utensils",
+      "kind": "mundane",
+      "category": "tool",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/tools/cooks-utensils",
+          "pages": [
+            93,
+            93
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/cooks-utensils/variant/standard",
+          "name": "Cook\u2019s Utensils",
+          "rarity": "none",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "utilize",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "listed",
+            "amount": 1,
+            "currency": "gp",
+            "source_pages": [
+              93,
+              93
+            ]
+          },
+          "required_mechanic_keys": [
+            "tool.utilize",
+            "tool.proficiency",
+            "tool.artisans-tools",
+            "ability.wisdom",
+            "utilize.improve-foods-flavor-dc-10",
+            "utilize.detect-spoiled-or-poisoned-food-dc-15",
+            "craft.rations"
+          ],
+          "details": {
+            "tool": {
+              "tool_group": "artisans-tools",
+              "ability": "wisdom",
+              "utilize": [
+                {
+                  "task": "improve-foods-flavor",
+                  "dc": 10
+                },
+                {
+                  "task": "detect-spoiled-or-poisoned-food",
+                  "dc": 15
+                }
+              ],
+              "craft": [
+                {
+                  "item": "rations",
+                  "except": []
+                }
+              ],
+              "weight": {
+                "listed": true,
+                "pounds": 8
+              },
+              "source_pages": [
+                93,
+                93
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/disguise-kit",
+      "name": "Disguise Kit",
+      "kind": "mundane",
+      "category": "tool",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/tools/disguise-kit",
+          "pages": [
+            94,
+            94
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/disguise-kit/variant/standard",
+          "name": "Disguise Kit",
+          "rarity": "none",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "utilize",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "listed",
+            "amount": 25,
+            "currency": "gp",
+            "source_pages": [
+              94,
+              94
+            ]
+          },
+          "required_mechanic_keys": [
+            "tool.utilize",
+            "tool.proficiency",
+            "tool.other-tools",
+            "ability.charisma",
+            "utilize.apply-makeup-dc-10",
+            "craft.costume"
+          ],
+          "details": {
+            "tool": {
+              "tool_group": "other-tools",
+              "ability": "charisma",
+              "utilize": [
+                {
+                  "task": "apply-makeup",
+                  "dc": 10
+                }
+              ],
+              "craft": [
+                {
+                  "item": "costume",
+                  "except": []
+                }
+              ],
+              "weight": {
+                "listed": true,
+                "pounds": 3
+              },
+              "source_pages": [
+                94,
+                94
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/forgery-kit",
+      "name": "Forgery Kit",
+      "kind": "mundane",
+      "category": "tool",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/tools/forgery-kit",
+          "pages": [
+            94,
+            94
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/forgery-kit/variant/standard",
+          "name": "Forgery Kit",
+          "rarity": "none",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "utilize",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "listed",
+            "amount": 15,
+            "currency": "gp",
+            "source_pages": [
+              94,
+              94
+            ]
+          },
+          "required_mechanic_keys": [
+            "tool.utilize",
+            "tool.proficiency",
+            "tool.other-tools",
+            "ability.dexterity",
+            "utilize.mimic-10-or-fewer-words-of-someone-elses-handwriting-dc-15",
+            "utilize.duplicate-wax-seal-dc-20"
+          ],
+          "details": {
+            "tool": {
+              "tool_group": "other-tools",
+              "ability": "dexterity",
+              "utilize": [
+                {
+                  "task": "mimic-10-or-fewer-words-of-someone-elses-handwriting",
+                  "dc": 15
+                },
+                {
+                  "task": "duplicate-wax-seal",
+                  "dc": 20
+                }
+              ],
+              "craft": [],
+              "weight": {
+                "listed": true,
+                "pounds": 5
+              },
+              "source_pages": [
+                94,
+                94
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/gaming-set",
+      "name": "Gaming Set",
+      "kind": "mundane",
+      "category": "tool",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/tools/gaming-set",
+          "pages": [
+            94,
+            94
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/gaming-set/variant/dice",
+          "name": "Dice",
+          "rarity": "none",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "utilize",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "listed",
+            "amount": 1,
+            "currency": "sp",
+            "source_pages": [
+              94,
+              94
+            ]
+          },
+          "required_mechanic_keys": [
+            "tool.utilize",
+            "tool.proficiency",
+            "tool.other-tools",
+            "ability.wisdom",
+            "utilize.discern-whether-someone-is-cheating-dc-10",
+            "utilize.win-game-dc-20"
+          ],
+          "details": {
+            "tool": {
+              "tool_group": "other-tools",
+              "ability": "wisdom",
+              "utilize": [
+                {
+                  "task": "discern-whether-someone-is-cheating",
+                  "dc": 10
+                },
+                {
+                  "task": "win-game",
+                  "dc": 20
+                }
+              ],
+              "craft": [],
+              "weight": {
+                "listed": false,
+                "pounds": 0
+              },
+              "source_pages": [
+                94,
+                94
+              ]
+            }
+          }
+        },
+        {
+          "id": "srd-5.2.1:content/items/gaming-set/variant/dragonchess",
+          "name": "Dragonchess",
+          "rarity": "none",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "utilize",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "listed",
+            "amount": 1,
+            "currency": "gp",
+            "source_pages": [
+              94,
+              94
+            ]
+          },
+          "required_mechanic_keys": [
+            "tool.utilize",
+            "tool.proficiency",
+            "tool.other-tools",
+            "ability.wisdom",
+            "utilize.discern-whether-someone-is-cheating-dc-10",
+            "utilize.win-game-dc-20"
+          ],
+          "details": {
+            "tool": {
+              "tool_group": "other-tools",
+              "ability": "wisdom",
+              "utilize": [
+                {
+                  "task": "discern-whether-someone-is-cheating",
+                  "dc": 10
+                },
+                {
+                  "task": "win-game",
+                  "dc": 20
+                }
+              ],
+              "craft": [],
+              "weight": {
+                "listed": false,
+                "pounds": 0
+              },
+              "source_pages": [
+                94,
+                94
+              ]
+            }
+          }
+        },
+        {
+          "id": "srd-5.2.1:content/items/gaming-set/variant/playing-cards",
+          "name": "Playing cards",
+          "rarity": "none",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "utilize",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "listed",
+            "amount": 5,
+            "currency": "sp",
+            "source_pages": [
+              94,
+              94
+            ]
+          },
+          "required_mechanic_keys": [
+            "tool.utilize",
+            "tool.proficiency",
+            "tool.other-tools",
+            "ability.wisdom",
+            "utilize.discern-whether-someone-is-cheating-dc-10",
+            "utilize.win-game-dc-20"
+          ],
+          "details": {
+            "tool": {
+              "tool_group": "other-tools",
+              "ability": "wisdom",
+              "utilize": [
+                {
+                  "task": "discern-whether-someone-is-cheating",
+                  "dc": 10
+                },
+                {
+                  "task": "win-game",
+                  "dc": 20
+                }
+              ],
+              "craft": [],
+              "weight": {
+                "listed": false,
+                "pounds": 0
+              },
+              "source_pages": [
+                94,
+                94
+              ]
+            }
+          }
+        },
+        {
+          "id": "srd-5.2.1:content/items/gaming-set/variant/three-dragon-ante",
+          "name": "Three-dragon ante",
+          "rarity": "none",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "utilize",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "listed",
+            "amount": 1,
+            "currency": "gp",
+            "source_pages": [
+              94,
+              94
+            ]
+          },
+          "required_mechanic_keys": [
+            "tool.utilize",
+            "tool.proficiency",
+            "tool.other-tools",
+            "ability.wisdom",
+            "utilize.discern-whether-someone-is-cheating-dc-10",
+            "utilize.win-game-dc-20"
+          ],
+          "details": {
+            "tool": {
+              "tool_group": "other-tools",
+              "ability": "wisdom",
+              "utilize": [
+                {
+                  "task": "discern-whether-someone-is-cheating",
+                  "dc": 10
+                },
+                {
+                  "task": "win-game",
+                  "dc": 20
+                }
+              ],
+              "craft": [],
+              "weight": {
+                "listed": false,
+                "pounds": 0
+              },
+              "source_pages": [
+                94,
+                94
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/glassblowers-tools",
+      "name": "Glassblower\u2019s Tools",
+      "kind": "mundane",
+      "category": "tool",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/tools/glassblowers-tools",
+          "pages": [
+            93,
+            93
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/glassblowers-tools/variant/standard",
+          "name": "Glassblower\u2019s Tools",
+          "rarity": "none",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "utilize",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "listed",
+            "amount": 30,
+            "currency": "gp",
+            "source_pages": [
+              93,
+              93
+            ]
+          },
+          "required_mechanic_keys": [
+            "tool.utilize",
+            "tool.proficiency",
+            "tool.artisans-tools",
+            "ability.intelligence",
+            "utilize.discern-what-glass-object-held-in-past-24-hours-dc-15",
+            "craft.glass-bottle",
+            "craft.magnifying-glass",
+            "craft.spyglass",
+            "craft.vial"
+          ],
+          "details": {
+            "tool": {
+              "tool_group": "artisans-tools",
+              "ability": "intelligence",
+              "utilize": [
+                {
+                  "task": "discern-what-glass-object-held-in-past-24-hours",
+                  "dc": 15
+                }
+              ],
+              "craft": [
+                {
+                  "item": "glass-bottle",
+                  "except": []
+                },
+                {
+                  "item": "magnifying-glass",
+                  "except": []
+                },
+                {
+                  "item": "spyglass",
+                  "except": []
+                },
+                {
+                  "item": "vial",
+                  "except": []
+                }
+              ],
+              "weight": {
+                "listed": true,
+                "pounds": 5
+              },
+              "source_pages": [
+                93,
+                93
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/herbalism-kit",
+      "name": "Herbalism Kit",
+      "kind": "mundane",
+      "category": "tool",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/tools/herbalism-kit",
+          "pages": [
+            94,
+            94
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/herbalism-kit/variant/standard",
+          "name": "Herbalism Kit",
+          "rarity": "none",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "utilize",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "listed",
+            "amount": 5,
+            "currency": "gp",
+            "source_pages": [
+              94,
+              94
+            ]
+          },
+          "required_mechanic_keys": [
+            "tool.utilize",
+            "tool.proficiency",
+            "tool.other-tools",
+            "ability.intelligence",
+            "utilize.identify-plant-dc-10",
+            "craft.antitoxin",
+            "craft.candle",
+            "craft.healers-kit",
+            "craft.potion-of-healing"
+          ],
+          "details": {
+            "tool": {
+              "tool_group": "other-tools",
+              "ability": "intelligence",
+              "utilize": [
+                {
+                  "task": "identify-plant",
+                  "dc": 10
+                }
+              ],
+              "craft": [
+                {
+                  "item": "antitoxin",
+                  "except": []
+                },
+                {
+                  "item": "candle",
+                  "except": []
+                },
+                {
+                  "item": "healers-kit",
+                  "except": []
+                },
+                {
+                  "item": "potion-of-healing",
+                  "except": []
+                }
+              ],
+              "weight": {
+                "listed": true,
+                "pounds": 3
+              },
+              "source_pages": [
+                94,
+                94
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

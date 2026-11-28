@@ -22,8 +22,9 @@ source rows against it. It does not add a second record, which
 `internal/rules/srd521/item_source.go` is shared by all batches and should not
 need editing for a new one. It defines the generic `ItemSourceBatch[D]` record,
 strict decoding, magic-item manifest validation and
-`ComposeItemSourceIdentities`. Weapon batches validate through
-`item_source_weapons.go`; see [Weapon records](#weapon-records).
+`ComposeItemSourceIdentities`. Mundane batches have their own validators:
+see [Weapon records](#weapon-records) and
+[Armor and tool records](#armor-and-tool-records).
 
 Each batch owns four files named after its catalogue issue, here `225`:
 
@@ -1258,8 +1259,8 @@ the record; no runtime code reads it.
 
 The comparison scripts for weapons parse the printed table rows and build the
 expected records from them, without a hand-kept value list. They also check that
-the planning inventory omits exactly one printed weapon, **Heavy Crossbow**. No
-catalogue issue assigns it, so it has no record yet.
+the planning inventory omits exactly one printed weapon, **Heavy Crossbow**. The
+inventory is unchanged; batch #250 carries its record.
 
 ## Weapons 01 (#247), p. 91
 
@@ -1390,3 +1391,265 @@ The SRD 5.2.1 is licensed under the Creative Commons Attribution 4.0 Internation
 License, available at https://creativecommons.org/licenses/by/4.0/legalcode.
 Names, numeric values and table rows are adapted into Edda's structured item
 records; the software license does not replace this source license.
+
+## Weapons 04 (#250), p. 91
+
+Two weapons, one `standard` record each. Files:
+`item_details_250.go`, `testdata/items_250.json`, `items_250_test.go` and
+`scripts/verify_srd_items_250.py`.
+
+| Weapon | Category | Damage | Mastery | Cost |
+| --- | --- | --- | --- | --- |
+| Whip | Martial Melee | 1d4 Slashing | Slow | 2 GP |
+| Heavy Crossbow | Martial Ranged | 1d10 Piercing | Push | 50 GP |
+
+The Whip is the only weapon the planning inventory assigns to #250. The Heavy
+Crossbow is printed in the p. 91 table but missing from the inventory, so it was
+added to this batch and follows the Whip. Its presentation ID,
+`content/weapons/heavy-crossbow`, has no inventory record; the test and the
+comparison script check that. With this batch all 38 printed weapons have a
+record.
+
+Composing the Healing contract fixture with batches #225 to #249 and this batch
+yields 296 families and 372 variants with no shared identity. The coverage register
+is unchanged.
+
+```sh
+rtk proxy python3 -I scripts/verify_srd_items_250.py /path/to/SRD_CC_v5.2.1.pdf
+```
+
+This work includes material from the System Reference Document 5.2.1 (“SRD
+5.2.1”) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd.
+The SRD 5.2.1 is licensed under the Creative Commons Attribution 4.0 International
+License, available at https://creativecommons.org/licenses/by/4.0/legalcode.
+Names, numeric values and table rows are adapted into Edda's structured item
+records; the software license does not replace this source license.
+
+## Armor and tool records
+
+Armor and tools are mundane items with listed prices. `item_source_mundane.go`
+holds the identity and requirement checks they share; it accepts several
+variants per family, which the weapon validator does not. The payloads are
+`ItemArmor` in `item_source_armor.go` and `ItemTool` in `item_source_tools.go`.
+A record has kind `mundane`, rarity `none`, no attunement or charges, and the
+listed price. The manifest pins identity, price and mechanic keys, and the keys
+must equal those derived from the payload. The keys restate every payload value
+except weight and a tool's `source_pages`, so the decoder rejects a change to
+those other values. A craft key joins its exceptions with hyphens, so the decoder
+cannot tell how that list is split; the literal fixtures and comparison scripts
+check it.
+
+An armor presentation is `content/armor/<slug>` with category `armor`, including
+the Shield. A suit is worn and the Shield is wielded. The don and doff times come
+from the category headings of the table. The rules prose on training, one suit at
+a time and the speed penalty for low Strength is not transcribed; the
+`armor.training` and `strength.<n>` keys name what a resolver would need.
+
+A tool presentation is `content/tools/<slug>` with category `tool`. The source
+states no equip requirement, so the equip mode is `none` and the use mode is
+`utilize`. Utilize tasks and craft entries are keys made from the printed words
+in lower case, without articles and apostrophes. They do not link to item
+records. A group with exceptions, such as "Medium armor (except Hide)", is one
+craft entry with an `except` list. The rules prose on Tool Proficiency, Artisan's
+Tools and crafting is not transcribed.
+
+**Ownership.** Before #251, no armor or tool had an item record, so each
+catalogue record is that item's only record. The runtime holds fixed behaviour
+for two armor items:
+
+| Where | What it holds |
+| --- | --- |
+| `equipment.go` | Chain Mail and Shield equipment changes: don and doff time, the Strength 13 requirement and the source IDs |
+| `character.go` | Armor Class 16 for Chain Mail and +2 for the Shield |
+| `game/equipment_preview.go` | The same two item keys, checked against inventory rows |
+| `creation.go` | The names "Chain Mail" and "Shield", and the tool "Dice Set" |
+| Character source catalogues | References to equipment and tool keys |
+
+None of these is an item record: none holds a price, weight or the table row.
+The source IDs that `ChangeEquipment` writes, `content/armor/chain-mail` and
+`content/armor/shield`, equal the new presentation IDs. The #251 test holds the
+runtime Armor Class, Strength requirement, don and doff times and source IDs to
+the records. The runtime refuses Chain Mail below Strength 13 instead of reducing
+speed, and treats the Shield's Utilize action as one six-second interval. No
+runtime file changed, and no runtime code reads the records.
+
+The armor comparison scripts parse the printed table and the tool scripts parse
+the printed entries, one page column at a time. Both build the expected records
+from that text, without a hand-kept value list.
+
+## Armor 01 (#251), p. 92
+
+Twelve armor records, one `standard` record each, in planning inventory order.
+Files: `item_details_251.go`, `testdata/items_251.json`, `items_251_test.go` and
+`scripts/verify_srd_items_251.py`.
+
+| Armor | Category | Armor Class | Strength | Stealth | Weight | Cost |
+| --- | --- | --- | --- | --- | --- | --- |
+| Breastplate | Medium | 14 + Dex (max 2) | — | — | 20 lb. | 400 GP |
+| Chain Mail | Heavy | 16 | 13 | Disadvantage | 55 lb. | 75 GP |
+| Chain Shirt | Medium | 13 + Dex (max 2) | — | — | 20 lb. | 50 GP |
+| Half Plate Armor | Medium | 15 + Dex (max 2) | — | Disadvantage | 40 lb. | 750 GP |
+| Hide Armor | Medium | 12 + Dex (max 2) | — | — | 12 lb. | 10 GP |
+| Leather Armor | Light | 11 + Dex | — | — | 10 lb. | 10 GP |
+| Padded Armor | Light | 11 + Dex | — | Disadvantage | 8 lb. | 5 GP |
+| Plate Armor | Heavy | 18 | 15 | Disadvantage | 65 lb. | 1,500 GP |
+| Ring Mail | Heavy | 14 | — | Disadvantage | 40 lb. | 30 GP |
+| Scale Mail | Medium | 14 + Dex (max 2) | — | Disadvantage | 45 lb. | 50 GP |
+| Shield | Shield | +2 | — | — | 6 lb. | 10 GP |
+| Splint Armor | Heavy | 17 | 15 | Disadvantage | 60 lb. | 200 GP |
+
+Composing the Healing contract fixture with batches #225 to #250 and this batch
+yields 308 families and 384 variants with no shared identity. The coverage register
+is unchanged.
+
+```sh
+rtk proxy python3 -I scripts/verify_srd_items_251.py /path/to/SRD_CC_v5.2.1.pdf
+```
+
+This work includes material from the System Reference Document 5.2.1 (“SRD
+5.2.1”) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd.
+The SRD 5.2.1 is licensed under the Creative Commons Attribution 4.0 International
+License, available at https://creativecommons.org/licenses/by/4.0/legalcode.
+Names, numeric values and table rows are adapted into Edda's structured item
+records; the software license does not replace this source license.
+
+## Armor 02 (#252), p. 92
+
+One armor record. Files: `item_details_252.go`, `testdata/items_252.json`, `items_252_test.go` and
+`scripts/verify_srd_items_252.py`.
+
+| Armor | Category | Armor Class | Strength | Stealth | Weight | Cost |
+| --- | --- | --- | --- | --- | --- | --- |
+| Studded Leather Armor | Light | 12 + Dex | — | — | 13 lb. | 45 GP |
+
+With this batch all 13 printed armor rows have a record.
+
+Composing the Healing contract fixture with batches #225 to #251 and this batch
+yields 309 families and 385 variants with no shared identity. The coverage register
+is unchanged.
+
+```sh
+rtk proxy python3 -I scripts/verify_srd_items_252.py /path/to/SRD_CC_v5.2.1.pdf
+```
+
+This work includes material from the System Reference Document 5.2.1 (“SRD
+5.2.1”) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd.
+The SRD 5.2.1 is licensed under the Creative Commons Attribution 4.0 International
+License, available at https://creativecommons.org/licenses/by/4.0/legalcode.
+Names, numeric values and table rows are adapted into Edda's structured item
+records; the software license does not replace this source license.
+
+## Tools 01 (#253), pp. 93–94
+
+Twelve tool families and fifteen variants, in planning inventory order. Files:
+`item_details_253.go`, `testdata/items_253.json`, `items_253_test.go` and
+`scripts/verify_srd_items_253.py`.
+
+| Tool | Page | Ability | Cost | Variants |
+| --- | --- | --- | --- | --- |
+| Alchemist’s Supplies | 93 | Intelligence | 50 GP | `standard` |
+| Brewer’s Supplies | 93 | Intelligence | 20 GP | `standard` |
+| Calligrapher’s Supplies | 93 | Dexterity | 10 GP | `standard` |
+| Carpenter’s Tools | 93 | Strength | 8 GP | `standard` |
+| Cartographer’s Tools | 93 | Wisdom | 15 GP | `standard` |
+| Cobbler’s Tools | 93 | Dexterity | 5 GP | `standard` |
+| Cook’s Utensils | 93 | Wisdom | 1 GP | `standard` |
+| Disguise Kit | 94 | Charisma | 25 GP | `standard` |
+| Forgery Kit | 94 | Dexterity | 15 GP | `standard` |
+| Gaming Set | 94 | Wisdom | Varies | Dice (1 SP), Dragonchess (1 GP), Playing cards (5 SP), Three-dragon ante (1 GP) |
+| Glassblower’s Tools | 93 | Intelligence | 30 GP | `standard` |
+| Herbalism Kit | 94 | Intelligence | 5 GP | `standard` |
+
+Each Gaming Set variant is a separate variant with its own price; the source says
+each requires a separate proficiency. The entry prints its weight as a dash, so
+`weight.listed` is false. The creation fixture's tool is named "Dice Set"; the
+`dice` variant is its record. The test also joins the background catalogue's
+Calligrapher's Supplies and Gaming Set keys.
+
+Composing the Healing contract fixture with batches #225 to #252 and this batch
+yields 321 families and 400 variants with no shared identity. The coverage register
+is unchanged.
+
+```sh
+rtk proxy python3 -I scripts/verify_srd_items_253.py /path/to/SRD_CC_v5.2.1.pdf
+```
+
+This work includes material from the System Reference Document 5.2.1 (“SRD
+5.2.1”) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd.
+The SRD 5.2.1 is licensed under the Creative Commons Attribution 4.0 International
+License, available at https://creativecommons.org/licenses/by/4.0/legalcode.
+Names, numeric values and keys that follow the printed wording are adapted into
+Edda's structured item records; the software license does not replace this source
+license.
+
+## Tools 02 (#254), pp. 93–94
+
+Twelve tool families and twenty-one variants, in planning inventory order. Files:
+`item_details_254.go`, `testdata/items_254.json`, `items_254_test.go` and
+`scripts/verify_srd_items_254.py`.
+
+| Tool | Page | Ability | Cost | Variants |
+| --- | --- | --- | --- | --- |
+| Jeweler’s Tools | 93 | Intelligence | 25 GP | `standard` |
+| Leatherworker’s Tools | 93 | Dexterity | 5 GP | `standard` |
+| Mason’s Tools | 93 | Strength | 10 GP | `standard` |
+| Musical Instrument | 94 | Charisma | Varies | Bagpipes (30 GP), Drum (6 GP), Dulcimer (25 GP), Flute (2 GP), Horn (3 GP), Lute (35 GP), Lyre (30 GP), Pan flute (12 GP), Shawm (2 GP), Viol (30 GP) |
+| Navigator’s Tools | 94 | Wisdom | 25 GP | `standard` |
+| Painter’s Supplies | 93 | Wisdom | 10 GP | `standard` |
+| Poisoner’s Kit | 94 | Intelligence | 50 GP | `standard` |
+| Potter’s Tools | 93 | Intelligence | 10 GP | `standard` |
+| Smith’s Tools | 93 | Strength | 20 GP | `standard` |
+| Thieves’ Tools | 94 | Dexterity | 25 GP | `standard` |
+| Tinker’s Tools | 94 | Dexterity | 50 GP | `standard` |
+| Weaver’s Tools | 94 | Dexterity | 1 GP | `standard` |
+
+Each of the ten Musical Instrument variants has its own price and weight. Smith's
+Tools starts on p. 93 and its Craft line is on p. 94. The presentation keeps the
+inventory page, 93, and the payload records `source_pages` `[93, 94]`. The test
+joins the background and Rogue catalogues' Thieves' Tools keys.
+
+Composing the Healing contract fixture with batches #225 to #253 and this batch
+yields 333 families and 421 variants with no shared identity. The coverage register
+is unchanged.
+
+```sh
+rtk proxy python3 -I scripts/verify_srd_items_254.py /path/to/SRD_CC_v5.2.1.pdf
+```
+
+This work includes material from the System Reference Document 5.2.1 (“SRD
+5.2.1”) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd.
+The SRD 5.2.1 is licensed under the Creative Commons Attribution 4.0 International
+License, available at https://creativecommons.org/licenses/by/4.0/legalcode.
+Names, numeric values and keys that follow the printed wording are adapted into
+Edda's structured item records; the software license does not replace this source
+license.
+
+## Tools 03 (#255), p. 94
+
+One tool family. Files: `item_details_255.go`, `testdata/items_255.json`,
+`items_255_test.go` and `scripts/verify_srd_items_255.py`.
+
+| Tool | Page | Ability | Cost | Variants |
+| --- | --- | --- | --- | --- |
+| Woodcarver’s Tools | 94 | Dexterity | 1 GP | `standard` |
+
+With this batch all 25 printed tool entries have a record.
+
+Composing the Healing contract fixture with batches #225 to #254 and this batch
+yields 334 families and 422 variants with no shared identity. The coverage register
+is unchanged.
+`items_wave7_test.go` composes the same set, checks that every weapon, armor and
+tool record in the planning inventory has a catalogue record, and holds the
+shared test helpers for batches #250 to #255.
+
+```sh
+rtk proxy python3 -I scripts/verify_srd_items_255.py /path/to/SRD_CC_v5.2.1.pdf
+```
+
+This work includes material from the System Reference Document 5.2.1 (“SRD
+5.2.1”) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd.
+The SRD 5.2.1 is licensed under the Creative Commons Attribution 4.0 International
+License, available at https://creativecommons.org/licenses/by/4.0/legalcode.
+Names, numeric values and keys that follow the printed wording are adapted into
+Edda's structured item records; the software license does not replace this source
+license.

@@ -1,0 +1,158 @@
+{
+  "schema_version": 1,
+  "rules_version": "srd-5.2.1",
+  "batch": "data-tools-03",
+  "catalogue_issue": 255,
+  "source": {
+    "version": "5.2.1",
+    "language": "en",
+    "landing_url": "https://www.dndbeyond.com/srd",
+    "artifact_url": "https://media.dndbeyond.com/compendium-images/srd/5.2/SRD_CC_v5.2.1.pdf",
+    "sha256": "8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87",
+    "bytes": 6031375,
+    "pages": 364,
+    "retrieved_at": "2026-11-15",
+    "license": "CC-BY-4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/legalcode",
+    "attribution": "This work includes material from the System Reference Document 5.2.1 (\u201cSRD 5.2.1\u201d) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd. The SRD 5.2.1 is licensed under the Creative Commons Attribution 4.0 International License, available at https://creativecommons.org/licenses/by/4.0/legalcode.",
+    "changes": "SRD 5.2.1 p. 94 tool entry (Woodcarver\u2019s Tools) adapted into one versioned mundane tool family with structured ability, Utilize task and DC, craft entries, weight and listed price. Names, numeric values and keys that follow the printed Utilize and Craft wording are adapted. Catalogue data grants no inventory, proficiency, action or gameplay permissions; every record is unavailable."
+  },
+  "families": [
+    {
+      "id": "srd-5.2.1:content/items/woodcarvers-tools",
+      "name": "Woodcarver\u2019s Tools",
+      "kind": "mundane",
+      "category": "tool",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/tools/woodcarvers-tools",
+          "pages": [
+            94,
+            94
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/woodcarvers-tools/variant/standard",
+          "name": "Woodcarver\u2019s Tools",
+          "rarity": "none",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "utilize",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "listed",
+            "amount": 1,
+            "currency": "gp",
+            "source_pages": [
+              94,
+              94
+            ]
+          },
+          "required_mechanic_keys": [
+            "tool.utilize",
+            "tool.proficiency",
+            "tool.artisans-tools",
+            "ability.dexterity",
+            "utilize.carve-pattern-in-wood-dc-10",
+            "craft.club",
+            "craft.greatclub",
+            "craft.quarterstaff",
+            "craft.ranged-weapons-except-pistol-musket-sling",
+            "craft.arcane-focus",
+            "craft.arrows",
+            "craft.bolts",
+            "craft.druidic-focus",
+            "craft.ink-pen",
+            "craft.needles"
+          ],
+          "details": {
+            "tool": {
+              "tool_group": "artisans-tools",
+              "ability": "dexterity",
+              "utilize": [
+                {
+                  "task": "carve-pattern-in-wood",
+                  "dc": 10
+                }
+              ],
+              "craft": [
+                {
+                  "item": "club",
+                  "except": []
+                },
+                {
+                  "item": "greatclub",
+                  "except": []
+                },
+                {
+                  "item": "quarterstaff",
+                  "except": []
+                },
+                {
+                  "item": "ranged-weapons",
+                  "except": [
+                    "pistol",
+                    "musket",
+                    "sling"
+                  ]
+                },
+                {
+                  "item": "arcane-focus",
+                  "except": []
+                },
+                {
+                  "item": "arrows",
+                  "except": []
+                },
+                {
+                  "item": "bolts",
+                  "except": []
+                },
+                {
+                  "item": "druidic-focus",
+                  "except": []
+                },
+                {
+                  "item": "ink-pen",
+                  "except": []
+                },
+                {
+                  "item": "needles",
+                  "except": []
+                }
+              ],
+              "weight": {
+                "listed": true,
+                "pounds": 5
+              },
+              "source_pages": [
+                94,
+                94
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

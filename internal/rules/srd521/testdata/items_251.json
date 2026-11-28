@@ -1,0 +1,992 @@
+{
+  "schema_version": 1,
+  "rules_version": "srd-5.2.1",
+  "batch": "data-armor-01",
+  "catalogue_issue": 251,
+  "source": {
+    "version": "5.2.1",
+    "language": "en",
+    "landing_url": "https://www.dndbeyond.com/srd",
+    "artifact_url": "https://media.dndbeyond.com/compendium-images/srd/5.2/SRD_CC_v5.2.1.pdf",
+    "sha256": "8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87",
+    "bytes": 6031375,
+    "pages": 364,
+    "retrieved_at": "2026-11-15",
+    "license": "CC-BY-4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/legalcode",
+    "attribution": "This work includes material from the System Reference Document 5.2.1 (\u201cSRD 5.2.1\u201d) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd. The SRD 5.2.1 is licensed under the Creative Commons Attribution 4.0 International License, available at https://creativecommons.org/licenses/by/4.0/legalcode.",
+    "changes": "SRD 5.2.1 p. 92 Armor table rows (Breastplate through Splint Armor) and their category headings' don and doff times adapted into twelve versioned mundane armor records with structured Armor Class, Strength, Stealth, weight and listed price. Names, numeric values and table keys are adapted; no rules prose is reproduced. Catalogue data grants no inventory, action or gameplay permissions; every record is unavailable."
+  },
+  "families": [
+    {
+      "id": "srd-5.2.1:content/items/breastplate",
+      "name": "Breastplate",
+      "kind": "mundane",
+      "category": "armor",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/armor/breastplate",
+          "pages": [
+            92,
+            92
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/breastplate/variant/standard",
+          "name": "Breastplate",
+          "rarity": "none",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wear",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "listed",
+            "amount": 400,
+            "currency": "gp",
+            "source_pages": [
+              92,
+              92
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.wear",
+            "armor.medium",
+            "armor.training",
+            "armor-class.14-plus-dexterity-max-2",
+            "don.minutes-5",
+            "doff.minutes-1"
+          ],
+          "details": {
+            "armor": {
+              "armor_category": "medium",
+              "armor_class": {
+                "base": 14,
+                "bonus": 0,
+                "dexterity": "capped",
+                "dexterity_maximum": 2
+              },
+              "strength_requirement": 0,
+              "stealth_disadvantage": false,
+              "don_doff": {
+                "action": "none",
+                "don_minutes": 5,
+                "doff_minutes": 1
+              },
+              "weight_pounds": 20
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/chain-mail",
+      "name": "Chain Mail",
+      "kind": "mundane",
+      "category": "armor",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/armor/chain-mail",
+          "pages": [
+            92,
+            92
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/chain-mail/variant/standard",
+          "name": "Chain Mail",
+          "rarity": "none",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wear",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "listed",
+            "amount": 75,
+            "currency": "gp",
+            "source_pages": [
+              92,
+              92
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.wear",
+            "armor.heavy",
+            "armor.training",
+            "armor-class.16",
+            "strength.13",
+            "stealth.disadvantage",
+            "don.minutes-10",
+            "doff.minutes-5"
+          ],
+          "details": {
+            "armor": {
+              "armor_category": "heavy",
+              "armor_class": {
+                "base": 16,
+                "bonus": 0,
+                "dexterity": "none",
+                "dexterity_maximum": 0
+              },
+              "strength_requirement": 13,
+              "stealth_disadvantage": true,
+              "don_doff": {
+                "action": "none",
+                "don_minutes": 10,
+                "doff_minutes": 5
+              },
+              "weight_pounds": 55
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/chain-shirt",
+      "name": "Chain Shirt",
+      "kind": "mundane",
+      "category": "armor",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/armor/chain-shirt",
+          "pages": [
+            92,
+            92
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/chain-shirt/variant/standard",
+          "name": "Chain Shirt",
+          "rarity": "none",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wear",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "listed",
+            "amount": 50,
+            "currency": "gp",
+            "source_pages": [
+              92,
+              92
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.wear",
+            "armor.medium",
+            "armor.training",
+            "armor-class.13-plus-dexterity-max-2",
+            "don.minutes-5",
+            "doff.minutes-1"
+          ],
+          "details": {
+            "armor": {
+              "armor_category": "medium",
+              "armor_class": {
+                "base": 13,
+                "bonus": 0,
+                "dexterity": "capped",
+                "dexterity_maximum": 2
+              },
+              "strength_requirement": 0,
+              "stealth_disadvantage": false,
+              "don_doff": {
+                "action": "none",
+                "don_minutes": 5,
+                "doff_minutes": 1
+              },
+              "weight_pounds": 20
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/half-plate-armor",
+      "name": "Half Plate Armor",
+      "kind": "mundane",
+      "category": "armor",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/armor/half-plate-armor",
+          "pages": [
+            92,
+            92
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/half-plate-armor/variant/standard",
+          "name": "Half Plate Armor",
+          "rarity": "none",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wear",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "listed",
+            "amount": 750,
+            "currency": "gp",
+            "source_pages": [
+              92,
+              92
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.wear",
+            "armor.medium",
+            "armor.training",
+            "armor-class.15-plus-dexterity-max-2",
+            "stealth.disadvantage",
+            "don.minutes-5",
+            "doff.minutes-1"
+          ],
+          "details": {
+            "armor": {
+              "armor_category": "medium",
+              "armor_class": {
+                "base": 15,
+                "bonus": 0,
+                "dexterity": "capped",
+                "dexterity_maximum": 2
+              },
+              "strength_requirement": 0,
+              "stealth_disadvantage": true,
+              "don_doff": {
+                "action": "none",
+                "don_minutes": 5,
+                "doff_minutes": 1
+              },
+              "weight_pounds": 40
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/hide-armor",
+      "name": "Hide Armor",
+      "kind": "mundane",
+      "category": "armor",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/armor/hide-armor",
+          "pages": [
+            92,
+            92
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/hide-armor/variant/standard",
+          "name": "Hide Armor",
+          "rarity": "none",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wear",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "listed",
+            "amount": 10,
+            "currency": "gp",
+            "source_pages": [
+              92,
+              92
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.wear",
+            "armor.medium",
+            "armor.training",
+            "armor-class.12-plus-dexterity-max-2",
+            "don.minutes-5",
+            "doff.minutes-1"
+          ],
+          "details": {
+            "armor": {
+              "armor_category": "medium",
+              "armor_class": {
+                "base": 12,
+                "bonus": 0,
+                "dexterity": "capped",
+                "dexterity_maximum": 2
+              },
+              "strength_requirement": 0,
+              "stealth_disadvantage": false,
+              "don_doff": {
+                "action": "none",
+                "don_minutes": 5,
+                "doff_minutes": 1
+              },
+              "weight_pounds": 12
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/leather-armor",
+      "name": "Leather Armor",
+      "kind": "mundane",
+      "category": "armor",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/armor/leather-armor",
+          "pages": [
+            92,
+            92
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/leather-armor/variant/standard",
+          "name": "Leather Armor",
+          "rarity": "none",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wear",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "listed",
+            "amount": 10,
+            "currency": "gp",
+            "source_pages": [
+              92,
+              92
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.wear",
+            "armor.light",
+            "armor.training",
+            "armor-class.11-plus-dexterity",
+            "don.minutes-1",
+            "doff.minutes-1"
+          ],
+          "details": {
+            "armor": {
+              "armor_category": "light",
+              "armor_class": {
+                "base": 11,
+                "bonus": 0,
+                "dexterity": "full",
+                "dexterity_maximum": 0
+              },
+              "strength_requirement": 0,
+              "stealth_disadvantage": false,
+              "don_doff": {
+                "action": "none",
+                "don_minutes": 1,
+                "doff_minutes": 1
+              },
+              "weight_pounds": 10
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/padded-armor",
+      "name": "Padded Armor",
+      "kind": "mundane",
+      "category": "armor",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/armor/padded-armor",
+          "pages": [
+            92,
+            92
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/padded-armor/variant/standard",
+          "name": "Padded Armor",
+          "rarity": "none",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wear",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "listed",
+            "amount": 5,
+            "currency": "gp",
+            "source_pages": [
+              92,
+              92
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.wear",
+            "armor.light",
+            "armor.training",
+            "armor-class.11-plus-dexterity",
+            "stealth.disadvantage",
+            "don.minutes-1",
+            "doff.minutes-1"
+          ],
+          "details": {
+            "armor": {
+              "armor_category": "light",
+              "armor_class": {
+                "base": 11,
+                "bonus": 0,
+                "dexterity": "full",
+                "dexterity_maximum": 0
+              },
+              "strength_requirement": 0,
+              "stealth_disadvantage": true,
+              "don_doff": {
+                "action": "none",
+                "don_minutes": 1,
+                "doff_minutes": 1
+              },
+              "weight_pounds": 8
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/plate-armor",
+      "name": "Plate Armor",
+      "kind": "mundane",
+      "category": "armor",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/armor/plate-armor",
+          "pages": [
+            92,
+            92
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/plate-armor/variant/standard",
+          "name": "Plate Armor",
+          "rarity": "none",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wear",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "listed",
+            "amount": 1500,
+            "currency": "gp",
+            "source_pages": [
+              92,
+              92
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.wear",
+            "armor.heavy",
+            "armor.training",
+            "armor-class.18",
+            "strength.15",
+            "stealth.disadvantage",
+            "don.minutes-10",
+            "doff.minutes-5"
+          ],
+          "details": {
+            "armor": {
+              "armor_category": "heavy",
+              "armor_class": {
+                "base": 18,
+                "bonus": 0,
+                "dexterity": "none",
+                "dexterity_maximum": 0
+              },
+              "strength_requirement": 15,
+              "stealth_disadvantage": true,
+              "don_doff": {
+                "action": "none",
+                "don_minutes": 10,
+                "doff_minutes": 5
+              },
+              "weight_pounds": 65
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/ring-mail",
+      "name": "Ring Mail",
+      "kind": "mundane",
+      "category": "armor",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/armor/ring-mail",
+          "pages": [
+            92,
+            92
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/ring-mail/variant/standard",
+          "name": "Ring Mail",
+          "rarity": "none",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wear",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "listed",
+            "amount": 30,
+            "currency": "gp",
+            "source_pages": [
+              92,
+              92
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.wear",
+            "armor.heavy",
+            "armor.training",
+            "armor-class.14",
+            "stealth.disadvantage",
+            "don.minutes-10",
+            "doff.minutes-5"
+          ],
+          "details": {
+            "armor": {
+              "armor_category": "heavy",
+              "armor_class": {
+                "base": 14,
+                "bonus": 0,
+                "dexterity": "none",
+                "dexterity_maximum": 0
+              },
+              "strength_requirement": 0,
+              "stealth_disadvantage": true,
+              "don_doff": {
+                "action": "none",
+                "don_minutes": 10,
+                "doff_minutes": 5
+              },
+              "weight_pounds": 40
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/scale-mail",
+      "name": "Scale Mail",
+      "kind": "mundane",
+      "category": "armor",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/armor/scale-mail",
+          "pages": [
+            92,
+            92
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/scale-mail/variant/standard",
+          "name": "Scale Mail",
+          "rarity": "none",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wear",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "listed",
+            "amount": 50,
+            "currency": "gp",
+            "source_pages": [
+              92,
+              92
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.wear",
+            "armor.medium",
+            "armor.training",
+            "armor-class.14-plus-dexterity-max-2",
+            "stealth.disadvantage",
+            "don.minutes-5",
+            "doff.minutes-1"
+          ],
+          "details": {
+            "armor": {
+              "armor_category": "medium",
+              "armor_class": {
+                "base": 14,
+                "bonus": 0,
+                "dexterity": "capped",
+                "dexterity_maximum": 2
+              },
+              "strength_requirement": 0,
+              "stealth_disadvantage": true,
+              "don_doff": {
+                "action": "none",
+                "don_minutes": 5,
+                "doff_minutes": 1
+              },
+              "weight_pounds": 45
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/shield",
+      "name": "Shield",
+      "kind": "mundane",
+      "category": "armor",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/armor/shield",
+          "pages": [
+            92,
+            92
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/shield/variant/standard",
+          "name": "Shield",
+          "rarity": "none",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wield",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "listed",
+            "amount": 10,
+            "currency": "gp",
+            "source_pages": [
+              92,
+              92
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.wield",
+            "armor.shield",
+            "armor.training",
+            "armor-class.bonus-2",
+            "don.utilize-action",
+            "doff.utilize-action"
+          ],
+          "details": {
+            "armor": {
+              "armor_category": "shield",
+              "armor_class": {
+                "base": 0,
+                "bonus": 2,
+                "dexterity": "none",
+                "dexterity_maximum": 0
+              },
+              "strength_requirement": 0,
+              "stealth_disadvantage": false,
+              "don_doff": {
+                "action": "utilize",
+                "don_minutes": 0,
+                "doff_minutes": 0
+              },
+              "weight_pounds": 6
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/splint-armor",
+      "name": "Splint Armor",
+      "kind": "mundane",
+      "category": "armor",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/armor/splint-armor",
+          "pages": [
+            92,
+            92
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/splint-armor/variant/standard",
+          "name": "Splint Armor",
+          "rarity": "none",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "wear",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "listed",
+            "amount": 200,
+            "currency": "gp",
+            "source_pages": [
+              92,
+              92
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.wear",
+            "armor.heavy",
+            "armor.training",
+            "armor-class.17",
+            "strength.15",
+            "stealth.disadvantage",
+            "don.minutes-10",
+            "doff.minutes-5"
+          ],
+          "details": {
+            "armor": {
+              "armor_category": "heavy",
+              "armor_class": {
+                "base": 17,
+                "bonus": 0,
+                "dexterity": "none",
+                "dexterity_maximum": 0
+              },
+              "strength_requirement": 15,
+              "stealth_disadvantage": true,
+              "don_doff": {
+                "action": "none",
+                "don_minutes": 10,
+                "doff_minutes": 5
+              },
+              "weight_pounds": 60
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

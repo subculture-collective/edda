@@ -1,0 +1,1905 @@
+{
+  "schema_version": 1,
+  "rules_version": "srd-5.2.1",
+  "batch": "data-tools-02",
+  "catalogue_issue": 254,
+  "source": {
+    "version": "5.2.1",
+    "language": "en",
+    "landing_url": "https://www.dndbeyond.com/srd",
+    "artifact_url": "https://media.dndbeyond.com/compendium-images/srd/5.2/SRD_CC_v5.2.1.pdf",
+    "sha256": "8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87",
+    "bytes": 6031375,
+    "pages": 364,
+    "retrieved_at": "2026-11-15",
+    "license": "CC-BY-4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/legalcode",
+    "attribution": "This work includes material from the System Reference Document 5.2.1 (\u201cSRD 5.2.1\u201d) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd. The SRD 5.2.1 is licensed under the Creative Commons Attribution 4.0 International License, available at https://creativecommons.org/licenses/by/4.0/legalcode.",
+    "changes": "SRD 5.2.1 pp. 93\u201394 tool entries (Jeweler\u2019s Tools through Weaver\u2019s Tools) adapted into twelve versioned mundane tool families with structured ability, Utilize tasks and DCs, craft entries, variants, weight and listed price. Names, numeric values and keys that follow the printed Utilize and Craft wording are adapted. Catalogue data grants no inventory, proficiency, action or gameplay permissions; every record is unavailable."
+  },
+  "families": [
+    {
+      "id": "srd-5.2.1:content/items/jewelers-tools",
+      "name": "Jeweler\u2019s Tools",
+      "kind": "mundane",
+      "category": "tool",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/tools/jewelers-tools",
+          "pages": [
+            93,
+            93
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/jewelers-tools/variant/standard",
+          "name": "Jeweler\u2019s Tools",
+          "rarity": "none",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "utilize",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "listed",
+            "amount": 25,
+            "currency": "gp",
+            "source_pages": [
+              93,
+              93
+            ]
+          },
+          "required_mechanic_keys": [
+            "tool.utilize",
+            "tool.proficiency",
+            "tool.artisans-tools",
+            "ability.intelligence",
+            "utilize.discern-gems-value-dc-15",
+            "craft.arcane-focus",
+            "craft.holy-symbol"
+          ],
+          "details": {
+            "tool": {
+              "tool_group": "artisans-tools",
+              "ability": "intelligence",
+              "utilize": [
+                {
+                  "task": "discern-gems-value",
+                  "dc": 15
+                }
+              ],
+              "craft": [
+                {
+                  "item": "arcane-focus",
+                  "except": []
+                },
+                {
+                  "item": "holy-symbol",
+                  "except": []
+                }
+              ],
+              "weight": {
+                "listed": true,
+                "pounds": 2
+              },
+              "source_pages": [
+                93,
+                93
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/leatherworkers-tools",
+      "name": "Leatherworker\u2019s Tools",
+      "kind": "mundane",
+      "category": "tool",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/tools/leatherworkers-tools",
+          "pages": [
+            93,
+            93
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/leatherworkers-tools/variant/standard",
+          "name": "Leatherworker\u2019s Tools",
+          "rarity": "none",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "utilize",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "listed",
+            "amount": 5,
+            "currency": "gp",
+            "source_pages": [
+              93,
+              93
+            ]
+          },
+          "required_mechanic_keys": [
+            "tool.utilize",
+            "tool.proficiency",
+            "tool.artisans-tools",
+            "ability.dexterity",
+            "utilize.add-design-to-leather-item-dc-10",
+            "craft.sling",
+            "craft.whip",
+            "craft.hide-armor",
+            "craft.leather-armor",
+            "craft.studded-leather-armor",
+            "craft.backpack",
+            "craft.crossbow-bolt-case",
+            "craft.map-or-scroll-case",
+            "craft.parchment",
+            "craft.pouch",
+            "craft.quiver",
+            "craft.waterskin"
+          ],
+          "details": {
+            "tool": {
+              "tool_group": "artisans-tools",
+              "ability": "dexterity",
+              "utilize": [
+                {
+                  "task": "add-design-to-leather-item",
+                  "dc": 10
+                }
+              ],
+              "craft": [
+                {
+                  "item": "sling",
+                  "except": []
+                },
+                {
+                  "item": "whip",
+                  "except": []
+                },
+                {
+                  "item": "hide-armor",
+                  "except": []
+                },
+                {
+                  "item": "leather-armor",
+                  "except": []
+                },
+                {
+                  "item": "studded-leather-armor",
+                  "except": []
+                },
+                {
+                  "item": "backpack",
+                  "except": []
+                },
+                {
+                  "item": "crossbow-bolt-case",
+                  "except": []
+                },
+                {
+                  "item": "map-or-scroll-case",
+                  "except": []
+                },
+                {
+                  "item": "parchment",
+                  "except": []
+                },
+                {
+                  "item": "pouch",
+                  "except": []
+                },
+                {
+                  "item": "quiver",
+                  "except": []
+                },
+                {
+                  "item": "waterskin",
+                  "except": []
+                }
+              ],
+              "weight": {
+                "listed": true,
+                "pounds": 5
+              },
+              "source_pages": [
+                93,
+                93
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/masons-tools",
+      "name": "Mason\u2019s Tools",
+      "kind": "mundane",
+      "category": "tool",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/tools/masons-tools",
+          "pages": [
+            93,
+            93
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/masons-tools/variant/standard",
+          "name": "Mason\u2019s Tools",
+          "rarity": "none",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "utilize",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "listed",
+            "amount": 10,
+            "currency": "gp",
+            "source_pages": [
+              93,
+              93
+            ]
+          },
+          "required_mechanic_keys": [
+            "tool.utilize",
+            "tool.proficiency",
+            "tool.artisans-tools",
+            "ability.strength",
+            "utilize.chisel-symbol-or-hole-in-stone-dc-10",
+            "craft.block-and-tackle"
+          ],
+          "details": {
+            "tool": {
+              "tool_group": "artisans-tools",
+              "ability": "strength",
+              "utilize": [
+                {
+                  "task": "chisel-symbol-or-hole-in-stone",
+                  "dc": 10
+                }
+              ],
+              "craft": [
+                {
+                  "item": "block-and-tackle",
+                  "except": []
+                }
+              ],
+              "weight": {
+                "listed": true,
+                "pounds": 8
+              },
+              "source_pages": [
+                93,
+                93
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/musical-instrument",
+      "name": "Musical Instrument",
+      "kind": "mundane",
+      "category": "tool",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/tools/musical-instrument",
+          "pages": [
+            94,
+            94
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/musical-instrument/variant/bagpipes",
+          "name": "Bagpipes",
+          "rarity": "none",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "utilize",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "listed",
+            "amount": 30,
+            "currency": "gp",
+            "source_pages": [
+              94,
+              94
+            ]
+          },
+          "required_mechanic_keys": [
+            "tool.utilize",
+            "tool.proficiency",
+            "tool.other-tools",
+            "ability.charisma",
+            "utilize.play-known-tune-dc-10",
+            "utilize.improvise-song-dc-15"
+          ],
+          "details": {
+            "tool": {
+              "tool_group": "other-tools",
+              "ability": "charisma",
+              "utilize": [
+                {
+                  "task": "play-known-tune",
+                  "dc": 10
+                },
+                {
+                  "task": "improvise-song",
+                  "dc": 15
+                }
+              ],
+              "craft": [],
+              "weight": {
+                "listed": true,
+                "pounds": 6
+              },
+              "source_pages": [
+                94,
+                94
+              ]
+            }
+          }
+        },
+        {
+          "id": "srd-5.2.1:content/items/musical-instrument/variant/drum",
+          "name": "Drum",
+          "rarity": "none",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "utilize",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "listed",
+            "amount": 6,
+            "currency": "gp",
+            "source_pages": [
+              94,
+              94
+            ]
+          },
+          "required_mechanic_keys": [
+            "tool.utilize",
+            "tool.proficiency",
+            "tool.other-tools",
+            "ability.charisma",
+            "utilize.play-known-tune-dc-10",
+            "utilize.improvise-song-dc-15"
+          ],
+          "details": {
+            "tool": {
+              "tool_group": "other-tools",
+              "ability": "charisma",
+              "utilize": [
+                {
+                  "task": "play-known-tune",
+                  "dc": 10
+                },
+                {
+                  "task": "improvise-song",
+                  "dc": 15
+                }
+              ],
+              "craft": [],
+              "weight": {
+                "listed": true,
+                "pounds": 3
+              },
+              "source_pages": [
+                94,
+                94
+              ]
+            }
+          }
+        },
+        {
+          "id": "srd-5.2.1:content/items/musical-instrument/variant/dulcimer",
+          "name": "Dulcimer",
+          "rarity": "none",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "utilize",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "listed",
+            "amount": 25,
+            "currency": "gp",
+            "source_pages": [
+              94,
+              94
+            ]
+          },
+          "required_mechanic_keys": [
+            "tool.utilize",
+            "tool.proficiency",
+            "tool.other-tools",
+            "ability.charisma",
+            "utilize.play-known-tune-dc-10",
+            "utilize.improvise-song-dc-15"
+          ],
+          "details": {
+            "tool": {
+              "tool_group": "other-tools",
+              "ability": "charisma",
+              "utilize": [
+                {
+                  "task": "play-known-tune",
+                  "dc": 10
+                },
+                {
+                  "task": "improvise-song",
+                  "dc": 15
+                }
+              ],
+              "craft": [],
+              "weight": {
+                "listed": true,
+                "pounds": 10
+              },
+              "source_pages": [
+                94,
+                94
+              ]
+            }
+          }
+        },
+        {
+          "id": "srd-5.2.1:content/items/musical-instrument/variant/flute",
+          "name": "Flute",
+          "rarity": "none",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "utilize",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "listed",
+            "amount": 2,
+            "currency": "gp",
+            "source_pages": [
+              94,
+              94
+            ]
+          },
+          "required_mechanic_keys": [
+            "tool.utilize",
+            "tool.proficiency",
+            "tool.other-tools",
+            "ability.charisma",
+            "utilize.play-known-tune-dc-10",
+            "utilize.improvise-song-dc-15"
+          ],
+          "details": {
+            "tool": {
+              "tool_group": "other-tools",
+              "ability": "charisma",
+              "utilize": [
+                {
+                  "task": "play-known-tune",
+                  "dc": 10
+                },
+                {
+                  "task": "improvise-song",
+                  "dc": 15
+                }
+              ],
+              "craft": [],
+              "weight": {
+                "listed": true,
+                "pounds": 1
+              },
+              "source_pages": [
+                94,
+                94
+              ]
+            }
+          }
+        },
+        {
+          "id": "srd-5.2.1:content/items/musical-instrument/variant/horn",
+          "name": "Horn",
+          "rarity": "none",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "utilize",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "listed",
+            "amount": 3,
+            "currency": "gp",
+            "source_pages": [
+              94,
+              94
+            ]
+          },
+          "required_mechanic_keys": [
+            "tool.utilize",
+            "tool.proficiency",
+            "tool.other-tools",
+            "ability.charisma",
+            "utilize.play-known-tune-dc-10",
+            "utilize.improvise-song-dc-15"
+          ],
+          "details": {
+            "tool": {
+              "tool_group": "other-tools",
+              "ability": "charisma",
+              "utilize": [
+                {
+                  "task": "play-known-tune",
+                  "dc": 10
+                },
+                {
+                  "task": "improvise-song",
+                  "dc": 15
+                }
+              ],
+              "craft": [],
+              "weight": {
+                "listed": true,
+                "pounds": 2
+              },
+              "source_pages": [
+                94,
+                94
+              ]
+            }
+          }
+        },
+        {
+          "id": "srd-5.2.1:content/items/musical-instrument/variant/lute",
+          "name": "Lute",
+          "rarity": "none",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "utilize",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "listed",
+            "amount": 35,
+            "currency": "gp",
+            "source_pages": [
+              94,
+              94
+            ]
+          },
+          "required_mechanic_keys": [
+            "tool.utilize",
+            "tool.proficiency",
+            "tool.other-tools",
+            "ability.charisma",
+            "utilize.play-known-tune-dc-10",
+            "utilize.improvise-song-dc-15"
+          ],
+          "details": {
+            "tool": {
+              "tool_group": "other-tools",
+              "ability": "charisma",
+              "utilize": [
+                {
+                  "task": "play-known-tune",
+                  "dc": 10
+                },
+                {
+                  "task": "improvise-song",
+                  "dc": 15
+                }
+              ],
+              "craft": [],
+              "weight": {
+                "listed": true,
+                "pounds": 2
+              },
+              "source_pages": [
+                94,
+                94
+              ]
+            }
+          }
+        },
+        {
+          "id": "srd-5.2.1:content/items/musical-instrument/variant/lyre",
+          "name": "Lyre",
+          "rarity": "none",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "utilize",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "listed",
+            "amount": 30,
+            "currency": "gp",
+            "source_pages": [
+              94,
+              94
+            ]
+          },
+          "required_mechanic_keys": [
+            "tool.utilize",
+            "tool.proficiency",
+            "tool.other-tools",
+            "ability.charisma",
+            "utilize.play-known-tune-dc-10",
+            "utilize.improvise-song-dc-15"
+          ],
+          "details": {
+            "tool": {
+              "tool_group": "other-tools",
+              "ability": "charisma",
+              "utilize": [
+                {
+                  "task": "play-known-tune",
+                  "dc": 10
+                },
+                {
+                  "task": "improvise-song",
+                  "dc": 15
+                }
+              ],
+              "craft": [],
+              "weight": {
+                "listed": true,
+                "pounds": 2
+              },
+              "source_pages": [
+                94,
+                94
+              ]
+            }
+          }
+        },
+        {
+          "id": "srd-5.2.1:content/items/musical-instrument/variant/pan-flute",
+          "name": "Pan flute",
+          "rarity": "none",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "utilize",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "listed",
+            "amount": 12,
+            "currency": "gp",
+            "source_pages": [
+              94,
+              94
+            ]
+          },
+          "required_mechanic_keys": [
+            "tool.utilize",
+            "tool.proficiency",
+            "tool.other-tools",
+            "ability.charisma",
+            "utilize.play-known-tune-dc-10",
+            "utilize.improvise-song-dc-15"
+          ],
+          "details": {
+            "tool": {
+              "tool_group": "other-tools",
+              "ability": "charisma",
+              "utilize": [
+                {
+                  "task": "play-known-tune",
+                  "dc": 10
+                },
+                {
+                  "task": "improvise-song",
+                  "dc": 15
+                }
+              ],
+              "craft": [],
+              "weight": {
+                "listed": true,
+                "pounds": 2
+              },
+              "source_pages": [
+                94,
+                94
+              ]
+            }
+          }
+        },
+        {
+          "id": "srd-5.2.1:content/items/musical-instrument/variant/shawm",
+          "name": "Shawm",
+          "rarity": "none",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "utilize",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "listed",
+            "amount": 2,
+            "currency": "gp",
+            "source_pages": [
+              94,
+              94
+            ]
+          },
+          "required_mechanic_keys": [
+            "tool.utilize",
+            "tool.proficiency",
+            "tool.other-tools",
+            "ability.charisma",
+            "utilize.play-known-tune-dc-10",
+            "utilize.improvise-song-dc-15"
+          ],
+          "details": {
+            "tool": {
+              "tool_group": "other-tools",
+              "ability": "charisma",
+              "utilize": [
+                {
+                  "task": "play-known-tune",
+                  "dc": 10
+                },
+                {
+                  "task": "improvise-song",
+                  "dc": 15
+                }
+              ],
+              "craft": [],
+              "weight": {
+                "listed": true,
+                "pounds": 1
+              },
+              "source_pages": [
+                94,
+                94
+              ]
+            }
+          }
+        },
+        {
+          "id": "srd-5.2.1:content/items/musical-instrument/variant/viol",
+          "name": "Viol",
+          "rarity": "none",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "utilize",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "listed",
+            "amount": 30,
+            "currency": "gp",
+            "source_pages": [
+              94,
+              94
+            ]
+          },
+          "required_mechanic_keys": [
+            "tool.utilize",
+            "tool.proficiency",
+            "tool.other-tools",
+            "ability.charisma",
+            "utilize.play-known-tune-dc-10",
+            "utilize.improvise-song-dc-15"
+          ],
+          "details": {
+            "tool": {
+              "tool_group": "other-tools",
+              "ability": "charisma",
+              "utilize": [
+                {
+                  "task": "play-known-tune",
+                  "dc": 10
+                },
+                {
+                  "task": "improvise-song",
+                  "dc": 15
+                }
+              ],
+              "craft": [],
+              "weight": {
+                "listed": true,
+                "pounds": 1
+              },
+              "source_pages": [
+                94,
+                94
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/navigators-tools",
+      "name": "Navigator\u2019s Tools",
+      "kind": "mundane",
+      "category": "tool",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/tools/navigators-tools",
+          "pages": [
+            94,
+            94
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/navigators-tools/variant/standard",
+          "name": "Navigator\u2019s Tools",
+          "rarity": "none",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "utilize",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "listed",
+            "amount": 25,
+            "currency": "gp",
+            "source_pages": [
+              94,
+              94
+            ]
+          },
+          "required_mechanic_keys": [
+            "tool.utilize",
+            "tool.proficiency",
+            "tool.other-tools",
+            "ability.wisdom",
+            "utilize.plot-course-dc-10",
+            "utilize.determine-position-by-stargazing-dc-15"
+          ],
+          "details": {
+            "tool": {
+              "tool_group": "other-tools",
+              "ability": "wisdom",
+              "utilize": [
+                {
+                  "task": "plot-course",
+                  "dc": 10
+                },
+                {
+                  "task": "determine-position-by-stargazing",
+                  "dc": 15
+                }
+              ],
+              "craft": [],
+              "weight": {
+                "listed": true,
+                "pounds": 2
+              },
+              "source_pages": [
+                94,
+                94
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/painters-supplies",
+      "name": "Painter\u2019s Supplies",
+      "kind": "mundane",
+      "category": "tool",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/tools/painters-supplies",
+          "pages": [
+            93,
+            93
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/painters-supplies/variant/standard",
+          "name": "Painter\u2019s Supplies",
+          "rarity": "none",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "utilize",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "listed",
+            "amount": 10,
+            "currency": "gp",
+            "source_pages": [
+              93,
+              93
+            ]
+          },
+          "required_mechanic_keys": [
+            "tool.utilize",
+            "tool.proficiency",
+            "tool.artisans-tools",
+            "ability.wisdom",
+            "utilize.paint-recognizable-image-of-something-youve-seen-dc-10",
+            "craft.druidic-focus",
+            "craft.holy-symbol"
+          ],
+          "details": {
+            "tool": {
+              "tool_group": "artisans-tools",
+              "ability": "wisdom",
+              "utilize": [
+                {
+                  "task": "paint-recognizable-image-of-something-youve-seen",
+                  "dc": 10
+                }
+              ],
+              "craft": [
+                {
+                  "item": "druidic-focus",
+                  "except": []
+                },
+                {
+                  "item": "holy-symbol",
+                  "except": []
+                }
+              ],
+              "weight": {
+                "listed": true,
+                "pounds": 5
+              },
+              "source_pages": [
+                93,
+                93
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/poisoners-kit",
+      "name": "Poisoner\u2019s Kit",
+      "kind": "mundane",
+      "category": "tool",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/tools/poisoners-kit",
+          "pages": [
+            94,
+            94
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/poisoners-kit/variant/standard",
+          "name": "Poisoner\u2019s Kit",
+          "rarity": "none",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "utilize",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "listed",
+            "amount": 50,
+            "currency": "gp",
+            "source_pages": [
+              94,
+              94
+            ]
+          },
+          "required_mechanic_keys": [
+            "tool.utilize",
+            "tool.proficiency",
+            "tool.other-tools",
+            "ability.intelligence",
+            "utilize.detect-poisoned-object-dc-10",
+            "craft.basic-poison"
+          ],
+          "details": {
+            "tool": {
+              "tool_group": "other-tools",
+              "ability": "intelligence",
+              "utilize": [
+                {
+                  "task": "detect-poisoned-object",
+                  "dc": 10
+                }
+              ],
+              "craft": [
+                {
+                  "item": "basic-poison",
+                  "except": []
+                }
+              ],
+              "weight": {
+                "listed": true,
+                "pounds": 2
+              },
+              "source_pages": [
+                94,
+                94
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/potters-tools",
+      "name": "Potter\u2019s Tools",
+      "kind": "mundane",
+      "category": "tool",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/tools/potters-tools",
+          "pages": [
+            93,
+            93
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/potters-tools/variant/standard",
+          "name": "Potter\u2019s Tools",
+          "rarity": "none",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "utilize",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "listed",
+            "amount": 10,
+            "currency": "gp",
+            "source_pages": [
+              93,
+              93
+            ]
+          },
+          "required_mechanic_keys": [
+            "tool.utilize",
+            "tool.proficiency",
+            "tool.artisans-tools",
+            "ability.intelligence",
+            "utilize.discern-what-ceramic-object-held-in-past-24-hours-dc-15",
+            "craft.jug",
+            "craft.lamp"
+          ],
+          "details": {
+            "tool": {
+              "tool_group": "artisans-tools",
+              "ability": "intelligence",
+              "utilize": [
+                {
+                  "task": "discern-what-ceramic-object-held-in-past-24-hours",
+                  "dc": 15
+                }
+              ],
+              "craft": [
+                {
+                  "item": "jug",
+                  "except": []
+                },
+                {
+                  "item": "lamp",
+                  "except": []
+                }
+              ],
+              "weight": {
+                "listed": true,
+                "pounds": 3
+              },
+              "source_pages": [
+                93,
+                93
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/smiths-tools",
+      "name": "Smith\u2019s Tools",
+      "kind": "mundane",
+      "category": "tool",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/tools/smiths-tools",
+          "pages": [
+            93,
+            93
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/smiths-tools/variant/standard",
+          "name": "Smith\u2019s Tools",
+          "rarity": "none",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "utilize",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "listed",
+            "amount": 20,
+            "currency": "gp",
+            "source_pages": [
+              93,
+              93
+            ]
+          },
+          "required_mechanic_keys": [
+            "tool.utilize",
+            "tool.proficiency",
+            "tool.artisans-tools",
+            "ability.strength",
+            "utilize.pry-open-door-or-container-dc-20",
+            "craft.any-melee-weapon-except-club-greatclub-quarterstaff-whip",
+            "craft.medium-armor-except-hide",
+            "craft.heavy-armor",
+            "craft.ball-bearings",
+            "craft.bucket",
+            "craft.caltrops",
+            "craft.chain",
+            "craft.crowbar",
+            "craft.firearm-bullets",
+            "craft.grappling-hook",
+            "craft.iron-pot",
+            "craft.iron-spikes",
+            "craft.sling-bullets"
+          ],
+          "details": {
+            "tool": {
+              "tool_group": "artisans-tools",
+              "ability": "strength",
+              "utilize": [
+                {
+                  "task": "pry-open-door-or-container",
+                  "dc": 20
+                }
+              ],
+              "craft": [
+                {
+                  "item": "any-melee-weapon",
+                  "except": [
+                    "club",
+                    "greatclub",
+                    "quarterstaff",
+                    "whip"
+                  ]
+                },
+                {
+                  "item": "medium-armor",
+                  "except": [
+                    "hide"
+                  ]
+                },
+                {
+                  "item": "heavy-armor",
+                  "except": []
+                },
+                {
+                  "item": "ball-bearings",
+                  "except": []
+                },
+                {
+                  "item": "bucket",
+                  "except": []
+                },
+                {
+                  "item": "caltrops",
+                  "except": []
+                },
+                {
+                  "item": "chain",
+                  "except": []
+                },
+                {
+                  "item": "crowbar",
+                  "except": []
+                },
+                {
+                  "item": "firearm-bullets",
+                  "except": []
+                },
+                {
+                  "item": "grappling-hook",
+                  "except": []
+                },
+                {
+                  "item": "iron-pot",
+                  "except": []
+                },
+                {
+                  "item": "iron-spikes",
+                  "except": []
+                },
+                {
+                  "item": "sling-bullets",
+                  "except": []
+                }
+              ],
+              "weight": {
+                "listed": true,
+                "pounds": 8
+              },
+              "source_pages": [
+                93,
+                94
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/thieves-tools",
+      "name": "Thieves\u2019 Tools",
+      "kind": "mundane",
+      "category": "tool",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/tools/thieves-tools",
+          "pages": [
+            94,
+            94
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/thieves-tools/variant/standard",
+          "name": "Thieves\u2019 Tools",
+          "rarity": "none",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "utilize",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "listed",
+            "amount": 25,
+            "currency": "gp",
+            "source_pages": [
+              94,
+              94
+            ]
+          },
+          "required_mechanic_keys": [
+            "tool.utilize",
+            "tool.proficiency",
+            "tool.other-tools",
+            "ability.dexterity",
+            "utilize.pick-lock-dc-15",
+            "utilize.disarm-trap-dc-15"
+          ],
+          "details": {
+            "tool": {
+              "tool_group": "other-tools",
+              "ability": "dexterity",
+              "utilize": [
+                {
+                  "task": "pick-lock",
+                  "dc": 15
+                },
+                {
+                  "task": "disarm-trap",
+                  "dc": 15
+                }
+              ],
+              "craft": [],
+              "weight": {
+                "listed": true,
+                "pounds": 1
+              },
+              "source_pages": [
+                94,
+                94
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/tinkers-tools",
+      "name": "Tinker\u2019s Tools",
+      "kind": "mundane",
+      "category": "tool",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/tools/tinkers-tools",
+          "pages": [
+            94,
+            94
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/tinkers-tools/variant/standard",
+          "name": "Tinker\u2019s Tools",
+          "rarity": "none",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "utilize",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "listed",
+            "amount": 50,
+            "currency": "gp",
+            "source_pages": [
+              94,
+              94
+            ]
+          },
+          "required_mechanic_keys": [
+            "tool.utilize",
+            "tool.proficiency",
+            "tool.artisans-tools",
+            "ability.dexterity",
+            "utilize.assemble-tiny-item-composed-of-scrap-which-falls-apart-in-1-minute-dc-20",
+            "craft.musket",
+            "craft.pistol",
+            "craft.bell",
+            "craft.bullseye-lantern",
+            "craft.flask",
+            "craft.hooded-lantern",
+            "craft.hunting-trap",
+            "craft.lock",
+            "craft.manacles",
+            "craft.mirror",
+            "craft.shovel",
+            "craft.signal-whistle",
+            "craft.tinderbox"
+          ],
+          "details": {
+            "tool": {
+              "tool_group": "artisans-tools",
+              "ability": "dexterity",
+              "utilize": [
+                {
+                  "task": "assemble-tiny-item-composed-of-scrap-which-falls-apart-in-1-minute",
+                  "dc": 20
+                }
+              ],
+              "craft": [
+                {
+                  "item": "musket",
+                  "except": []
+                },
+                {
+                  "item": "pistol",
+                  "except": []
+                },
+                {
+                  "item": "bell",
+                  "except": []
+                },
+                {
+                  "item": "bullseye-lantern",
+                  "except": []
+                },
+                {
+                  "item": "flask",
+                  "except": []
+                },
+                {
+                  "item": "hooded-lantern",
+                  "except": []
+                },
+                {
+                  "item": "hunting-trap",
+                  "except": []
+                },
+                {
+                  "item": "lock",
+                  "except": []
+                },
+                {
+                  "item": "manacles",
+                  "except": []
+                },
+                {
+                  "item": "mirror",
+                  "except": []
+                },
+                {
+                  "item": "shovel",
+                  "except": []
+                },
+                {
+                  "item": "signal-whistle",
+                  "except": []
+                },
+                {
+                  "item": "tinderbox",
+                  "except": []
+                }
+              ],
+              "weight": {
+                "listed": true,
+                "pounds": 10
+              },
+              "source_pages": [
+                94,
+                94
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/weavers-tools",
+      "name": "Weaver\u2019s Tools",
+      "kind": "mundane",
+      "category": "tool",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/tools/weavers-tools",
+          "pages": [
+            94,
+            94
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/weavers-tools/variant/standard",
+          "name": "Weaver\u2019s Tools",
+          "rarity": "none",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "utilize",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "listed",
+            "amount": 1,
+            "currency": "gp",
+            "source_pages": [
+              94,
+              94
+            ]
+          },
+          "required_mechanic_keys": [
+            "tool.utilize",
+            "tool.proficiency",
+            "tool.artisans-tools",
+            "ability.dexterity",
+            "utilize.mend-tear-in-clothing-dc-10",
+            "utilize.sew-tiny-design-dc-10",
+            "craft.padded-armor",
+            "craft.basket",
+            "craft.bedroll",
+            "craft.blanket",
+            "craft.fine-clothes",
+            "craft.net",
+            "craft.robe",
+            "craft.rope",
+            "craft.sack",
+            "craft.string",
+            "craft.tent",
+            "craft.travelers-clothes"
+          ],
+          "details": {
+            "tool": {
+              "tool_group": "artisans-tools",
+              "ability": "dexterity",
+              "utilize": [
+                {
+                  "task": "mend-tear-in-clothing",
+                  "dc": 10
+                },
+                {
+                  "task": "sew-tiny-design",
+                  "dc": 10
+                }
+              ],
+              "craft": [
+                {
+                  "item": "padded-armor",
+                  "except": []
+                },
+                {
+                  "item": "basket",
+                  "except": []
+                },
+                {
+                  "item": "bedroll",
+                  "except": []
+                },
+                {
+                  "item": "blanket",
+                  "except": []
+                },
+                {
+                  "item": "fine-clothes",
+                  "except": []
+                },
+                {
+                  "item": "net",
+                  "except": []
+                },
+                {
+                  "item": "robe",
+                  "except": []
+                },
+                {
+                  "item": "rope",
+                  "except": []
+                },
+                {
+                  "item": "sack",
+                  "except": []
+                },
+                {
+                  "item": "string",
+                  "except": []
+                },
+                {
+                  "item": "tent",
+                  "except": []
+                },
+                {
+                  "item": "travelers-clothes",
+                  "except": []
+                }
+              ],
+              "weight": {
+                "listed": true,
+                "pounds": 5
+              },
+              "source_pages": [
+                94,
+                94
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
