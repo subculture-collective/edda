@@ -13,6 +13,32 @@ type Space struct {
 	Light       string `json:"light,omitempty"`
 	Obscurement string `json:"obscurement,omitempty"`
 	Revision    string `json:"revision"`
+	// PackAlly is the declared state of the NPC's nearest ally relative to the
+	// player. It is read only by Pack Tactics; nil means unresolved.
+	PackAlly *PackAlly `json:"pack_ally,omitempty"`
+}
+
+// PackAlly declares whether an ally of the NPC is present, its exact distance
+// from the player and whether it has the Incapacitated condition. The ally is
+// a declared fact, not an encounter actor.
+type PackAlly struct {
+	Present       *bool `json:"present"`
+	DistanceFeet  *int  `json:"distance_feet,omitempty"`
+	Incapacitated *bool `json:"incapacitated,omitempty"`
+}
+
+// Eligible reports whether the ally grants Pack Tactics. Unknown facts fail.
+func (a *PackAlly) Eligible() (bool, error) {
+	if a == nil || a.Present == nil {
+		return false, fmt.Errorf("Clarify whether an ally of the attacker is near the target.")
+	}
+	if !*a.Present {
+		return false, nil
+	}
+	if a.DistanceFeet == nil || *a.DistanceFeet < 0 || a.Incapacitated == nil {
+		return false, fmt.Errorf("Clarify the ally's exact distance from the target and whether it is Incapacitated.")
+	}
+	return *a.DistanceFeet <= 5 && !*a.Incapacitated, nil
 }
 
 // Validate requires an exact distance, sight ruling and recognized cover ruling.

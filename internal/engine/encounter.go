@@ -31,11 +31,16 @@ func resolveEncounterNPC(ctx context.Context, tx pgx.Tx, campaignID uuid.UUID, e
 		if err := combat.BanditAttack(encounter.Bandit, encounter.Space); err != nil {
 			return nil, nil, ErrActionRefresh
 		}
+	} else if encounter.Beast != nil {
+		if err := combat.BeastAttack(encounter.Beast, encounter.Space); err != nil {
+			return nil, nil, ErrActionRefresh
+		}
 	} else if err := encounter.Space.Melee(); err != nil {
 		encounter.Advance()
 		return receipts, effects, nil
 	}
 	npc := encounter.Active()
+	// One Action covers the whole configured action, including Multiattack.
 	if err := encounter.Spend(npc.ID, srd521.MartialAttack); err != nil {
 		return nil, nil, err
 	}
@@ -45,53 +50,62 @@ func resolveEncounterNPC(ctx context.Context, tx pgx.Tx, campaignID uuid.UUID, e
 			player = &encounter.Actors[i]
 		}
 	}
-	var attack *srd521.AttackReceipt
-	var err error
 	ac := sheet.Defenses["armor-class"].Value + encounter.Space.CoverBonus()
-	if encounter.Bandit != nil {
-		attack, err = srd521.ResolveBanditAttack(*encounter.Bandit, ac, dice)
-	} else {
-		attack, err = srd521.ResolveFixtureUnarmed(ac, dice)
-	}
-	if err != nil {
-		return nil, nil, err
-	}
-	attack.TargetID = player.ID.String()
-	attack.Target = player.Name
-	hp := max(0, player.HP-attack.Damage)
-	if _, err := tx.Exec(ctx, `UPDATE player_characters SET hp=$1,updated_at=clock_timestamp() WHERE id=$2 AND campaign_id=$3`, hp, dbutil.ToPgtype(player.ID), dbutil.ToPgtype(campaignID)); err != nil {
-		return nil, nil, err
-	}
-	if attack.Damage > 0 && sheet.Spellcasting != nil {
-		var stats []byte
-		if err := tx.QueryRow(ctx, `SELECT stats FROM player_characters WHERE id=$1`, player.ID).Scan(&stats); err != nil {
-			return nil, nil, err
+	attacks := []string{""}
+	if encounter.Beast != nil {
+		_, actions, err := encounter.Beast.Record()
+		if err != nil {
+			return nil, nil, ErrActionRefresh
 		}
-		var envelope struct {
-			Build srd521.Build `json:"srd521"`
+		attacks = attacks[:0]
+		for _, a := range actions {
+			attacks = append(attacks, a.ID)
 		}
-		if err := json.Unmarshal(stats, &envelope); err != nil {
-			return nil, nil, err
+	}
+	for _, id := range attacks {
+		// A defeated target ends the sequence; later attacks are not rolled.
+		if encounter.Status != "active" {
+			break
 		}
-		now, err := game.ReadSpellClock(ctx, tx, campaignID)
+		var attack *srd521.AttackReceipt
+		var err error
+		switch {
+		case encounter.Bandit != nil:
+			attack, err = srd521.ResolveBanditAttack(*encounter.Bandit, ac, dice)
+		case encounter.Beast != nil:
+			var advantage []string
+			advantage, err = encounter.BeastAdvantage()
+			if err != nil {
+				return nil, nil, ErrActionRefresh
+			}
+			attack, err = srd521.ResolveBeastAttack(*encounter.Beast, srd521.BeastAttack{ActionID: id, ArmorClass: ac, Advantage: advantage, TargetProne: player.Prone}, dice)
+		default:
+			attack, err = srd521.ResolveFixtureUnarmed(ac, dice)
+		}
 		if err != nil {
 			return nil, nil, err
 		}
-		damageSheet := *sheet
-		damageSheet.HP.Value = player.HP
-		effect, err := srd521.ConcentrationDamage(&envelope.Build, &damageSheet, attack.Damage, hp, now, dice)
-		if err != nil {
+		attack.TargetID = player.ID.String()
+		attack.Target = player.Name
+		hp := max(0, player.HP-attack.Damage)
+		if _, err := tx.Exec(ctx, `UPDATE player_characters SET hp=$1,updated_at=clock_timestamp() WHERE id=$2 AND campaign_id=$3`, hp, dbutil.ToPgtype(player.ID), dbutil.ToPgtype(campaignID)); err != nil {
 			return nil, nil, err
 		}
-		if effect != nil {
-			if err := saveCaster(ctx, tx, campaignID, player.ID, &envelope.Build, hp); err != nil {
+		if attack.Damage > 0 && sheet.Spellcasting != nil {
+			effect, err := concentrationAfterDamage(ctx, tx, campaignID, player, sheet, attack.Damage, hp, dice)
+			if err != nil {
 				return nil, nil, err
 			}
-			effects = append(effects, effect)
+			if effect != nil {
+				effects = append(effects, effect)
+			}
 		}
+		if attack.Condition == "prone-applied" {
+			player.Prone = true
+		}
+		encounter.SetHP(player.ID, hp)
+		receipts = append(receipts, attack)
 	}
-	encounter.SetHP(player.ID, hp)
-	receipts = append(receipts, attack)
 	if encounter.Status == "active" && encounter.NPCTactic == "withdraw" && encounter.Space.Cover == "none" && *encounter.Space.DistanceFeet == 5 {
 		// A voluntary step from five to ten feet is this fixture's one supported
 		// opportunity trigger. Suspend BEFORE movement, after the NPC's attack.
@@ -109,6 +123,34 @@ func resolveEncounterNPC(ctx context.Context, tx pgx.Tx, campaignID uuid.UUID, e
 	}
 	encounter.Advance()
 	return receipts, effects, nil
+}
+
+// concentrationAfterDamage applies one damage instance's Concentration save.
+func concentrationAfterDamage(ctx context.Context, tx pgx.Tx, campaignID uuid.UUID, player *combat.EncounterActor, sheet *srd521.CharacterSheet, damage, hp int, dice srd521.Dice) (*srd521.EffectReceipt, error) {
+	var stats []byte
+	if err := tx.QueryRow(ctx, `SELECT stats FROM player_characters WHERE id=$1`, player.ID).Scan(&stats); err != nil {
+		return nil, err
+	}
+	var envelope struct {
+		Build srd521.Build `json:"srd521"`
+	}
+	if err := json.Unmarshal(stats, &envelope); err != nil {
+		return nil, err
+	}
+	now, err := game.ReadSpellClock(ctx, tx, campaignID)
+	if err != nil {
+		return nil, err
+	}
+	damageSheet := *sheet
+	damageSheet.HP.Value = player.HP
+	effect, err := srd521.ConcentrationDamage(&envelope.Build, &damageSheet, damage, hp, now, dice)
+	if err != nil || effect == nil {
+		return nil, err
+	}
+	if err := saveCaster(ctx, tx, campaignID, player.ID, &envelope.Build, hp); err != nil {
+		return nil, err
+	}
+	return effect, nil
 }
 
 // finishWithdrawal consumes the pending NPC movement once, then returns control

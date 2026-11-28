@@ -60,7 +60,7 @@ func PrepareStoredAction(ctx context.Context, database statedb.DBTX, campaign do
 				base = ActionIntent{ActorID: intent.ActorID, Kind: srd521.AbilityCheck, Ability: "wisdom"}
 			}
 		}
-	case srd521.ActionSurge, combat.EncounterEndTurn, combat.EncounterMove, combat.EncounterDash, combat.EncounterApproach, combat.EncounterRetreat, combat.EncounterDecline:
+	case srd521.ActionSurge, combat.EncounterEndTurn, combat.EncounterMove, combat.EncounterDash, combat.EncounterApproach, combat.EncounterRetreat, combat.EncounterStand, combat.EncounterDecline:
 		base = ActionIntent{ActorID: intent.ActorID, Kind: srd521.AbilityCheck, Ability: "strength"}
 	}
 	result, err := prepareStoredActionBase(ctx, database, campaign, pc, base, lock)
@@ -94,7 +94,7 @@ func PrepareStoredAction(ctx context.Context, database statedb.DBTX, campaign do
 	if err != nil {
 		return nil, err
 	}
-	if intent.Kind == srd521.ActionSurge || srd521.IsLifecycle(intent.Kind) || intent.Kind == srd521.SpellCast || intent.Kind == combat.EncounterEndTurn || intent.Kind == combat.EncounterStart || intent.Kind == combat.EncounterReact || intent.Kind == combat.EncounterDecline || intent.Kind == combat.EncounterMove || intent.Kind == combat.EncounterDash || intent.Kind == combat.EncounterApproach || intent.Kind == combat.EncounterRetreat {
+	if intent.Kind == srd521.ActionSurge || srd521.IsLifecycle(intent.Kind) || intent.Kind == srd521.SpellCast || intent.Kind == combat.EncounterEndTurn || intent.Kind == combat.EncounterStart || intent.Kind == combat.EncounterReact || intent.Kind == combat.EncounterDecline || intent.Kind == combat.EncounterMove || intent.Kind == combat.EncounterDash || intent.Kind == combat.EncounterApproach || intent.Kind == combat.EncounterRetreat || intent.Kind == combat.EncounterStand {
 		p.ExpectedRevision = fmt.Sprintf("clock-v1:%x", sha256.Sum256(encodedClock))
 	}
 	if _, err := srd521.Project(pc.Stats, pc.Level, pc.HP, pc.MaxHP, pc.Experience); err == nil {
@@ -173,7 +173,9 @@ func PrepareStoredAction(ctx context.Context, database statedb.DBTX, campaign do
 		}
 		if member != nil && active {
 			if (encounter.Bandit == nil) != (member.Bandit == nil) ||
-				(encounter.Bandit != nil && member.Bandit != nil && *encounter.Bandit != *member.Bandit) {
+				(encounter.Bandit != nil && member.Bandit != nil && *encounter.Bandit != *member.Bandit) ||
+				(encounter.Beast == nil) != (member.Beast == nil) ||
+				(encounter.Beast != nil && member.Beast != nil && *encounter.Beast != *member.Beast) {
 				p.Encounter = nil
 				return unavailable("The stat-block profile changed; the encounter requires adjudication.")
 			}
@@ -264,6 +266,9 @@ func PrepareStoredAction(ctx context.Context, database statedb.DBTX, campaign do
 				if target.Bandit != nil {
 					spatialErr = combat.BanditAttack(target.Bandit, &target.Space)
 				}
+				if target.Beast != nil {
+					spatialErr = combat.BeastAttack(target.Beast, &target.Space)
+				}
 			} else {
 				spatialErr = target.Space.Melee()
 				// Declared light (#145) must also let the actor see the target.
@@ -311,6 +316,13 @@ func PrepareStoredAction(ctx context.Context, database statedb.DBTX, campaign do
 					}
 					p.Options = append(p.Options, status+action.Text)
 				}
+			} else if target.Beast != nil {
+				m, attacks, err := target.Beast.Record()
+				if err != nil {
+					return unavailable(err.Error())
+				}
+				p.Options = append(p.Options, fmt.Sprintf("%s: %s AC %d; initiative %+d; speed %d feet; target size %s.", target.Name, m.Name, m.AC, m.Initiative.Modifier, m.Speeds["walk"], target.Beast.TargetSize))
+				p.Options = append(p.Options, beastOptions(m, attacks)...)
 			} else {
 				p.Options = append(p.Options, target.Name+": ordinary fixture; NPC Unarmed Strike +2, 1 bludgeoning; speed 30 feet.")
 			}
@@ -321,13 +333,20 @@ func PrepareStoredAction(ctx context.Context, database statedb.DBTX, campaign do
 				break
 			}
 		}
+		for _, target := range result.Targets {
+			if target.Beast != nil {
+				m, _ := target.Beast.Pinned()
+				p.SourceIDs = append(p.SourceIDs, m.ID)
+				break
+			}
+		}
 		p.Costs = []ActionCost{}
 		p.CostStatus = "encounter"
 		return result, nil
 	}
 	if !active {
 		switch intent.Kind {
-		case srd521.ActionSurge, combat.EncounterEndTurn, combat.EncounterMove, combat.EncounterDash, combat.EncounterApproach, combat.EncounterRetreat, combat.EncounterDecline, combat.EncounterReact:
+		case srd521.ActionSurge, combat.EncounterEndTurn, combat.EncounterMove, combat.EncounterDash, combat.EncounterApproach, combat.EncounterRetreat, combat.EncounterStand, combat.EncounterDecline, combat.EncounterReact:
 			return unavailable("No supported encounter is active.")
 		}
 		return result, nil
@@ -375,7 +394,7 @@ func PrepareStoredAction(ctx context.Context, database statedb.DBTX, campaign do
 	case srd521.ActionSurge, srd521.MartialAttack:
 
 	case srd521.EndConcentration, srd521.SpellCast, srd521.ConsumableUse:
-	case combat.EncounterMove, combat.EncounterDash, combat.EncounterEndTurn, combat.EncounterApproach, combat.EncounterRetreat, combat.EncounterDecline:
+	case combat.EncounterMove, combat.EncounterDash, combat.EncounterEndTurn, combat.EncounterApproach, combat.EncounterRetreat, combat.EncounterStand, combat.EncounterDecline:
 		if intent.EntryID != "" || intent.Ability != "" || intent.Skill != "" || intent.SlotLevel != 0 {
 			return unavailable("Choose a supported encounter action.")
 		}
@@ -394,6 +413,11 @@ func PrepareStoredAction(ctx context.Context, database statedb.DBTX, campaign do
 			p.Costs = []ActionCost{{ResourceID: "action", Amount: 1}}
 			p.Options = []string{"Dash adds 30 feet of movement this turn."}
 		}
+		if intent.Kind == combat.EncounterStand {
+			p.Costs = []ActionCost{{ResourceID: "movement-feet", Amount: encounter.StandCost()}}
+			p.Options = []string{"Stand up from Prone for half your speed in movement."}
+			p.SourceIDs = append(p.SourceIDs, "srd-5.2.1:content/rules-glossary/prone")
+		}
 	default:
 		return unavailable("Use a supported encounter action or end your turn.")
 	}
@@ -407,6 +431,21 @@ func PrepareStoredAction(ctx context.Context, database statedb.DBTX, campaign do
 		}
 		p.Options = []string{"End turn resolves one Bandit " + a.Text}
 	}
+	if intent.Kind == combat.EncounterEndTurn && encounter.Beast != nil {
+		advantage, err := encounter.BeastAdvantage()
+		if err != nil {
+			return unavailable(err.Error())
+		}
+		m, attacks, err := encounter.Beast.Record()
+		if err != nil {
+			return unavailable(err.Error())
+		}
+		p.Options = append([]string{fmt.Sprintf("End turn resolves the %s's action against %s, in order:", m.Name, pc.Name)}, beastOptions(m, attacks)...)
+		if len(advantage) > 0 {
+			p.Options = append(p.Options, "Advantage on each attack: "+strings.Join(advantage, "; ")+".")
+		}
+		p.SourceIDs = append(p.SourceIDs, m.ID)
+	}
 	if intent.Kind == combat.EncounterEndTurn {
 		if err := encounter.Space.Validate(); err != nil {
 			return unavailable(err.Error())
@@ -414,6 +453,7 @@ func PrepareStoredAction(ctx context.Context, database statedb.DBTX, campaign do
 	}
 	// Spend only on a copy so previews remain read-only.
 	copy := *encounter
+	copy.Actors = append([]combat.EncounterActor(nil), encounter.Actors...)
 	if intent.Kind == srd521.SpellCast {
 		if err := copy.SpendSpell(pc.ID, intent.EntryID == "shield-of-faith"); err != nil {
 			return unavailable(err.Error())
@@ -427,4 +467,21 @@ func PrepareStoredAction(ctx context.Context, database statedb.DBTX, campaign do
 	p.CostStatus = "encounter"
 	p.SourceIDs = append(p.SourceIDs, "srd-5.2.1:content/combat/initiative", "srd-5.2.1:content/combat/your-turn")
 	return result, nil
+}
+
+// beastOptions previews each pinned attack in resolution order and the stop rule.
+func beastOptions(m srd521.Monster, attacks []srd521.MonsterAction) []string {
+	options := []string{}
+	for _, a := range m.Actions {
+		if a.ID == "multiattack" {
+			options = append(options, a.Text+" One action; Bite resolves before Claw, and a target reduced to 0 HP ends the sequence.")
+		}
+	}
+	for i, a := range attacks {
+		options = append(options, fmt.Sprintf("%d. %s", i+1, a.Text))
+	}
+	for _, t := range m.Traits {
+		options = append(options, t.Text)
+	}
+	return options
 }

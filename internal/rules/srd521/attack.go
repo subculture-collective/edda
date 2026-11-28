@@ -21,6 +21,14 @@ type AttackReceipt struct {
 	Damage         int      `json:"damage"`
 	DamageType     string   `json:"damage_type"`
 	SourceIDs      []string `json:"source_ids"`
+
+	// Advantage lists the durable facts that granted Advantage; D20s then holds
+	// both rolled dice and Die the higher one. Both are empty for a single roll.
+	Advantage []string `json:"advantage,omitempty"`
+	D20s      []int    `json:"d20s,omitempty"`
+	// Condition records a size-gated condition outcome on a hit: "prone-applied",
+	// "already-prone" or "size-exempt". It is empty when no condition applies.
+	Condition string `json:"condition,omitempty"`
 }
 
 // LongswordModifier uses Fighter martial proficiency and Strength.
@@ -47,11 +55,24 @@ func ResolveFixtureUnarmed(armorClass int, dice Dice) (*AttackReceipt, error) {
 }
 
 func resolveWeaponAttack(version, weapon string, modifier Value, damageModifier, damageDie int, damageType string, armorClass int, dice Dice) (*AttackReceipt, error) {
+	return resolveAttackRoll(version, weapon, modifier, damageModifier, damageDie, damageType, armorClass, nil, dice)
+}
+
+// resolveAttackRoll rolls two d20s and keeps the higher when advantage names
+// at least one reason. Advantage never stacks: two reasons still roll twice.
+func resolveAttackRoll(version, weapon string, modifier Value, damageModifier, damageDie int, damageType string, armorClass int, advantage []string, dice Dice) (*AttackReceipt, error) {
 	roll := dice.Intn(20)
 	if roll < 0 || roll >= 20 {
 		return nil, fmt.Errorf("invalid d20")
 	}
 	r := &AttackReceipt{RulesVersion: version, Kind: MartialAttack, Weapon: weapon, Die: roll + 1, Modifier: modifier, Outcome: "miss", DamageType: damageType, DamageDice: []int{}, SourceIDs: []string{prefix + "d20-tests/attack-rolls", prefix + "weapons/longsword", prefix + "damage/critical-hits"}}
+	if len(advantage) > 0 {
+		second := dice.Intn(20)
+		if second < 0 || second >= 20 {
+			return nil, fmt.Errorf("invalid d20")
+		}
+		r.Advantage, r.D20s, r.Die = append([]string(nil), advantage...), []int{roll + 1, second + 1}, max(roll, second)+1
+	}
 	if damageDie == 0 {
 		r.SourceIDs = []string{prefix + "d20-tests/attack-rolls", prefix + "rules-glossary/unarmed-strike"}
 	}

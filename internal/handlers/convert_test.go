@@ -250,7 +250,7 @@ func mustJSON(t *testing.T, v any) []byte {
 }
 
 func TestBanditReceiptsUseSharedResolutionContract(t *testing.T) {
-	for _, weapon := range []string{"Scimitar", "Light Crossbow", "Unarmed Strike"} {
+	for _, weapon := range []string{"Scimitar", "Light Crossbow", "Unarmed Strike", "Bite", "Claw"} {
 		got := engineTurnResultToAPI(&engine.TurnResult{AppliedToolCalls: []engine.AppliedToolCall{{Tool: "srd_encounter", Result: mustJSON(t, map[string]any{"npc_receipts": []any{map[string]any{"rules_version": "srd-5.2.1", "weapon": weapon, "outcome": "hit", "damage": 4, "damage_dice": []int{3}, "damage_type": "slashing", "source_ids": []string{"srd-5.2.1:content/monsters/bandit"}}}, "encounter": map[string]any{"actors": []any{map[string]any{"hp": 100, "private": "secret"}}}})}}})
 		if len(got.ResolutionEvents) != 1 || got.ResolutionEvents[0].Label != "NPC "+weapon {
 			t.Fatalf("%+v", got)
