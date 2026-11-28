@@ -43,7 +43,10 @@ every record.
   smaller) gives the player the Prone condition, with no saving throw. A
   larger target is exempt; an already Prone target is not affected twice.
 - Prone is saved on the player's encounter actor. Melee attacks against the
-  Prone player have Advantage. Several sources still give one Advantage.
+  Prone player have Advantage. Several sources still give one Advantage. An
+  encounter starts with any Prone saved outside it, for example by a
+  [declared fall](declared-fall.md), and hands a Prone player back to that
+  saved state when it completes.
 - While Prone, the player's attack rolls have Disadvantage: the longsword
   attack and the opportunity attack roll two d20s and keep the lower. The
   preview names the Disadvantage before anything is rolled. Advantage from

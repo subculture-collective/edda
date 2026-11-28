@@ -94,9 +94,11 @@
         203
       ],
       "status": "unsupported",
-      "fixtures": [],
+      "fixtures": [
+        "internal/rules/srd521/falling_test.go"
+      ],
       "follow_up": 149,
-      "notes": "No full toolbox conformance. #149 is encounter-budget calculation only; #150 must split remaining named environment, curse, contagion, poison and trap scopes before #183 full qualification."
+      "notes": "No full toolbox conformance. #149 is encounter-budget calculation only. #147 adds partial evidence for the Falling hazard: one declared fall outside encounters onto solid ground or water deals 1d6 Bludgeoning per full 10 feet (capped at 20d6), applies Prone unless no damage is taken, and allows the DC 15 water-entry Reaction check that halves the damage. Falls from flight, onto creatures and with magical fall prevention stay unsupported. #150 must split remaining named environment, curse, contagion, poison and trap scopes before #183 full qualification."
     },
     {
       "id": "srd-5.2.1:family/character-creation",

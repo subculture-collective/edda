@@ -153,6 +153,7 @@ func (e *Engine) ConfirmAction(ctx context.Context, campaignID uuid.UUID, reques
 	if encounter != nil {
 		initialRound = encounter.Round
 	}
+	startedActive := encounter != nil && encounter.Status == "active"
 	if request.Intent.Kind == combat.EncounterStart {
 		var target *game.MartialTarget
 		for i := range prepared.Targets {
@@ -181,10 +182,19 @@ func (e *Engine) ConfirmAction(ctx context.Context, campaignID uuid.UUID, reques
 			foe.Initiative = m.Initiative.Modifier
 			foe.Speed = m.Speeds["walk"]
 		}
-		encounter, err = combat.NewEncounter(combat.EncounterActor{ID: pc.ID, Name: pc.Name, HP: pc.HP, MaxHP: pc.MaxHP}, foe, sheet.Defenses["initiative"].Value, dice)
+		// The encounter takes ownership of a Prone condition saved outside it
+		// (for example by a fall) until the encounter completes.
+		prone := game.ReadConditions(pc.Stats).Prone
+		encounter, err = combat.NewEncounter(combat.EncounterActor{ID: pc.ID, Name: pc.Name, HP: pc.HP, MaxHP: pc.MaxHP, Prone: prone}, foe, sheet.Defenses["initiative"].Value, dice)
 		if err != nil {
 			return nil, err
 		}
+		if prone {
+			if err := saveConditions(ctx, tx, campaignID, pc.ID, game.Conditions{}); err != nil {
+				return nil, err
+			}
+		}
+		startedActive = true
 		encounter.Bandit = target.Bandit
 		encounter.Beast = target.Beast
 		encounter.Space = &target.Space
@@ -192,6 +202,23 @@ func (e *Engine) ConfirmAction(ctx context.Context, campaignID uuid.UUID, reques
 		label = "Initiative"
 		tool = "srd_encounter"
 		narrative = "Initiative rolled for the two-actor encounter."
+	} else if request.Intent.Kind == combat.EncounterStand && !startedActive {
+		if !game.ReadConditions(pc.Stats).Prone {
+			return nil, ErrActionRefresh
+		}
+		if err := saveConditions(ctx, tx, campaignID, pc.ID, game.Conditions{}); err != nil {
+			return nil, err
+		}
+		receipt = map[string]any{"rules_version": "srd-5.2.1", "condition": "prone", "before": true, "after": false, "source_ids": preview.SourceIDs}
+		tool, label = "srd_condition", "Stand up"
+		narrative = "Stood up from Prone outside an encounter; no movement budget is tracked there."
+	} else if request.Intent.Kind == srd521.FallResolve {
+		fallReceipt, err := resolveDeclaredFall(ctx, tx, campaignID, pc.ID, pc.HP, pc.Stats, prepared.Fall, request.Intent.Skill, sheet, dice)
+		if err != nil {
+			return nil, err
+		}
+		receipt, tool, label = fallReceipt, "srd_fall", "Fall"
+		narrative = fallNarrative(pc.Name, fallReceipt)
 	} else if request.Intent.Kind == combat.EncounterEndTurn || request.Intent.Kind == combat.EncounterMove || request.Intent.Kind == combat.EncounterDash || request.Intent.Kind == combat.EncounterApproach || request.Intent.Kind == combat.EncounterRetreat || request.Intent.Kind == combat.EncounterStand {
 		if encounter == nil || encounter.Status != "active" {
 			return nil, ErrActionRefresh
@@ -583,6 +610,16 @@ func (e *Engine) ConfirmAction(ctx context.Context, campaignID uuid.UUID, reques
 			}
 		}
 		payload["encounter"] = encounter
+		if startedActive && encounter.Status != "active" {
+			// The completed encounter hands the player's Prone back to the actor.
+			for _, actor := range encounter.Actors {
+				if actor.Player && actor.Prone {
+					if err := saveConditions(ctx, tx, campaignID, actor.ID, game.Conditions{Prone: actor.Prone}); err != nil {
+						return nil, err
+					}
+				}
+			}
+		}
 		payload["npc_receipts"] = npcReceipts
 		payload["concentration_receipts"] = concentrationReceipts
 		for _, r := range concentrationReceipts {
