@@ -248,3 +248,36 @@ it('previews the Magic Initiate Detect Magic free use without a slot level and o
   await userEvent.click(screen.getByRole('button', { name: 'Preview action' }));
   expect(previewCharacterAction).toHaveBeenLastCalledWith('detect', { actor_id: 'hero', kind: 'detect-magic-study', ability: undefined });
 });
+
+it('keeps a reaction chosen from a preview that offered it', async () => {
+  vi.mocked(previewCharacterAction).mockResolvedValueOnce({ ...ready, intent: { actor_id: 'hero', kind: 'combat-end-turn' }, encounter: { id: 'encounter', status: 'active', round: 1, turn: 1, actors: [{ id: 'hero', name: 'Mira', player: true, hp: 11, max_hp: 12, initiative: 20, initiative_die: 19 }, { id: 'foe', name: 'Practice foe', player: false, hp: 20, max_hp: 20, initiative: 19, initiative_die: 19 }], budget: { action: false, bonus_action: true, movement: 30 }, reaction: { available: true, pending: { id: 'trigger', target_id: 'foe', weapon_id: 'sword', space_revision: 'scene' } } } });
+  mount('reaction-from-preview');
+  await userEvent.selectOptions(screen.getByLabelText('Character action'), 'combat-end-turn');
+  await userEvent.click(screen.getByRole('button', { name: 'Preview action' }));
+  await screen.findByRole('option', { name: 'Decline opportunity attack (no cost)' });
+  await userEvent.selectOptions(screen.getByLabelText('Character action'), 'combat-decline-reaction');
+  expect(screen.getByLabelText('Character action')).toHaveValue('combat-decline-reaction');
+  expect(screen.getByRole('button', { name: 'Preview action' })).toBeEnabled();
+});
+
+it('keeps an unacknowledged request when its menu entry disappears, then clears the selection', async () => {
+  const caster = (covered: boolean) => ({ ...sheet, light: { id: 'light', item_id: 'mace', color: 'blue', started_at: 0, expires_at: 3600, bright_feet: 20, dim_feet: 20, covered } }) as CharacterSheetProjection;
+  vi.mocked(previewCharacterAction).mockResolvedValueOnce({ ...ready, intent: { actor_id: 'hero', kind: 'light-cover' }, modifier: undefined });
+  vi.mocked(confirmCharacterAction).mockRejectedValueOnce(new Error('offline')).mockResolvedValueOnce({ action_id: 'saved', turn_number: 1, narrative: 'Covered.', state_changes: [], resolution_events: [], combat_active: false });
+  const client = new QueryClient();
+  const panel = (covered: boolean) => <QueryClientProvider client={client}><ActionPreviewPanel campaignId="cover-retry" actorId="hero" sheet={caster(covered)} /></QueryClientProvider>;
+  const view = render(panel(false));
+  await userEvent.selectOptions(screen.getByLabelText('Character action'), 'light-cover');
+  await userEvent.click(screen.getByRole('button', { name: 'Preview action' }));
+  await userEvent.click(await screen.findByRole('button', { name: 'Confirm action' }));
+  expect(await screen.findByRole('alert')).toHaveTextContent('ID is retained');
+  // The refreshed sheet shows the commit before the client has its response.
+  view.rerender(panel(true));
+  expect(screen.getByText('Preview ready. No action has been performed.')).toBeVisible();
+  await userEvent.click(screen.getByRole('button', { name: 'Retry same action' }));
+  const calls = vi.mocked(confirmCharacterAction).mock.calls.slice(-2);
+  expect(calls[1][1]).toEqual(calls[0][1]);
+  expect(await screen.findByText('Covered.')).toBeVisible();
+  expect(screen.getByLabelText('Character action')).toHaveValue('');
+  expect(screen.getByRole('button', { name: 'Preview action' })).toBeDisabled();
+});

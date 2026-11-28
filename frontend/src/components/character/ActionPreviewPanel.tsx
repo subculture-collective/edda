@@ -2,7 +2,7 @@ import { TacticalReceipt, type TacticalMindReceipt } from './TacticalReceipt';
 import { ActionSurgeReceipt } from './ActionSurgeReceipt';
 import { EquipmentReceipt } from './EquipmentReceipt';
 import { AdvancementReceipt } from './AdvancementReceipt';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { APIError } from '../../api/client';
 import { confirmCharacterAction, readActionReceipt, publishConfirmedAction, type PreparedAction } from '../../api/actions';
@@ -51,6 +51,7 @@ export function ActionPreviewPanel({ campaignId, actorId, sheet, initialSelectio
   const finish = (result: TurnResponse) => {
     setCompleted(result);
     setPending(null);
+    setChosenReaction(undefined);
 
     try { sessionStorage.removeItem(storageKey); } catch { /* Storage is optional. */ }
     publishConfirmedAction(campaignId, result, requestRef.current?.intent.kind.startsWith('equipment-') ? 'Confirm equipment change' : requestRef.current?.intent.kind === 'action-surge' ? 'Confirm Action Surge' : requestRef.current?.intent.kind === 'advance-level' ? 'Confirm Fighter advancement' : requestRef.current && isLight(requestRef.current.intent) ? 'Confirm Light' : requestRef.current?.intent.kind === 'fall-resolve' ? 'Confirm Fall' : requestRef.current?.intent.kind === 'door-open' ? 'Confirm Open door' : requestRef.current?.intent.kind === 'travel-hour' ? 'Confirm Travel' : requestRef.current?.intent.kind === 'combat-stand' ? 'Confirm Stand up' : requestRef.current?.intent.kind === 'death-save' ? 'Confirm Death Saving Throw' : requestRef.current?.intent.kind === 'ally-aid' ? 'Confirm ally aid' : requestRef.current?.intent.kind === 'spell-cast' ? `Confirm ${requestRef.current.intent.entry_id === 'shield-of-faith' ? 'Shield of Faith' : requestRef.current.intent.entry_id === 'detect-magic' ? 'Detect Magic' : 'Cure Wounds'}` : requestRef.current?.intent.kind === 'detect-magic-study' ? 'Confirm Detect Magic study' : requestRef.current?.intent.kind === 'consumable-use' ? 'Confirm Potion of Healing' : requestRef.current?.intent.kind === 'combat-react' ? 'Confirm opportunity attack' : requestRef.current?.intent.kind === 'combat-decline-reaction' ? 'Decline opportunity attack' : requestRef.current?.intent.kind === 'martial-attack' ? 'Confirm Longsword attack' : `Confirm ${requestRef.current?.intent.skill ?? requestRef.current?.intent.ability ?? 'character'} check`);
@@ -77,11 +78,15 @@ export function ActionPreviewPanel({ campaignId, actorId, sheet, initialSelectio
         try { sessionStorage.removeItem(storageKey); } catch { /* Storage is optional. */ }
         preview.reset();
         setProvidedPreview(undefined);
+        setChosenReaction(undefined);
       }
     },
   });
   const [selection, setSelection] = useState(initialPreview?.intent.skill ? `skill:${initialPreview.intent.skill}` : initialSelection);
   const [providedPreview, setProvidedPreview] = useState(initialPreview);
+  // A preview can be the only source of a reaction entry, and choosing it discards that preview.
+  const [chosenReaction, setChosenReaction] = useState<NonNullable<Encounter['reaction']>['pending']>();
+  const selectRef = useRef<HTMLSelectElement>(null);
   // Detect Magic's Magic Initiate free use has no slot level to choose.
   const slotLevels = (id?: string) => sheet.spellcasting?.spells.find(spell => spell.id === id)?.slot_levels ?? [];
   const preview = useMutation({ mutationFn: (value: string) => {
@@ -98,12 +103,20 @@ export function ActionPreviewPanel({ campaignId, actorId, sheet, initialSelectio
     });
   } });
   const result = preview.data ?? (pending ? undefined : providedPreview);
-  const trigger = (reaction ?? result?.encounter?.reaction)?.pending;
+  const trigger = (reaction ?? result?.encounter?.reaction)?.pending ?? chosenReaction;
+  // A sheet or inventory change can remove the chosen entry. The menu then shows
+  // "Choose an action", so forget the choice and its preview. A sent, unacknowledged
+  // request keeps both until a retry resolves it.
+  useLayoutEffect(() => {
+    if (!selection || pending || preview.isPending) return;
+    if (Array.from(selectRef.current?.options ?? []).some(option => option.value === selection)) return;
+    setSelection(''); setProvidedPreview(undefined); setTarget(''); preview.reset();
+  }, [selection, pending, preview, sheet, inventory.data, trigger]);
   return <section aria-label="Action preview" className="space-y-3 border-y border-gold/20 py-4">
     <h3 className="font-heading text-gold">Preview a character action</h3>
     <p className="text-sm text-pewter">Inspect an action without rolling dice or changing resources, time or history.</p>
     <label className="block text-sm">Character action
-      <select value={selection} disabled={preview.isPending || !!pending} onChange={event => { setSelection(event.target.value); setProvidedPreview(undefined); setTarget(''); preview.reset(); confirmation.reset(); setCompleted(null); }} className="mt-2 block min-h-11 w-full max-w-full bg-midnight p-2 text-champagne">
+      <select ref={selectRef} value={selection} disabled={preview.isPending || !!pending} onChange={event => { setChosenReaction(/^combat-(react:|decline-reaction$)/.test(event.target.value) ? trigger : undefined); setSelection(event.target.value); setProvidedPreview(undefined); setTarget(''); preview.reset(); confirmation.reset(); setCompleted(null); }} className="mt-2 block min-h-11 w-full max-w-full bg-midnight p-2 text-champagne">
         <option value="">Choose an action</option>
         <optgroup label="Ability checks">{Object.keys(sheet.abilities).map(name => <option key={name} value={`ability-check:${name}`}>{name} check</option>)}</optgroup>
         <optgroup label="Skills">{Object.keys(sheet.skills).map(name => <option key={name} value={`skill:${name}`}>{name.replaceAll('-', ' ')} check</option>)}</optgroup>
