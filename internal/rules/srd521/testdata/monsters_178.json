@@ -1,0 +1,1687 @@
+{
+  "schema_version": 1,
+  "source": {
+    "version": "5.2.1",
+    "language": "en",
+    "landing_url": "https://www.dndbeyond.com/srd",
+    "artifact_url": "https://media.dndbeyond.com/compendium-images/srd/5.2/SRD_CC_v5.2.1.pdf",
+    "sha256": "8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87",
+    "bytes": 6031375,
+    "pages": 364,
+    "retrieved_at": "2026-11-15",
+    "license": "CC-BY-4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/legalcode",
+    "attribution": "This work includes material from the System Reference Document 5.2.1 (“SRD 5.2.1”) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd. The SRD 5.2.1 is licensed under the Creative Commons Attribution 4.0 International License, available at https://creativecommons.org/licenses/by/4.0/legalcode.",
+    "changes": "Adapted the seven stat blocks of issue #178 (Young Copper Dragon, Young Gold Dragon, Young Green Dragon, Young Red Dragon, Young Silver Dragon, Young White Dragon and Zombie; PDF pages 276, 291, 293–294, 318, 324, 340 and 343–344) into typed mechanical fields and implementation keys. Trait and action entries keep their source rules text, rejoined across line, column and page breaks; descriptive prose outside the stat blocks is omitted. The Young White Dragon’s Intelligence saving throw is printed as 2, without its minus sign; the record keeps -2, the value the modifier gives. No playable NPC behavior is granted."
+  },
+  "monsters": [
+    {
+      "id": "srd-5.2.1:content/monsters/young-copper-dragon",
+      "name": "Young Copper Dragon",
+      "source_pages": [
+        276,
+        276
+      ],
+      "sizes": [
+        "large"
+      ],
+      "type": "dragon",
+      "alignment": "Chaotic Good",
+      "ac": 17,
+      "initiative": {
+        "modifier": 4,
+        "score": 14
+      },
+      "hp": {
+        "average": 119,
+        "dice": 14,
+        "sides": 10,
+        "modifier": 42
+      },
+      "speeds": {
+        "walk": 40,
+        "climb": 40,
+        "fly": 80
+      },
+      "abilities": {
+        "str": {
+          "score": 19,
+          "modifier": 4,
+          "save": 4
+        },
+        "dex": {
+          "score": 12,
+          "modifier": 1,
+          "save": 4
+        },
+        "con": {
+          "score": 17,
+          "modifier": 3,
+          "save": 3
+        },
+        "int": {
+          "score": 16,
+          "modifier": 3,
+          "save": 3
+        },
+        "wis": {
+          "score": 13,
+          "modifier": 1,
+          "save": 4
+        },
+        "cha": {
+          "score": 15,
+          "modifier": 2,
+          "save": 2
+        }
+      },
+      "senses": {
+        "passive_perception": 17,
+        "special": {
+          "blindsight": 30,
+          "darkvision": 120
+        }
+      },
+      "languages": [
+        "Common",
+        "Draconic"
+      ],
+      "gear": [],
+      "cr": "7",
+      "xp": 2900,
+      "proficiency_bonus": 3,
+      "tags": [
+        "Metallic"
+      ],
+      "skills": {
+        "deception": 5,
+        "perception": 7,
+        "stealth": 4
+      },
+      "immunities": [
+        "acid"
+      ],
+      "traits": [],
+      "actions": [
+        {
+          "id": "multiattack",
+          "name": "Multiattack",
+          "text": "Multiattack. The dragon makes three Rend attacks. It can replace one attack with a use of Slowing Breath.",
+          "key": "action/multiattack",
+          "effects": [
+            {
+              "key": "action/melee-attack",
+              "name": "Melee attack",
+              "text": "The dragon makes three Rend attacks"
+            },
+            {
+              "key": "multiattack/replace-attack",
+              "name": "Replace attack",
+              "text": "It can replace one attack with a use of Slowing Breath"
+            },
+            {
+              "key": "action/saving-throw",
+              "name": "Saving throw",
+              "text": "a use of Slowing Breath"
+            }
+          ]
+        },
+        {
+          "id": "rend",
+          "name": "Rend",
+          "text": "Rend. Melee Attack Roll: +7, reach 10 ft. Hit: 15 (2d10 + 4) Slashing damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 7,
+            "reach": 10,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 15,
+              "dice": 2,
+              "sides": 10,
+              "modifier": 4
+            },
+            "damage_type": "slashing"
+          },
+          "effects": [
+            {
+              "key": "effect/slashing-damage",
+              "name": "Slashing damage",
+              "text": "15 (2d10 + 4) Slashing damage.",
+              "dice": {
+                "average": 15,
+                "dice": 2,
+                "sides": 10,
+                "modifier": 4
+              }
+            }
+          ]
+        },
+        {
+          "id": "acid-breath",
+          "name": "Acid Breath",
+          "text": "Acid Breath (Recharge 5–6). Dexterity Saving Throw: DC 14, each creature in a 40-foot-long, 5-foot-wide Line. Failure: 40 (9d8) Acid damage. Success: Half damage.",
+          "key": "action/saving-throw",
+          "uses": {
+            "per_day": 0,
+            "lair_per_day": 0,
+            "recharge": 5
+          },
+          "save": {
+            "ability": "dex",
+            "dc": 14
+          },
+          "target": {
+            "shape": "line",
+            "size": 40,
+            "width": 5,
+            "range": 0
+          },
+          "effects": [
+            {
+              "key": "save/dex",
+              "name": "Dex",
+              "text": "Dexterity Saving Throw: DC 14"
+            },
+            {
+              "key": "area/line",
+              "name": "Line",
+              "text": "each creature in a 40-foot-long, 5-foot-wide Line"
+            },
+            {
+              "key": "limit/recharge",
+              "name": "Recharge",
+              "text": "(Recharge 5–6)"
+            },
+            {
+              "key": "effect/acid-damage",
+              "name": "Acid damage",
+              "text": "40 (9d8) Acid damage",
+              "dice": {
+                "average": 40,
+                "dice": 9,
+                "sides": 8,
+                "modifier": 0
+              }
+            },
+            {
+              "key": "save/half-damage",
+              "name": "Half damage",
+              "text": "Success: Half damage."
+            }
+          ]
+        },
+        {
+          "id": "slowing-breath",
+          "name": "Slowing Breath",
+          "text": "Slowing Breath. Constitution Saving Throw: DC 14, each creature in a 30-foot Cone. Failure: The target can’t take Reactions; its Speed is halved; and it can take either an action or a Bonus Action on its turn, not both. This effect lasts until the end of its next turn.",
+          "key": "action/saving-throw",
+          "save": {
+            "ability": "con",
+            "dc": 14
+          },
+          "target": {
+            "shape": "cone",
+            "size": 30,
+            "width": 0,
+            "range": 0
+          },
+          "effects": [
+            {
+              "key": "save/con",
+              "name": "Con",
+              "text": "Constitution Saving Throw: DC 14"
+            },
+            {
+              "key": "area/cone",
+              "name": "Cone",
+              "text": "each creature in a 30-foot Cone"
+            },
+            {
+              "key": "effect/no-reactions",
+              "name": "No reactions",
+              "text": "Failure: The target can’t take Reactions"
+            },
+            {
+              "key": "effect/speed-halved",
+              "name": "Speed halved",
+              "text": "its Speed is halved"
+            },
+            {
+              "key": "effect/action-or-bonus-action",
+              "name": "Action or bonus action",
+              "text": "it can take either an action or a Bonus Action on its turn, not both"
+            },
+            {
+              "key": "effect/lasts-until-end-of-next-turn",
+              "name": "Lasts until end of next turn",
+              "text": "This effect lasts until the end of its next turn"
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/skills",
+        "defense/damage-immunity",
+        "movement/climb",
+        "movement/fly",
+        "sense/blindsight",
+        "sense/darkvision",
+        "action/multiattack",
+        "action/melee-attack",
+        "multiattack/replace-attack",
+        "action/saving-throw",
+        "effect/slashing-damage",
+        "save/dex",
+        "area/line",
+        "limit/recharge",
+        "effect/acid-damage",
+        "save/half-damage",
+        "save/con",
+        "area/cone",
+        "effect/no-reactions",
+        "effect/speed-halved",
+        "effect/action-or-bonus-action",
+        "effect/lasts-until-end-of-next-turn"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/young-gold-dragon",
+      "name": "Young Gold Dragon",
+      "source_pages": [
+        291,
+        291
+      ],
+      "sizes": [
+        "large"
+      ],
+      "type": "dragon",
+      "alignment": "Lawful Good",
+      "ac": 18,
+      "initiative": {
+        "modifier": 6,
+        "score": 16
+      },
+      "hp": {
+        "average": 178,
+        "dice": 17,
+        "sides": 10,
+        "modifier": 85
+      },
+      "speeds": {
+        "walk": 40,
+        "fly": 80,
+        "swim": 40
+      },
+      "abilities": {
+        "str": {
+          "score": 23,
+          "modifier": 6,
+          "save": 6
+        },
+        "dex": {
+          "score": 14,
+          "modifier": 2,
+          "save": 6
+        },
+        "con": {
+          "score": 21,
+          "modifier": 5,
+          "save": 5
+        },
+        "int": {
+          "score": 16,
+          "modifier": 3,
+          "save": 3
+        },
+        "wis": {
+          "score": 13,
+          "modifier": 1,
+          "save": 5
+        },
+        "cha": {
+          "score": 20,
+          "modifier": 5,
+          "save": 5
+        }
+      },
+      "senses": {
+        "passive_perception": 19,
+        "special": {
+          "blindsight": 30,
+          "darkvision": 120
+        }
+      },
+      "languages": [
+        "Common",
+        "Draconic"
+      ],
+      "gear": [],
+      "cr": "10",
+      "xp": 5900,
+      "proficiency_bonus": 4,
+      "tags": [
+        "Metallic"
+      ],
+      "skills": {
+        "insight": 5,
+        "perception": 9,
+        "persuasion": 9,
+        "stealth": 6
+      },
+      "immunities": [
+        "fire"
+      ],
+      "traits": [
+        {
+          "key": "trait/amphibious",
+          "name": "Amphibious",
+          "text": "Amphibious. The dragon can breathe air and water."
+        }
+      ],
+      "actions": [
+        {
+          "id": "multiattack",
+          "name": "Multiattack",
+          "text": "Multiattack. The dragon makes three Rend attacks. It can replace one attack with a use of Weakening Breath.",
+          "key": "action/multiattack",
+          "effects": [
+            {
+              "key": "action/melee-attack",
+              "name": "Melee attack",
+              "text": "The dragon makes three Rend attacks"
+            },
+            {
+              "key": "multiattack/replace-attack",
+              "name": "Replace attack",
+              "text": "It can replace one attack with a use of Weakening Breath"
+            },
+            {
+              "key": "action/saving-throw",
+              "name": "Saving throw",
+              "text": "a use of Weakening Breath"
+            }
+          ]
+        },
+        {
+          "id": "rend",
+          "name": "Rend",
+          "text": "Rend. Melee Attack Roll: +10, reach 10 ft. Hit: 17 (2d10 + 6) Slashing damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 10,
+            "reach": 10,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 17,
+              "dice": 2,
+              "sides": 10,
+              "modifier": 6
+            },
+            "damage_type": "slashing"
+          },
+          "effects": [
+            {
+              "key": "effect/slashing-damage",
+              "name": "Slashing damage",
+              "text": "17 (2d10 + 6) Slashing damage.",
+              "dice": {
+                "average": 17,
+                "dice": 2,
+                "sides": 10,
+                "modifier": 6
+              }
+            }
+          ]
+        },
+        {
+          "id": "fire-breath",
+          "name": "Fire Breath",
+          "text": "Fire Breath (Recharge 5–6). Dexterity Saving Throw: DC 17, each creature in a 30-foot Cone. Failure: 55 (10d10) Fire damage. Success: Half damage.",
+          "key": "action/saving-throw",
+          "uses": {
+            "per_day": 0,
+            "lair_per_day": 0,
+            "recharge": 5
+          },
+          "save": {
+            "ability": "dex",
+            "dc": 17
+          },
+          "target": {
+            "shape": "cone",
+            "size": 30,
+            "width": 0,
+            "range": 0
+          },
+          "effects": [
+            {
+              "key": "save/dex",
+              "name": "Dex",
+              "text": "Dexterity Saving Throw: DC 17"
+            },
+            {
+              "key": "area/cone",
+              "name": "Cone",
+              "text": "each creature in a 30-foot Cone"
+            },
+            {
+              "key": "limit/recharge",
+              "name": "Recharge",
+              "text": "(Recharge 5–6)"
+            },
+            {
+              "key": "effect/fire-damage",
+              "name": "Fire damage",
+              "text": "55 (10d10) Fire damage",
+              "dice": {
+                "average": 55,
+                "dice": 10,
+                "sides": 10,
+                "modifier": 0
+              }
+            },
+            {
+              "key": "save/half-damage",
+              "name": "Half damage",
+              "text": "Success: Half damage."
+            }
+          ]
+        },
+        {
+          "id": "weakening-breath",
+          "name": "Weakening Breath",
+          "text": "Weakening Breath. Strength Saving Throw: DC 17, each creature that isn’t currently affected by this breath in a 30-foot Cone. Failure: The target has Disadvantage on Strength-based D20 Tests and subtracts 3 (1d6) from its damage rolls. It repeats the save at the end of each of its turns, ending the effect on itself on a success. After 1 minute, it succeeds automatically.",
+          "key": "action/saving-throw",
+          "save": {
+            "ability": "str",
+            "dc": 17
+          },
+          "target": {
+            "shape": "cone",
+            "size": 30,
+            "width": 0,
+            "range": 0
+          },
+          "effects": [
+            {
+              "key": "save/str",
+              "name": "Str",
+              "text": "Strength Saving Throw: DC 17"
+            },
+            {
+              "key": "area/cone",
+              "name": "Cone",
+              "text": "each creature that isn’t currently affected by this breath in a 30-foot Cone"
+            },
+            {
+              "key": "requirement/unaffected-target",
+              "name": "Unaffected target",
+              "text": "each creature that isn’t currently affected by this breath"
+            },
+            {
+              "key": "effect/strength-test-disadvantage",
+              "name": "Strength test disadvantage",
+              "text": "Failure: The target has Disadvantage on Strength-based D20 Tests"
+            },
+            {
+              "key": "effect/damage-roll-penalty",
+              "name": "Damage roll penalty",
+              "text": "subtracts 3 (1d6) from its damage rolls",
+              "dice": {
+                "average": 3,
+                "dice": 1,
+                "sides": 6,
+                "modifier": 0
+              }
+            },
+            {
+              "key": "save/repeat",
+              "name": "Repeat",
+              "text": "It repeats the save at the end of each of its turns, ending the effect on itself on a success"
+            },
+            {
+              "key": "save/automatic-success",
+              "name": "Automatic success",
+              "text": "After 1 minute, it succeeds automatically"
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/skills",
+        "defense/damage-immunity",
+        "movement/fly",
+        "movement/swim",
+        "sense/blindsight",
+        "sense/darkvision",
+        "trait/amphibious",
+        "action/multiattack",
+        "action/melee-attack",
+        "multiattack/replace-attack",
+        "action/saving-throw",
+        "effect/slashing-damage",
+        "save/dex",
+        "area/cone",
+        "limit/recharge",
+        "effect/fire-damage",
+        "save/half-damage",
+        "save/str",
+        "requirement/unaffected-target",
+        "effect/strength-test-disadvantage",
+        "effect/damage-roll-penalty",
+        "save/repeat",
+        "save/automatic-success"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/young-green-dragon",
+      "name": "Young Green Dragon",
+      "source_pages": [
+        293,
+        294
+      ],
+      "sizes": [
+        "large"
+      ],
+      "type": "dragon",
+      "alignment": "Lawful Evil",
+      "ac": 18,
+      "initiative": {
+        "modifier": 4,
+        "score": 14
+      },
+      "hp": {
+        "average": 136,
+        "dice": 16,
+        "sides": 10,
+        "modifier": 48
+      },
+      "speeds": {
+        "walk": 40,
+        "fly": 80,
+        "swim": 40
+      },
+      "abilities": {
+        "str": {
+          "score": 19,
+          "modifier": 4,
+          "save": 4
+        },
+        "dex": {
+          "score": 12,
+          "modifier": 1,
+          "save": 4
+        },
+        "con": {
+          "score": 17,
+          "modifier": 3,
+          "save": 3
+        },
+        "int": {
+          "score": 16,
+          "modifier": 3,
+          "save": 3
+        },
+        "wis": {
+          "score": 13,
+          "modifier": 1,
+          "save": 4
+        },
+        "cha": {
+          "score": 15,
+          "modifier": 2,
+          "save": 2
+        }
+      },
+      "senses": {
+        "passive_perception": 17,
+        "special": {
+          "blindsight": 30,
+          "darkvision": 120
+        }
+      },
+      "languages": [
+        "Common",
+        "Draconic"
+      ],
+      "gear": [],
+      "cr": "8",
+      "xp": 3900,
+      "proficiency_bonus": 3,
+      "tags": [
+        "Chromatic"
+      ],
+      "skills": {
+        "deception": 5,
+        "perception": 7,
+        "stealth": 4
+      },
+      "immunities": [
+        "poison"
+      ],
+      "condition_immunities": [
+        "poisoned"
+      ],
+      "traits": [
+        {
+          "key": "trait/amphibious",
+          "name": "Amphibious",
+          "text": "Amphibious. The dragon can breathe air and water."
+        }
+      ],
+      "actions": [
+        {
+          "id": "multiattack",
+          "name": "Multiattack",
+          "text": "Multiattack. The dragon makes three Rend attacks.",
+          "key": "action/multiattack",
+          "effects": [
+            {
+              "key": "action/melee-attack",
+              "name": "Melee attack",
+              "text": "The dragon makes three Rend attacks"
+            }
+          ]
+        },
+        {
+          "id": "rend",
+          "name": "Rend",
+          "text": "Rend. Melee Attack Roll: +7, reach 10 ft. Hit: 11 (2d6 + 4) Slashing damage plus 7 (2d6) Poison damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 7,
+            "reach": 10,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 11,
+              "dice": 2,
+              "sides": 6,
+              "modifier": 4
+            },
+            "damage_type": "slashing"
+          },
+          "effects": [
+            {
+              "key": "effect/slashing-damage",
+              "name": "Slashing damage",
+              "text": "11 (2d6 + 4) Slashing damage.",
+              "dice": {
+                "average": 11,
+                "dice": 2,
+                "sides": 6,
+                "modifier": 4
+              }
+            },
+            {
+              "key": "effect/poison-damage",
+              "name": "Poison damage",
+              "text": "7 (2d6) Poison damage",
+              "dice": {
+                "average": 7,
+                "dice": 2,
+                "sides": 6,
+                "modifier": 0
+              }
+            }
+          ]
+        },
+        {
+          "id": "poison-breath",
+          "name": "Poison Breath",
+          "text": "Poison Breath (Recharge 5–6). Constitution Saving Throw: DC 14, each creature in a 30-foot Cone. Failure: 42 (12d6) Poison damage. Success: Half damage.",
+          "key": "action/saving-throw",
+          "uses": {
+            "per_day": 0,
+            "lair_per_day": 0,
+            "recharge": 5
+          },
+          "save": {
+            "ability": "con",
+            "dc": 14
+          },
+          "target": {
+            "shape": "cone",
+            "size": 30,
+            "width": 0,
+            "range": 0
+          },
+          "effects": [
+            {
+              "key": "save/con",
+              "name": "Con",
+              "text": "Constitution Saving Throw: DC 14"
+            },
+            {
+              "key": "area/cone",
+              "name": "Cone",
+              "text": "each creature in a 30-foot Cone"
+            },
+            {
+              "key": "limit/recharge",
+              "name": "Recharge",
+              "text": "(Recharge 5–6)"
+            },
+            {
+              "key": "effect/poison-damage",
+              "name": "Poison damage",
+              "text": "42 (12d6) Poison damage",
+              "dice": {
+                "average": 42,
+                "dice": 12,
+                "sides": 6,
+                "modifier": 0
+              }
+            },
+            {
+              "key": "save/half-damage",
+              "name": "Half damage",
+              "text": "Success: Half damage."
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/skills",
+        "defense/damage-immunity",
+        "defense/condition-immunity",
+        "movement/fly",
+        "movement/swim",
+        "sense/blindsight",
+        "sense/darkvision",
+        "trait/amphibious",
+        "action/multiattack",
+        "action/melee-attack",
+        "effect/slashing-damage",
+        "effect/poison-damage",
+        "action/saving-throw",
+        "save/con",
+        "area/cone",
+        "limit/recharge",
+        "save/half-damage"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/young-red-dragon",
+      "name": "Young Red Dragon",
+      "source_pages": [
+        318,
+        318
+      ],
+      "sizes": [
+        "large"
+      ],
+      "type": "dragon",
+      "alignment": "Chaotic Evil",
+      "ac": 18,
+      "initiative": {
+        "modifier": 4,
+        "score": 14
+      },
+      "hp": {
+        "average": 178,
+        "dice": 17,
+        "sides": 10,
+        "modifier": 85
+      },
+      "speeds": {
+        "walk": 40,
+        "climb": 40,
+        "fly": 80
+      },
+      "abilities": {
+        "str": {
+          "score": 23,
+          "modifier": 6,
+          "save": 6
+        },
+        "dex": {
+          "score": 10,
+          "modifier": 0,
+          "save": 4
+        },
+        "con": {
+          "score": 21,
+          "modifier": 5,
+          "save": 5
+        },
+        "int": {
+          "score": 14,
+          "modifier": 2,
+          "save": 2
+        },
+        "wis": {
+          "score": 11,
+          "modifier": 0,
+          "save": 4
+        },
+        "cha": {
+          "score": 19,
+          "modifier": 4,
+          "save": 4
+        }
+      },
+      "senses": {
+        "passive_perception": 18,
+        "special": {
+          "blindsight": 30,
+          "darkvision": 120
+        }
+      },
+      "languages": [
+        "Common",
+        "Draconic"
+      ],
+      "gear": [],
+      "cr": "10",
+      "xp": 5900,
+      "proficiency_bonus": 4,
+      "tags": [
+        "Chromatic"
+      ],
+      "skills": {
+        "perception": 8,
+        "stealth": 4
+      },
+      "immunities": [
+        "fire"
+      ],
+      "traits": [],
+      "actions": [
+        {
+          "id": "multiattack",
+          "name": "Multiattack",
+          "text": "Multiattack. The dragon makes three Rend attacks.",
+          "key": "action/multiattack",
+          "effects": [
+            {
+              "key": "action/melee-attack",
+              "name": "Melee attack",
+              "text": "The dragon makes three Rend attacks"
+            }
+          ]
+        },
+        {
+          "id": "rend",
+          "name": "Rend",
+          "text": "Rend. Melee Attack Roll: +10, reach 10 ft. Hit: 13 (2d6 + 6) Slashing damage plus 3 (1d6) Fire damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 10,
+            "reach": 10,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 13,
+              "dice": 2,
+              "sides": 6,
+              "modifier": 6
+            },
+            "damage_type": "slashing"
+          },
+          "effects": [
+            {
+              "key": "effect/slashing-damage",
+              "name": "Slashing damage",
+              "text": "13 (2d6 + 6) Slashing damage.",
+              "dice": {
+                "average": 13,
+                "dice": 2,
+                "sides": 6,
+                "modifier": 6
+              }
+            },
+            {
+              "key": "effect/fire-damage",
+              "name": "Fire damage",
+              "text": "3 (1d6) Fire damage",
+              "dice": {
+                "average": 3,
+                "dice": 1,
+                "sides": 6,
+                "modifier": 0
+              }
+            }
+          ]
+        },
+        {
+          "id": "fire-breath",
+          "name": "Fire Breath",
+          "text": "Fire Breath (Recharge 5–6). Dexterity Saving Throw: DC 17, each creature in a 30-foot Cone. Failure: 56 (16d6) Fire damage. Success: Half damage.",
+          "key": "action/saving-throw",
+          "uses": {
+            "per_day": 0,
+            "lair_per_day": 0,
+            "recharge": 5
+          },
+          "save": {
+            "ability": "dex",
+            "dc": 17
+          },
+          "target": {
+            "shape": "cone",
+            "size": 30,
+            "width": 0,
+            "range": 0
+          },
+          "effects": [
+            {
+              "key": "save/dex",
+              "name": "Dex",
+              "text": "Dexterity Saving Throw: DC 17"
+            },
+            {
+              "key": "area/cone",
+              "name": "Cone",
+              "text": "each creature in a 30-foot Cone"
+            },
+            {
+              "key": "limit/recharge",
+              "name": "Recharge",
+              "text": "(Recharge 5–6)"
+            },
+            {
+              "key": "effect/fire-damage",
+              "name": "Fire damage",
+              "text": "56 (16d6) Fire damage",
+              "dice": {
+                "average": 56,
+                "dice": 16,
+                "sides": 6,
+                "modifier": 0
+              }
+            },
+            {
+              "key": "save/half-damage",
+              "name": "Half damage",
+              "text": "Success: Half damage."
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/skills",
+        "defense/damage-immunity",
+        "movement/climb",
+        "movement/fly",
+        "sense/blindsight",
+        "sense/darkvision",
+        "action/multiattack",
+        "action/melee-attack",
+        "effect/slashing-damage",
+        "effect/fire-damage",
+        "action/saving-throw",
+        "save/dex",
+        "area/cone",
+        "limit/recharge",
+        "save/half-damage"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/young-silver-dragon",
+      "name": "Young Silver Dragon",
+      "source_pages": [
+        324,
+        324
+      ],
+      "sizes": [
+        "large"
+      ],
+      "type": "dragon",
+      "alignment": "Lawful Good",
+      "ac": 18,
+      "initiative": {
+        "modifier": 4,
+        "score": 14
+      },
+      "hp": {
+        "average": 168,
+        "dice": 16,
+        "sides": 10,
+        "modifier": 80
+      },
+      "speeds": {
+        "walk": 40,
+        "fly": 80
+      },
+      "abilities": {
+        "str": {
+          "score": 23,
+          "modifier": 6,
+          "save": 6
+        },
+        "dex": {
+          "score": 10,
+          "modifier": 0,
+          "save": 4
+        },
+        "con": {
+          "score": 21,
+          "modifier": 5,
+          "save": 5
+        },
+        "int": {
+          "score": 14,
+          "modifier": 2,
+          "save": 2
+        },
+        "wis": {
+          "score": 11,
+          "modifier": 0,
+          "save": 4
+        },
+        "cha": {
+          "score": 19,
+          "modifier": 4,
+          "save": 4
+        }
+      },
+      "senses": {
+        "passive_perception": 18,
+        "special": {
+          "blindsight": 30,
+          "darkvision": 120
+        }
+      },
+      "languages": [
+        "Common",
+        "Draconic"
+      ],
+      "gear": [],
+      "cr": "9",
+      "xp": 5000,
+      "proficiency_bonus": 4,
+      "tags": [
+        "Metallic"
+      ],
+      "skills": {
+        "history": 6,
+        "perception": 8,
+        "stealth": 4
+      },
+      "immunities": [
+        "cold"
+      ],
+      "traits": [],
+      "actions": [
+        {
+          "id": "multiattack",
+          "name": "Multiattack",
+          "text": "Multiattack. The dragon makes three Rend attacks. It can replace one attack with a use of Paralyzing Breath.",
+          "key": "action/multiattack",
+          "effects": [
+            {
+              "key": "action/melee-attack",
+              "name": "Melee attack",
+              "text": "The dragon makes three Rend attacks"
+            },
+            {
+              "key": "multiattack/replace-attack",
+              "name": "Replace attack",
+              "text": "It can replace one attack with a use of Paralyzing Breath"
+            },
+            {
+              "key": "action/saving-throw",
+              "name": "Saving throw",
+              "text": "a use of Paralyzing Breath"
+            }
+          ]
+        },
+        {
+          "id": "rend",
+          "name": "Rend",
+          "text": "Rend. Melee Attack Roll: +10, reach 10 ft. Hit: 15 (2d8 + 6) Slashing damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 10,
+            "reach": 10,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 15,
+              "dice": 2,
+              "sides": 8,
+              "modifier": 6
+            },
+            "damage_type": "slashing"
+          },
+          "effects": [
+            {
+              "key": "effect/slashing-damage",
+              "name": "Slashing damage",
+              "text": "15 (2d8 + 6) Slashing damage.",
+              "dice": {
+                "average": 15,
+                "dice": 2,
+                "sides": 8,
+                "modifier": 6
+              }
+            }
+          ]
+        },
+        {
+          "id": "cold-breath",
+          "name": "Cold Breath",
+          "text": "Cold Breath (Recharge 5–6). Constitution Saving Throw: DC 17, each creature in a 30-foot Cone. Failure: 49 (11d8) Cold damage. Success: Half damage.",
+          "key": "action/saving-throw",
+          "uses": {
+            "per_day": 0,
+            "lair_per_day": 0,
+            "recharge": 5
+          },
+          "save": {
+            "ability": "con",
+            "dc": 17
+          },
+          "target": {
+            "shape": "cone",
+            "size": 30,
+            "width": 0,
+            "range": 0
+          },
+          "effects": [
+            {
+              "key": "save/con",
+              "name": "Con",
+              "text": "Constitution Saving Throw: DC 17"
+            },
+            {
+              "key": "area/cone",
+              "name": "Cone",
+              "text": "each creature in a 30-foot Cone"
+            },
+            {
+              "key": "limit/recharge",
+              "name": "Recharge",
+              "text": "(Recharge 5–6)"
+            },
+            {
+              "key": "effect/cold-damage",
+              "name": "Cold damage",
+              "text": "49 (11d8) Cold damage",
+              "dice": {
+                "average": 49,
+                "dice": 11,
+                "sides": 8,
+                "modifier": 0
+              }
+            },
+            {
+              "key": "save/half-damage",
+              "name": "Half damage",
+              "text": "Success: Half damage."
+            }
+          ]
+        },
+        {
+          "id": "paralyzing-breath",
+          "name": "Paralyzing Breath",
+          "text": "Paralyzing Breath. Constitution Saving Throw: DC 17, each creature in a 30-foot Cone. First Failure: The target has the Incapacitated condition until the end of its next turn, when it repeats the save. Second Failure: The target has the Paralyzed condition, and it repeats the save at the end of each of its turns, ending the effect on itself on a success. After 1 minute, it succeeds automatically.",
+          "key": "action/saving-throw",
+          "save": {
+            "ability": "con",
+            "dc": 17
+          },
+          "target": {
+            "shape": "cone",
+            "size": 30,
+            "width": 0,
+            "range": 0
+          },
+          "effects": [
+            {
+              "key": "save/con",
+              "name": "Con",
+              "text": "Constitution Saving Throw: DC 17"
+            },
+            {
+              "key": "area/cone",
+              "name": "Cone",
+              "text": "each creature in a 30-foot Cone"
+            },
+            {
+              "key": "condition/incapacitated",
+              "name": "Incapacitated",
+              "text": "First Failure: The target has the Incapacitated condition until the end of its next turn"
+            },
+            {
+              "key": "save/repeat",
+              "name": "Repeat",
+              "text": "when it repeats the save"
+            },
+            {
+              "key": "condition/paralyzed",
+              "name": "Paralyzed",
+              "text": "Second Failure: The target has the Paralyzed condition"
+            },
+            {
+              "key": "save/second-failure",
+              "name": "Second failure",
+              "text": "Second Failure: The target has the Paralyzed condition"
+            },
+            {
+              "key": "save/repeat",
+              "name": "Repeat",
+              "text": "it repeats the save at the end of each of its turns, ending the effect on itself on a success"
+            },
+            {
+              "key": "save/automatic-success",
+              "name": "Automatic success",
+              "text": "After 1 minute, it succeeds automatically"
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/skills",
+        "defense/damage-immunity",
+        "movement/fly",
+        "sense/blindsight",
+        "sense/darkvision",
+        "action/multiattack",
+        "action/melee-attack",
+        "multiattack/replace-attack",
+        "action/saving-throw",
+        "effect/slashing-damage",
+        "save/con",
+        "area/cone",
+        "limit/recharge",
+        "effect/cold-damage",
+        "save/half-damage",
+        "condition/incapacitated",
+        "save/repeat",
+        "condition/paralyzed",
+        "save/second-failure",
+        "save/automatic-success"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/young-white-dragon",
+      "name": "Young White Dragon",
+      "source_pages": [
+        340,
+        340
+      ],
+      "sizes": [
+        "large"
+      ],
+      "type": "dragon",
+      "alignment": "Chaotic Evil",
+      "ac": 17,
+      "initiative": {
+        "modifier": 3,
+        "score": 13
+      },
+      "hp": {
+        "average": 123,
+        "dice": 13,
+        "sides": 10,
+        "modifier": 52
+      },
+      "speeds": {
+        "walk": 40,
+        "burrow": 20,
+        "fly": 80,
+        "swim": 40
+      },
+      "abilities": {
+        "str": {
+          "score": 18,
+          "modifier": 4,
+          "save": 4
+        },
+        "dex": {
+          "score": 10,
+          "modifier": 0,
+          "save": 3
+        },
+        "con": {
+          "score": 18,
+          "modifier": 4,
+          "save": 4
+        },
+        "int": {
+          "score": 6,
+          "modifier": -2,
+          "save": -2
+        },
+        "wis": {
+          "score": 11,
+          "modifier": 0,
+          "save": 3
+        },
+        "cha": {
+          "score": 12,
+          "modifier": 1,
+          "save": 1
+        }
+      },
+      "senses": {
+        "passive_perception": 16,
+        "special": {
+          "blindsight": 30,
+          "darkvision": 120
+        }
+      },
+      "languages": [
+        "Common",
+        "Draconic"
+      ],
+      "gear": [],
+      "cr": "6",
+      "xp": 2300,
+      "proficiency_bonus": 3,
+      "tags": [
+        "Chromatic"
+      ],
+      "skills": {
+        "perception": 6,
+        "stealth": 3
+      },
+      "immunities": [
+        "cold"
+      ],
+      "traits": [
+        {
+          "key": "trait/ice-walk",
+          "name": "Ice Walk",
+          "text": "Ice Walk. The dragon can move across and climb icy surfaces without needing to make an ability check. Additionally, Difficult Terrain composed of ice or snow doesn’t cost it extra movement.",
+          "requires": [
+            "movement/ice-walk",
+            "movement/ignore-difficult-terrain"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "multiattack",
+          "name": "Multiattack",
+          "text": "Multiattack. The dragon makes three Rend attacks.",
+          "key": "action/multiattack",
+          "effects": [
+            {
+              "key": "action/melee-attack",
+              "name": "Melee attack",
+              "text": "The dragon makes three Rend attacks"
+            }
+          ]
+        },
+        {
+          "id": "rend",
+          "name": "Rend",
+          "text": "Rend. Melee Attack Roll: +7, reach 10 ft. Hit: 9 (2d4 + 4) Slashing damage plus 2 (1d4) Cold damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 7,
+            "reach": 10,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 9,
+              "dice": 2,
+              "sides": 4,
+              "modifier": 4
+            },
+            "damage_type": "slashing"
+          },
+          "effects": [
+            {
+              "key": "effect/slashing-damage",
+              "name": "Slashing damage",
+              "text": "9 (2d4 + 4) Slashing damage.",
+              "dice": {
+                "average": 9,
+                "dice": 2,
+                "sides": 4,
+                "modifier": 4
+              }
+            },
+            {
+              "key": "effect/cold-damage",
+              "name": "Cold damage",
+              "text": "2 (1d4) Cold damage",
+              "dice": {
+                "average": 2,
+                "dice": 1,
+                "sides": 4,
+                "modifier": 0
+              }
+            }
+          ]
+        },
+        {
+          "id": "cold-breath",
+          "name": "Cold Breath",
+          "text": "Cold Breath (Recharge 5–6). Constitution Saving Throw: DC 15, each creature in a 30-foot Cone. Failure: 40 (9d8) Cold damage. Success: Half damage.",
+          "key": "action/saving-throw",
+          "uses": {
+            "per_day": 0,
+            "lair_per_day": 0,
+            "recharge": 5
+          },
+          "save": {
+            "ability": "con",
+            "dc": 15
+          },
+          "target": {
+            "shape": "cone",
+            "size": 30,
+            "width": 0,
+            "range": 0
+          },
+          "effects": [
+            {
+              "key": "save/con",
+              "name": "Con",
+              "text": "Constitution Saving Throw: DC 15"
+            },
+            {
+              "key": "area/cone",
+              "name": "Cone",
+              "text": "each creature in a 30-foot Cone"
+            },
+            {
+              "key": "limit/recharge",
+              "name": "Recharge",
+              "text": "(Recharge 5–6)"
+            },
+            {
+              "key": "effect/cold-damage",
+              "name": "Cold damage",
+              "text": "40 (9d8) Cold damage",
+              "dice": {
+                "average": 40,
+                "dice": 9,
+                "sides": 8,
+                "modifier": 0
+              }
+            },
+            {
+              "key": "save/half-damage",
+              "name": "Half damage",
+              "text": "Success: Half damage."
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/skills",
+        "defense/damage-immunity",
+        "movement/burrow",
+        "movement/fly",
+        "movement/swim",
+        "sense/blindsight",
+        "sense/darkvision",
+        "trait/ice-walk",
+        "movement/ice-walk",
+        "movement/ignore-difficult-terrain",
+        "action/multiattack",
+        "action/melee-attack",
+        "effect/slashing-damage",
+        "effect/cold-damage",
+        "action/saving-throw",
+        "save/con",
+        "area/cone",
+        "limit/recharge",
+        "save/half-damage"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/zombie",
+      "name": "Zombie",
+      "source_pages": [
+        343,
+        344
+      ],
+      "sizes": [
+        "medium"
+      ],
+      "type": "undead",
+      "alignment": "Neutral Evil",
+      "ac": 8,
+      "initiative": {
+        "modifier": -2,
+        "score": 8
+      },
+      "hp": {
+        "average": 15,
+        "dice": 2,
+        "sides": 8,
+        "modifier": 6
+      },
+      "speeds": {
+        "walk": 20
+      },
+      "abilities": {
+        "str": {
+          "score": 13,
+          "modifier": 1,
+          "save": 1
+        },
+        "dex": {
+          "score": 6,
+          "modifier": -2,
+          "save": -2
+        },
+        "con": {
+          "score": 16,
+          "modifier": 3,
+          "save": 3
+        },
+        "int": {
+          "score": 3,
+          "modifier": -4,
+          "save": -4
+        },
+        "wis": {
+          "score": 6,
+          "modifier": -2,
+          "save": 0
+        },
+        "cha": {
+          "score": 5,
+          "modifier": -3,
+          "save": -3
+        }
+      },
+      "senses": {
+        "passive_perception": 8,
+        "special": {
+          "darkvision": 60
+        }
+      },
+      "languages": [
+        "Understands Common plus one other language but can’t speak"
+      ],
+      "gear": [],
+      "cr": "1/4",
+      "xp": 50,
+      "proficiency_bonus": 2,
+      "immunities": [
+        "poison"
+      ],
+      "condition_immunities": [
+        "exhaustion",
+        "poisoned"
+      ],
+      "traits": [
+        {
+          "key": "trait/undead-fortitude",
+          "name": "Undead Fortitude",
+          "text": "Undead Fortitude. If damage reduces the zombie to 0 Hit Points, it makes a Constitution saving throw (DC 5 plus the damage taken) unless the damage is Radiant or from a Critical Hit. On a successful save, the zombie drops to 1 Hit Point instead.",
+          "requires": [
+            "requirement/reduced-to-zero-hit-points",
+            "save/con",
+            "effect/damage-based-save-dc",
+            "requirement/not-radiant-or-critical-hit",
+            "effect/drop-to-one-hit-point"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "slam",
+          "name": "Slam",
+          "text": "Slam. Melee Attack Roll: +3, reach 5 ft. Hit: 5 (1d8 + 1) Bludgeoning damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 3,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 5,
+              "dice": 1,
+              "sides": 8,
+              "modifier": 1
+            },
+            "damage_type": "bludgeoning"
+          },
+          "effects": [
+            {
+              "key": "effect/bludgeoning-damage",
+              "name": "Bludgeoning damage",
+              "text": "5 (1d8 + 1) Bludgeoning damage.",
+              "dice": {
+                "average": 5,
+                "dice": 1,
+                "sides": 8,
+                "modifier": 1
+              }
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "defense/damage-immunity",
+        "defense/condition-immunity",
+        "sense/darkvision",
+        "trait/undead-fortitude",
+        "requirement/reduced-to-zero-hit-points",
+        "save/con",
+        "effect/damage-based-save-dc",
+        "requirement/not-radiant-or-critical-hit",
+        "effect/drop-to-one-hit-point",
+        "action/melee-attack",
+        "effect/bludgeoning-damage"
+      ]
+    }
+  ]
+}

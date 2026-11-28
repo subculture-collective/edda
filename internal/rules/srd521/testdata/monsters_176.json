@@ -1,0 +1,2815 @@
+{
+  "schema_version": 1,
+  "source": {
+    "version": "5.2.1",
+    "language": "en",
+    "landing_url": "https://www.dndbeyond.com/srd",
+    "artifact_url": "https://media.dndbeyond.com/compendium-images/srd/5.2/SRD_CC_v5.2.1.pdf",
+    "sha256": "8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87",
+    "bytes": 6031375,
+    "pages": 364,
+    "retrieved_at": "2026-11-15",
+    "license": "CC-BY-4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/legalcode",
+    "attribution": "This work includes material from the System Reference Document 5.2.1 (“SRD 5.2.1”) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd. The SRD 5.2.1 is licensed under the Creative Commons Attribution 4.0 International License, available at https://creativecommons.org/licenses/by/4.0/legalcode.",
+    "changes": "Adapted the twelve stat blocks of issue #176 (Warhorse, Warhorse Skeleton, Warrior Infantry, Warrior Veteran, Water Elemental, Weasel, Werebear, Wereboar, Wererat, Weretiger, Werewolf and White Dragon Wyrmling; PDF pages 326, 336–340 and 364) into typed mechanical fields and implementation keys. Trait, action, bonus action and reaction entries keep their source rules text, rejoined across line, column and page breaks; descriptive prose outside the stat blocks is omitted. Speeds printed for one form only are retained as their own note, and form qualifiers on lycanthrope headings are retained as requirements. No playable NPC behavior is granted."
+  },
+  "monsters": [
+    {
+      "id": "srd-5.2.1:content/animals/warhorse",
+      "name": "Warhorse",
+      "source_pages": [
+        364,
+        364
+      ],
+      "sizes": [
+        "large"
+      ],
+      "type": "beast",
+      "alignment": "Unaligned",
+      "ac": 11,
+      "initiative": {
+        "modifier": 1,
+        "score": 11
+      },
+      "hp": {
+        "average": 19,
+        "dice": 3,
+        "sides": 10,
+        "modifier": 3
+      },
+      "speeds": {
+        "walk": 60
+      },
+      "abilities": {
+        "str": {
+          "score": 18,
+          "modifier": 4,
+          "save": 4
+        },
+        "dex": {
+          "score": 12,
+          "modifier": 1,
+          "save": 1
+        },
+        "con": {
+          "score": 13,
+          "modifier": 1,
+          "save": 1
+        },
+        "int": {
+          "score": 2,
+          "modifier": -4,
+          "save": -4
+        },
+        "wis": {
+          "score": 12,
+          "modifier": 1,
+          "save": 3
+        },
+        "cha": {
+          "score": 7,
+          "modifier": -2,
+          "save": -2
+        }
+      },
+      "senses": {
+        "passive_perception": 11,
+        "special": {}
+      },
+      "languages": [],
+      "gear": [],
+      "cr": "1/2",
+      "xp": 100,
+      "proficiency_bonus": 2,
+      "traits": [],
+      "actions": [
+        {
+          "id": "hooves",
+          "name": "Hooves",
+          "text": "Hooves. Melee Attack Roll: +6, reach 5 ft. Hit: 9 (2d4 + 4) Bludgeoning damage. If the target is a Large or smaller creature and the horse moved 20+ feet straight toward it immediately before the hit, the target takes an extra 5 (2d4) Bludgeoning damage and has the Prone condition.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 6,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 9,
+              "dice": 2,
+              "sides": 4,
+              "modifier": 4
+            },
+            "damage_type": "bludgeoning"
+          },
+          "effects": [
+            {
+              "key": "effect/bludgeoning-damage",
+              "name": "Bludgeoning damage",
+              "text": "9 (2d4 + 4) Bludgeoning damage.",
+              "dice": {
+                "average": 9,
+                "dice": 2,
+                "sides": 4,
+                "modifier": 4
+              }
+            },
+            {
+              "key": "requirement/target-size",
+              "name": "Target size",
+              "text": "If the target is a Large or smaller creature"
+            },
+            {
+              "key": "requirement/straight-line-movement",
+              "name": "Straight line movement",
+              "text": "the horse moved 20+ feet straight toward it immediately before the hit"
+            },
+            {
+              "key": "effect/bludgeoning-damage",
+              "name": "Bludgeoning damage",
+              "text": "the target takes an extra 5 (2d4) Bludgeoning damage",
+              "dice": {
+                "average": 5,
+                "dice": 2,
+                "sides": 4,
+                "modifier": 0
+              }
+            },
+            {
+              "key": "condition/prone",
+              "name": "Prone",
+              "text": "has the Prone condition"
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "action/melee-attack",
+        "effect/bludgeoning-damage",
+        "requirement/target-size",
+        "requirement/straight-line-movement",
+        "condition/prone"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/warhorse-skeleton",
+      "name": "Warhorse Skeleton",
+      "source_pages": [
+        326,
+        326
+      ],
+      "sizes": [
+        "large"
+      ],
+      "type": "undead",
+      "alignment": "Lawful Evil",
+      "ac": 13,
+      "initiative": {
+        "modifier": 1,
+        "score": 11
+      },
+      "hp": {
+        "average": 22,
+        "dice": 3,
+        "sides": 10,
+        "modifier": 6
+      },
+      "speeds": {
+        "walk": 60
+      },
+      "abilities": {
+        "str": {
+          "score": 18,
+          "modifier": 4,
+          "save": 4
+        },
+        "dex": {
+          "score": 12,
+          "modifier": 1,
+          "save": 1
+        },
+        "con": {
+          "score": 15,
+          "modifier": 2,
+          "save": 2
+        },
+        "int": {
+          "score": 2,
+          "modifier": -4,
+          "save": -4
+        },
+        "wis": {
+          "score": 8,
+          "modifier": -1,
+          "save": -1
+        },
+        "cha": {
+          "score": 5,
+          "modifier": -3,
+          "save": -3
+        }
+      },
+      "senses": {
+        "passive_perception": 9,
+        "special": {
+          "darkvision": 60
+        }
+      },
+      "languages": [],
+      "gear": [],
+      "cr": "1/2",
+      "xp": 100,
+      "proficiency_bonus": 2,
+      "vulnerabilities": [
+        "bludgeoning"
+      ],
+      "immunities": [
+        "poison"
+      ],
+      "condition_immunities": [
+        "exhaustion",
+        "poisoned"
+      ],
+      "traits": [],
+      "actions": [
+        {
+          "id": "hooves",
+          "name": "Hooves",
+          "text": "Hooves. Melee Attack Roll: +6, reach 5 ft. Hit: 7 (1d6 + 4) Bludgeoning damage. If the target is a Large or smaller creature and the skeleton moved 20+ feet straight toward it immediately before the hit, the target has the Prone condition.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 6,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 7,
+              "dice": 1,
+              "sides": 6,
+              "modifier": 4
+            },
+            "damage_type": "bludgeoning"
+          },
+          "effects": [
+            {
+              "key": "effect/bludgeoning-damage",
+              "name": "Bludgeoning damage",
+              "text": "7 (1d6 + 4) Bludgeoning damage.",
+              "dice": {
+                "average": 7,
+                "dice": 1,
+                "sides": 6,
+                "modifier": 4
+              }
+            },
+            {
+              "key": "requirement/target-size",
+              "name": "Target size",
+              "text": "If the target is a Large or smaller creature"
+            },
+            {
+              "key": "requirement/straight-line-movement",
+              "name": "Straight line movement",
+              "text": "the skeleton moved 20+ feet straight toward it immediately before the hit"
+            },
+            {
+              "key": "condition/prone",
+              "name": "Prone",
+              "text": "the target has the Prone condition"
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "defense/damage-vulnerability",
+        "defense/damage-immunity",
+        "defense/condition-immunity",
+        "sense/darkvision",
+        "action/melee-attack",
+        "effect/bludgeoning-damage",
+        "requirement/target-size",
+        "requirement/straight-line-movement",
+        "condition/prone"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/warrior-infantry",
+      "name": "Warrior Infantry",
+      "source_pages": [
+        336,
+        337
+      ],
+      "sizes": [
+        "medium",
+        "small"
+      ],
+      "type": "humanoid",
+      "alignment": "Neutral",
+      "ac": 13,
+      "initiative": {
+        "modifier": 0,
+        "score": 10
+      },
+      "hp": {
+        "average": 9,
+        "dice": 2,
+        "sides": 8,
+        "modifier": 0
+      },
+      "speeds": {
+        "walk": 30
+      },
+      "abilities": {
+        "str": {
+          "score": 13,
+          "modifier": 1,
+          "save": 1
+        },
+        "dex": {
+          "score": 11,
+          "modifier": 0,
+          "save": 0
+        },
+        "con": {
+          "score": 11,
+          "modifier": 0,
+          "save": 0
+        },
+        "int": {
+          "score": 8,
+          "modifier": -1,
+          "save": -1
+        },
+        "wis": {
+          "score": 11,
+          "modifier": 0,
+          "save": 0
+        },
+        "cha": {
+          "score": 8,
+          "modifier": -1,
+          "save": -1
+        }
+      },
+      "senses": {
+        "passive_perception": 10,
+        "special": {}
+      },
+      "languages": [
+        "Common"
+      ],
+      "gear": [
+        "Chain Shirt",
+        "Spear"
+      ],
+      "cr": "1/8",
+      "xp": 25,
+      "proficiency_bonus": 2,
+      "traits": [
+        {
+          "key": "trait/pack-tactics",
+          "name": "Pack Tactics",
+          "text": "Pack Tactics. The warrior has Advantage on an attack roll against a creature if at least one of the warrior’s allies is within 5 feet of the creature and the ally doesn’t have the Incapacitated condition.",
+          "requires": [
+            "attack/advantage-with-nearby-ally",
+            "requirement/ally-not-incapacitated"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "spear",
+          "name": "Spear",
+          "text": "Spear. Melee or Ranged Attack Roll: +3, reach 5 ft. or range 20/60 ft. Hit: 4 (1d6 + 1) Piercing damage.",
+          "key": "action/melee-or-ranged-attack",
+          "effects": [
+            {
+              "key": "effect/piercing-damage",
+              "name": "Piercing damage",
+              "text": "4 (1d6 + 1) Piercing damage.",
+              "dice": {
+                "average": 4,
+                "dice": 1,
+                "sides": 6,
+                "modifier": 1
+              }
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "trait/pack-tactics",
+        "attack/advantage-with-nearby-ally",
+        "requirement/ally-not-incapacitated",
+        "action/melee-or-ranged-attack",
+        "effect/piercing-damage"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/warrior-veteran",
+      "name": "Warrior Veteran",
+      "source_pages": [
+        337,
+        337
+      ],
+      "sizes": [
+        "medium",
+        "small"
+      ],
+      "type": "humanoid",
+      "alignment": "Neutral",
+      "ac": 17,
+      "initiative": {
+        "modifier": 3,
+        "score": 13
+      },
+      "hp": {
+        "average": 65,
+        "dice": 10,
+        "sides": 8,
+        "modifier": 20
+      },
+      "speeds": {
+        "walk": 30
+      },
+      "abilities": {
+        "str": {
+          "score": 16,
+          "modifier": 3,
+          "save": 3
+        },
+        "dex": {
+          "score": 13,
+          "modifier": 1,
+          "save": 1
+        },
+        "con": {
+          "score": 14,
+          "modifier": 2,
+          "save": 2
+        },
+        "int": {
+          "score": 10,
+          "modifier": 0,
+          "save": 0
+        },
+        "wis": {
+          "score": 11,
+          "modifier": 0,
+          "save": 0
+        },
+        "cha": {
+          "score": 10,
+          "modifier": 0,
+          "save": 0
+        }
+      },
+      "senses": {
+        "passive_perception": 12,
+        "special": {}
+      },
+      "languages": [
+        "Common plus one other language"
+      ],
+      "gear": [
+        "Greatsword",
+        "Heavy Crossbow",
+        "Splint Armor"
+      ],
+      "cr": "3",
+      "xp": 700,
+      "proficiency_bonus": 2,
+      "skills": {
+        "athletics": 5,
+        "perception": 2
+      },
+      "traits": [],
+      "actions": [
+        {
+          "id": "multiattack",
+          "name": "Multiattack",
+          "text": "Multiattack. The warrior makes two Greatsword or Heavy Crossbow attacks.",
+          "key": "action/multiattack",
+          "effects": [
+            {
+              "key": "action/melee-attack",
+              "name": "Melee attack",
+              "text": "The warrior makes two Greatsword or Heavy Crossbow attacks"
+            },
+            {
+              "key": "action/ranged-attack",
+              "name": "Ranged attack",
+              "text": "two Greatsword or Heavy Crossbow attacks"
+            }
+          ]
+        },
+        {
+          "id": "greatsword",
+          "name": "Greatsword",
+          "text": "Greatsword. Melee Attack Roll: +5, reach 5 ft. Hit: 10 (2d6 + 3) Slashing damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 5,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 10,
+              "dice": 2,
+              "sides": 6,
+              "modifier": 3
+            },
+            "damage_type": "slashing"
+          },
+          "effects": [
+            {
+              "key": "effect/slashing-damage",
+              "name": "Slashing damage",
+              "text": "10 (2d6 + 3) Slashing damage.",
+              "dice": {
+                "average": 10,
+                "dice": 2,
+                "sides": 6,
+                "modifier": 3
+              }
+            }
+          ]
+        },
+        {
+          "id": "heavy-crossbow",
+          "name": "Heavy Crossbow",
+          "text": "Heavy Crossbow. Ranged Attack Roll: +3, range 100/400 ft. Hit: 12 (2d10 + 1) Piercing damage.",
+          "key": "action/ranged-attack",
+          "attack": {
+            "kind": "ranged",
+            "bonus": 3,
+            "reach": 0,
+            "range": 100,
+            "long_range": 400,
+            "damage": {
+              "average": 12,
+              "dice": 2,
+              "sides": 10,
+              "modifier": 1
+            },
+            "damage_type": "piercing"
+          },
+          "effects": [
+            {
+              "key": "effect/piercing-damage",
+              "name": "Piercing damage",
+              "text": "12 (2d10 + 1) Piercing damage.",
+              "dice": {
+                "average": 12,
+                "dice": 2,
+                "sides": 10,
+                "modifier": 1
+              }
+            }
+          ]
+        }
+      ],
+      "reactions": [
+        {
+          "id": "parry",
+          "name": "Parry",
+          "text": "Parry. Trigger: The warrior is hit by a melee attack roll while holding a weapon. Response: The warrior adds 2 to its AC against that attack, possibly causing it to miss.",
+          "key": "action/special",
+          "effects": [
+            {
+              "key": "reaction/trigger",
+              "name": "Trigger",
+              "text": "Trigger: The warrior is hit by a melee attack roll while holding a weapon"
+            },
+            {
+              "key": "requirement/holding-weapon",
+              "name": "Holding weapon",
+              "text": "while holding a weapon"
+            },
+            {
+              "key": "effect/ac-bonus",
+              "name": "Ac bonus",
+              "text": "Response: The warrior adds 2 to its AC against that attack, possibly causing it to miss"
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/skills",
+        "action/reaction",
+        "action/multiattack",
+        "action/melee-attack",
+        "action/ranged-attack",
+        "effect/slashing-damage",
+        "effect/piercing-damage",
+        "action/special",
+        "reaction/trigger",
+        "requirement/holding-weapon",
+        "effect/ac-bonus"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/water-elemental",
+      "name": "Water Elemental",
+      "source_pages": [
+        337,
+        337
+      ],
+      "sizes": [
+        "large"
+      ],
+      "type": "elemental",
+      "alignment": "Neutral",
+      "ac": 14,
+      "initiative": {
+        "modifier": 2,
+        "score": 12
+      },
+      "hp": {
+        "average": 114,
+        "dice": 12,
+        "sides": 10,
+        "modifier": 48
+      },
+      "speeds": {
+        "walk": 30,
+        "swim": 90
+      },
+      "abilities": {
+        "str": {
+          "score": 18,
+          "modifier": 4,
+          "save": 4
+        },
+        "dex": {
+          "score": 14,
+          "modifier": 2,
+          "save": 2
+        },
+        "con": {
+          "score": 18,
+          "modifier": 4,
+          "save": 4
+        },
+        "int": {
+          "score": 5,
+          "modifier": -3,
+          "save": -3
+        },
+        "wis": {
+          "score": 10,
+          "modifier": 0,
+          "save": 0
+        },
+        "cha": {
+          "score": 8,
+          "modifier": -1,
+          "save": -1
+        }
+      },
+      "senses": {
+        "passive_perception": 10,
+        "special": {
+          "darkvision": 60
+        }
+      },
+      "languages": [
+        "Primordial (Aquan)"
+      ],
+      "gear": [],
+      "cr": "5",
+      "xp": 1800,
+      "proficiency_bonus": 3,
+      "resistances": [
+        "acid",
+        "fire"
+      ],
+      "immunities": [
+        "poison"
+      ],
+      "condition_immunities": [
+        "exhaustion",
+        "grappled",
+        "paralyzed",
+        "petrified",
+        "poisoned",
+        "prone",
+        "restrained",
+        "unconscious"
+      ],
+      "traits": [
+        {
+          "key": "trait/freeze",
+          "name": "Freeze",
+          "text": "Freeze. If the elemental takes Cold damage, its Speed decreases by 20 feet until the end of its next turn.",
+          "requires": [
+            "requirement/takes-cold-damage",
+            "effect/speed-reduction"
+          ]
+        },
+        {
+          "key": "trait/water-form",
+          "name": "Water Form",
+          "text": "Water Form. The elemental can enter an enemy’s space and stop there. It can move through a space as narrow as 1 inch without expending extra movement to do so.",
+          "requires": [
+            "movement/enter-creature-space",
+            "movement/squeeze"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "multiattack",
+          "name": "Multiattack",
+          "text": "Multiattack. The elemental makes two Slam attacks.",
+          "key": "action/multiattack",
+          "effects": [
+            {
+              "key": "action/melee-attack",
+              "name": "Melee attack",
+              "text": "The elemental makes two Slam attacks"
+            }
+          ]
+        },
+        {
+          "id": "slam",
+          "name": "Slam",
+          "text": "Slam. Melee Attack Roll: +7, reach 5 ft. Hit: 13 (2d8 + 4) Bludgeoning damage. If the target is a Medium or smaller creature, it has the Prone condition.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 7,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 13,
+              "dice": 2,
+              "sides": 8,
+              "modifier": 4
+            },
+            "damage_type": "bludgeoning"
+          },
+          "effects": [
+            {
+              "key": "effect/bludgeoning-damage",
+              "name": "Bludgeoning damage",
+              "text": "13 (2d8 + 4) Bludgeoning damage.",
+              "dice": {
+                "average": 13,
+                "dice": 2,
+                "sides": 8,
+                "modifier": 4
+              }
+            },
+            {
+              "key": "requirement/target-size",
+              "name": "Target size",
+              "text": "If the target is a Medium or smaller creature"
+            },
+            {
+              "key": "condition/prone",
+              "name": "Prone",
+              "text": "it has the Prone condition"
+            }
+          ]
+        },
+        {
+          "id": "whelm",
+          "name": "Whelm",
+          "text": "Whelm (Recharge 4–6). Strength Saving Throw: DC 15, each creature in the elemental’s space. Failure: 22 (4d8 + 4) Bludgeoning damage. If the target is a Large or smaller creature, it has the Grappled condition (escape DC 14). Until the grapple ends, the target has the Restrained condition, is suffocating unless it can breathe water, and takes 9 (2d8) Bludgeoning damage at the start of each of the elemental’s turns. The elemental can grapple one Large creature or up to two Medium or smaller creatures at a time with Whelm. As an action, a creature within 5 feet of the elemental can pull a creature out of it by succeeding on a DC 14 Strength (Athletics) check. Success: Half damage only.",
+          "key": "action/saving-throw",
+          "uses": {
+            "per_day": 0,
+            "lair_per_day": 0,
+            "recharge": 4
+          },
+          "save": {
+            "ability": "str",
+            "dc": 15
+          },
+          "effects": [
+            {
+              "key": "save/str",
+              "name": "Str",
+              "text": "Strength Saving Throw: DC 15"
+            },
+            {
+              "key": "target/creatures-in-space",
+              "name": "Creatures in space",
+              "text": "each creature in the elemental’s space"
+            },
+            {
+              "key": "limit/recharge",
+              "name": "Recharge",
+              "text": "(Recharge 4–6)"
+            },
+            {
+              "key": "effect/bludgeoning-damage",
+              "name": "Bludgeoning damage",
+              "text": "22 (4d8 + 4) Bludgeoning damage",
+              "dice": {
+                "average": 22,
+                "dice": 4,
+                "sides": 8,
+                "modifier": 4
+              }
+            },
+            {
+              "key": "requirement/target-size",
+              "name": "Target size",
+              "text": "If the target is a Large or smaller creature"
+            },
+            {
+              "key": "condition/grappled",
+              "name": "Grappled",
+              "text": "it has the Grappled condition (escape DC 14)"
+            },
+            {
+              "key": "condition/restrained",
+              "name": "Restrained",
+              "text": "Until the grapple ends, the target has the Restrained condition"
+            },
+            {
+              "key": "effect/suffocating",
+              "name": "Suffocating",
+              "text": "is suffocating unless it can breathe water"
+            },
+            {
+              "key": "effect/start-of-turn-damage",
+              "name": "Start of turn damage",
+              "text": "takes 9 (2d8) Bludgeoning damage at the start of each of the elemental’s turns",
+              "dice": {
+                "average": 9,
+                "dice": 2,
+                "sides": 8,
+                "modifier": 0
+              }
+            },
+            {
+              "key": "limit/grapple-capacity",
+              "name": "Grapple capacity",
+              "text": "The elemental can grapple one Large creature or up to two Medium or smaller creatures at a time with Whelm"
+            },
+            {
+              "key": "effect/pull-creature-out",
+              "name": "Pull creature out",
+              "text": "As an action, a creature within 5 feet of the elemental can pull a creature out of it"
+            },
+            {
+              "key": "check/str-athletics",
+              "name": "Str athletics",
+              "text": "succeeding on a DC 14 Strength (Athletics) check"
+            },
+            {
+              "key": "save/half-damage-only",
+              "name": "Half damage only",
+              "text": "Success: Half damage only"
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "defense/damage-resistance",
+        "defense/damage-immunity",
+        "defense/condition-immunity",
+        "movement/swim",
+        "sense/darkvision",
+        "trait/freeze",
+        "requirement/takes-cold-damage",
+        "effect/speed-reduction",
+        "trait/water-form",
+        "movement/enter-creature-space",
+        "movement/squeeze",
+        "action/multiattack",
+        "action/melee-attack",
+        "effect/bludgeoning-damage",
+        "requirement/target-size",
+        "condition/prone",
+        "action/saving-throw",
+        "save/str",
+        "target/creatures-in-space",
+        "limit/recharge",
+        "condition/grappled",
+        "condition/restrained",
+        "effect/suffocating",
+        "effect/start-of-turn-damage",
+        "limit/grapple-capacity",
+        "effect/pull-creature-out",
+        "check/str-athletics",
+        "save/half-damage-only"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/animals/weasel",
+      "name": "Weasel",
+      "source_pages": [
+        364,
+        364
+      ],
+      "sizes": [
+        "tiny"
+      ],
+      "type": "beast",
+      "alignment": "Unaligned",
+      "ac": 13,
+      "initiative": {
+        "modifier": 3,
+        "score": 13
+      },
+      "hp": {
+        "average": 1,
+        "dice": 1,
+        "sides": 4,
+        "modifier": -1
+      },
+      "speeds": {
+        "walk": 30,
+        "climb": 30
+      },
+      "abilities": {
+        "str": {
+          "score": 3,
+          "modifier": -4,
+          "save": -4
+        },
+        "dex": {
+          "score": 16,
+          "modifier": 3,
+          "save": 3
+        },
+        "con": {
+          "score": 8,
+          "modifier": -1,
+          "save": -1
+        },
+        "int": {
+          "score": 2,
+          "modifier": -4,
+          "save": -4
+        },
+        "wis": {
+          "score": 12,
+          "modifier": 1,
+          "save": 1
+        },
+        "cha": {
+          "score": 3,
+          "modifier": -4,
+          "save": -4
+        }
+      },
+      "senses": {
+        "passive_perception": 13,
+        "special": {
+          "darkvision": 60
+        }
+      },
+      "languages": [],
+      "gear": [],
+      "cr": "0",
+      "xp": 10,
+      "proficiency_bonus": 2,
+      "skills": {
+        "acrobatics": 5,
+        "perception": 3,
+        "stealth": 5
+      },
+      "traits": [],
+      "actions": [
+        {
+          "id": "bite",
+          "name": "Bite",
+          "text": "Bite. Melee Attack Roll: +5, reach 5 ft. Hit: 1 Piercing damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 5,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 1,
+              "dice": 0,
+              "sides": 0,
+              "modifier": 0
+            },
+            "damage_type": "piercing"
+          },
+          "effects": [
+            {
+              "key": "effect/piercing-damage",
+              "name": "Piercing damage",
+              "text": "1 Piercing damage.",
+              "requires": [
+                "damage/fixed"
+              ]
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/skills",
+        "movement/climb",
+        "sense/darkvision",
+        "action/melee-attack",
+        "effect/piercing-damage",
+        "damage/fixed"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/werebear",
+      "name": "Werebear",
+      "source_pages": [
+        337,
+        338
+      ],
+      "sizes": [
+        "medium",
+        "small"
+      ],
+      "type": "monstrosity",
+      "alignment": "Neutral Good",
+      "ac": 15,
+      "initiative": {
+        "modifier": 3,
+        "score": 13
+      },
+      "hp": {
+        "average": 135,
+        "dice": 18,
+        "sides": 8,
+        "modifier": 54
+      },
+      "speeds": {
+        "walk": 30
+      },
+      "abilities": {
+        "str": {
+          "score": 19,
+          "modifier": 4,
+          "save": 4
+        },
+        "dex": {
+          "score": 10,
+          "modifier": 0,
+          "save": 0
+        },
+        "con": {
+          "score": 17,
+          "modifier": 3,
+          "save": 3
+        },
+        "int": {
+          "score": 11,
+          "modifier": 0,
+          "save": 0
+        },
+        "wis": {
+          "score": 12,
+          "modifier": 1,
+          "save": 1
+        },
+        "cha": {
+          "score": 12,
+          "modifier": 1,
+          "save": 1
+        }
+      },
+      "senses": {
+        "passive_perception": 17,
+        "special": {
+          "darkvision": 60
+        }
+      },
+      "languages": [
+        "Common (can’t speak in bear form)"
+      ],
+      "gear": [
+        "Handaxes (4)"
+      ],
+      "cr": "5",
+      "xp": 1800,
+      "proficiency_bonus": 3,
+      "tags": [
+        "Lycanthrope"
+      ],
+      "skills": {
+        "perception": 7
+      },
+      "conditional_speed_note": "40 ft. (bear form only), Climb 30 ft. (bear form only)",
+      "traits": [],
+      "actions": [
+        {
+          "id": "multiattack",
+          "name": "Multiattack",
+          "text": "Multiattack. The werebear makes two attacks, using Handaxe or Rend in any combination. It can replace one attack with a Bite attack.",
+          "key": "action/multiattack",
+          "effects": [
+            {
+              "key": "action/melee-attack",
+              "name": "Melee attack",
+              "text": "The werebear makes two attacks, using Handaxe or Rend in any combination"
+            },
+            {
+              "key": "action/melee-or-ranged-attack",
+              "name": "Melee or ranged attack",
+              "text": "Handaxe or Rend in any combination"
+            },
+            {
+              "key": "multiattack/any-combination",
+              "name": "Any combination",
+              "text": "in any combination"
+            },
+            {
+              "key": "multiattack/replace-attack",
+              "name": "Replace attack",
+              "text": "It can replace one attack with a Bite attack"
+            }
+          ]
+        },
+        {
+          "id": "bite",
+          "name": "Bite",
+          "text": "Bite (Bear or Hybrid Form Only). Melee Attack Roll: +7, reach 5 ft. Hit: 17 (2d12 + 4) Piercing damage. If the target is a Humanoid, it is subjected to the following effect. Constitution Saving Throw: DC 14. Failure: The target is cursed. If the cursed target drops to 0 Hit Points, it instead becomes a Werebear under the GM’s control and has 10 Hit Points. Success: The target is immune to this werebear’s curse for 24 hours.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 7,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 17,
+              "dice": 2,
+              "sides": 12,
+              "modifier": 4
+            },
+            "damage_type": "piercing"
+          },
+          "save": {
+            "ability": "con",
+            "dc": 14
+          },
+          "effects": [
+            {
+              "key": "effect/piercing-damage",
+              "name": "Piercing damage",
+              "text": "17 (2d12 + 4) Piercing damage.",
+              "dice": {
+                "average": 17,
+                "dice": 2,
+                "sides": 12,
+                "modifier": 4
+              }
+            },
+            {
+              "key": "requirement/bear-or-hybrid-form",
+              "name": "Bear or hybrid form",
+              "text": "Bear or Hybrid Form Only"
+            },
+            {
+              "key": "requirement/target-humanoid",
+              "name": "Target humanoid",
+              "text": "If the target is a Humanoid, it is subjected to the following effect"
+            },
+            {
+              "key": "save/con",
+              "name": "Con",
+              "text": "Constitution Saving Throw: DC 14"
+            },
+            {
+              "key": "effect/curse",
+              "name": "Curse",
+              "text": "Failure: The target is cursed"
+            },
+            {
+              "key": "effect/cursed-becomes-werebear",
+              "name": "Cursed becomes werebear",
+              "text": "If the cursed target drops to 0 Hit Points, it instead becomes a Werebear under the GM’s control and has 10 Hit Points"
+            },
+            {
+              "key": "save/success-immunity",
+              "name": "Success immunity",
+              "text": "Success: The target is immune to this werebear’s curse for 24 hours"
+            }
+          ]
+        },
+        {
+          "id": "handaxe",
+          "name": "Handaxe",
+          "text": "Handaxe (Humanoid or Hybrid Form Only). Melee or Ranged Attack Roll: +7, reach 5 ft or range 20/60 ft. Hit: 14 (3d6 + 4) Slashing damage.",
+          "key": "action/melee-or-ranged-attack",
+          "effects": [
+            {
+              "key": "effect/slashing-damage",
+              "name": "Slashing damage",
+              "text": "14 (3d6 + 4) Slashing damage.",
+              "dice": {
+                "average": 14,
+                "dice": 3,
+                "sides": 6,
+                "modifier": 4
+              }
+            },
+            {
+              "key": "requirement/humanoid-or-hybrid-form",
+              "name": "Humanoid or hybrid form",
+              "text": "Humanoid or Hybrid Form Only"
+            }
+          ]
+        },
+        {
+          "id": "rend",
+          "name": "Rend",
+          "text": "Rend (Bear or Hybrid Form Only). Melee Attack Roll: +7, reach 5 ft. Hit: 13 (2d8 + 4) Slashing damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 7,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 13,
+              "dice": 2,
+              "sides": 8,
+              "modifier": 4
+            },
+            "damage_type": "slashing"
+          },
+          "effects": [
+            {
+              "key": "effect/slashing-damage",
+              "name": "Slashing damage",
+              "text": "13 (2d8 + 4) Slashing damage.",
+              "dice": {
+                "average": 13,
+                "dice": 2,
+                "sides": 8,
+                "modifier": 4
+              }
+            },
+            {
+              "key": "requirement/bear-or-hybrid-form",
+              "name": "Bear or hybrid form",
+              "text": "Bear or Hybrid Form Only"
+            }
+          ]
+        }
+      ],
+      "bonus_actions": [
+        {
+          "id": "shape-shift",
+          "name": "Shape-Shift",
+          "text": "Shape-Shift. The werebear shape-shifts into a Large bear-humanoid hybrid form or a Large bear, or it returns to its true humanoid form. Its game statistics, other than its size, are the same in each form. Any equipment it is wearing or carrying isn’t transformed.",
+          "key": "action/special",
+          "effects": [
+            {
+              "key": "effect/shape-shift",
+              "name": "Shape shift",
+              "text": "The werebear shape-shifts into a Large bear-humanoid hybrid form or a Large bear, or it returns to its true humanoid form"
+            },
+            {
+              "key": "effect/shapechange-form-limits",
+              "name": "Shapechange form limits",
+              "text": "Its game statistics, other than its size, are the same in each form"
+            },
+            {
+              "key": "effect/equipment-not-transformed",
+              "name": "Equipment not transformed",
+              "text": "Any equipment it is wearing or carrying isn’t transformed"
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/skills",
+        "movement/conditional-speed",
+        "sense/darkvision",
+        "action/bonus-action",
+        "action/multiattack",
+        "action/melee-attack",
+        "action/melee-or-ranged-attack",
+        "multiattack/any-combination",
+        "multiattack/replace-attack",
+        "effect/piercing-damage",
+        "requirement/bear-or-hybrid-form",
+        "requirement/target-humanoid",
+        "save/con",
+        "effect/curse",
+        "effect/cursed-becomes-werebear",
+        "save/success-immunity",
+        "effect/slashing-damage",
+        "requirement/humanoid-or-hybrid-form",
+        "action/special",
+        "effect/shape-shift",
+        "effect/shapechange-form-limits",
+        "effect/equipment-not-transformed"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/wereboar",
+      "name": "Wereboar",
+      "source_pages": [
+        338,
+        338
+      ],
+      "sizes": [
+        "medium",
+        "small"
+      ],
+      "type": "monstrosity",
+      "alignment": "Neutral Evil",
+      "ac": 15,
+      "initiative": {
+        "modifier": 2,
+        "score": 12
+      },
+      "hp": {
+        "average": 97,
+        "dice": 15,
+        "sides": 8,
+        "modifier": 30
+      },
+      "speeds": {
+        "walk": 30
+      },
+      "abilities": {
+        "str": {
+          "score": 17,
+          "modifier": 3,
+          "save": 3
+        },
+        "dex": {
+          "score": 10,
+          "modifier": 0,
+          "save": 0
+        },
+        "con": {
+          "score": 15,
+          "modifier": 2,
+          "save": 2
+        },
+        "int": {
+          "score": 10,
+          "modifier": 0,
+          "save": 0
+        },
+        "wis": {
+          "score": 11,
+          "modifier": 0,
+          "save": 0
+        },
+        "cha": {
+          "score": 8,
+          "modifier": -1,
+          "save": -1
+        }
+      },
+      "senses": {
+        "passive_perception": 12,
+        "special": {}
+      },
+      "languages": [
+        "Common (can’t speak in boar form)"
+      ],
+      "gear": [
+        "Javelins (6)"
+      ],
+      "cr": "4",
+      "xp": 1100,
+      "proficiency_bonus": 2,
+      "tags": [
+        "Lycanthrope"
+      ],
+      "skills": {
+        "perception": 2
+      },
+      "conditional_speed_note": "40 ft. (boar form only)",
+      "traits": [],
+      "actions": [
+        {
+          "id": "multiattack",
+          "name": "Multiattack",
+          "text": "Multiattack. The wereboar makes two attacks, using Javelin or Tusk in any combination. It can replace one attack with a Gore attack.",
+          "key": "action/multiattack",
+          "effects": [
+            {
+              "key": "action/melee-attack",
+              "name": "Melee attack",
+              "text": "The wereboar makes two attacks, using Javelin or Tusk in any combination"
+            },
+            {
+              "key": "action/melee-or-ranged-attack",
+              "name": "Melee or ranged attack",
+              "text": "Javelin or Tusk in any combination"
+            },
+            {
+              "key": "multiattack/any-combination",
+              "name": "Any combination",
+              "text": "in any combination"
+            },
+            {
+              "key": "multiattack/replace-attack",
+              "name": "Replace attack",
+              "text": "It can replace one attack with a Gore attack"
+            }
+          ]
+        },
+        {
+          "id": "gore",
+          "name": "Gore",
+          "text": "Gore (Boar or Hybrid Form Only). Melee Attack Roll: +5, reach 5 ft. Hit: 12 (2d8 + 3) Piercing damage. If the target is a Humanoid, it is subjected to the following effect. Constitution Saving Throw: DC 12. Failure: The target is cursed. If the cursed target drops to 0 Hit Points, it instead becomes a Wereboar under the GM’s control and has 10 Hit Points. Success: The target is immune to this wereboar’s curse for 24 hours.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 5,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 12,
+              "dice": 2,
+              "sides": 8,
+              "modifier": 3
+            },
+            "damage_type": "piercing"
+          },
+          "save": {
+            "ability": "con",
+            "dc": 12
+          },
+          "effects": [
+            {
+              "key": "effect/piercing-damage",
+              "name": "Piercing damage",
+              "text": "12 (2d8 + 3) Piercing damage.",
+              "dice": {
+                "average": 12,
+                "dice": 2,
+                "sides": 8,
+                "modifier": 3
+              }
+            },
+            {
+              "key": "requirement/boar-or-hybrid-form",
+              "name": "Boar or hybrid form",
+              "text": "Boar or Hybrid Form Only"
+            },
+            {
+              "key": "requirement/target-humanoid",
+              "name": "Target humanoid",
+              "text": "If the target is a Humanoid, it is subjected to the following effect"
+            },
+            {
+              "key": "save/con",
+              "name": "Con",
+              "text": "Constitution Saving Throw: DC 12"
+            },
+            {
+              "key": "effect/curse",
+              "name": "Curse",
+              "text": "Failure: The target is cursed"
+            },
+            {
+              "key": "effect/cursed-becomes-wereboar",
+              "name": "Cursed becomes wereboar",
+              "text": "If the cursed target drops to 0 Hit Points, it instead becomes a Wereboar under the GM’s control and has 10 Hit Points"
+            },
+            {
+              "key": "save/success-immunity",
+              "name": "Success immunity",
+              "text": "Success: The target is immune to this wereboar’s curse for 24 hours"
+            }
+          ]
+        },
+        {
+          "id": "javelin",
+          "name": "Javelin",
+          "text": "Javelin (Humanoid or Hybrid Form Only). Melee or Ranged Attack Roll: +5, reach 5 ft. or range 30/120 ft. Hit: 13 (3d6 + 3) Piercing damage.",
+          "key": "action/melee-or-ranged-attack",
+          "effects": [
+            {
+              "key": "effect/piercing-damage",
+              "name": "Piercing damage",
+              "text": "13 (3d6 + 3) Piercing damage.",
+              "dice": {
+                "average": 13,
+                "dice": 3,
+                "sides": 6,
+                "modifier": 3
+              }
+            },
+            {
+              "key": "requirement/humanoid-or-hybrid-form",
+              "name": "Humanoid or hybrid form",
+              "text": "Humanoid or Hybrid Form Only"
+            }
+          ]
+        },
+        {
+          "id": "tusk",
+          "name": "Tusk",
+          "text": "Tusk (Boar or Hybrid Form Only). Melee Attack Roll: +5, reach 5 ft. Hit: 10 (2d6 + 3) Piercing damage. If the target is a Medium or smaller creature and the wereboar moved 20+ feet straight toward it immediately before the hit, the target takes an extra 7 (2d6) Piercing damage and has the Prone condition.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 5,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 10,
+              "dice": 2,
+              "sides": 6,
+              "modifier": 3
+            },
+            "damage_type": "piercing"
+          },
+          "effects": [
+            {
+              "key": "effect/piercing-damage",
+              "name": "Piercing damage",
+              "text": "10 (2d6 + 3) Piercing damage.",
+              "dice": {
+                "average": 10,
+                "dice": 2,
+                "sides": 6,
+                "modifier": 3
+              }
+            },
+            {
+              "key": "requirement/boar-or-hybrid-form",
+              "name": "Boar or hybrid form",
+              "text": "Boar or Hybrid Form Only"
+            },
+            {
+              "key": "requirement/target-size",
+              "name": "Target size",
+              "text": "If the target is a Medium or smaller creature"
+            },
+            {
+              "key": "requirement/straight-line-movement",
+              "name": "Straight line movement",
+              "text": "the wereboar moved 20+ feet straight toward it immediately before the hit"
+            },
+            {
+              "key": "effect/piercing-damage",
+              "name": "Piercing damage",
+              "text": "the target takes an extra 7 (2d6) Piercing damage",
+              "dice": {
+                "average": 7,
+                "dice": 2,
+                "sides": 6,
+                "modifier": 0
+              }
+            },
+            {
+              "key": "condition/prone",
+              "name": "Prone",
+              "text": "has the Prone condition"
+            }
+          ]
+        }
+      ],
+      "bonus_actions": [
+        {
+          "id": "shape-shift",
+          "name": "Shape-Shift",
+          "text": "Shape-Shift. The wereboar shape-shifts into a Medium boar-humanoid hybrid or a Small boar, or it returns to its true humanoid form. Its game statistics, other than its size, are the same in each form. Any equipment it is wearing or carrying isn’t transformed.",
+          "key": "action/special",
+          "effects": [
+            {
+              "key": "effect/shape-shift",
+              "name": "Shape shift",
+              "text": "The wereboar shape-shifts into a Medium boar-humanoid hybrid or a Small boar, or it returns to its true humanoid form"
+            },
+            {
+              "key": "effect/shapechange-form-limits",
+              "name": "Shapechange form limits",
+              "text": "Its game statistics, other than its size, are the same in each form"
+            },
+            {
+              "key": "effect/equipment-not-transformed",
+              "name": "Equipment not transformed",
+              "text": "Any equipment it is wearing or carrying isn’t transformed"
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/skills",
+        "movement/conditional-speed",
+        "action/bonus-action",
+        "action/multiattack",
+        "action/melee-attack",
+        "action/melee-or-ranged-attack",
+        "multiattack/any-combination",
+        "multiattack/replace-attack",
+        "effect/piercing-damage",
+        "requirement/boar-or-hybrid-form",
+        "requirement/target-humanoid",
+        "save/con",
+        "effect/curse",
+        "effect/cursed-becomes-wereboar",
+        "save/success-immunity",
+        "requirement/humanoid-or-hybrid-form",
+        "requirement/target-size",
+        "requirement/straight-line-movement",
+        "condition/prone",
+        "action/special",
+        "effect/shape-shift",
+        "effect/shapechange-form-limits",
+        "effect/equipment-not-transformed"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/wererat",
+      "name": "Wererat",
+      "source_pages": [
+        338,
+        338
+      ],
+      "sizes": [
+        "medium",
+        "small"
+      ],
+      "type": "monstrosity",
+      "alignment": "Lawful Evil",
+      "ac": 13,
+      "initiative": {
+        "modifier": 3,
+        "score": 13
+      },
+      "hp": {
+        "average": 60,
+        "dice": 11,
+        "sides": 8,
+        "modifier": 11
+      },
+      "speeds": {
+        "walk": 30,
+        "climb": 30
+      },
+      "abilities": {
+        "str": {
+          "score": 10,
+          "modifier": 0,
+          "save": 0
+        },
+        "dex": {
+          "score": 16,
+          "modifier": 3,
+          "save": 3
+        },
+        "con": {
+          "score": 12,
+          "modifier": 1,
+          "save": 1
+        },
+        "int": {
+          "score": 11,
+          "modifier": 0,
+          "save": 0
+        },
+        "wis": {
+          "score": 10,
+          "modifier": 0,
+          "save": 0
+        },
+        "cha": {
+          "score": 8,
+          "modifier": -1,
+          "save": -1
+        }
+      },
+      "senses": {
+        "passive_perception": 14,
+        "special": {
+          "darkvision": 60
+        }
+      },
+      "languages": [
+        "Common (can’t speak in rat form)"
+      ],
+      "gear": [
+        "Hand Crossbow"
+      ],
+      "cr": "2",
+      "xp": 450,
+      "proficiency_bonus": 2,
+      "tags": [
+        "Lycanthrope"
+      ],
+      "skills": {
+        "perception": 4,
+        "stealth": 5
+      },
+      "traits": [],
+      "actions": [
+        {
+          "id": "multiattack",
+          "name": "Multiattack",
+          "text": "Multiattack. The wererat makes two attacks, using Scratch or Hand Crossbow in any combination. It can replace one attack with a Bite attack.",
+          "key": "action/multiattack",
+          "effects": [
+            {
+              "key": "action/melee-attack",
+              "name": "Melee attack",
+              "text": "The wererat makes two attacks, using Scratch or Hand Crossbow in any combination"
+            },
+            {
+              "key": "action/ranged-attack",
+              "name": "Ranged attack",
+              "text": "Scratch or Hand Crossbow in any combination"
+            },
+            {
+              "key": "multiattack/any-combination",
+              "name": "Any combination",
+              "text": "in any combination"
+            },
+            {
+              "key": "multiattack/replace-attack",
+              "name": "Replace attack",
+              "text": "It can replace one attack with a Bite attack"
+            }
+          ]
+        },
+        {
+          "id": "bite",
+          "name": "Bite",
+          "text": "Bite (Rat or Hybrid Form Only). Melee Attack Roll: +5, reach 5 ft. Hit: 8 (2d4 + 3) Piercing damage. If the target is a Humanoid, it is subjected to the following effect. Constitution Saving Throw: DC 11. Failure: The target is cursed. If the cursed target drops to 0 Hit Points, it instead becomes a Wererat under the GM’s control and has 10 Hit Points. Success: The target is immune to this wererat’s curse for 24 hours.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 5,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 8,
+              "dice": 2,
+              "sides": 4,
+              "modifier": 3
+            },
+            "damage_type": "piercing"
+          },
+          "save": {
+            "ability": "con",
+            "dc": 11
+          },
+          "effects": [
+            {
+              "key": "effect/piercing-damage",
+              "name": "Piercing damage",
+              "text": "8 (2d4 + 3) Piercing damage.",
+              "dice": {
+                "average": 8,
+                "dice": 2,
+                "sides": 4,
+                "modifier": 3
+              }
+            },
+            {
+              "key": "requirement/rat-or-hybrid-form",
+              "name": "Rat or hybrid form",
+              "text": "Rat or Hybrid Form Only"
+            },
+            {
+              "key": "requirement/target-humanoid",
+              "name": "Target humanoid",
+              "text": "If the target is a Humanoid, it is subjected to the following effect"
+            },
+            {
+              "key": "save/con",
+              "name": "Con",
+              "text": "Constitution Saving Throw: DC 11"
+            },
+            {
+              "key": "effect/curse",
+              "name": "Curse",
+              "text": "Failure: The target is cursed"
+            },
+            {
+              "key": "effect/cursed-becomes-wererat",
+              "name": "Cursed becomes wererat",
+              "text": "If the cursed target drops to 0 Hit Points, it instead becomes a Wererat under the GM’s control and has 10 Hit Points"
+            },
+            {
+              "key": "save/success-immunity",
+              "name": "Success immunity",
+              "text": "Success: The target is immune to this wererat’s curse for 24 hours"
+            }
+          ]
+        },
+        {
+          "id": "scratch",
+          "name": "Scratch",
+          "text": "Scratch. Melee Attack Roll: +5, reach 5 ft. Hit: 6 (1d6 + 3) Slashing damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 5,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 6,
+              "dice": 1,
+              "sides": 6,
+              "modifier": 3
+            },
+            "damage_type": "slashing"
+          },
+          "effects": [
+            {
+              "key": "effect/slashing-damage",
+              "name": "Slashing damage",
+              "text": "6 (1d6 + 3) Slashing damage.",
+              "dice": {
+                "average": 6,
+                "dice": 1,
+                "sides": 6,
+                "modifier": 3
+              }
+            }
+          ]
+        },
+        {
+          "id": "hand-crossbow",
+          "name": "Hand Crossbow",
+          "text": "Hand Crossbow (Humanoid or Hybrid Form Only). Ranged Attack Roll: +5, range 30/120 ft. Hit: 6 (1d6 + 3) Piercing damage.",
+          "key": "action/ranged-attack",
+          "attack": {
+            "kind": "ranged",
+            "bonus": 5,
+            "reach": 0,
+            "range": 30,
+            "long_range": 120,
+            "damage": {
+              "average": 6,
+              "dice": 1,
+              "sides": 6,
+              "modifier": 3
+            },
+            "damage_type": "piercing"
+          },
+          "effects": [
+            {
+              "key": "effect/piercing-damage",
+              "name": "Piercing damage",
+              "text": "6 (1d6 + 3) Piercing damage.",
+              "dice": {
+                "average": 6,
+                "dice": 1,
+                "sides": 6,
+                "modifier": 3
+              }
+            },
+            {
+              "key": "requirement/humanoid-or-hybrid-form",
+              "name": "Humanoid or hybrid form",
+              "text": "Humanoid or Hybrid Form Only"
+            }
+          ]
+        }
+      ],
+      "bonus_actions": [
+        {
+          "id": "shape-shift",
+          "name": "Shape-Shift",
+          "text": "Shape-Shift. The wererat shape-shifts into a Medium rat-humanoid hybrid or a Small rat, or it returns to its true humanoid form. Its game statistics, other than its size, are the same in each form. Any equipment it is wearing or carrying isn’t transformed.",
+          "key": "action/special",
+          "effects": [
+            {
+              "key": "effect/shape-shift",
+              "name": "Shape shift",
+              "text": "The wererat shape-shifts into a Medium rat-humanoid hybrid or a Small rat, or it returns to its true humanoid form"
+            },
+            {
+              "key": "effect/shapechange-form-limits",
+              "name": "Shapechange form limits",
+              "text": "Its game statistics, other than its size, are the same in each form"
+            },
+            {
+              "key": "effect/equipment-not-transformed",
+              "name": "Equipment not transformed",
+              "text": "Any equipment it is wearing or carrying isn’t transformed"
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/skills",
+        "movement/climb",
+        "sense/darkvision",
+        "action/bonus-action",
+        "action/multiattack",
+        "action/melee-attack",
+        "action/ranged-attack",
+        "multiattack/any-combination",
+        "multiattack/replace-attack",
+        "effect/piercing-damage",
+        "requirement/rat-or-hybrid-form",
+        "requirement/target-humanoid",
+        "save/con",
+        "effect/curse",
+        "effect/cursed-becomes-wererat",
+        "save/success-immunity",
+        "effect/slashing-damage",
+        "requirement/humanoid-or-hybrid-form",
+        "action/special",
+        "effect/shape-shift",
+        "effect/shapechange-form-limits",
+        "effect/equipment-not-transformed"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/weretiger",
+      "name": "Weretiger",
+      "source_pages": [
+        339,
+        339
+      ],
+      "sizes": [
+        "medium",
+        "small"
+      ],
+      "type": "monstrosity",
+      "alignment": "Neutral",
+      "ac": 12,
+      "initiative": {
+        "modifier": 2,
+        "score": 12
+      },
+      "hp": {
+        "average": 120,
+        "dice": 16,
+        "sides": 8,
+        "modifier": 48
+      },
+      "speeds": {
+        "walk": 30
+      },
+      "abilities": {
+        "str": {
+          "score": 17,
+          "modifier": 3,
+          "save": 3
+        },
+        "dex": {
+          "score": 15,
+          "modifier": 2,
+          "save": 2
+        },
+        "con": {
+          "score": 16,
+          "modifier": 3,
+          "save": 3
+        },
+        "int": {
+          "score": 10,
+          "modifier": 0,
+          "save": 0
+        },
+        "wis": {
+          "score": 13,
+          "modifier": 1,
+          "save": 1
+        },
+        "cha": {
+          "score": 11,
+          "modifier": 0,
+          "save": 0
+        }
+      },
+      "senses": {
+        "passive_perception": 15,
+        "special": {
+          "darkvision": 60
+        }
+      },
+      "languages": [
+        "Common (can’t speak in tiger form)"
+      ],
+      "gear": [
+        "Longbow"
+      ],
+      "cr": "4",
+      "xp": 1100,
+      "proficiency_bonus": 2,
+      "tags": [
+        "Lycanthrope"
+      ],
+      "skills": {
+        "perception": 5,
+        "stealth": 4
+      },
+      "conditional_speed_note": "40 ft. (tiger form only)",
+      "traits": [],
+      "actions": [
+        {
+          "id": "multiattack",
+          "name": "Multiattack",
+          "text": "Multiattack. The weretiger makes two attacks, using Scratch or Longbow in any combination. It can replace one attack with a Bite attack.",
+          "key": "action/multiattack",
+          "effects": [
+            {
+              "key": "action/melee-attack",
+              "name": "Melee attack",
+              "text": "The weretiger makes two attacks, using Scratch or Longbow in any combination"
+            },
+            {
+              "key": "action/ranged-attack",
+              "name": "Ranged attack",
+              "text": "Scratch or Longbow in any combination"
+            },
+            {
+              "key": "multiattack/any-combination",
+              "name": "Any combination",
+              "text": "in any combination"
+            },
+            {
+              "key": "multiattack/replace-attack",
+              "name": "Replace attack",
+              "text": "It can replace one attack with a Bite attack"
+            }
+          ]
+        },
+        {
+          "id": "bite",
+          "name": "Bite",
+          "text": "Bite (Tiger or Hybrid Form Only). Melee Attack Roll: +5, reach 5 ft. Hit: 12 (2d8 + 3) Piercing damage. If the target is a Humanoid, it is subjected to the following effect. Constitution Saving Throw: DC 13. Failure: The target is cursed. If the cursed target drops to 0 Hit Points, it instead becomes a Weretiger under the GM’s control and has 10 Hit Points. Success: The target is immune to this weretiger’s curse for 24 hours.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 5,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 12,
+              "dice": 2,
+              "sides": 8,
+              "modifier": 3
+            },
+            "damage_type": "piercing"
+          },
+          "save": {
+            "ability": "con",
+            "dc": 13
+          },
+          "effects": [
+            {
+              "key": "effect/piercing-damage",
+              "name": "Piercing damage",
+              "text": "12 (2d8 + 3) Piercing damage.",
+              "dice": {
+                "average": 12,
+                "dice": 2,
+                "sides": 8,
+                "modifier": 3
+              }
+            },
+            {
+              "key": "requirement/tiger-or-hybrid-form",
+              "name": "Tiger or hybrid form",
+              "text": "Tiger or Hybrid Form Only"
+            },
+            {
+              "key": "requirement/target-humanoid",
+              "name": "Target humanoid",
+              "text": "If the target is a Humanoid, it is subjected to the following effect"
+            },
+            {
+              "key": "save/con",
+              "name": "Con",
+              "text": "Constitution Saving Throw: DC 13"
+            },
+            {
+              "key": "effect/curse",
+              "name": "Curse",
+              "text": "Failure: The target is cursed"
+            },
+            {
+              "key": "effect/cursed-becomes-weretiger",
+              "name": "Cursed becomes weretiger",
+              "text": "If the cursed target drops to 0 Hit Points, it instead becomes a Weretiger under the GM’s control and has 10 Hit Points"
+            },
+            {
+              "key": "save/success-immunity",
+              "name": "Success immunity",
+              "text": "Success: The target is immune to this weretiger’s curse for 24 hours"
+            }
+          ]
+        },
+        {
+          "id": "scratch",
+          "name": "Scratch",
+          "text": "Scratch. Melee Attack Roll: +5, reach 5 ft. Hit: 10 (2d6 + 3) Slashing damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 5,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 10,
+              "dice": 2,
+              "sides": 6,
+              "modifier": 3
+            },
+            "damage_type": "slashing"
+          },
+          "effects": [
+            {
+              "key": "effect/slashing-damage",
+              "name": "Slashing damage",
+              "text": "10 (2d6 + 3) Slashing damage.",
+              "dice": {
+                "average": 10,
+                "dice": 2,
+                "sides": 6,
+                "modifier": 3
+              }
+            }
+          ]
+        },
+        {
+          "id": "longbow",
+          "name": "Longbow",
+          "text": "Longbow (Humanoid or Hybrid Form Only). Ranged Attack Roll: +4, range 150/600 ft. Hit: 11 (2d8 + 2) Piercing damage.",
+          "key": "action/ranged-attack",
+          "attack": {
+            "kind": "ranged",
+            "bonus": 4,
+            "reach": 0,
+            "range": 150,
+            "long_range": 600,
+            "damage": {
+              "average": 11,
+              "dice": 2,
+              "sides": 8,
+              "modifier": 2
+            },
+            "damage_type": "piercing"
+          },
+          "effects": [
+            {
+              "key": "effect/piercing-damage",
+              "name": "Piercing damage",
+              "text": "11 (2d8 + 2) Piercing damage.",
+              "dice": {
+                "average": 11,
+                "dice": 2,
+                "sides": 8,
+                "modifier": 2
+              }
+            },
+            {
+              "key": "requirement/humanoid-or-hybrid-form",
+              "name": "Humanoid or hybrid form",
+              "text": "Humanoid or Hybrid Form Only"
+            }
+          ]
+        }
+      ],
+      "bonus_actions": [
+        {
+          "id": "prowl",
+          "name": "Prowl",
+          "text": "Prowl (Tiger or Hybrid Form Only). The weretiger moves up to its Speed without provoking Opportunity Attacks. At the end of this movement, the weretiger can take the Hide action.",
+          "key": "action/special",
+          "effects": [
+            {
+              "key": "requirement/tiger-or-hybrid-form",
+              "name": "Tiger or hybrid form",
+              "text": "Tiger or Hybrid Form Only"
+            },
+            {
+              "key": "effect/move-without-opportunity-attacks",
+              "name": "Move without opportunity attacks",
+              "text": "The weretiger moves up to its Speed without provoking Opportunity Attacks"
+            },
+            {
+              "key": "action/hide",
+              "name": "Hide",
+              "text": "At the end of this movement, the weretiger can take the Hide action"
+            }
+          ]
+        },
+        {
+          "id": "shape-shift",
+          "name": "Shape-Shift",
+          "text": "Shape-Shift. The weretiger shape-shifts into a Large tiger-humanoid hybrid or a Large tiger, or it returns to its true humanoid form. Its game statistics, other than its size, are the same in each form. Any equipment it is wearing or carrying isn’t transformed.",
+          "key": "action/special",
+          "effects": [
+            {
+              "key": "effect/shape-shift",
+              "name": "Shape shift",
+              "text": "The weretiger shape-shifts into a Large tiger-humanoid hybrid or a Large tiger, or it returns to its true humanoid form"
+            },
+            {
+              "key": "effect/shapechange-form-limits",
+              "name": "Shapechange form limits",
+              "text": "Its game statistics, other than its size, are the same in each form"
+            },
+            {
+              "key": "effect/equipment-not-transformed",
+              "name": "Equipment not transformed",
+              "text": "Any equipment it is wearing or carrying isn’t transformed"
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/skills",
+        "movement/conditional-speed",
+        "sense/darkvision",
+        "action/bonus-action",
+        "action/multiattack",
+        "action/melee-attack",
+        "action/ranged-attack",
+        "multiattack/any-combination",
+        "multiattack/replace-attack",
+        "effect/piercing-damage",
+        "requirement/tiger-or-hybrid-form",
+        "requirement/target-humanoid",
+        "save/con",
+        "effect/curse",
+        "effect/cursed-becomes-weretiger",
+        "save/success-immunity",
+        "effect/slashing-damage",
+        "requirement/humanoid-or-hybrid-form",
+        "action/special",
+        "effect/move-without-opportunity-attacks",
+        "action/hide",
+        "effect/shape-shift",
+        "effect/shapechange-form-limits",
+        "effect/equipment-not-transformed"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/werewolf",
+      "name": "Werewolf",
+      "source_pages": [
+        339,
+        339
+      ],
+      "sizes": [
+        "medium",
+        "small"
+      ],
+      "type": "monstrosity",
+      "alignment": "Chaotic Evil",
+      "ac": 15,
+      "initiative": {
+        "modifier": 4,
+        "score": 14
+      },
+      "hp": {
+        "average": 71,
+        "dice": 11,
+        "sides": 8,
+        "modifier": 22
+      },
+      "speeds": {
+        "walk": 30
+      },
+      "abilities": {
+        "str": {
+          "score": 16,
+          "modifier": 3,
+          "save": 3
+        },
+        "dex": {
+          "score": 14,
+          "modifier": 2,
+          "save": 2
+        },
+        "con": {
+          "score": 14,
+          "modifier": 2,
+          "save": 2
+        },
+        "int": {
+          "score": 10,
+          "modifier": 0,
+          "save": 0
+        },
+        "wis": {
+          "score": 11,
+          "modifier": 0,
+          "save": 0
+        },
+        "cha": {
+          "score": 10,
+          "modifier": 0,
+          "save": 0
+        }
+      },
+      "senses": {
+        "passive_perception": 14,
+        "special": {
+          "darkvision": 60
+        }
+      },
+      "languages": [
+        "Common (can’t speak in wolf form)"
+      ],
+      "gear": [
+        "Longbow"
+      ],
+      "cr": "3",
+      "xp": 700,
+      "proficiency_bonus": 2,
+      "tags": [
+        "Lycanthrope"
+      ],
+      "skills": {
+        "perception": 4,
+        "stealth": 4
+      },
+      "conditional_speed_note": "40 ft. (wolf form only)",
+      "traits": [
+        {
+          "key": "trait/pack-tactics",
+          "name": "Pack Tactics",
+          "text": "Pack Tactics. The werewolf has Advantage on an attack roll against a creature if at least one of the werewolf’s allies is within 5 feet of the creature and the ally doesn’t have the Incapacitated condition.",
+          "requires": [
+            "attack/advantage-with-nearby-ally",
+            "requirement/ally-not-incapacitated"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "multiattack",
+          "name": "Multiattack",
+          "text": "Multiattack. The werewolf makes two attacks, using Scratch or Longbow in any combination. It can replace one attack with a Bite attack.",
+          "key": "action/multiattack",
+          "effects": [
+            {
+              "key": "action/melee-attack",
+              "name": "Melee attack",
+              "text": "The werewolf makes two attacks, using Scratch or Longbow in any combination"
+            },
+            {
+              "key": "action/ranged-attack",
+              "name": "Ranged attack",
+              "text": "Scratch or Longbow in any combination"
+            },
+            {
+              "key": "multiattack/any-combination",
+              "name": "Any combination",
+              "text": "in any combination"
+            },
+            {
+              "key": "multiattack/replace-attack",
+              "name": "Replace attack",
+              "text": "It can replace one attack with a Bite attack"
+            }
+          ]
+        },
+        {
+          "id": "bite",
+          "name": "Bite",
+          "text": "Bite (Wolf or Hybrid Form Only). Melee Attack Roll: +5, reach 5 ft. Hit: 12 (2d8 + 3) Piercing damage. If the target is a Humanoid, it is subjected to the following effect. Constitution Saving Throw: DC 12. Failure: The target is cursed. If the cursed target drops to 0 Hit Points, it instead becomes a Werewolf under the GM’s control and has 10 Hit Points. Success: The target is immune to this werewolf’s curse for 24 hours.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 5,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 12,
+              "dice": 2,
+              "sides": 8,
+              "modifier": 3
+            },
+            "damage_type": "piercing"
+          },
+          "save": {
+            "ability": "con",
+            "dc": 12
+          },
+          "effects": [
+            {
+              "key": "effect/piercing-damage",
+              "name": "Piercing damage",
+              "text": "12 (2d8 + 3) Piercing damage.",
+              "dice": {
+                "average": 12,
+                "dice": 2,
+                "sides": 8,
+                "modifier": 3
+              }
+            },
+            {
+              "key": "requirement/wolf-or-hybrid-form",
+              "name": "Wolf or hybrid form",
+              "text": "Wolf or Hybrid Form Only"
+            },
+            {
+              "key": "requirement/target-humanoid",
+              "name": "Target humanoid",
+              "text": "If the target is a Humanoid, it is subjected to the following effect"
+            },
+            {
+              "key": "save/con",
+              "name": "Con",
+              "text": "Constitution Saving Throw: DC 12"
+            },
+            {
+              "key": "effect/curse",
+              "name": "Curse",
+              "text": "Failure: The target is cursed"
+            },
+            {
+              "key": "effect/cursed-becomes-werewolf",
+              "name": "Cursed becomes werewolf",
+              "text": "If the cursed target drops to 0 Hit Points, it instead becomes a Werewolf under the GM’s control and has 10 Hit Points"
+            },
+            {
+              "key": "save/success-immunity",
+              "name": "Success immunity",
+              "text": "Success: The target is immune to this werewolf’s curse for 24 hours"
+            }
+          ]
+        },
+        {
+          "id": "scratch",
+          "name": "Scratch",
+          "text": "Scratch. Melee Attack Roll: +5, reach 5 ft. Hit: 10 (2d6 + 3) Slashing damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 5,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 10,
+              "dice": 2,
+              "sides": 6,
+              "modifier": 3
+            },
+            "damage_type": "slashing"
+          },
+          "effects": [
+            {
+              "key": "effect/slashing-damage",
+              "name": "Slashing damage",
+              "text": "10 (2d6 + 3) Slashing damage.",
+              "dice": {
+                "average": 10,
+                "dice": 2,
+                "sides": 6,
+                "modifier": 3
+              }
+            }
+          ]
+        },
+        {
+          "id": "longbow",
+          "name": "Longbow",
+          "text": "Longbow (Humanoid or Hybrid Form Only). Ranged Attack Roll: +4, range 150/600 ft. Hit: 11 (2d8 + 2) Piercing damage.",
+          "key": "action/ranged-attack",
+          "attack": {
+            "kind": "ranged",
+            "bonus": 4,
+            "reach": 0,
+            "range": 150,
+            "long_range": 600,
+            "damage": {
+              "average": 11,
+              "dice": 2,
+              "sides": 8,
+              "modifier": 2
+            },
+            "damage_type": "piercing"
+          },
+          "effects": [
+            {
+              "key": "effect/piercing-damage",
+              "name": "Piercing damage",
+              "text": "11 (2d8 + 2) Piercing damage.",
+              "dice": {
+                "average": 11,
+                "dice": 2,
+                "sides": 8,
+                "modifier": 2
+              }
+            },
+            {
+              "key": "requirement/humanoid-or-hybrid-form",
+              "name": "Humanoid or hybrid form",
+              "text": "Humanoid or Hybrid Form Only"
+            }
+          ]
+        }
+      ],
+      "bonus_actions": [
+        {
+          "id": "shape-shift",
+          "name": "Shape-Shift",
+          "text": "Shape-Shift. The werewolf shape-shifts into a Large wolf-humanoid hybrid or a Medium wolf, or it returns to its true humanoid form. Its game statistics, other than its size, are the same in each form. Any equipment it is wearing or carrying isn’t transformed.",
+          "key": "action/special",
+          "effects": [
+            {
+              "key": "effect/shape-shift",
+              "name": "Shape shift",
+              "text": "The werewolf shape-shifts into a Large wolf-humanoid hybrid or a Medium wolf, or it returns to its true humanoid form"
+            },
+            {
+              "key": "effect/shapechange-form-limits",
+              "name": "Shapechange form limits",
+              "text": "Its game statistics, other than its size, are the same in each form"
+            },
+            {
+              "key": "effect/equipment-not-transformed",
+              "name": "Equipment not transformed",
+              "text": "Any equipment it is wearing or carrying isn’t transformed"
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/skills",
+        "movement/conditional-speed",
+        "sense/darkvision",
+        "action/bonus-action",
+        "trait/pack-tactics",
+        "attack/advantage-with-nearby-ally",
+        "requirement/ally-not-incapacitated",
+        "action/multiattack",
+        "action/melee-attack",
+        "action/ranged-attack",
+        "multiattack/any-combination",
+        "multiattack/replace-attack",
+        "effect/piercing-damage",
+        "requirement/wolf-or-hybrid-form",
+        "requirement/target-humanoid",
+        "save/con",
+        "effect/curse",
+        "effect/cursed-becomes-werewolf",
+        "save/success-immunity",
+        "effect/slashing-damage",
+        "requirement/humanoid-or-hybrid-form",
+        "action/special",
+        "effect/shape-shift",
+        "effect/shapechange-form-limits",
+        "effect/equipment-not-transformed"
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/monsters/white-dragon-wyrmling",
+      "name": "White Dragon Wyrmling",
+      "source_pages": [
+        339,
+        340
+      ],
+      "sizes": [
+        "medium"
+      ],
+      "type": "dragon",
+      "alignment": "Chaotic Evil",
+      "ac": 16,
+      "initiative": {
+        "modifier": 2,
+        "score": 12
+      },
+      "hp": {
+        "average": 32,
+        "dice": 5,
+        "sides": 8,
+        "modifier": 10
+      },
+      "speeds": {
+        "walk": 30,
+        "burrow": 15,
+        "fly": 60,
+        "swim": 30
+      },
+      "abilities": {
+        "str": {
+          "score": 14,
+          "modifier": 2,
+          "save": 2
+        },
+        "dex": {
+          "score": 10,
+          "modifier": 0,
+          "save": 2
+        },
+        "con": {
+          "score": 14,
+          "modifier": 2,
+          "save": 2
+        },
+        "int": {
+          "score": 5,
+          "modifier": -3,
+          "save": -3
+        },
+        "wis": {
+          "score": 10,
+          "modifier": 0,
+          "save": 2
+        },
+        "cha": {
+          "score": 11,
+          "modifier": 0,
+          "save": 0
+        }
+      },
+      "senses": {
+        "passive_perception": 14,
+        "special": {
+          "blindsight": 10,
+          "darkvision": 60
+        }
+      },
+      "languages": [
+        "Draconic"
+      ],
+      "gear": [],
+      "cr": "2",
+      "xp": 450,
+      "proficiency_bonus": 2,
+      "tags": [
+        "Chromatic"
+      ],
+      "skills": {
+        "perception": 4,
+        "stealth": 2
+      },
+      "immunities": [
+        "cold"
+      ],
+      "traits": [
+        {
+          "key": "trait/ice-walk",
+          "name": "Ice Walk",
+          "text": "Ice Walk. The dragon can move across and climb icy surfaces without needing to make an ability check. Additionally, Difficult Terrain composed of ice or snow doesn’t cost it extra movement.",
+          "requires": [
+            "movement/ice-walk",
+            "movement/ignore-difficult-terrain"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "multiattack",
+          "name": "Multiattack",
+          "text": "Multiattack. The dragon makes two Rend attacks.",
+          "key": "action/multiattack",
+          "effects": [
+            {
+              "key": "action/melee-attack",
+              "name": "Melee attack",
+              "text": "The dragon makes two Rend attacks"
+            }
+          ]
+        },
+        {
+          "id": "rend",
+          "name": "Rend",
+          "text": "Rend. Melee Attack Roll: +4, reach 5 ft. Hit: 6 (1d8 + 2) Slashing damage plus 2 (1d4) Cold damage.",
+          "key": "action/melee-attack",
+          "attack": {
+            "kind": "melee",
+            "bonus": 4,
+            "reach": 5,
+            "range": 0,
+            "long_range": 0,
+            "damage": {
+              "average": 6,
+              "dice": 1,
+              "sides": 8,
+              "modifier": 2
+            },
+            "damage_type": "slashing"
+          },
+          "effects": [
+            {
+              "key": "effect/slashing-damage",
+              "name": "Slashing damage",
+              "text": "6 (1d8 + 2) Slashing damage.",
+              "dice": {
+                "average": 6,
+                "dice": 1,
+                "sides": 8,
+                "modifier": 2
+              }
+            },
+            {
+              "key": "effect/cold-damage",
+              "name": "Cold damage",
+              "text": "2 (1d4) Cold damage",
+              "dice": {
+                "average": 2,
+                "dice": 1,
+                "sides": 4,
+                "modifier": 0
+              }
+            }
+          ]
+        },
+        {
+          "id": "cold-breath",
+          "name": "Cold Breath",
+          "text": "Cold Breath (Recharge 5–6). Constitution Saving Throw: DC 12, each creature in a 15-foot Cone. Failure: 22 (5d8) Cold damage. Success: Half damage.",
+          "key": "action/saving-throw",
+          "uses": {
+            "per_day": 0,
+            "lair_per_day": 0,
+            "recharge": 5
+          },
+          "save": {
+            "ability": "con",
+            "dc": 12
+          },
+          "target": {
+            "shape": "cone",
+            "size": 15,
+            "width": 0,
+            "range": 0
+          },
+          "effects": [
+            {
+              "key": "save/con",
+              "name": "Con",
+              "text": "Constitution Saving Throw: DC 12"
+            },
+            {
+              "key": "area/cone",
+              "name": "Cone",
+              "text": "each creature in a 15-foot Cone"
+            },
+            {
+              "key": "limit/recharge",
+              "name": "Recharge",
+              "text": "(Recharge 5–6)"
+            },
+            {
+              "key": "effect/cold-damage",
+              "name": "Cold damage",
+              "text": "22 (5d8) Cold damage",
+              "dice": {
+                "average": 22,
+                "dice": 5,
+                "sides": 8,
+                "modifier": 0
+              }
+            },
+            {
+              "key": "save/half-damage",
+              "name": "Half damage",
+              "text": "Success: Half damage."
+            }
+          ]
+        }
+      ],
+      "required_mechanics": [
+        "monster/stat-block",
+        "monster/skills",
+        "defense/damage-immunity",
+        "movement/burrow",
+        "movement/fly",
+        "movement/swim",
+        "sense/blindsight",
+        "sense/darkvision",
+        "trait/ice-walk",
+        "movement/ice-walk",
+        "movement/ignore-difficult-terrain",
+        "action/multiattack",
+        "action/melee-attack",
+        "effect/slashing-damage",
+        "effect/cold-damage",
+        "action/saving-throw",
+        "save/con",
+        "area/cone",
+        "limit/recharge",
+        "save/half-damage"
+      ]
+    }
+  ]
+}
