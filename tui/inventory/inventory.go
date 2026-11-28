@@ -7,12 +7,14 @@ import (
 	tea "github.com/charmbracelet/bubbletea"
 
 	"git.subcult.tv/subculture-collective/edda/tui/msgs"
+	"git.subcult.tv/subculture-collective/edda/tui/scrollbox"
 	"git.subcult.tv/subculture-collective/edda/tui/styles"
 )
 
 // Model is the Bubble Tea model for the inventory view.
 type Model struct {
 	width, height int
+	box           scrollbox.Model
 }
 
 // New returns a freshly initialised inventory Model.
@@ -30,16 +32,22 @@ func (m *Model) SetSize(width, height int) {
 func (m *Model) Init() tea.Cmd { return nil }
 
 // Update implements tea.Model. Pressing Escape emits NavigateBackMsg so the
-// parent App can return focus to the narrative view.
+// parent App can return focus to the narrative view. Other messages scroll a
+// sheet that does not fit.
 func (m *Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	if key, ok := msg.(tea.KeyMsg); ok && key.Type == tea.KeyEsc {
 		return m, func() tea.Msg { return msgs.NavigateBackMsg{} }
 	}
-	return m, nil
+	return m, m.box.Update(msg, m.content(), m.width, m.height)
 }
 
 // View implements tea.Model and renders the inventory placeholder.
 func (m Model) View() string {
+	return m.box.View(m.content(), m.width, m.height)
+}
+
+// content renders everything inside the box.
+func (m Model) content() string {
 	title := styles.Header.Render("🎒 Inventory")
 
 	placeholder := styles.SystemMessage.Render(
@@ -48,7 +56,5 @@ func (m Model) View() string {
 	hint := styles.Muted.Render("Press Esc to return to the narrative view.")
 
 	content := styles.JoinVertical(placeholder, "", hint)
-	return styles.Frame(styles.Container, m.width, 0).Render(
-		styles.JoinVertical(title, "", content),
-	)
+	return styles.JoinVertical(title, "", content)
 }
