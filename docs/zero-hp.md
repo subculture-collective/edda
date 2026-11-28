@@ -70,6 +70,13 @@ rolls nothing and takes no time; its `srd_death_save` receipt has the event
 load would write state from a read, and a data migration could not end
 Concentration or drop held items, so the repair is an explicit action.
 
+Inside an active encounter the repair runs when the player's turn starts, in
+the same confirmation, before that turn's Death Saving Throw. It applies
+Unconscious to the encounter's player actor through `ApplyConditionChange`
+and rolls nothing; the encounter result carries its receipt as
+`unconscious_repair` beside `death_save`. The save that follows uses the
+ordinary rules.
+
 Every roll is in a durable receipt (`zero_hp` on fall and NPC attack receipts,
 `death_save` on the encounter result, `srd_death_save` for the explicit
 action). Previews never roll or write. Replays return the saved result.
@@ -127,6 +134,3 @@ HP, counts, conditions, the potion and the clock. Evidence:
   for a potion given by another creature.
 - Falls while at 0 HP, monster death saves, Temporary Hit Points and HP
   maximum reduction.
-- A character left at 0 HP without Unconscious inside an active encounter
-  keeps rolling saves at the start of each turn without the condition; the
-  repair is available after the encounter completes.

@@ -76,44 +76,16 @@ func ZeroHPTurnReason(stats []byte, hp int, encounter *combat.Encounter) string 
 // the save is rolled at the start of the player's turn instead.
 // Preparation never rolls.
 func prepareDeathSave(ctx context.Context, database statedb.DBTX, campaign domain.Campaign, pc domain.PlayerCharacter, intent ActionIntent) (*StoredAction, error) {
-	p, err := prepareCharacterAction(ctx, campaign, pc, ActionIntent{ActorID: intent.ActorID, Kind: srd521.AbilityCheck, Ability: "strength"}, true)
-	if err != nil {
-		return nil, err
+	choices := intent.EntryID != "" || intent.Ability != "" || intent.Skill != "" || intent.SlotLevel != 0
+	result, saves, conditions, ok, err := prepareZeroHPAction(ctx, database, campaign, pc, intent, choices, zeroHPReasons{
+		Choices:   "A Death Saving Throw takes no choices.",
+		NotZero:   "Death Saving Throws are made only at 0 HP.",
+		Encounter: "In an encounter, the Death Saving Throw is rolled at the start of your turn. End your turn.",
+	})
+	if err != nil || !ok {
+		return result, err
 	}
-	result := &StoredAction{Preview: p}
-	p.Intent = intent
-	p.Modifier = nil
-	p.Options, p.SourceIDs = []string{}, []string{}
-	if !p.Available {
-		return result, nil
-	}
-	p.Available = false
-	if intent.EntryID != "" || intent.Ability != "" || intent.Skill != "" || intent.SlotLevel != 0 {
-		p.Reason = "A Death Saving Throw takes no choices."
-		return result, nil
-	}
-	if pc.HP != 0 {
-		p.Reason = "Death Saving Throws are made only at 0 HP."
-		return result, nil
-	}
-	encounter, err := ReadEncounter(ctx, database, campaign.ID)
-	if err != nil {
-		return nil, err
-	}
-	if encounter != nil && encounter.Status == "active" {
-		p.Reason = "In an encounter, the Death Saving Throw is rolled at the start of your turn. End your turn."
-		return result, nil
-	}
-	saves, err := srd521.DecodeDeathSaves(pc.Stats)
-	if err != nil {
-		p.Reason = err.Error()
-		return result, nil
-	}
-	conditions, err := srd521.DecodeConditions(pc.Stats)
-	if err != nil {
-		p.Reason = err.Error()
-		return result, nil
-	}
+	p := result.Preview
 	if result.Clock, err = ReadSpellClock(ctx, database, campaign.ID); err != nil {
 		return nil, err
 	}
@@ -138,4 +110,64 @@ func prepareDeathSave(ctx context.Context, database statedb.DBTX, campaign domai
 	p.Available = true
 	p.Reason = ""
 	return result, nil
+}
+
+// zeroHPReasons are the refusals of an action taken at 0 HP outside
+// encounters. A non-empty Unconscious refuses a character without that
+// condition (or with conditions that do not decode); otherwise a decoding
+// error is the reason.
+type zeroHPReasons struct {
+	Choices, NotZero, Encounter, Unconscious string
+}
+
+// prepareZeroHPAction runs the checks shared by the explicit Death Saving
+// Throw and an ally's aid: the character can take an action, takes no stray
+// choices, is at 0 HP, is outside an active encounter and has readable death
+// saves and conditions. ok is false when the returned preview is refused; the
+// preview is unavailable either way until the caller finishes it.
+func prepareZeroHPAction(ctx context.Context, database statedb.DBTX, campaign domain.Campaign, pc domain.PlayerCharacter, intent ActionIntent, choices bool, reasons zeroHPReasons) (*StoredAction, srd521.DeathSaves, srd521.Conditions, bool, error) {
+	var saves srd521.DeathSaves
+	var conditions srd521.Conditions
+	p, err := prepareCharacterAction(ctx, campaign, pc, ActionIntent{ActorID: intent.ActorID, Kind: srd521.AbilityCheck, Ability: "strength"}, true)
+	if err != nil {
+		return nil, saves, conditions, false, err
+	}
+	result := &StoredAction{Preview: p}
+	p.Intent = intent
+	p.Modifier = nil
+	p.Options, p.SourceIDs = []string{}, []string{}
+	if !p.Available {
+		return result, saves, conditions, false, nil
+	}
+	p.Available = false
+	if choices {
+		p.Reason = reasons.Choices
+		return result, saves, conditions, false, nil
+	}
+	if pc.HP != 0 {
+		p.Reason = reasons.NotZero
+		return result, saves, conditions, false, nil
+	}
+	encounter, err := ReadEncounter(ctx, database, campaign.ID)
+	if err != nil {
+		return nil, saves, conditions, false, err
+	}
+	if encounter != nil && encounter.Status == "active" {
+		p.Reason = reasons.Encounter
+		return result, saves, conditions, false, nil
+	}
+	if saves, err = srd521.DecodeDeathSaves(pc.Stats); err != nil {
+		p.Reason = err.Error()
+		return result, saves, conditions, false, nil
+	}
+	conditions, err = srd521.DecodeConditions(pc.Stats)
+	if reasons.Unconscious != "" && (err != nil || !conditions.Unconscious) {
+		p.Reason = reasons.Unconscious
+		return result, saves, conditions, false, nil
+	}
+	if err != nil {
+		p.Reason = err.Error()
+		return result, saves, conditions, false, nil
+	}
+	return result, saves, conditions, true, nil
 }

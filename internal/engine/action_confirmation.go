@@ -226,7 +226,7 @@ func (e *Engine) ConfirmAction(ctx context.Context, campaignID uuid.UUID, reques
 		// for the start of one 6-second turn, and Stable recovery for its hours.
 		// A character an older build left at 0 HP without Unconscious first
 		// gains it, which rolls nothing and takes no time.
-		save, err := repairUnconscious(ctx, tx, campaignID, pc.ID, dice)
+		save, err := repairUnconscious(ctx, tx, campaignID, pc.ID, nil, dice)
 		if err != nil {
 			return nil, err
 		}
@@ -659,8 +659,12 @@ func (e *Engine) ConfirmAction(ctx context.Context, campaignID uuid.UUID, reques
 			return nil, err
 		}
 		// A player turn that starts at 0 HP starts with a Death Saving Throw.
-		var deathSave *srd521.ZeroHPReceipt
+		// A character an older build left without Unconscious gains it first.
+		var deathSave, repair *srd521.ZeroHPReceipt
 		if encounter.Status == "active" && encounter.Active().Player && (encounter.Round != initialRound || encounter.Turn != initialTurn) {
+			if repair, err = repairUnconscious(ctx, tx, campaignID, encounter.Active().ID, encounter, dice); err != nil {
+				return nil, err
+			}
 			if deathSave, err = rollDeathSave(ctx, tx, campaignID, encounter.Active().ID, encounter, dice); err != nil {
 				return nil, err
 			}
@@ -673,6 +677,9 @@ func (e *Engine) ConfirmAction(ctx context.Context, campaignID uuid.UUID, reques
 			}
 		}
 		payload["encounter"] = encounter
+		if repair != nil {
+			payload["unconscious_repair"] = repair
+		}
 		if deathSave != nil {
 			payload["death_save"] = deathSave
 		}
@@ -738,6 +745,9 @@ func (e *Engine) ConfirmAction(ctx context.Context, campaignID uuid.UUID, reques
 			if attack.ZeroHP != nil {
 				narrative += " " + attack.ZeroHP.Reason
 			}
+		}
+		if repair != nil {
+			narrative += " " + repair.Reason
 		}
 		if deathSave != nil {
 			narrative += " " + deathSave.Reason

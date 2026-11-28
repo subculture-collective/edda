@@ -27,44 +27,17 @@ const AidPlayerProfile = "aid-player-v1"
 // which the ally acts and, if the player is still dying, the player's next
 // turn starts with a Death Saving Throw. Preparation never rolls.
 func prepareAllyAid(ctx context.Context, database statedb.DBTX, campaign domain.Campaign, pc domain.PlayerCharacter, intent ActionIntent, lock bool) (*StoredAction, error) {
-	p, err := prepareCharacterAction(ctx, campaign, pc, ActionIntent{ActorID: intent.ActorID, Kind: srd521.AbilityCheck, Ability: "strength"}, true)
-	if err != nil {
-		return nil, err
+	choices := intent.Ability != "" || intent.Skill != "" || intent.SlotLevel != 0
+	result, saves, _, ok, err := prepareZeroHPAction(ctx, database, campaign, pc, intent, choices, zeroHPReasons{
+		Choices:     "Ally aid takes only the kind of help: medicine or one of your Potions of Healing.",
+		NotZero:     "An ally's aid at 0 HP is for a character at 0 HP.",
+		Encounter:   "The two-actor encounter has no ally who can act. End your turn.",
+		Unconscious: "This character has 0 HP without the Unconscious condition; that state requires adjudication.",
+	})
+	if err != nil || !ok {
+		return result, err
 	}
-	result := &StoredAction{Preview: p}
-	p.Intent = intent
-	p.Modifier = nil
-	p.Options, p.SourceIDs = []string{}, []string{}
-	if !p.Available {
-		return result, nil
-	}
-	p.Available = false
-	if intent.Ability != "" || intent.Skill != "" || intent.SlotLevel != 0 {
-		p.Reason = "Ally aid takes only the kind of help: medicine or one of your Potions of Healing."
-		return result, nil
-	}
-	if pc.HP != 0 {
-		p.Reason = "An ally's aid at 0 HP is for a character at 0 HP."
-		return result, nil
-	}
-	encounter, err := ReadEncounter(ctx, database, campaign.ID)
-	if err != nil {
-		return nil, err
-	}
-	if encounter != nil && encounter.Status == "active" {
-		p.Reason = "The two-actor encounter has no ally who can act. End your turn."
-		return result, nil
-	}
-	saves, err := srd521.DecodeDeathSaves(pc.Stats)
-	if err != nil {
-		p.Reason = err.Error()
-		return result, nil
-	}
-	conditions, err := srd521.DecodeConditions(pc.Stats)
-	if err != nil || !conditions.Unconscious {
-		p.Reason = "This character has 0 HP without the Unconscious condition; that state requires adjudication."
-		return result, nil
-	}
+	p := result.Preview
 	var item []any
 	potion := intent.EntryID != srd521.AllyAidMedicine
 	if !potion {
