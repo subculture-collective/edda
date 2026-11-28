@@ -61,4 +61,10 @@ func TestTUIFaithExplicitConfirmationRetry(t *testing.T) {
 	if a.faithRequest != nil || len(m.requests) != 2 {
 		t.Fatal("cancel committed")
 	}
+	// The spell-neutral command prepares the same end-concentration action.
+	send("/end-concentration " + actor.String())
+	if a.faithRequest == nil || a.faithRequest.TargetID != uuid.Nil || a.faithRequest.Intent.Kind != "concentration-end" {
+		t.Fatal("spell-neutral ending not prepared")
+	}
+	send("/cancel-faith")
 }

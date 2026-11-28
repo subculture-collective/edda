@@ -35,7 +35,8 @@ are deliberately installed only in disposable tests; discovery from prose,
 catalogue presence or a client-provided ruling is unsupported.
 
 The local TUI accepts `/faith` followed by explicit caster and recipient UUIDs,
-or `/end-faith` followed by the caster UUID. Both only prepare. `/confirm-faith`
+or `/end-faith` followed by the caster UUID. `/end-concentration` is the same
+command for any concentration spell. All of them only prepare. `/confirm-faith`
 commits the saved request; `/cancel-faith` dismisses it. An uncertain delivery
 retains the same action ID for retry. The TUI checks caster ownership against the
 campaign owner and uses the same preparation and confirmation engine as the API.
