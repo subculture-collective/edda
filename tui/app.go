@@ -115,6 +115,11 @@ type App struct {
 	faithRequest *engine.PreparedAction
 	lightRequest *engine.PreparedAction
 	fallRequest  *engine.PreparedAction
+	// doorRequest, travelRequest and standRequest are the previewed exploration
+	// actions awaiting confirmation.
+	doorRequest   *engine.PreparedAction
+	travelRequest *engine.PreparedAction
+	standRequest  *engine.PreparedAction
 	// deathSaveRequest is the previewed Death Saving Throw awaiting confirmation.
 	deathSaveRequest *engine.PreparedAction
 
@@ -226,6 +231,9 @@ func (a App) Init() tea.Cmd { return nil }
 // switching) and forwards all other messages to the active sub-model.
 func (a App) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	if cmd, handled := a.updateLight(msg); handled {
+		return a, cmd
+	}
+	if cmd, handled := a.updateExploration(msg); handled {
 		return a, cmd
 	}
 	if cmd, handled := a.updateFall(msg); handled {
