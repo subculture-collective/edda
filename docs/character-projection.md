@@ -6,7 +6,10 @@ unsupported builds return sheet_unavailable; they never use the legacy XP curve.
 For an unsupported build, sheet_unavailable says what is wrong with the saved
 build. When the server fails to load the sheet (a database or game error), it is
 a fixed message and the cause goes only to the server log.
-The TUI can consume the same srd521.Project function without web dependencies.
+The route and the TUI's Character tab both derive the sheet with
+game.ProjectCharacterSheet, which wraps srd521.Project and adds the saved
+conditions, active effects and exploration choices. The TUI shows the same
+sheet_unavailable distinction.
 
 This slice projects an explicit level-one Fighter with chain mail, the Defense
 fighting style, an optional shield, six scores, recorded skill proficiencies,

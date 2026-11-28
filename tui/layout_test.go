@@ -2,6 +2,7 @@ package tui
 
 import (
 	"context"
+	"encoding/json"
 	"errors"
 	"fmt"
 	"log/slog"
@@ -19,14 +20,15 @@ import (
 
 	"git.subcult.tv/subculture-collective/edda/internal/bootstrap"
 	"git.subcult.tv/subculture-collective/edda/internal/dbutil"
+	"git.subcult.tv/subculture-collective/edda/internal/domain"
 	"git.subcult.tv/subculture-collective/edda/internal/engine"
+	"git.subcult.tv/subculture-collective/edda/internal/game"
 	"git.subcult.tv/subculture-collective/edda/internal/llm"
 	"git.subcult.tv/subculture-collective/edda/internal/logging"
 	statedb "git.subcult.tv/subculture-collective/edda/internal/state/sqlc"
 	"git.subcult.tv/subculture-collective/edda/internal/world"
 	"git.subcult.tv/subculture-collective/edda/tui/campaign"
 	"git.subcult.tv/subculture-collective/edda/tui/narrative"
-	"git.subcult.tv/subculture-collective/edda/tui/quest"
 )
 
 var layoutSizes = []struct{ width, height int }{
@@ -715,22 +717,40 @@ func tabScreens(t *testing.T, app App, k tea.Msg, width, height int) []string {
 }
 
 func TestLayout_TabContentScrolls(t *testing.T) {
-	var quests []quest.Quest
+	records := &game.PlayerRecords{Character: &game.CharacterRecord{
+		PlayerCharacter: domain.PlayerCharacter{Name: "Mara", Level: 1, Status: "active"},
+		RulesVersion:    "legacy",
+	}}
+	stats := map[string]string{}
 	for i := range 6 {
-		quests = append(quests, quest.Quest{
-			Name: fmt.Sprintf("QUEST%d The Debts of the Drowned Kingdom and Everyone Still Owed", i),
-			Objectives: []quest.Objective{
-				{Description: longField(fmt.Sprintf("OBJECTIVE%dEND", i))[500:], Status: quest.ObjectiveStatus(i % 3)},
-				{Description: "Find the ledger", Status: quest.StatusPending},
+		stats[fmt.Sprintf("stat%d", i)] = longField(fmt.Sprintf("STAT%dEND", i))[500:]
+		records.Inventory = append(records.Inventory, domain.Item{
+			Name:        fmt.Sprintf("ITEM%d The Lantern of the Drowned Kingdom's Last Archivist", i),
+			ItemType:    domain.ItemTypeMisc,
+			Description: longField(fmt.Sprintf("ITEM%dEND", i))[500:], Quantity: 1,
+		})
+		records.Quests = append(records.Quests, game.QuestRecord{
+			Quest: domain.Quest{
+				Title:  fmt.Sprintf("QUEST%d The Debts of the Drowned Kingdom and Everyone Still Owed", i),
+				Status: domain.QuestStatusActive,
+			},
+			Objectives: []domain.QuestObjective{
+				{Description: longField(fmt.Sprintf("OBJECTIVE%dEND", i))[500:], Completed: i%2 == 0},
+				{Description: "Find the ledger"},
 			},
 		})
 	}
+	encoded, err := json.Marshal(stats)
+	if err != nil {
+		t.Fatal(err)
+	}
+	records.Character.Stats = encoded
 	tabs := []struct {
 		state ViewState
 		want  []string // text that scrolling must reach, with spaces removed
 	}{
-		{ViewCharacterSheet, []string{"CharacterSheet", "futureupdate.", "narrativeview."}},
-		{ViewInventory, []string{"Inventory", "futureupdate.", "narrativeview."}},
+		{ViewCharacterSheet, []string{"CharacterSheet", "Mara", "STAT0END", "STAT5END", "narrativeview."}},
+		{ViewInventory, []string{"Inventory", "ITEM0", "ITEM0END", "ITEM5END", "narrativeview."}},
 		{ViewQuestLog, []string{"QuestLog", "QUEST0", "OBJECTIVE0END", "QUEST5", "OBJECTIVE5END"}},
 	}
 	// words joins the words on every screen, so that wrapped text is found.
@@ -746,8 +766,7 @@ func TestLayout_TabContentScrolls(t *testing.T) {
 		for _, tab := range tabs {
 			newApp := func(t *testing.T) App {
 				app := resize(t, testApp(), size.width, size.height)
-				qv := app.router.tabs[ViewQuestLog].View.(*quest.Model)
-				qv.Quests = quests
+				app.records.show(records)
 				app.router.GoToTab(int(tab.state))
 				return app
 			}
@@ -771,7 +790,7 @@ func TestLayout_TabContentScrolls(t *testing.T) {
 
 	t.Run("scrolling back, resizing and leaving", func(t *testing.T) {
 		app := resize(t, testApp(), 80, 16)
-		app.router.tabs[ViewQuestLog].View.(*quest.Model).Quests = quests
+		app.records.show(records)
 		app.router.GoToTab(int(ViewQuestLog))
 		top := app.View()
 		if !strings.Contains(top, "scroll") {
@@ -795,6 +814,7 @@ func TestLayout_TabContentScrolls(t *testing.T) {
 
 	t.Run("short content has no scroll hint", func(t *testing.T) {
 		app := resize(t, testApp(), 80, 24)
+		app.records.show(&game.PlayerRecords{})
 		for _, state := range []ViewState{ViewCharacterSheet, ViewInventory, ViewQuestLog} {
 			app.router.GoToTab(int(state))
 			if view := app.View(); strings.Contains(view, "scroll") {

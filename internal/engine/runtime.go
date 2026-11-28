@@ -250,6 +250,12 @@ func (e *Engine) GetGameState(ctx context.Context, campaignID uuid.UUID) (*GameS
 	return GameStateFromFull(state), nil
 }
 
+// PlayerRecords reads the saved character, inventory and quests. It is not part
+// of GameEngine: only a client that draws these beside the narrative needs it.
+func (e *Engine) PlayerRecords(ctx context.Context, campaignID uuid.UUID) (*game.PlayerRecords, error) {
+	return game.LoadPlayerRecords(ctx, e.queries, e.baseDB, campaignID)
+}
+
 func (e *Engine) NewCampaign(ctx context.Context, userID uuid.UUID) (*domain.Campaign, error) {
 	return e.state.CreateCampaign(ctx, game.CreateCampaignParams{
 		Name:   bootstrap.DefaultCampaignName,

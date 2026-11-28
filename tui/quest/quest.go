@@ -1,60 +1,53 @@
-// Package quest provides the quest log view for the TUI.
-// It renders active and completed objectives using the shared styles package.
+// Package quest provides the quest log view for the TUI. It shows the
+// campaign's quests and their objectives.
 package quest
 
 import (
+	"slices"
 	"strings"
 
 	tea "github.com/charmbracelet/bubbletea"
 
+	"git.subcult.tv/subculture-collective/edda/internal/domain"
+	"git.subcult.tv/subculture-collective/edda/internal/game"
 	"git.subcult.tv/subculture-collective/edda/tui/msgs"
 	"git.subcult.tv/subculture-collective/edda/tui/scrollbox"
 	"git.subcult.tv/subculture-collective/edda/tui/styles"
 )
 
-// ObjectiveStatus tracks whether an objective is pending, completed, or failed.
-type ObjectiveStatus int
-
-const (
-	StatusPending ObjectiveStatus = iota
-	StatusComplete
-	StatusFailed
-)
-
-// Objective is a single task within a quest.
-type Objective struct {
-	Description string
-	Status      ObjectiveStatus
-}
-
-// Quest groups a name with its list of objectives.
-type Quest struct {
-	Name       string
-	Objectives []Objective
-}
-
 // Model is the Bubble Tea model for the quest log view.
 type Model struct {
 	width, height int
 	box           scrollbox.Model
-	Quests        []Quest
+
+	quests []game.QuestRecord
+	loaded bool
+	notice string
 }
 
-// New returns a freshly initialised quest Model with a placeholder quest.
+// New returns a quest Model that has nothing to show yet.
 func New() Model {
-	return Model{
-		Quests: []Quest{
-			{
-				Name: "The Missing Merchant",
-				Objectives: []Objective{
-					{Description: "Speak to the innkeeper", Status: StatusComplete},
-					{Description: "Investigate the east road", Status: StatusPending},
-					{Description: "Find the missing cart", Status: StatusPending},
-				},
-			},
-		},
-	}
+	return Model{}
 }
+
+// Show replaces the log with quests. Active quests come first; otherwise the
+// given order stays.
+func (m *Model) Show(quests []game.QuestRecord) {
+	quests = slices.Clone(quests)
+	slices.SortStableFunc(quests, func(a, b game.QuestRecord) int { return finished(a) - finished(b) })
+	m.quests, m.loaded, m.notice = quests, true, ""
+}
+
+func finished(q game.QuestRecord) int {
+	if q.Status == domain.QuestStatusActive {
+		return 0
+	}
+	return 1
+}
+
+// Notify says why the log is missing or may be out of date. Quests that are
+// already shown stay.
+func (m *Model) Notify(notice string) { m.notice = notice }
 
 // SetSize updates the viewport dimensions.
 func (m *Model) SetSize(width, height int) {
@@ -82,35 +75,48 @@ func (m Model) View() string {
 
 // content renders everything inside the box.
 func (m Model) content() string {
-	title := styles.Header.Render("📜 Quest Log")
-
-	var sections []string
-	for _, q := range m.Quests {
-		questName := styles.SubHeader.Render("◆ " + q.Name)
-		var objLines []string
-		for _, obj := range q.Objectives {
-			objLines = append(objLines, renderObjective(obj))
+	lines := []string{styles.Header.Render("📜 Quest Log"), ""}
+	if m.notice != "" {
+		lines = append(lines, styles.SystemMessage.Render(m.notice))
+	}
+	switch {
+	case !m.loaded:
+	case len(m.quests) == 0:
+		lines = append(lines, styles.Muted.Render("No quests yet."))
+	default:
+		sections := make([]string, len(m.quests))
+		for i, q := range m.quests {
+			sections[i] = renderQuest(q)
 		}
-		sections = append(sections, styles.JoinVertical(
-			append([]string{questName}, objLines...)...,
-		))
+		lines = append(lines, strings.Join(sections, "\n\n"))
 	}
-
-	if len(sections) == 0 {
-		sections = []string{styles.Muted.Render("  No active quests.")}
-	}
-
-	content := strings.Join(sections, "\n\n")
-	return styles.JoinVertical(title, "", content)
+	return styles.JoinVertical(lines...)
 }
 
-func renderObjective(obj Objective) string {
-	switch obj.Status {
-	case StatusComplete:
-		return styles.StatusSuccess.Render("  ✓ ") + styles.Muted.Render(obj.Description)
-	case StatusFailed:
-		return styles.StatusError.Render("  ✗ ") + styles.Muted.Render(obj.Description)
+func renderQuest(q game.QuestRecord) string {
+	name := styles.SubHeader.Render("◆ " + q.Title)
+	if q.Status != domain.QuestStatusActive {
+		name += styles.Muted.Render("  (" + string(q.Status) + ")")
+	}
+	lines := []string{name}
+	if q.Description != "" {
+		lines = append(lines, styles.Body.Render("  "+q.Description))
+	}
+	for _, objective := range q.Objectives {
+		lines = append(lines, renderObjective(objective, q.Status))
+	}
+	return styles.JoinVertical(lines...)
+}
+
+// renderObjective marks an objective done, still open, or lost with a failed
+// quest.
+func renderObjective(objective domain.QuestObjective, status domain.QuestStatus) string {
+	switch {
+	case objective.Completed:
+		return styles.StatusSuccess.Render("  ✓ ") + styles.Muted.Render(objective.Description)
+	case status == domain.QuestStatusFailed:
+		return styles.StatusError.Render("  ✗ ") + styles.Muted.Render(objective.Description)
 	default:
-		return styles.Muted.Render("  ○ ") + styles.Body.Render(obj.Description)
+		return styles.Muted.Render("  ○ ") + styles.Body.Render(objective.Description)
 	}
 }

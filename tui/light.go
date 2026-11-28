@@ -152,7 +152,7 @@ func (a *App) lightPrepared(msg lightPreparedMsg) {
 			if light.Covered {
 				covered = " Covered: it sheds no light until uncovered."
 			}
-			text = fmt.Sprintf("Active Light on %s (%s), expires %s.%s", msg.stored.LightItem, light.Color, campaignTime(light.ExpiresAt), covered)
+			text = fmt.Sprintf("Active Light on %s (%s), expires %s.%s", msg.stored.LightItem, light.Color, game.FormatCampaignTime(light.ExpiresAt), covered)
 			if !preview.Available {
 				text += " " + preview.Reason
 			}
@@ -192,9 +192,4 @@ func (a *App) systemSay(text string) {
 	if nv := a.narrativeView(); nv != nil {
 		nv.AddEntry(narrative.Entry{Kind: narrative.KindSystem, Text: text})
 	}
-}
-
-// campaignTime matches the web client's campaign clock format.
-func campaignTime(seconds int) string {
-	return fmt.Sprintf("Day %d, %02d:%02d:%02d", seconds/86400+1, seconds/3600%24, seconds/60%60, seconds%60)
 }

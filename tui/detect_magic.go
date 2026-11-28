@@ -126,7 +126,7 @@ func (a *App) detectMagicPrepared(msg detectMagicPreparedMsg) {
 	if msg.status {
 		text := "No active concentration shown."
 		if c := msg.stored.Concentration; c != nil {
-			text = fmt.Sprintf("Active concentration: %s, expires %s.", srd521.ConcentrationLabel(c.Spell), campaignTime(c.ExpiresAt))
+			text = fmt.Sprintf("Active concentration: %s, expires %s.", srd521.ConcentrationLabel(c.Spell), game.FormatCampaignTime(c.ExpiresAt))
 		}
 		if !preview.Available {
 			text += " " + preview.Reason
