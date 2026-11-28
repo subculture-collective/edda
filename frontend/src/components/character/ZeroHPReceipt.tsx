@@ -1,7 +1,5 @@
-import type { DeathSaves, ZeroHPReceipt as Receipt } from '../../api/types';
-
-// deathSaveText states the saved 0-HP counts, Stable or dead.
-export const deathSaveText = (saves: DeathSaves) => saves.dead ? 'Dead.' : saves.stable ? 'Stable at 0 HP; still Unconscious.' : `Death Saving Throws: ${saves.successes ?? 0} successes, ${saves.failures ?? 0} failures.`;
+import type { ZeroHPReceipt as Receipt } from '../../api/types';
+import { deathSaveText } from './deathSaveText';
 
 // The die, the counts and the HP come from the server.
 export function ZeroHPReceipt({ receipt }: { readonly receipt: Receipt }) {

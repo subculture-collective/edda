@@ -22,7 +22,7 @@ The browser suite covers campaign and character interviews through world creatio
 
 Import `test`, `expect` and `signIn` from `browser/fixtures.ts`. The `game` fixture exposes sockets, submitted actions and API request records. Use `await page.setViewportSize({ width: 390, height: 844 })` before navigation, then `await signIn(page)` and `await page.goto('/play/alpha')`. Campaign beta has distinct history. Extend `fixtures/data.ts` for long transcripts or resource-rich scenes and map each extra endpoint explicitly. The viewport checks in `browser/viewport.spec.ts` and `browser/qualification.spec.ts` cover the screen-fitting layout; the baseline investigation remains in `docs/playtest/issue-46/README.md`.
 
-`Frontend behavior` runs unit/interaction checks, browser journeys and the build on GitHub branch pushes, and is required by `Mirror CI gate`. Traces remain in ignored `test-results/` on failures. Full lint reports 22 existing source errors on the #78 starting revision cf0a61f (React hook/compiler and Fast Refresh rules); new harness files lint cleanly. That unrelated debt is not disabled or added to this CI gate.
+`Frontend behavior` runs lint, unit/interaction checks, browser journeys and the build on GitHub branch pushes, and is required by `Mirror CI gate`. Lint errors fail the job. Traces remain in ignored `test-results/` on failures.
 
 ## Incremental narration
 

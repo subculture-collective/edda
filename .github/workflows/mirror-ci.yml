@@ -172,6 +172,8 @@ jobs:
           node-version: 24
       - name: Install frontend dependencies
         run: corepack enable && pnpm install --frozen-lockfile
+      - name: Lint the frontend
+        run: pnpm lint
       - name: Install Chromium
         run: pnpm exec playwright install --with-deps chromium
       - name: Check frontend behavior

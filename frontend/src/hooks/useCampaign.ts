@@ -6,7 +6,7 @@ export function useCampaign(): CampaignContextValue {
   const context = useContext(CampaignContext);
 
   if (context === null) {
-    throw new Error('useCampaign must be used within a CampaignProvider');
+    throw new Error('useCampaign must be used within a CampaignContext provider');
   }
 
   return context;

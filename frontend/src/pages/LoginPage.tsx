@@ -2,7 +2,7 @@ import { type FormEvent, useState } from 'react';
 import { Link, useNavigate } from 'react-router';
 
 import { login } from '../api/auth';
-import { useAuth } from '../context/AuthContext';
+import { useAuth } from '../context/auth';
 
 export function LoginPage() {
   const navigate = useNavigate();

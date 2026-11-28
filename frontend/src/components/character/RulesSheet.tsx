@@ -2,7 +2,7 @@ import type { ActionPreview, CharacterSheetProjection, CheckReceipt as Receipt, 
 import { formatCampaignSeconds } from '../../lib/campaignTime';
 import { ActionPreviewPanel } from './ActionPreviewPanel';
 import { CheckReceipt } from './CheckReceipt';
-import { deathSaveText } from './ZeroHPReceipt';
+import { deathSaveText } from './deathSaveText';
 
 export function RulesSheet({ sheet, receipts = [], campaignId, actorId, initialPreview }: { readonly campaignId?: string; readonly actorId?: string; readonly sheet: CharacterSheetProjection; readonly receipts?: readonly Receipt[]; readonly initialPreview?: ActionPreview }) {
   return <section aria-label="SRD character sheet" className="space-y-5 text-champagne">

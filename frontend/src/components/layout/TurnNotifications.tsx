@@ -33,15 +33,25 @@ function deriveNotifications(changes: StateChange[]): Notification[] {
 export function TurnNotifications({ stateChanges }: TurnNotificationsProps) {
   const [visible, setVisible] = useState<Notification[]>([]);
   const [dismissing, setDismissing] = useState<Set<string>>(new Set());
+  const [shownChanges, setShownChanges] = useState<StateChange[] | null>(null);
 
-  useEffect(() => {
+  // A batch with nothing to announce leaves the current notifications alone. It
+  // is not remembered: the caller passes a new empty array on every render.
+  if (stateChanges !== shownChanges) {
     const next = deriveNotifications(stateChanges);
-    if (next.length === 0) return;
-    setVisible(next);
-    setDismissing(new Set());
+    if (next.length > 0) {
+      setShownChanges(stateChanges);
+      setVisible(next);
+      setDismissing(new Set());
+    }
+  }
+
+  // Keyed on the shown notifications, so a later empty batch keeps the timers.
+  useEffect(() => {
+    if (visible.length === 0) return;
 
     const fadeTimer = setTimeout(() => {
-      setDismissing(new Set(next.map((n) => n.id)));
+      setDismissing(new Set(visible.map((n) => n.id)));
     }, DISMISS_MS - 500);
 
     const clearTimer = setTimeout(() => {
@@ -53,7 +63,7 @@ export function TurnNotifications({ stateChanges }: TurnNotificationsProps) {
       clearTimeout(fadeTimer);
       clearTimeout(clearTimer);
     };
-  }, [stateChanges]);
+  }, [visible]);
 
   if (visible.length === 0) return null;
 

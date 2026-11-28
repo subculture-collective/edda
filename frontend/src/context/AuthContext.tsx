@@ -1,24 +1,15 @@
-import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { PropsWithChildren } from 'react';
 
 import { getMe, logout as logoutRequest } from '../api/auth';
 import { clearStoredSession, getStoredToken, getStoredUser, setStoredSession, type AuthUser } from '../api/authSession';
-
-export interface AuthContextValue {
-  readonly user: AuthUser | null;
-  readonly token: string | null;
-  readonly isAuthenticated: boolean;
-  readonly isLoading: boolean;
-  readonly setSession: (token: string, user: AuthUser) => void;
-  readonly logout: () => Promise<void>;
-}
-
-const AuthContext = createContext<AuthContextValue | null>(null);
+import { AuthContext, type AuthContextValue } from './auth';
 
 export function AuthProvider({ children }: PropsWithChildren) {
   const [token, setToken] = useState<string | null>(getStoredToken);
   const [user, setUser] = useState<AuthUser | null>(getStoredUser);
-  const [isLoading, setIsLoading] = useState(true);
+  // Only a stored token needs validating before the app can render.
+  const [isLoading, setIsLoading] = useState(() => !!token);
 
   const didValidate = useRef(false);
 
@@ -26,10 +17,7 @@ export function AuthProvider({ children }: PropsWithChildren) {
     if (didValidate.current) return;
     didValidate.current = true;
 
-    if (!token) {
-      setIsLoading(false);
-      return;
-    }
+    if (!token) return;
 
     // Validate token against the server on initial load.
     getMe(token)
@@ -77,12 +65,4 @@ export function AuthProvider({ children }: PropsWithChildren) {
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
-}
-
-export function useAuth(): AuthContextValue {
-  const ctx = useContext(AuthContext);
-  if (!ctx) {
-    throw new Error('useAuth must be used within an AuthProvider');
-  }
-  return ctx;
 }
