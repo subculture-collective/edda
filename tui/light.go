@@ -58,7 +58,7 @@ func (a *App) updateLight(msg tea.Msg) (tea.Cmd, bool) {
 			a.lightRequest = nil
 			text = msg.result.Narrative
 		}
-		a.lightSay(text)
+		a.systemSay(text)
 		return nil, true
 	case narrative.SubmitMsg:
 		fields := strings.Fields(msg.Input)
@@ -81,17 +81,17 @@ func (a *App) submitLight(fields []string) tea.Cmd {
 	ctx, campaign := a.ctx, dbutil.FromPgtype(a.campaign.ID)
 	command, args := fields[0], fields[1:]
 	if command != "/light" && len(args) != 0 {
-		a.lightSay(lightUsage)
+		a.systemSay(lightUsage)
 		return nil
 	}
 	switch command {
 	case "/cancel-light":
 		a.lightRequest = nil
-		a.lightSay("Light confirmation dismissed.")
+		a.systemSay("Light confirmation dismissed.")
 		return nil
 	case "/confirm-light":
 		if a.lightRequest == nil {
-			a.lightSay(lightUsage)
+			a.systemSay(lightUsage)
 			return nil
 		}
 		request := *a.lightRequest
@@ -119,17 +119,17 @@ func (a *App) submitLight(fields []string) tea.Cmd {
 		if len(args) == 2 {
 			number, err := strconv.Atoi(args[1])
 			if err != nil || number < 1 {
-				a.lightSay(lightUsage)
+				a.systemSay(lightUsage)
 				return nil
 			}
 			prepared.object = number
 		}
 	default:
-		a.lightSay(lightUsage)
+		a.systemSay(lightUsage)
 		return nil
 	}
 	if a.lightRequest != nil && !prepared.status {
-		a.lightSay("Confirm/retry or cancel the pending Light action first.")
+		a.systemSay("Confirm/retry or cancel the pending Light action first.")
 		return nil
 	}
 	a.turnBusy = true
@@ -141,7 +141,7 @@ func (a *App) submitLight(fields []string) tea.Cmd {
 
 func (a *App) lightPrepared(msg lightPreparedMsg) {
 	if msg.err != nil || msg.stored == nil || msg.stored.Preview == nil {
-		a.lightSay("Light is unavailable for this campaign's character.")
+		a.systemSay("Light is unavailable for this campaign's character.")
 		return
 	}
 	preview := msg.stored.Preview
@@ -157,11 +157,11 @@ func (a *App) lightPrepared(msg lightPreparedMsg) {
 				text += " " + preview.Reason
 			}
 		}
-		a.lightSay(text + " Colors: " + strings.Join(srd521.LightColors, ", ") + ". " + lightUsage)
+		a.systemSay(text + " Colors: " + strings.Join(srd521.LightColors, ", ") + ". " + lightUsage)
 		return
 	}
 	if !preview.Available {
-		a.lightSay(preview.Reason)
+		a.systemSay(preview.Reason)
 		return
 	}
 	request := engine.PreparedAction{ActionID: uuid.New(), ExpectedRevision: preview.ExpectedRevision, Intent: preview.Intent}
@@ -173,21 +173,22 @@ func (a *App) lightPrepared(msg lightPreparedMsg) {
 				lines = append(lines, fmt.Sprintf("%d. %s", i+1, target.Label))
 			}
 			color, _ := game.LightColor(preview.Intent.EntryID)
-			a.lightSay(strings.Join(lines, "\n") + "\nType /light " + color + " <number> to preview the cast. Nothing spent.")
+			a.systemSay(strings.Join(lines, "\n") + "\nType /light " + color + " <number> to preview the cast. Nothing spent.")
 			return
 		}
 		if msg.object > len(preview.Targets) {
-			a.lightSay("That object number is not offered; list the carried objects again with /light <color>.")
+			a.systemSay("That object number is not offered; list the carried objects again with /light <color>.")
 			return
 		}
 		target := preview.Targets[msg.object-1]
 		request.TargetID, object = target.ID, " Object: "+target.Label+"."
 	}
 	a.lightRequest = &request
-	a.lightSay("Preview only: " + strings.Join(preview.Options, " ") + object + " /confirm-light to commit; /cancel-light to dismiss.")
+	a.systemSay("Preview only: " + strings.Join(preview.Options, " ") + object + " /confirm-light to commit; /cancel-light to dismiss.")
 }
 
-func (a *App) lightSay(text string) {
+// systemSay adds a system line to the narrative view.
+func (a *App) systemSay(text string) {
 	if nv := a.narrativeView(); nv != nil {
 		nv.AddEntry(narrative.Entry{Kind: narrative.KindSystem, Text: text})
 	}

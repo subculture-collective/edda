@@ -152,6 +152,16 @@ func TestIntegrationDetectMagicMagicInitiate(t *testing.T) {
 	if p := prepare(srd521.SpellCast, srd521.DetectMagicID, 0); p.Available || !strings.Contains(p.Reason, "spent") {
 		t.Fatalf("spent free use available: %+v", p)
 	}
+	// The TUI preview selects the owner's character, carries the live
+	// concentration for status and writes nothing.
+	tui, err := newEngine().PreviewDetectMagic(ctx, campaign, game.ActionIntent{Kind: srd521.DetectMagicStudy})
+	must(err)
+	if !tui.Preview.Available || tui.Preview.Intent.ActorID != actor || tui.Concentration == nil || tui.Concentration.ID != castReq.ActionID.String() {
+		t.Fatalf("TUI preview: %+v", tui)
+	}
+	if _, err := newEngine().PreviewDetectMagic(ctx, campaign, game.ActionIntent{Kind: srd521.SpellCast, EntryID: "shield-of-faith"}); !errors.Is(err, engine.ErrActionRefresh) {
+		t.Fatalf("other spell previewed: %v", err)
+	}
 	// Study discloses only the visible, unblocked, in-range, player-known bearer.
 	studyReq, study := confirm(prepare(srd521.DetectMagicStudy, "", 0))
 	var studyPayload struct {

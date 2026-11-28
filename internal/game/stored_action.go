@@ -40,6 +40,7 @@ type StoredAction struct {
 	Encounter      *combat.Encounter
 	Sight          *combat.Sight
 	Magic          []srd521.DetectMagicSubject
+	Concentration  *srd521.Concentration
 	LightObjects   []LightObject
 	Light          *srd521.LightEffect
 	LightItem      string

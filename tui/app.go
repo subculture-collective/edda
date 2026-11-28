@@ -115,6 +115,8 @@ type App struct {
 	faithRequest *engine.PreparedAction
 	lightRequest *engine.PreparedAction
 
+	detectMagicRequest *engine.PreparedAction
+
 	tacticalRequest *engine.PreparedAction
 	surgeRequest    *engine.PreparedAction
 
@@ -159,7 +161,7 @@ func NewAppWithEngine(cfg config.Config, campaign statedb.Campaign, ctx context.
 	// Seed the narrative log with a welcome message for the selected campaign.
 	nv.AddEntry(narrative.Entry{
 		Kind: narrative.KindSystem,
-		Text: fmt.Sprintf("Welcome to Edda  ·  Provider: %s · /action-surge: preview level-two Fighter encounter feature · /easy-athletics: Edda Easy Athletics DC 10 fixture · /light: Light cantrip", cfg.LLM.Provider),
+		Text: fmt.Sprintf("Welcome to Edda  ·  Provider: %s · /action-surge: preview level-two Fighter encounter feature · /easy-athletics: Edda Easy Athletics DC 10 fixture · /light: Light cantrip · /detect-magic: Magic Initiate Detect Magic", cfg.LLM.Provider),
 	})
 	if campaign.Name != "" {
 		nv.AddEntry(narrative.Entry{
@@ -221,6 +223,9 @@ func (a App) Init() tea.Cmd { return nil }
 // switching) and forwards all other messages to the active sub-model.
 func (a App) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	if cmd, handled := a.updateLight(msg); handled {
+		return a, cmd
+	}
+	if cmd, handled := a.updateDetectMagic(msg); handled {
 		return a, cmd
 	}
 	switch msg := msg.(type) {

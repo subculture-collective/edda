@@ -60,6 +60,9 @@ func prepareDetectMagic(ctx context.Context, database statedb.DBTX, campaign dom
 			return nil, err
 		}
 		c := sheet.Concentration
+		if c != nil && c.StartedAt <= now && c.ExpiresAt > now {
+			result.Concentration = c
+		}
 		switch {
 		case c == nil || c.Spell != srd521.DetectMagicID || c.StartedAt > now || c.ExpiresAt <= now:
 			preview.Reason = "Detect Magic concentration is required."

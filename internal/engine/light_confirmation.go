@@ -66,7 +66,26 @@ func saveLight(ctx context.Context, tx pgx.Tx, campaign, actor uuid.UUID, light 
 // PreviewLight prepares one Light intent for the campaign owner's character for
 // the TUI. The stored action also carries the active Light and its object name.
 func (e *Engine) PreviewLight(ctx context.Context, campaignID uuid.UUID, intent game.ActionIntent) (*game.StoredAction, error) {
-	if e.baseDB == nil || !game.IsLightIntent(intent) {
+	if !game.IsLightIntent(intent) {
+		return nil, ErrActionRefresh
+	}
+	return e.previewOwnerAction(ctx, campaignID, intent)
+}
+
+// PreviewDetectMagic prepares the Detect Magic free-use cast or its study for
+// the campaign owner's character for the TUI. A study preview also carries any
+// live concentration.
+func (e *Engine) PreviewDetectMagic(ctx context.Context, campaignID uuid.UUID, intent game.ActionIntent) (*game.StoredAction, error) {
+	if intent.Kind != srd521.DetectMagicStudy && (intent.Kind != srd521.SpellCast || intent.EntryID != srd521.DetectMagicID) {
+		return nil, ErrActionRefresh
+	}
+	return e.previewOwnerAction(ctx, campaignID, intent)
+}
+
+// previewOwnerAction prepares an intent, without writing, for the campaign
+// owner's first active character.
+func (e *Engine) previewOwnerAction(ctx context.Context, campaignID uuid.UUID, intent game.ActionIntent) (*game.StoredAction, error) {
+	if e.baseDB == nil {
 		return nil, ErrActionRefresh
 	}
 	var actorID uuid.UUID
