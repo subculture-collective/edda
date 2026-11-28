@@ -80,10 +80,13 @@ export interface LightReceipt {
 export interface PendingFall { id: string; height_feet?: number; landing?: 'solid' | 'water' }
 export interface DeathSaves { successes?: number; failures?: number; stable?: boolean; dead?: boolean }
 export interface ZeroHPReceipt {
- rules_version: string; event: 'dropped-to-0' | 'massive-damage' | 'damage-at-0' | 'death-save' | 'stable-recovery' | 'unconscious-repair'; reason: string;
+ rules_version: string; event: 'dropped-to-0' | 'massive-damage' | 'damage-at-0' | 'death-save' | 'stable-recovery' | 'unconscious-repair' | 'ally-stabilize' | 'ally-healing'; reason: string;
  damage?: number; critical?: boolean; remaining?: number; die?: number; outcome?: string; recovery_hours?: number;
  hp_before: number; hp_after: number; max_hp: number; before: DeathSaves; after: DeathSaves;
  time_before?: number; time_after?: number; source_ids: string[];
+ // An ally's aid: the helper, its Wisdom (Medicine) check, and the Death
+ // Saving Throw that starts the player's next turn when still dying.
+ helper_id?: string; helper?: string; modifier?: number; total?: number; dc?: number; healing?: HealingReceipt; death_save?: ZeroHPReceipt;
 }
 export interface FallReceipt {
  rules_version: string; height_feet: number; landing: 'solid' | 'water';

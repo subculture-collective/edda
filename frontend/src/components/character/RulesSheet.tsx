@@ -28,7 +28,7 @@ export function RulesSheet({ sheet, receipts = [], campaignId, actorId, initialP
     {sheet.death_saves && <section aria-label="0 HP state">
       <h3 className="font-heading text-ruby">{sheet.death_saves.dead ? 'Dead' : 'At 0 HP: Unconscious'}</h3>
       <p>{deathSaveText(sheet.death_saves)}</p>
-      {!sheet.death_saves.dead && <p className="text-sm text-pewter">In an encounter the server rolls the Death Saving Throw at the start of your turn. Outside one, roll it from the action menu; each save is one 6-second round.</p>}
+      {!sheet.death_saves.dead && <p className="text-sm text-pewter">In an encounter the server rolls the Death Saving Throw at the start of your turn. Outside one, roll it from the action menu; each save is one 6-second round. A prepared ally next to you can also try to stabilize you or give you a Potion of Healing from the action menu.</p>}
     </section>}
     {sheet.fall && <section aria-label="Declared fall">
       <h3 className="font-heading text-gold">Declared fall</h3>

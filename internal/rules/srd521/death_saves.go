@@ -94,6 +94,16 @@ type ZeroHPReceipt struct {
 	Condition     *ConditionReceipt `json:"condition,omitempty"`
 	SourceIDs     []string          `json:"source_ids"`
 	RecoveryHours int               `json:"recovery_hours,omitempty"`
+	// Help from another creature (ally-stabilize, ally-healing): who helped,
+	// the Wisdom (Medicine) check, the potion, and the Death Saving Throw that
+	// starts the player's next turn when the help leaves it dying.
+	HelperID  string          `json:"helper_id,omitempty"`
+	Helper    string          `json:"helper,omitempty"`
+	Modifier  *int            `json:"modifier,omitempty"`
+	Total     int             `json:"total,omitempty"`
+	DC        int             `json:"dc,omitempty"`
+	Healing   *HealingReceipt `json:"healing,omitempty"`
+	DeathSave *ZeroHPReceipt  `json:"death_save,omitempty"`
 }
 
 // Regained reports a change that brings the character back from 0 HP: it

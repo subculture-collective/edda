@@ -74,13 +74,57 @@ Every roll is in a durable receipt (`zero_hp` on fall and NPC attack receipts,
 `death_save` on the encounter result, `srd_death_save` for the explicit
 action). Previews never roll or write. Replays return the saved result.
 
+## Help from an ally
+
+Outside an encounter a trusted ally NPC can help the Unconscious player with
+the `ally-aid` action (web action menu, "At 0 HP"). The player takes no
+action; the ally does. Sources: PDF p. 10 and p. 18 (the Help action can
+stabilize a creature at 0 HP with a DC 10 Wisdom (Medicine) check), p. 99
+(Potion of Healing: a Bonus Action to administer it to a creature within
+5 feet) and p. 204 ("Using a Potion").
+
+- **Who can help.** An NPC whose `properties.srd521_ally` holds the
+  `aid-player-v1` profile: the shared ally facts from
+  [the Cure Wounds ally slice](spell-actions.md#willing-adjacent-ally-263)
+  plus `medicine_modifier`, an integer from -5 to +28. The ruling names the
+  player (`actor_id`) and the current location, and the NPC is within 5 feet,
+  in sight, without cover. Missing, extra, null or mistyped facts leave the NPC
+  out. Model tools cannot write the `srd521_ally` namespace.
+- **Medicine** (`entry_id: "medicine"`). The ally rolls d20 plus its
+  modifier against DC 10. Success makes the player Stable and resets the
+  counts. Failure changes nothing. A 20 or a 1 on this check has no special
+  effect. It is not offered to a Stable player.
+- **Potion** (`entry_id: <item id>`). The ally takes one of the player's own
+  Potions of Healing and gives it to the player. Edda tracks no NPC
+  inventory, so the potion comes from the player's pack; taking it is an
+  Edda ruling under the ally's trusted fixture. The player regains 2d4 + 2 HP
+  from 0. Unconscious ends through `ApplyConditionChange`, Prone remains, and
+  the counts clear. One potion is used. A Stable player can also be healed.
+- **One round.** Each confirmation stands for one 6-second round and advances
+  campaign time by 6 seconds. The ally acts first. If the player is still
+  dying afterwards (failed Medicine), the round's Death Saving Throw is rolled
+  in the same transaction, so repeated attempts are not free.
+
+The confirmation names the helper as `target_id`. Only an ally offered by the
+locked, revalidated preview crosses it. The receipt is a `srd_death_save`
+tool call with event `ally-stabilize` or `ally-healing`, the helper, the
+check or the potion, and the following save as `death_save`. Previews never
+roll or write; replays return the saved receipt; a history failure rolls back
+HP, counts, conditions, the potion and the clock. Evidence:
+`internal/rules/srd521/ally_aid_test.go`,
+`internal/handlers/ally_aid_integration_test.go` and
+`frontend/tests/browser/death-save.spec.ts`.
+
 ## Not supported
 
-- Stabilizing by another creature (Help action with DC 10 Wisdom (Medicine),
-  Spare the Dying #958). No ally can act in the two-actor encounter.
-- Healing from 0 HP by Cure Wounds or a Potion of Healing. Both are the
-  Unconscious character's own actions and the rules refuse them at 0 HP; no
-  other creature can heal the player yet.
+- Help inside an encounter. The two-actor encounter has no ally that can act.
+- An ally casting Cure Wounds or Spare the Dying (#958). NPCs have no
+  spellcasting state, and Spare the Dying has no spell implementation.
+- A terminal command for ally aid. The TUI keeps `/death-save` only; ally
+  selection is web-only, as with the ally potion slice.
+- The Unconscious player still cannot drink a potion or cast Cure Wounds.
+  `ResolveHealingPotion` refuses 0 HP; `ResolveAdministeredPotion` accepts it
+  for a potion given by another creature.
 - Falls while at 0 HP, monster death saves, Temporary Hit Points and HP
   maximum reduction.
 - A character left at 0 HP without Unconscious inside an active encounter
