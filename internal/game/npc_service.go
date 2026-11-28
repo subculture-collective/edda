@@ -79,6 +79,7 @@ func (s *npcService) UpdateNPC(ctx context.Context, npc domain.NPC) (*domain.NPC
 		Stats:       npc.Stats,
 		Properties:  npc.Properties,
 		ID:          dbutil.ToPgtype(npc.ID),
+		CampaignID:  dbutil.ToPgtype(npc.CampaignID),
 	})
 	if err != nil {
 		return nil, err

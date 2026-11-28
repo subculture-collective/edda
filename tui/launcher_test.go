@@ -217,7 +217,7 @@ func (n *noopQuerier) GetUserByName(ctx context.Context, name string) (statedb.U
 	return statedb.User{}, nil
 }
 
-func (n *noopQuerier) KillNPC(ctx context.Context, id pgtype.UUID) (statedb.Npc, error) {
+func (n *noopQuerier) KillNPC(ctx context.Context, arg statedb.KillNPCParams) (statedb.Npc, error) {
 	return statedb.Npc{}, nil
 }
 

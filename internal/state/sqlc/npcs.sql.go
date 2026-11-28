@@ -128,11 +128,17 @@ SET
   alive = FALSE,
   updated_at = now()
 WHERE id = $1
+  AND campaign_id = $2
 RETURNING id, campaign_id, name, description, personality, disposition, location_id, faction_id, alive, hp, stats, properties, created_at, updated_at
 `
 
-func (q *Queries) KillNPC(ctx context.Context, id pgtype.UUID) (Npc, error) {
-	row := q.db.QueryRow(ctx, killNPC, id)
+type KillNPCParams struct {
+	ID         pgtype.UUID
+	CampaignID pgtype.UUID
+}
+
+func (q *Queries) KillNPC(ctx context.Context, arg KillNPCParams) (Npc, error) {
+	row := q.db.QueryRow(ctx, killNPC, arg.ID, arg.CampaignID)
 	var i Npc
 	err := row.Scan(
 		&i.ID,
@@ -367,6 +373,7 @@ SET
   properties = COALESCE($10::jsonb, properties),
   updated_at = now()
 WHERE id = $11
+  AND campaign_id = $12
 RETURNING id, campaign_id, name, description, personality, disposition, location_id, faction_id, alive, hp, stats, properties, created_at, updated_at
 `
 
@@ -382,6 +389,7 @@ type UpdateNPCParams struct {
 	Stats       []byte
 	Properties  []byte
 	ID          pgtype.UUID
+	CampaignID  pgtype.UUID
 }
 
 func (q *Queries) UpdateNPC(ctx context.Context, arg UpdateNPCParams) (Npc, error) {
@@ -397,6 +405,7 @@ func (q *Queries) UpdateNPC(ctx context.Context, arg UpdateNPCParams) (Npc, erro
 		arg.Stats,
 		arg.Properties,
 		arg.ID,
+		arg.CampaignID,
 	)
 	var i Npc
 	err := row.Scan(
@@ -424,16 +433,18 @@ SET
   disposition = $1,
   updated_at = now()
 WHERE id = $2
+  AND campaign_id = $3
 RETURNING id, campaign_id, name, description, personality, disposition, location_id, faction_id, alive, hp, stats, properties, created_at, updated_at
 `
 
 type UpdateNPCDispositionParams struct {
 	Disposition int32
 	ID          pgtype.UUID
+	CampaignID  pgtype.UUID
 }
 
 func (q *Queries) UpdateNPCDisposition(ctx context.Context, arg UpdateNPCDispositionParams) (Npc, error) {
-	row := q.db.QueryRow(ctx, updateNPCDisposition, arg.Disposition, arg.ID)
+	row := q.db.QueryRow(ctx, updateNPCDisposition, arg.Disposition, arg.ID, arg.CampaignID)
 	var i Npc
 	err := row.Scan(
 		&i.ID,

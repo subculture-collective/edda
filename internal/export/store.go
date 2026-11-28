@@ -284,10 +284,11 @@ type ExportCharacter struct {
 
 const getPlayerCharacterSQL = `
 SELECT id, name, COALESCE(description, ''), hp, max_hp, experience, level, status, COALESCE(abilities, '[]'::jsonb)
-FROM player_characters WHERE campaign_id = $1 ORDER BY created_at DESC LIMIT 1
+FROM player_characters WHERE campaign_id = $1 ORDER BY created_at DESC, id DESC LIMIT 1
 `
 
-// GetPlayerCharacter returns the most recent player character for a campaign.
+// GetPlayerCharacter returns the most recent player character for a campaign,
+// the one the turn loader uses.
 func (s *Store) GetPlayerCharacter(ctx context.Context, campaignID uuid.UUID) (ExportCharacter, error) {
 	pgCID := db.ToPgUUID(campaignID)
 	var c ExportCharacter

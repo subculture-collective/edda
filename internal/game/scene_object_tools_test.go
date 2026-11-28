@@ -7,7 +7,6 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/jackc/pgx/v5"
-	"github.com/jackc/pgx/v5/pgtype"
 
 	"git.subcult.tv/subculture-collective/edda/internal/dbutil"
 	statedb "git.subcult.tv/subculture-collective/edda/internal/state/sqlc"
@@ -31,8 +30,8 @@ func (r *npcWriteRecorder) UpdateNPCDisposition(_ context.Context, arg statedb.U
 	return r.npcByID[arg.ID.Bytes].npc, nil
 }
 
-func (r *npcWriteRecorder) KillNPC(_ context.Context, id pgtype.UUID) (statedb.Npc, error) {
-	record, ok := r.npcByID[id.Bytes]
+func (r *npcWriteRecorder) KillNPC(_ context.Context, arg statedb.KillNPCParams) (statedb.Npc, error) {
+	record, ok := r.npcByID[arg.ID.Bytes]
 	if !ok {
 		return statedb.Npc{}, pgx.ErrNoRows
 	}

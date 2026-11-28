@@ -41,11 +41,11 @@ type ResolveCombatStore interface {
 	UpdatePlayerLocation(ctx context.Context, playerCharacterID uuid.UUID, locationID uuid.UUID) error
 	AddPlayerExperience(ctx context.Context, playerCharacterID uuid.UUID, xpAmount int) error
 	CreatePlayerItem(ctx context.Context, playerCharacterID uuid.UUID, name, description, itemType, rarity string, quantity int) (uuid.UUID, error)
-	MarkNPCDead(ctx context.Context, npcID uuid.UUID) error
+	MarkNPCDead(ctx context.Context, campaignID, npcID uuid.UUID) error
 	// GetNPCByID returns nil for an NPC outside the campaign.
 	GetNPCByID(ctx context.Context, campaignID, npcID uuid.UUID) (*domain.NPC, error)
 	LocationExistsInCampaign(ctx context.Context, locationID, campaignID uuid.UUID) (bool, error)
-	UpdateNPCDisposition(ctx context.Context, npcID uuid.UUID, newDisposition int) error
+	UpdateNPCDisposition(ctx context.Context, campaignID, npcID uuid.UUID, newDisposition int) error
 }
 
 // ResolveCombatTool returns the resolve_combat tool definition and JSON schema.
@@ -215,7 +215,7 @@ func (h *ResolveCombatHandler) Handle(ctx context.Context, args map[string]any) 
 			return nil, fmt.Errorf("persist player hp: %w", err)
 		}
 	}
-	summary, err := h.applyOutcome(ctx, outcomeType, resolution, playerCharacterID)
+	summary, err := h.applyOutcome(ctx, outcomeType, resolution, campaignID, playerCharacterID)
 	if err != nil {
 		return nil, err
 	}
@@ -350,7 +350,7 @@ func (h *ResolveCombatHandler) applyOutcome(
 	ctx context.Context,
 	outcomeType string,
 	r *combatResolution,
-	playerCharacterID uuid.UUID,
+	campaignID, playerCharacterID uuid.UUID,
 ) (map[string]any, error) {
 	summary := map[string]any{}
 	switch outcomeType {
@@ -363,7 +363,7 @@ func (h *ResolveCombatHandler) applyOutcome(
 		summary["xp_earned"] = r.xpEarned
 		killed := make([]string, 0, len(r.deadNPCIDs))
 		for _, npcID := range r.deadNPCIDs {
-			if err := h.store.MarkNPCDead(ctx, npcID); err != nil {
+			if err := h.store.MarkNPCDead(ctx, campaignID, npcID); err != nil {
 				return nil, fmt.Errorf("mark npc %s dead: %w", npcID, err)
 			}
 			killed = append(killed, npcID.String())
@@ -394,7 +394,7 @@ func (h *ResolveCombatHandler) applyOutcome(
 	case outcomeSurrender:
 		updatedNPCs := make([]map[string]any, 0, len(r.surrender))
 		for _, u := range r.surrender {
-			if err := h.store.UpdateNPCDisposition(ctx, u.npcID, u.newDisposition); err != nil {
+			if err := h.store.UpdateNPCDisposition(ctx, campaignID, u.npcID, u.newDisposition); err != nil {
 				return nil, fmt.Errorf("update npc %s disposition: %w", u.npcID, err)
 			}
 			updatedNPCs = append(updatedNPCs, map[string]any{

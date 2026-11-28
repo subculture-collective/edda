@@ -633,8 +633,9 @@ func TestCreateLocationValidationAndErrors(t *testing.T) {
 			"bidirectional": false,
 		}}
 		_, err := h.Handle(WithCurrentLocationID(context.Background(), currentLocationID), args)
-		if err == nil || !strings.Contains(err.Error(), "must belong to active campaign") {
-			t.Fatalf("error = %v, want campaign-scoped validation", err)
+		want := "connections[0].location_id: location not found: " + targetLocationID.String()
+		if err == nil || err.Error() != want {
+			t.Fatalf("error = %v, want %q", err, want)
 		}
 		if len(store.createLocationCall) != 0 {
 			t.Fatalf("CreateLocation call count = %d, want 0", len(store.createLocationCall))

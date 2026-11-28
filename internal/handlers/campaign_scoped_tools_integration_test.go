@@ -51,7 +51,7 @@ func TestIntegrationToolsRefuseOtherCampaignIDs(t *testing.T) {
 
 	campaign, player, location := newCampaign("Current campaign")
 	other, otherPlayer, otherLocation := newCampaign("Other campaign")
-	var foe, deadFoe, otherNPC, otherFaction, otherQuest uuid.UUID
+	var foe, deadFoe, otherNPC, otherFaction, otherQuest, otherItem uuid.UUID
 	must(testPool.QueryRow(ctx, `INSERT INTO npcs(campaign_id,name,location_id,disposition) VALUES($1,'Bandit',$2,0) RETURNING id`, campaign, location).Scan(&foe))
 	must(testPool.QueryRow(ctx, `INSERT INTO npcs(campaign_id,name,location_id,alive) VALUES($1,'Fallen bandit',$2,false) RETURNING id`, campaign, location).Scan(&deadFoe))
 	// The other campaign's NPC stands in the current location, so a location
@@ -59,6 +59,7 @@ func TestIntegrationToolsRefuseOtherCampaignIDs(t *testing.T) {
 	must(testPool.QueryRow(ctx, `INSERT INTO npcs(campaign_id,name,description,location_id,disposition) VALUES($1,'Envoy','other secret',$2,0) RETURNING id`, other, location).Scan(&otherNPC))
 	must(testPool.QueryRow(ctx, `INSERT INTO factions(campaign_id,name) VALUES($1,'Guild') RETURNING id`, other).Scan(&otherFaction))
 	must(testPool.QueryRow(ctx, `INSERT INTO quests(campaign_id,title,quest_type,status) VALUES($1,'Other secret quest','short_term','active') RETURNING id`, other).Scan(&otherQuest))
+	must(testPool.QueryRow(ctx, `INSERT INTO items(campaign_id,player_character_id,name,item_type,rarity,quantity) VALUES($1,$2,'Other ring','misc','common',2) RETURNING id`, other, otherPlayer).Scan(&otherItem))
 
 	toolCtx := tools.WithCurrentCampaignID(ctx, campaign)
 	toolCtx = tools.WithCurrentPlayerCharacterID(toolCtx, player)
@@ -87,6 +88,10 @@ func TestIntegrationToolsRefuseOtherCampaignIDs(t *testing.T) {
 		playerLocation    uuid.UUID
 		items, quests     int
 		relationships     int
+		factions          int
+		locations         int
+		otherItemQuantity int
+		otherItemProps    string
 		otherDescription  string
 		otherDisposition  int
 		otherAlive        bool
@@ -100,6 +105,9 @@ func TestIntegrationToolsRefuseOtherCampaignIDs(t *testing.T) {
 		must(testPool.QueryRow(ctx, `SELECT count(*) FROM items WHERE campaign_id=$1`, campaign).Scan(&s.items))
 		must(testPool.QueryRow(ctx, `SELECT count(*) FROM quests WHERE campaign_id=$1`, campaign).Scan(&s.quests))
 		must(testPool.QueryRow(ctx, `SELECT count(*) FROM entity_relationships WHERE campaign_id=$1`, campaign).Scan(&s.relationships))
+		must(testPool.QueryRow(ctx, `SELECT count(*) FROM factions WHERE campaign_id=$1`, campaign).Scan(&s.factions))
+		must(testPool.QueryRow(ctx, `SELECT count(*) FROM locations WHERE campaign_id=$1`, campaign).Scan(&s.locations))
+		must(testPool.QueryRow(ctx, `SELECT quantity,coalesce(properties::text,'') FROM items WHERE id=$1`, otherItem).Scan(&s.otherItemQuantity, &s.otherItemProps))
 		must(testPool.QueryRow(ctx, `SELECT coalesce(description,''),disposition,alive FROM npcs WHERE id=$1`, otherNPC).Scan(&s.otherDescription, &s.otherDisposition, &s.otherAlive))
 		must(testPool.QueryRow(ctx, `SELECT alive FROM npcs WHERE id=$1`, foe).Scan(&s.foeAlive))
 		must(testPool.QueryRow(ctx, `SELECT status FROM player_characters WHERE id=$1`, otherPlayer).Scan(&s.otherPlayerStatus))
@@ -110,6 +118,7 @@ func TestIntegrationToolsRefuseOtherCampaignIDs(t *testing.T) {
 	npcSvc := game.NewNPCService(q)
 	combatSvc := game.NewCombatService(q)
 	worldSvc := game.NewWorldService(q)
+	invSvc := game.NewInventoryService(q)
 	calls := map[string]func(id uuid.UUID) (*tools.ToolResult, error){
 		"update_npc": func(id uuid.UUID) (*tools.ToolResult, error) {
 			return tools.NewUpdateNPCHandler(npcSvc).Handle(toolCtx, map[string]any{
@@ -147,8 +156,35 @@ func TestIntegrationToolsRefuseOtherCampaignIDs(t *testing.T) {
 				"link_description": "Knows the way.",
 			})
 		},
+		"create_faction": func(id uuid.UUID) (*tools.ToolResult, error) {
+			return tools.NewCreateFactionHandler(worldSvc, nil, nil).Handle(toolCtx, map[string]any{
+				"name": "Wardens", "description": "Keepers.", "agenda": "Guard.", "territory": "Hills",
+				"properties":    map[string]any{},
+				"relationships": []any{map[string]any{"faction_id": id.String(), "type": "rival", "description": "Old feud."}},
+			})
+		},
+		"create_location": func(id uuid.UUID) (*tools.ToolResult, error) {
+			return tools.NewCreateLocationHandler(worldSvc, nil, nil).Handle(toolCtx, map[string]any{
+				"name": "Tower", "description": "Tall.", "region": "Hills", "location_type": "building",
+				"connections": []any{map[string]any{"location_id": id.String(), "description": "Path", "bidirectional": true}},
+			})
+		},
+		"remove_item": func(id uuid.UUID) (*tools.ToolResult, error) {
+			return tools.NewRemoveItemHandler(invSvc).Handle(toolCtx, map[string]any{"item_id": id.String(), "quantity": 1})
+		},
+		"modify_item": func(id uuid.UUID) (*tools.ToolResult, error) {
+			return tools.NewModifyItemHandler(invSvc).Handle(toolCtx, map[string]any{
+				"item_id": id.String(), "properties": map[string]any{"charges": 9},
+			})
+		},
 	}
-	otherIDs := map[string]uuid.UUID{"link_quest_entity": otherQuest}
+	otherIDs := map[string]uuid.UUID{
+		"link_quest_entity": otherQuest,
+		"create_faction":    otherFaction,
+		"create_location":   otherLocation,
+		"remove_item":       otherItem,
+		"modify_item":       otherItem,
+	}
 
 	outcome := func(name string, id uuid.UUID) string {
 		result, err := calls[name](id)

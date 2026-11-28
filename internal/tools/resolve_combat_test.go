@@ -78,7 +78,7 @@ func (s *stubResolveCombatStore) CreatePlayerItem(_ context.Context, _ uuid.UUID
 	return uuid.New(), nil
 }
 
-func (s *stubResolveCombatStore) MarkNPCDead(_ context.Context, npcID uuid.UUID) error {
+func (s *stubResolveCombatStore) MarkNPCDead(_ context.Context, _, npcID uuid.UUID) error {
 	if s.markDeadErr != nil {
 		return s.markDeadErr
 	}
@@ -118,7 +118,7 @@ func aliveNPC(id uuid.UUID) *domain.NPC {
 	return &domain.NPC{ID: id, CampaignID: testCombatCampaignID, Name: "Goblin", Alive: true}
 }
 
-func (s *stubResolveCombatStore) UpdateNPCDisposition(_ context.Context, npcID uuid.UUID, newDisposition int) error {
+func (s *stubResolveCombatStore) UpdateNPCDisposition(_ context.Context, _, npcID uuid.UUID, newDisposition int) error {
 	if s.updateDisposErr != nil {
 		return s.updateDisposErr
 	}

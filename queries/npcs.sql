@@ -87,6 +87,7 @@ SET
   properties = COALESCE(sqlc.narg(properties)::jsonb, properties),
   updated_at = now()
 WHERE id = sqlc.arg(id)
+  AND campaign_id = sqlc.arg(campaign_id)
 RETURNING id, campaign_id, name, description, personality, disposition, location_id, faction_id, alive, hp, stats, properties, created_at, updated_at;
 
 -- name: UpdateNPCDisposition :one
@@ -95,6 +96,7 @@ SET
   disposition = sqlc.arg(disposition),
   updated_at = now()
 WHERE id = sqlc.arg(id)
+  AND campaign_id = sqlc.arg(campaign_id)
 RETURNING id, campaign_id, name, description, personality, disposition, location_id, faction_id, alive, hp, stats, properties, created_at, updated_at;
 
 -- name: UpdateNPCLocation :one
@@ -111,4 +113,5 @@ SET
   alive = FALSE,
   updated_at = now()
 WHERE id = sqlc.arg(id)
+  AND campaign_id = sqlc.arg(campaign_id)
 RETURNING id, campaign_id, name, description, personality, disposition, location_id, faction_id, alive, hp, stats, properties, created_at, updated_at;
