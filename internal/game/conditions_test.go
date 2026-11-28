@@ -50,9 +50,13 @@ func TestConditionReason(t *testing.T) {
 }
 
 // An older build could leave 0 HP without Unconscious: outside an active
-// encounter only the repairing Death Saving Throw stays open.
+// encounter only the repairing Death Saving Throw stays open, and inside one
+// only ending the turn and declining a Reaction.
 func TestConditionReasonZeroHPWithoutUnconscious(t *testing.T) {
-	active := &combat.Encounter{Status: "active", Actors: []combat.EncounterActor{{ID: uuid.New(), Player: true}, {ID: uuid.New()}}}
+	encounter := func(c srd521.Conditions) *combat.Encounter {
+		return &combat.Encounter{Status: "active", Actors: []combat.EncounterActor{{ID: uuid.New(), Player: true, Conditions: c}, {ID: uuid.New()}}}
+	}
+	active := encounter(srd521.Conditions{})
 	for name, tc := range map[string]struct {
 		encounter *combat.Encounter
 		kind      string
@@ -62,7 +66,11 @@ func TestConditionReasonZeroHPWithoutUnconscious(t *testing.T) {
 		"stand":                {nil, combat.EncounterStand, "death-save"},
 		"death save":           {nil, srd521.DeathSave, ""},
 		"encounter end turn":   {active, combat.EncounterEndTurn, ""},
-		"encounter owns state": {active, srd521.MartialAttack, ""},
+		"encounter decline":    {active, combat.EncounterDecline, ""},
+		"encounter attack":     {active, srd521.MartialAttack, "End your turn"},
+		"encounter react":      {active, combat.EncounterReact, "End your turn"},
+		"encounter move":       {active, combat.EncounterMove, "End your turn"},
+		"encounter owns state": {encounter(srd521.Conditions{Prone: true, Incapacitated: true, Unconscious: true}), srd521.MartialAttack, "You are Unconscious"},
 	} {
 		reason, err := conditionReason([]byte(`{}`), 0, tc.encounter, ActionIntent{Kind: tc.kind})
 		if err != nil || (tc.want == "") != (reason == "") || !strings.Contains(reason, tc.want) {

@@ -206,3 +206,47 @@ func TestIntegrationSpatialClarificationAndPrivacy(t *testing.T) {
 		t.Fatal("clarification/preparation rolled")
 	}
 }
+
+// The ordinary fixture NPC may start beyond its reach. It never approaches, and
+// the start preview says so; the turn it passes rolls and moves nothing.
+func TestIntegrationSpatialStartPreviewSaysFoeHoldsPosition(t *testing.T) {
+	f := newSpatialFixture(t)
+	options := func(facts string) string {
+		t.Helper()
+		f.facts(facts)
+		p := f.prepare(combat.EncounterStart)
+		if !p.Available {
+			t.Fatalf("start unavailable: %+v", p)
+		}
+		return strings.Join(p.Options, "\n")
+	}
+	const holds = "Practice foe starts 15 feet away, beyond its 5-foot reach. It does not move closer; on its turn it does not attack while you stay beyond 5 feet."
+	if got := options(`"distance_feet":5,"line_of_sight":true,"cover":"none"`); strings.Contains(got, "move closer") || strings.Contains(got, "Unavailable") {
+		t.Fatalf("within reach: %s", got)
+	}
+	if got := options(`"distance_feet":5,"line_of_sight":true,"cover":"total"`); !strings.Contains(got, "Unavailable at the declared facts: Total cover blocks this attack.") {
+		t.Fatalf("total cover: %s", got)
+	}
+	// A refused start asks for the facts; reach does not block a start.
+	f.facts(`"distance_feet":15,"cover":"none"`)
+	if p := f.prepare(combat.EncounterStart); p.Available || p.Reason != "No legal target. Clarify unresolved scene facts." {
+		t.Fatalf("unresolved start: %+v", p)
+	}
+	if p := f.prepare(srd521.MartialAttack); p.Available || !strings.Contains(p.Reason, "within reach") {
+		t.Fatalf("unresolved attack: %+v", p)
+	}
+	if got := options(`"distance_feet":15,"line_of_sight":true,"cover":"none"`); !strings.Contains(got, holds) {
+		t.Fatalf("beyond reach: %s", got)
+	}
+
+	// The player wins Initiative and ends the turn; the foe passes.
+	f.dice.d20 = []int{19, 0}
+	f.confirm(f.prepare(combat.EncounterStart))
+	calls := f.dice.calls
+	f.confirm(f.prepare(combat.EncounterEndTurn))
+	encounter, err := game.ReadEncounter(context.Background(), testPool, f.campaign)
+	f.must(err)
+	if f.dice.calls != calls || *encounter.Space.DistanceFeet != 15 || !encounter.Active().Player || encounter.Round != 2 {
+		t.Fatalf("foe turn: rolls=%d encounter=%+v", f.dice.calls-calls, encounter)
+	}
+}

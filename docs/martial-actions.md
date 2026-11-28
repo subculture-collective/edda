@@ -34,6 +34,16 @@ initiative, turn ownership, action economy, mastery and reactions remain later
 roadmap work. The Attack action cost is displayed and recorded, with no claim
 that a combat-round budget is enforced.
 
+## The ordinary fixture NPC in an encounter
+
+The encounter's ordinary fixture NPC (`unarmored-fixture-v1` or
+`ordinary-spatial-fixture-v1`) does not approach, unlike the
+[Bandit](bandit-encounter.md) and [Beast](beast-encounter.md) fixtures. It has
+no pinned stat block, and an out-of-reach turn passes without a roll, so the
+encounter cannot stall. The start preview says so when it starts beyond its
+5-foot reach, and says when declared sight or cover rules out its attack. Its
+only movement is the 5-foot step of the `withdraw` tactic.
+
 ## Rules and evidence
 
 The pinned [SRD 5.2.1](https://media.dndbeyond.com/compendium-images/srd/5.2/SRD_CC_v5.2.1.pdf)

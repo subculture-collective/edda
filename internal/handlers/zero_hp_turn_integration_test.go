@@ -176,3 +176,101 @@ func TestIntegrationZeroHPRepairsMissingUnconsciousAtEncounterTurn(t *testing.T)
 		t.Fatalf("replay rolled: %+v", replayed)
 	}
 }
+
+// legacyZeroHPInEncounter leaves the player as an older build did: 0 HP
+// without Unconscious, in the character row and the saved encounter.
+func (f *fallFixture) legacyZeroHPInEncounter() {
+	f.t.Helper()
+	ctx := context.Background()
+	encounter, err := game.ReadEncounter(ctx, testPool, f.campaign)
+	f.must(err)
+	player := 0
+	if encounter.Actors[1].Player {
+		player = 1
+	}
+	f.setHP(0)
+	_, err = testPool.Exec(ctx, `UPDATE session_logs SET tool_calls=jsonb_set(tool_calls,ARRAY['0','Result','encounter','actors',$2::text,'hp'],'0') WHERE campaign_id=$1 AND turn_number=(SELECT MAX(turn_number) FROM session_logs WHERE campaign_id=$1)`, f.campaign, fmt.Sprint(player))
+	f.must(err)
+	encounter, err = game.ReadEncounter(ctx, testPool, f.campaign)
+	f.must(err)
+	if s := f.zero(); s.hp != 0 || s.conditions.Unconscious || encounter.Status != "active" || encounter.Actors[player].HP != 0 || encounter.Actors[player].Unconscious {
+		f.t.Fatalf("fixture: %+v %+v", s, encounter)
+	}
+}
+
+// Mid-turn in an active encounter, a character at 0 HP without Unconscious has
+// the same gate as outside one: only ending the turn stays open, and every
+// other choice says why.
+func TestIntegrationZeroHPGatesMissingUnconsciousMidEncounterTurn(t *testing.T) {
+	f := newZeroFixture(t)
+	f.facts(`"distance_feet":5,"line_of_sight":true,"cover":"none"`)
+	// The player wins Initiative (20 against 1).
+	_, _, err := f.confirmWith(f.prepare(combat.EncounterStart), 20, 1)
+	f.must(err)
+	attack := f.prepare(srd521.MartialAttack)
+	move := f.prepare(combat.EncounterMove)
+	if !attack.Available || !move.Available {
+		t.Fatalf("healthy turn: %+v %+v", attack, move)
+	}
+	f.legacyZeroHPInEncounter()
+
+	const want = "without the Unconscious condition"
+	for _, kind := range []string{srd521.MartialAttack, combat.EncounterMove, combat.EncounterDash, combat.EncounterApproach, combat.EncounterRetreat, combat.EncounterStand, srd521.ActionSurge, srd521.AbilityCheck} {
+		entry := ""
+		if kind == srd521.MartialAttack {
+			entry = f.weapon.String()
+		}
+		if p := f.preview(kind, entry, ""); p.Available || !strings.Contains(p.Reason, want) || !strings.Contains(p.Reason, "End your turn") || strings.Contains(p.Reason, "death-save") {
+			t.Errorf("%s: available=%t reason=%q", kind, p.Available, p.Reason)
+		}
+	}
+	// Confirming a preview taken while healthy commits nothing.
+	for _, p := range []*game.ActionPreview{attack, move} {
+		if _, _, err := f.confirmWith(p, 15, 4); !errors.Is(err, engine.ErrActionRefresh) || f.faces.calls != 0 {
+			t.Errorf("%s confirmed at 0 HP: %v rolls=%d", p.Intent.Kind, err, f.faces.calls)
+		}
+	}
+	if p := f.prepare(combat.EncounterEndTurn); !p.Available {
+		t.Fatalf("end turn: %+v", p)
+	}
+}
+
+// An older build offered a reaction to a character it had left at 0 HP,
+// because without Unconscious it was not Incapacitated. Ending the turn waits
+// for that reaction, so declining it stays open; the next turn then repairs.
+func TestIntegrationZeroHPMissingUnconsciousCanDeclinePendingReaction(t *testing.T) {
+	ctx := context.Background()
+	f := newZeroFixture(t)
+	f.facts(`"distance_feet":5,"line_of_sight":true,"cover":"none","tactic":"withdraw"`)
+	_, _, err := f.confirmWith(f.prepare(combat.EncounterStart), 20, 1)
+	f.must(err)
+	// The foe misses (d20 1) and starts to withdraw.
+	_, _, err = f.confirmWith(f.prepare(combat.EncounterEndTurn), 1)
+	f.must(err)
+	encounter, err := game.ReadEncounter(ctx, testPool, f.campaign)
+	f.must(err)
+	if encounter.Reaction.Pending == nil {
+		t.Fatalf("no pending reaction: %+v", encounter)
+	}
+	f.legacyZeroHPInEncounter()
+
+	if p := f.prepare(combat.EncounterReact); p.Available || !strings.Contains(p.Reason, "without the Unconscious condition") {
+		t.Errorf("reaction at 0 HP: %+v", p)
+	}
+	p := f.prepare(combat.EncounterDecline)
+	if !p.Available {
+		t.Fatalf("decline: %+v", p)
+	}
+	// The player's next turn starts with the repair, then the save: 12.
+	_, result, err := f.confirmWith(p, 12)
+	f.must(err)
+	var payload struct {
+		Encounter combat.Encounter      `json:"encounter"`
+		Repair    *srd521.ZeroHPReceipt `json:"unconscious_repair"`
+		DeathSave *srd521.ZeroHPReceipt `json:"death_save"`
+	}
+	f.must(json.Unmarshal(result.AppliedToolCalls[0].Result, &payload))
+	if payload.Repair == nil || payload.DeathSave == nil || payload.DeathSave.Die != 12 || !payload.Encounter.Active().Player || !payload.Encounter.Active().Unconscious {
+		t.Fatalf("after decline: %s", result.AppliedToolCalls[0].Result)
+	}
+}

@@ -189,6 +189,10 @@ func engineResolutionEventsToAPI(applied []engine.AppliedToolCall) []api.Resolut
 		if call.Tool == "srd_encounter" {
 			var result struct {
 				NPCReceipts []*srd521.AttackReceipt `json:"npc_receipts"`
+				// A player turn that starts at 0 HP: the repair of a missing
+				// Unconscious, if due, then the Death Saving Throw.
+				Repair    *srd521.ZeroHPReceipt `json:"unconscious_repair"`
+				DeathSave *srd521.ZeroHPReceipt `json:"death_save"`
 			}
 			if json.Unmarshal(call.Result, &result) == nil {
 				for _, receipt := range result.NPCReceipts {
@@ -196,6 +200,7 @@ func engineResolutionEventsToAPI(applied []engine.AppliedToolCall) []api.Resolut
 						out = append(out, api.ResolutionEvent{Type: "srd_attack", Label: "NPC " + receipt.Weapon, Outcome: receipt.Outcome, Details: map[string]any{"receipt": receipt}})
 					}
 				}
+				out = appendZeroHPEvents(out, result.Repair, result.DeathSave)
 			}
 		}
 		switch call.Tool {
@@ -256,6 +261,13 @@ func engineResolutionEventsToAPI(applied []engine.AppliedToolCall) []api.Resolut
 					out = append(out, api.ResolutionEvent{Type: "srd_effect", Label: "Caster effects and recovery", Outcome: r.Reason, Details: map[string]any{"receipt": r}})
 				}
 			}
+		case "srd_death_save":
+			var result struct {
+				Receipt *srd521.ZeroHPReceipt `json:"receipt"`
+			}
+			if json.Unmarshal(call.Result, &result) == nil {
+				out = appendZeroHPEvents(out, result.Receipt)
+			}
 		case "srd_door":
 			var result struct {
 				Receipt *srd521.DoorReceipt `json:"receipt"`
@@ -295,6 +307,17 @@ func engineResolutionEventsToAPI(applied []engine.AppliedToolCall) []api.Resolut
 			if event, ok := srdCheckResolutionEvent(call); ok {
 				out = append(out, event)
 			}
+		}
+	}
+	return out
+}
+
+// appendZeroHPEvents adds each saved 0 HP receipt under the one event type
+// clients show them as, skipping those that are absent.
+func appendZeroHPEvents(out []api.ResolutionEvent, receipts ...*srd521.ZeroHPReceipt) []api.ResolutionEvent {
+	for _, r := range receipts {
+		if r != nil && r.RulesVersion == "srd-5.2.1" {
+			out = append(out, api.ResolutionEvent{Type: "srd_death_save", Label: "0 HP", Outcome: r.Reason, Details: map[string]any{"receipt": r}})
 		}
 	}
 	return out
