@@ -244,6 +244,13 @@ func engineResolutionEventsToAPI(applied []engine.AppliedToolCall) []api.Resolut
 			if json.Unmarshal(call.Result, &result) == nil && result.Receipt != nil && result.Receipt.RulesVersion == "srd-5.2.1" && slices.Contains([]string{srd521.SpellCast, srd521.DismissLight, srd521.CoverLight, srd521.UncoverLight}, result.Receipt.Kind) {
 				out = append(out, api.ResolutionEvent{Type: "srd_light", Label: "Light", Outcome: result.Receipt.Kind, Details: map[string]any{"receipt": result.Receipt}})
 			}
+		case "srd_travel":
+			var result struct {
+				Receipt *srd521.TravelReceipt `json:"receipt"`
+			}
+			if json.Unmarshal(call.Result, &result) == nil && result.Receipt != nil && result.Receipt.RulesVersion == "srd-5.2.1" && result.Receipt.Kind == srd521.TravelHour {
+				out = append(out, api.ResolutionEvent{Type: "srd_travel", Label: "Travel", Outcome: "arrived at " + result.Receipt.To, Details: map[string]any{"receipt": result.Receipt}})
+			}
 		case "srd_equipment":
 			var result struct {
 				Receipt *srd521.EquipmentReceipt `json:"receipt"`
