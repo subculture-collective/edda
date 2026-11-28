@@ -26,13 +26,10 @@ export async function getMe(token: string): Promise<{ user: AuthUser }> {
   });
 }
 
-export async function logout(): Promise<void> {
-  try {
-    await apiFetchVoid('/auth/logout', {
-      method: 'POST',
-      headers: buildAuthHeaders(getStoredToken()),
-    });
-  } finally {
-    clearStoredSession();
-  }
+export function logout(): Promise<void> {
+  const headers = buildAuthHeaders(getStoredToken());
+  // Clear before the request: a reload would otherwise restore the session, and a
+  // late reply would erase the one from a newer sign-in.
+  clearStoredSession();
+  return apiFetchVoid('/auth/logout', { method: 'POST', headers });
 }

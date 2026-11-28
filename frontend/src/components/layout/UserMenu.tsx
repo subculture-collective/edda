@@ -10,9 +10,10 @@ export function UserMenu({ actions }: { readonly actions?: ReactNode }) {
 
   if (!user) return null;
 
-  async function handleLogout() {
+  function handleLogout() {
     setOpen(false);
-    await logout();
+    // Do not wait for the server: a late reply must not move a newer session to /login.
+    void logout();
     navigate('/login', { replace: true });
   }
 
@@ -46,7 +47,7 @@ export function UserMenu({ actions }: { readonly actions?: ReactNode }) {
               onClick={(event) => {
                 event.preventDefault();
                 event.stopPropagation();
-                void handleLogout();
+                handleLogout();
               }}
               className="hud-text-button w-full px-4 text-left text-sm text-champagne/80 transition-colors hover:bg-ruby/10 hover:text-ruby"
             >

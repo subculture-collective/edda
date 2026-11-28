@@ -74,3 +74,43 @@ test('registers, restores a session, signs out and rejects an expired session', 
   await page.reload(); await expect(page).toHaveURL(/login$/);
   expect(await page.evaluate(() => localStorage.getItem('gm_token'))).toBeNull();
 });
+
+test('ends the local session at sign-out without waiting for the server', async ({ page, game }) => {
+  await signIn(page);
+  let release = () => {};
+  const held = new Promise<void>(resolve => { release = resolve; });
+  let authorization: string | undefined;
+  await page.route('**/auth/logout', async route => {
+    authorization = route.request().headers().authorization;
+    await held;
+    await route.fulfill({ status: 500, json: { error: 'Logout failed' } });
+  });
+  await page.getByRole('button', { name: /Fixture Player/ }).click();
+  await page.getByRole('button', { name: 'Sign out' }).click();
+  await expect(page).toHaveURL(/login$/);
+  expect(await page.evaluate(() => localStorage.getItem('gm_token'))).toBeNull();
+  await expect.poll(() => authorization).toBe('Bearer fixture-token');
+  // Sign in again in the same document. The late logout reply must leave this session alone.
+  await page.getByLabel('Email').fill(user.email);
+  await page.getByLabel('Password', { exact: true }).fill('fixture-password');
+  await page.getByRole('button', { name: /^Sign in$/i }).click();
+  await expect(page.getByRole('heading', { name: 'Campaigns', exact: true })).toBeVisible();
+  await page.locator('a[href="/play/alpha"]').click();
+  const reply = page.waitForResponse('**/auth/logout');
+  release();
+  await (await reply).finished();
+  // The reply has arrived; give the app a rendered frame to react to it.
+  await page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => setTimeout(resolve, 100))));
+  await expect(page).toHaveURL(/play\/alpha$/);
+  expect(await page.evaluate(() => localStorage.getItem('gm_token'))).toBe('fixture-token');
+  expect(game.requests).toContain('POST /auth/login');
+});
+
+test('shows one error panel when the campaign cannot be loaded', async ({ page, game }) => {
+  await signIn(page);
+  await page.route('**/api/v1/campaigns/alpha', route => route.fulfill({ status: 500, json: { error: 'Campaign unavailable' } }));
+  await page.goto('/play/alpha');
+  await expect(page.getByText('The campaign could not be loaded.', { exact: true })).toBeVisible();
+  await expect(page.getByText('Campaign unavailable', { exact: true })).toHaveCount(1);
+  expect(game.sockets).toHaveLength(0);
+});
