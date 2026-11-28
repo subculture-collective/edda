@@ -71,7 +71,7 @@ export interface Spellcasting {
  choices?: { divine_order: string; cantrips: string[]; prepared_spells: string[]; magic_initiate_cantrips: string[]; magic_initiate_spell: string; magic_initiate_ability: string; magic_initiate_uses: number };
  spells: { playable?: boolean; id: string; label: string; known: boolean; prepared: boolean; components: string[]; components_available: boolean; slot_levels: number[]; source_id: string }[];
 }
-// spell_label comes only on effect receipts, and an older API omits it.
+// spell_label is the spell's name. An older API omits it.
 export interface Concentration { id: string; spell: string; spell_label?: string; started_at: number; expires_at: number }
 export interface LightEffect { id: string; item_id: string; color: string; started_at: number; expires_at: number; bright_feet: number; dim_feet: number; covered?: boolean }
 export interface LightReceipt {
@@ -708,7 +708,7 @@ export interface AdvancementReceipt { rules_version: string; kind: string; choic
 export interface EquipmentReceipt {
  rules_version: string; kind: string; item_id: string; equipment: string;
  equipped_before: boolean; equipped_after: boolean; ac_before: number; ac_after: number;
- time_before: number; time_after: number; expired?: { id: string; spell: string };
+ time_before: number; time_after: number; expired?: Concentration;
  source_ids: string[];
 }
 

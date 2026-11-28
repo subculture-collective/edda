@@ -41,6 +41,9 @@ type DetectMagicFacts struct {
 	School       string   `json:"school"`
 }
 
+// spellNameMinorWords stay lowercase after the first word of a spell name.
+var spellNameMinorWords = []string{"a", "an", "and", "for", "from", "into", "of", "on", "or", "the", "to", "via", "with", "without"}
+
 var detectMagicFactKeys = []string{"profile", "bearer", "actor_ids", "location_id", "hidden", "distance_feet", "barrier", "visible", "origin", "school"}
 
 // ParseDetectMagicFacts accepts only the exact vocabulary. Hidden lore, unknown
@@ -206,10 +209,18 @@ func StudyDetectMagic(b *Build, sheet *CharacterSheet, subjects []DetectMagicSub
 	return r, nil
 }
 
-// ConcentrationLabel names the supported concentration spells for receipts.
+// ConcentrationLabel names a concentration spell by turning its ID into title
+// case. The spell records that hold SRD names are not built into the binary, so
+// a name with punctuation, such as "Hunter’s Mark", loses it here.
 func ConcentrationLabel(spell string) string {
-	if spell == DetectMagicID {
-		return "Detect Magic"
+	words := strings.FieldsFunc(spell, func(r rune) bool { return r == '-' })
+	if len(words) == 0 {
+		return "Unnamed spell"
 	}
-	return "Shield of Faith"
+	for i, word := range words {
+		if i == 0 || !slices.Contains(spellNameMinorWords, word) {
+			words[i] = strings.ToUpper(word[:1]) + word[1:]
+		}
+	}
+	return strings.Join(words, " ")
 }

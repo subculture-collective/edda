@@ -14,6 +14,7 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"os"
+	"strings"
 	"testing"
 
 	"git.subcult.tv/subculture-collective/edda/internal/config"
@@ -197,5 +198,23 @@ func TestIntegrationEquipmentAction(t *testing.T) {
 	if string(concentration) != "null" {
 		t.Fatalf("effect retained: %s", concentration)
 	}
-
+	if !strings.Contains(result.Narrative, "Shield of Faith expired.") {
+		t.Fatalf("narrative=%q", result.Narrative)
+	}
+	// Detect Magic can expire during an equipment change too, and is named.
+	choices, err := json.Marshal((&srd521.SupportedBuild{Class: "Cleric"}).CastingChoices())
+	must(err)
+	_, err = testPool.Exec(ctx, `UPDATE player_characters SET stats=jsonb_set(jsonb_set(stats,'{srd521,casting,choices}',$2::jsonb),'{srd521,casting,concentration}','{"id":"detect-fixture","spell":"detect-magic","started_at":29109,"expires_at":29709}') WHERE id=$1`, pc.ID, choices)
+	must(err)
+	intent = game.ActionIntent{ActorID: actor, Kind: srd521.EquipmentEquip, EntryID: shield.String()}
+	if p := prepare(); !p.Available {
+		t.Fatalf("Detect Magic expiry preview: %+v", p)
+	}
+	request = engine.PreparedAction{ActionID: uuid.New(), ExpectedRevision: prepare().ExpectedRevision, Intent: intent}
+	result, err = makeEngine().ConfirmAction(ctx, campaign, request)
+	must(err)
+	must(json.Unmarshal(result.AppliedToolCalls[0].Result, &receipt))
+	if receipt.Receipt.Expired == nil || receipt.Receipt.Expired.Spell != srd521.DetectMagicID || !strings.Contains(result.Narrative, "Detect Magic expired.") || strings.Contains(result.Narrative, "Shield of Faith") {
+		t.Fatalf("expiry=%+v narrative=%q", receipt.Receipt.Expired, result.Narrative)
+	}
 }

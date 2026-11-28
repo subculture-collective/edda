@@ -42,6 +42,7 @@ func (h *CharacterHandlers) GetCharacter(w http.ResponseWriter, r *http.Request)
 		pc := pcs[len(pcs)-1]
 		response.Sheet, err = srd521.Project(pc.Stats, int(pc.Level), int(pc.Hp), int(pc.MaxHp), int(pc.Experience))
 		if err == nil {
+			nameConcentrations(response.Sheet.Concentration)
 			response.Sheet.Fall = game.PendingFall(pc.Stats)
 			response.Sheet.DeathSaves = game.ZeroHPState(pc.Stats, int(pc.Hp))
 			response.Sheet.Prone = game.ReadConditions(pc.Stats).Prone
