@@ -253,7 +253,8 @@ func TestOriginFeatsLeaveFixedRuntimeUnchanged(t *testing.T) {
 				t.Fatal("feat uses changed")
 			}
 			for _, spell := range sheetAfter.Spellcasting.Spells {
-				if spell.ID == "detect-magic" && spell.Playable {
+				// #265 makes only the slotless Magic Initiate free use playable.
+				if spell.ID == "detect-magic" && spell.Playable && len(spell.SlotLevels) != 0 {
 					t.Fatal("feat effect enabled")
 				}
 			}
