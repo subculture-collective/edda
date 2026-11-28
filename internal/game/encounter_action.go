@@ -38,7 +38,61 @@ func ReadEncounter(ctx context.Context, database statedb.DBTX, campaignID uuid.U
 
 // PrepareStoredAction adds a durable encounter fingerprint and enforces turn
 // ownership on the same path used by confirmation. Preparation never rolls.
+// The actor's conditions gate every kind here, so web, TUI and confirmation
+// share one availability and disabled reason.
 func PrepareStoredAction(ctx context.Context, database statedb.DBTX, campaign domain.Campaign, pc domain.PlayerCharacter, intent ActionIntent, lock bool) (*StoredAction, error) {
+	result, err := prepareStoredAction(ctx, database, campaign, pc, intent, lock)
+	if err != nil || result == nil || result.Preview == nil {
+		return result, err
+	}
+	encounter := result.Encounter
+	if encounter == nil {
+		if encounter, err = ReadEncounter(ctx, database, campaign.ID); err != nil {
+			return nil, err
+		}
+	}
+	reason, err := conditionReason(pc.Stats, encounter, intent)
+	if err != nil {
+		reason = err.Error()
+	}
+	if reason != "" {
+		result.Preview.Available = false
+		result.Preview.Reason = reason
+	}
+	return result, nil
+}
+
+// conditionReason names why the actor's conditions forbid intent; that reason
+// replaces any other. An active encounter owns the player's conditions;
+// otherwise they come from stats, strictly decoded so unknown state fails
+// closed. Only ending a turn, declining a Reaction, movement and a fall with
+// no Reaction stay open, and movement closes at Speed 0.
+func conditionReason(stats []byte, encounter *combat.Encounter, intent ActionIntent) (string, error) {
+	conditions, err := srd521.DecodeConditions(stats)
+	if encounter != nil && encounter.Status == "active" {
+		for _, a := range encounter.Actors {
+			if a.Player {
+				conditions, err = a.Conditions, a.Validate()
+			}
+		}
+	}
+	if err != nil {
+		return "", err
+	}
+	switch intent.Kind {
+	case combat.EncounterEndTurn, combat.EncounterDecline:
+		return "", nil
+	case srd521.FallResolve:
+		if intent.Skill == "" {
+			return "", nil
+		}
+	case combat.EncounterMove, combat.EncounterApproach, combat.EncounterRetreat, combat.EncounterStand:
+		return conditions.UnavailableReason(true), nil
+	}
+	return conditions.UnavailableReason(false), nil
+}
+
+func prepareStoredAction(ctx context.Context, database statedb.DBTX, campaign domain.Campaign, pc domain.PlayerCharacter, intent ActionIntent, lock bool) (*StoredAction, error) {
 	if intent.Kind == srd521.AbilityCheck && intent.EntryID == EasyAthleticsEntry {
 		return prepareEasyAthletics(ctx, database, campaign, pc, intent)
 	}

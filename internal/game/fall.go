@@ -28,18 +28,15 @@ type DeclaredFall struct {
 }
 
 // Conditions is the actor's durable condition state outside an encounter,
-// stats.srd521_conditions. An active encounter owns Prone on its player actor.
-type Conditions struct {
-	Prone bool `json:"prone,omitempty"`
-}
+// stats.srd521_conditions. An active encounter owns it on its player actor.
+type Conditions = srd521.Conditions
 
 // ReadConditions returns the actor's saved conditions outside encounters.
+// Unknown condition state reads as none here; PrepareStoredAction refuses it
+// through srd521.DecodeConditions before any action is available.
 func ReadConditions(stats []byte) Conditions {
-	var envelope struct {
-		Conditions Conditions `json:"srd521_conditions"`
-	}
-	_ = json.Unmarshal(stats, &envelope)
-	return envelope.Conditions
+	c, _ := srd521.DecodeConditions(stats)
+	return c
 }
 
 // readDeclaredFall decodes stats.srd521_fall strictly: a declaration with any

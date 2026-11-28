@@ -68,6 +68,11 @@ func resolveEncounterNPC(ctx context.Context, tx pgx.Tx, campaignID uuid.UUID, e
 			player = &encounter.Actors[i]
 		}
 	}
+	// Attacks against an Unconscious player have Advantage and crit within 5
+	// feet; the NPC attack resolvers do not apply that yet, so the turn pauses.
+	if player == nil || player.Unconscious {
+		return nil, nil, ErrActionRefresh
+	}
 	ac := sheet.Defenses["armor-class"].Value + encounter.Space.CoverBonus()
 	attacks := []string{""}
 	if encounter.Beast != nil {
@@ -129,7 +134,8 @@ func resolveEncounterNPC(ctx context.Context, tx pgx.Tx, campaignID uuid.UUID, e
 		if err != nil && err != pgx.ErrNoRows {
 			return nil, nil, err
 		}
-		if err == nil && encounter.Reaction.Available {
+		// An Incapacitated player has no Reaction to take.
+		if err == nil && encounter.Reaction.Available && !player.IsIncapacitated() {
 			encounter.Reaction.Pending = &combat.ReactionTrigger{ID: uuid.New(), TargetID: npc.ID, WeaponID: weapon, SpaceRevision: encounter.Space.Revision}
 			return receipts, effects, nil
 		}

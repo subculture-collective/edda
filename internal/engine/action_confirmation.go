@@ -186,14 +186,14 @@ func (e *Engine) ConfirmAction(ctx context.Context, campaignID uuid.UUID, reques
 			foe.Initiative = m.Initiative.Modifier
 			foe.Speed = m.Speeds["walk"]
 		}
-		// The encounter takes ownership of a Prone condition saved outside it
-		// (for example by a fall) until the encounter completes.
-		prone := game.ReadConditions(pc.Stats).Prone
-		encounter, err = combat.NewEncounter(combat.EncounterActor{ID: pc.ID, Name: pc.Name, HP: pc.HP, MaxHP: pc.MaxHP, Prone: prone}, foe, sheet.Defenses["initiative"].Value, dice)
+		// The encounter takes ownership of the conditions saved outside it (for
+		// example Prone after a fall) until the encounter completes.
+		conditions := game.ReadConditions(pc.Stats)
+		encounter, err = combat.NewEncounter(combat.EncounterActor{ID: pc.ID, Name: pc.Name, HP: pc.HP, MaxHP: pc.MaxHP, Conditions: conditions}, foe, sheet.Defenses["initiative"].Value, dice)
 		if err != nil {
 			return nil, err
 		}
-		if prone {
+		if conditions != (game.Conditions{}) {
 			if err := saveConditions(ctx, tx, campaignID, pc.ID, game.Conditions{}); err != nil {
 				return nil, err
 			}
@@ -629,10 +629,10 @@ func (e *Engine) ConfirmAction(ctx context.Context, campaignID uuid.UUID, reques
 		}
 		payload["encounter"] = encounter
 		if startedActive && encounter.Status != "active" {
-			// The completed encounter hands the player's Prone back to the actor.
+			// The completed encounter hands the player's conditions back to the actor.
 			for _, actor := range encounter.Actors {
-				if actor.Player && actor.Prone {
-					if err := saveConditions(ctx, tx, campaignID, actor.ID, game.Conditions{Prone: actor.Prone}); err != nil {
+				if actor.Player && actor.Conditions != (game.Conditions{}) {
+					if err := saveConditions(ctx, tx, campaignID, actor.ID, actor.Conditions); err != nil {
 						return nil, err
 					}
 				}
