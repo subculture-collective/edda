@@ -42,7 +42,7 @@ func run(args []string) int {
 	}
 	defer logResult.Cleanup()
 
-	logger := log.NewWithOptions(logResult.BridgeWriter, log.Options{ReportTimestamp: true})
+	logger := logging.NewCharmLogger(logResult.BridgeWriter)
 	log.SetDefault(logger)
 
 	cfg, err := config.Load(configPath)
