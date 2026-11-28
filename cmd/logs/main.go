@@ -129,8 +129,13 @@ func printHistory(file *os.File, n int, minLevel slog.Level, services map[string
 // A bufio.Scanner stops for good at its first EOF, so tail reads with a
 // bufio.Reader, keeps a partial last line until its newline arrives and polls
 // at EOF. When the file shrinks below the read offset it was truncated or
-// replaced in place, and tail starts again from its beginning.
+// replaced in place, and tail starts again from its beginning. When the path
+// names a different file, the log was rotated by rename: tail reads the old
+// file to its end, then reads the new one from its beginning. tail takes
+// ownership of file and closes every file it holds.
 func tail(ctx context.Context, file *os.File, out io.Writer, minLevel slog.Level, services map[string]bool) {
+	path := file.Name()
+	defer func() { _ = file.Close() }()
 	offset, err := file.Seek(0, io.SeekCurrent)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "seek: %v\n", err)
@@ -138,6 +143,12 @@ func tail(ctx context.Context, file *os.File, out io.Writer, minLevel slog.Level
 	}
 	reader := bufio.NewReader(file)
 	var partial []byte
+	var next *os.File // the file now at path, while the old one is drained
+	defer func() {
+		if next != nil {
+			_ = next.Close()
+		}
+	}()
 
 	for {
 		chunk, err := reader.ReadBytes('\n')
@@ -153,10 +164,26 @@ func tail(ctx context.Context, file *os.File, out io.Writer, minLevel slog.Level
 			return
 		}
 
+		if next != nil {
+			// The old file is drained. No more of its last line will come.
+			printLine(out, partial, minLevel, services)
+			partial = partial[:0]
+			_ = file.Close()
+			file, next, offset = next, nil, 0
+			reader.Reset(file)
+			continue
+		}
+
 		select {
 		case <-ctx.Done():
 			return
 		case <-time.After(100 * time.Millisecond):
+		}
+
+		// Read once more before leaving the old file: lines may have been
+		// added to it between the EOF above and the rename.
+		if next = openIfReplaced(file, path); next != nil {
+			continue
 		}
 
 		if info, err := file.Stat(); err == nil && info.Size() < offset {
@@ -169,6 +196,25 @@ func tail(ctx context.Context, file *os.File, out io.Writer, minLevel slog.Level
 			reader.Reset(file)
 		}
 	}
+}
+
+// openIfReplaced opens the file at path when it is not the open file. It
+// returns nil while path names the open file, or nothing that can be opened,
+// which is normal between a rename and the creation of the new file.
+func openIfReplaced(file *os.File, path string) *os.File {
+	atPath, err := os.Stat(path)
+	if err != nil {
+		return nil
+	}
+	open, err := file.Stat()
+	if err != nil || os.SameFile(open, atPath) {
+		return nil
+	}
+	replacement, err := os.Open(path)
+	if err != nil {
+		return nil
+	}
+	return replacement
 }
 
 func printLine(out io.Writer, line []byte, minLevel slog.Level, services map[string]bool) {

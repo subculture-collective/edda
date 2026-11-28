@@ -13,6 +13,8 @@ import (
 	"strconv"
 	"strings"
 	"time"
+
+	"git.subcult.tv/subculture-collective/edda/internal/logging"
 )
 
 const (
@@ -137,7 +139,7 @@ func (c *ClaudeClient) Complete(ctx context.Context, messages []Message, tools [
 	var messagesResp claudeMessagesResponse
 	if err := json.NewDecoder(resp.Body).Decode(&messagesResp); err != nil {
 		return nil, &ErrMalformedResponse{
-			URL: c.baseURL + claudeMessagesPath,
+			URL: c.errorURL(),
 			Err: fmt.Errorf("failed to decode claude messages response: %w", err),
 		}
 	}
@@ -147,7 +149,7 @@ func (c *ClaudeClient) Complete(ctx context.Context, messages []Message, tools [
 			category = messagesResp.StopDetails.Category
 		}
 		return nil, &ErrMalformedResponse{
-			URL: c.baseURL + claudeMessagesPath,
+			URL: c.errorURL(),
 			Err: fmt.Errorf("claude declined the request (stop_reason refusal, category %q)", category),
 		}
 	}
@@ -156,7 +158,7 @@ func (c *ClaudeClient) Complete(ctx context.Context, messages []Message, tools [
 	for i, raw := range messagesResp.Content {
 		if err := json.Unmarshal(raw, &blocks[i]); err != nil {
 			return nil, &ErrMalformedResponse{
-				URL: c.baseURL + claudeMessagesPath,
+				URL: c.errorURL(),
 				Err: fmt.Errorf("failed to decode claude content block: %w", err),
 			}
 		}
@@ -164,7 +166,7 @@ func (c *ClaudeClient) Complete(ctx context.Context, messages []Message, tools [
 	content, toolCalls, err := fromClaudeContent(blocks)
 	if err != nil {
 		return nil, &ErrMalformedResponse{
-			URL: c.baseURL + claudeMessagesPath,
+			URL: c.errorURL(),
 			Err: err,
 		}
 	}
@@ -193,7 +195,7 @@ func (c *ClaudeClient) Stream(ctx context.Context, messages []Message, tools []T
 	if ct := resp.Header.Get("Content-Type"); !strings.HasPrefix(ct, "text/event-stream") {
 		_ = resp.Body.Close()
 		return nil, &ErrMalformedResponse{
-			URL: c.baseURL + claudeMessagesPath,
+			URL: c.errorURL(),
 			Err: fmt.Errorf("expected SSE stream with Content-Type %q, got %q", "text/event-stream", ct),
 		}
 	}
@@ -442,7 +444,7 @@ func (c *ClaudeClient) callMessages(ctx context.Context, messages []Message, too
 
 	req, err := http.NewRequestWithContext(ctx, http.MethodPost, messagesURL, bytes.NewReader(body))
 	if err != nil {
-		return nil, fmt.Errorf("failed to create claude messages request: %w", err)
+		return nil, fmt.Errorf("failed to create claude messages request: %w", logging.RedactURLError(err))
 	}
 	req.Header.Set("Content-Type", "application/json")
 	req.Header.Set("x-api-key", c.apiKey)
@@ -469,12 +471,18 @@ func (c *ClaudeClient) callMessages(ctx context.Context, messages []Message, too
 
 func (c *ClaudeClient) messagesURL() (string, error) {
 	if _, err := url.ParseRequestURI(c.baseURL); err != nil {
-		return "", fmt.Errorf("invalid claude base url %q: %w", c.baseURL, err)
+		return "", fmt.Errorf("invalid claude base url %q: %w", logging.RedactURL(c.baseURL), logging.RedactURLError(err))
 	}
 	return c.baseURL + claudeMessagesPath, nil
 }
 
+// errorURL is the messages URL as errors may hold it, without credentials.
+func (c *ClaudeClient) errorURL() string {
+	return logging.RedactURL(c.baseURL + claudeMessagesPath)
+}
+
 func classifyClaudeHTTPError(endpoint, model string, statusCode int, body, retryAfter string) error {
+	endpoint = logging.RedactURL(endpoint)
 	baseErr := claudeAPIError(body, statusCode)
 
 	switch statusCode {
@@ -592,7 +600,7 @@ func sanitizeClaudeErrorField(s string) string {
 			return r
 		}
 	}, s)
-	return strings.Join(strings.Fields(s), " ")
+	return logging.Redact(strings.Join(strings.Fields(s), " "))
 }
 
 type claudeMessagesRequest struct {

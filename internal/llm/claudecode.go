@@ -11,6 +11,8 @@ import (
 	"strings"
 	"sync/atomic"
 	"time"
+
+	"git.subcult.tv/subculture-collective/edda/internal/logging"
 )
 
 // ClaudeCodeClient implements Provider through cmd/claude-bridge, which runs
@@ -82,19 +84,21 @@ func (c *ClaudeCodeClient) Complete(ctx context.Context, messages []Message, too
 	if err != nil {
 		return nil, err
 	}
-	url := c.endpoint + "/v1/run"
-	req, err := http.NewRequestWithContext(ctx, http.MethodPost, url, bytes.NewReader(body))
+	runURL := c.endpoint + "/v1/run"
+	endpoint := logging.RedactURL(runURL)
+	req, err := http.NewRequestWithContext(ctx, http.MethodPost, runURL, bytes.NewReader(body))
 	if err != nil {
-		return nil, err
+		return nil, logging.RedactURLError(err)
 	}
 	req.Header.Set("Authorization", "Bearer "+c.token)
 	req.Header.Set("Content-Type", "application/json")
 	resp, err := c.client.Do(req)
 	if err != nil {
+		err = logging.RedactURLError(err)
 		if errors.Is(err, context.Canceled) || errors.Is(err, context.DeadlineExceeded) {
-			return nil, &ErrTimeout{URL: url, Err: err}
+			return nil, &ErrTimeout{URL: endpoint, Err: err}
 		}
-		return nil, &ErrConnection{URL: url, Err: err}
+		return nil, &ErrConnection{URL: endpoint, Err: err}
 	}
 	defer func() { _ = resp.Body.Close() }()
 	data, _ := io.ReadAll(io.LimitReader(resp.Body, 4<<20))
@@ -103,13 +107,13 @@ func (c *ClaudeCodeClient) Complete(ctx context.Context, messages []Message, too
 		base := fmt.Errorf("claude-bridge: %s", sanitizeErrorBody(strings.TrimSpace(string(data))))
 		switch {
 		case resp.StatusCode == http.StatusUnauthorized:
-			return nil, &ErrAuth{URL: url, StatusCode: resp.StatusCode, Err: base}
+			return nil, &ErrAuth{URL: endpoint, StatusCode: resp.StatusCode, Err: base}
 		case resp.StatusCode == http.StatusTooManyRequests:
-			return nil, &ErrRateLimit{URL: url, StatusCode: resp.StatusCode, Err: base}
+			return nil, &ErrRateLimit{URL: endpoint, StatusCode: resp.StatusCode, Err: base}
 		case resp.StatusCode == http.StatusBadRequest:
-			return nil, &ErrMalformedResponse{URL: url, Err: base}
+			return nil, &ErrMalformedResponse{URL: endpoint, Err: base}
 		default:
-			return nil, &ErrTransient{URL: url, StatusCode: resp.StatusCode, Err: base}
+			return nil, &ErrTransient{URL: endpoint, StatusCode: resp.StatusCode, Err: base}
 		}
 	}
 
@@ -125,7 +129,7 @@ func (c *ClaudeCodeClient) Complete(ctx context.Context, messages []Message, too
 		OutputTokens int `json:"output_tokens"`
 	}
 	if err := json.Unmarshal(data, &out); err != nil {
-		return nil, &ErrMalformedResponse{URL: url, Err: fmt.Errorf("decode bridge reply: %w", err)}
+		return nil, &ErrMalformedResponse{URL: endpoint, Err: fmt.Errorf("decode bridge reply: %w", err)}
 	}
 
 	known := map[string]bool{}
@@ -143,7 +147,7 @@ func (c *ClaudeCodeClient) Complete(ctx context.Context, messages []Message, too
 	}
 	for _, tc := range out.StructuredOutput.ToolCalls {
 		if !known[tc.Name] {
-			return nil, &ErrMalformedResponse{URL: url, Err: fmt.Errorf("model called unknown tool %q", tc.Name)}
+			return nil, &ErrMalformedResponse{URL: endpoint, Err: fmt.Errorf("model called unknown tool %q", tc.Name)}
 		}
 		if tc.Arguments == nil {
 			tc.Arguments = map[string]any{}

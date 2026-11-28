@@ -1,6 +1,7 @@
 package logging
 
 import (
+	"errors"
 	"net/url"
 	"regexp"
 	"strings"
@@ -24,21 +25,24 @@ var (
 	// keywordPasswordPattern matches password=value in a key/value PostgreSQL
 	// DSN, with the value bare or single-quoted.
 	keywordPasswordPattern = regexp.MustCompile(`(?i)\b((?:ssl)?password)=('(?:[^'\\]|\\.)*'|[^\s'` + "`" + `]+)`)
-	// userinfoPattern matches the userinfo of a URL that url.Parse rejects.
-	userinfoPattern = regexp.MustCompile(`^([a-zA-Z][a-zA-Z0-9+.-]*://)[^/?#]*@`)
 )
 
-// RedactURL returns raw, a configured endpoint or DSN, safe to log: userinfo
-// is removed, except that a postgres:// or postgresql:// URL keeps its user
-// name and has its password masked; secret-bearing query parameters are
-// dropped; and a key/value DSN has its password masked.
+// RedactURL returns raw, a URL, configured endpoint or DSN, safe to log or to
+// put in an error: userinfo is removed, except that a postgres:// or
+// postgresql:// URL keeps its user name and has its password masked;
+// secret-bearing query parameters are dropped; and a key/value DSN has its
+// password masked. A URL that does not parse also loses its whole query.
 func RedactURL(raw string) string {
 	if !strings.Contains(raw, "://") {
-		return keywordPasswordPattern.ReplaceAllString(raw, "${1}="+redactedPassword)
+		if keywordPasswordPattern.MatchString(raw) || strings.ContainsAny(raw, " \t\r\n") || !strings.ContainsAny(raw, "@?") {
+			return keywordPasswordPattern.ReplaceAllString(raw, "${1}="+redactedPassword)
+		}
+		// An endpoint with its scheme left out.
+		return strings.TrimPrefix(RedactURL("http://"+raw), "http://")
 	}
 	u, err := url.Parse(raw)
 	if err != nil {
-		return userinfoPattern.ReplaceAllString(raw, "$1")
+		return redactUnparsed(raw)
 	}
 	changed := false
 	if u.User != nil {
@@ -71,6 +75,52 @@ func RedactURL(raw string) string {
 		return raw
 	}
 	return u.String()
+}
+
+// redactUnparsed cuts raw, a URL that url.Parse rejects, down to its host and
+// path. It drops everything up to the last @, because an unescaped password may
+// hold a slash. When a ? or # comes before that @, the password cannot be told
+// apart from the query, so only the scheme is kept.
+func redactUnparsed(raw string) string {
+	scheme, rest, _ := strings.Cut(raw, "://")
+	if i := strings.LastIndex(rest, "@"); i >= 0 {
+		if strings.ContainsAny(rest[:i], "?#") {
+			return scheme + "://" + redactedPassword
+		}
+		rest = rest[i+1:]
+	}
+	if i := strings.IndexAny(rest, "?#"); i >= 0 {
+		rest = rest[:i]
+	}
+	return scheme + "://" + rest
+}
+
+// RedactURLError returns err with credentials removed when it is a *url.Error,
+// the type that net/url and net/http return with the whole URL inside. The
+// result is still a *url.Error with the same cause, so errors.Is, errors.As and
+// Timeout keep working. Causes that quote the URL are replaced: the reason
+// for a URL that held something to remove and either failed to parse or had no
+// scheme (it can quote part of the credentials), and a cause that itself names
+// a URL with credentials. Call it on the error as net/url or net/http returned
+// it; a wrapped one is not changed.
+func RedactURLError(err error) error {
+	urlErr, ok := err.(*url.Error)
+	if !ok {
+		return err
+	}
+	clean := RedactURL(urlErr.URL)
+	cause := urlErr.Err
+	// With the scheme left out, "user:password@host" parses with the user name
+	// as its scheme, and net/http quotes that scheme.
+	quotesURL := urlErr.Op == "parse" || !strings.Contains(urlErr.URL, "://")
+	if quotesURL && clean != urlErr.URL {
+		cause = errors.New("invalid URL")
+	} else if cause != nil {
+		if text := Redact(cause.Error()); text != cause.Error() {
+			cause = errors.New(text)
+		}
+	}
+	return &url.Error{Op: urlErr.Op, URL: clean, Err: cause}
 }
 
 // Redact returns text with RedactURL applied to every URL in it and the

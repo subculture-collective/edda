@@ -14,6 +14,8 @@ import (
 	"net/url"
 	"strings"
 	"time"
+
+	"git.subcult.tv/subculture-collective/edda/internal/logging"
 )
 
 const (
@@ -114,7 +116,7 @@ func (o *OllamaClient) Complete(ctx context.Context, messages []Message, tools [
 	toolCalls, err := fromOllamaToolCalls(chatResp.Message.ToolCalls)
 	if err != nil {
 		return nil, &ErrMalformedResponse{
-			URL: o.baseURL + ollamaChatPath,
+			URL: o.errorURL(),
 			Err: err,
 		}
 	}
@@ -144,7 +146,7 @@ func (o *OllamaClient) readNonStreamingResponse(resp *http.Response) (*ollamaCha
 	bodyBytes, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return nil, &ErrMalformedResponse{
-			URL: o.baseURL + ollamaChatPath,
+			URL: o.errorURL(),
 			Err: fmt.Errorf("failed to read ollama chat response body: %w", err),
 		}
 	}
@@ -153,7 +155,7 @@ func (o *OllamaClient) readNonStreamingResponse(resp *http.Response) (*ollamaCha
 		var chatResp ollamaChatResponse
 		if err := json.Unmarshal(bodyBytes, &chatResp); err != nil {
 			return nil, &ErrMalformedResponse{
-				URL: o.baseURL + ollamaChatPath,
+				URL: o.errorURL(),
 				Err: fmt.Errorf("failed to decode ollama chat response: %w", err),
 			}
 		}
@@ -165,7 +167,7 @@ func (o *OllamaClient) readNonStreamingResponse(resp *http.Response) (*ollamaCha
 	for scanner.Scan() {
 		payload, kind, perr := parseSSELine(scanner.Bytes())
 		if perr != nil {
-			return nil, &ErrMalformedResponse{URL: o.baseURL + ollamaChatPath, Err: perr}
+			return nil, &ErrMalformedResponse{URL: o.errorURL(), Err: perr}
 		}
 		switch kind {
 		case sseLineSkip:
@@ -177,7 +179,7 @@ func (o *OllamaClient) readNonStreamingResponse(resp *http.Response) (*ollamaCha
 				"position", payload.Position,
 				"wait_seconds", payload.WaitSeconds,
 			)
-			if terr := brokerTerminalError(o.baseURL+ollamaChatPath, payload); terr != nil {
+			if terr := brokerTerminalError(o.errorURL(), payload); terr != nil {
 				return nil, terr
 			}
 			continue
@@ -185,7 +187,7 @@ func (o *OllamaClient) readNonStreamingResponse(resp *http.Response) (*ollamaCha
 			var chatResp ollamaChatResponse
 			if err := json.Unmarshal(payload.Raw, &chatResp); err != nil {
 				return nil, &ErrMalformedResponse{
-					URL: o.baseURL + ollamaChatPath,
+					URL: o.errorURL(),
 					Err: fmt.Errorf("failed to decode ollama chat response: %w", err),
 				}
 			}
@@ -194,12 +196,12 @@ func (o *OllamaClient) readNonStreamingResponse(resp *http.Response) (*ollamaCha
 	}
 	if err := scanner.Err(); err != nil {
 		return nil, &ErrMalformedResponse{
-			URL: o.baseURL + ollamaChatPath,
+			URL: o.errorURL(),
 			Err: fmt.Errorf("failed to read broker SSE stream: %w", err),
 		}
 	}
 	return nil, &ErrMalformedResponse{
-		URL: o.baseURL + ollamaChatPath,
+		URL: o.errorURL(),
 		Err: errors.New("broker SSE stream ended without a response payload"),
 	}
 }
@@ -236,7 +238,7 @@ func (o *OllamaClient) Stream(ctx context.Context, messages []Message, tools []T
 				case sseLineSkip:
 					continue
 				case sseLineBrokerStatus:
-					if terr := brokerTerminalError(o.baseURL+ollamaChatPath, payload); terr != nil {
+					if terr := brokerTerminalError(o.errorURL(), payload); terr != nil {
 						// Best-effort terminal: surface via a final empty Done chunk;
 						// the engine layer is responsible for error reporting on Stream
 						// since the channel interface does not carry errors.
@@ -329,7 +331,7 @@ func (o *OllamaClient) callChat(ctx context.Context, messages []Message, tools [
 
 	req, err := http.NewRequestWithContext(ctx, http.MethodPost, chatURL, bytes.NewReader(body))
 	if err != nil {
-		return nil, fmt.Errorf("failed to create ollama chat request: %w", err)
+		return nil, fmt.Errorf("failed to create ollama chat request: %w", logging.RedactURLError(err))
 	}
 	req.Header.Set("Content-Type", "application/json")
 	if o.apiKey != "" {
@@ -377,9 +379,14 @@ func (o *OllamaClient) callChat(ctx context.Context, messages []Message, tools [
 
 func (o *OllamaClient) chatURL() (string, error) {
 	if _, err := url.ParseRequestURI(o.baseURL); err != nil {
-		return "", fmt.Errorf("invalid ollama base url %q: %w", o.baseURL, err)
+		return "", fmt.Errorf("invalid ollama base url %q: %w", logging.RedactURL(o.baseURL), logging.RedactURLError(err))
 	}
 	return o.baseURL + ollamaChatPath, nil
+}
+
+// errorURL is the chat URL as errors may hold it, without credentials.
+func (o *OllamaClient) errorURL() string {
+	return logging.RedactURL(o.baseURL + ollamaChatPath)
 }
 
 // --- SSE / broker helpers ---------------------------------------------------
@@ -465,9 +472,10 @@ func isBrokerStatus(s string) bool {
 // brokerTerminalError converts a terminal broker status event into a typed
 // error. Returns nil for non-terminal (queued) events.
 func brokerTerminalError(endpoint string, evt brokerStatusEvent) error {
+	endpoint = logging.RedactURL(endpoint)
 	switch evt.Status {
 	case brokerStatusOllamaUnavail:
-		msg := evt.Message
+		msg := logging.Redact(evt.Message)
 		if msg == "" {
 			msg = "ollama unavailable"
 		}
@@ -513,6 +521,7 @@ func isSSEStreamResponse(resp *http.Response, r *bufio.Reader) bool {
 // ---------------------------------------------------------------------------
 
 func formatConnectionError(endpoint string, err error) error {
+	endpoint, err = logging.RedactURL(endpoint), logging.RedactURLError(err)
 	if errors.Is(err, context.DeadlineExceeded) || errors.Is(err, context.Canceled) {
 		return &ErrTimeout{URL: endpoint, Err: err}
 	}
@@ -528,7 +537,8 @@ func formatConnectionError(endpoint string, err error) error {
 }
 
 func classifyHTTPError(endpoint, model string, statusCode int, body string) error {
-	baseErr := fmt.Errorf("ollama chat request failed with status %d: %s", statusCode, body)
+	endpoint = logging.RedactURL(endpoint)
+	baseErr := fmt.Errorf("ollama chat request failed with status %d: %s", statusCode, logging.Redact(body))
 
 	switch statusCode {
 	case http.StatusUnauthorized, http.StatusForbidden:

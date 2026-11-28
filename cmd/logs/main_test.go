@@ -121,3 +121,90 @@ func TestTailRestartsAfterTruncation(t *testing.T) {
 	}
 	waitFor(t, out, "after")
 }
+
+// rotate renames path aside and returns the new name of the old file.
+func rotate(t *testing.T, path, suffix string) string {
+	t.Helper()
+	old := path + suffix
+	if err := os.Rename(path, old); err != nil {
+		t.Fatalf("rename: %v", err)
+	}
+	return old
+}
+
+func create(t *testing.T, path, text string) {
+	t.Helper()
+	if err := os.WriteFile(path, []byte(text), 0o600); err != nil {
+		t.Fatalf("write: %v", err)
+	}
+}
+
+func assertInOrder(t *testing.T, out string, messages ...string) {
+	t.Helper()
+	last := -1
+	for _, message := range messages {
+		if n := strings.Count(out, message); n != 1 {
+			t.Fatalf("%q printed %d times, want once; output %q", message, n, out)
+		}
+		at := strings.Index(out, message)
+		if at < last {
+			t.Fatalf("%q printed out of order; output %q", message, out)
+		}
+		last = at
+	}
+}
+
+func TestTailFollowsRotationByRename(t *testing.T) {
+	path := filepath.Join(t.TempDir(), "edda.jsonl")
+	// The new file is longer than the old one, so a size check alone cannot
+	// notice the change.
+	create(t, path, jsonl("line one"))
+	out := startTail(t, path)
+	waitFor(t, out, "line one")
+
+	rotate(t, path, ".1")
+	create(t, path, jsonl("line two, from the new file")+jsonl("line three"))
+	waitFor(t, out, "line three")
+
+	appendTo(t, path, jsonl("line four"))
+	waitFor(t, out, "line four")
+
+	rotate(t, path, ".2")
+	create(t, path, jsonl("line five"))
+	waitFor(t, out, "line five")
+
+	assertInOrder(t, out.String(), "line one", "line two", "line three", "line four", "line five")
+}
+
+func TestTailDrainsOldFileBeforeReopening(t *testing.T) {
+	path := filepath.Join(t.TempDir(), "edda.jsonl")
+	create(t, path, jsonl("line one"))
+	out := startTail(t, path)
+	waitFor(t, out, "line one")
+
+	// All of this normally lands within one poll, so tail sees the new file
+	// before it has read the old file's last lines. The last has no newline.
+	appendTo(t, path, jsonl("line two")+strings.TrimSuffix(jsonl("line three"), "\n"))
+	rotate(t, path, ".1")
+	create(t, path, jsonl("line four"))
+	waitFor(t, out, "line four")
+
+	assertInOrder(t, out.String(), "line one", "line two", "line three", "line four")
+}
+
+func TestTailKeepsOldFileUntilNewOneAppears(t *testing.T) {
+	path := filepath.Join(t.TempDir(), "edda.jsonl")
+	create(t, path, jsonl("line one"))
+	out := startTail(t, path)
+	waitFor(t, out, "line one")
+
+	old := rotate(t, path, ".1")
+	time.Sleep(300 * time.Millisecond) // nothing at path
+	appendTo(t, old, jsonl("line two"))
+	waitFor(t, out, "line two")
+
+	create(t, path, jsonl("line three"))
+	waitFor(t, out, "line three")
+
+	assertInOrder(t, out.String(), "line one", "line two", "line three")
+}

@@ -11,6 +11,8 @@ import (
 	"net/http"
 	"strings"
 	"time"
+
+	"git.subcult.tv/subculture-collective/edda/internal/logging"
 )
 
 const (
@@ -95,7 +97,7 @@ func (c *ChatGPTClient) run(ctx context.Context, messages []Message, tools []Too
 	out, err := c.readStream(resp.Body, nil)
 	if err != nil {
 		if ctx.Err() != nil {
-			return nil, &ErrTimeout{URL: c.responsesURL(), Err: ctx.Err()}
+			return nil, &ErrTimeout{URL: c.errorURL(), Err: ctx.Err()}
 		}
 		return nil, err
 	}
@@ -230,23 +232,29 @@ func (c *ChatGPTClient) open(ctx context.Context, body []byte) (*http.Response, 
 func (c *ChatGPTClient) post(ctx context.Context, body []byte, token string) (*http.Response, error) {
 	req, err := http.NewRequestWithContext(ctx, http.MethodPost, c.responsesURL(), bytes.NewReader(body))
 	if err != nil {
-		return nil, err
+		return nil, logging.RedactURLError(err)
 	}
 	req.Header.Set("Authorization", "Bearer "+token)
 	req.Header.Set("Content-Type", "application/json")
 	req.Header.Set("Accept", "text/event-stream")
 	resp, err := c.client.Do(req)
 	if err != nil {
+		err = logging.RedactURLError(err)
 		if errors.Is(err, context.Canceled) || errors.Is(err, context.DeadlineExceeded) {
-			return nil, &ErrTimeout{URL: c.responsesURL(), Err: err}
+			return nil, &ErrTimeout{URL: c.errorURL(), Err: err}
 		}
-		return nil, &ErrConnection{URL: c.responsesURL(), Err: err}
+		return nil, &ErrConnection{URL: c.errorURL(), Err: err}
 	}
 	return resp, nil
 }
 
 func (c *ChatGPTClient) responsesURL() string {
 	return strings.TrimRight(c.baseURL, "/") + "/responses"
+}
+
+// errorURL is the responses URL as errors may hold it, without credentials.
+func (c *ChatGPTClient) errorURL() string {
+	return logging.RedactURL(c.responsesURL())
 }
 
 type chatGPTEvent struct {
@@ -291,7 +299,7 @@ type chatGPTOutputItem struct {
 // readStream reads Responses server-sent events until response.completed.
 // send, when set, receives text deltas and finished tool calls.
 func (c *ChatGPTClient) readStream(body io.Reader, send func(StreamChunk)) (*Response, error) {
-	endpoint := c.responsesURL()
+	endpoint := c.errorURL()
 	scanner := bufio.NewScanner(body)
 	scanner.Buffer(make([]byte, 0, 64<<10), 8<<20)
 
@@ -411,7 +419,8 @@ func classifyChatGPTCode(endpoint, model string, status int, apiErr *chatGPTAPIE
 	if apiErr.Param != "" {
 		msg += " (param " + apiErr.Param + ")"
 	}
-	base := fmt.Errorf("chatgpt: %s", strings.TrimSpace(msg))
+	endpoint = logging.RedactURL(endpoint)
+	base := fmt.Errorf("chatgpt: %s", logging.Redact(strings.TrimSpace(msg)))
 
 	switch apiErr.Code {
 	case "subscription_sharing_usage_limit_exceeded":
