@@ -8,10 +8,9 @@ import (
 
 // Logger is what packages need in order to log through a command's logger.
 type Logger interface {
-	Error(msg any, keyvals ...any)
-	Debugf(format string, args ...any)
+	Debug(msg any, keyvals ...any)
 	Info(msg any, keyvals ...any)
-	Errorf(format string, args ...any)
+	Error(msg any, keyvals ...any)
 }
 
 // WithPrefix returns logger with prefix as the service of its records, in place

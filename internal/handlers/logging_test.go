@@ -17,7 +17,7 @@ func TestDefaultLoggingIsNamedHandlers(t *testing.T) {
 		name  string
 		write func()
 	}{
-		{"startup handlers without a logger", func() { NewStartupHandlers(nil, nil, nil, nil).Logger.Errorf("boom") }},
+		{"startup handlers without a logger", func() { NewStartupHandlers(nil, nil, nil, nil).Logger.Error("boom") }},
 		{"JSON encode failure", func() { writeJSON(httptest.NewRecorder(), 200, make(chan int)) }},
 	}
 

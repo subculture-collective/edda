@@ -39,7 +39,7 @@ func (h *CharacterHandlers) GetCharacterFeats(w http.ResponseWriter, r *http.Req
 		characterID,
 	)
 	if err != nil {
-		h.Logger.Errorf("get character feats: %v", err)
+		h.Logger.Error("get character feats", "error", err)
 		writeError(w, http.StatusInternalServerError, "failed to list character feats")
 		return
 	}
@@ -49,7 +49,7 @@ func (h *CharacterHandlers) GetCharacterFeats(w http.ResponseWriter, r *http.Req
 	for rows.Next() {
 		var f api.FeatResponse
 		if err := rows.Scan(&f.ID, &f.FeatID, &f.Name, &f.Description, &f.BonusType, &f.BonusValue, &f.Prerequisites); err != nil {
-			h.Logger.Errorf("scan character feat: %v", err)
+			h.Logger.Error("scan character feat", "error", err)
 			continue
 		}
 		feats = append(feats, f)
@@ -89,7 +89,7 @@ func (h *CharacterHandlers) GetCharacterSkills(w http.ResponseWriter, r *http.Re
 		characterID,
 	)
 	if err != nil {
-		h.Logger.Errorf("get character skills: %v", err)
+		h.Logger.Error("get character skills", "error", err)
 		writeError(w, http.StatusInternalServerError, "failed to list character skills")
 		return
 	}
@@ -99,7 +99,7 @@ func (h *CharacterHandlers) GetCharacterSkills(w http.ResponseWriter, r *http.Re
 	for rows.Next() {
 		var s api.SkillResponse
 		if err := rows.Scan(&s.ID, &s.SkillID, &s.Name, &s.Description, &s.BaseAbility, &s.Points); err != nil {
-			h.Logger.Errorf("scan character skill: %v", err)
+			h.Logger.Error("scan character skill", "error", err)
 			continue
 		}
 		skills = append(skills, s)

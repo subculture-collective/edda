@@ -22,7 +22,7 @@ func (h *WorldHandlers) ListNPCs(w http.ResponseWriter, r *http.Request) {
 
 	npcs, err := h.Queries.ListNPCsByCampaign(r.Context(), dbutil.ToPgtype(campaignID))
 	if err != nil {
-		h.Logger.Errorf("list npcs for campaign %s: %v", campaignID, err)
+		h.Logger.Error("list npcs for campaign", "campaign_id", campaignID, "error", err)
 		writeError(w, http.StatusInternalServerError, "failed to list npcs")
 		return
 	}
@@ -53,7 +53,7 @@ func (h *WorldHandlers) GetNPC(w http.ResponseWriter, r *http.Request) {
 		CampaignID: dbutil.ToPgtype(campaignID),
 	})
 	if err != nil {
-		h.Logger.Debugf("get npc %s: %v", nid, err)
+		h.Logger.Debug("get npc", "npc_id", nid, "error", err)
 		writeError(w, http.StatusNotFound, "npc not found")
 		return
 	}

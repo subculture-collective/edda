@@ -42,7 +42,7 @@ func (h *ActionHandlers) HandleWebSocket(w http.ResponseWriter, r *http.Request)
 
 	conn, err := websocket.Accept(w, r, websocketAcceptOptions)
 	if err != nil {
-		h.Logger.Errorf("websocket accept for campaign %s: %v", campaignID, err)
+		h.Logger.Error("websocket accept for campaign", "campaign_id", campaignID, "error", err)
 		return
 	}
 	defer func() { _ = conn.CloseNow() }()
@@ -117,7 +117,7 @@ func (h *ActionHandlers) HandleWebSocket(w http.ResponseWriter, r *http.Request)
 		if err != nil {
 			stopCancellation()
 			cancelTurn()
-			h.Logger.Errorf("process turn stream for campaign %s: %v", campaignID, err)
+			h.Logger.Error("process turn stream for campaign", "campaign_id", campaignID, "error", err)
 			sendErrorEnvelope(ctx, conn, "failed to process turn")
 			continue
 		}
@@ -158,7 +158,7 @@ func (h *ActionHandlers) HandleWebSocket(w http.ResponseWriter, r *http.Request)
 				}
 				resultPayload, err := json.Marshal(engineTurnResultToAPI(event.Result))
 				if err != nil {
-					h.Logger.Errorf("marshal turn result for campaign %s: %v", campaignID, err)
+					h.Logger.Error("marshal turn result for campaign", "campaign_id", campaignID, "error", err)
 					envelope.Type = "error"
 					envelope.Payload, _ = json.Marshal(map[string]string{"error": "an internal error occurred"})
 					break
@@ -175,7 +175,7 @@ func (h *ActionHandlers) HandleWebSocket(w http.ResponseWriter, r *http.Request)
 				envelope.Type = "error"
 				errMsg := "an internal error occurred"
 				if event.Err != nil {
-					h.Logger.Errorf("stream event error for campaign %s: %v", campaignID, event.Err)
+					h.Logger.Error("stream event error for campaign", "campaign_id", campaignID, "error", event.Err)
 				}
 				if errors.Is(event.Err, engine.ErrActionIDConflict) || errors.Is(event.Err, engine.ErrTurnInProgress) || errors.Is(event.Err, engine.ErrPlayerCannotAct) {
 					errMsg = event.Err.Error()
@@ -192,7 +192,7 @@ func (h *ActionHandlers) HandleWebSocket(w http.ResponseWriter, r *http.Request)
 			if err := wsjson.Write(ctx, conn, envelope); err != nil {
 				stopCancellation()
 				cancelTurn()
-				h.Logger.Errorf("websocket write for campaign %s: %v", campaignID, err)
+				h.Logger.Error("websocket write for campaign", "campaign_id", campaignID, "error", err)
 				return
 			}
 		}

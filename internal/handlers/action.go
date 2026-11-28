@@ -40,7 +40,7 @@ func (h *ActionHandlers) ProcessAction(w http.ResponseWriter, r *http.Request) {
 	}
 	result, err := h.Engine.ProcessTurn(turnCtx, campaignID, req.Input)
 	if err != nil {
-		h.Logger.Errorf("process turn for campaign %s: %v", campaignID, err)
+		h.Logger.Error("process turn for campaign", "campaign_id", campaignID, "error", err)
 		if errors.Is(err, engine.ErrTurnRecoveryRequired) {
 			writeJSON(w, http.StatusConflict, map[string]string{"error": err.Error(), "action_id": engine.RecoveryActionID(err)})
 			return
@@ -104,7 +104,7 @@ func (h *ActionHandlers) GetActionReceipt(w http.ResponseWriter, r *http.Request
 	}
 	receipt, err := reader.GetActionReceipt(r.Context(), campaignID, actionID)
 	if err != nil {
-		h.Logger.Errorf("read action receipt for campaign %s: %v", campaignID, err)
+		h.Logger.Error("read action receipt for campaign", "campaign_id", campaignID, "error", err)
 		writeError(w, http.StatusInternalServerError, "failed to read action receipt")
 		return
 	}
