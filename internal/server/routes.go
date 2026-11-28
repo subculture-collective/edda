@@ -119,6 +119,7 @@ func registerAPIRoutes(logger logging.Logger, r chi.Router, campaignH *handlers.
 						r.Delete("/", campaignH.DeleteCampaign)
 						r.Get("/history", campaignH.GetSessionHistory)
 						r.Get("/character", charH.GetCharacter)
+						r.Put("/character/name", charH.RenameCharacter)
 						r.Get("/character/action-preview", charH.PreviewAction)
 						r.Post("/character/action-preview", charH.PreviewTextAction)
 						r.Post("/character/fall", actionH.DeclareFall)

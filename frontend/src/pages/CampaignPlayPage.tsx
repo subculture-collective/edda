@@ -10,6 +10,7 @@ import { listCampaignQuests } from '../api/quests';
 import type { ActionPreview, CampaignResponse, CharacterResponse, ItemResponse, OpeningSceneResponse, QuestResponse } from '../api/types';
 import { AudioControls } from '../components/audio/AudioControls';
 import { CharacterSheet } from '../components/character/CharacterSheet';
+import { UnnamedCharacterPrompt } from '../components/character/UnnamedCharacterPrompt';
 import { EncounterCombatView } from '../components/combat/EncounterCombatView';
 import { EncounterSummary } from '../components/combat/EncounterSummary';
 import { CombatView } from '../components/combat/CombatView';
@@ -283,6 +284,7 @@ function CampaignPlayContent({
       />
       <div className="game-play-layout flex h-full flex-col gap-2">
         {levelUpMessage ? <LevelUpBanner message={levelUpMessage} /> : null}
+        <UnnamedCharacterPrompt campaignId={campaignId} character={characterQuery.data} />
         <GameHudTopBar campaign={campaign} campaignId={campaignId} hudMode={hudMode} />
         {showSaves ? (
           <div className="max-h-40 shrink-0 overflow-y-auto pr-1">

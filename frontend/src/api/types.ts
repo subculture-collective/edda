@@ -193,6 +193,13 @@ export interface CharacterResponse {
   status: string;
   abilities: CharacterAbility[];
   current_location_id?: string;
+  /** The saved name is blank and this server can save a new one. Older servers omit it. */
+  needs_name?: boolean;
+}
+
+export interface CharacterRenameRequest {
+  character_id: string;
+  name: string;
 }
 
 export interface LocationConnectionResponse {

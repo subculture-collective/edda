@@ -53,7 +53,9 @@ func (h *CampaignHandlers) RequireOwnership(next http.Handler) http.Handler {
 			(r.Method == http.MethodPost && strings.HasSuffix(r.URL.Path, "/character/fall"))
 		// The socket permits typed confirmations. Free-form turns still enforce
 		// the legacy rule guard inside the shared engine gather stage.
-		if !chapterRequest && !confirmationRequest && !textPreviewRequest && !socketRequest && !rulingRequest && (r.Method != http.MethodGet && r.Method != http.MethodHead || strings.EqualFold(r.Header.Get("Upgrade"), "websocket")) {
+		// A name has no rules effect, and either rules version may need one.
+		renameRequest := r.Method == http.MethodPut && strings.HasSuffix(r.URL.Path, "/character/name")
+		if !chapterRequest && !confirmationRequest && !textPreviewRequest && !renameRequest && !socketRequest && !rulingRequest && (r.Method != http.MethodGet && r.Method != http.MethodHead || strings.EqualFold(r.Header.Get("Upgrade"), "websocket")) {
 			if err := domain.RequireLegacyRules(domain.RulesVersion(campaign.RulesVersion)); err != nil {
 				writeError(w, http.StatusConflict, err.Error())
 				return

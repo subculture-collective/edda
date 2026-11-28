@@ -1,14 +1,19 @@
 package handlers
 
 import (
+	"encoding/json"
+	"errors"
 	"fmt"
 	"net/http"
+
+	"github.com/google/uuid"
 
 	"git.subcult.tv/subculture-collective/edda/internal/dbutil"
 	"git.subcult.tv/subculture-collective/edda/internal/domain"
 	"git.subcult.tv/subculture-collective/edda/internal/game"
 	"git.subcult.tv/subculture-collective/edda/internal/rules/srd521"
 	statedb "git.subcult.tv/subculture-collective/edda/internal/state/sqlc"
+	"git.subcult.tv/subculture-collective/edda/internal/world"
 	"git.subcult.tv/subculture-collective/edda/pkg/api"
 )
 
@@ -38,6 +43,7 @@ func (h *CharacterHandlers) GetCharacter(w http.ResponseWriter, r *http.Request)
 	}
 	response := playerCharacterToResponse(pcs[len(pcs)-1])
 	response.RulesVersion = campaign.RulesVersion
+	response.NeedsName = domain.ValidateCharacterName(response.Name) != nil
 	if campaign.RulesVersion == string(domain.RulesVersionSRD521) {
 		pc := pcs[len(pcs)-1]
 		response.Sheet, err = srd521.Project(pc.Stats, int(pc.Level), int(pc.Hp), int(pc.MaxHp), int(pc.Experience))
@@ -72,6 +78,39 @@ func (h *CharacterHandlers) GetCharacter(w http.ResponseWriter, r *http.Request)
 		}
 	}
 	writeJSON(w, http.StatusOK, response)
+}
+
+// RenameCharacter saves a new name for one of the campaign's characters. The
+// caller must have checked that the user owns the campaign.
+func (h *CharacterHandlers) RenameCharacter(w http.ResponseWriter, r *http.Request) {
+	campaignID, err := campaignIDFromURL(r)
+	if err != nil {
+		writeError(w, http.StatusBadRequest, fmt.Sprintf("invalid campaign id: %v", err))
+		return
+	}
+	var req api.CharacterRenameRequest
+	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
+		writeError(w, http.StatusBadRequest, "invalid request body")
+		return
+	}
+	characterID, err := uuid.Parse(req.CharacterID)
+	if err != nil {
+		writeError(w, http.StatusBadRequest, "invalid character id")
+		return
+	}
+
+	err = world.RenameCharacter(r.Context(), h.Queries, dbutil.ToPgtype(campaignID), dbutil.ToPgtype(characterID), req.Name)
+	switch {
+	case errors.Is(err, domain.ErrCharacterNameRequired):
+		writeError(w, http.StatusBadRequest, err.Error())
+	case errors.Is(err, world.ErrCharacterNotFound):
+		writeError(w, http.StatusNotFound, "character not found")
+	case err != nil:
+		h.Logger.Error("rename character", "campaign_id", campaignID, "character_id", characterID, "error", err)
+		writeError(w, http.StatusInternalServerError, "failed to rename character")
+	default:
+		w.WriteHeader(http.StatusNoContent)
+	}
 }
 
 // GetCharacterInventory returns the inventory items for the player character.

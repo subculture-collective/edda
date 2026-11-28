@@ -20,7 +20,9 @@ PGOPTIONS='-c default_transaction_read_only=on' \
 ```
 
 Save the output before players rename their characters. The queries find the
-guided form's rows by the blank name, so a renamed character drops out.
+guided form's rows by the blank name, so a renamed character drops out. The web
+rename prompt turns on when an API with the rename route is deployed, so run the
+audit before that deploy.
 
 1. **Characters.** Every row has a blank name. `guided_form_defaults = true`
    means the description, concept and alignment also match what the broken form
@@ -39,7 +41,10 @@ chose, so a bulk update could only guess.
 
 - **Name:** when the TUI loads a campaign that has a blank-named character, it
   asks the player to name it before play. Escape returns to the campaign list.
-  The web app has no such prompt.
+  The web app asks the campaign's owner when the play page loads, for the
+  character that page shows. "Not now" or Escape skips it until the next load.
+  It asks only when `GET /campaigns/{id}/character` returns `needs_name`, and
+  saves through `PUT /campaigns/{id}/character/name`.
 - **Race, class, background and alignment:** these cannot be recovered. The
   prompt says that the guided form replaced them. A player who wants other
   choices has to start a new campaign. These are legacy-rules characters, so the

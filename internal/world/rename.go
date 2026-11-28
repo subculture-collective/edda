@@ -2,6 +2,7 @@ package world
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"strings"
 
@@ -27,6 +28,10 @@ func UnnamedCharacter(ctx context.Context, queries statedb.Querier, campaignID p
 	return nil, nil
 }
 
+// ErrCharacterNotFound refuses a rename of a character that is not in the
+// campaign.
+var ErrCharacterNotFound = errors.New("character not found in this campaign")
+
 // RenameCharacter saves a new name for one of the campaign's characters.
 func RenameCharacter(ctx context.Context, queries statedb.Querier, campaignID, characterID pgtype.UUID, name string) error {
 	if err := domain.ValidateCharacterName(name); err != nil {
@@ -39,7 +44,7 @@ func RenameCharacter(ctx context.Context, queries statedb.Querier, campaignID, c
 		return fmt.Errorf("rename character: %w", err)
 	}
 	if renamed != 1 {
-		return fmt.Errorf("rename character: not found in this campaign")
+		return fmt.Errorf("rename character: %w", ErrCharacterNotFound)
 	}
 	return nil
 }
