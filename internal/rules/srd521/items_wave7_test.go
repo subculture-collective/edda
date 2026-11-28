@@ -42,6 +42,13 @@ var itemBatchLoaders = []func() ([]ItemSourceIdentity, error){
 	func() ([]ItemSourceIdentity, error) { b, err := LoadItems253(); return b.SourceIdentities(), err },
 	func() ([]ItemSourceIdentity, error) { b, err := LoadItems254(); return b.SourceIdentities(), err },
 	func() ([]ItemSourceIdentity, error) { b, err := LoadItems255(); return b.SourceIdentities(), err },
+	func() ([]ItemSourceIdentity, error) { b, err := LoadItems256(); return b.SourceIdentities(), err },
+	func() ([]ItemSourceIdentity, error) { b, err := LoadItems257(); return b.SourceIdentities(), err },
+	func() ([]ItemSourceIdentity, error) { b, err := LoadItems258(); return b.SourceIdentities(), err },
+	func() ([]ItemSourceIdentity, error) { b, err := LoadItems259(); return b.SourceIdentities(), err },
+	func() ([]ItemSourceIdentity, error) { b, err := LoadItems260(); return b.SourceIdentities(), err },
+	func() ([]ItemSourceIdentity, error) { b, err := LoadItems261(); return b.SourceIdentities(), err },
+	func() ([]ItemSourceIdentity, error) { b, err := LoadItems262(); return b.SourceIdentities(), err },
 }
 
 // itemIdentitiesThrough returns the Healing contract and batches #225 to issue.
@@ -174,9 +181,10 @@ type itemFamilyWant struct {
 	variants   []itemVariantWant
 }
 
-// checkMundaneIdentities compares armor, tool and weapon families with literal
-// source identities and listed prices.
-func checkMundaneIdentities[D any](t *testing.T, families []ItemSourceFamily[D], category, section string, expected []itemFamilyWant) {
+// checkMundaneIdentities compares armor, tool, gear and weapon families with
+// literal source identities and listed prices. costPages maps a family slug to
+// the page of its prices, where that is not the presentation page.
+func checkMundaneIdentities[D any](t *testing.T, families []ItemSourceFamily[D], category, section string, expected []itemFamilyWant, costPages ...map[string]int) {
 	t.Helper()
 	if len(families) != len(expected) {
 		t.Fatalf("expected %d families, got %d", len(expected), len(families))
@@ -191,6 +199,12 @@ func checkMundaneIdentities[D any](t *testing.T, families []ItemSourceFamily[D],
 		if len(f.Presentations) != 1 || f.Presentations[0].ID != "srd-5.2.1:content/"+section+"/"+want.slug || !slices.Equal(f.Presentations[0].Pages, pages) {
 			t.Fatalf("%s: source presentation mismatch", f.Name)
 		}
+		costs := pages
+		for _, m := range costPages {
+			if page := m[want.slug]; page != 0 {
+				costs = []int{page, page}
+			}
+		}
 		if len(f.Variants) != len(want.variants) {
 			t.Fatalf("%s: expected %d variants, got %d", f.Name, len(want.variants), len(f.Variants))
 		}
@@ -199,7 +213,7 @@ func checkMundaneIdentities[D any](t *testing.T, families []ItemSourceFamily[D],
 			if v.ID != id+"/variant/"+wv.slug || v.Name != wv.name || v.Rarity != "none" || v.Attunement.Mode != "none" || *v.Charges != (ItemCharges{Mode: "none", Recharge: "none"}) {
 				t.Fatalf("%s: variant mismatch: %s %s", f.Name, v.ID, v.Name)
 			}
-			if v.Cost.Kind != "listed" || v.Cost.Amount != wv.cost || v.Cost.Currency != wv.currency || !slices.Equal(v.Cost.SourcePages, pages) {
+			if v.Cost.Kind != "listed" || v.Cost.Amount != wv.cost || v.Cost.Currency != wv.currency || !slices.Equal(v.Cost.SourcePages, costs) {
 				t.Fatalf("%s: listed price mismatch: %+v", v.Name, v.Cost)
 			}
 			if v.MechanicsAvailable() {

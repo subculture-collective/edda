@@ -1,0 +1,1099 @@
+{
+  "schema_version": 1,
+  "rules_version": "srd-5.2.1",
+  "batch": "data-adventuring-gear-06",
+  "catalogue_issue": 261,
+  "source": {
+    "version": "5.2.1",
+    "language": "en",
+    "landing_url": "https://www.dndbeyond.com/srd",
+    "artifact_url": "https://media.dndbeyond.com/compendium-images/srd/5.2/SRD_CC_v5.2.1.pdf",
+    "sha256": "8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87",
+    "bytes": 6031375,
+    "pages": 364,
+    "retrieved_at": "2026-11-15",
+    "license": "CC-BY-4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/legalcode",
+    "attribution": "This work includes material from the System Reference Document 5.2.1 (\u201cSRD 5.2.1\u201d) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd. The SRD 5.2.1 is licensed under the Creative Commons Attribution 4.0 International License, available at https://creativecommons.org/licenses/by/4.0/legalcode.",
+    "changes": "SRD 5.2.1 p. 99 adventuring gear (Pouch, Priest\u2019s Pack, Quiver, Ram, Portable, Rations, Robe, Rope, Sack, Scholar\u2019s Pack, Shovel, Signal Whistle) adapted into versioned mundane gear families with structured actions, checks, damage, measures, trait keys, pack contents, spellcasting focus classes, weights and listed prices from the entries and their tables. Names and numeric values are adapted; trait keys summarize the remaining rules, in places close to the printed wording; no rules prose is copied as text. Catalogue data grants no inventory, proficiency, action or gameplay permissions; every record is unavailable. Potion of Healing, which this catalogue batch also lists, stays owned by the Healing contract fixture and has no record here."
+  },
+  "families": [
+    {
+      "id": "srd-5.2.1:content/items/pouch",
+      "name": "Pouch",
+      "kind": "mundane",
+      "category": "adventuring-gear",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/adventuring-gear/pouch",
+          "pages": [
+            99,
+            99
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/pouch/variant/standard",
+          "name": "Pouch",
+          "rarity": "none",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "listed",
+            "amount": 5,
+            "currency": "sp",
+            "source_pages": [
+              99,
+              99
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.gear",
+            "measure.capacity-weight-6-pounds",
+            "measure.capacity-volume-1-over-5-cubic-foot"
+          ],
+          "details": {
+            "gear": {
+              "actions": [],
+              "checks": [],
+              "damage": [],
+              "measures": [
+                {
+                  "name": "capacity-weight",
+                  "numerator": 6,
+                  "denominator": 1,
+                  "unit": "pounds"
+                },
+                {
+                  "name": "capacity-volume",
+                  "numerator": 1,
+                  "denominator": 5,
+                  "unit": "cubic-foot"
+                }
+              ],
+              "traits": [],
+              "contents": [],
+              "spellcasting_focus": [],
+              "weight": {
+                "listed": true,
+                "pounds_numerator": 1,
+                "pounds_denominator": 1,
+                "condition": "none"
+              },
+              "source_pages": [
+                99,
+                99
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/priests-pack",
+      "name": "Priest\u2019s Pack",
+      "kind": "mundane",
+      "category": "adventuring-gear",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/adventuring-gear/priests-pack",
+          "pages": [
+            99,
+            99
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/priests-pack/variant/standard",
+          "name": "Priest\u2019s Pack",
+          "rarity": "none",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "listed",
+            "amount": 33,
+            "currency": "gp",
+            "source_pages": [
+              99,
+              99
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.gear",
+            "content.backpack-1-item",
+            "content.blanket-1-item",
+            "content.holy-water-1-item",
+            "content.lamp-1-item",
+            "content.rations-7-day",
+            "content.robe-1-item",
+            "content.tinderbox-1-item"
+          ],
+          "details": {
+            "gear": {
+              "actions": [],
+              "checks": [],
+              "damage": [],
+              "measures": [],
+              "traits": [],
+              "contents": [
+                {
+                  "item": "backpack",
+                  "quantity": 1,
+                  "unit": "item"
+                },
+                {
+                  "item": "blanket",
+                  "quantity": 1,
+                  "unit": "item"
+                },
+                {
+                  "item": "holy-water",
+                  "quantity": 1,
+                  "unit": "item"
+                },
+                {
+                  "item": "lamp",
+                  "quantity": 1,
+                  "unit": "item"
+                },
+                {
+                  "item": "rations",
+                  "quantity": 7,
+                  "unit": "day"
+                },
+                {
+                  "item": "robe",
+                  "quantity": 1,
+                  "unit": "item"
+                },
+                {
+                  "item": "tinderbox",
+                  "quantity": 1,
+                  "unit": "item"
+                }
+              ],
+              "spellcasting_focus": [],
+              "weight": {
+                "listed": true,
+                "pounds_numerator": 29,
+                "pounds_denominator": 1,
+                "condition": "none"
+              },
+              "source_pages": [
+                99,
+                99
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/quiver",
+      "name": "Quiver",
+      "kind": "mundane",
+      "category": "adventuring-gear",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/adventuring-gear/quiver",
+          "pages": [
+            99,
+            99
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/quiver/variant/standard",
+          "name": "Quiver",
+          "rarity": "none",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "listed",
+            "amount": 1,
+            "currency": "gp",
+            "source_pages": [
+              99,
+              99
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.gear",
+            "measure.capacity-20-arrows"
+          ],
+          "details": {
+            "gear": {
+              "actions": [],
+              "checks": [],
+              "damage": [],
+              "measures": [
+                {
+                  "name": "capacity",
+                  "numerator": 20,
+                  "denominator": 1,
+                  "unit": "arrows"
+                }
+              ],
+              "traits": [],
+              "contents": [],
+              "spellcasting_focus": [],
+              "weight": {
+                "listed": true,
+                "pounds_numerator": 1,
+                "pounds_denominator": 1,
+                "condition": "none"
+              },
+              "source_pages": [
+                99,
+                99
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/ram-portable",
+      "name": "Ram, Portable",
+      "kind": "mundane",
+      "category": "adventuring-gear",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/adventuring-gear/ram-portable",
+          "pages": [
+            99,
+            99
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/ram-portable/variant/standard",
+          "name": "Ram, Portable",
+          "rarity": "none",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "listed",
+            "amount": 4,
+            "currency": "gp",
+            "source_pages": [
+              99,
+              99
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.gear",
+            "measure.strength-check-bonus-4-bonus",
+            "measure.helpers-1-character",
+            "trait.used-to-break-down-doors",
+            "trait.helper-grants-advantage-on-check"
+          ],
+          "details": {
+            "gear": {
+              "actions": [],
+              "checks": [],
+              "damage": [],
+              "measures": [
+                {
+                  "name": "strength-check-bonus",
+                  "numerator": 4,
+                  "denominator": 1,
+                  "unit": "bonus"
+                },
+                {
+                  "name": "helpers",
+                  "numerator": 1,
+                  "denominator": 1,
+                  "unit": "character"
+                }
+              ],
+              "traits": [
+                "used-to-break-down-doors",
+                "helper-grants-advantage-on-check"
+              ],
+              "contents": [],
+              "spellcasting_focus": [],
+              "weight": {
+                "listed": true,
+                "pounds_numerator": 35,
+                "pounds_denominator": 1,
+                "condition": "none"
+              },
+              "source_pages": [
+                99,
+                99
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/rations",
+      "name": "Rations",
+      "kind": "mundane",
+      "category": "adventuring-gear",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/adventuring-gear/rations",
+          "pages": [
+            99,
+            99
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/rations/variant/standard",
+          "name": "Rations",
+          "rarity": "none",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "listed",
+            "amount": 5,
+            "currency": "sp",
+            "source_pages": [
+              99,
+              99
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.gear",
+            "trait.travel-ready-food-including-jerky-dried-fruit-hardtack-and-nuts",
+            "trait.not-eating-risks-malnutrition"
+          ],
+          "details": {
+            "gear": {
+              "actions": [],
+              "checks": [],
+              "damage": [],
+              "measures": [],
+              "traits": [
+                "travel-ready-food-including-jerky-dried-fruit-hardtack-and-nuts",
+                "not-eating-risks-malnutrition"
+              ],
+              "contents": [],
+              "spellcasting_focus": [],
+              "weight": {
+                "listed": true,
+                "pounds_numerator": 2,
+                "pounds_denominator": 1,
+                "condition": "none"
+              },
+              "source_pages": [
+                99,
+                99
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/robe",
+      "name": "Robe",
+      "kind": "mundane",
+      "category": "adventuring-gear",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/adventuring-gear/robe",
+          "pages": [
+            99,
+            99
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/robe/variant/standard",
+          "name": "Robe",
+          "rarity": "none",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "listed",
+            "amount": 1,
+            "currency": "gp",
+            "source_pages": [
+              99,
+              99
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.gear",
+            "trait.vocational-or-ceremonial-significance",
+            "trait.required-colors-or-symbols-for-admission-to-some-events-and-locations"
+          ],
+          "details": {
+            "gear": {
+              "actions": [],
+              "checks": [],
+              "damage": [],
+              "measures": [],
+              "traits": [
+                "vocational-or-ceremonial-significance",
+                "required-colors-or-symbols-for-admission-to-some-events-and-locations"
+              ],
+              "contents": [],
+              "spellcasting_focus": [],
+              "weight": {
+                "listed": true,
+                "pounds_numerator": 4,
+                "pounds_denominator": 1,
+                "condition": "none"
+              },
+              "source_pages": [
+                99,
+                99
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/rope",
+      "name": "Rope",
+      "kind": "mundane",
+      "category": "adventuring-gear",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/adventuring-gear/rope",
+          "pages": [
+            99,
+            99
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/rope/variant/standard",
+          "name": "Rope",
+          "rarity": "none",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "multiple",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "listed",
+            "amount": 1,
+            "currency": "gp",
+            "source_pages": [
+              99,
+              99
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.gear",
+            "action.utilize",
+            "action.action",
+            "ability-check.tie-knot-dexterity-sleight-of-hand-dc-10",
+            "ability-check.burst-strength-athletics-dc-20",
+            "ability-check.escape-dexterity-acrobatics-dc-15",
+            "trait.bind-only-unwilling-grappled-incapacitated-or-restrained-creature",
+            "trait.bound-legs-restrain-until-escape"
+          ],
+          "details": {
+            "gear": {
+              "actions": [
+                "utilize",
+                "action"
+              ],
+              "checks": [
+                {
+                  "purpose": "tie-knot",
+                  "kind": "ability-check",
+                  "ability": "dexterity",
+                  "skill": "sleight-of-hand",
+                  "dc": 10,
+                  "dc_rule": "fixed"
+                },
+                {
+                  "purpose": "burst",
+                  "kind": "ability-check",
+                  "ability": "strength",
+                  "skill": "athletics",
+                  "dc": 20,
+                  "dc_rule": "fixed"
+                },
+                {
+                  "purpose": "escape",
+                  "kind": "ability-check",
+                  "ability": "dexterity",
+                  "skill": "acrobatics",
+                  "dc": 15,
+                  "dc_rule": "fixed"
+                }
+              ],
+              "damage": [],
+              "measures": [],
+              "traits": [
+                "bind-only-unwilling-grappled-incapacitated-or-restrained-creature",
+                "bound-legs-restrain-until-escape"
+              ],
+              "contents": [],
+              "spellcasting_focus": [],
+              "weight": {
+                "listed": true,
+                "pounds_numerator": 5,
+                "pounds_denominator": 1,
+                "condition": "none"
+              },
+              "source_pages": [
+                99,
+                99
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/sack",
+      "name": "Sack",
+      "kind": "mundane",
+      "category": "adventuring-gear",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/adventuring-gear/sack",
+          "pages": [
+            99,
+            99
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/sack/variant/standard",
+          "name": "Sack",
+          "rarity": "none",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "listed",
+            "amount": 1,
+            "currency": "cp",
+            "source_pages": [
+              99,
+              99
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.gear",
+            "measure.capacity-weight-30-pounds",
+            "measure.capacity-volume-1-cubic-foot"
+          ],
+          "details": {
+            "gear": {
+              "actions": [],
+              "checks": [],
+              "damage": [],
+              "measures": [
+                {
+                  "name": "capacity-weight",
+                  "numerator": 30,
+                  "denominator": 1,
+                  "unit": "pounds"
+                },
+                {
+                  "name": "capacity-volume",
+                  "numerator": 1,
+                  "denominator": 1,
+                  "unit": "cubic-foot"
+                }
+              ],
+              "traits": [],
+              "contents": [],
+              "spellcasting_focus": [],
+              "weight": {
+                "listed": true,
+                "pounds_numerator": 1,
+                "pounds_denominator": 2,
+                "condition": "none"
+              },
+              "source_pages": [
+                99,
+                99
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/scholars-pack",
+      "name": "Scholar\u2019s Pack",
+      "kind": "mundane",
+      "category": "adventuring-gear",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/adventuring-gear/scholars-pack",
+          "pages": [
+            99,
+            99
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/scholars-pack/variant/standard",
+          "name": "Scholar\u2019s Pack",
+          "rarity": "none",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "listed",
+            "amount": 40,
+            "currency": "gp",
+            "source_pages": [
+              99,
+              99
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.gear",
+            "content.backpack-1-item",
+            "content.book-1-item",
+            "content.ink-1-item",
+            "content.ink-pen-1-item",
+            "content.lamp-1-item",
+            "content.oil-10-flask",
+            "content.parchment-10-sheet",
+            "content.tinderbox-1-item"
+          ],
+          "details": {
+            "gear": {
+              "actions": [],
+              "checks": [],
+              "damage": [],
+              "measures": [],
+              "traits": [],
+              "contents": [
+                {
+                  "item": "backpack",
+                  "quantity": 1,
+                  "unit": "item"
+                },
+                {
+                  "item": "book",
+                  "quantity": 1,
+                  "unit": "item"
+                },
+                {
+                  "item": "ink",
+                  "quantity": 1,
+                  "unit": "item"
+                },
+                {
+                  "item": "ink-pen",
+                  "quantity": 1,
+                  "unit": "item"
+                },
+                {
+                  "item": "lamp",
+                  "quantity": 1,
+                  "unit": "item"
+                },
+                {
+                  "item": "oil",
+                  "quantity": 10,
+                  "unit": "flask"
+                },
+                {
+                  "item": "parchment",
+                  "quantity": 10,
+                  "unit": "sheet"
+                },
+                {
+                  "item": "tinderbox",
+                  "quantity": 1,
+                  "unit": "item"
+                }
+              ],
+              "spellcasting_focus": [],
+              "weight": {
+                "listed": true,
+                "pounds_numerator": 22,
+                "pounds_denominator": 1,
+                "condition": "none"
+              },
+              "source_pages": [
+                99,
+                99
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/shovel",
+      "name": "Shovel",
+      "kind": "mundane",
+      "category": "adventuring-gear",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/adventuring-gear/shovel",
+          "pages": [
+            99,
+            99
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/shovel/variant/standard",
+          "name": "Shovel",
+          "rarity": "none",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "listed",
+            "amount": 2,
+            "currency": "gp",
+            "source_pages": [
+              99,
+              99
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.gear",
+            "measure.digging-time-1-hour",
+            "measure.hole-side-5-feet",
+            "trait.digs-hole-in-soil-or-similar-material"
+          ],
+          "details": {
+            "gear": {
+              "actions": [],
+              "checks": [],
+              "damage": [],
+              "measures": [
+                {
+                  "name": "digging-time",
+                  "numerator": 1,
+                  "denominator": 1,
+                  "unit": "hour"
+                },
+                {
+                  "name": "hole-side",
+                  "numerator": 5,
+                  "denominator": 1,
+                  "unit": "feet"
+                }
+              ],
+              "traits": [
+                "digs-hole-in-soil-or-similar-material"
+              ],
+              "contents": [],
+              "spellcasting_focus": [],
+              "weight": {
+                "listed": true,
+                "pounds_numerator": 5,
+                "pounds_denominator": 1,
+                "condition": "none"
+              },
+              "source_pages": [
+                99,
+                99
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/signal-whistle",
+      "name": "Signal Whistle",
+      "kind": "mundane",
+      "category": "adventuring-gear",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/adventuring-gear/signal-whistle",
+          "pages": [
+            99,
+            99
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/signal-whistle/variant/standard",
+          "name": "Signal Whistle",
+          "rarity": "none",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "utilize",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "listed",
+            "amount": 5,
+            "currency": "cp",
+            "source_pages": [
+              99,
+              99
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.gear",
+            "action.utilize",
+            "measure.audible-distance-600-feet",
+            "trait.blown-to-produce-sound"
+          ],
+          "details": {
+            "gear": {
+              "actions": [
+                "utilize"
+              ],
+              "checks": [],
+              "damage": [],
+              "measures": [
+                {
+                  "name": "audible-distance",
+                  "numerator": 600,
+                  "denominator": 1,
+                  "unit": "feet"
+                }
+              ],
+              "traits": [
+                "blown-to-produce-sound"
+              ],
+              "contents": [],
+              "spellcasting_focus": [],
+              "weight": {
+                "listed": false,
+                "pounds_numerator": 0,
+                "pounds_denominator": 1,
+                "condition": "none"
+              },
+              "source_pages": [
+                99,
+                99
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

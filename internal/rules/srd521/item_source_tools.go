@@ -41,7 +41,7 @@ type ItemToolWeight struct {
 	Pounds int  `json:"pounds"`
 }
 
-var toolSourceKind = mundaneSourceKind{Category: "tool", Section: "tools", Use: "utilize", Payload: "tool"}
+var toolSourceKind = mundaneSourceKind{Category: "tool", Section: "tools", Payload: "tool"}
 
 // decodeToolSourceBatch decodes one tool batch strictly against its manifest.
 func decodeToolSourceBatch[D any](data []byte, m mundaneSourceManifest, tool func(*D) *ItemTool) (ItemSourceBatch[D], error) {
@@ -50,7 +50,7 @@ func decodeToolSourceBatch[D any](data []byte, m mundaneSourceManifest, tool fun
 		if err := checkItemTool(p, page); err != nil {
 			return mundaneSourceRow{}, err
 		}
-		return mundaneSourceRow{Equip: "none", Keys: itemToolKeys(p)}, nil
+		return mundaneSourceRow{Equip: "none", Use: "utilize", Keys: itemToolKeys(p)}, nil
 	})
 }
 

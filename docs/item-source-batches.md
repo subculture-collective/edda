@@ -23,8 +23,9 @@ source rows against it. It does not add a second record, which
 need editing for a new one. It defines the generic `ItemSourceBatch[D]` record,
 strict decoding, magic-item manifest validation and
 `ComposeItemSourceIdentities`. Mundane batches have their own validators:
-see [Weapon records](#weapon-records) and
-[Armor and tool records](#armor-and-tool-records).
+see [Weapon records](#weapon-records),
+[Armor and tool records](#armor-and-tool-records) and
+[Adventuring gear records](#adventuring-gear-records).
 
 Each batch owns four files named after its catalogue issue, here `225`:
 
@@ -1428,8 +1429,8 @@ records; the software license does not replace this source license.
 ## Armor and tool records
 
 Armor and tools are mundane items with listed prices. `item_source_mundane.go`
-holds the identity and requirement checks they share; it accepts several
-variants per family, which the weapon validator does not. The payloads are
+holds the identity and requirement checks they share with adventuring gear; it
+accepts several variants per family, which the weapon validator does not. The payloads are
 `ItemArmor` in `item_source_armor.go` and `ItemTool` in `item_source_tools.go`.
 A record has kind `mundane`, rarity `none`, no attunement or charges, and the
 listed price. The manifest pins identity, price and mechanic keys, and the keys
@@ -1653,3 +1654,358 @@ License, available at https://creativecommons.org/licenses/by/4.0/legalcode.
 Names, numeric values and keys that follow the printed wording are adapted into
 Edda's structured item records; the software license does not replace this source
 license.
+
+## Adventuring gear records
+
+Adventuring gear (pp. 94–100) is mundane, with listed prices, and shares
+`item_source_mundane.go` with armor and tools. The payload is `ItemGear` in
+`item_source_gear.go`. A record has category `adventuring-gear`, presentation
+`content/adventuring-gear/<slug>`, rarity `none`, no attunement or charges and
+equip mode `none`. A family with a printed variant table (Ammunition, Arcane
+Focus, Druidic Focus and Holy Symbol) has one variant per row; every other
+family has the variant `standard`.
+
+| Payload field | Content |
+| --- | --- |
+| `actions` | The actions the entry names, in print order. The use mode is the one action, `multiple` or `none` |
+| `checks` | Saving throws and ability checks with ability, skill and DC. The DC rule `plus-dexterity-modifier-and-proficiency-bonus` means 8 plus those two |
+| `damage` | Dice or a flat amount, with its damage type |
+| `measures` | Printed quantities as a fraction of a unit: ranges, capacities, durations, uses and bonuses |
+| `traits` | Keys that summarize the remaining rules, in places close to the printed wording |
+| `contents` | A pack's list: gear family slug, quantity and unit (`item`, `flask`, `day` or `sheet`) |
+| `spellcasting_focus` | The classes that can use the item as a Spellcasting Focus |
+| `weight` | A fraction of a pound. A printed dash is `listed: false`; the Waterskin's weight has the condition `full` |
+| `source_pages` | The first and last page of the entry and its variant table |
+
+The manifest pins identity, price and mechanic keys, and the keys must equal
+those derived from the payload. The keys restate every payload value except
+weight and `source_pages`, which the literal fixtures and comparison scripts
+check. Pack contents and focus classes grant no item, proficiency or casting.
+A price's `source_pages` is the entry's first page, except for Ammunition, whose
+prices are printed only in the p. 96 table and the p. 95 gear table; its records
+cite p. 96.
+
+**Ownership.** Two of the 81 inventory entries already had a record, so batches
+#261 and #262 join them in their tests and add none:
+
+| Gear entry | Owner | What the join checks |
+| --- | --- | --- |
+| Potion of Healing (p. 99) | The Healing contract fixture, which holds the p. 99 presentation | Price, 2d4 + 2 healing, Bonus Action and 5-foot range. The fixture records no weight; the table prints 1/2 lb. |
+| Spell Scroll (p. 99) | Batch #242, which holds only the p. 244 magic-item presentation | The cantrip and level 1 records: save DC 13, attack bonus +5, your spell list, normal casting time and no Material components |
+
+The p. 99 Spell Scroll prices, 30 GP for a cantrip and 50 GP for level 1, are in
+no record. The #242 records leave the price unspecified, as p. 244 does, and the
+magic-item validator accepts one presentation per family. Adding the p. 99
+presentation and prices needs a change to that shared validator. The #262
+comparison script checks both printed prices, and its test fails if a #242
+record gains a price.
+
+The other 79 entries had no item record. No tool or other magic item shares a
+gear entry. The runtime names some gear but defines none of it:
+
+| Where | What it holds |
+| --- | --- |
+| `creation.go` | The names "Dungeoneer's Pack", "Holy Symbol", "Parchment (10)" and "Robe", and "Prayer Book", a Book |
+| `world/persist.go` | Inventory rows for those names; the pack row has `srd521_id` `dungeoneers-pack` |
+| `character.go` | The Shield of Faith component "material (Holy Symbol focus)" and a focus flag |
+| Character source catalogues | References to equipment keys such as `quiver` and `healers-kit` |
+| `rules/feats.go` | A legacy, non-SRD 5.2.1 Healer feat that mentions a healer's kit |
+
+None of these holds a gear price, weight or rule. The batch tests join the
+`creation.go` names (except "Prayer Book"), the focus component and the gear
+equipment keys to the records. `world/persist.go` and `rules/feats.go` have no
+join test. No runtime file changed, and no runtime code reads the records. The
+Wizard's `spellbook` key is a class item, not the Book entry.
+
+Each comparison script imports `scripts/srd_gear.py`, which reads the pinned PDF.
+It builds weights, prices, variant rows, pack contents, actions, checks, damage
+and focus classes from the printed text. Check and damage purposes, measure
+names and trait keys are hand-written in each script. A measure or trait must
+quote a phrase printed in its own entry, a measure's phrase must print its
+number and unit, every digit in an entry must belong to a check, damage, pack
+list or measure, and every sentence must have some evidence. These rules do not
+prove that a hand-written key summarizes its phrase correctly.
+
+The planning inventory lists exactly the 81 printed gear entries.
+`items_wave8_test.go` holds the shared gear test helpers and compares the whole
+item catalogue, 413 families and 513 variants, with all 414 item records of the
+inventory in both directions. It allows three differences: Heavy Crossbow is
+not in the inventory, the p. 99 Spell Scroll record joins #242, and the
+inventory's p. 236 name "Potions of Healing" joins the family Potion of Healing.
+
+## Adventuring gear 01 (#256), pp. 94–96
+
+Twelve gear families and twenty variants, in planning inventory order. Files:
+`item_details_256.go`, `testdata/items_256.json`, `items_256_test.go` and
+`scripts/verify_srd_items_256.py`.
+
+| Gear | Page | Cost | Weight | Variants |
+| --- | --- | --- | --- | --- |
+| Acid | 94 | 25 GP | 1 lb. | `standard` |
+| Alchemist’s Fire | 94 | 50 GP | 1 lb. | `standard` |
+| Ammunition | 94 | Varies | Varies | Arrows (1 GP, 1 lb.), Bolts (1 GP, 1 1/2 lb.), Bullets, Firearm (3 GP, 2 lb.), Bullets, Sling (4 CP, 1 1/2 lb.), Needles (1 GP, 1 lb.) |
+| Antitoxin | 96 | 50 GP | — | `standard` |
+| Arcane Focus | 96 | Varies | Varies | Crystal (10 GP, 1 lb.), Orb (20 GP, 3 lb.), Rod (10 GP, 2 lb.), Staff (5 GP, 4 lb.), Wand (10 GP, 1 lb.) |
+| Backpack | 96 | 2 GP | 5 lb. | `standard` |
+| Ball Bearings | 96 | 1 GP | 2 lb. | `standard` |
+| Barrel | 96 | 2 GP | 70 lb. | `standard` |
+| Basket | 96 | 4 SP | 2 lb. | `standard` |
+| Bedroll | 96 | 1 GP | 7 lb. | `standard` |
+| Bell | 96 | 1 GP | — | `standard` |
+| Blanket | 96 | 5 SP | 3 lb. | `standard` |
+
+Ammunition's price and weight vary by row, and each row records its amount and
+storage. The five Arcane Focus rows include the Staff, which the table marks as
+also a Quarterstaff; the record does not link to the weapon. The test joins the
+character catalogues' arrow and Arcane Focus keys.
+
+Composing the Healing contract fixture with batches #225 to #255 and this batch
+yields 346 families and 442 variants with no shared identity. The coverage
+register is unchanged.
+
+```sh
+rtk proxy python3 -I scripts/verify_srd_items_256.py /path/to/SRD_CC_v5.2.1.pdf
+```
+
+This work includes material from the System Reference Document 5.2.1 (“SRD
+5.2.1”) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd.
+The SRD 5.2.1 is licensed under the Creative Commons Attribution 4.0 International
+License, available at https://creativecommons.org/licenses/by/4.0/legalcode.
+Names, numeric values and summarizing keys are adapted into Edda's structured
+item records; the software license does not replace this source license.
+
+## Adventuring gear 02 (#257), pp. 96–97
+
+Twelve gear families and twelve variants, in planning inventory order. Files:
+`item_details_257.go`, `testdata/items_257.json`, `items_257_test.go` and
+`scripts/verify_srd_items_257.py`.
+
+| Gear | Page | Cost | Weight | Variants |
+| --- | --- | --- | --- | --- |
+| Block and Tackle | 96 | 1 GP | 5 lb. | `standard` |
+| Book | 96 | 25 GP | 5 lb. | `standard` |
+| Bottle, Glass | 96 | 2 GP | 2 lb. | `standard` |
+| Bucket | 96 | 5 CP | 2 lb. | `standard` |
+| Burglar’s Pack | 96 | 16 GP | 42 lb. | `standard` |
+| Caltrops | 96 | 1 GP | 2 lb. | `standard` |
+| Candle | 96 | 1 CP | — | `standard` |
+| Case, Crossbow Bolt | 96 | 1 GP | 1 lb. | `standard` |
+| Case, Map or Scroll | 96 | 1 GP | 1 lb. | `standard` |
+| Chain | 96 | 5 GP | 10 lb. | `standard` |
+| Chest | 97 | 5 GP | 25 lb. | `standard` |
+| Climber’s Kit | 97 | 25 GP | 12 lb. | `standard` |
+
+The Burglar's Pack lists eleven lines. The test joins the pack key and the
+three book keys, whose different contents are all the Book entry.
+
+Composing the Healing contract fixture with batches #225 to #256 and this batch
+yields 358 families and 454 variants with no shared identity. The coverage
+register is unchanged.
+
+```sh
+rtk proxy python3 -I scripts/verify_srd_items_257.py /path/to/SRD_CC_v5.2.1.pdf
+```
+
+This work includes material from the System Reference Document 5.2.1 (“SRD
+5.2.1”) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd.
+The SRD 5.2.1 is licensed under the Creative Commons Attribution 4.0 International
+License, available at https://creativecommons.org/licenses/by/4.0/legalcode.
+Names, numeric values and summarizing keys are adapted into Edda's structured
+item records; the software license does not replace this source license.
+
+## Adventuring gear 03 (#258), p. 97
+
+Twelve gear families and fourteen variants, in planning inventory order. Files:
+`item_details_258.go`, `testdata/items_258.json`, `items_258_test.go` and
+`scripts/verify_srd_items_258.py`.
+
+| Gear | Page | Cost | Weight | Variants |
+| --- | --- | --- | --- | --- |
+| Clothes, Fine | 97 | 15 GP | 6 lb. | `standard` |
+| Clothes, Traveler’s | 97 | 2 GP | 4 lb. | `standard` |
+| Component Pouch | 97 | 25 GP | 2 lb. | `standard` |
+| Costume | 97 | 5 GP | 4 lb. | `standard` |
+| Crowbar | 97 | 2 GP | 5 lb. | `standard` |
+| Diplomat’s Pack | 97 | 39 GP | 39 lb. | `standard` |
+| Druidic Focus | 97 | Varies | Varies | Sprig of mistletoe (1 GP, —), Wooden staff (5 GP, 4 lb.), Yew wand (10 GP, 1 lb.) |
+| Dungeoneer’s Pack | 97 | 12 GP | 55 lb. | `standard` |
+| Entertainer’s Pack | 97 | 40 GP | 58 1/2 lb. | `standard` |
+| Explorer’s Pack | 97 | 10 GP | 55 lb. | `standard` |
+| Flask | 97 | 2 CP | 1 lb. | `standard` |
+| Grappling Hook | 97 | 2 GP | 4 lb. | `standard` |
+
+Four packs record their contents. The Entertainer's Pack weighs 58 1/2 lb. The
+test joins the Fighter creation fixture's Dungeoneer's Pack and the clothing,
+pack, Crowbar and Druidic Focus keys.
+
+Composing the Healing contract fixture with batches #225 to #257 and this batch
+yields 370 families and 468 variants with no shared identity. The coverage
+register is unchanged.
+
+```sh
+rtk proxy python3 -I scripts/verify_srd_items_258.py /path/to/SRD_CC_v5.2.1.pdf
+```
+
+This work includes material from the System Reference Document 5.2.1 (“SRD
+5.2.1”) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd.
+The SRD 5.2.1 is licensed under the Creative Commons Attribution 4.0 International
+License, available at https://creativecommons.org/licenses/by/4.0/legalcode.
+Names, numeric values and summarizing keys are adapted into Edda's structured
+item records; the software license does not replace this source license.
+
+## Adventuring gear 04 (#259), pp. 97–98
+
+Twelve gear families and fourteen variants, in planning inventory order. Files:
+`item_details_259.go`, `testdata/items_259.json`, `items_259_test.go` and
+`scripts/verify_srd_items_259.py`.
+
+| Gear | Page | Cost | Weight | Variants |
+| --- | --- | --- | --- | --- |
+| Healer’s Kit | 97 | 5 GP | 3 lb. | `standard` |
+| Holy Symbol | 97 | Varies | Varies | Amulet (5 GP, 1 lb.), Emblem (5 GP, —), Reliquary (5 GP, 2 lb.) |
+| Holy Water | 97 | 25 GP | 1 lb. | `standard` |
+| Hunting Trap | 97 | 5 GP | 25 lb. | `standard` |
+| Ink | 98 | 10 GP | — | `standard` |
+| Ink Pen | 98 | 2 CP | — | `standard` |
+| Jug | 98 | 2 CP | 4 lb. | `standard` |
+| Ladder | 98 | 1 SP | 25 lb. | `standard` |
+| Lamp | 98 | 5 SP | 1 lb. | `standard` |
+| Lantern, Bullseye | 98 | 10 GP | 2 lb. | `standard` |
+| Lantern, Hooded | 98 | 5 GP | 2 lb. | `standard` |
+| Lock | 98 | 10 GP | 1 lb. | `standard` |
+
+The Healer's Kit's ten uses are a measure, not a charge pool: mundane records
+have no charges. Each Holy Symbol row records how it is carried. Hunting Trap
+runs from p. 97 to p. 98. The test joins the Cleric creation fixture's Holy
+Symbol, the Shield of Faith component and the Healer's Kit and Holy Symbol
+keys.
+
+Composing the Healing contract fixture with batches #225 to #258 and this batch
+yields 382 families and 482 variants with no shared identity. The coverage
+register is unchanged.
+
+```sh
+rtk proxy python3 -I scripts/verify_srd_items_259.py /path/to/SRD_CC_v5.2.1.pdf
+```
+
+This work includes material from the System Reference Document 5.2.1 (“SRD
+5.2.1”) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd.
+The SRD 5.2.1 is licensed under the Creative Commons Attribution 4.0 International
+License, available at https://creativecommons.org/licenses/by/4.0/legalcode.
+Names, numeric values and summarizing keys are adapted into Edda's structured
+item records; the software license does not replace this source license.
+
+## Adventuring gear 05 (#260), pp. 98–99
+
+Twelve gear families and twelve variants, in planning inventory order. Files:
+`item_details_260.go`, `testdata/items_260.json`, `items_260_test.go` and
+`scripts/verify_srd_items_260.py`.
+
+| Gear | Page | Cost | Weight | Variants |
+| --- | --- | --- | --- | --- |
+| Magnifying Glass | 98 | 100 GP | — | `standard` |
+| Manacles | 98 | 2 GP | 6 lb. | `standard` |
+| Map | 98 | 1 GP | — | `standard` |
+| Mirror | 98 | 5 GP | 1/2 lb. | `standard` |
+| Net | 98 | 1 GP | 3 lb. | `standard` |
+| Oil | 98 | 1 SP | 1 lb. | `standard` |
+| Paper | 99 | 2 SP | — | `standard` |
+| Parchment | 99 | 1 SP | — | `standard` |
+| Perfume | 99 | 5 GP | — | `standard` |
+| Poison, Basic | 99 | 100 GP | — | `standard` |
+| Pole | 99 | 5 CP | 7 lb. | `standard` |
+| Pot, Iron | 99 | 2 GP | 10 lb. | `standard` |
+
+Oil runs from p. 98 to p. 99. The test joins the Cleric creation fixture's ten
+sheets of Parchment and the sheet key.
+
+Composing the Healing contract fixture with batches #225 to #259 and this batch
+yields 394 families and 494 variants with no shared identity. The coverage
+register is unchanged.
+
+```sh
+rtk proxy python3 -I scripts/verify_srd_items_260.py /path/to/SRD_CC_v5.2.1.pdf
+```
+
+This work includes material from the System Reference Document 5.2.1 (“SRD
+5.2.1”) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd.
+The SRD 5.2.1 is licensed under the Creative Commons Attribution 4.0 International
+License, available at https://creativecommons.org/licenses/by/4.0/legalcode.
+Names, numeric values and summarizing keys are adapted into Edda's structured
+item records; the software license does not replace this source license.
+
+## Adventuring gear 06 (#261), p. 99
+
+Eleven gear families and eleven variants, in planning inventory order. Files:
+`item_details_261.go`, `testdata/items_261.json`, `items_261_test.go` and
+`scripts/verify_srd_items_261.py`.
+
+| Gear | Page | Cost | Weight | Variants |
+| --- | --- | --- | --- | --- |
+| Pouch | 99 | 5 SP | 1 lb. | `standard` |
+| Priest’s Pack | 99 | 33 GP | 29 lb. | `standard` |
+| Quiver | 99 | 1 GP | 1 lb. | `standard` |
+| Ram, Portable | 99 | 4 GP | 35 lb. | `standard` |
+| Rations | 99 | 5 SP | 2 lb. | `standard` |
+| Robe | 99 | 1 GP | 4 lb. | `standard` |
+| Rope | 99 | 1 GP | 5 lb. | `standard` |
+| Sack | 99 | 1 CP | 1/2 lb. | `standard` |
+| Scholar’s Pack | 99 | 40 GP | 22 lb. | `standard` |
+| Shovel | 99 | 2 GP | 5 lb. | `standard` |
+| Signal Whistle | 99 | 5 CP | — | `standard` |
+
+The inventory's first entry for this issue, Potion of Healing, has no record
+here (see Ownership). Priest's Pack and Scholar's Pack record their contents.
+The test joins the Cleric creation fixture's Robe and the Pouch, pack, Quiver
+and Robe keys.
+
+Composing the Healing contract fixture with batches #225 to #260 and this batch
+yields 405 families and 505 variants with no shared identity. The coverage
+register is unchanged.
+
+```sh
+rtk proxy python3 -I scripts/verify_srd_items_261.py /path/to/SRD_CC_v5.2.1.pdf
+```
+
+This work includes material from the System Reference Document 5.2.1 (“SRD
+5.2.1”) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd.
+The SRD 5.2.1 is licensed under the Creative Commons Attribution 4.0 International
+License, available at https://creativecommons.org/licenses/by/4.0/legalcode.
+Names, numeric values and summarizing keys are adapted into Edda's structured
+item records; the software license does not replace this source license.
+
+## Adventuring gear 07 (#262), p. 100
+
+Eight gear families and eight variants, in planning inventory order. Files:
+`item_details_262.go`, `testdata/items_262.json`, `items_262_test.go` and
+`scripts/verify_srd_items_262.py`.
+
+| Gear | Page | Cost | Weight | Variants |
+| --- | --- | --- | --- | --- |
+| Spikes, Iron | 100 | 1 GP | 5 lb. | `standard` |
+| Spyglass | 100 | 1,000 GP | 1 lb. | `standard` |
+| String | 100 | 1 SP | — | `standard` |
+| Tent | 100 | 2 GP | 20 lb. | `standard` |
+| Tinderbox | 100 | 5 SP | 1 lb. | `standard` |
+| Torch | 100 | 1 CP | 1 lb. | `standard` |
+| Vial | 100 | 1 GP | — | `standard` |
+| Waterskin | 100 | 2 SP | 5 lb. (full) | `standard` |
+
+The inventory's first entry for this issue, Spell Scroll, has no record here
+(see Ownership). With this batch every item record in the inventory has a
+catalogue record or one of the reviewed joins.
+
+Composing the Healing contract fixture with batches #225 to #261 and this batch
+yields 413 families and 513 variants with no shared identity. The coverage
+register is unchanged.
+
+```sh
+rtk proxy python3 -I scripts/verify_srd_items_262.py /path/to/SRD_CC_v5.2.1.pdf
+```
+
+This work includes material from the System Reference Document 5.2.1 (“SRD
+5.2.1”) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd.
+The SRD 5.2.1 is licensed under the Creative Commons Attribution 4.0 International
+License, available at https://creativecommons.org/licenses/by/4.0/legalcode.
+Names, numeric values and summarizing keys are adapted into Edda's structured
+item records; the software license does not replace this source license.

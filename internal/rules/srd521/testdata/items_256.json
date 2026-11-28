@@ -1,0 +1,1752 @@
+{
+  "schema_version": 1,
+  "rules_version": "srd-5.2.1",
+  "batch": "data-adventuring-gear-01",
+  "catalogue_issue": 256,
+  "source": {
+    "version": "5.2.1",
+    "language": "en",
+    "landing_url": "https://www.dndbeyond.com/srd",
+    "artifact_url": "https://media.dndbeyond.com/compendium-images/srd/5.2/SRD_CC_v5.2.1.pdf",
+    "sha256": "8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87",
+    "bytes": 6031375,
+    "pages": 364,
+    "retrieved_at": "2026-11-15",
+    "license": "CC-BY-4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/legalcode",
+    "attribution": "This work includes material from the System Reference Document 5.2.1 (\u201cSRD 5.2.1\u201d) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd. The SRD 5.2.1 is licensed under the Creative Commons Attribution 4.0 International License, available at https://creativecommons.org/licenses/by/4.0/legalcode.",
+    "changes": "SRD 5.2.1 pp. 94\u201396 adventuring gear (Acid, Alchemist\u2019s Fire, Ammunition, Antitoxin, Arcane Focus, Backpack, Ball Bearings, Barrel, Basket, Bedroll, Bell, Blanket) adapted into versioned mundane gear families with structured actions, checks, damage, measures, trait keys, pack contents, spellcasting focus classes, weights and listed prices from the entries and their tables. Names and numeric values are adapted; trait keys summarize the remaining rules, in places close to the printed wording; no rules prose is copied as text. Catalogue data grants no inventory, proficiency, action or gameplay permissions; every record is unavailable."
+  },
+  "families": [
+    {
+      "id": "srd-5.2.1:content/items/acid",
+      "name": "Acid",
+      "kind": "mundane",
+      "category": "adventuring-gear",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/adventuring-gear/acid",
+          "pages": [
+            94,
+            94
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/acid/variant/standard",
+          "name": "Acid",
+          "rarity": "none",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "attack-replacement",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "listed",
+            "amount": 25,
+            "currency": "gp",
+            "source_pages": [
+              94,
+              94
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.gear",
+            "action.attack-replacement",
+            "saving-throw.avoid-damage-dexterity-dc-8-plus-dexterity-modifier-and-proficiency-bonus",
+            "damage.thrown-vial-2d6-acid",
+            "measure.throw-range-20-feet",
+            "trait.throw-vial-in-place-of-one-attack",
+            "trait.target-one-creature-or-object-you-can-see"
+          ],
+          "details": {
+            "gear": {
+              "actions": [
+                "attack-replacement"
+              ],
+              "checks": [
+                {
+                  "purpose": "avoid-damage",
+                  "kind": "saving-throw",
+                  "ability": "dexterity",
+                  "skill": "none",
+                  "dc": 8,
+                  "dc_rule": "plus-dexterity-modifier-and-proficiency-bonus"
+                }
+              ],
+              "damage": [
+                {
+                  "purpose": "thrown-vial",
+                  "dice": 2,
+                  "sides": 6,
+                  "flat": 0,
+                  "type": "acid"
+                }
+              ],
+              "measures": [
+                {
+                  "name": "throw-range",
+                  "numerator": 20,
+                  "denominator": 1,
+                  "unit": "feet"
+                }
+              ],
+              "traits": [
+                "throw-vial-in-place-of-one-attack",
+                "target-one-creature-or-object-you-can-see"
+              ],
+              "contents": [],
+              "spellcasting_focus": [],
+              "weight": {
+                "listed": true,
+                "pounds_numerator": 1,
+                "pounds_denominator": 1,
+                "condition": "none"
+              },
+              "source_pages": [
+                94,
+                94
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/alchemists-fire",
+      "name": "Alchemist\u2019s Fire",
+      "kind": "mundane",
+      "category": "adventuring-gear",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/adventuring-gear/alchemists-fire",
+          "pages": [
+            94,
+            94
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/alchemists-fire/variant/standard",
+          "name": "Alchemist\u2019s Fire",
+          "rarity": "none",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "attack-replacement",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "listed",
+            "amount": 50,
+            "currency": "gp",
+            "source_pages": [
+              94,
+              94
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.gear",
+            "action.attack-replacement",
+            "saving-throw.avoid-damage-and-burning-dexterity-dc-8-plus-dexterity-modifier-and-proficiency-bonus",
+            "damage.thrown-flask-1d4-fire",
+            "measure.throw-range-20-feet",
+            "trait.throw-flask-in-place-of-one-attack",
+            "trait.target-one-creature-or-object-you-can-see",
+            "trait.failed-save-starts-burning"
+          ],
+          "details": {
+            "gear": {
+              "actions": [
+                "attack-replacement"
+              ],
+              "checks": [
+                {
+                  "purpose": "avoid-damage-and-burning",
+                  "kind": "saving-throw",
+                  "ability": "dexterity",
+                  "skill": "none",
+                  "dc": 8,
+                  "dc_rule": "plus-dexterity-modifier-and-proficiency-bonus"
+                }
+              ],
+              "damage": [
+                {
+                  "purpose": "thrown-flask",
+                  "dice": 1,
+                  "sides": 4,
+                  "flat": 0,
+                  "type": "fire"
+                }
+              ],
+              "measures": [
+                {
+                  "name": "throw-range",
+                  "numerator": 20,
+                  "denominator": 1,
+                  "unit": "feet"
+                }
+              ],
+              "traits": [
+                "throw-flask-in-place-of-one-attack",
+                "target-one-creature-or-object-you-can-see",
+                "failed-save-starts-burning"
+              ],
+              "contents": [],
+              "spellcasting_focus": [],
+              "weight": {
+                "listed": true,
+                "pounds_numerator": 1,
+                "pounds_denominator": 1,
+                "condition": "none"
+              },
+              "source_pages": [
+                94,
+                94
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/ammunition",
+      "name": "Ammunition",
+      "kind": "mundane",
+      "category": "adventuring-gear",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/adventuring-gear/ammunition",
+          "pages": [
+            94,
+            94
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/ammunition/variant/arrows",
+          "name": "Arrows",
+          "rarity": "none",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "listed",
+            "amount": 1,
+            "currency": "gp",
+            "source_pages": [
+              96,
+              96
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.gear",
+            "measure.bundle-amount-20-pieces",
+            "trait.required-by-weapon-with-ammunition-property",
+            "trait.weapon-description-specifies-ammunition-type",
+            "trait.bought-in-listed-amounts",
+            "trait.storage-bought-separately",
+            "trait.stored-in-quiver"
+          ],
+          "details": {
+            "gear": {
+              "actions": [],
+              "checks": [],
+              "damage": [],
+              "measures": [
+                {
+                  "name": "bundle-amount",
+                  "numerator": 20,
+                  "denominator": 1,
+                  "unit": "pieces"
+                }
+              ],
+              "traits": [
+                "required-by-weapon-with-ammunition-property",
+                "weapon-description-specifies-ammunition-type",
+                "bought-in-listed-amounts",
+                "storage-bought-separately",
+                "stored-in-quiver"
+              ],
+              "contents": [],
+              "spellcasting_focus": [],
+              "weight": {
+                "listed": true,
+                "pounds_numerator": 1,
+                "pounds_denominator": 1,
+                "condition": "none"
+              },
+              "source_pages": [
+                94,
+                96
+              ]
+            }
+          }
+        },
+        {
+          "id": "srd-5.2.1:content/items/ammunition/variant/bolts",
+          "name": "Bolts",
+          "rarity": "none",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "listed",
+            "amount": 1,
+            "currency": "gp",
+            "source_pages": [
+              96,
+              96
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.gear",
+            "measure.bundle-amount-20-pieces",
+            "trait.required-by-weapon-with-ammunition-property",
+            "trait.weapon-description-specifies-ammunition-type",
+            "trait.bought-in-listed-amounts",
+            "trait.storage-bought-separately",
+            "trait.stored-in-case"
+          ],
+          "details": {
+            "gear": {
+              "actions": [],
+              "checks": [],
+              "damage": [],
+              "measures": [
+                {
+                  "name": "bundle-amount",
+                  "numerator": 20,
+                  "denominator": 1,
+                  "unit": "pieces"
+                }
+              ],
+              "traits": [
+                "required-by-weapon-with-ammunition-property",
+                "weapon-description-specifies-ammunition-type",
+                "bought-in-listed-amounts",
+                "storage-bought-separately",
+                "stored-in-case"
+              ],
+              "contents": [],
+              "spellcasting_focus": [],
+              "weight": {
+                "listed": true,
+                "pounds_numerator": 3,
+                "pounds_denominator": 2,
+                "condition": "none"
+              },
+              "source_pages": [
+                94,
+                96
+              ]
+            }
+          }
+        },
+        {
+          "id": "srd-5.2.1:content/items/ammunition/variant/bullets-firearm",
+          "name": "Bullets, Firearm",
+          "rarity": "none",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "listed",
+            "amount": 3,
+            "currency": "gp",
+            "source_pages": [
+              96,
+              96
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.gear",
+            "measure.bundle-amount-10-pieces",
+            "trait.required-by-weapon-with-ammunition-property",
+            "trait.weapon-description-specifies-ammunition-type",
+            "trait.bought-in-listed-amounts",
+            "trait.storage-bought-separately",
+            "trait.stored-in-pouch"
+          ],
+          "details": {
+            "gear": {
+              "actions": [],
+              "checks": [],
+              "damage": [],
+              "measures": [
+                {
+                  "name": "bundle-amount",
+                  "numerator": 10,
+                  "denominator": 1,
+                  "unit": "pieces"
+                }
+              ],
+              "traits": [
+                "required-by-weapon-with-ammunition-property",
+                "weapon-description-specifies-ammunition-type",
+                "bought-in-listed-amounts",
+                "storage-bought-separately",
+                "stored-in-pouch"
+              ],
+              "contents": [],
+              "spellcasting_focus": [],
+              "weight": {
+                "listed": true,
+                "pounds_numerator": 2,
+                "pounds_denominator": 1,
+                "condition": "none"
+              },
+              "source_pages": [
+                94,
+                96
+              ]
+            }
+          }
+        },
+        {
+          "id": "srd-5.2.1:content/items/ammunition/variant/bullets-sling",
+          "name": "Bullets, Sling",
+          "rarity": "none",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "listed",
+            "amount": 4,
+            "currency": "cp",
+            "source_pages": [
+              96,
+              96
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.gear",
+            "measure.bundle-amount-20-pieces",
+            "trait.required-by-weapon-with-ammunition-property",
+            "trait.weapon-description-specifies-ammunition-type",
+            "trait.bought-in-listed-amounts",
+            "trait.storage-bought-separately",
+            "trait.stored-in-pouch"
+          ],
+          "details": {
+            "gear": {
+              "actions": [],
+              "checks": [],
+              "damage": [],
+              "measures": [
+                {
+                  "name": "bundle-amount",
+                  "numerator": 20,
+                  "denominator": 1,
+                  "unit": "pieces"
+                }
+              ],
+              "traits": [
+                "required-by-weapon-with-ammunition-property",
+                "weapon-description-specifies-ammunition-type",
+                "bought-in-listed-amounts",
+                "storage-bought-separately",
+                "stored-in-pouch"
+              ],
+              "contents": [],
+              "spellcasting_focus": [],
+              "weight": {
+                "listed": true,
+                "pounds_numerator": 3,
+                "pounds_denominator": 2,
+                "condition": "none"
+              },
+              "source_pages": [
+                94,
+                96
+              ]
+            }
+          }
+        },
+        {
+          "id": "srd-5.2.1:content/items/ammunition/variant/needles",
+          "name": "Needles",
+          "rarity": "none",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "listed",
+            "amount": 1,
+            "currency": "gp",
+            "source_pages": [
+              96,
+              96
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.gear",
+            "measure.bundle-amount-50-pieces",
+            "trait.required-by-weapon-with-ammunition-property",
+            "trait.weapon-description-specifies-ammunition-type",
+            "trait.bought-in-listed-amounts",
+            "trait.storage-bought-separately",
+            "trait.stored-in-pouch"
+          ],
+          "details": {
+            "gear": {
+              "actions": [],
+              "checks": [],
+              "damage": [],
+              "measures": [
+                {
+                  "name": "bundle-amount",
+                  "numerator": 50,
+                  "denominator": 1,
+                  "unit": "pieces"
+                }
+              ],
+              "traits": [
+                "required-by-weapon-with-ammunition-property",
+                "weapon-description-specifies-ammunition-type",
+                "bought-in-listed-amounts",
+                "storage-bought-separately",
+                "stored-in-pouch"
+              ],
+              "contents": [],
+              "spellcasting_focus": [],
+              "weight": {
+                "listed": true,
+                "pounds_numerator": 1,
+                "pounds_denominator": 1,
+                "condition": "none"
+              },
+              "source_pages": [
+                94,
+                96
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/antitoxin",
+      "name": "Antitoxin",
+      "kind": "mundane",
+      "category": "adventuring-gear",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/adventuring-gear/antitoxin",
+          "pages": [
+            96,
+            96
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/antitoxin/variant/standard",
+          "name": "Antitoxin",
+          "rarity": "none",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "bonus-action",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "listed",
+            "amount": 50,
+            "currency": "gp",
+            "source_pages": [
+              96,
+              96
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.gear",
+            "action.bonus-action",
+            "measure.benefit-duration-1-hour",
+            "trait.drink-one-vial",
+            "trait.advantage-on-saves-to-avoid-or-end-poisoned"
+          ],
+          "details": {
+            "gear": {
+              "actions": [
+                "bonus-action"
+              ],
+              "checks": [],
+              "damage": [],
+              "measures": [
+                {
+                  "name": "benefit-duration",
+                  "numerator": 1,
+                  "denominator": 1,
+                  "unit": "hour"
+                }
+              ],
+              "traits": [
+                "drink-one-vial",
+                "advantage-on-saves-to-avoid-or-end-poisoned"
+              ],
+              "contents": [],
+              "spellcasting_focus": [],
+              "weight": {
+                "listed": false,
+                "pounds_numerator": 0,
+                "pounds_denominator": 1,
+                "condition": "none"
+              },
+              "source_pages": [
+                96,
+                96
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/arcane-focus",
+      "name": "Arcane Focus",
+      "kind": "mundane",
+      "category": "adventuring-gear",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/adventuring-gear/arcane-focus",
+          "pages": [
+            96,
+            96
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/arcane-focus/variant/crystal",
+          "name": "Crystal",
+          "rarity": "none",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "listed",
+            "amount": 10,
+            "currency": "gp",
+            "source_pages": [
+              96,
+              96
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.gear",
+            "spellcasting-focus.sorcerer",
+            "spellcasting-focus.warlock",
+            "spellcasting-focus.wizard",
+            "trait.bejeweled-or-carved-to-channel-arcane-magic"
+          ],
+          "details": {
+            "gear": {
+              "actions": [],
+              "checks": [],
+              "damage": [],
+              "measures": [],
+              "traits": [
+                "bejeweled-or-carved-to-channel-arcane-magic"
+              ],
+              "contents": [],
+              "spellcasting_focus": [
+                "sorcerer",
+                "warlock",
+                "wizard"
+              ],
+              "weight": {
+                "listed": true,
+                "pounds_numerator": 1,
+                "pounds_denominator": 1,
+                "condition": "none"
+              },
+              "source_pages": [
+                96,
+                96
+              ]
+            }
+          }
+        },
+        {
+          "id": "srd-5.2.1:content/items/arcane-focus/variant/orb",
+          "name": "Orb",
+          "rarity": "none",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "listed",
+            "amount": 20,
+            "currency": "gp",
+            "source_pages": [
+              96,
+              96
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.gear",
+            "spellcasting-focus.sorcerer",
+            "spellcasting-focus.warlock",
+            "spellcasting-focus.wizard",
+            "trait.bejeweled-or-carved-to-channel-arcane-magic"
+          ],
+          "details": {
+            "gear": {
+              "actions": [],
+              "checks": [],
+              "damage": [],
+              "measures": [],
+              "traits": [
+                "bejeweled-or-carved-to-channel-arcane-magic"
+              ],
+              "contents": [],
+              "spellcasting_focus": [
+                "sorcerer",
+                "warlock",
+                "wizard"
+              ],
+              "weight": {
+                "listed": true,
+                "pounds_numerator": 3,
+                "pounds_denominator": 1,
+                "condition": "none"
+              },
+              "source_pages": [
+                96,
+                96
+              ]
+            }
+          }
+        },
+        {
+          "id": "srd-5.2.1:content/items/arcane-focus/variant/rod",
+          "name": "Rod",
+          "rarity": "none",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "listed",
+            "amount": 10,
+            "currency": "gp",
+            "source_pages": [
+              96,
+              96
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.gear",
+            "spellcasting-focus.sorcerer",
+            "spellcasting-focus.warlock",
+            "spellcasting-focus.wizard",
+            "trait.bejeweled-or-carved-to-channel-arcane-magic"
+          ],
+          "details": {
+            "gear": {
+              "actions": [],
+              "checks": [],
+              "damage": [],
+              "measures": [],
+              "traits": [
+                "bejeweled-or-carved-to-channel-arcane-magic"
+              ],
+              "contents": [],
+              "spellcasting_focus": [
+                "sorcerer",
+                "warlock",
+                "wizard"
+              ],
+              "weight": {
+                "listed": true,
+                "pounds_numerator": 2,
+                "pounds_denominator": 1,
+                "condition": "none"
+              },
+              "source_pages": [
+                96,
+                96
+              ]
+            }
+          }
+        },
+        {
+          "id": "srd-5.2.1:content/items/arcane-focus/variant/staff",
+          "name": "Staff",
+          "rarity": "none",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "listed",
+            "amount": 5,
+            "currency": "gp",
+            "source_pages": [
+              96,
+              96
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.gear",
+            "spellcasting-focus.sorcerer",
+            "spellcasting-focus.warlock",
+            "spellcasting-focus.wizard",
+            "trait.bejeweled-or-carved-to-channel-arcane-magic",
+            "trait.also-quarterstaff"
+          ],
+          "details": {
+            "gear": {
+              "actions": [],
+              "checks": [],
+              "damage": [],
+              "measures": [],
+              "traits": [
+                "bejeweled-or-carved-to-channel-arcane-magic",
+                "also-quarterstaff"
+              ],
+              "contents": [],
+              "spellcasting_focus": [
+                "sorcerer",
+                "warlock",
+                "wizard"
+              ],
+              "weight": {
+                "listed": true,
+                "pounds_numerator": 4,
+                "pounds_denominator": 1,
+                "condition": "none"
+              },
+              "source_pages": [
+                96,
+                96
+              ]
+            }
+          }
+        },
+        {
+          "id": "srd-5.2.1:content/items/arcane-focus/variant/wand",
+          "name": "Wand",
+          "rarity": "none",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "listed",
+            "amount": 10,
+            "currency": "gp",
+            "source_pages": [
+              96,
+              96
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.gear",
+            "spellcasting-focus.sorcerer",
+            "spellcasting-focus.warlock",
+            "spellcasting-focus.wizard",
+            "trait.bejeweled-or-carved-to-channel-arcane-magic"
+          ],
+          "details": {
+            "gear": {
+              "actions": [],
+              "checks": [],
+              "damage": [],
+              "measures": [],
+              "traits": [
+                "bejeweled-or-carved-to-channel-arcane-magic"
+              ],
+              "contents": [],
+              "spellcasting_focus": [
+                "sorcerer",
+                "warlock",
+                "wizard"
+              ],
+              "weight": {
+                "listed": true,
+                "pounds_numerator": 1,
+                "pounds_denominator": 1,
+                "condition": "none"
+              },
+              "source_pages": [
+                96,
+                96
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/backpack",
+      "name": "Backpack",
+      "kind": "mundane",
+      "category": "adventuring-gear",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/adventuring-gear/backpack",
+          "pages": [
+            96,
+            96
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/backpack/variant/standard",
+          "name": "Backpack",
+          "rarity": "none",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "listed",
+            "amount": 2,
+            "currency": "gp",
+            "source_pages": [
+              96,
+              96
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.gear",
+            "measure.capacity-weight-30-pounds",
+            "measure.capacity-volume-1-cubic-foot",
+            "trait.can-serve-as-saddlebag"
+          ],
+          "details": {
+            "gear": {
+              "actions": [],
+              "checks": [],
+              "damage": [],
+              "measures": [
+                {
+                  "name": "capacity-weight",
+                  "numerator": 30,
+                  "denominator": 1,
+                  "unit": "pounds"
+                },
+                {
+                  "name": "capacity-volume",
+                  "numerator": 1,
+                  "denominator": 1,
+                  "unit": "cubic-foot"
+                }
+              ],
+              "traits": [
+                "can-serve-as-saddlebag"
+              ],
+              "contents": [],
+              "spellcasting_focus": [],
+              "weight": {
+                "listed": true,
+                "pounds_numerator": 5,
+                "pounds_denominator": 1,
+                "condition": "none"
+              },
+              "source_pages": [
+                96,
+                96
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/ball-bearings",
+      "name": "Ball Bearings",
+      "kind": "mundane",
+      "category": "adventuring-gear",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/adventuring-gear/ball-bearings",
+          "pages": [
+            96,
+            96
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/ball-bearings/variant/standard",
+          "name": "Ball Bearings",
+          "rarity": "none",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "utilize",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "listed",
+            "amount": 1,
+            "currency": "gp",
+            "source_pages": [
+              96,
+              96
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.gear",
+            "action.utilize",
+            "saving-throw.avoid-prone-dexterity-dc-10",
+            "measure.covered-square-side-10-feet",
+            "measure.placement-range-10-feet",
+            "measure.recovery-time-10-minutes",
+            "trait.spill-from-pouch-over-level-area",
+            "trait.triggers-on-first-entry-on-a-turn",
+            "trait.failed-save-causes-prone"
+          ],
+          "details": {
+            "gear": {
+              "actions": [
+                "utilize"
+              ],
+              "checks": [
+                {
+                  "purpose": "avoid-prone",
+                  "kind": "saving-throw",
+                  "ability": "dexterity",
+                  "skill": "none",
+                  "dc": 10,
+                  "dc_rule": "fixed"
+                }
+              ],
+              "damage": [],
+              "measures": [
+                {
+                  "name": "covered-square-side",
+                  "numerator": 10,
+                  "denominator": 1,
+                  "unit": "feet"
+                },
+                {
+                  "name": "placement-range",
+                  "numerator": 10,
+                  "denominator": 1,
+                  "unit": "feet"
+                },
+                {
+                  "name": "recovery-time",
+                  "numerator": 10,
+                  "denominator": 1,
+                  "unit": "minutes"
+                }
+              ],
+              "traits": [
+                "spill-from-pouch-over-level-area",
+                "triggers-on-first-entry-on-a-turn",
+                "failed-save-causes-prone"
+              ],
+              "contents": [],
+              "spellcasting_focus": [],
+              "weight": {
+                "listed": true,
+                "pounds_numerator": 2,
+                "pounds_denominator": 1,
+                "condition": "none"
+              },
+              "source_pages": [
+                96,
+                96
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/barrel",
+      "name": "Barrel",
+      "kind": "mundane",
+      "category": "adventuring-gear",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/adventuring-gear/barrel",
+          "pages": [
+            96,
+            96
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/barrel/variant/standard",
+          "name": "Barrel",
+          "rarity": "none",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "listed",
+            "amount": 2,
+            "currency": "gp",
+            "source_pages": [
+              96,
+              96
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.gear",
+            "measure.liquid-capacity-40-gallons",
+            "measure.dry-goods-capacity-4-cubic-feet",
+            "trait.holds-liquid-or-dry-goods"
+          ],
+          "details": {
+            "gear": {
+              "actions": [],
+              "checks": [],
+              "damage": [],
+              "measures": [
+                {
+                  "name": "liquid-capacity",
+                  "numerator": 40,
+                  "denominator": 1,
+                  "unit": "gallons"
+                },
+                {
+                  "name": "dry-goods-capacity",
+                  "numerator": 4,
+                  "denominator": 1,
+                  "unit": "cubic-feet"
+                }
+              ],
+              "traits": [
+                "holds-liquid-or-dry-goods"
+              ],
+              "contents": [],
+              "spellcasting_focus": [],
+              "weight": {
+                "listed": true,
+                "pounds_numerator": 70,
+                "pounds_denominator": 1,
+                "condition": "none"
+              },
+              "source_pages": [
+                96,
+                96
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/basket",
+      "name": "Basket",
+      "kind": "mundane",
+      "category": "adventuring-gear",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/adventuring-gear/basket",
+          "pages": [
+            96,
+            96
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/basket/variant/standard",
+          "name": "Basket",
+          "rarity": "none",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "listed",
+            "amount": 4,
+            "currency": "sp",
+            "source_pages": [
+              96,
+              96
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.gear",
+            "measure.capacity-weight-40-pounds",
+            "measure.capacity-volume-2-cubic-feet"
+          ],
+          "details": {
+            "gear": {
+              "actions": [],
+              "checks": [],
+              "damage": [],
+              "measures": [
+                {
+                  "name": "capacity-weight",
+                  "numerator": 40,
+                  "denominator": 1,
+                  "unit": "pounds"
+                },
+                {
+                  "name": "capacity-volume",
+                  "numerator": 2,
+                  "denominator": 1,
+                  "unit": "cubic-feet"
+                }
+              ],
+              "traits": [],
+              "contents": [],
+              "spellcasting_focus": [],
+              "weight": {
+                "listed": true,
+                "pounds_numerator": 2,
+                "pounds_denominator": 1,
+                "condition": "none"
+              },
+              "source_pages": [
+                96,
+                96
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/bedroll",
+      "name": "Bedroll",
+      "kind": "mundane",
+      "category": "adventuring-gear",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/adventuring-gear/bedroll",
+          "pages": [
+            96,
+            96
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/bedroll/variant/standard",
+          "name": "Bedroll",
+          "rarity": "none",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "listed",
+            "amount": 1,
+            "currency": "gp",
+            "source_pages": [
+              96,
+              96
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.gear",
+            "measure.occupants-1-creature",
+            "trait.occupant-is-small-or-medium",
+            "trait.automatic-success-on-saves-against-extreme-cold-while-inside"
+          ],
+          "details": {
+            "gear": {
+              "actions": [],
+              "checks": [],
+              "damage": [],
+              "measures": [
+                {
+                  "name": "occupants",
+                  "numerator": 1,
+                  "denominator": 1,
+                  "unit": "creature"
+                }
+              ],
+              "traits": [
+                "occupant-is-small-or-medium",
+                "automatic-success-on-saves-against-extreme-cold-while-inside"
+              ],
+              "contents": [],
+              "spellcasting_focus": [],
+              "weight": {
+                "listed": true,
+                "pounds_numerator": 7,
+                "pounds_denominator": 1,
+                "condition": "none"
+              },
+              "source_pages": [
+                96,
+                96
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/bell",
+      "name": "Bell",
+      "kind": "mundane",
+      "category": "adventuring-gear",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/adventuring-gear/bell",
+          "pages": [
+            96,
+            96
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/bell/variant/standard",
+          "name": "Bell",
+          "rarity": "none",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "utilize",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "listed",
+            "amount": 1,
+            "currency": "gp",
+            "source_pages": [
+              96,
+              96
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.gear",
+            "action.utilize",
+            "measure.audible-distance-60-feet",
+            "trait.rung-to-produce-sound"
+          ],
+          "details": {
+            "gear": {
+              "actions": [
+                "utilize"
+              ],
+              "checks": [],
+              "damage": [],
+              "measures": [
+                {
+                  "name": "audible-distance",
+                  "numerator": 60,
+                  "denominator": 1,
+                  "unit": "feet"
+                }
+              ],
+              "traits": [
+                "rung-to-produce-sound"
+              ],
+              "contents": [],
+              "spellcasting_focus": [],
+              "weight": {
+                "listed": false,
+                "pounds_numerator": 0,
+                "pounds_denominator": 1,
+                "condition": "none"
+              },
+              "source_pages": [
+                96,
+                96
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/blanket",
+      "name": "Blanket",
+      "kind": "mundane",
+      "category": "adventuring-gear",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/adventuring-gear/blanket",
+          "pages": [
+            96,
+            96
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/blanket/variant/standard",
+          "name": "Blanket",
+          "rarity": "none",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "listed",
+            "amount": 5,
+            "currency": "sp",
+            "source_pages": [
+              96,
+              96
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.gear",
+            "trait.advantage-on-saves-against-extreme-cold-while-wrapped"
+          ],
+          "details": {
+            "gear": {
+              "actions": [],
+              "checks": [],
+              "damage": [],
+              "measures": [],
+              "traits": [
+                "advantage-on-saves-against-extreme-cold-while-wrapped"
+              ],
+              "contents": [],
+              "spellcasting_focus": [],
+              "weight": {
+                "listed": true,
+                "pounds_numerator": 3,
+                "pounds_denominator": 1,
+                "condition": "none"
+              },
+              "source_pages": [
+                96,
+                96
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
