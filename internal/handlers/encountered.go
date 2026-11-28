@@ -83,7 +83,7 @@ func (h *WorldHandlers) GetNPCDialogue(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if _, err := h.Queries.GetNPCByID(r.Context(), statedb.GetNPCByIDParams{
+	if _, err := statedb.GetCharacterNPC(r.Context(), h.Queries, statedb.GetNPCByIDParams{
 		ID: db.ToPgUUID(npcID), CampaignID: db.ToPgUUID(campaignID),
 	}); err != nil {
 		writeError(w, http.StatusNotFound, "npc not found")

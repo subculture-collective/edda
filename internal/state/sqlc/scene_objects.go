@@ -1,6 +1,11 @@
 package statedb
 
-import "encoding/json"
+import (
+	"context"
+	"encoding/json"
+
+	"github.com/jackc/pgx/v5"
+)
 
 // IsSceneObject reports whether an npcs row is a scene object rather than a
 // character. Doors (#146) are stored as npcs rows with server-owned
@@ -22,4 +27,20 @@ func IsSceneObject(properties []byte) bool {
 	}
 	var bearer string
 	return json.Unmarshal(magic["bearer"], &bearer) == nil && bearer == "object"
+}
+
+// GetCharacterNPC is GetNPCByID for callers that treat the row as a character.
+// A scene object returns pgx.ErrNoRows, so it looks the same as a missing NPC.
+// Rules code that works on objects uses its own queries.
+func GetCharacterNPC(ctx context.Context, q interface {
+	GetNPCByID(context.Context, GetNPCByIDParams) (Npc, error)
+}, arg GetNPCByIDParams) (Npc, error) {
+	npc, err := q.GetNPCByID(ctx, arg)
+	if err != nil {
+		return Npc{}, err
+	}
+	if IsSceneObject(npc.Properties) {
+		return Npc{}, pgx.ErrNoRows
+	}
+	return npc, nil
 }

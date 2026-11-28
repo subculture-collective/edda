@@ -233,12 +233,15 @@ func (s *combatService) CreatePlayerItem(ctx context.Context, playerCharacterID 
 }
 
 func (s *combatService) MarkNPCDead(ctx context.Context, npcID uuid.UUID) error {
+	if _, err := statedb.GetCharacterNPC(ctx, s.queries, statedb.GetNPCByIDParams{ID: dbutil.ToPgtype(npcID)}); err != nil {
+		return err
+	}
 	_, err := s.queries.KillNPC(ctx, dbutil.ToPgtype(npcID))
 	return err
 }
 
 func (s *combatService) GetNPCByID(ctx context.Context, npcID uuid.UUID) (*domain.NPC, error) {
-	npc, err := s.queries.GetNPCByID(ctx, statedb.GetNPCByIDParams{ID: dbutil.ToPgtype(npcID)})
+	npc, err := statedb.GetCharacterNPC(ctx, s.queries, statedb.GetNPCByIDParams{ID: dbutil.ToPgtype(npcID)})
 	if err != nil {
 		if errors.Is(err, pgx.ErrNoRows) {
 			return nil, nil

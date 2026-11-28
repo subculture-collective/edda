@@ -48,7 +48,7 @@ func (h *WorldHandlers) GetNPC(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	npc, err := h.Queries.GetNPCByID(r.Context(), statedb.GetNPCByIDParams{
+	npc, err := statedb.GetCharacterNPC(r.Context(), h.Queries, statedb.GetNPCByIDParams{
 		ID:         dbutil.ToPgtype(nid),
 		CampaignID: dbutil.ToPgtype(campaignID),
 	})
