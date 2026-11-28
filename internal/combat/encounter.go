@@ -152,6 +152,27 @@ func (e *Encounter) Spend(actor uuid.UUID, kind string) error {
 	return nil
 }
 
+// Approach moves the active NPC toward the player in 5-foot steps along the
+// declared distance while it is beyond within feet and its movement and a
+// clear path allow. It returns the feet closed and whether it ended within
+// that distance. Unresolved spatial facts return an error before moving.
+func (e *Encounter) Approach(within int) (int, bool, error) {
+	if e.Space == nil {
+		return 0, false, fmt.Errorf("Clarify spatial facts before moving.")
+	}
+	if err := e.Space.Validate(); err != nil {
+		return 0, false, err
+	}
+	start := *e.Space.DistanceFeet
+	for *e.Space.DistanceFeet > within {
+		// A blocked path, an unseen target or spent movement ends the approach.
+		if e.Spend(e.Active().ID, EncounterApproach) != nil {
+			break
+		}
+	}
+	return start - *e.Space.DistanceFeet, *e.Space.DistanceFeet <= within, nil
+}
+
 // Advance ends a turn, resets its budget, and increments the round on wrap.
 func (e *Encounter) Advance() {
 	if e.Status != "active" {

@@ -129,7 +129,7 @@ func TestProneCrawlAttackAndStand(t *testing.T) {
 	}
 }
 
-func TestBeastApproach(t *testing.T) {
+func TestApproach(t *testing.T) {
 	for _, tc := range []struct {
 		name                string
 		distance            *int
@@ -147,7 +147,7 @@ func TestBeastApproach(t *testing.T) {
 	} {
 		player, wolf := uuid.New(), uuid.New()
 		e := &Encounter{Status: "active", Turn: 1, Actors: []EncounterActor{{ID: player, Player: true, HP: 12}, {ID: wolf, HP: 11, Speed: 40}}, Budget: TurnBudget{Action: true, Movement: 40}, Space: &Space{DistanceFeet: tc.distance, LineOfSight: ptr(tc.sight), Cover: tc.cover}}
-		closed, reach, err := e.BeastApproach()
+		closed, reach, err := e.Approach(5)
 		if (err != nil) != tc.unknown || closed != tc.closed || reach != tc.reach || e.Budget.Movement != tc.left || (!tc.unknown && *e.Space.DistanceFeet != tc.after) {
 			t.Fatalf("%s: closed=%d reach=%t err=%v budget=%+v", tc.name, closed, reach, err, e.Budget)
 		}

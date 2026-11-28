@@ -27,9 +27,16 @@ func resolveEncounterNPC(ctx context.Context, tx pgx.Tx, campaignID uuid.UUID, e
 	if err := encounter.Space.Validate(); err != nil {
 		return nil, nil, ErrActionRefresh
 	}
+	var bandit *srd521.BanditProfile
 	if encounter.Bandit != nil {
-		if err := combat.BanditAttack(encounter.Bandit, encounter.Space); err != nil {
+		// Beyond Light Crossbow range the Bandit walks first; it then uses the
+		// weapon legal at the distance, or takes its turn without attacking.
+		var err error
+		if _, bandit, err = encounter.BanditTurn(); err != nil {
 			return nil, nil, ErrActionRefresh
+		} else if bandit == nil {
+			encounter.Advance()
+			return receipts, effects, nil
 		}
 	} else if encounter.Beast != nil {
 		// Out of reach, the Beast first uses its movement to approach. If it
@@ -37,7 +44,7 @@ func resolveEncounterNPC(ctx context.Context, tx pgx.Tx, campaignID uuid.UUID, e
 		if _, _, err := encounter.Beast.Record(); err != nil {
 			return nil, nil, ErrActionRefresh
 		}
-		if _, reach, err := encounter.BeastApproach(); err != nil {
+		if _, reach, err := encounter.Approach(5); err != nil {
 			return nil, nil, ErrActionRefresh
 		} else if !reach {
 			encounter.Advance()
@@ -82,7 +89,7 @@ func resolveEncounterNPC(ctx context.Context, tx pgx.Tx, campaignID uuid.UUID, e
 		var err error
 		switch {
 		case encounter.Bandit != nil:
-			attack, err = srd521.ResolveBanditAttack(*encounter.Bandit, ac, dice)
+			attack, err = srd521.ResolveBanditAttack(*bandit, ac, dice)
 		case encounter.Beast != nil:
 			var advantage []string
 			advantage, err = encounter.BeastAdvantage()

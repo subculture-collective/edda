@@ -229,3 +229,75 @@ func TestIntegrationBandit(t *testing.T) {
 		})
 	}
 }
+
+// newBanditFixture reuses the Beast fixture's scene with a pinned Bandit.
+func newBanditFixture(t *testing.T, action string, distance int) *beastFixture {
+	f := newBeastFixture(t, "wolf-v1", "bite", "")
+	_, version, err := srd521.BanditRecord()
+	f.must(err)
+	f.facts = fmt.Sprintf(`{"srd521_target":{"profile":"bandit-v1","actor_id":"%s","distance_feet":%d,"line_of_sight":true,"cover":"none","bandit":{"version":"%s","action_id":"%s"}}}`, f.actor, distance, version, action)
+	f.reset()
+	f.confirm(f.request(f.prepare(combat.EncounterStart, f.weapon.String()), f.target), 18, 0)
+	return f
+}
+
+// endBanditTurn previews and confirms End turn; want is in the preview.
+func (f *beastFixture) endBanditTurn(want string, rolls ...int) []srd521.AttackReceipt {
+	f.t.Helper()
+	end := f.prepare(combat.EncounterEndTurn, "")
+	if !end.Available || !strings.Contains(strings.Join(end.Options, " "), want) {
+		f.t.Fatalf("end=%+v", end)
+	}
+	return npcReceipts(f.t, f.confirm(f.request(end, uuid.Nil), rolls...))
+}
+
+func TestIntegrationBanditOutOfScimitarReach(t *testing.T) {
+	f := newBanditFixture(t, "scimitar", 5)
+	for range 2 {
+		f.confirm(f.request(f.prepare(combat.EncounterRetreat, ""), uuid.Nil))
+	}
+	// At 15 feet the Bandit shoots its Light Crossbow from where it stands.
+	r := f.endBanditTurn("Light Crossbow", 18, 2)
+	e := f.encounter()
+	if len(r) != 1 || r[0].DamageType != "piercing" || r[0].Damage != 4 || *e.Space.DistanceFeet != 15 || !e.Active().Player || e.Round != 2 || f.hp() != 8 {
+		t.Fatalf("receipts=%+v encounter=%+v", r, e)
+	}
+}
+
+func TestIntegrationBanditCrossbowWithinFiveFeet(t *testing.T) {
+	f := newBanditFixture(t, "light-crossbow", 30)
+	for range 5 {
+		f.confirm(f.request(f.prepare(combat.EncounterApproach, ""), uuid.Nil))
+	}
+	// Within 5 feet the Bandit uses its Scimitar instead.
+	r := f.endBanditTurn("Scimitar", 18, 2)
+	e := f.encounter()
+	if len(r) != 1 || r[0].DamageType != "slashing" || r[0].Damage != 4 || *e.Space.DistanceFeet != 5 || !e.Active().Player || e.Round != 2 {
+		t.Fatalf("receipts=%+v encounter=%+v", r, e)
+	}
+}
+
+func TestIntegrationBanditApproachesBeyondNormalRange(t *testing.T) {
+	f := newBanditFixture(t, "light-crossbow", 80)
+	for range 6 {
+		f.confirm(f.request(f.prepare(combat.EncounterRetreat, ""), uuid.Nil))
+	}
+	// From 110 feet it walks 30 feet to 80, then shoots; a d20 of 1 misses.
+	r := f.endBanditTurn("moves 30 feet", 0)
+	e := f.encounter()
+	if len(r) != 1 || r[0].Outcome != "miss" || *e.Space.DistanceFeet != 80 || !e.Active().Player || e.Round != 2 {
+		t.Fatalf("receipts=%+v encounter=%+v", r, e)
+	}
+	// Dash and retreat to 140 feet: after 30 feet it is still at 110 and does
+	// not attack, so nothing is rolled.
+	f.confirm(f.request(f.prepare(combat.EncounterDash, ""), uuid.Nil))
+	for range 12 {
+		f.confirm(f.request(f.prepare(combat.EncounterRetreat, ""), uuid.Nil))
+	}
+	calls := f.dice.calls
+	r = f.endBanditTurn("does not attack")
+	e = f.encounter()
+	if len(r) != 0 || f.dice.calls != calls || *e.Space.DistanceFeet != 110 || !e.Active().Player || e.Round != 3 || f.hp() != 12 {
+		t.Fatalf("receipts=%+v encounter=%+v", r, e)
+	}
+}

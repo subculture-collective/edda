@@ -433,14 +433,25 @@ func PrepareStoredAction(ctx context.Context, database statedb.DBTX, campaign do
 		return unavailable("Use a supported encounter action or end your turn.")
 	}
 	if intent.Kind == combat.EncounterEndTurn && encounter.Bandit != nil {
-		if err := combat.BanditAttack(encounter.Bandit, encounter.Space); err != nil {
-			return unavailable(err.Error())
-		}
-		_, a, err := encounter.Bandit.Record()
+		// Preview the Bandit's turn on a copy: it may walk, then picks its weapon.
+		turn := npcTurn(encounter)
+		closed, bandit, err := turn.BanditTurn()
 		if err != nil {
 			return unavailable(err.Error())
 		}
-		p.Options = []string{"End turn resolves one Bandit " + a.Text}
+		distance := *turn.Space.DistanceFeet
+		if bandit == nil {
+			p.Options = []string{fmt.Sprintf("End turn: the Bandit moves %d feet toward %s and, at %d feet, has no legal attack; it does not attack.", closed, pc.Name, distance)}
+		} else {
+			_, a, err := bandit.Record()
+			if err != nil {
+				return unavailable(err.Error())
+			}
+			p.Options = []string{"End turn resolves one Bandit " + a.Text}
+			if closed > 0 {
+				p.Options = append([]string{fmt.Sprintf("The Bandit first moves %d feet toward %s, ending %d feet away.", closed, pc.Name, distance)}, p.Options...)
+			}
+		}
 	}
 	if intent.Kind == combat.EncounterEndTurn && encounter.Beast != nil {
 		m, attacks, err := encounter.Beast.Record()
@@ -448,14 +459,8 @@ func PrepareStoredAction(ctx context.Context, database statedb.DBTX, campaign do
 			return unavailable(err.Error())
 		}
 		// Preview the Beast's turn on a copy: out of reach, it approaches first.
-		turn := *encounter
-		turn.Actors = append([]combat.EncounterActor(nil), encounter.Actors...)
-		if encounter.Reaction != nil {
-			reaction := *encounter.Reaction
-			turn.Reaction = &reaction
-		}
-		turn.Advance()
-		closed, reach, err := turn.BeastApproach()
+		turn := npcTurn(encounter)
+		closed, reach, err := turn.Approach(5)
 		if err != nil {
 			return unavailable(err.Error())
 		}
@@ -525,4 +530,17 @@ func withAttackDisadvantage(encounter *combat.Encounter, options, sources []stri
 	}
 	options = append(options, "Disadvantage on this attack roll ("+strings.Join(reasons, "; ")+"): roll two d20s and keep the lower.")
 	return options, append(sources, "srd-5.2.1:content/rules-glossary/prone", "srd-5.2.1:content/d20-tests/advantage-disadvantage")
+}
+
+// npcTurn copies the encounter and advances the copy to the NPC's turn, so a
+// preview can move the NPC without changing the stored encounter.
+func npcTurn(encounter *combat.Encounter) *combat.Encounter {
+	turn := *encounter
+	turn.Actors = append([]combat.EncounterActor(nil), encounter.Actors...)
+	if encounter.Reaction != nil {
+		reaction := *encounter.Reaction
+		turn.Reaction = &reaction
+	}
+	turn.Advance()
+	return &turn
 }
