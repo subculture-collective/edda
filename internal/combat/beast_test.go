@@ -78,16 +78,29 @@ func TestBeastGeometryAndAdvantage(t *testing.T) {
 	}
 }
 
-func TestProneStandAndRefusals(t *testing.T) {
+func TestProneCrawlAttackAndStand(t *testing.T) {
 	player := uuid.New()
-	e := &Encounter{Status: "active", Round: 1, Actors: []EncounterActor{{ID: player, Player: true, HP: 10, Prone: true}, {ID: uuid.New(), HP: 10}}, Budget: TurnBudget{Action: true, BonusAction: true, Movement: 30}, Space: &Space{DistanceFeet: ptr(5), LineOfSight: ptr(true), Cover: "none"}}
-	for _, kind := range []string{srd521.MartialAttack, EncounterMove, EncounterApproach, EncounterRetreat} {
-		if err := e.Spend(player, kind); err == nil {
-			t.Fatalf("%s while Prone accepted", kind)
-		}
+	e := &Encounter{Status: "active", Round: 1, Actors: []EncounterActor{{ID: player, Player: true, HP: 10, Prone: true}, {ID: uuid.New(), HP: 10}}, Budget: TurnBudget{Action: true, BonusAction: true, Movement: 30}, Space: &Space{DistanceFeet: ptr(10), LineOfSight: ptr(true), Cover: "none"}}
+	if got := e.PlayerAttackDisadvantage(); len(got) != 1 || got[0] != "attacker is Prone" {
+		t.Fatalf("disadvantage=%v", got)
 	}
-	if !e.Budget.Action || e.Budget.Movement != 30 {
-		t.Fatal("refusal spent budget")
+	// Crawling: each 5-foot step costs 10 feet.
+	if e.MoveCost() != 10 {
+		t.Fatalf("crawl cost=%d", e.MoveCost())
+	}
+	if err := e.Spend(player, EncounterApproach); err != nil || e.Budget.Movement != 20 || *e.Space.DistanceFeet != 5 || !e.Actors[0].Prone {
+		t.Fatalf("crawl approach: %v %+v", err, e.Budget)
+	}
+	if err := e.Spend(player, EncounterMove); err != nil || e.Budget.Movement != 10 {
+		t.Fatalf("crawl move: %v %+v", err, e.Budget)
+	}
+	e.Budget.Movement = 5
+	if err := e.Spend(player, EncounterMove); err == nil || e.Budget.Movement != 5 {
+		t.Fatal("crawled 5 feet for 5 feet of movement")
+	}
+	// The attack itself is legal; Disadvantage is applied when it is rolled.
+	if err := e.Spend(player, srd521.MartialAttack); err != nil || e.Budget.Action {
+		t.Fatalf("prone attack: %v", err)
 	}
 	e.Budget.Movement = 10
 	if err := e.Spend(player, EncounterStand); err == nil || !e.Actors[0].Prone {
@@ -100,17 +113,18 @@ func TestProneStandAndRefusals(t *testing.T) {
 	if err := e.Spend(player, EncounterStand); err == nil {
 		t.Fatal("stood twice")
 	}
-	if err := e.Spend(player, srd521.MartialAttack); err != nil {
-		t.Fatal(err)
+	if e.MoveCost() != 5 || e.PlayerAttackDisadvantage() != nil {
+		t.Fatal("standing kept Prone effects")
 	}
-	// A pending opportunity attack is refused while the player is Prone.
+	// A pending opportunity attack stays legal while the player is Prone.
 	e.Actors[0].Prone = true
 	e.Turn = 1
+	e.Space.DistanceFeet = ptr(5)
 	e.Reaction = &ReactionState{Available: true, Pending: &ReactionTrigger{TargetID: e.Actors[1].ID}}
-	if err := e.SpendReaction(); err == nil || !e.Reaction.Available {
-		t.Fatal("Prone opportunity attack accepted")
+	if err := e.SpendReaction(); err != nil || e.Reaction.Available {
+		t.Fatalf("Prone opportunity attack: %v", err)
 	}
-	if !e.Actors[0].Prone {
-		t.Fatal("refusal changed condition")
+	if len(e.PlayerAttackDisadvantage()) != 1 {
+		t.Fatal("reaction lost Disadvantage")
 	}
 }
