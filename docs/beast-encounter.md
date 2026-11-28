@@ -27,6 +27,15 @@ and rolls nothing. A changed `beast` object during an active encounter
 requires adjudication. A changed `pack_ally` or spatial fact is a new ruling
 that applies to the next attack.
 
+Starting the encounter needs those facts and a current `beast` object, but not
+reach, because the Beast can approach on its turn. A missing or unrecognized
+fact refuses the start before any roll. As with the
+[Bandit](bandit-encounter.md) and ordinary fixtures, declared facts such as an
+unseen target or total cover do not block the start. Beyond 5 feet the start
+preview says the Beast moves closer on its turn, with its speed, or that it
+stays where it is when the path is not clear. Within 5 feet it says when the
+declared sight or cover rules out the attack. The target's `reach_feet` stays 5.
+
 Each profile has its own capability set. The block loads only when every
 required mechanic key is in that set and its actions, traits and size-gate
 text match what the runtime resolves; any other key or shape refuses it.
@@ -62,6 +71,9 @@ every record.
   it ends within 5 feet. If its speed runs out, or the path is not clear
   (cover or no line of sight), it takes its turn without attacking and the
   encounter continues. The End turn preview names the approach.
+- A Beast within 5 feet of an unseen target, or one behind total cover, also
+  takes its turn without attacking. Nothing is rolled, and the End turn preview
+  gives the reason.
 - Multiattack spends one Action. Ruling: the Bite resolves before the Claw.
   Reach, sight, size and revision are checked before any roll, so an invalid
   target rolls neither attack. If the Bite drops the player to 0 HP, the Claw

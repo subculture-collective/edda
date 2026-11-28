@@ -40,13 +40,15 @@ func resolveEncounterNPC(ctx context.Context, tx pgx.Tx, campaignID uuid.UUID, e
 		}
 	} else if encounter.Beast != nil {
 		// Out of reach, the Beast first uses its movement to approach. If it
-		// still cannot reach, it takes its turn without attacking.
+		// still cannot reach, or declared sight or cover rules out the attack,
+		// it takes its turn without attacking.
 		if _, _, err := encounter.Beast.Record(); err != nil {
 			return nil, nil, ErrActionRefresh
 		}
-		if _, reach, err := encounter.Approach(5); err != nil {
+		if _, _, err := encounter.Approach(5); err != nil {
 			return nil, nil, ErrActionRefresh
-		} else if !reach {
+		}
+		if encounter.Space.Melee() != nil {
 			encounter.Advance()
 			return receipts, effects, nil
 		}

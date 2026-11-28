@@ -6,17 +6,17 @@ import (
 	"git.subcult.tv/subculture-collective/edda/internal/rules/srd521"
 )
 
-// BeastAttack validates the pinned Wolf or Brown Bear action against the
-// encounter's facts before any roll: every attack needs visible five-foot
-// reach, a declared target size and, for Pack Tactics, a resolved ally fact.
-func BeastAttack(profile *srd521.BeastProfile, space *Space) error {
+// BeastFacts validates what a Wolf or Brown Bear encounter needs to start: the
+// pinned revision and action, a declared target size, spatial rulings and, for
+// Pack Tactics, a resolved ally fact. It does not require reach.
+func BeastFacts(profile *srd521.BeastProfile, space *Space) error {
 	if profile == nil || space == nil {
 		return fmt.Errorf("explicit beast and spatial facts required")
 	}
 	if _, _, err := profile.Record(); err != nil {
 		return err
 	}
-	if err := space.Melee(); err != nil {
+	if err := space.Validate(); err != nil {
 		return err
 	}
 	if profile.PackTactics() {
@@ -25,6 +25,15 @@ func BeastAttack(profile *srd521.BeastProfile, space *Space) error {
 		}
 	}
 	return nil
+}
+
+// BeastAttack validates the pinned action against the encounter's facts before
+// any roll: BeastFacts, and every attack needs visible five-foot reach.
+func BeastAttack(profile *srd521.BeastProfile, space *Space) error {
+	if err := BeastFacts(profile, space); err != nil {
+		return err
+	}
+	return space.Melee()
 }
 
 // BeastAdvantage names the durable facts that give the beast's melee attacks

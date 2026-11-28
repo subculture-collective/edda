@@ -352,3 +352,13 @@ func TestIntegrationBanditStartRefusesUnknownFacts(t *testing.T) {
 		t.Fatalf("receipts=%+v hp=%d", r, f.hp())
 	}
 }
+
+// Beyond every weapon's range the start preview says the Bandit will close in,
+// rather than listing each weapon as unavailable.
+func TestIntegrationBanditStartPreviewBeyondEveryRange(t *testing.T) {
+	f := newBanditScene(t, "scimitar", 100)
+	text := strings.Join(f.prepare(combat.EncounterStart, f.weapon.String()).Options, "\n")
+	if !strings.Contains(text, "100 feet away, beyond its 80-foot range; it moves closer on its turn, up to its 30-foot speed") || strings.Contains(text, "Unavailable:") {
+		t.Fatalf("options=%s", text)
+	}
+}
