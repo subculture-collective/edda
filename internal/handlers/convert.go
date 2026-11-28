@@ -228,9 +228,7 @@ func engineResolutionEventsToAPI(applied []engine.AppliedToolCall) []api.Resolut
 			if json.Unmarshal(call.Result, &result) == nil && result.Receipt != nil && result.Receipt.RulesVersion == "srd-5.2.1" {
 				out = append(out, api.ResolutionEvent{Type: "srd_fall", Label: "Fall", Outcome: fmt.Sprintf("%d bludgeoning damage", result.Receipt.Damage), Details: map[string]any{"receipt": result.Receipt}})
 				// The caster's Concentration save after the fall is shown like other casts' effects.
-				if r := result.Receipt.Concentration; r != nil && r.RulesVersion == "srd-5.2.1" {
-					out = append(out, api.ResolutionEvent{Type: "srd_effect", Label: "Caster effects and recovery", Outcome: r.Reason, Details: map[string]any{"receipt": r}})
-				}
+				out = appendEffectEvents(out, result.Receipt.Concentration)
 			}
 		case "srd_death_save":
 			var result struct {
@@ -330,10 +328,16 @@ func appendEncounterEvents(out []api.ResolutionEvent, raw json.RawMessage) []api
 }
 
 // appendEffectEvents adds each saved caster effect receipt, skipping those that
-// are absent.
+// are absent. It names the concentration spells on these decoded copies, so
+// receipts saved without names show them too.
 func appendEffectEvents(out []api.ResolutionEvent, receipts ...*srd521.EffectReceipt) []api.ResolutionEvent {
 	for _, r := range receipts {
 		if r != nil && r.RulesVersion == "srd-5.2.1" {
+			for _, c := range []*srd521.Concentration{r.Before, r.After} {
+				if c != nil {
+					c.SpellLabel = srd521.ConcentrationLabel(c.Spell)
+				}
+			}
 			out = append(out, api.ResolutionEvent{Type: "srd_effect", Label: "Caster effects and recovery", Outcome: r.Reason, Details: map[string]any{"receipt": r}})
 		}
 	}
