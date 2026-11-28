@@ -138,6 +138,9 @@ other door, including a random ID, gets the same reason and no label. Unknown
 fields such as a trap or a stuck door, an unknown state, an unknown lock ruling
 and `locked: true` make opening unavailable; Edda never adds a lock or a
 secret room. The player-facing tools cannot write `srd521_*` NPC properties.
+A row with `srd521_door` is not a character: the NPC list queries, the
+model's "NPCs Present" context and the NPC and encountered-NPC API listings
+leave it out. Campaign export keeps it.
 
 The intent is `door-open` with `entry_id` set to the door's ID. It is available
 only outside encounters, for a closed door within the actor's 5-foot reach
