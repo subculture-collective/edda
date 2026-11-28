@@ -75,7 +75,7 @@ func PrepareStoredAction(ctx context.Context, database statedb.DBTX, campaign do
 		}
 	}
 	p := result.Preview
-	if p.Available && (intent.Kind == srd521.SpellCast || srd521.IsLifecycle(intent.Kind) || srd521.IsEquipment(intent.Kind) || intent.Kind == srd521.MartialAttack || strings.HasPrefix(intent.Kind, "combat-")) {
+	if p.Available && (intent.Kind == srd521.SpellCast || intent.Kind == srd521.DetectMagicStudy || srd521.IsLifecycle(intent.Kind) || srd521.IsEquipment(intent.Kind) || intent.Kind == srd521.MartialAttack || strings.HasPrefix(intent.Kind, "combat-")) {
 		effects, err := faithRevision(ctx, database, campaign.ID, lock)
 		if err != nil {
 			return nil, err
@@ -91,7 +91,7 @@ func PrepareStoredAction(ctx context.Context, database statedb.DBTX, campaign do
 	if err != nil {
 		return nil, err
 	}
-	if intent.Kind == srd521.ActionSurge || srd521.IsLifecycle(intent.Kind) || intent.Kind == srd521.SpellCast || intent.Kind == combat.EncounterEndTurn || intent.Kind == combat.EncounterStart || intent.Kind == combat.EncounterReact || intent.Kind == combat.EncounterDecline || intent.Kind == combat.EncounterMove || intent.Kind == combat.EncounterDash || intent.Kind == combat.EncounterApproach || intent.Kind == combat.EncounterRetreat {
+	if intent.Kind == srd521.ActionSurge || srd521.IsLifecycle(intent.Kind) || intent.Kind == srd521.SpellCast || intent.Kind == srd521.DetectMagicStudy || intent.Kind == combat.EncounterEndTurn || intent.Kind == combat.EncounterStart || intent.Kind == combat.EncounterReact || intent.Kind == combat.EncounterDecline || intent.Kind == combat.EncounterMove || intent.Kind == combat.EncounterDash || intent.Kind == combat.EncounterApproach || intent.Kind == combat.EncounterRetreat {
 		p.ExpectedRevision = fmt.Sprintf("clock-v1:%x", sha256.Sum256(encodedClock))
 	}
 	if _, err := srd521.Project(pc.Stats, pc.Level, pc.HP, pc.MaxHP, pc.Experience); err == nil {
@@ -135,6 +135,10 @@ func PrepareStoredAction(ctx context.Context, database statedb.DBTX, campaign do
 	}
 	unavailable := func(reason string) (*StoredAction, error) { p.Available = false; p.Reason = reason; return result, nil }
 	active := encounter != nil && encounter.Status == "active"
+	// Detect Magic has no encounter action-budget slice; it fails closed there.
+	if active && (intent.Kind == srd521.DetectMagicStudy || (intent.Kind == srd521.SpellCast && intent.EntryID == srd521.DetectMagicID)) {
+		return unavailable("Detect Magic is available outside encounters only.")
+	}
 	// The existing two-actor encounter has no allied participant slice.
 	if active && intent.Kind == srd521.SpellCast && intent.EntryID == "cure-wounds" {
 		result.HealingTargets = nil

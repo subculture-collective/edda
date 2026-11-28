@@ -235,3 +235,16 @@ it('routes the explicitly selected Easy Athletics DC 10 fixture without acceptin
   expect(previewCharacterAction).toHaveBeenLastCalledWith('easy', { actor_id: 'hero', kind: 'ability-check', entry_id: 'easy-strength-athletics-dc10' });
   expect(confirmCharacterAction).not.toHaveBeenCalled();
 });
+it('previews the Magic Initiate Detect Magic free use without a slot level and offers study while concentrating', async () => {
+  const detect = { id: 'detect-magic', label: 'Detect Magic (Magic Initiate free use)', known: true, prepared: true, playable: true, components: ['verbal', 'somatic'], components_available: true, slot_levels: [], source_id: 'srd-5.2.1:content/spells/detect-magic' };
+  const cleric = { ...sheet, spellcasting: { ability: 'wisdom', modifier: sheet.skills.insight, spells: [detect] }, concentration: { id: 'cast', spell: 'detect-magic', started_at: 0, expires_at: 600 } } as CharacterSheetProjection;
+  vi.mocked(previewCharacterAction).mockResolvedValue({ ...ready, intent: { actor_id: 'hero', kind: 'spell-cast', entry_id: 'detect-magic' } });
+  render(<QueryClientProvider client={new QueryClient()}><ActionPreviewPanel campaignId="detect" actorId="hero" sheet={cleric} /></QueryClientProvider>);
+  await userEvent.selectOptions(screen.getByLabelText('Character action'), 'spell-cast:detect-magic');
+  expect(screen.queryByLabelText('Spell slot level')).not.toBeInTheDocument();
+  await userEvent.click(screen.getByRole('button', { name: 'Preview action' }));
+  expect(previewCharacterAction).toHaveBeenLastCalledWith('detect', { actor_id: 'hero', kind: 'spell-cast', entry_id: 'detect-magic' });
+  await userEvent.selectOptions(screen.getByLabelText('Character action'), 'detect-magic-study');
+  await userEvent.click(screen.getByRole('button', { name: 'Preview action' }));
+  expect(previewCharacterAction).toHaveBeenLastCalledWith('detect', { actor_id: 'hero', kind: 'detect-magic-study', ability: undefined });
+});

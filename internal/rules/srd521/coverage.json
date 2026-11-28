@@ -804,6 +804,22 @@
       "notes": "Only the ordinary one-handed level-one Fighter fixture is playable. Versatile damage, mastery, conditions and broader combat are not qualified."
     },
     {
+      "id": "srd-5.2.1:content/spells/detect-magic",
+      "family": "spells",
+      "name": "Detect Magic (all casting modes and sensed magic)",
+      "source_pages": [
+        123,
+        123
+      ],
+      "status": "unsupported",
+      "fixtures": [
+        "internal/rules/srd521/detect_magic_test.go",
+        "internal/handlers/detect_magic_integration_test.go"
+      ],
+      "follow_up": 80,
+      "notes": "Only the recorded Magic Initiate (Cleric) free use on the fixed Human Acolyte Cleric outside encounters: no slot, Magic action, ten-minute concentration, Long Rest recovery. Sensing and the follow-up Magic action read only trusted, player-known srd521_magic NPC facts within 30 feet and the three source barriers. Slot and Ritual casting, objects without facts, encounter use and other feats remain unavailable."
+    },
+    {
       "id": "srd-5.2.1:content/items/potion-of-healing",
       "family": "magic-items",
       "name": "Potion of Healing",

@@ -115,8 +115,8 @@ func Lifecycle(b *Build, sheet *CharacterSheet, kind, entry, actionID string, no
 		return nil, fmt.Errorf("unsupported lifecycle action")
 	}
 	if c.Concentration != nil && c.Concentration.ExpiresAt <= r.TimeAfter {
+		r.Reason += " " + ConcentrationLabel(c.Concentration.Spell) + " expired."
 		c.Concentration = nil
-		r.Reason += " Shield of Faith expired."
 	}
 	r.After = c.Concentration
 	r.SlotsAfter = c.Slots

@@ -229,6 +229,13 @@ func engineResolutionEventsToAPI(applied []engine.AppliedToolCall) []api.Resolut
 			if json.Unmarshal(call.Result, &result) == nil && result.Receipt != nil && result.Receipt.RulesVersion == "srd-5.2.1" && result.Receipt.Kind == srd521.SpellCast {
 				out = append(out, api.ResolutionEvent{Type: "srd_spell", Label: "Cure Wounds", Outcome: "healed", Details: map[string]any{"receipt": result.Receipt}})
 			}
+		case "srd_detect_magic":
+			var result struct {
+				Receipt *srd521.DetectMagicReceipt `json:"receipt"`
+			}
+			if json.Unmarshal(call.Result, &result) == nil && result.Receipt != nil && result.Receipt.RulesVersion == "srd-5.2.1" && result.Receipt.Spell == srd521.DetectMagicID && (result.Receipt.Kind == srd521.SpellCast || result.Receipt.Kind == srd521.DetectMagicStudy) {
+				out = append(out, api.ResolutionEvent{Type: "srd_detect_magic", Label: "Detect Magic", Outcome: result.Receipt.Reason, Details: map[string]any{"receipt": result.Receipt}})
+			}
 		case "srd_equipment":
 			var result struct {
 				Receipt *srd521.EquipmentReceipt `json:"receipt"`

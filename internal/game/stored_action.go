@@ -38,6 +38,7 @@ type StoredAction struct {
 	Quantity       int
 	Encounter      *combat.Encounter
 	Sight          *combat.Sight
+	Magic          []srd521.DetectMagicSubject
 }
 
 // PrepareStoredAction is shared by API preparation and transactional confirmation.
@@ -55,6 +56,9 @@ func prepareStoredActionBase(ctx context.Context, database statedb.DBTX, campaig
 	}
 	if srd521.IsLifecycle(intent.Kind) {
 		return prepareLifecycle(ctx, campaign, pc, intent)
+	}
+	if intent.Kind == srd521.DetectMagicStudy {
+		return prepareDetectMagic(ctx, database, campaign, pc, intent, lock)
 	}
 	if intent.Kind == srd521.SpellCast {
 		return prepareStoredSpell(ctx, database, campaign, pc, intent, lock)

@@ -26,7 +26,7 @@ type FaithEffect struct {
 // ReadFaithEffect chooses the latest live fixed +2 effect by persisted cast order.
 // The campaign lock serializes confirmations, including casts in the same second.
 func ReadFaithEffect(ctx context.Context, database statedb.DBTX, campaign, recipient uuid.UUID, now int) (*FaithEffect, error) {
-	rows, err := database.Query(ctx, `SELECT c.id,c.caster_id,r.recipient_id,c.started_at,c.expires_at FROM concentration_casts c JOIN concentration_recipients r ON r.cast_id=c.id JOIN player_characters p ON p.id=c.caster_id AND p.campaign_id=c.campaign_id WHERE c.campaign_id=$1 AND r.recipient_id=$2 AND c.started_at<=$3 AND c.expires_at>$3 AND p.hp>0 AND p.status='active' AND p.stats#>>'{srd521,casting,concentration,id}'=c.id::text ORDER BY c.cast_order DESC LIMIT 1`, campaign, recipient, now)
+	rows, err := database.Query(ctx, `SELECT c.id,c.caster_id,r.recipient_id,c.started_at,c.expires_at FROM concentration_casts c JOIN concentration_recipients r ON r.cast_id=c.id JOIN player_characters p ON p.id=c.caster_id AND p.campaign_id=c.campaign_id WHERE c.campaign_id=$1 AND r.recipient_id=$2 AND c.started_at<=$3 AND c.expires_at>$3 AND p.hp>0 AND p.status='active' AND p.stats#>>'{srd521,casting,concentration,id}'=c.id::text AND COALESCE(p.stats#>>'{srd521,casting,concentration,spell}','shield-of-faith')='shield-of-faith' ORDER BY c.cast_order DESC LIMIT 1`, campaign, recipient, now)
 	if err != nil {
 		return nil, err
 	}
@@ -63,7 +63,7 @@ func ApplyFaithAC(ctx context.Context, database statedb.DBTX, campaign, actor uu
 	if legacy != nil && legacy.ExpiresAt <= now {
 		sheet.Concentration = nil
 	}
-	if e != nil || (legacy != nil && legacy.RecipientID == "" && legacy.StartedAt <= now && legacy.ExpiresAt > now) {
+	if e != nil || (legacy != nil && legacy.Spell == "shield-of-faith" && legacy.RecipientID == "" && legacy.StartedAt <= now && legacy.ExpiresAt > now) {
 		ac.Value += 2
 		// Keep the source-derived term shape owned by the rules package.
 		ac.Derivation = append(ac.Derivation, srd521.FaithACTerm())
