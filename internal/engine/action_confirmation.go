@@ -595,7 +595,7 @@ func (e *Engine) ConfirmAction(ctx context.Context, campaignID uuid.UUID, reques
 	}
 	if encounter != nil {
 		before := -1
-		if encounter.Beast != nil && encounter.Space != nil && encounter.Space.DistanceFeet != nil {
+		if (encounter.Beast != nil || encounter.Bandit != nil) && encounter.Space != nil && encounter.Space.DistanceFeet != nil {
 			before = *encounter.Space.DistanceFeet
 		}
 		npcReceipts, concentrationReceipts, err := resolveEncounterNPC(ctx, tx, campaignID, encounter, sheet, dice)
