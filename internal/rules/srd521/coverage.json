@@ -79,9 +79,11 @@
         12
       ],
       "status": "unsupported",
-      "fixtures": [],
+      "fixtures": [
+        "internal/combat/visibility_test.go"
+      ],
       "follow_up": 144,
-      "notes": "Legacy connected-location movement and clock updates are not SRD exploration evidence. #144 starts the bounded travel slice; #145/#146/#147 and #150 cover light, objects, falling and remaining hazard decisions."
+      "notes": "Legacy connected-location movement and clock updates are not SRD exploration evidence. #145 adds partial evidence: declared bright/dim/dark light, obscurement and one declared Darkvision range decide whether a known spatial fixture target can be seen and whether a sight-based Wisdom (Perception) check is ordinary, at Disadvantage or automatically failed. Light sources, other senses, hiding and invisibility remain unsupported. #144 starts the bounded travel slice; #146/#147 and #150 cover objects, falling and remaining hazard decisions."
     },
     {
       "id": "srd-5.2.1:family/toolbox",
