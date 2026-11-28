@@ -12,7 +12,7 @@ import (
 )
 
 const getCampaignTime = `-- name: GetCampaignTime :one
-SELECT campaign_id, day, hour, minute, updated_at
+SELECT campaign_id, day, hour, minute, updated_at, second
 FROM campaign_time
 WHERE campaign_id = $1
 `
@@ -26,6 +26,7 @@ func (q *Queries) GetCampaignTime(ctx context.Context, campaignID pgtype.UUID) (
 		&i.Hour,
 		&i.Minute,
 		&i.UpdatedAt,
+		&i.Second,
 	)
 	return i, err
 }
@@ -35,7 +36,7 @@ INSERT INTO campaign_time (campaign_id, day, hour, minute)
 VALUES ($1, $2, $3, $4)
 ON CONFLICT (campaign_id) DO UPDATE
 SET day = EXCLUDED.day, hour = EXCLUDED.hour, minute = EXCLUDED.minute, updated_at = now()
-RETURNING campaign_id, day, hour, minute, updated_at
+RETURNING campaign_id, day, hour, minute, updated_at, second
 `
 
 type UpsertCampaignTimeParams struct {
@@ -59,6 +60,7 @@ func (q *Queries) UpsertCampaignTime(ctx context.Context, arg UpsertCampaignTime
 		&i.Hour,
 		&i.Minute,
 		&i.UpdatedAt,
+		&i.Second,
 	)
 	return i, err
 }
