@@ -14,7 +14,7 @@ INSERT INTO location_connections (
   sqlc.arg(travel_time),
   sqlc.arg(campaign_id)
 )
-RETURNING id, from_location_id, to_location_id, description, bidirectional, travel_time, campaign_id;
+RETURNING id, from_location_id, to_location_id, description, bidirectional, travel_time, campaign_id, srd521_route;
 
 -- name: GetConnectionsFromLocation :many
 WITH connections AS (

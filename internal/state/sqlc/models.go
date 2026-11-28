@@ -43,6 +43,35 @@ type CampaignTime struct {
 	Hour       int32
 	Minute     int32
 	UpdatedAt  pgtype.Timestamptz
+	Second     int32
+}
+
+type Chapter struct {
+	ID                pgtype.UUID
+	CampaignID        pgtype.UUID
+	FromTurn          int32
+	ToTurn            int32
+	SourceHash        string
+	SourceTurns       []byte
+	KnowledgeBoundary string
+	RulesVersion      string
+	RulesMode         string
+	CreatedAt         pgtype.Timestamptz
+}
+
+type ChapterRevision struct {
+	ID            pgtype.UUID
+	ChapterID     pgtype.UUID
+	CampaignID    pgtype.UUID
+	RequestID     pgtype.UUID
+	Revision      int32
+	Status        string
+	Content       string
+	Error         string
+	PromptVersion string
+	LeaseToken    pgtype.UUID
+	LeaseUntil    pgtype.Timestamptz
+	CreatedAt     pgtype.Timestamptz
 }
 
 type CharacterFeat struct {
@@ -57,6 +86,20 @@ type CharacterSkill struct {
 	CharacterID pgtype.UUID
 	SkillID     pgtype.UUID
 	Points      int32
+}
+
+type ConcentrationCast struct {
+	ID         pgtype.UUID
+	CastOrder  pgtype.Int8
+	CampaignID pgtype.UUID
+	CasterID   pgtype.UUID
+	StartedAt  int32
+	ExpiresAt  int32
+}
+
+type ConcentrationRecipient struct {
+	CastID      pgtype.UUID
+	RecipientID pgtype.UUID
 }
 
 type Culture struct {
@@ -181,6 +224,7 @@ type LocationConnection struct {
 	Bidirectional  bool
 	TravelTime     pgtype.Text
 	CampaignID     pgtype.UUID
+	Srd521Route    []byte
 }
 
 type Memory struct {
@@ -313,6 +357,37 @@ type SkillDefinition struct {
 	Description string
 	BaseAbility string
 	CreatedAt   pgtype.Timestamptz
+}
+
+type TacticalMindWindow struct {
+	ActorID         pgtype.UUID
+	OwnerID         pgtype.UUID
+	CampaignID      pgtype.UUID
+	CheckID         pgtype.UUID
+	BaseReceipt     []byte
+	Difficulty      int32
+	Revision        string
+	HistoryRevision string
+	TurnNumber      int32
+	Resolved        bool
+}
+
+type TurnAttempt struct {
+	ID                 pgtype.UUID
+	CampaignID         pgtype.UUID
+	TurnNumber         int32
+	PlayerInput        string
+	Status             string
+	Calls              []byte
+	CandidateNarrative string
+	FinalNarrative     string
+	FinalResult        []byte
+	Recovered          bool
+	CreatedAt          pgtype.Timestamptz
+	UpdatedAt          pgtype.Timestamptz
+	CandidateResult    []byte
+	NarrationReady     bool
+	NarrationAttempts  int32
 }
 
 type User struct {
