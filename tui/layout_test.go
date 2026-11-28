@@ -11,6 +11,7 @@ import (
 	"testing"
 	"time"
 
+	"github.com/charmbracelet/bubbles/cursor"
 	"github.com/charmbracelet/bubbles/spinner"
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/lipgloss"
@@ -300,7 +301,7 @@ func TestLayout_LongLauncherTextScrolls(t *testing.T) {
 }
 
 // feed runs cmd and gives its messages, and those of the commands that follow,
-// to m. Spinner ticks are dropped because each one schedules the next.
+// to m. Spinner and cursor ticks are dropped because each one schedules the next.
 func feed(t *testing.T, m tea.Model, cmd tea.Cmd) tea.Model {
 	t.Helper()
 	queue := []tea.Cmd{cmd}
@@ -314,7 +315,8 @@ func feed(t *testing.T, m tea.Model, cmd tea.Cmd) tea.Model {
 			continue
 		}
 		msg := next()
-		if _, ok := msg.(spinner.TickMsg); ok || msg == nil {
+		switch msg.(type) {
+		case nil, spinner.TickMsg, cursor.BlinkMsg:
 			continue
 		}
 		// Bubble Tea does not export the message tea.Sequence returns.
