@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"strings"
 
-	"git.subcult.tv/subculture-collective/edda/internal/combat"
 	"git.subcult.tv/subculture-collective/edda/internal/game"
 	"git.subcult.tv/subculture-collective/edda/internal/rules/srd521"
 	"github.com/google/uuid"
@@ -71,11 +70,13 @@ func resolveDeclaredFall(ctx context.Context, tx pgx.Tx, campaignID, actorID uui
 	if tag.RowsAffected() != 1 {
 		return nil, ErrActionRefresh
 	}
-	if r.Damage > 0 && sheet.Spellcasting != nil {
-		r.Concentration, err = concentrationAfterDamage(ctx, tx, campaignID, &combat.EncounterActor{ID: actorID, HP: hp}, sheet, r.Damage, r.HPAfter, dice)
-		if err != nil {
-			return nil, err
-		}
+	// The fall is one damage source: one save, or an ending at zero HP.
+	concentration, err := ApplyConcentrationEvents(ctx, tx, campaignID, actorID, hp, []srd521.ConcentrationEvent{{Kind: srd521.ConcentrationDamageSource, SourceID: "fall-" + fall.ID, Damage: r.Damage, HPAfter: r.HPAfter}}, dice)
+	if err != nil {
+		return nil, err
+	}
+	if len(concentration) > 0 {
+		r.Concentration = concentration[0]
 	}
 	return r, nil
 }
