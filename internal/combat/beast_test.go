@@ -128,3 +128,28 @@ func TestProneCrawlAttackAndStand(t *testing.T) {
 		t.Fatal("reaction lost Disadvantage")
 	}
 }
+
+func TestBeastApproach(t *testing.T) {
+	for _, tc := range []struct {
+		name                string
+		distance            *int
+		sight               bool
+		cover               string
+		closed, left, after int
+		reach, unknown      bool
+	}{
+		{"in reach", ptr(5), true, "none", 0, 40, 5, true, false},
+		{"closes to reach", ptr(15), true, "none", 10, 30, 5, true, false},
+		{"speed runs out", ptr(65), true, "none", 40, 0, 25, false, false},
+		{"blocked path", ptr(15), true, "half", 0, 40, 15, false, false},
+		{"unseen", ptr(15), false, "none", 0, 40, 15, false, false},
+		{"distance unknown", nil, true, "none", 0, 40, 0, false, true},
+	} {
+		player, wolf := uuid.New(), uuid.New()
+		e := &Encounter{Status: "active", Turn: 1, Actors: []EncounterActor{{ID: player, Player: true, HP: 12}, {ID: wolf, HP: 11, Speed: 40}}, Budget: TurnBudget{Action: true, Movement: 40}, Space: &Space{DistanceFeet: tc.distance, LineOfSight: ptr(tc.sight), Cover: tc.cover}}
+		closed, reach, err := e.BeastApproach()
+		if (err != nil) != tc.unknown || closed != tc.closed || reach != tc.reach || e.Budget.Movement != tc.left || (!tc.unknown && *e.Space.DistanceFeet != tc.after) {
+			t.Fatalf("%s: closed=%d reach=%t err=%v budget=%+v", tc.name, closed, reach, err, e.Budget)
+		}
+	}
+}

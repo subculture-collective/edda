@@ -443,19 +443,38 @@ func PrepareStoredAction(ctx context.Context, database statedb.DBTX, campaign do
 		p.Options = []string{"End turn resolves one Bandit " + a.Text}
 	}
 	if intent.Kind == combat.EncounterEndTurn && encounter.Beast != nil {
-		advantage, err := encounter.BeastAdvantage()
-		if err != nil {
-			return unavailable(err.Error())
-		}
 		m, attacks, err := encounter.Beast.Record()
 		if err != nil {
 			return unavailable(err.Error())
 		}
-		p.Options = append([]string{fmt.Sprintf("End turn resolves the %s's action against %s, in order:", m.Name, pc.Name)}, beastOptions(m, attacks)...)
-		if len(advantage) > 0 {
-			p.Options = append(p.Options, "Advantage on each attack: "+strings.Join(advantage, "; ")+".")
+		// Preview the Beast's turn on a copy: out of reach, it approaches first.
+		turn := *encounter
+		turn.Actors = append([]combat.EncounterActor(nil), encounter.Actors...)
+		if encounter.Reaction != nil {
+			reaction := *encounter.Reaction
+			turn.Reaction = &reaction
+		}
+		turn.Advance()
+		closed, reach, err := turn.BeastApproach()
+		if err != nil {
+			return unavailable(err.Error())
 		}
 		p.SourceIDs = append(p.SourceIDs, m.ID)
+		if !reach {
+			p.Options = []string{fmt.Sprintf("End turn: the %s moves %d feet toward %s and is still %d feet away, out of reach; it does not attack.", m.Name, closed, pc.Name, *turn.Space.DistanceFeet)}
+		} else {
+			advantage, err := turn.BeastAdvantage()
+			if err != nil {
+				return unavailable(err.Error())
+			}
+			p.Options = append([]string{fmt.Sprintf("End turn resolves the %s's action against %s, in order:", m.Name, pc.Name)}, beastOptions(m, attacks)...)
+			if closed > 0 {
+				p.Options = append([]string{fmt.Sprintf("The %s first moves %d feet toward %s, ending within 5 feet.", m.Name, closed, pc.Name)}, p.Options...)
+			}
+			if len(advantage) > 0 {
+				p.Options = append(p.Options, "Advantage on each attack: "+strings.Join(advantage, "; ")+".")
+			}
+		}
 	}
 	if intent.Kind == combat.EncounterEndTurn {
 		if err := encounter.Space.Validate(); err != nil {

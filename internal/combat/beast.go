@@ -47,3 +47,24 @@ func (e *Encounter) BeastAdvantage() ([]string, error) {
 	}
 	return reasons, nil
 }
+
+// BeastApproach moves the active Beast toward the player in 5-foot steps along
+// the declared distance while it is beyond 5 feet and its movement and a clear
+// path allow. It returns the feet of distance closed and whether the Beast
+// ended within reach. Unresolved spatial facts return an error before moving.
+func (e *Encounter) BeastApproach() (int, bool, error) {
+	if e.Space == nil {
+		return 0, false, fmt.Errorf("Clarify spatial facts before moving.")
+	}
+	if err := e.Space.Validate(); err != nil {
+		return 0, false, err
+	}
+	start := *e.Space.DistanceFeet
+	for *e.Space.DistanceFeet > 5 {
+		// A blocked path, an unseen target or spent movement ends the approach.
+		if e.Spend(e.Active().ID, EncounterApproach) != nil {
+			break
+		}
+	}
+	return start - *e.Space.DistanceFeet, *e.Space.DistanceFeet <= 5, nil
+}
