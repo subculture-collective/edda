@@ -2,8 +2,8 @@ package world
 
 import (
 	"fmt"
+	"git.subcult.tv/subculture-collective/edda/internal/domain"
 	"git.subcult.tv/subculture-collective/edda/internal/rules/srd521"
-	"strings"
 )
 
 // RulesChoices selects a fixed catalogue build; it cannot grant custom mechanics.
@@ -16,8 +16,11 @@ type RulesChoices struct {
 // ValidateRulesCharacter is shared by guided creation, interview and persistence.
 // Existing guided clients can identify the fixed build through concept/background.
 func ValidateRulesCharacter(p *CharacterProfile) (*srd521.SupportedBuild, error) {
-	if p == nil || strings.TrimSpace(p.Name) == "" {
-		return nil, fmt.Errorf("character name is required")
+	if p == nil {
+		return nil, domain.ErrCharacterNameRequired
+	}
+	if err := domain.ValidateCharacterName(p.Name); err != nil {
+		return nil, err
 	}
 	build, err := srd521.SupportedBuildForConcept(p.Concept, p.Background)
 	if err != nil {

@@ -3,7 +3,6 @@ package world
 import (
 	"context"
 	"fmt"
-	"strings"
 	"time"
 
 	"github.com/google/uuid"
@@ -75,11 +74,14 @@ func (o *Orchestrator) Run(ctx context.Context, input OrchestratorInput, progres
 		return nil, err
 	}
 
+	// Every server path creates its character here, so this refuses a blank name
+	// for all of them, before any model request or write.
+	if err := domain.ValidateCharacterName(input.CharacterProfile.Name); err != nil {
+		return nil, err
+	}
+
 	var supportedBuild *srd521.SupportedBuild
 	if input.RulesVersion == domain.RulesVersionSRD521 {
-		if strings.TrimSpace(input.CharacterProfile.Name) == "" {
-			return nil, fmt.Errorf("character name is required")
-		}
 		var err error
 		supportedBuild, err = ValidateRulesCharacter(input.CharacterProfile)
 		if err != nil {

@@ -12,6 +12,7 @@ import (
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/lipgloss"
 	"github.com/charmbracelet/x/ansi"
+	"github.com/jackc/pgx/v5/pgtype"
 
 	"git.subcult.tv/subculture-collective/edda/internal/bootstrap"
 	"git.subcult.tv/subculture-collective/edda/internal/config"
@@ -47,6 +48,14 @@ type campaignNamedMsg struct {
 type campaignLoadedMsg struct {
 	c   statedb.Campaign
 	err error
+	// unnamed is a character to name before play, or nil.
+	unnamed *statedb.PlayerCharacter
+}
+
+// characterRenameDoneMsg is sent after a chosen character name has been saved.
+type characterRenameDoneMsg struct {
+	c   statedb.Campaign
+	err error
 }
 
 // launcherState is the internal phase of the Launcher model.
@@ -67,6 +76,7 @@ const (
 	launcherConfirmation
 	launcherWorldBuilding
 	launcherLoadingCampaign
+	launcherRenameCharacter
 )
 
 // Launcher is the root Bubble Tea model during start-up and campaign creation.
@@ -88,6 +98,9 @@ type Launcher struct {
 	campaignName     string
 	campaignSummary  string
 	openingScene     *world.SceneResult
+	// renaming is the loaded campaign and unnamed character the player is
+	// being asked to name.
+	renaming campaignLoadedMsg
 
 	spinner spinner.Model
 	errMsg  string
@@ -359,7 +372,29 @@ func (l Launcher) update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		if msg.err != nil {
 			return l.reloadPicker(fmt.Sprintf("Load campaign failed: %v", msg.err))
 		}
+		if msg.unnamed != nil {
+			l.errMsg = ""
+			l.renaming = msg
+			rename := campaign.NewRenameModel(msg.unnamed.Description.String)
+			return l.activateView(launcherRenameCharacter, &rename)
+		}
 		return l.transitionToApp(msg.c, l.openingScene)
+
+	case campaign.CharacterRenamedMsg:
+		if l.state != launcherRenameCharacter {
+			return l, nil
+		}
+		l.state = launcherLoadingCampaign
+		l.view = nil
+		return l, tea.Batch(l.spinner.Tick, l.runRenameCharacter(l.renaming.c, l.renaming.unnamed.ID, msg.Name))
+
+	case characterRenameDoneMsg:
+		if msg.err != nil {
+			l.logger().Error("character rename failed", "campaign_id", dbutil.FromPgtype(msg.c.ID), "error", msg.err)
+			return l.reloadPicker(fmt.Sprintf("Rename character failed: %v", msg.err))
+		}
+		// Loading again finds any other unnamed character.
+		return l, l.runLoadCampaign(msg.c)
 	}
 
 	if l.view != nil {
@@ -551,7 +586,7 @@ func (l Launcher) activateView(state launcherState, view View) (Launcher, tea.Cm
 func (l Launcher) handleBack() (tea.Model, tea.Cmd) {
 	l.errMsg = ""
 	switch l.state {
-	case launcherChooseMethod:
+	case launcherChooseMethod, launcherRenameCharacter:
 		return l.reloadPicker("")
 	case launcherInterviewing, launcherAttributes:
 		method := campaign.NewMethodModel()
@@ -641,12 +676,32 @@ func (l Launcher) runGenerateCampaignName(profile *world.CampaignProfile) tea.Cm
 func (l Launcher) runLoadCampaign(c statedb.Campaign) tea.Cmd {
 	ctx := l.ctx
 	gameEngine := l.engine
+	queries := l.queries
+	logger := l.logger()
 	return func() tea.Msg {
-		if gameEngine == nil {
-			return campaignLoadedMsg{c: c, err: nil}
+		if gameEngine != nil {
+			if err := gameEngine.LoadCampaign(ctx, dbutil.FromPgtype(c.ID)); err != nil {
+				return campaignLoadedMsg{c: c, err: err}
+			}
 		}
-		err := gameEngine.LoadCampaign(ctx, dbutil.FromPgtype(c.ID))
-		return campaignLoadedMsg{c: c, err: err}
+		if queries == nil {
+			return campaignLoadedMsg{c: c}
+		}
+		unnamed, err := world.UnnamedCharacter(ctx, queries, c.ID)
+		if err != nil {
+			// The check only offers a repair, so its failure does not block play.
+			logger.Warn("unnamed character check failed", "campaign_id", dbutil.FromPgtype(c.ID), "error", err)
+		}
+		return campaignLoadedMsg{c: c, unnamed: unnamed}
+	}
+}
+
+// runRenameCharacter returns a tea.Cmd that saves a character's new name.
+func (l Launcher) runRenameCharacter(c statedb.Campaign, characterID pgtype.UUID, name string) tea.Cmd {
+	ctx := l.ctx
+	queries := l.queries
+	return func() tea.Msg {
+		return characterRenameDoneMsg{c: c, err: world.RenameCharacter(ctx, queries, c.ID, characterID, name)}
 	}
 }
 
@@ -714,6 +769,10 @@ func normalizeLauncherView(model tea.Model) View {
 	case campaign.WorldBuildModel:
 		return &v
 	case *campaign.WorldBuildModel:
+		return v
+	case campaign.RenameModel:
+		return &v
+	case *campaign.RenameModel:
 		return v
 	default:
 		return nil

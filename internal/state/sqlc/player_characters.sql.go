@@ -165,6 +165,29 @@ func (q *Queries) GetPlayerCharacterByID(ctx context.Context, id pgtype.UUID) (P
 	return i, err
 }
 
+const renamePlayerCharacter = `-- name: RenamePlayerCharacter :execrows
+UPDATE player_characters
+SET
+  name = $1,
+  updated_at = now()
+WHERE id = $2
+  AND campaign_id = $3
+`
+
+type RenamePlayerCharacterParams struct {
+	Name       string
+	ID         pgtype.UUID
+	CampaignID pgtype.UUID
+}
+
+func (q *Queries) RenamePlayerCharacter(ctx context.Context, arg RenamePlayerCharacterParams) (int64, error) {
+	result, err := q.db.Exec(ctx, renamePlayerCharacter, arg.Name, arg.ID, arg.CampaignID)
+	if err != nil {
+		return 0, err
+	}
+	return result.RowsAffected(), nil
+}
+
 const updatePlayerAbilities = `-- name: UpdatePlayerAbilities :one
 UPDATE player_characters
 SET

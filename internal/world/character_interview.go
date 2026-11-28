@@ -31,7 +31,7 @@ type CharacterProfile struct {
 // Complete returns true when every field has been populated, indicating the
 // interview has gathered sufficient information.
 func (p *CharacterProfile) Complete() bool {
-	return p.Name != "" &&
+	return domain.ValidateCharacterName(p.Name) == nil &&
 		p.Concept != "" &&
 		p.Background != "" &&
 		p.Personality != "" &&

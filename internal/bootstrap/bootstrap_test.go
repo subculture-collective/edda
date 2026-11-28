@@ -250,6 +250,10 @@ func (s *stubQuerier) GetPlayerCharacterByCampaign(ctx context.Context, campaign
 	return nil, nil
 }
 
+func (s *stubQuerier) RenamePlayerCharacter(context.Context, statedb.RenamePlayerCharacterParams) (int64, error) {
+	return 0, nil
+}
+
 func (s *stubQuerier) GetPlayerCharacterByID(ctx context.Context, id pgtype.UUID) (statedb.PlayerCharacter, error) {
 	return statedb.PlayerCharacter{}, nil
 }

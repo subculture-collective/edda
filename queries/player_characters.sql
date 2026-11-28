@@ -121,3 +121,11 @@ SET
   updated_at = now()
 WHERE id = sqlc.arg(id)
 RETURNING id, campaign_id, user_id, name, description, stats, hp, max_hp, experience, level, status, abilities, current_location_id, created_at, updated_at;
+
+-- name: RenamePlayerCharacter :execrows
+UPDATE player_characters
+SET
+  name = sqlc.arg(name),
+  updated_at = now()
+WHERE id = sqlc.arg(id)
+  AND campaign_id = sqlc.arg(campaign_id);

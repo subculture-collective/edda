@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"net/http"
 	"strings"
@@ -315,10 +316,6 @@ func (h *StartupHandlers) BuildWorld(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if version == domain.RulesVersionSRD521 {
-		if strings.TrimSpace(req.CharacterProfile.Name) == "" {
-			writeError(w, http.StatusBadRequest, "character name is required")
-			return
-		}
 		_, err = world.ValidateRulesCharacter(req.CharacterProfile)
 		if err != nil {
 			writeError(w, http.StatusBadRequest, err.Error())
@@ -337,6 +334,10 @@ func (h *StartupHandlers) BuildWorld(w http.ResponseWriter, r *http.Request) {
 		Pool:             h.Pool,
 		UserID:           userID,
 	}, nil)
+	if errors.Is(err, domain.ErrCharacterNameRequired) {
+		writeError(w, http.StatusBadRequest, err.Error())
+		return
+	}
 	if err != nil {
 		h.Logger.Error("build startup world", "error", err)
 		writeError(w, http.StatusInternalServerError, "failed to build world")
