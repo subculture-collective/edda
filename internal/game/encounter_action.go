@@ -48,6 +48,19 @@ func PrepareStoredAction(ctx context.Context, database statedb.DBTX, campaign do
 	if IsLightIntent(intent) {
 		return prepareLight(ctx, database, campaign, pc, intent, lock)
 	}
+	if intent.Kind == srd521.FallResolve {
+		return prepareFall(ctx, database, campaign, pc, intent)
+	}
+	if intent.Kind == combat.EncounterStand {
+		// Outside an active encounter Prone lives on the actor (#147).
+		encounter, err := ReadEncounter(ctx, database, campaign.ID)
+		if err != nil {
+			return nil, err
+		}
+		if encounter == nil || encounter.Status != "active" {
+			return prepareProneStand(ctx, campaign, pc, intent)
+		}
+	}
 	if intent.Kind == srd521.TacticalMind {
 		return prepareStoredActionBase(ctx, database, campaign, pc, intent, lock)
 	}
