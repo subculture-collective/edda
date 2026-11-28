@@ -38,3 +38,26 @@ for (const width of [1440, 390]) {
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
   });
 }
+
+test('equipment selection clears once its menu entry disappears', async ({ page, game }) => {
+  let equipped = true;
+  await page.route('**/api/v1/campaigns/alpha/character', route => route.fulfill({ json: { ...character(), rules_version: 'srd-5.2.1', sheet: fixture.sheet } }));
+  await page.route('**/api/v1/campaigns/alpha/character/inventory', route => route.fulfill({ json: [{ id: 'mail', name: 'Chain Mail', item_type: 'armor', rarity: 'common', description: 'Ordinary fixture', quantity: 1, equipped, properties: { srd521_id: 'chain-mail' } }] }));
+  await page.route('**/api/v1/campaigns/alpha/character/action-preview?*', route => route.fulfill({ json: { intent: { actor_id: 'hero', kind: 'equipment-remove', entry_id: 'mail' }, rules_version: 'srd-5.2.1', expected_revision: 'equipment-fixture', available: true, targets: [], options: ['Remove chain-mail.'], costs: [], cost_status: 'fixture-only', source_ids: [] } }));
+  await page.route('**/api/v1/campaigns/alpha/action/confirm', route => {
+    equipped = false;
+    return route.fulfill({ json: { action_id: route.request().postDataJSON().action_id, turn_number: 3, narrative: 'Chain mail removed.', combat_active: false, state_changes: [], resolution_events: [] } });
+  });
+  await signIn(page); await page.goto('/play/alpha');
+  await page.getByRole('tab', { name: 'Character', exact: true }).click();
+  const menu = page.getByLabel('Character action');
+  await menu.selectOption('equipment-remove:mail');
+  await page.getByRole('button', { name: 'Preview action', exact: true }).click();
+  await page.getByRole('button', { name: 'Confirm action', exact: true }).click();
+  await expect(menu.locator('option[value="equipment-equip:mail"]')).toHaveCount(1);
+  await expect(menu).toHaveValue('');
+  await expect(page.getByRole('button', { name: 'Preview action', exact: true })).toBeDisabled();
+  await expect(page.getByText('Preview ready. No action has been performed.')).toHaveCount(0);
+  await expect(page.getByRole('region', { name: 'Saved action result' })).toContainText('Chain mail removed.');
+  expect(game.actions).toEqual([]);
+});

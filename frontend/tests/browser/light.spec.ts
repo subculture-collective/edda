@@ -46,6 +46,12 @@ for (const width of [1440, 390]) {
       await expect(page.getByText(`Light: Prepared ${value}.`)).toBeVisible();
     };
     const confirm = () => page.getByRole('button', { name: 'Confirm action', exact: true }).click();
+    // A confirmed action that leaves the menu also leaves nothing to preview.
+    const expectCleared = async () => {
+      await expect(page.getByLabel('Character action')).toHaveValue('');
+      await expect(page.getByRole('button', { name: 'Preview action', exact: true })).toBeDisabled();
+      await expect(page.getByText('Preview ready. No action has been performed.')).toHaveCount(0);
+    };
 
     await signIn(page); await page.goto('/play/alpha'); await openSheet();
     await expect(status).toContainText('No Light active.');
@@ -67,15 +73,18 @@ for (const width of [1440, 390]) {
     await confirm();
     await expect(status).toContainText('Covered: it sheds no light until uncovered.');
     await expect(receipt).toContainText('lasts until Day 1, 09:00:00; covered.');
+    await expectCleared();
 
     await preview('light-uncover');
     await confirm();
     await expect(status).not.toContainText('Covered:');
+    await expectCleared();
 
     await preview('light-dismiss');
     await confirm();
     await expect(status).toContainText('No Light active.');
     await expect(receipt).toContainText('No Light remains.');
+    await expectCleared();
     expect(confirmations).toBe(4);
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
   });
