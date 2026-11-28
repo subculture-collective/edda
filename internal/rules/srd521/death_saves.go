@@ -7,7 +7,7 @@ import (
 )
 
 // DeathSave is the explicit action that rolls a player's Death Saving Throw
-// outside encounters, where Edda keeps no turn order (SRD 5.2.1 pp. 16-17;
+// outside encounters, where Edda keeps no turn order (SRD 5.2.1 PDF pp. 17-18;
 // adapted, see Attribution). Inside an encounter the save is rolled at the
 // start of the player's turn instead.
 const DeathSave = "death-save"

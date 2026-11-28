@@ -1,8 +1,8 @@
 # Dropping to 0 HP
 
-Tracker #2164. SRD 5.2.1 pp. 16–17 ("Dropping to 0 Hit Points", "Death Saving
-Throws", "Stabilizing a Character"), p. 180 ("Death Saving Throw"), p. 187
-("Stable") and p. 191 ("Unconscious"). This covers the player character only.
+Tracker #2164. SRD 5.2.1 PDF pp. 17–18 ("Dropping to 0 Hit Points", "Death
+Saving Throws", "Stabilizing a Character"), p. 181 ("Death Saving Throw"),
+p. 188 ("Stable") and p. 191 ("Unconscious"). This covers the player character only.
 It is partial evidence, not Full Rules support.
 
 ## Damage
