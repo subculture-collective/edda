@@ -15,6 +15,8 @@ const DefaultTokenTTL = 7 * 24 * time.Hour
 func GenerateToken(userID uuid.UUID, secret string, ttl time.Duration) (string, error) {
 	now := time.Now()
 	claims := jwt.RegisteredClaims{
+		// Timestamps have one-second precision; the ID keeps each sign-in's token distinct.
+		ID:        uuid.NewString(),
 		Subject:   userID.String(),
 		ExpiresAt: jwt.NewNumericDate(now.Add(ttl)),
 		IssuedAt:  jwt.NewNumericDate(now),

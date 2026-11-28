@@ -31,5 +31,13 @@ export function logout(): Promise<void> {
   // Clear before the request: a reload would otherwise restore the session, and a
   // late reply would erase the one from a newer sign-in.
   clearStoredSession();
-  return apiFetchVoid('/auth/logout', { method: 'POST', headers });
+  // keepalive lets the request finish, and clear the cookie, if the page closes.
+  return apiFetchVoid('/auth/logout', { method: 'POST', headers, keepalive: true }).finally(restoreSessionCookie);
+}
+
+// A logout reply that arrives after a newer sign-in clears that sign-in's
+// WebSocket cookie. /auth/me sets it again.
+async function restoreSessionCookie(): Promise<void> {
+  const token = getStoredToken();
+  if (token) await getMe(token).catch(() => {});
 }

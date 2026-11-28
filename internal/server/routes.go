@@ -89,10 +89,7 @@ func registerAPIRoutes(logger *log.Logger, r chi.Router, campaignH *handlers.Cam
 						})
 					}
 					r.Post("/login", authH.Login)
-					r.Post("/logout", func(w http.ResponseWriter, req *http.Request) {
-						auth.ClearSessionCookie(w, req)
-						w.WriteHeader(http.StatusNoContent)
-					})
+					r.Post("/logout", authH.Logout)
 				})
 			}
 			r.Group(func(r chi.Router) {
