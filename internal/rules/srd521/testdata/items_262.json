@@ -1,0 +1,759 @@
+{
+  "schema_version": 1,
+  "rules_version": "srd-5.2.1",
+  "batch": "data-adventuring-gear-07",
+  "catalogue_issue": 262,
+  "source": {
+    "version": "5.2.1",
+    "language": "en",
+    "landing_url": "https://www.dndbeyond.com/srd",
+    "artifact_url": "https://media.dndbeyond.com/compendium-images/srd/5.2/SRD_CC_v5.2.1.pdf",
+    "sha256": "8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87",
+    "bytes": 6031375,
+    "pages": 364,
+    "retrieved_at": "2026-11-15",
+    "license": "CC-BY-4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/legalcode",
+    "attribution": "This work includes material from the System Reference Document 5.2.1 (\u201cSRD 5.2.1\u201d) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd. The SRD 5.2.1 is licensed under the Creative Commons Attribution 4.0 International License, available at https://creativecommons.org/licenses/by/4.0/legalcode.",
+    "changes": "SRD 5.2.1 p. 100 adventuring gear (Spikes, Iron, Spyglass, String, Tent, Tinderbox, Torch, Vial, Waterskin) adapted into versioned mundane gear families with structured actions, checks, damage, measures, trait keys, pack contents, spellcasting focus classes, weights and listed prices from the entries and their tables. Names and numeric values are adapted; trait keys summarize the remaining rules, in places close to the printed wording; no rules prose is copied as text. Catalogue data grants no inventory, proficiency, action or gameplay permissions; every record is unavailable. Spell Scroll, which this catalogue batch also lists, stays owned by magic-item batch #242 and has no record here."
+  },
+  "families": [
+    {
+      "id": "srd-5.2.1:content/items/spikes-iron",
+      "name": "Spikes, Iron",
+      "kind": "mundane",
+      "category": "adventuring-gear",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/adventuring-gear/spikes-iron",
+          "pages": [
+            100,
+            100
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/spikes-iron/variant/standard",
+          "name": "Spikes, Iron",
+          "rarity": "none",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "utilize",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "listed",
+            "amount": 1,
+            "currency": "gp",
+            "source_pages": [
+              100,
+              100
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.gear",
+            "action.utilize",
+            "measure.bundle-amount-10-spikes",
+            "trait.hammer-with-blunt-object-into-wood-earth-or-similar-material",
+            "trait.jam-door-shut-or-anchor-rope-or-chain"
+          ],
+          "details": {
+            "gear": {
+              "actions": [
+                "utilize"
+              ],
+              "checks": [],
+              "damage": [],
+              "measures": [
+                {
+                  "name": "bundle-amount",
+                  "numerator": 10,
+                  "denominator": 1,
+                  "unit": "spikes"
+                }
+              ],
+              "traits": [
+                "hammer-with-blunt-object-into-wood-earth-or-similar-material",
+                "jam-door-shut-or-anchor-rope-or-chain"
+              ],
+              "contents": [],
+              "spellcasting_focus": [],
+              "weight": {
+                "listed": true,
+                "pounds_numerator": 5,
+                "pounds_denominator": 1,
+                "condition": "none"
+              },
+              "source_pages": [
+                100,
+                100
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/spyglass",
+      "name": "Spyglass",
+      "kind": "mundane",
+      "category": "adventuring-gear",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/adventuring-gear/spyglass",
+          "pages": [
+            100,
+            100
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/spyglass/variant/standard",
+          "name": "Spyglass",
+          "rarity": "none",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "listed",
+            "amount": 1000,
+            "currency": "gp",
+            "source_pages": [
+              100,
+              100
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.gear",
+            "measure.magnification-2-times-size"
+          ],
+          "details": {
+            "gear": {
+              "actions": [],
+              "checks": [],
+              "damage": [],
+              "measures": [
+                {
+                  "name": "magnification",
+                  "numerator": 2,
+                  "denominator": 1,
+                  "unit": "times-size"
+                }
+              ],
+              "traits": [],
+              "contents": [],
+              "spellcasting_focus": [],
+              "weight": {
+                "listed": true,
+                "pounds_numerator": 1,
+                "pounds_denominator": 1,
+                "condition": "none"
+              },
+              "source_pages": [
+                100,
+                100
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/string",
+      "name": "String",
+      "kind": "mundane",
+      "category": "adventuring-gear",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/adventuring-gear/string",
+          "pages": [
+            100,
+            100
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/string/variant/standard",
+          "name": "String",
+          "rarity": "none",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "utilize",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "listed",
+            "amount": 1,
+            "currency": "sp",
+            "source_pages": [
+              100,
+              100
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.gear",
+            "action.utilize",
+            "measure.length-10-feet",
+            "trait.can-be-knotted"
+          ],
+          "details": {
+            "gear": {
+              "actions": [
+                "utilize"
+              ],
+              "checks": [],
+              "damage": [],
+              "measures": [
+                {
+                  "name": "length",
+                  "numerator": 10,
+                  "denominator": 1,
+                  "unit": "feet"
+                }
+              ],
+              "traits": [
+                "can-be-knotted"
+              ],
+              "contents": [],
+              "spellcasting_focus": [],
+              "weight": {
+                "listed": false,
+                "pounds_numerator": 0,
+                "pounds_denominator": 1,
+                "condition": "none"
+              },
+              "source_pages": [
+                100,
+                100
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/tent",
+      "name": "Tent",
+      "kind": "mundane",
+      "category": "adventuring-gear",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/adventuring-gear/tent",
+          "pages": [
+            100,
+            100
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/tent/variant/standard",
+          "name": "Tent",
+          "rarity": "none",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "listed",
+            "amount": 2,
+            "currency": "gp",
+            "source_pages": [
+              100,
+              100
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.gear",
+            "measure.occupants-2-creatures",
+            "trait.occupants-are-small-or-medium"
+          ],
+          "details": {
+            "gear": {
+              "actions": [],
+              "checks": [],
+              "damage": [],
+              "measures": [
+                {
+                  "name": "occupants",
+                  "numerator": 2,
+                  "denominator": 1,
+                  "unit": "creatures"
+                }
+              ],
+              "traits": [
+                "occupants-are-small-or-medium"
+              ],
+              "contents": [],
+              "spellcasting_focus": [],
+              "weight": {
+                "listed": true,
+                "pounds_numerator": 20,
+                "pounds_denominator": 1,
+                "condition": "none"
+              },
+              "source_pages": [
+                100,
+                100
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/tinderbox",
+      "name": "Tinderbox",
+      "kind": "mundane",
+      "category": "adventuring-gear",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/adventuring-gear/tinderbox",
+          "pages": [
+            100,
+            100
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/tinderbox/variant/standard",
+          "name": "Tinderbox",
+          "rarity": "none",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "bonus-action",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "listed",
+            "amount": 5,
+            "currency": "sp",
+            "source_pages": [
+              100,
+              100
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.gear",
+            "action.bonus-action",
+            "measure.other-fire-lighting-time-1-minute",
+            "trait.small-container-of-flint-fire-steel-and-tinder",
+            "trait.lights-candle-lamp-lantern-torch-or-exposed-fuel"
+          ],
+          "details": {
+            "gear": {
+              "actions": [
+                "bonus-action"
+              ],
+              "checks": [],
+              "damage": [],
+              "measures": [
+                {
+                  "name": "other-fire-lighting-time",
+                  "numerator": 1,
+                  "denominator": 1,
+                  "unit": "minute"
+                }
+              ],
+              "traits": [
+                "small-container-of-flint-fire-steel-and-tinder",
+                "lights-candle-lamp-lantern-torch-or-exposed-fuel"
+              ],
+              "contents": [],
+              "spellcasting_focus": [],
+              "weight": {
+                "listed": true,
+                "pounds_numerator": 1,
+                "pounds_denominator": 1,
+                "condition": "none"
+              },
+              "source_pages": [
+                100,
+                100
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/torch",
+      "name": "Torch",
+      "kind": "mundane",
+      "category": "adventuring-gear",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/adventuring-gear/torch",
+          "pages": [
+            100,
+            100
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/torch/variant/standard",
+          "name": "Torch",
+          "rarity": "none",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "attack-action",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "listed",
+            "amount": 1,
+            "currency": "cp",
+            "source_pages": [
+              100,
+              100
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.gear",
+            "action.attack-action",
+            "damage.hit-1-fire",
+            "measure.burn-duration-1-hour",
+            "measure.bright-light-radius-20-feet",
+            "measure.additional-dim-light-20-feet",
+            "trait.attack-with-torch-as-simple-melee-weapon"
+          ],
+          "details": {
+            "gear": {
+              "actions": [
+                "attack-action"
+              ],
+              "checks": [],
+              "damage": [
+                {
+                  "purpose": "hit",
+                  "dice": 0,
+                  "sides": 0,
+                  "flat": 1,
+                  "type": "fire"
+                }
+              ],
+              "measures": [
+                {
+                  "name": "burn-duration",
+                  "numerator": 1,
+                  "denominator": 1,
+                  "unit": "hour"
+                },
+                {
+                  "name": "bright-light-radius",
+                  "numerator": 20,
+                  "denominator": 1,
+                  "unit": "feet"
+                },
+                {
+                  "name": "additional-dim-light",
+                  "numerator": 20,
+                  "denominator": 1,
+                  "unit": "feet"
+                }
+              ],
+              "traits": [
+                "attack-with-torch-as-simple-melee-weapon"
+              ],
+              "contents": [],
+              "spellcasting_focus": [],
+              "weight": {
+                "listed": true,
+                "pounds_numerator": 1,
+                "pounds_denominator": 1,
+                "condition": "none"
+              },
+              "source_pages": [
+                100,
+                100
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/vial",
+      "name": "Vial",
+      "kind": "mundane",
+      "category": "adventuring-gear",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/adventuring-gear/vial",
+          "pages": [
+            100,
+            100
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/vial/variant/standard",
+          "name": "Vial",
+          "rarity": "none",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "listed",
+            "amount": 1,
+            "currency": "gp",
+            "source_pages": [
+              100,
+              100
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.gear",
+            "measure.capacity-4-ounces"
+          ],
+          "details": {
+            "gear": {
+              "actions": [],
+              "checks": [],
+              "damage": [],
+              "measures": [
+                {
+                  "name": "capacity",
+                  "numerator": 4,
+                  "denominator": 1,
+                  "unit": "ounces"
+                }
+              ],
+              "traits": [],
+              "contents": [],
+              "spellcasting_focus": [],
+              "weight": {
+                "listed": false,
+                "pounds_numerator": 0,
+                "pounds_denominator": 1,
+                "condition": "none"
+              },
+              "source_pages": [
+                100,
+                100
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/waterskin",
+      "name": "Waterskin",
+      "kind": "mundane",
+      "category": "adventuring-gear",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/adventuring-gear/waterskin",
+          "pages": [
+            100,
+            100
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/waterskin/variant/standard",
+          "name": "Waterskin",
+          "rarity": "none",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "listed",
+            "amount": 2,
+            "currency": "sp",
+            "source_pages": [
+              100,
+              100
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.gear",
+            "measure.capacity-4-pints",
+            "trait.insufficient-water-risks-dehydration"
+          ],
+          "details": {
+            "gear": {
+              "actions": [],
+              "checks": [],
+              "damage": [],
+              "measures": [
+                {
+                  "name": "capacity",
+                  "numerator": 4,
+                  "denominator": 1,
+                  "unit": "pints"
+                }
+              ],
+              "traits": [
+                "insufficient-water-risks-dehydration"
+              ],
+              "contents": [],
+              "spellcasting_focus": [],
+              "weight": {
+                "listed": true,
+                "pounds_numerator": 5,
+                "pounds_denominator": 1,
+                "condition": "full"
+              },
+              "source_pages": [
+                100,
+                100
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

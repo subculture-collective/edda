@@ -1,0 +1,1369 @@
+{
+  "schema_version": 1,
+  "rules_version": "srd-5.2.1",
+  "batch": "data-adventuring-gear-03",
+  "catalogue_issue": 258,
+  "source": {
+    "version": "5.2.1",
+    "language": "en",
+    "landing_url": "https://www.dndbeyond.com/srd",
+    "artifact_url": "https://media.dndbeyond.com/compendium-images/srd/5.2/SRD_CC_v5.2.1.pdf",
+    "sha256": "8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87",
+    "bytes": 6031375,
+    "pages": 364,
+    "retrieved_at": "2026-11-15",
+    "license": "CC-BY-4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/legalcode",
+    "attribution": "This work includes material from the System Reference Document 5.2.1 (\u201cSRD 5.2.1\u201d) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd. The SRD 5.2.1 is licensed under the Creative Commons Attribution 4.0 International License, available at https://creativecommons.org/licenses/by/4.0/legalcode.",
+    "changes": "SRD 5.2.1 p. 97 adventuring gear (Clothes, Fine, Clothes, Traveler\u2019s, Component Pouch, Costume, Crowbar, Diplomat\u2019s Pack, Druidic Focus, Dungeoneer\u2019s Pack, Entertainer\u2019s Pack, Explorer\u2019s Pack, Flask, Grappling Hook) adapted into versioned mundane gear families with structured actions, checks, damage, measures, trait keys, pack contents, spellcasting focus classes, weights and listed prices from the entries and their tables. Names and numeric values are adapted; trait keys summarize the remaining rules, in places close to the printed wording; no rules prose is copied as text. Catalogue data grants no inventory, proficiency, action or gameplay permissions; every record is unavailable."
+  },
+  "families": [
+    {
+      "id": "srd-5.2.1:content/items/clothes-fine",
+      "name": "Clothes, Fine",
+      "kind": "mundane",
+      "category": "adventuring-gear",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/adventuring-gear/clothes-fine",
+          "pages": [
+            97,
+            97
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/clothes-fine/variant/standard",
+          "name": "Clothes, Fine",
+          "rarity": "none",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "listed",
+            "amount": 15,
+            "currency": "gp",
+            "source_pages": [
+              97,
+              97
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.gear",
+            "trait.expensive-fabrics-with-expertly-crafted-details",
+            "trait.required-for-admission-to-some-events-and-locations"
+          ],
+          "details": {
+            "gear": {
+              "actions": [],
+              "checks": [],
+              "damage": [],
+              "measures": [],
+              "traits": [
+                "expensive-fabrics-with-expertly-crafted-details",
+                "required-for-admission-to-some-events-and-locations"
+              ],
+              "contents": [],
+              "spellcasting_focus": [],
+              "weight": {
+                "listed": true,
+                "pounds_numerator": 6,
+                "pounds_denominator": 1,
+                "condition": "none"
+              },
+              "source_pages": [
+                97,
+                97
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/clothes-travelers",
+      "name": "Clothes, Traveler\u2019s",
+      "kind": "mundane",
+      "category": "adventuring-gear",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/adventuring-gear/clothes-travelers",
+          "pages": [
+            97,
+            97
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/clothes-travelers/variant/standard",
+          "name": "Clothes, Traveler\u2019s",
+          "rarity": "none",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "listed",
+            "amount": 2,
+            "currency": "gp",
+            "source_pages": [
+              97,
+              97
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.gear",
+            "trait.resilient-garments-for-travel-in-various-environments"
+          ],
+          "details": {
+            "gear": {
+              "actions": [],
+              "checks": [],
+              "damage": [],
+              "measures": [],
+              "traits": [
+                "resilient-garments-for-travel-in-various-environments"
+              ],
+              "contents": [],
+              "spellcasting_focus": [],
+              "weight": {
+                "listed": true,
+                "pounds_numerator": 4,
+                "pounds_denominator": 1,
+                "condition": "none"
+              },
+              "source_pages": [
+                97,
+                97
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/component-pouch",
+      "name": "Component Pouch",
+      "kind": "mundane",
+      "category": "adventuring-gear",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/adventuring-gear/component-pouch",
+          "pages": [
+            97,
+            97
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/component-pouch/variant/standard",
+          "name": "Component Pouch",
+          "rarity": "none",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "listed",
+            "amount": 25,
+            "currency": "gp",
+            "source_pages": [
+              97,
+              97
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.gear",
+            "trait.watertight",
+            "trait.compartments-hold-all-free-material-components-of-your-spells"
+          ],
+          "details": {
+            "gear": {
+              "actions": [],
+              "checks": [],
+              "damage": [],
+              "measures": [],
+              "traits": [
+                "watertight",
+                "compartments-hold-all-free-material-components-of-your-spells"
+              ],
+              "contents": [],
+              "spellcasting_focus": [],
+              "weight": {
+                "listed": true,
+                "pounds_numerator": 2,
+                "pounds_denominator": 1,
+                "condition": "none"
+              },
+              "source_pages": [
+                97,
+                97
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/costume",
+      "name": "Costume",
+      "kind": "mundane",
+      "category": "adventuring-gear",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/adventuring-gear/costume",
+          "pages": [
+            97,
+            97
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/costume/variant/standard",
+          "name": "Costume",
+          "rarity": "none",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "listed",
+            "amount": 5,
+            "currency": "gp",
+            "source_pages": [
+              97,
+              97
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.gear",
+            "trait.advantage-on-checks-to-impersonate-represented-person-or-type-while-wearing"
+          ],
+          "details": {
+            "gear": {
+              "actions": [],
+              "checks": [],
+              "damage": [],
+              "measures": [],
+              "traits": [
+                "advantage-on-checks-to-impersonate-represented-person-or-type-while-wearing"
+              ],
+              "contents": [],
+              "spellcasting_focus": [],
+              "weight": {
+                "listed": true,
+                "pounds_numerator": 4,
+                "pounds_denominator": 1,
+                "condition": "none"
+              },
+              "source_pages": [
+                97,
+                97
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/crowbar",
+      "name": "Crowbar",
+      "kind": "mundane",
+      "category": "adventuring-gear",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/adventuring-gear/crowbar",
+          "pages": [
+            97,
+            97
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/crowbar/variant/standard",
+          "name": "Crowbar",
+          "rarity": "none",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "listed",
+            "amount": 2,
+            "currency": "gp",
+            "source_pages": [
+              97,
+              97
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.gear",
+            "trait.advantage-on-strength-checks-where-leverage-applies"
+          ],
+          "details": {
+            "gear": {
+              "actions": [],
+              "checks": [],
+              "damage": [],
+              "measures": [],
+              "traits": [
+                "advantage-on-strength-checks-where-leverage-applies"
+              ],
+              "contents": [],
+              "spellcasting_focus": [],
+              "weight": {
+                "listed": true,
+                "pounds_numerator": 5,
+                "pounds_denominator": 1,
+                "condition": "none"
+              },
+              "source_pages": [
+                97,
+                97
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/diplomats-pack",
+      "name": "Diplomat\u2019s Pack",
+      "kind": "mundane",
+      "category": "adventuring-gear",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/adventuring-gear/diplomats-pack",
+          "pages": [
+            97,
+            97
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/diplomats-pack/variant/standard",
+          "name": "Diplomat\u2019s Pack",
+          "rarity": "none",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "listed",
+            "amount": 39,
+            "currency": "gp",
+            "source_pages": [
+              97,
+              97
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.gear",
+            "content.chest-1-item",
+            "content.clothes-fine-1-item",
+            "content.ink-1-item",
+            "content.ink-pen-5-item",
+            "content.lamp-1-item",
+            "content.case-map-or-scroll-2-item",
+            "content.oil-4-flask",
+            "content.paper-5-sheet",
+            "content.parchment-5-sheet",
+            "content.perfume-1-item",
+            "content.tinderbox-1-item"
+          ],
+          "details": {
+            "gear": {
+              "actions": [],
+              "checks": [],
+              "damage": [],
+              "measures": [],
+              "traits": [],
+              "contents": [
+                {
+                  "item": "chest",
+                  "quantity": 1,
+                  "unit": "item"
+                },
+                {
+                  "item": "clothes-fine",
+                  "quantity": 1,
+                  "unit": "item"
+                },
+                {
+                  "item": "ink",
+                  "quantity": 1,
+                  "unit": "item"
+                },
+                {
+                  "item": "ink-pen",
+                  "quantity": 5,
+                  "unit": "item"
+                },
+                {
+                  "item": "lamp",
+                  "quantity": 1,
+                  "unit": "item"
+                },
+                {
+                  "item": "case-map-or-scroll",
+                  "quantity": 2,
+                  "unit": "item"
+                },
+                {
+                  "item": "oil",
+                  "quantity": 4,
+                  "unit": "flask"
+                },
+                {
+                  "item": "paper",
+                  "quantity": 5,
+                  "unit": "sheet"
+                },
+                {
+                  "item": "parchment",
+                  "quantity": 5,
+                  "unit": "sheet"
+                },
+                {
+                  "item": "perfume",
+                  "quantity": 1,
+                  "unit": "item"
+                },
+                {
+                  "item": "tinderbox",
+                  "quantity": 1,
+                  "unit": "item"
+                }
+              ],
+              "spellcasting_focus": [],
+              "weight": {
+                "listed": true,
+                "pounds_numerator": 39,
+                "pounds_denominator": 1,
+                "condition": "none"
+              },
+              "source_pages": [
+                97,
+                97
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/druidic-focus",
+      "name": "Druidic Focus",
+      "kind": "mundane",
+      "category": "adventuring-gear",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/adventuring-gear/druidic-focus",
+          "pages": [
+            97,
+            97
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/druidic-focus/variant/sprig-of-mistletoe",
+          "name": "Sprig of mistletoe",
+          "rarity": "none",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "listed",
+            "amount": 1,
+            "currency": "gp",
+            "source_pages": [
+              97,
+              97
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.gear",
+            "spellcasting-focus.druid",
+            "spellcasting-focus.ranger",
+            "trait.carved-ribboned-or-painted-to-channel-primal-magic"
+          ],
+          "details": {
+            "gear": {
+              "actions": [],
+              "checks": [],
+              "damage": [],
+              "measures": [],
+              "traits": [
+                "carved-ribboned-or-painted-to-channel-primal-magic"
+              ],
+              "contents": [],
+              "spellcasting_focus": [
+                "druid",
+                "ranger"
+              ],
+              "weight": {
+                "listed": false,
+                "pounds_numerator": 0,
+                "pounds_denominator": 1,
+                "condition": "none"
+              },
+              "source_pages": [
+                97,
+                97
+              ]
+            }
+          }
+        },
+        {
+          "id": "srd-5.2.1:content/items/druidic-focus/variant/wooden-staff",
+          "name": "Wooden staff",
+          "rarity": "none",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "listed",
+            "amount": 5,
+            "currency": "gp",
+            "source_pages": [
+              97,
+              97
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.gear",
+            "spellcasting-focus.druid",
+            "spellcasting-focus.ranger",
+            "trait.carved-ribboned-or-painted-to-channel-primal-magic",
+            "trait.also-quarterstaff"
+          ],
+          "details": {
+            "gear": {
+              "actions": [],
+              "checks": [],
+              "damage": [],
+              "measures": [],
+              "traits": [
+                "carved-ribboned-or-painted-to-channel-primal-magic",
+                "also-quarterstaff"
+              ],
+              "contents": [],
+              "spellcasting_focus": [
+                "druid",
+                "ranger"
+              ],
+              "weight": {
+                "listed": true,
+                "pounds_numerator": 4,
+                "pounds_denominator": 1,
+                "condition": "none"
+              },
+              "source_pages": [
+                97,
+                97
+              ]
+            }
+          }
+        },
+        {
+          "id": "srd-5.2.1:content/items/druidic-focus/variant/yew-wand",
+          "name": "Yew wand",
+          "rarity": "none",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "listed",
+            "amount": 10,
+            "currency": "gp",
+            "source_pages": [
+              97,
+              97
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.gear",
+            "spellcasting-focus.druid",
+            "spellcasting-focus.ranger",
+            "trait.carved-ribboned-or-painted-to-channel-primal-magic"
+          ],
+          "details": {
+            "gear": {
+              "actions": [],
+              "checks": [],
+              "damage": [],
+              "measures": [],
+              "traits": [
+                "carved-ribboned-or-painted-to-channel-primal-magic"
+              ],
+              "contents": [],
+              "spellcasting_focus": [
+                "druid",
+                "ranger"
+              ],
+              "weight": {
+                "listed": true,
+                "pounds_numerator": 1,
+                "pounds_denominator": 1,
+                "condition": "none"
+              },
+              "source_pages": [
+                97,
+                97
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/dungeoneers-pack",
+      "name": "Dungeoneer\u2019s Pack",
+      "kind": "mundane",
+      "category": "adventuring-gear",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/adventuring-gear/dungeoneers-pack",
+          "pages": [
+            97,
+            97
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/dungeoneers-pack/variant/standard",
+          "name": "Dungeoneer\u2019s Pack",
+          "rarity": "none",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "listed",
+            "amount": 12,
+            "currency": "gp",
+            "source_pages": [
+              97,
+              97
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.gear",
+            "content.backpack-1-item",
+            "content.caltrops-1-item",
+            "content.crowbar-1-item",
+            "content.oil-2-flask",
+            "content.rations-10-day",
+            "content.rope-1-item",
+            "content.tinderbox-1-item",
+            "content.torch-10-item",
+            "content.waterskin-1-item"
+          ],
+          "details": {
+            "gear": {
+              "actions": [],
+              "checks": [],
+              "damage": [],
+              "measures": [],
+              "traits": [],
+              "contents": [
+                {
+                  "item": "backpack",
+                  "quantity": 1,
+                  "unit": "item"
+                },
+                {
+                  "item": "caltrops",
+                  "quantity": 1,
+                  "unit": "item"
+                },
+                {
+                  "item": "crowbar",
+                  "quantity": 1,
+                  "unit": "item"
+                },
+                {
+                  "item": "oil",
+                  "quantity": 2,
+                  "unit": "flask"
+                },
+                {
+                  "item": "rations",
+                  "quantity": 10,
+                  "unit": "day"
+                },
+                {
+                  "item": "rope",
+                  "quantity": 1,
+                  "unit": "item"
+                },
+                {
+                  "item": "tinderbox",
+                  "quantity": 1,
+                  "unit": "item"
+                },
+                {
+                  "item": "torch",
+                  "quantity": 10,
+                  "unit": "item"
+                },
+                {
+                  "item": "waterskin",
+                  "quantity": 1,
+                  "unit": "item"
+                }
+              ],
+              "spellcasting_focus": [],
+              "weight": {
+                "listed": true,
+                "pounds_numerator": 55,
+                "pounds_denominator": 1,
+                "condition": "none"
+              },
+              "source_pages": [
+                97,
+                97
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/entertainers-pack",
+      "name": "Entertainer\u2019s Pack",
+      "kind": "mundane",
+      "category": "adventuring-gear",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/adventuring-gear/entertainers-pack",
+          "pages": [
+            97,
+            97
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/entertainers-pack/variant/standard",
+          "name": "Entertainer\u2019s Pack",
+          "rarity": "none",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "listed",
+            "amount": 40,
+            "currency": "gp",
+            "source_pages": [
+              97,
+              97
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.gear",
+            "content.backpack-1-item",
+            "content.bedroll-1-item",
+            "content.bell-1-item",
+            "content.lantern-bullseye-1-item",
+            "content.costume-3-item",
+            "content.mirror-1-item",
+            "content.oil-8-flask",
+            "content.rations-9-day",
+            "content.tinderbox-1-item",
+            "content.waterskin-1-item"
+          ],
+          "details": {
+            "gear": {
+              "actions": [],
+              "checks": [],
+              "damage": [],
+              "measures": [],
+              "traits": [],
+              "contents": [
+                {
+                  "item": "backpack",
+                  "quantity": 1,
+                  "unit": "item"
+                },
+                {
+                  "item": "bedroll",
+                  "quantity": 1,
+                  "unit": "item"
+                },
+                {
+                  "item": "bell",
+                  "quantity": 1,
+                  "unit": "item"
+                },
+                {
+                  "item": "lantern-bullseye",
+                  "quantity": 1,
+                  "unit": "item"
+                },
+                {
+                  "item": "costume",
+                  "quantity": 3,
+                  "unit": "item"
+                },
+                {
+                  "item": "mirror",
+                  "quantity": 1,
+                  "unit": "item"
+                },
+                {
+                  "item": "oil",
+                  "quantity": 8,
+                  "unit": "flask"
+                },
+                {
+                  "item": "rations",
+                  "quantity": 9,
+                  "unit": "day"
+                },
+                {
+                  "item": "tinderbox",
+                  "quantity": 1,
+                  "unit": "item"
+                },
+                {
+                  "item": "waterskin",
+                  "quantity": 1,
+                  "unit": "item"
+                }
+              ],
+              "spellcasting_focus": [],
+              "weight": {
+                "listed": true,
+                "pounds_numerator": 117,
+                "pounds_denominator": 2,
+                "condition": "none"
+              },
+              "source_pages": [
+                97,
+                97
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/explorers-pack",
+      "name": "Explorer\u2019s Pack",
+      "kind": "mundane",
+      "category": "adventuring-gear",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/adventuring-gear/explorers-pack",
+          "pages": [
+            97,
+            97
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/explorers-pack/variant/standard",
+          "name": "Explorer\u2019s Pack",
+          "rarity": "none",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "listed",
+            "amount": 10,
+            "currency": "gp",
+            "source_pages": [
+              97,
+              97
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.gear",
+            "content.backpack-1-item",
+            "content.bedroll-1-item",
+            "content.oil-2-flask",
+            "content.rations-10-day",
+            "content.rope-1-item",
+            "content.tinderbox-1-item",
+            "content.torch-10-item",
+            "content.waterskin-1-item"
+          ],
+          "details": {
+            "gear": {
+              "actions": [],
+              "checks": [],
+              "damage": [],
+              "measures": [],
+              "traits": [],
+              "contents": [
+                {
+                  "item": "backpack",
+                  "quantity": 1,
+                  "unit": "item"
+                },
+                {
+                  "item": "bedroll",
+                  "quantity": 1,
+                  "unit": "item"
+                },
+                {
+                  "item": "oil",
+                  "quantity": 2,
+                  "unit": "flask"
+                },
+                {
+                  "item": "rations",
+                  "quantity": 10,
+                  "unit": "day"
+                },
+                {
+                  "item": "rope",
+                  "quantity": 1,
+                  "unit": "item"
+                },
+                {
+                  "item": "tinderbox",
+                  "quantity": 1,
+                  "unit": "item"
+                },
+                {
+                  "item": "torch",
+                  "quantity": 10,
+                  "unit": "item"
+                },
+                {
+                  "item": "waterskin",
+                  "quantity": 1,
+                  "unit": "item"
+                }
+              ],
+              "spellcasting_focus": [],
+              "weight": {
+                "listed": true,
+                "pounds_numerator": 55,
+                "pounds_denominator": 1,
+                "condition": "none"
+              },
+              "source_pages": [
+                97,
+                97
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/flask",
+      "name": "Flask",
+      "kind": "mundane",
+      "category": "adventuring-gear",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/adventuring-gear/flask",
+          "pages": [
+            97,
+            97
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/flask/variant/standard",
+          "name": "Flask",
+          "rarity": "none",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "listed",
+            "amount": 2,
+            "currency": "cp",
+            "source_pages": [
+              97,
+              97
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.gear",
+            "measure.capacity-1-pint"
+          ],
+          "details": {
+            "gear": {
+              "actions": [],
+              "checks": [],
+              "damage": [],
+              "measures": [
+                {
+                  "name": "capacity",
+                  "numerator": 1,
+                  "denominator": 1,
+                  "unit": "pint"
+                }
+              ],
+              "traits": [],
+              "contents": [],
+              "spellcasting_focus": [],
+              "weight": {
+                "listed": true,
+                "pounds_numerator": 1,
+                "pounds_denominator": 1,
+                "condition": "none"
+              },
+              "source_pages": [
+                97,
+                97
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/grappling-hook",
+      "name": "Grappling Hook",
+      "kind": "mundane",
+      "category": "adventuring-gear",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/adventuring-gear/grappling-hook",
+          "pages": [
+            97,
+            97
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/grappling-hook/variant/standard",
+          "name": "Grappling Hook",
+          "rarity": "none",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "utilize",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "listed",
+            "amount": 2,
+            "currency": "gp",
+            "source_pages": [
+              97,
+              97
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.gear",
+            "action.utilize",
+            "ability-check.catch-hook-dexterity-acrobatics-dc-13",
+            "measure.throw-range-50-feet",
+            "trait.throw-at-railing-ledge-or-other-catch",
+            "trait.tied-rope-can-then-be-climbed"
+          ],
+          "details": {
+            "gear": {
+              "actions": [
+                "utilize"
+              ],
+              "checks": [
+                {
+                  "purpose": "catch-hook",
+                  "kind": "ability-check",
+                  "ability": "dexterity",
+                  "skill": "acrobatics",
+                  "dc": 13,
+                  "dc_rule": "fixed"
+                }
+              ],
+              "damage": [],
+              "measures": [
+                {
+                  "name": "throw-range",
+                  "numerator": 50,
+                  "denominator": 1,
+                  "unit": "feet"
+                }
+              ],
+              "traits": [
+                "throw-at-railing-ledge-or-other-catch",
+                "tied-rope-can-then-be-climbed"
+              ],
+              "contents": [],
+              "spellcasting_focus": [],
+              "weight": {
+                "listed": true,
+                "pounds_numerator": 4,
+                "pounds_denominator": 1,
+                "condition": "none"
+              },
+              "source_pages": [
+                97,
+                97
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

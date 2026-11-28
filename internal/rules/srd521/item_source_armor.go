@@ -37,7 +37,7 @@ type ItemArmorDonDoff struct {
 	DoffMinutes int    `json:"doff_minutes"`
 }
 
-var armorSourceKind = mundaneSourceKind{Category: "armor", Section: "armor", Use: "none", Payload: "armor"}
+var armorSourceKind = mundaneSourceKind{Category: "armor", Section: "armor", Payload: "armor"}
 
 // decodeArmorSourceBatch decodes one armor batch strictly against its manifest.
 func decodeArmorSourceBatch[D any](data []byte, m mundaneSourceManifest, armor func(*D) *ItemArmor) (ItemSourceBatch[D], error) {
@@ -50,7 +50,7 @@ func decodeArmorSourceBatch[D any](data []byte, m mundaneSourceManifest, armor f
 		if p.ArmorCategory == "shield" {
 			equip = "wield"
 		}
-		return mundaneSourceRow{Equip: equip, Keys: itemArmorKeys(p)}, nil
+		return mundaneSourceRow{Equip: equip, Use: "none", Keys: itemArmorKeys(p)}, nil
 	})
 }
 

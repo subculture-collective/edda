@@ -1,0 +1,1315 @@
+{
+  "schema_version": 1,
+  "rules_version": "srd-5.2.1",
+  "batch": "data-adventuring-gear-05",
+  "catalogue_issue": 260,
+  "source": {
+    "version": "5.2.1",
+    "language": "en",
+    "landing_url": "https://www.dndbeyond.com/srd",
+    "artifact_url": "https://media.dndbeyond.com/compendium-images/srd/5.2/SRD_CC_v5.2.1.pdf",
+    "sha256": "8974902d109d6e63672d7c490bde9ccf052410503d9cfa768237154fbc5e3d87",
+    "bytes": 6031375,
+    "pages": 364,
+    "retrieved_at": "2026-11-15",
+    "license": "CC-BY-4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/legalcode",
+    "attribution": "This work includes material from the System Reference Document 5.2.1 (\u201cSRD 5.2.1\u201d) by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd. The SRD 5.2.1 is licensed under the Creative Commons Attribution 4.0 International License, available at https://creativecommons.org/licenses/by/4.0/legalcode.",
+    "changes": "SRD 5.2.1 pp. 98\u201399 adventuring gear (Magnifying Glass, Manacles, Map, Mirror, Net, Oil, Paper, Parchment, Perfume, Poison, Basic, Pole, Pot, Iron) adapted into versioned mundane gear families with structured actions, checks, damage, measures, trait keys, pack contents, spellcasting focus classes, weights and listed prices from the entries and their tables. Names and numeric values are adapted; trait keys summarize the remaining rules, in places close to the printed wording; no rules prose is copied as text. Catalogue data grants no inventory, proficiency, action or gameplay permissions; every record is unavailable."
+  },
+  "families": [
+    {
+      "id": "srd-5.2.1:content/items/magnifying-glass",
+      "name": "Magnifying Glass",
+      "kind": "mundane",
+      "category": "adventuring-gear",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/adventuring-gear/magnifying-glass",
+          "pages": [
+            98,
+            98
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/magnifying-glass/variant/standard",
+          "name": "Magnifying Glass",
+          "rarity": "none",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "listed",
+            "amount": 100,
+            "currency": "gp",
+            "source_pages": [
+              98,
+              98
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.gear",
+            "measure.fire-ignition-time-5-minutes",
+            "trait.advantage-on-checks-to-appraise-or-inspect-highly-detailed-item",
+            "trait.lighting-fire-requires-sunlight-bright-light-and-tinder"
+          ],
+          "details": {
+            "gear": {
+              "actions": [],
+              "checks": [],
+              "damage": [],
+              "measures": [
+                {
+                  "name": "fire-ignition-time",
+                  "numerator": 5,
+                  "denominator": 1,
+                  "unit": "minutes"
+                }
+              ],
+              "traits": [
+                "advantage-on-checks-to-appraise-or-inspect-highly-detailed-item",
+                "lighting-fire-requires-sunlight-bright-light-and-tinder"
+              ],
+              "contents": [],
+              "spellcasting_focus": [],
+              "weight": {
+                "listed": false,
+                "pounds_numerator": 0,
+                "pounds_denominator": 1,
+                "condition": "none"
+              },
+              "source_pages": [
+                98,
+                98
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/manacles",
+      "name": "Manacles",
+      "kind": "mundane",
+      "category": "adventuring-gear",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/adventuring-gear/manacles",
+          "pages": [
+            98,
+            98
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/manacles/variant/standard",
+          "name": "Manacles",
+          "rarity": "none",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "multiple",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "listed",
+            "amount": 2,
+            "currency": "gp",
+            "source_pages": [
+              98,
+              98
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.gear",
+            "action.utilize",
+            "action.action",
+            "ability-check.bind-creature-dexterity-sleight-of-hand-dc-13",
+            "ability-check.escape-dexterity-sleight-of-hand-dc-20",
+            "ability-check.burst-strength-athletics-dc-25",
+            "ability-check.pick-lock-without-key-dexterity-sleight-of-hand-dc-15",
+            "measure.bind-range-5-feet",
+            "trait.target-unwilling-small-or-medium-grappled-incapacitated-or-restrained-creature",
+            "trait.bound-creature-has-disadvantage-on-attack-rolls",
+            "trait.restrained-if-attached-to-fixed-chain-or-hook",
+            "trait.comes-with-key",
+            "trait.thieves-tools-can-pick-without-key"
+          ],
+          "details": {
+            "gear": {
+              "actions": [
+                "utilize",
+                "action"
+              ],
+              "checks": [
+                {
+                  "purpose": "bind-creature",
+                  "kind": "ability-check",
+                  "ability": "dexterity",
+                  "skill": "sleight-of-hand",
+                  "dc": 13,
+                  "dc_rule": "fixed"
+                },
+                {
+                  "purpose": "escape",
+                  "kind": "ability-check",
+                  "ability": "dexterity",
+                  "skill": "sleight-of-hand",
+                  "dc": 20,
+                  "dc_rule": "fixed"
+                },
+                {
+                  "purpose": "burst",
+                  "kind": "ability-check",
+                  "ability": "strength",
+                  "skill": "athletics",
+                  "dc": 25,
+                  "dc_rule": "fixed"
+                },
+                {
+                  "purpose": "pick-lock-without-key",
+                  "kind": "ability-check",
+                  "ability": "dexterity",
+                  "skill": "sleight-of-hand",
+                  "dc": 15,
+                  "dc_rule": "fixed"
+                }
+              ],
+              "damage": [],
+              "measures": [
+                {
+                  "name": "bind-range",
+                  "numerator": 5,
+                  "denominator": 1,
+                  "unit": "feet"
+                }
+              ],
+              "traits": [
+                "target-unwilling-small-or-medium-grappled-incapacitated-or-restrained-creature",
+                "bound-creature-has-disadvantage-on-attack-rolls",
+                "restrained-if-attached-to-fixed-chain-or-hook",
+                "comes-with-key",
+                "thieves-tools-can-pick-without-key"
+              ],
+              "contents": [],
+              "spellcasting_focus": [],
+              "weight": {
+                "listed": true,
+                "pounds_numerator": 6,
+                "pounds_denominator": 1,
+                "condition": "none"
+              },
+              "source_pages": [
+                98,
+                98
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/map",
+      "name": "Map",
+      "kind": "mundane",
+      "category": "adventuring-gear",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/adventuring-gear/map",
+          "pages": [
+            98,
+            98
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/map/variant/standard",
+          "name": "Map",
+          "rarity": "none",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "listed",
+            "amount": 1,
+            "currency": "gp",
+            "source_pages": [
+              98,
+              98
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.gear",
+            "measure.wayfinding-check-bonus-5-bonus",
+            "trait.bonus-requires-consulting-accurate-map",
+            "trait.bonus-to-wisdom-survival-checks-to-find-way-in-mapped-place"
+          ],
+          "details": {
+            "gear": {
+              "actions": [],
+              "checks": [],
+              "damage": [],
+              "measures": [
+                {
+                  "name": "wayfinding-check-bonus",
+                  "numerator": 5,
+                  "denominator": 1,
+                  "unit": "bonus"
+                }
+              ],
+              "traits": [
+                "bonus-requires-consulting-accurate-map",
+                "bonus-to-wisdom-survival-checks-to-find-way-in-mapped-place"
+              ],
+              "contents": [],
+              "spellcasting_focus": [],
+              "weight": {
+                "listed": false,
+                "pounds_numerator": 0,
+                "pounds_denominator": 1,
+                "condition": "none"
+              },
+              "source_pages": [
+                98,
+                98
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/mirror",
+      "name": "Mirror",
+      "kind": "mundane",
+      "category": "adventuring-gear",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/adventuring-gear/mirror",
+          "pages": [
+            98,
+            98
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/mirror/variant/standard",
+          "name": "Mirror",
+          "rarity": "none",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "listed",
+            "amount": 5,
+            "currency": "gp",
+            "source_pages": [
+              98,
+              98
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.gear",
+            "trait.handheld-steel",
+            "trait.useful-for-cosmetics-peeking-around-corners-and-signals"
+          ],
+          "details": {
+            "gear": {
+              "actions": [],
+              "checks": [],
+              "damage": [],
+              "measures": [],
+              "traits": [
+                "handheld-steel",
+                "useful-for-cosmetics-peeking-around-corners-and-signals"
+              ],
+              "contents": [],
+              "spellcasting_focus": [],
+              "weight": {
+                "listed": true,
+                "pounds_numerator": 1,
+                "pounds_denominator": 2,
+                "condition": "none"
+              },
+              "source_pages": [
+                98,
+                98
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/net",
+      "name": "Net",
+      "kind": "mundane",
+      "category": "adventuring-gear",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/adventuring-gear/net",
+          "pages": [
+            98,
+            98
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/net/variant/standard",
+          "name": "Net",
+          "rarity": "none",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "multiple",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "listed",
+            "amount": 1,
+            "currency": "gp",
+            "source_pages": [
+              98,
+              98
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.gear",
+            "action.attack-replacement",
+            "action.action",
+            "saving-throw.avoid-restrained-dexterity-dc-8-plus-dexterity-modifier-and-proficiency-bonus",
+            "ability-check.escape-strength-athletics-dc-10",
+            "measure.throw-range-15-feet",
+            "measure.escape-helper-range-5-feet",
+            "measure.armor-class-10-armor-class",
+            "measure.hit-points-5-hit-points",
+            "trait.throw-net-in-place-of-one-attack",
+            "trait.target-one-creature-you-can-see",
+            "trait.failed-save-restrains-until-escape",
+            "trait.huge-or-larger-target-succeeds-automatically",
+            "trait.successful-check-frees-restrained-creature",
+            "trait.immune-to-bludgeoning-poison-and-psychic-damage",
+            "trait.destroying-net-frees-target-and-ends-effect"
+          ],
+          "details": {
+            "gear": {
+              "actions": [
+                "attack-replacement",
+                "action"
+              ],
+              "checks": [
+                {
+                  "purpose": "avoid-restrained",
+                  "kind": "saving-throw",
+                  "ability": "dexterity",
+                  "skill": "none",
+                  "dc": 8,
+                  "dc_rule": "plus-dexterity-modifier-and-proficiency-bonus"
+                },
+                {
+                  "purpose": "escape",
+                  "kind": "ability-check",
+                  "ability": "strength",
+                  "skill": "athletics",
+                  "dc": 10,
+                  "dc_rule": "fixed"
+                }
+              ],
+              "damage": [],
+              "measures": [
+                {
+                  "name": "throw-range",
+                  "numerator": 15,
+                  "denominator": 1,
+                  "unit": "feet"
+                },
+                {
+                  "name": "escape-helper-range",
+                  "numerator": 5,
+                  "denominator": 1,
+                  "unit": "feet"
+                },
+                {
+                  "name": "armor-class",
+                  "numerator": 10,
+                  "denominator": 1,
+                  "unit": "armor-class"
+                },
+                {
+                  "name": "hit-points",
+                  "numerator": 5,
+                  "denominator": 1,
+                  "unit": "hit-points"
+                }
+              ],
+              "traits": [
+                "throw-net-in-place-of-one-attack",
+                "target-one-creature-you-can-see",
+                "failed-save-restrains-until-escape",
+                "huge-or-larger-target-succeeds-automatically",
+                "successful-check-frees-restrained-creature",
+                "immune-to-bludgeoning-poison-and-psychic-damage",
+                "destroying-net-frees-target-and-ends-effect"
+              ],
+              "contents": [],
+              "spellcasting_focus": [],
+              "weight": {
+                "listed": true,
+                "pounds_numerator": 3,
+                "pounds_denominator": 1,
+                "condition": "none"
+              },
+              "source_pages": [
+                98,
+                98
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/oil",
+      "name": "Oil",
+      "kind": "mundane",
+      "category": "adventuring-gear",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/adventuring-gear/oil",
+          "pages": [
+            98,
+            98
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/oil/variant/standard",
+          "name": "Oil",
+          "rarity": "none",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "multiple",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "listed",
+            "amount": 1,
+            "currency": "sp",
+            "source_pages": [
+              98,
+              98
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.gear",
+            "action.attack-replacement",
+            "action.utilize",
+            "saving-throw.avoid-being-covered-in-oil-dexterity-dc-8-plus-dexterity-modifier-and-proficiency-bonus",
+            "damage.extra-from-burning-oil-5-fire",
+            "damage.burning-area-5-fire",
+            "measure.throw-range-20-feet",
+            "measure.drying-time-1-minute",
+            "measure.covered-square-side-5-feet",
+            "measure.pour-range-5-feet",
+            "measure.area-burn-rounds-2-rounds",
+            "measure.area-burn-seconds-12-seconds",
+            "measure.fuel-burn-duration-6-hours",
+            "trait.douse-creature-object-or-space-or-use-as-fuel",
+            "trait.throw-flask-in-place-of-one-attack",
+            "trait.target-one-creature-or-object",
+            "trait.extra-damage-if-fire-damage-taken-before-oil-dries",
+            "trait.pour-flask-on-level-ground",
+            "trait.area-damages-on-entry-or-turn-end-once-per-turn",
+            "trait.fuel-for-lamps-and-lanterns",
+            "trait.fuel-duration-need-not-be-consecutive",
+            "trait.extinguish-and-rekindle-until-total-duration-burned"
+          ],
+          "details": {
+            "gear": {
+              "actions": [
+                "attack-replacement",
+                "utilize"
+              ],
+              "checks": [
+                {
+                  "purpose": "avoid-being-covered-in-oil",
+                  "kind": "saving-throw",
+                  "ability": "dexterity",
+                  "skill": "none",
+                  "dc": 8,
+                  "dc_rule": "plus-dexterity-modifier-and-proficiency-bonus"
+                }
+              ],
+              "damage": [
+                {
+                  "purpose": "extra-from-burning-oil",
+                  "dice": 0,
+                  "sides": 0,
+                  "flat": 5,
+                  "type": "fire"
+                },
+                {
+                  "purpose": "burning-area",
+                  "dice": 0,
+                  "sides": 0,
+                  "flat": 5,
+                  "type": "fire"
+                }
+              ],
+              "measures": [
+                {
+                  "name": "throw-range",
+                  "numerator": 20,
+                  "denominator": 1,
+                  "unit": "feet"
+                },
+                {
+                  "name": "drying-time",
+                  "numerator": 1,
+                  "denominator": 1,
+                  "unit": "minute"
+                },
+                {
+                  "name": "covered-square-side",
+                  "numerator": 5,
+                  "denominator": 1,
+                  "unit": "feet"
+                },
+                {
+                  "name": "pour-range",
+                  "numerator": 5,
+                  "denominator": 1,
+                  "unit": "feet"
+                },
+                {
+                  "name": "area-burn-rounds",
+                  "numerator": 2,
+                  "denominator": 1,
+                  "unit": "rounds"
+                },
+                {
+                  "name": "area-burn-seconds",
+                  "numerator": 12,
+                  "denominator": 1,
+                  "unit": "seconds"
+                },
+                {
+                  "name": "fuel-burn-duration",
+                  "numerator": 6,
+                  "denominator": 1,
+                  "unit": "hours"
+                }
+              ],
+              "traits": [
+                "douse-creature-object-or-space-or-use-as-fuel",
+                "throw-flask-in-place-of-one-attack",
+                "target-one-creature-or-object",
+                "extra-damage-if-fire-damage-taken-before-oil-dries",
+                "pour-flask-on-level-ground",
+                "area-damages-on-entry-or-turn-end-once-per-turn",
+                "fuel-for-lamps-and-lanterns",
+                "fuel-duration-need-not-be-consecutive",
+                "extinguish-and-rekindle-until-total-duration-burned"
+              ],
+              "contents": [],
+              "spellcasting_focus": [],
+              "weight": {
+                "listed": true,
+                "pounds_numerator": 1,
+                "pounds_denominator": 1,
+                "condition": "none"
+              },
+              "source_pages": [
+                98,
+                99
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/paper",
+      "name": "Paper",
+      "kind": "mundane",
+      "category": "adventuring-gear",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/adventuring-gear/paper",
+          "pages": [
+            99,
+            99
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/paper/variant/standard",
+          "name": "Paper",
+          "rarity": "none",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "listed",
+            "amount": 2,
+            "currency": "sp",
+            "source_pages": [
+              99,
+              99
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.gear",
+            "measure.handwritten-words-per-sheet-250-words"
+          ],
+          "details": {
+            "gear": {
+              "actions": [],
+              "checks": [],
+              "damage": [],
+              "measures": [
+                {
+                  "name": "handwritten-words-per-sheet",
+                  "numerator": 250,
+                  "denominator": 1,
+                  "unit": "words"
+                }
+              ],
+              "traits": [],
+              "contents": [],
+              "spellcasting_focus": [],
+              "weight": {
+                "listed": false,
+                "pounds_numerator": 0,
+                "pounds_denominator": 1,
+                "condition": "none"
+              },
+              "source_pages": [
+                99,
+                99
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/parchment",
+      "name": "Parchment",
+      "kind": "mundane",
+      "category": "adventuring-gear",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/adventuring-gear/parchment",
+          "pages": [
+            99,
+            99
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/parchment/variant/standard",
+          "name": "Parchment",
+          "rarity": "none",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "listed",
+            "amount": 1,
+            "currency": "sp",
+            "source_pages": [
+              99,
+              99
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.gear",
+            "measure.handwritten-words-per-sheet-250-words"
+          ],
+          "details": {
+            "gear": {
+              "actions": [],
+              "checks": [],
+              "damage": [],
+              "measures": [
+                {
+                  "name": "handwritten-words-per-sheet",
+                  "numerator": 250,
+                  "denominator": 1,
+                  "unit": "words"
+                }
+              ],
+              "traits": [],
+              "contents": [],
+              "spellcasting_focus": [],
+              "weight": {
+                "listed": false,
+                "pounds_numerator": 0,
+                "pounds_denominator": 1,
+                "condition": "none"
+              },
+              "source_pages": [
+                99,
+                99
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/perfume",
+      "name": "Perfume",
+      "kind": "mundane",
+      "category": "adventuring-gear",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/adventuring-gear/perfume",
+          "pages": [
+            99,
+            99
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/perfume/variant/standard",
+          "name": "Perfume",
+          "rarity": "none",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "listed",
+            "amount": 5,
+            "currency": "gp",
+            "source_pages": [
+              99,
+              99
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.gear",
+            "measure.vial-volume-4-ounces",
+            "measure.benefit-duration-1-hour",
+            "measure.influence-range-5-feet",
+            "trait.advantage-on-charisma-persuasion-to-influence-indifferent-humanoid"
+          ],
+          "details": {
+            "gear": {
+              "actions": [],
+              "checks": [],
+              "damage": [],
+              "measures": [
+                {
+                  "name": "vial-volume",
+                  "numerator": 4,
+                  "denominator": 1,
+                  "unit": "ounces"
+                },
+                {
+                  "name": "benefit-duration",
+                  "numerator": 1,
+                  "denominator": 1,
+                  "unit": "hour"
+                },
+                {
+                  "name": "influence-range",
+                  "numerator": 5,
+                  "denominator": 1,
+                  "unit": "feet"
+                }
+              ],
+              "traits": [
+                "advantage-on-charisma-persuasion-to-influence-indifferent-humanoid"
+              ],
+              "contents": [],
+              "spellcasting_focus": [],
+              "weight": {
+                "listed": false,
+                "pounds_numerator": 0,
+                "pounds_denominator": 1,
+                "condition": "none"
+              },
+              "source_pages": [
+                99,
+                99
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/poison-basic",
+      "name": "Poison, Basic",
+      "kind": "mundane",
+      "category": "adventuring-gear",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/adventuring-gear/poison-basic",
+          "pages": [
+            99,
+            99
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/poison-basic/variant/standard",
+          "name": "Poison, Basic",
+          "rarity": "none",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "bonus-action",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "listed",
+            "amount": 100,
+            "currency": "gp",
+            "source_pages": [
+              99,
+              99
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.gear",
+            "action.bonus-action",
+            "damage.extra-from-poisoned-weapon-or-ammunition-1d4-poison",
+            "measure.coated-weapons-1-weapon",
+            "measure.coated-ammunition-3-pieces",
+            "measure.potency-duration-1-minute",
+            "trait.coat-one-weapon-or-ammunition-from-vial",
+            "trait.applies-on-piercing-or-slashing-damage",
+            "trait.potency-ends-early-when-damage-is-dealt"
+          ],
+          "details": {
+            "gear": {
+              "actions": [
+                "bonus-action"
+              ],
+              "checks": [],
+              "damage": [
+                {
+                  "purpose": "extra-from-poisoned-weapon-or-ammunition",
+                  "dice": 1,
+                  "sides": 4,
+                  "flat": 0,
+                  "type": "poison"
+                }
+              ],
+              "measures": [
+                {
+                  "name": "coated-weapons",
+                  "numerator": 1,
+                  "denominator": 1,
+                  "unit": "weapon"
+                },
+                {
+                  "name": "coated-ammunition",
+                  "numerator": 3,
+                  "denominator": 1,
+                  "unit": "pieces"
+                },
+                {
+                  "name": "potency-duration",
+                  "numerator": 1,
+                  "denominator": 1,
+                  "unit": "minute"
+                }
+              ],
+              "traits": [
+                "coat-one-weapon-or-ammunition-from-vial",
+                "applies-on-piercing-or-slashing-damage",
+                "potency-ends-early-when-damage-is-dealt"
+              ],
+              "contents": [],
+              "spellcasting_focus": [],
+              "weight": {
+                "listed": false,
+                "pounds_numerator": 0,
+                "pounds_denominator": 1,
+                "condition": "none"
+              },
+              "source_pages": [
+                99,
+                99
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/pole",
+      "name": "Pole",
+      "kind": "mundane",
+      "category": "adventuring-gear",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/adventuring-gear/pole",
+          "pages": [
+            99,
+            99
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/pole/variant/standard",
+          "name": "Pole",
+          "rarity": "none",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "listed",
+            "amount": 5,
+            "currency": "cp",
+            "source_pages": [
+              99,
+              99
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.gear",
+            "measure.length-10-feet",
+            "measure.touch-range-10-feet",
+            "trait.advantage-when-vaulting-in-high-or-long-jump-athletics-check"
+          ],
+          "details": {
+            "gear": {
+              "actions": [],
+              "checks": [],
+              "damage": [],
+              "measures": [
+                {
+                  "name": "length",
+                  "numerator": 10,
+                  "denominator": 1,
+                  "unit": "feet"
+                },
+                {
+                  "name": "touch-range",
+                  "numerator": 10,
+                  "denominator": 1,
+                  "unit": "feet"
+                }
+              ],
+              "traits": [
+                "advantage-when-vaulting-in-high-or-long-jump-athletics-check"
+              ],
+              "contents": [],
+              "spellcasting_focus": [],
+              "weight": {
+                "listed": true,
+                "pounds_numerator": 7,
+                "pounds_denominator": 1,
+                "condition": "none"
+              },
+              "source_pages": [
+                99,
+                99
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "srd-5.2.1:content/items/pot-iron",
+      "name": "Pot, Iron",
+      "kind": "mundane",
+      "category": "adventuring-gear",
+      "base": {
+        "options": [],
+        "excluded": []
+      },
+      "presentations": [
+        {
+          "id": "srd-5.2.1:content/adventuring-gear/pot-iron",
+          "pages": [
+            99,
+            99
+          ]
+        }
+      ],
+      "variants": [
+        {
+          "id": "srd-5.2.1:content/items/pot-iron/variant/standard",
+          "name": "Pot, Iron",
+          "rarity": "none",
+          "attunement": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "charges": {
+            "mode": "none",
+            "maximum": 0,
+            "per_use": 0,
+            "recharge": "none"
+          },
+          "equip": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "use": {
+            "mode": "none",
+            "restrictions": []
+          },
+          "cost": {
+            "kind": "listed",
+            "amount": 2,
+            "currency": "gp",
+            "source_pages": [
+              99,
+              99
+            ]
+          },
+          "required_mechanic_keys": [
+            "item.gear",
+            "measure.capacity-1-gallon"
+          ],
+          "details": {
+            "gear": {
+              "actions": [],
+              "checks": [],
+              "damage": [],
+              "measures": [
+                {
+                  "name": "capacity",
+                  "numerator": 1,
+                  "denominator": 1,
+                  "unit": "gallon"
+                }
+              ],
+              "traits": [],
+              "contents": [],
+              "spellcasting_focus": [],
+              "weight": {
+                "listed": true,
+                "pounds_numerator": 10,
+                "pounds_denominator": 1,
+                "condition": "none"
+              },
+              "source_pages": [
+                99,
+                99
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

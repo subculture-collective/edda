@@ -6,9 +6,10 @@ import (
 	"slices"
 )
 
-// Armor and tools are mundane items with listed prices, like weapons, but a
-// tool may list several variants. This file holds the identity and requirement
-// checks their catalogue batches share; each payload has its own file.
+// Armor, tools and adventuring gear are mundane items with listed prices, like
+// weapons, but a tool or gear family may list several variants. This file holds
+// the identity and requirement checks their catalogue batches share; each
+// payload has its own file.
 
 // mundaneSourceManifest is a batch's reviewed identity, price and mechanic key
 // manifest, independent of incoming JSON.
@@ -29,16 +30,19 @@ type mundaneSourceManifestVariant struct {
 	CostAmount int
 	Currency   string
 	Keys       string
+	// CostPage is the page that prints the price, where it is not the family's
+	// presentation page. Zero means the presentation page.
+	CostPage int
 }
 
 // mundaneSourceKind names what one kind of mundane record must say: its
-// category, its presentation section, its use mode and its only payload.
-type mundaneSourceKind struct{ Category, Section, Use, Payload string }
+// category, its presentation section and its only payload.
+type mundaneSourceKind struct{ Category, Section, Payload string }
 
 // mundaneSourceRow is what a checked payload requires of its variant.
 type mundaneSourceRow struct {
-	Equip string
-	Keys  []string
+	Equip, Use string
+	Keys       []string
 }
 
 // decodeMundaneSourceBatch applies the shared strict decoding, then the
@@ -91,7 +95,11 @@ func validateMundaneSourceBatch[D any](b ItemSourceBatch[D], m mundaneSourceMani
 			if v.Charges == nil || *v.Charges != (ItemCharges{Mode: "none", Recharge: "none"}) {
 				return fmt.Errorf("%s: a mundane item has no charges", v.Name)
 			}
-			if v.Cost == nil || v.Cost.Kind != "listed" || v.Cost.Amount != wv.CostAmount || v.Cost.Currency != wv.Currency || !slices.Equal(v.Cost.SourcePages, pages) {
+			costPages := pages
+			if wv.CostPage != 0 {
+				costPages = []int{wv.CostPage, wv.CostPage}
+			}
+			if v.Cost == nil || v.Cost.Kind != "listed" || v.Cost.Amount != wv.CostAmount || v.Cost.Currency != wv.Currency || !slices.Equal(v.Cost.SourcePages, costPages) {
 				return fmt.Errorf("%s: listed price disagrees with source", v.Name)
 			}
 			if v.Details == nil {
@@ -111,7 +119,7 @@ func validateMundaneSourceBatch[D any](b ItemSourceBatch[D], m mundaneSourceMani
 			if v.Equip == nil || v.Equip.Mode != checked.Equip || !sameItemKeys(v.Equip.Restrictions, "") {
 				return fmt.Errorf("%s: equip restriction disagrees with source", v.Name)
 			}
-			if v.Use == nil || v.Use.Mode != kind.Use || !sameItemKeys(v.Use.Restrictions, "") {
+			if v.Use == nil || v.Use.Mode != checked.Use || !sameItemKeys(v.Use.Restrictions, "") {
 				return fmt.Errorf("%s: use restriction disagrees with source", v.Name)
 			}
 			if !sameItemKeys(v.RequiredMechanicKeys, wv.Keys) || len(v.RequiredMechanicKeys) == 0 {
