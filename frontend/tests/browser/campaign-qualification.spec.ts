@@ -58,13 +58,13 @@ for (const viewport of [{ width: 1440, height: 900 }, { width: 390, height: 844 
       slots = 1;
       return route.fulfill({ json: { action_id: 'saved-cure-wounds', turn_number: 3, narrative: 'Mira casts Cure Wounds on self: regains 7 HP.', combat_active: false, state_changes: [], resolution_events: [{ type: 'srd_spell', label: 'Cure Wounds', outcome: 'healed', details: { receipt: { rules_version: 'srd-5.2.1', kind: 'spell-cast', spell: 'Cure Wounds', target: 'Mira', target_id: 'hero', slot_level: 1, slots_before: 2, slots_after: 1, dice: [2, 2], modifier: { value: 3, derivation: [] }, rolled_healing: 7, healing: 7, hp_before: 1, hp_after: 8, source_ids: ['srd-5.2.1:content/spells/cure-wounds'] } } }] } });
     });
-    await page.routeWebSocket('**/api/v1/campaigns/alpha/ws', socket => {
+    await page.routeWebSocket(/\/api\/v1\/campaigns\/alpha\/ws(\?|$)/, socket => {
       socket.onMessage(raw => {
         const action = JSON.parse(String(raw)).payload;
         srdActions.push(action);
       });
     });
-    await page.routeWebSocket('**/api/v1/campaigns/beta/ws', socket => {
+    await page.routeWebSocket(/\/api\/v1\/campaigns\/beta\/ws(\?|$)/, socket => {
       legacySocket = socket; legacyConnections++;
       socket.onMessage(raw => {
         const action = JSON.parse(String(raw)).payload;

@@ -31,21 +31,19 @@ it('sends logout with keepalive so that it survives page unload', async () => {
   expect(bearer(server.calls[0].init)).toBe('Bearer old-token');
   server.reply(204);
   await done;
-  // Nobody has signed in since, so there is no cookie to restore.
   expect(server.calls).toHaveLength(1);
 });
 
-it.each([204, 500])('restores the cookie of a newer sign-in after a late %i logout reply', async status => {
+it.each([204, 500])('leaves a newer sign-in alone after a late %i logout reply', async status => {
   setStoredSession('old-token', user);
   const server = stubFetch();
   const done = logout().catch(() => {});
   setStoredSession('new-token', user);
-  expect(server.calls).toHaveLength(1);
 
   server.reply(status);
   await done;
 
-  expect(server.calls.map(call => call.url)).toEqual(['/api/v1/auth/logout', '/api/v1/auth/me']);
-  expect(bearer(server.calls[1].init)).toBe('Bearer new-token');
-  expect(server.calls[1].init.credentials).toBe('include');
+  // WebSockets use per-connection tickets, so there is no shared cookie to restore.
+  expect(server.calls.map(call => call.url)).toEqual(['/api/v1/auth/logout']);
+  expect(getStoredToken()).toBe('new-token');
 });

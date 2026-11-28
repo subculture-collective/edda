@@ -1,5 +1,8 @@
 import { useCallback, useEffect, useEffectEvent, useMemo, useRef, useState } from 'react';
 
+import { requestWebSocketTicket } from '../api/auth';
+import { getStoredToken } from '../api/authSession';
+import { APIError } from '../api/backend';
 import type { ActionRequest, WebSocketStatusPayload } from '../api/types';
 import { buildCampaignWebSocketURL, decodeWebSocketEvent, type ParsedWebSocketEvent } from '../api/websocket';
 export type { NarrativeChoice, TurnResponseWithChoices } from '../api/websocketParser';
@@ -30,6 +33,9 @@ type OutboundActionEnvelope = {
 };
 
 const SOCKET_UNAVAILABLE_MESSAGE = 'Live connection unavailable.';
+const SIGNED_OUT_MESSAGE = 'Your session has ended. Sign in again to keep playing.';
+// The server closes a socket with this code when its session signs out.
+const SIGNED_OUT_CLOSE_CODE = 4401;
 const MALFORMED_MESSAGE_ERROR = 'Received a malformed live update from the server.';
 const RECONNECT_BASE_DELAY_MS = 1000;
 const RECONNECT_MAX_DELAY_MS = 30000;
@@ -100,10 +106,18 @@ export function useWebSocket(campaignId: string | null | undefined, consume?: (e
     const isCurrentSocket = () => socket !== null && socketRef.current === socket;
 
     const scheduleReconnect = (nextStatus: ConnectionStatus, nextError: string | null) => {
-      if (!isCurrentSocket()) {
-        return;
-      }
+      if (isCurrentSocket()) retry(nextStatus, nextError);
+    };
 
+    // A signed-out session cannot reconnect.
+    const endSignedOut = () => {
+      allowReconnect = false;
+      setConnectionStatus('closed');
+      setError(SIGNED_OUT_MESSAGE);
+      setIsAwaitingResponse(false);
+    };
+
+    const retry = (nextStatus: ConnectionStatus, nextError: string | null) => {
       setConnectionStatus(nextStatus);
       setError(nextError);
       setIsAwaitingResponse(false);
@@ -147,7 +161,11 @@ export function useWebSocket(campaignId: string | null | undefined, consume?: (e
       reconnectAttemptsRef.current = 0;
     };
 
-    const handleClose = () => {
+    const handleClose = (event: CloseEvent) => {
+      if (event.code === SIGNED_OUT_CLOSE_CODE) {
+        if (isCurrentSocket()) endSignedOut();
+        return;
+      }
       scheduleReconnect('closed', null);
     };
 
@@ -220,19 +238,37 @@ export function useWebSocket(campaignId: string | null | undefined, consume?: (e
       setIsAwaitingResponse(false);
     };
 
-    const connectionTimer = setTimeout(() => {
+    const connect = (ticket?: string) => {
       if (!allowReconnect) {
         return;
       }
 
-      setConnectionStatus('connecting');
-      socket = new WebSocket(buildCampaignWebSocketURL(activeCampaignId));
+      socket = new WebSocket(buildCampaignWebSocketURL(activeCampaignId, ticket));
       socketRef.current = socket;
 
       socket.addEventListener('open', handleOpen);
       socket.addEventListener('close', handleClose);
       socket.addEventListener('error', handleSocketError);
       socket.addEventListener('message', handleMessage);
+    };
+
+    const connectionTimer = setTimeout(() => {
+      if (!allowReconnect) {
+        return;
+      }
+
+      setConnectionStatus('connecting');
+      // A browser cannot send the bearer token with a WebSocket, so each
+      // connection asks for its own one-use ticket.
+      if (!getStoredToken()) {
+        connect();
+        return;
+      }
+      requestWebSocketTicket().then(connect, (ticketError: unknown) => {
+        if (!allowReconnect) return;
+        if (ticketError instanceof APIError && ticketError.status === 401) endSignedOut();
+        else retry('error', SOCKET_UNAVAILABLE_MESSAGE);
+      });
     }, 0);
 
     return () => {

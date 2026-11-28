@@ -43,9 +43,9 @@ Campaign ownership is enforced on every `/api/v1/campaigns/{id}` route after aut
 
 Nested location, NPC and quest IDs must belong to the campaign in the URL. Quest notes and history validate their parent quest before access; note deletion also scopes the note to that quest. Journal entry deletion includes the campaign ID in its SQL predicate. Deleting an absent or differently scoped note/entry remains an idempotent 204 without changing it.
 
-The shared engine and local TUI retain their existing campaign-ID interface; HTTP authorization lives at the router boundary. Keep future campaign endpoints in the guarded route group. Ownership is checked before a WebSocket upgrade; this change does not add mid-connection revocation or campaign ownership transfer. Security review by a human is required before merging ownership changes.
+The shared engine and local TUI retain their existing campaign-ID interface; HTTP authorization lives at the router boundary. Keep future campaign endpoints in the guarded route group. Ownership is checked before a WebSocket upgrade; an open socket is closed when its token signs out (see Logout), but not when campaign ownership changes. There is no ownership transfer. Security review by a human is required before merging ownership changes.
 
-The web app also receives an HttpOnly cookie named `gm_token`, but native iOS should treat the JSON `token` field as the primary credential and send it in the `Authorization` header.
+Treat the JSON `token` field as the credential and send it in the `Authorization` header. The server no longer sets or reads a session cookie; an old `gm_token` cookie is ignored.
 
 ### Auth endpoints
 
@@ -108,13 +108,23 @@ Success `200`:
 }
 ```
 
-The reply also sets the session cookie to the bearer token.
+#### WebSocket ticket
+
+`POST /api/v1/auth/ws-ticket` with `Authorization: Bearer <token>`.
+
+Success `200`:
+
+```json
+{ "ticket": "opaque string", "expires_in": 30 }
+```
+
+The ticket opens one WebSocket within 30 seconds, for the user and token that asked for it. A used, expired or unknown ticket, or one whose token has since signed out, gets `401` at the upgrade. Ask for a new ticket for every connection and reconnection. Do not log the ticket URL.
 
 #### Logout
 
 `POST /api/v1/auth/logout`
 
-Success: `204 No Content`. The server revokes the bearer token, or the cookie's token when no bearer token is sent: every later request or WebSocket upgrade with it gets `401`. Other sessions of the same user keep working. With a bearer token, the reply clears the session cookie only when the request's cookie holds that same token. If the server cannot record the revocation, it replies `500` and the token stays valid.
+Success: `204 No Content`. The server revokes the bearer token: every later request, ticket request or WebSocket upgrade with it gets `401`, and the server closes the WebSockets that token opened with close code `4401` and reason `signed out`. Other sessions of the same user keep working. Without a bearer token, logout does nothing and still replies `204`. If the server cannot record the revocation, it replies `500` and the token stays valid.
 
 Tokens issued before tokens carried an ID (`jti`) get `401`; sign in again. If the server cannot check a token against the revoked list, an authenticated route replies `503`.
 
@@ -370,8 +380,9 @@ Use `ws://` for HTTP and `wss://` for HTTPS.
 
 Auth:
 
-- Preferred native approach: include `Authorization: Bearer <token>` if your WebSocket API permits custom headers.
-- If using cookie auth, make sure `gm_token` is present in the shared cookie store before opening the socket.
+- Preferred native approach: send `Authorization: Bearer <token>` on the upgrade request. `URLSessionWebSocketTask` accepts a `URLRequest` with headers.
+- Otherwise, ask for a ticket (see WebSocket ticket) and open `/campaigns/{id}/ws?ticket=<ticket>`. This is what the web app does, because browsers cannot set headers on a WebSocket.
+- Close code `4401` (reason `signed out`) means the token was revoked. Do not reconnect with it; return to sign-in.
 
 Client sends:
 
