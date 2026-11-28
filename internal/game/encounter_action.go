@@ -42,6 +42,9 @@ func PrepareStoredAction(ctx context.Context, database statedb.DBTX, campaign do
 	if intent.Kind == srd521.AbilityCheck && intent.EntryID == EasyAthleticsEntry {
 		return prepareEasyAthletics(ctx, database, campaign, pc, intent)
 	}
+	if _, ok := SightPerceptionTarget(intent.EntryID); ok && intent.Kind == srd521.AbilityCheck {
+		return prepareSightPerception(ctx, database, campaign, pc, intent, lock)
+	}
 	if intent.Kind == srd521.TacticalMind {
 		return prepareStoredActionBase(ctx, database, campaign, pc, intent, lock)
 	}
@@ -248,6 +251,16 @@ func PrepareStoredAction(ctx context.Context, database statedb.DBTX, campaign do
 				}
 			} else {
 				spatialErr = target.Space.Melee()
+				// Declared light (#145) must also let the actor see the target.
+				// Legacy facts without light keep the line-of-sight ruling.
+				if spatialErr == nil && target.Space.Light != "" {
+					sight, err := target.Space.Sight(ReadSenses(pc.Stats))
+					if err != nil {
+						spatialErr = err
+					} else if !sight.Seen {
+						spatialErr = fmt.Errorf("You can't see this target; unseen attacks require adjudication.")
+					}
+				}
 			}
 			if spatialErr != nil {
 				option.UnavailableReason = spatialErr.Error()
