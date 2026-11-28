@@ -14,10 +14,10 @@ it('names the previous and current concentration spells', () => {
   expect(saved).toHaveTextContent('Concentration: Detect Magic until Day 1, 08:11:00.');
 });
 
-// An older API sends no spell_label: the lines keep the spell ID.
-it('shows the spell ID when the server sends no name', () => {
+// An older API sends no spell_label: the lines show the ID in title case.
+it('shows a title-cased spell ID when the server sends no name', () => {
   render(<EffectReceipt receipt={{ ...base, before: faith, after: detect }} />);
   const saved = screen.getByRole('region', { name: 'Saved caster effect receipt' });
-  expect(saved).toHaveTextContent('Previous effect: shield-of-faith (expires at');
-  expect(saved).toHaveTextContent('Concentration: detect-magic until');
+  expect(saved).toHaveTextContent('Previous effect: Shield of Faith (expires at');
+  expect(saved).toHaveTextContent('Concentration: Detect Magic until');
 });
